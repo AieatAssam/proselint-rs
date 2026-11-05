@@ -89,11 +89,7 @@ fn assert_result(input: &str, expected_exit: i32, diagnostics: Vec<Value>) {
 
 #[test]
 fn reports_compact_multiplication_approximation() {
-    assert_result(
-        "The area is 3x4.",
-        1,
-        vec![diagnostic([13, 16], 13)],
-    );
+    assert_result("The area is 3x4.", 1, vec![diagnostic([13, 16], 13)]);
 }
 
 #[test]

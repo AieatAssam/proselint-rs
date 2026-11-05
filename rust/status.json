@@ -98,6 +98,10 @@
     {
       "id": "rule.misc.debased",
       "status": "recorded"
+    },
+    {
+      "id": "rule.misc.currency",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -1227,12 +1231,62 @@
         "exit_code": 0,
         "report": "rust/artifacts/strict-gate-misc-debased-final-20261105.json"
       }
+    },
+    {
+      "id": "rule.misc.currency",
+      "status": "recorded",
+      "case_ids": [
+        "currency_no_digits",
+        "currency_one_and_multiple_digits",
+        "currency_all_suffixes_case_variants",
+        "currency_ascii_space_tab_two_space",
+        "currency_leading_nonboundary",
+        "currency_suffix_word_boundary",
+        "currency_quote_suppression",
+        "currency_non_ascii_digit_engine_behavior",
+        "currency_multiple_suffix_order",
+        "currency_unicode_codepoint_positions",
+        "currency_selected_config_interaction"
+      ],
+      "upstream_spec": "Pinned `misc.currency` uses case-insensitive Fast `ExistenceSimple` `\\B\\$[\\d]* ?(?:dollars|usd|us dollars)\\b`; RE2 `\\d` and word classes are ASCII. Zero or more digits, optional one ASCII space, no word boundary before `$` (so start/punctuation match, ASCII word character before it does not), suffix must end on a word boundary. Quoted matches suppressed. Exact template `Incorrect use of symbols in {}.` formats the matched substring with original case.",
+      "red": {
+        "behavioral_failures": 11,
+        "total_tests": 11,
+        "exit_code": 101,
+        "cause": "CLI rejected selected misc.currency config"
+      },
+      "green": {
+        "rust_tests_passed": 170,
+        "focused_tests_passed": 11,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 11,
+        "exit_code": 0,
+        "report": "rust/artifacts/misc-currency-live-rust-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-misc-currency-20261105-live.json",
+        "frozen_source_fingerprint": "4fced832c08d48151d64e26451976965f33100c0fca4564e5470ccbe80d4597f"
+      },
+      "limitations": [
+        "selected misc.currency config only",
+        "default and combined-check behavior remain unverified"
+      ],
+      "cumulative_live_parity": {
+        "passed_cases": 170,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-misc-currency-final-20261105.json"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-misc-debased-final-20261105.json",
-    "passed_cases": 159,
+    "report": "rust/artifacts/strict-gate-misc-currency-final-20261105.json",
+    "passed_cases": 170,
     "exit_code": 0
   },
   "rust_dependencies": {

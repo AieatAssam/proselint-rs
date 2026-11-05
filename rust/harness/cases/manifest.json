@@ -5314,6 +5314,369 @@
         "exit_status": "exact"
       },
       "stdin_base64": "QSB2ZXJ5IGdvb2QgZG9jdW1lbnQgc2F5cyBsZWF2ZXMgbXVjaCB0byBiZSBkZXNpcmVkIGFuZCBUT0RPLg=="
+    },
+    {
+      "id": "currency_no_digits",
+      "capability_id": "rule.misc.currency",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.currency; upstream module proselint/checks/misc/currency.py; ExistenceSimple Fast case-insensitive pattern r\"\\B\\$[\\d]* ?(?:dollars|usd|us dollars)\\b\"; default_enabled=true, allow_quotes=false, no exceptions, offset [0,0], ppm_threshold=0; message template \"Incorrect use of symbols in {}.\" interpolates the complete matched substring; selected config enables only misc.currency. Case purpose: No digits are permitted by the empty repetition; checks exact matched-text message interpolation.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjdXJyZW5jeSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_currency_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "VGhlIG5vdGF0aW9uIGlzICRkb2xsYXJzLg=="
+    },
+    {
+      "id": "currency_one_and_multiple_digits",
+      "capability_id": "rule.misc.currency",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.currency; upstream module proselint/checks/misc/currency.py; ExistenceSimple Fast case-insensitive pattern r\"\\B\\$[\\d]* ?(?:dollars|usd|us dollars)\\b\"; default_enabled=true, allow_quotes=false, no exceptions, offset [0,0], ppm_threshold=0; message template \"Incorrect use of symbols in {}.\" interpolates the complete matched substring; selected config enables only misc.currency. Case purpose: One and multiple ASCII digits, two suffix forms, source-order spans, and matched substring interpolation.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjdXJyZW5jeSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_currency_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "UHJpY2UgJDEgdXNkOyB0b3RhbCAkMTIzIGRvbGxhcnMu"
+    },
+    {
+      "id": "currency_all_suffixes_case_variants",
+      "capability_id": "rule.misc.currency",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.currency; upstream module proselint/checks/misc/currency.py; ExistenceSimple Fast case-insensitive pattern r\"\\B\\$[\\d]* ?(?:dollars|usd|us dollars)\\b\"; default_enabled=true, allow_quotes=false, no exceptions, offset [0,0], ppm_threshold=0; message template \"Incorrect use of symbols in {}.\" interpolates the complete matched substring; selected config enables only misc.currency. Case purpose: All suffix alternatives and case-insensitive spellings.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjdXJyZW5jeSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_currency_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "JHVzZCAkVVNEICRVc0QgJHVzIGRvbGxhcnMgJFVTIERPTExBUlMgJGRvbGxhcnM="
+    },
+    {
+      "id": "currency_ascii_space_tab_two_space",
+      "capability_id": "rule.misc.currency",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.currency; upstream module proselint/checks/misc/currency.py; ExistenceSimple Fast case-insensitive pattern r\"\\B\\$[\\d]* ?(?:dollars|usd|us dollars)\\b\"; default_enabled=true, allow_quotes=false, no exceptions, offset [0,0], ppm_threshold=0; message template \"Incorrect use of symbols in {}.\" interpolates the complete matched substring; selected config enables only misc.currency. Case purpose: Zero/one ASCII space is allowed; two spaces and a tab are negative.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjdXJyZW5jeSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_currency_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "ICQgZG9sbGFyczsgJDEwIGRvbGxhcnM7ICQxMCAgZG9sbGFyczsgJDEwCWRvbGxhcnM="
+    },
+    {
+      "id": "currency_leading_nonboundary",
+      "capability_id": "rule.misc.currency",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.currency; upstream module proselint/checks/misc/currency.py; ExistenceSimple Fast case-insensitive pattern r\"\\B\\$[\\d]* ?(?:dollars|usd|us dollars)\\b\"; default_enabled=true, allow_quotes=false, no exceptions, offset [0,0], ppm_threshold=0; message template \"Incorrect use of symbols in {}.\" interpolates the complete matched substring; selected config enables only misc.currency. Case purpose: Leading \\B allows start and punctuation-before-dollar, but rejects word/underscore immediately before dollar.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjdXJyZW5jeSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_currency_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "JHVzZCAoJHVzZCkgXyR1c2QgeCR1c2Q="
+    },
+    {
+      "id": "currency_suffix_word_boundary",
+      "capability_id": "rule.misc.currency",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.currency; upstream module proselint/checks/misc/currency.py; ExistenceSimple Fast case-insensitive pattern r\"\\B\\$[\\d]* ?(?:dollars|usd|us dollars)\\b\"; default_enabled=true, allow_quotes=false, no exceptions, offset [0,0], ppm_threshold=0; message template \"Incorrect use of symbols in {}.\" interpolates the complete matched substring; selected config enables only misc.currency. Case purpose: Suffix-end \\b accepts punctuation and rejects letter/underscore adjacency.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjdXJyZW5jeSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_currency_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "JHVzZCEgJHVzZHggJHVzZF8gJHVzZCE="
+    },
+    {
+      "id": "currency_quote_suppression",
+      "capability_id": "rule.misc.currency",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.currency; upstream module proselint/checks/misc/currency.py; ExistenceSimple Fast case-insensitive pattern r\"\\B\\$[\\d]* ?(?:dollars|usd|us dollars)\\b\"; default_enabled=true, allow_quotes=false, no exceptions, offset [0,0], ppm_threshold=0; message template \"Incorrect use of symbols in {}.\" interpolates the complete matched substring; selected config enables only misc.currency. Case purpose: A match inside paired quotes is suppressed.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjdXJyZW5jeSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_currency_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "UXVvdGVkOiAiJDEwIGRvbGxhcnMiLg=="
+    },
+    {
+      "id": "currency_non_ascii_digit_engine_behavior",
+      "capability_id": "rule.misc.currency",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.currency; upstream module proselint/checks/misc/currency.py; ExistenceSimple Fast case-insensitive pattern r\"\\B\\$[\\d]* ?(?:dollars|usd|us dollars)\\b\"; default_enabled=true, allow_quotes=false, no exceptions, offset [0,0], ppm_threshold=0; message template \"Incorrect use of symbols in {}.\" interpolates the complete matched substring; selected config enables only misc.currency. Case purpose: RE2 \\d is ASCII: Arabic-Indic digit after dollar blocks the first match; ASCII digit matches; Arabic digit before dollar is nonword for \\B.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjdXJyZW5jeSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_currency_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "JNmhIGRvbGxhcnMgJDEgZG9sbGFycyDZoSRkb2xsYXJz"
+    },
+    {
+      "id": "currency_multiple_suffix_order",
+      "capability_id": "rule.misc.currency",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.currency; upstream module proselint/checks/misc/currency.py; ExistenceSimple Fast case-insensitive pattern r\"\\B\\$[\\d]* ?(?:dollars|usd|us dollars)\\b\"; default_enabled=true, allow_quotes=false, no exceptions, offset [0,0], ppm_threshold=0; message template \"Incorrect use of symbols in {}.\" interpolates the complete matched substring; selected config enables only misc.currency. Case purpose: Three distinct suffix forms are emitted in source order.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjdXJyZW5jeSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_currency_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "JDEwIHVzZDsgJDUgZG9sbGFyczsgJHVzIGRvbGxhcnMu"
+    },
+    {
+      "id": "currency_unicode_codepoint_positions",
+      "capability_id": "rule.misc.currency",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.currency; upstream module proselint/checks/misc/currency.py; ExistenceSimple Fast case-insensitive pattern r\"\\B\\$[\\d]* ?(?:dollars|usd|us dollars)\\b\"; default_enabled=true, allow_quotes=false, no exceptions, offset [0,0], ppm_threshold=0; message template \"Incorrect use of symbols in {}.\" interpolates the complete matched substring; selected config enables only misc.currency. Case purpose: Non-ASCII prefix verifies code-point span and column.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjdXJyZW5jeSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_currency_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "w6kgYmVmb3JlICQxMCBkb2xsYXJzLg=="
+    },
+    {
+      "id": "currency_selected_config_interaction",
+      "capability_id": "rule.misc.currency",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.currency; upstream module proselint/checks/misc/currency.py; ExistenceSimple Fast case-insensitive pattern r\"\\B\\$[\\d]* ?(?:dollars|usd|us dollars)\\b\"; default_enabled=true, allow_quotes=false, no exceptions, offset [0,0], ppm_threshold=0; message template \"Incorrect use of symbols in {}.\" interpolates the complete matched substring; selected config enables only misc.currency. Case purpose: Only misc.currency is enabled; unrelated weasel_words and annotations rules do not emit.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjdXJyZW5jeSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_currency_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "QSB2ZXJ5IGdvb2QgcHJpY2UgaXMgJDEwIGRvbGxhcnMgYW5kIFRPRE8u"
     }
   ]
 }

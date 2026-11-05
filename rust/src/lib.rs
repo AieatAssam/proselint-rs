@@ -23,6 +23,7 @@ const DEBASED_ITEMS: [&str; 4] = [
     "a consideration which we should do well to bear in mind",
 ];
 const DEBASED_MESSAGE: &str = "Debased language is a continuous temptation.";
+const CURRENCY_MESSAGE_PREFIX: &str = "Incorrect use of symbols in ";
 const KUDOS_PATTERN: &str = "many kudos";
 const KUDOS_MESSAGE: &str = "Kudos is singular.";
 const FALSE_PLURALS_MISC: [(&str, &str); 2] =
@@ -551,6 +552,73 @@ pub fn debased_diagnostics(text: &str) -> Vec<Value> {
                 }),
             ));
         }
+    }
+
+    matches.sort_unstable_by_key(|(start, _)| *start);
+    matches
+        .into_iter()
+        .map(|(_, diagnostic)| diagnostic)
+        .collect()
+}
+
+/// Return diagnostics for the pinned `misc.currency` rule. The RE2 pattern is
+/// case-insensitive, uses ASCII digit and word classes, and begins with `\B`:
+/// a dollar sign is accepted after punctuation or at text start, but not after
+/// an ASCII word character. Quoted matches are suppressed.
+pub fn currency_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let lowered = padded.to_ascii_lowercase();
+    let bytes = lowered.as_bytes();
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut matches = Vec::new();
+
+    for (start, ch) in padded.char_indices() {
+        if ch != '$' || is_ascii_word_before(&padded, start) {
+            continue;
+        }
+
+        let mut suffix_start = start + 1;
+        while bytes.get(suffix_start).is_some_and(u8::is_ascii_digit) {
+            suffix_start += 1;
+        }
+        if bytes.get(suffix_start) == Some(&b' ') {
+            suffix_start += 1;
+        }
+
+        let suffix = [b"dollars".as_slice(), b"usd", b"us dollars"]
+            .into_iter()
+            .find(|suffix| bytes.get(suffix_start..suffix_start + suffix.len()) == Some(*suffix));
+        let Some(suffix) = suffix else {
+            continue;
+        };
+        let end = suffix_start + suffix.len();
+        if is_ascii_word_at(&lowered, end) {
+            continue;
+        }
+
+        let span_start = padded[..start].chars().count();
+        let span_end = span_start + padded[start..end].chars().count();
+        let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+        if quote_index % 2 == 1 {
+            continue;
+        }
+        let (line, column) = line_col_of(span_start, &line_bounds);
+        let matched = &padded[start..end];
+        matches.push((
+            span_start,
+            json!({
+                "check_path": "misc.currency",
+                "message": format!("{CURRENCY_MESSAGE_PREFIX}{matched}."),
+                "span": [span_start, span_end],
+                "pos": [line, column],
+                "replacements": null,
+            }),
+        ));
     }
 
     matches.sort_unstable_by_key(|(start, _)| *start);

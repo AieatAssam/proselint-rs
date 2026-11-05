@@ -259,13 +259,19 @@ class ComparatorTests(unittest.TestCase):
             "debased_spacing_negatives", "debased_punctuation_boundaries_all_phrases",
             "debased_multiple_occurrences_order", "debased_quote_suppression",
             "debased_unicode_codepoint_positions", "debased_selected_config_interaction",
+            "currency_no_digits", "currency_one_and_multiple_digits",
+            "currency_all_suffixes_case_variants", "currency_ascii_space_tab_two_space",
+            "currency_leading_nonboundary", "currency_suffix_word_boundary",
+            "currency_quote_suppression", "currency_non_ascii_digit_engine_behavior",
+            "currency_multiple_suffix_order", "currency_unicode_codepoint_positions",
+            "currency_selected_config_interaction",
         }
         self.assertEqual({item["id"] for item in manifest["cases"]}, expected_case_ids)
         self.assertEqual(len(manifest["cases"]), len(expected_case_ids))
         self.assertEqual(
             {capability: sum(case["capability_id"] == capability for case in manifest["cases"])
              for capability in {case["capability_id"] for case in manifest["cases"]}},
-            {"harness.oracle_smoke": 2, "cli.json_no_findings": 3, "rule.annotations.misc": 7, "cli.coordinates": 6, "rule.cliches.hell": 6, "rule.misc.apologizing": 6, "rule.misc.whence": 6, "rule.misc.false_plurals.kudos": 6, "rule.psychology.mental_telepathy": 6, "rule.misc.illogic.coin": 6, "rule.misc.illogic.collusion": 6, "rule.misc.back_formations": 6, "rule.misc.institution_name": 6, "rule.misc.professions": 6, "rule.misc.false_plurals.misc": 6, "rule.typography.symbols.ellipsis": 6, "rule.typography.symbols.copyright": 6, "rule.typography.symbols.sentence_spacing": 7, "rule.typography.symbols.trademark": 7, "rule.typography.symbols.multiplication": 7, "rule.misc.suddenly": 7, "rule.misc.but": 8, "rule.dates_times.am_pm.lowercase_periods": 9, "rule.dates_times.am_pm.spacing": 8, "rule.misc.debased": 12},
+            {"harness.oracle_smoke": 2, "cli.json_no_findings": 3, "rule.annotations.misc": 7, "cli.coordinates": 6, "rule.cliches.hell": 6, "rule.misc.apologizing": 6, "rule.misc.whence": 6, "rule.misc.false_plurals.kudos": 6, "rule.psychology.mental_telepathy": 6, "rule.misc.illogic.coin": 6, "rule.misc.illogic.collusion": 6, "rule.misc.back_formations": 6, "rule.misc.institution_name": 6, "rule.misc.professions": 6, "rule.misc.false_plurals.misc": 6, "rule.typography.symbols.ellipsis": 6, "rule.typography.symbols.copyright": 6, "rule.typography.symbols.sentence_spacing": 7, "rule.typography.symbols.trademark": 7, "rule.typography.symbols.multiplication": 7, "rule.misc.suddenly": 7, "rule.misc.but": 8, "rule.dates_times.am_pm.lowercase_periods": 9, "rule.dates_times.am_pm.spacing": 8, "rule.misc.debased": 12, "rule.misc.currency": 11},
         )
 
     def test_manifest_rejects_duplicate_id_and_bad_base64(self) -> None:

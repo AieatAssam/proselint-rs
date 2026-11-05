@@ -12,6 +12,8 @@ const WHENCE_PATTERN: &str = "from whence";
 const WHENCE_MESSAGE: &str = "The 'from' in 'from whence' is not needed.";
 const KUDOS_PATTERN: &str = "many kudos";
 const KUDOS_MESSAGE: &str = "Kudos is singular.";
+const FALSE_PLURALS_MISC: [(&str, &str); 2] =
+    [("talismen", "talismans"), ("phenomenons", "phenomena")];
 const MENTAL_TELEPATHY_PATTERN: &str = "mental telepathy";
 const MENTAL_TELEPATHY_MESSAGE: &str =
     "This is redundant because all purported telepathy is mental.";
@@ -273,6 +275,55 @@ pub fn false_plurals_kudos_diagnostics(text: &str) -> Vec<Value> {
     }
 
     diagnostics
+}
+
+/// Return diagnostics for the pinned `misc.false_plurals.misc` preferred
+/// forms check. Matches use case-insensitive word padding, preserve the
+/// upstream table order for ties, and suppress occurrences inside quotes.
+pub fn false_plurals_misc_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let lowered = padded.to_ascii_lowercase();
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut matches = Vec::new();
+
+    for (pattern, replacement) in FALSE_PLURALS_MISC {
+        let pattern_len = pattern.len();
+        for (start, _) in lowered.match_indices(pattern) {
+            let end = start + pattern_len;
+            if is_ascii_word_before(&lowered, start) || is_ascii_word_at(&lowered, end) {
+                continue;
+            }
+
+            let span_start = padded[..start].chars().count();
+            let span_end = span_start + pattern.chars().count();
+            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+            if quote_index % 2 == 1 {
+                continue;
+            }
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            matches.push((
+                span_start,
+                json!({
+                    "check_path": "misc.false_plurals.misc",
+                    "message": format!("The correct plural is '{replacement}'."),
+                    "span": [span_start, span_end],
+                    "pos": [line, column],
+                    "replacements": replacement,
+                }),
+            ));
+        }
+    }
+
+    matches.sort_unstable_by_key(|(start, _)| *start);
+    matches
+        .into_iter()
+        .map(|(_, diagnostic)| diagnostic)
+        .collect()
 }
 
 /// Return diagnostics for the pinned `psychology.mental_telepathy` literal rule.

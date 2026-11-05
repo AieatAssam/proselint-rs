@@ -54,6 +54,10 @@
     {
       "id": "rule.misc.professions",
       "status": "recorded"
+    },
+    {
+      "id": "rule.misc.false_plurals.misc",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -99,7 +103,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "rust_builder owns tests-first implementation of rule.misc.false_plurals.misc"
+    "next_handoff": "oracle_engineer owns next bounded rule case specification"
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
@@ -681,7 +685,7 @@
     },
     {
       "id": "rule.misc.false_plurals.misc",
-      "status": "specified",
+      "status": "recorded",
       "case_ids": [
         "false_plurals_phenomenons_positive",
         "false_plurals_talismen_positive",
@@ -691,19 +695,56 @@
         "false_plurals_selected_config_interaction"
       ],
       "upstream_spec": "PreferredFormsSimple two-entry case-insensitive mapping talismen -> talismans and phenomenons -> phenomena; WORDS_IN_TEXT padding; allow_quotes=false suppresses matches inside quotes.",
-      "oracle_live_probe": {
+      "red": {
+        "behavioral_failures": 6,
+        "total_tests": 6,
+        "exit_code": 101,
+        "cause": "CLI rejected selected misc.false_plurals.misc config"
+      },
+      "green": {
+        "rust_tests_passed": 82,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
         "passed_cases": 6,
-        "programmatic_self_comparison": "PASS",
-        "report": "rust/artifacts/false-plurals-misc-live-20261105T054532Z/false-plurals-misc-live-report.json",
-        "rust_parity_claim": false
-      }
+        "exit_code": 0,
+        "report": "rust/artifacts/live-false-plurals-misc-rust-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-false-plurals-20261105/verification-summary.json",
+        "frozen_source_fingerprint": "41e87d7f7c81056300925397753a5211402316f885d5dc28b9d6df58c7c77948"
+      },
+      "cumulative_live_parity": {
+        "passed_cases": 82,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-false-plurals-misc-20261105.json"
+      },
+      "limitations": [
+        "selected-rule config only",
+        "broader Unicode case folding unverified"
+      ]
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-professions-final-20261105.json",
-    "passed_cases": 76,
+    "report": "rust/artifacts/strict-gate-false-plurals-misc-final-20261105.json",
+    "passed_cases": 82,
     "exit_code": 0,
-    "source_fingerprint": "693d9474949706bc5b74d7bea48dcc0bf454181b742469f42b3ce636c7b7f1c0"
+    "source_fingerprint": "3462133416a2b3ae0d514d57fce45ee392f9cd529931c34a382e112c3bc4232b"
+  },
+  "rust_dependencies": {
+    "status": "current",
+    "toolchain": "1.99.1",
+    "registry": "crates.io",
+    "latest_checked": "2026-11-05",
+    "locked_versions": {
+      "clap": "4.6.7",
+      "serde": "1.0.229",
+      "serde_json": "1.0.154"
+    },
+    "cargo_update_dry_run": "0 packages to update"
   }
 }

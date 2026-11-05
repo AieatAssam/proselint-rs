@@ -1,10 +1,10 @@
 use clap::{Parser, Subcommand, ValueEnum};
 use proselint_rs::{
     annotation_diagnostics, apologizing_diagnostics, back_formations_diagnostics,
-    cliches_hell_diagnostics, false_plurals_kudos_diagnostics, file_uri, illogic_coin_diagnostics,
-    illogic_collusion_diagnostics, institution_name_diagnostics, json_result,
-    mental_telepathy_diagnostics, normalize_file_newlines, professions_diagnostics,
-    whence_diagnostics,
+    cliches_hell_diagnostics, false_plurals_kudos_diagnostics, false_plurals_misc_diagnostics,
+    file_uri, illogic_coin_diagnostics, illogic_collusion_diagnostics,
+    institution_name_diagnostics, json_result, mental_telepathy_diagnostics,
+    normalize_file_newlines, professions_diagnostics, whence_diagnostics,
 };
 use serde_json::Value;
 use std::fs;
@@ -100,6 +100,7 @@ fn run() -> Result<ExitCode, String> {
         SelectedCheck::MiscApologizing => apologizing_diagnostics(&content),
         SelectedCheck::MiscWhence => whence_diagnostics(&content),
         SelectedCheck::MiscFalsePluralsKudos => false_plurals_kudos_diagnostics(&content),
+        SelectedCheck::MiscFalsePluralsMisc => false_plurals_misc_diagnostics(&content),
         SelectedCheck::PsychologyMentalTelepathy => mental_telepathy_diagnostics(&content),
         SelectedCheck::MiscIllogicCoin => illogic_coin_diagnostics(&content),
         SelectedCheck::MiscIllogicCollusion => illogic_collusion_diagnostics(&content),
@@ -125,6 +126,7 @@ enum SelectedCheck {
     MiscApologizing,
     MiscWhence,
     MiscFalsePluralsKudos,
+    MiscFalsePluralsMisc,
     PsychologyMentalTelepathy,
     MiscIllogicCoin,
     MiscIllogicCollusion,
@@ -179,6 +181,15 @@ fn supported_checks(checks: &Value) -> Option<SelectedCheck> {
                         Value::Bool(false) => true,
                         Value::Bool(true) if *selected == SelectedCheck::None => {
                             *selected = SelectedCheck::MiscFalsePluralsKudos;
+                            true
+                        }
+                        _ => false,
+                    }
+                } else if path == &["misc", "false_plurals", "misc"] {
+                    match child {
+                        Value::Bool(false) => true,
+                        Value::Bool(true) if *selected == SelectedCheck::None => {
+                            *selected = SelectedCheck::MiscFalsePluralsMisc;
                             true
                         }
                         _ => false,

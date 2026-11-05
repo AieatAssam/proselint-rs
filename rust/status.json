@@ -94,6 +94,10 @@
     {
       "id": "rule.dates_times.am_pm.spacing",
       "status": "recorded"
+    },
+    {
+      "id": "rule.misc.debased",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -1172,12 +1176,63 @@
         "exit_code": 0,
         "report": "rust/artifacts/strict-gate-am-pm-spacing-final-20261105.json"
       }
+    },
+    {
+      "id": "rule.misc.debased",
+      "status": "recorded",
+      "case_ids": [
+        "debased_phrase_not_unjustifiable",
+        "debased_phrase_leaves_desired",
+        "debased_phrase_serve_no_purpose",
+        "debased_phrase_consideration_bear_in_mind",
+        "debased_case_variants_all_phrases_order",
+        "debased_word_boundary_negatives",
+        "debased_spacing_negatives",
+        "debased_punctuation_boundaries_all_phrases",
+        "debased_multiple_occurrences_order",
+        "debased_quote_suppression",
+        "debased_unicode_codepoint_positions",
+        "debased_selected_config_interaction"
+      ],
+      "upstream_spec": "Pinned `misc.debased` is case-insensitive Fast `Existence` over four `WORDS_IN_TEXT`-padded phrases: `a not unjustifiable assumption`; `leaves much to be desired`; `would serve no purpose`; `a consideration which we should do well to bear in mind`. No exceptions or offsets. Default quote suppression; exact static message `Debased language is a continuous temptation.` FastSet activates phrases by word-bounded match then searches active raw phrases, so embedded copies of an active phrase may also be emitted.",
+      "red": {
+        "behavioral_failures": 12,
+        "total_tests": 12,
+        "exit_code": 101,
+        "cause": "CLI rejected selected misc.debased config"
+      },
+      "green": {
+        "rust_tests_passed": 154,
+        "focused_tests_passed": 12,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 12,
+        "exit_code": 0,
+        "report": "rust/artifacts/misc-debased-live-rust-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-misc-debased-20261105-live.json",
+        "frozen_source_fingerprint": "683b8820967d15f8a7fdfc9b79ba3af90bb2bbe2cd11b2bbac581aa6a160aad7"
+      },
+      "limitations": [
+        "selected misc.debased config only",
+        "broader default and combined-check behavior remain unverified"
+      ],
+      "cumulative_live_parity": {
+        "passed_cases": 159,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-misc-debased-final-20261105.json"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-am-pm-spacing-final-20261105.json",
-    "passed_cases": 147,
+    "report": "rust/artifacts/strict-gate-misc-debased-final-20261105.json",
+    "passed_cases": 159,
     "exit_code": 0
   },
   "rust_dependencies": {

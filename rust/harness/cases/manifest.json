@@ -3165,6 +3165,237 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "sentence_spacing_three_spaces_positive",
+      "capability_id": "rule.typography.symbols.sentence_spacing",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py:check_sentence_spacing registers ExistenceSimple(pattern=r\"\\. {3}\") at typography.symbols.sentence_spacing, message \"More than two spaces after the period; use 1 or 2.\" Inventory: Fast, case-insensitive (irrelevant to this punctuation pattern), allow_quotes=false, no exceptions, threshold=0. Case purpose: Three spaces after a period produce one match spanning the period and exactly three spaces.",
+      "input_mode": "stdin",
+      "stdin_base64": "QSBzZW50ZW5jZS4gICBOZXh0Lg==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7InNlbnRlbmNlX3NwYWNpbmciOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_sentence_spacing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "sentence_spacing_four_spaces_prefix_span",
+      "capability_id": "rule.typography.symbols.sentence_spacing",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py:check_sentence_spacing registers ExistenceSimple(pattern=r\"\\. {3}\") at typography.symbols.sentence_spacing, message \"More than two spaces after the period; use 1 or 2.\" Inventory: Fast, case-insensitive (irrelevant to this punctuation pattern), allow_quotes=false, no exceptions, threshold=0. Case purpose: Four spaces still match exactly the period plus the first three spaces; the fourth trailing space is outside the match.",
+      "input_mode": "stdin",
+      "stdin_base64": "QSBzZW50ZW5jZS4gICAgTmV4dC4=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7InNlbnRlbmNlX3NwYWNpbmciOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_sentence_spacing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "sentence_spacing_multiple_order",
+      "capability_id": "rule.typography.symbols.sentence_spacing",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py:check_sentence_spacing registers ExistenceSimple(pattern=r\"\\. {3}\") at typography.symbols.sentence_spacing, message \"More than two spaces after the period; use 1 or 2.\" Inventory: Fast, case-insensitive (irrelevant to this punctuation pattern), allow_quotes=false, no exceptions, threshold=0. Case purpose: Two independent matches preserve source order.",
+      "input_mode": "stdin",
+      "stdin_base64": "T25lLiAgIFR3by4gICBUaHJlZS4=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7InNlbnRlbmNlX3NwYWNpbmciOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_sentence_spacing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "sentence_spacing_two_spaces_and_other_punctuation_negative",
+      "capability_id": "rule.typography.symbols.sentence_spacing",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py:check_sentence_spacing registers ExistenceSimple(pattern=r\"\\. {3}\") at typography.symbols.sentence_spacing, message \"More than two spaces after the period; use 1 or 2.\" Inventory: Fast, case-insensitive (irrelevant to this punctuation pattern), allow_quotes=false, no exceptions, threshold=0. Case purpose: Two spaces after a period are clean; three spaces after ! or ? do not satisfy the period literal.",
+      "input_mode": "stdin",
+      "stdin_base64": "T25lLiAgVHdvISAgIFRocmVlPyAgICBGb3Vy",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7InNlbnRlbmNlX3NwYWNpbmciOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_sentence_spacing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "sentence_spacing_quote_suppression",
+      "capability_id": "rule.typography.symbols.sentence_spacing",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py:check_sentence_spacing registers ExistenceSimple(pattern=r\"\\. {3}\") at typography.symbols.sentence_spacing, message \"More than two spaces after the period; use 1 or 2.\" Inventory: Fast, case-insensitive (irrelevant to this punctuation pattern), allow_quotes=false, no exceptions, threshold=0. Case purpose: The exact match inside paired double quotes is suppressed.",
+      "input_mode": "stdin",
+      "stdin_base64": "UXVvdGVkOiAiQSBzZW50ZW5jZS4gICBOZXh0LiI=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7InNlbnRlbmNlX3NwYWNpbmciOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_sentence_spacing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "sentence_spacing_unicode_codepoint_positions",
+      "capability_id": "rule.typography.symbols.sentence_spacing",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py:check_sentence_spacing registers ExistenceSimple(pattern=r\"\\. {3}\") at typography.symbols.sentence_spacing, message \"More than two spaces after the period; use 1 or 2.\" Inventory: Fast, case-insensitive (irrelevant to this punctuation pattern), allow_quotes=false, no exceptions, threshold=0. Case purpose: Unicode prefix verifies code-point positions and spans for two findings.",
+      "input_mode": "stdin",
+      "stdin_base64": "w6kuICAgTmV4dC4gICBGaW5lLg==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7InNlbnRlbmNlX3NwYWNpbmciOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_sentence_spacing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "sentence_spacing_selected_config_interaction",
+      "capability_id": "rule.typography.symbols.sentence_spacing",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py:check_sentence_spacing registers ExistenceSimple(pattern=r\"\\. {3}\") at typography.symbols.sentence_spacing, message \"More than two spaces after the period; use 1 or 2.\" Inventory: Fast, case-insensitive (irrelevant to this punctuation pattern), allow_quotes=false, no exceptions, threshold=0. Case purpose: Selected config enables only typography.symbols.sentence_spacing despite unrelated TODO and very triggers.",
+      "input_mode": "stdin",
+      "stdin_base64": "VE9ETyBhbmQgdmVyeS4gICBOZXh0Lg==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7InNlbnRlbmNlX3NwYWNpbmciOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_sentence_spacing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

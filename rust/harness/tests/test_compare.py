@@ -224,13 +224,17 @@ class ComparatorTests(unittest.TestCase):
             "copyright_ascii_approximation_positive", "copyright_case_variant_nested_and_substring_order",
             "copyright_negative_spacing_and_symbol", "copyright_quote_suppression",
             "copyright_unicode_codepoint_positions", "copyright_selected_config_interaction",
+            "sentence_spacing_three_spaces_positive", "sentence_spacing_four_spaces_prefix_span",
+            "sentence_spacing_multiple_order", "sentence_spacing_two_spaces_and_other_punctuation_negative",
+            "sentence_spacing_quote_suppression", "sentence_spacing_unicode_codepoint_positions",
+            "sentence_spacing_selected_config_interaction",
         }
         self.assertEqual({item["id"] for item in manifest["cases"]}, expected_case_ids)
         self.assertEqual(len(manifest["cases"]), len(expected_case_ids))
         self.assertEqual(
             {capability: sum(case["capability_id"] == capability for case in manifest["cases"])
              for capability in {case["capability_id"] for case in manifest["cases"]}},
-            {"harness.oracle_smoke": 2, "cli.json_no_findings": 3, "rule.annotations.misc": 7, "cli.coordinates": 6, "rule.cliches.hell": 6, "rule.misc.apologizing": 6, "rule.misc.whence": 6, "rule.misc.false_plurals.kudos": 6, "rule.psychology.mental_telepathy": 6, "rule.misc.illogic.coin": 6, "rule.misc.illogic.collusion": 6, "rule.misc.back_formations": 6, "rule.misc.institution_name": 6, "rule.misc.professions": 6, "rule.misc.false_plurals.misc": 6, "rule.typography.symbols.ellipsis": 6, "rule.typography.symbols.copyright": 6},
+            {"harness.oracle_smoke": 2, "cli.json_no_findings": 3, "rule.annotations.misc": 7, "cli.coordinates": 6, "rule.cliches.hell": 6, "rule.misc.apologizing": 6, "rule.misc.whence": 6, "rule.misc.false_plurals.kudos": 6, "rule.psychology.mental_telepathy": 6, "rule.misc.illogic.coin": 6, "rule.misc.illogic.collusion": 6, "rule.misc.back_formations": 6, "rule.misc.institution_name": 6, "rule.misc.professions": 6, "rule.misc.false_plurals.misc": 6, "rule.typography.symbols.ellipsis": 6, "rule.typography.symbols.copyright": 6, "rule.typography.symbols.sentence_spacing": 7},
         )
 
     def test_manifest_rejects_duplicate_id_and_bad_base64(self) -> None:

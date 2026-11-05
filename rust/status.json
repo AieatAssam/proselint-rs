@@ -5,7 +5,8 @@
   "production_capabilities": [
     "cli.json_no_findings",
     "rule.annotations.misc",
-    "cli.coordinates"
+    "cli.coordinates",
+    "rule.cliches.hell"
   ],
   "inventory": {
     "status": "generated_from_pinned_snapshot",
@@ -50,13 +51,13 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "rust_builder owns rust/src/** and rust/tests/** for rule.cliches.hell"
+    "next_handoff": "oracle_engineer owns next bounded rule case specification"
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
     "default configuration, all other registered rules, and broader CLI behavior remain unimplemented or unverified",
     "broader newline, file-decoding, default-config, and all other registered-rule behavior remain unverified",
-    "rule.cliches.hell is specified but not yet implemented or parity-verified"
+    "combined enabled-rule configurations, Unicode case folding beyond tested ASCII variants, broader quote pairing, default config, and remaining rules are unverified"
   ],
   "capability_states": [
     {
@@ -186,7 +187,7 @@
     },
     {
       "id": "rule.cliches.hell",
-      "status": "specified",
+      "status": "recorded",
       "case_ids": [
         "cliches_hell_positive",
         "cliches_hell_case_variants_order",
@@ -195,14 +196,39 @@
         "cliches_hell_unanchored_substring",
         "cliches_hell_selected_config_interaction"
       ],
-      "oracle_live_probe": {
-        "passed_cases": 6,
-        "programmatic_self_comparison": "PASS",
-        "scope": "harness_health_only",
-        "report": "rust/artifacts/cliches-hell-live-20261105T021856Z/cliches-hell-live-report.json",
-        "selected_config": "cliches.hell only"
+      "red": {
+        "behavioral_failures": 6,
+        "total_tests": 6,
+        "exit_code": 101,
+        "cause": "CLI rejected selected cliches.hell config"
       },
-      "source_fingerprint": "a08d8d25f5579528a333c25604e96a1198fd0969e9531d1e18559dbdfea7fc33"
+      "green": {
+        "rust_tests_passed": 22,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 6,
+        "exit_code": 0,
+        "scope": "capability_only",
+        "report": "rust/artifacts/live-cliches-hell-20261105.json"
+      },
+      "cumulative_live_parity": {
+        "passed_cases": 22,
+        "exit_code": 0,
+        "report": "rust/artifacts/independent-cliches-hell/cumulative-live-report.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-cliches-hell/verification.json",
+        "frozen_source_fingerprint": "74b6959fe3247f8cab46eedb3a7775e0defc067b6cc860d297a1eb95158ac664"
+      },
+      "limitations": [
+        "tested ASCII case variants only",
+        "single selected rule config only",
+        "broader quote behavior unverified"
+      ]
     }
   ]
 }

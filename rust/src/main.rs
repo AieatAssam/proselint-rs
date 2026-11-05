@@ -1,5 +1,8 @@
 use clap::{Parser, Subcommand, ValueEnum};
-use proselint_rs::{annotation_diagnostics, file_uri, json_result, normalize_file_newlines};
+use proselint_rs::{
+    annotation_diagnostics, cliches_hell_diagnostics, file_uri, json_result,
+    normalize_file_newlines,
+};
 use serde_json::Value;
 use std::fs;
 use std::io::{self, Read};
@@ -61,8 +64,9 @@ fn run() -> Result<ExitCode, String> {
     let checks = config_value
         .get("checks")
         .ok_or_else(|| "this capability requires an explicit checks configuration".to_owned())?;
-    let annotations_enabled = supported_checks(checks).ok_or_else(|| {
-        "this capability supports disabled checks or annotations.misc only".to_owned()
+    let selected_check = supported_checks(checks).ok_or_else(|| {
+        "this capability supports disabled checks, annotations.misc, or cliches.hell only"
+            .to_owned()
     })?;
 
     if !matches!(output_format, OutputFormat::Json) {
@@ -87,10 +91,10 @@ fn run() -> Result<ExitCode, String> {
         ("<stdin>".to_owned(), input)
     };
 
-    let diagnostics = if annotations_enabled {
-        annotation_diagnostics(&content)
-    } else {
-        Vec::new()
+    let diagnostics = match selected_check {
+        SelectedCheck::None => Vec::new(),
+        SelectedCheck::AnnotationsMisc => annotation_diagnostics(&content),
+        SelectedCheck::ClichesHell => cliches_hell_diagnostics(&content),
     };
     let exit_code = if diagnostics.is_empty() {
         ExitCode::SUCCESS
@@ -102,22 +106,38 @@ fn run() -> Result<ExitCode, String> {
     Ok(exit_code)
 }
 
-fn supported_checks(checks: &Value) -> Option<bool> {
-    fn visit(value: &Value, path: &mut Vec<String>, enabled: &mut bool) -> bool {
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+enum SelectedCheck {
+    None,
+    AnnotationsMisc,
+    ClichesHell,
+}
+
+fn supported_checks(checks: &Value) -> Option<SelectedCheck> {
+    fn visit(value: &Value, path: &mut Vec<String>, selected: &mut SelectedCheck) -> bool {
         match value {
             Value::Object(entries) => entries.iter().all(|(key, child)| {
                 path.push(key.clone());
                 let result = if path == &["annotations", "misc"] {
                     match child {
                         Value::Bool(false) => true,
-                        Value::Bool(true) if !*enabled => {
-                            *enabled = true;
+                        Value::Bool(true) if *selected == SelectedCheck::None => {
+                            *selected = SelectedCheck::AnnotationsMisc;
+                            true
+                        }
+                        _ => false,
+                    }
+                } else if path == &["cliches", "hell"] {
+                    match child {
+                        Value::Bool(false) => true,
+                        Value::Bool(true) if *selected == SelectedCheck::None => {
+                            *selected = SelectedCheck::ClichesHell;
                             true
                         }
                         _ => false,
                     }
                 } else {
-                    visit(child, path, enabled)
+                    visit(child, path, selected)
                 };
                 path.pop();
                 result
@@ -130,8 +150,8 @@ fn supported_checks(checks: &Value) -> Option<bool> {
     if !checks.is_object() {
         return None;
     }
-    let mut enabled = false;
-    visit(checks, &mut Vec::new(), &mut enabled).then_some(enabled)
+    let mut selected = SelectedCheck::None;
+    visit(checks, &mut Vec::new(), &mut selected).then_some(selected)
 }
 
 fn main() -> ExitCode {

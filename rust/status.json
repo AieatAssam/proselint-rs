@@ -42,6 +42,10 @@
     {
       "id": "rule.misc.illogic.collusion",
       "status": "recorded"
+    },
+    {
+      "id": "rule.misc.back_formations",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -87,7 +91,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "rust_builder owns rust/src/** and rust/tests/** for rule.misc.back_formations"
+    "next_handoff": "oracle_engineer owns next bounded rule case specification"
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
@@ -99,7 +103,7 @@
     "broader Unicode case folding, combined-rule config, default configuration, and most inventory rules remain unverified",
     "Most of the 124 registered checks, default configuration, combined-rule configurations, and Unicode folding beyond ASCII variants remain unverified",
     "Most of the 124 registered checks, default configuration, combined-rule configurations, and broader Unicode folding remain unverified",
-    "rule.misc.back_formations is specified but not yet implemented or parity-verified"
+    "Most of the 124 registered rules, default configuration, combined-rule configurations, and Unicode folding beyond tested ASCII remain unverified"
   ],
   "capability_states": [
     {
@@ -537,7 +541,7 @@
     },
     {
       "id": "rule.misc.back_formations",
-      "status": "specified",
+      "status": "recorded",
       "case_ids": [
         "back_formations_positive_context",
         "back_formations_case_variants_order",
@@ -546,21 +550,44 @@
         "back_formations_punctuation_boundaries",
         "back_formations_selected_config_interaction"
       ],
-      "upstream_spec": "PreferredFormsSimple, one item mapping `improprietous` to replacement `improper`, Fast case-insensitive, WORDS_IN_TEXT padding, quotes suppressed. Exact message: Back-formation. 'improper' is the preferred form.",
-      "oracle_live_probe": {
-        "passed_cases": 6,
-        "programmatic_self_comparison": "PASS",
-        "report": "rust/artifacts/back-formations-live-20261105T041846Z/back-formations-live-report.json",
-        "selected_config": "misc.back_formations only"
+      "red": {
+        "behavioral_failures": 6,
+        "total_tests": 6,
+        "exit_code": 101,
+        "cause": "CLI rejected selected misc.back_formations config"
       },
-      "source_fingerprint": "8c48264bfba1b6908bf7c642b3b58c552454f2b96142e4aa2c7783ee15dbe663"
+      "green": {
+        "rust_tests_passed": 64,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 6,
+        "exit_code": 0,
+        "report": "rust/artifacts/live-back-formations-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-back-formations/verification.json",
+        "frozen_source_fingerprint": "1806b699779b34980f992990e41f6dad8879fcd35180acaa6a20c5585b62cd69"
+      },
+      "cumulative_live_parity": {
+        "passed_cases": 64,
+        "exit_code": 0,
+        "report": "rust/artifacts/independent-back-formations/cumulative-live-report.json"
+      },
+      "limitations": [
+        "single selected-rule config",
+        "broader Unicode case folding unverified"
+      ]
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-collusion-20261105.json",
-    "passed_cases": 58,
+    "report": "rust/artifacts/strict-gate-back-formations-20261105.json",
+    "passed_cases": 64,
     "exit_code": 0,
-    "source_fingerprint": "1de7ecfe892ee1867d92ee80ac4beb28ea9fd7d25f1a93e67528c1e63135d6d5"
+    "source_fingerprint": "060318ef7b36ed1fea2139b25163a3129bc043153b53b23789a56ca8ee8eb6f4"
   }
 }

@@ -14,6 +14,7 @@ const SUDDENLY_PATTERN: &str = "Suddenly,";
 const SUDDENLY_MESSAGE: &str = "Suddenly is nondescript, slows the action, and warns your reader.";
 const BUT_PATTERN: &str = "But";
 const BUT_MESSAGE: &str = "No paragraph should start with a 'But'.";
+const AM_PM_MESSAGE: &str = "It's standard to use periods for lowercase 'a.m.' or 'p.m.'.";
 const KUDOS_PATTERN: &str = "many kudos";
 const KUDOS_MESSAGE: &str = "Kudos is singular.";
 const FALSE_PLURALS_MISC: [(&str, &str); 2] =
@@ -334,6 +335,74 @@ pub fn but_diagnostics(text: &str) -> Vec<Value> {
             json!({
                 "check_path": "misc.but",
                 "message": BUT_MESSAGE,
+                "span": [span_start, span_end],
+                "pos": [line, column],
+                "replacements": null,
+            }),
+        ));
+    }
+
+    matches.sort_unstable_by_key(|(start, _)| *start);
+    matches
+        .into_iter()
+        .map(|(_, diagnostic)| diagnostic)
+        .collect()
+}
+
+/// Return diagnostics for the pinned lowercase AM/PM typography check.
+/// This matches `\b\d{1,2} ?[ap]m\b`: ASCII digits, lowercase a/p and m,
+/// optional single ASCII space, and ASCII word boundaries. Quoted matches are
+/// suppressed by the default check flags.
+pub fn am_pm_lowercase_periods_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let bytes = padded.as_bytes();
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut matches = Vec::new();
+
+    for (start, _) in padded.char_indices() {
+        if !bytes[start].is_ascii_digit() || is_ascii_word_before(&padded, start) {
+            continue;
+        }
+
+        let mut end = start + 1;
+        while end < bytes.len() && end - start < 2 && bytes[end].is_ascii_digit() {
+            end += 1;
+        }
+        if end < bytes.len() && bytes[end].is_ascii_digit() {
+            continue;
+        }
+        if bytes.get(end) == Some(&b' ') {
+            end += 1;
+        }
+        if !matches!(bytes.get(end), Some(b'a' | b'p')) {
+            continue;
+        }
+        end += 1;
+        if bytes.get(end) != Some(&b'm') {
+            continue;
+        }
+        end += 1;
+        if is_ascii_word_at(&padded, end) {
+            continue;
+        }
+
+        let span_start = padded[..start].chars().count();
+        let span_end = span_start + padded[start..end].chars().count();
+        let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+        if quote_index % 2 == 1 {
+            continue;
+        }
+        let (line, column) = line_col_of(span_start, &line_bounds);
+        matches.push((
+            span_start,
+            json!({
+                "check_path": "dates_times.am_pm.lowercase_periods",
+                "message": AM_PM_MESSAGE,
                 "span": [span_start, span_end],
                 "pos": [line, column],
                 "replacements": null,

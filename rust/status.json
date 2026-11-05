@@ -86,6 +86,10 @@
     {
       "id": "rule.misc.but",
       "status": "recorded"
+    },
+    {
+      "id": "rule.dates_times.am_pm.lowercase_periods",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -1069,12 +1073,60 @@
         "exit_code": 0,
         "report": "rust/artifacts/strict-gate-misc-but-final-20261105.json"
       }
+    },
+    {
+      "id": "rule.dates_times.am_pm.lowercase_periods",
+      "status": "recorded",
+      "case_ids": [
+        "am_pm_lowercase_one_digit_compact",
+        "am_pm_lowercase_two_digit_single_space",
+        "am_pm_lowercase_multiple_order",
+        "am_pm_uppercase_and_periods_negative",
+        "am_pm_multi_space_and_three_digit_negative",
+        "am_pm_word_boundary_controls",
+        "am_pm_quote_suppression",
+        "am_pm_unicode_codepoint_positions",
+        "am_pm_selected_config_interaction"
+      ],
+      "upstream_spec": "Pinned `dates_times.am_pm.lowercase_periods` is case-sensitive Fast `\\b\\d{1,2} ?[ap]m\\b`: ASCII one/two-digit hour, optional single ASCII space, lowercase `am` or `pm`, word boundaries, quoted matches suppressed. Exact message: `It's standard to use periods for lowercase 'a.m.' or 'p.m.'.`",
+      "red": {
+        "behavioral_failures": 5,
+        "total_tests": 5,
+        "exit_code": 101,
+        "cause": "CLI rejected selected lowercase_periods config"
+      },
+      "green": {
+        "rust_tests_passed": 134,
+        "focused_tests_passed": 5,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 9,
+        "exit_code": 0,
+        "report": "rust/artifacts/dates-times-am-pm-lowercase-periods-live-rust-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-am-pm-lowercase-periods-20261105-live.json",
+        "frozen_source_fingerprint": "f5f5a7f865ec06e8b852a3f6e8b6dcdc3e132cc9996a2ff6f564173b8d97c074"
+      },
+      "limitations": [
+        "selected lowercase_periods config only",
+        "combined AM/PM checks and broader default behavior remain unverified"
+      ],
+      "cumulative_live_parity": {
+        "passed_cases": 139,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-am-pm-final-20261105.json"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-misc-but-final-20261105.json",
-    "passed_cases": 130,
+    "report": "rust/artifacts/strict-gate-am-pm-final-20261105.json",
+    "passed_cases": 139,
     "exit_code": 0
   },
   "rust_dependencies": {

@@ -4357,6 +4357,303 @@
         "exit_status": "exact"
       },
       "stdin_base64": "VE9ETzsgdmVyeS4KCkJ1dCBjb25maWd1cmVkIGNoZWNrIG9ubHku"
+    },
+    {
+      "id": "am_pm_lowercase_one_digit_compact",
+      "capability_id": "rule.dates_times.am_pm.lowercase_periods",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path dates_times.am_pm.lowercase_periods; upstream module proselint/checks/dates_times/am_pm.py; ExistenceSimple pattern r\"\\b\\d{1,2} ?[ap]m\\b\" (Padding.WORDS_IN_TEXT), Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions, ppm_threshold=0; message \"It's standard to use periods for lowercase 'a.m.' or 'p.m.'.\"; selected config enables only this check. Case purpose: Positive one-digit hour without a space; exact upstream example's compact form.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsibG93ZXJjYXNlX3BlcmlvZHMiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_lowercase_periods_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "SXQgaGFwcGVuZWQgYXQgN2FtLg=="
+    },
+    {
+      "id": "am_pm_lowercase_two_digit_single_space",
+      "capability_id": "rule.dates_times.am_pm.lowercase_periods",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path dates_times.am_pm.lowercase_periods; upstream module proselint/checks/dates_times/am_pm.py; ExistenceSimple pattern r\"\\b\\d{1,2} ?[ap]m\\b\" (Padding.WORDS_IN_TEXT), Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions, ppm_threshold=0; message \"It's standard to use periods for lowercase 'a.m.' or 'p.m.'.\"; selected config enables only this check. Case purpose: Positive two-digit hour with the optional single ASCII space.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsibG93ZXJjYXNlX3BlcmlvZHMiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_lowercase_periods_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "Q2FsbCBhdCAxMiBwbS4="
+    },
+    {
+      "id": "am_pm_lowercase_multiple_order",
+      "capability_id": "rule.dates_times.am_pm.lowercase_periods",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path dates_times.am_pm.lowercase_periods; upstream module proselint/checks/dates_times/am_pm.py; ExistenceSimple pattern r\"\\b\\d{1,2} ?[ap]m\\b\" (Padding.WORDS_IN_TEXT), Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions, ppm_threshold=0; message \"It's standard to use periods for lowercase 'a.m.' or 'p.m.'.\"; selected config enables only this check. Case purpose: Multiple compact/spaced matches; checks exact source-order spans and positions.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsibG93ZXJjYXNlX3BlcmlvZHMiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_lowercase_periods_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "N2FtLCAxMiBwbSwgOWFtLg=="
+    },
+    {
+      "id": "am_pm_uppercase_and_periods_negative",
+      "capability_id": "rule.dates_times.am_pm.lowercase_periods",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path dates_times.am_pm.lowercase_periods; upstream module proselint/checks/dates_times/am_pm.py; ExistenceSimple pattern r\"\\b\\d{1,2} ?[ap]m\\b\" (Padding.WORDS_IN_TEXT), Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions, ppm_threshold=0; message \"It's standard to use periods for lowercase 'a.m.' or 'p.m.'.\"; selected config enables only this check. Case purpose: Uppercase variants and already-periodized forms are clean.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsibG93ZXJjYXNlX3BlcmlvZHMiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_lowercase_periods_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "QXQgN0FNLCAxMiBQTSwgN2EubS4sIGFuZCAxMiBwLm0u"
+    },
+    {
+      "id": "am_pm_multi_space_and_three_digit_negative",
+      "capability_id": "rule.dates_times.am_pm.lowercase_periods",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path dates_times.am_pm.lowercase_periods; upstream module proselint/checks/dates_times/am_pm.py; ExistenceSimple pattern r\"\\b\\d{1,2} ?[ap]m\\b\" (Padding.WORDS_IN_TEXT), Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions, ppm_threshold=0; message \"It's standard to use periods for lowercase 'a.m.' or 'p.m.'.\"; selected config enables only this check. Case purpose: Two spaces are outside the optional single-space pattern; a three-digit hour does not match.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsibG93ZXJjYXNlX3BlcmlvZHMiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_lowercase_periods_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "QXQgNyAgYW0gYW5kIDEyM2FtLg=="
+    },
+    {
+      "id": "am_pm_word_boundary_controls",
+      "capability_id": "rule.dates_times.am_pm.lowercase_periods",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path dates_times.am_pm.lowercase_periods; upstream module proselint/checks/dates_times/am_pm.py; ExistenceSimple pattern r\"\\b\\d{1,2} ?[ap]m\\b\" (Padding.WORDS_IN_TEXT), Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions, ppm_threshold=0; message \"It's standard to use periods for lowercase 'a.m.' or 'p.m.'.\"; selected config enables only this check. Case purpose: Letter/underscore adjacent forms are boundary negatives; punctuation boundary 7am-foo is a positive match.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsibG93ZXJjYXNlX3BlcmlvZHMiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_lowercase_periods_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "eDdhbSA3YW14IDdhbV90aGluZyBBN2FtWiA3YW0tZm9v"
+    },
+    {
+      "id": "am_pm_quote_suppression",
+      "capability_id": "rule.dates_times.am_pm.lowercase_periods",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path dates_times.am_pm.lowercase_periods; upstream module proselint/checks/dates_times/am_pm.py; ExistenceSimple pattern r\"\\b\\d{1,2} ?[ap]m\\b\" (Padding.WORDS_IN_TEXT), Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions, ppm_threshold=0; message \"It's standard to use periods for lowercase 'a.m.' or 'p.m.'.\"; selected config enables only this check. Case purpose: The rule disallows findings inside quoted text.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsibG93ZXJjYXNlX3BlcmlvZHMiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_lowercase_periods_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "U2hlIHdyb3RlICI3YW0iIGFuZCB0aGVuIGxlZnQu"
+    },
+    {
+      "id": "am_pm_unicode_codepoint_positions",
+      "capability_id": "rule.dates_times.am_pm.lowercase_periods",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path dates_times.am_pm.lowercase_periods; upstream module proselint/checks/dates_times/am_pm.py; ExistenceSimple pattern r\"\\b\\d{1,2} ?[ap]m\\b\" (Padding.WORDS_IN_TEXT), Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions, ppm_threshold=0; message \"It's standard to use periods for lowercase 'a.m.' or 'p.m.'.\"; selected config enables only this check. Case purpose: Unicode and combining-mark prefix checks code-point span and position behavior.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsibG93ZXJjYXNlX3BlcmlvZHMiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_lowercase_periods_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "w6kgYW5kIGXMgSBiZWZvcmUgN2FtLg=="
+    },
+    {
+      "id": "am_pm_selected_config_interaction",
+      "capability_id": "rule.dates_times.am_pm.lowercase_periods",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path dates_times.am_pm.lowercase_periods; upstream module proselint/checks/dates_times/am_pm.py; ExistenceSimple pattern r\"\\b\\d{1,2} ?[ap]m\\b\" (Padding.WORDS_IN_TEXT), Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions, ppm_threshold=0; message \"It's standard to use periods for lowercase 'a.m.' or 'p.m.'.\"; selected config enables only this check. Case purpose: Only lowercase_periods is enabled; unrelated weasel_words.very must not appear.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsibG93ZXJjYXNlX3BlcmlvZHMiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_lowercase_periods_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "QSB2ZXJ5IGdvb2QgdGltZSBpcyA3YW0u"
     }
   ]
 }

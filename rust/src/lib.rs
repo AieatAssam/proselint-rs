@@ -8,6 +8,8 @@ const CLICHE_HELL_PATTERN: &str = "all hell broke loose";
 const CLICHE_HELL_MESSAGE: &str = "Never use the phrase 'all hell broke loose'.";
 const APOLOGIZING_PATTERN: &str = "More research is needed";
 const APOLOGIZING_MESSAGE: &str = "Excessive apologizing.";
+const WHENCE_PATTERN: &str = "from whence";
+const WHENCE_MESSAGE: &str = "The 'from' in 'from whence' is not needed.";
 const MESSAGE: &str = "Annotation left in text.";
 const QUOTES: [char; 6] = ['"', '\'', '“', '”', '‘', '’'];
 const SEPARATORS: &str = " ,.!?:;-\r\n";
@@ -165,6 +167,48 @@ pub fn apologizing_diagnostics(text: &str) -> Vec<Value> {
         diagnostics.push(json!({
             "check_path": "misc.apologizing",
             "message": APOLOGIZING_MESSAGE,
+            "span": [span_start, span_end],
+            "pos": [line, column],
+            "replacements": null,
+        }));
+    }
+
+    diagnostics
+}
+
+/// Return diagnostics for the pinned `misc.whence` literal rule.
+///
+/// The Fast matcher is case-insensitive and unanchored, with no word-boundary
+/// padding. The default quote policy suppresses matches inside paired quotes.
+pub fn whence_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut diagnostics = Vec::new();
+    let pattern_len = WHENCE_PATTERN.len();
+
+    for (start, _) in padded.char_indices() {
+        let Some(candidate) = padded.get(start..start.saturating_add(pattern_len)) else {
+            continue;
+        };
+        if !candidate.eq_ignore_ascii_case(WHENCE_PATTERN) {
+            continue;
+        }
+
+        let span_start = padded[..start].chars().count();
+        let span_end = span_start + WHENCE_PATTERN.chars().count();
+        let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+        if quote_index % 2 == 1 {
+            continue;
+        }
+        let (line, column) = line_col_of(span_start, &line_bounds);
+        diagnostics.push(json!({
+            "check_path": "misc.whence",
+            "message": WHENCE_MESSAGE,
             "span": [span_start, span_end],
             "pos": [line, column],
             "replacements": null,

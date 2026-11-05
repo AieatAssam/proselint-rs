@@ -3,11 +3,30 @@
   "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
   "package_version": "0.16.0",
   "production_capabilities": [
-    "cli.json_no_findings",
-    "rule.annotations.misc",
-    "cli.coordinates",
-    "rule.cliches.hell",
-    "rule.misc.apologizing"
+    {
+      "id": "cli.json_no_findings",
+      "status": "recorded"
+    },
+    {
+      "id": "rule.annotations.misc",
+      "status": "recorded"
+    },
+    {
+      "id": "cli.coordinates",
+      "status": "recorded"
+    },
+    {
+      "id": "rule.cliches.hell",
+      "status": "recorded"
+    },
+    {
+      "id": "rule.misc.apologizing",
+      "status": "recorded"
+    },
+    {
+      "id": "rule.misc.whence",
+      "status": "recorded"
+    }
   ],
   "inventory": {
     "status": "generated_from_pinned_snapshot",
@@ -52,15 +71,14 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "rust_builder owns rust/src/** and rust/tests/** for rule.misc.whence"
+    "next_handoff": "oracle_engineer owns next bounded rule case specification"
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
     "default configuration, all other registered rules, and broader CLI behavior remain unimplemented or unverified",
     "broader newline, file-decoding, default-config, and all other registered-rule behavior remain unverified",
     "combined enabled-rule configurations, Unicode case folding beyond tested ASCII variants, broader quote pairing, default config, and remaining rules are unverified",
-    "Unicode case folding outside tested ASCII variants, quote-pairing combinations, combined enabled-rule config, default config, and remaining rules are unverified",
-    "rule.misc.whence is specified but not yet implemented or parity-verified"
+    "Unicode case folding outside tested ASCII variants, quote-pairing combinations, combined enabled-rule config, default config, and remaining rules are unverified"
   ],
   "capability_states": [
     {
@@ -280,7 +298,7 @@
     },
     {
       "id": "rule.misc.whence",
-      "status": "specified",
+      "status": "recorded",
       "case_ids": [
         "whence_positive_context",
         "whence_case_variants_order",
@@ -289,14 +307,44 @@
         "whence_raw_substring",
         "whence_selected_config_interaction"
       ],
-      "upstream_spec": "ExistenceSimple literal `from whence`, Fast case-insensitive, no exceptions or word-boundary padding; message: The 'from' in 'from whence' is not needed.",
-      "oracle_live_probe": {
-        "passed_cases": 6,
-        "programmatic_self_comparison": "PASS",
-        "report": "rust/artifacts/whence-live-20261105T023931Z/whence-live-report.json",
-        "selected_config": "misc.whence only"
+      "red": {
+        "behavioral_failures": 6,
+        "total_tests": 6,
+        "exit_code": 101,
+        "cause": "CLI rejected selected misc.whence config"
       },
-      "source_fingerprint": "8202e1f060ffac53795472db3184587ccd0b8c7d10d2b664e20b1fad8d319219"
+      "green": {
+        "rust_tests_passed": 34,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 6,
+        "exit_code": 0,
+        "report": "rust/artifacts/live-whence-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-whence/verification.json",
+        "frozen_source_fingerprint": "651affdc96c5d423e672846ceaeeab71425c8ef078d97ece8403451bc29b5c33"
+      },
+      "cumulative_live_parity": {
+        "passed_cases": 34,
+        "exit_code": 0,
+        "report": "rust/artifacts/independent-whence/cumulative-live-report.json"
+      },
+      "limitations": [
+        "combined-rule config and broader Unicode case folding/quote pairing unverified"
+      ]
     }
-  ]
+  ],
+  "last_strict_gate": {
+    "status": "PASS",
+    "report": "rust/artifacts/final-gate-20261105.json",
+    "passed_cases": 34,
+    "exit_code": 0,
+    "source_fingerprint": "90818fb7fbed804755b6bba6ba4287f6a4ef623cdd6dac9897192d28a25eadcc",
+    "note": "The first gate attempt was BLOCKED because production_capabilities used string entries; entries now use the required id/status schema."
+  }
 }

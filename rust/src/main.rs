@@ -1,7 +1,7 @@
 use clap::{Parser, Subcommand, ValueEnum};
 use proselint_rs::{
     annotation_diagnostics, apologizing_diagnostics, cliches_hell_diagnostics, file_uri,
-    json_result, normalize_file_newlines,
+    json_result, normalize_file_newlines, whence_diagnostics,
 };
 use serde_json::Value;
 use std::fs;
@@ -65,7 +65,7 @@ fn run() -> Result<ExitCode, String> {
         .get("checks")
         .ok_or_else(|| "this capability requires an explicit checks configuration".to_owned())?;
     let selected_check = supported_checks(checks).ok_or_else(|| {
-        "this capability supports disabled checks, annotations.misc, cliches.hell, or misc.apologizing only".to_owned()
+        "this capability supports disabled checks, annotations.misc, cliches.hell, misc.apologizing, or misc.whence only".to_owned()
     })?;
 
     if !matches!(output_format, OutputFormat::Json) {
@@ -95,6 +95,7 @@ fn run() -> Result<ExitCode, String> {
         SelectedCheck::AnnotationsMisc => annotation_diagnostics(&content),
         SelectedCheck::ClichesHell => cliches_hell_diagnostics(&content),
         SelectedCheck::MiscApologizing => apologizing_diagnostics(&content),
+        SelectedCheck::MiscWhence => whence_diagnostics(&content),
     };
     let exit_code = if diagnostics.is_empty() {
         ExitCode::SUCCESS
@@ -112,6 +113,7 @@ enum SelectedCheck {
     AnnotationsMisc,
     ClichesHell,
     MiscApologizing,
+    MiscWhence,
 }
 
 fn supported_checks(checks: &Value) -> Option<SelectedCheck> {
@@ -142,6 +144,15 @@ fn supported_checks(checks: &Value) -> Option<SelectedCheck> {
                         Value::Bool(false) => true,
                         Value::Bool(true) if *selected == SelectedCheck::None => {
                             *selected = SelectedCheck::MiscApologizing;
+                            true
+                        }
+                        _ => false,
+                    }
+                } else if path == &["misc", "whence"] {
+                    match child {
+                        Value::Bool(false) => true,
+                        Value::Bool(true) if *selected == SelectedCheck::None => {
+                            *selected = SelectedCheck::MiscWhence;
                             true
                         }
                         _ => false,

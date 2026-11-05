@@ -66,6 +66,10 @@
     {
       "id": "rule.typography.symbols.copyright",
       "status": "recorded"
+    },
+    {
+      "id": "rule.typography.symbols.sentence_spacing",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -822,14 +826,59 @@
         "selected-rule config only",
         "broader output/configuration behavior remains unverified"
       ]
+    },
+    {
+      "id": "rule.typography.symbols.sentence_spacing",
+      "status": "recorded",
+      "case_ids": [
+        "sentence_spacing_three_spaces_positive",
+        "sentence_spacing_four_spaces_prefix_span",
+        "sentence_spacing_multiple_order",
+        "sentence_spacing_two_spaces_and_other_punctuation_negative",
+        "sentence_spacing_quote_suppression",
+        "sentence_spacing_unicode_codepoint_positions",
+        "sentence_spacing_selected_config_interaction"
+      ],
+      "upstream_spec": "ExistenceSimple regex \\. {3}; exact message `More than two spaces after the period; use 1 or 2.`. Three and four spaces match only the period plus first three spaces; allow_quotes=false suppresses quoted findings.",
+      "red": {
+        "behavioral_failures": 7,
+        "total_tests": 7,
+        "exit_code": 101,
+        "cause": "CLI rejected selected typography.symbols.sentence_spacing config"
+      },
+      "green": {
+        "rust_tests_passed": 101,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 7,
+        "exit_code": 0,
+        "report": "rust/artifacts/live-sentence-spacing-rust-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-sentence-spacing-20261105/verification-summary.json",
+        "frozen_source_fingerprint": "8504682865e16b0a1b4d505db6762864038f8d193dc78c9d2c06c7bb82645962"
+      },
+      "cumulative_live_parity": {
+        "passed_cases": 101,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-sentence-spacing-final-20261105.json"
+      },
+      "limitations": [
+        "selected-rule config only",
+        "default and combined-rule behavior remain unverified"
+      ]
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-copyright-final-20261105.json",
-    "passed_cases": 94,
+    "report": "rust/artifacts/strict-gate-sentence-spacing-final-20261105.json",
+    "passed_cases": 101,
     "exit_code": 0,
-    "source_fingerprint": "7f160a1dd7b71e1954e3261262eee12c8f63a98d41608c34da73fd4fa1a9830b"
+    "source_fingerprint": "3149d8d195675dc3c8a67a3e4204f0b606ff2fe4d751fba4d2b0833dd93451b9"
   },
   "rust_dependencies": {
     "status": "current",

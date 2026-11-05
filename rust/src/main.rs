@@ -5,7 +5,7 @@ use proselint_rs::{
     file_uri, illogic_coin_diagnostics, illogic_collusion_diagnostics,
     institution_name_diagnostics, json_result, mental_telepathy_diagnostics,
     normalize_file_newlines, professions_diagnostics, typography_copyright_diagnostics,
-    typography_ellipsis_diagnostics, whence_diagnostics,
+    typography_ellipsis_diagnostics, typography_sentence_spacing_diagnostics, whence_diagnostics,
 };
 use serde_json::Value;
 use std::fs;
@@ -110,6 +110,9 @@ fn run() -> Result<ExitCode, String> {
         SelectedCheck::MiscProfessions => professions_diagnostics(&content),
         SelectedCheck::TypographySymbolsEllipsis => typography_ellipsis_diagnostics(&content),
         SelectedCheck::TypographySymbolsCopyright => typography_copyright_diagnostics(&content),
+        SelectedCheck::TypographySymbolsSentenceSpacing => {
+            typography_sentence_spacing_diagnostics(&content)
+        }
     };
     let exit_code = if diagnostics.is_empty() {
         ExitCode::SUCCESS
@@ -138,6 +141,7 @@ enum SelectedCheck {
     MiscProfessions,
     TypographySymbolsEllipsis,
     TypographySymbolsCopyright,
+    TypographySymbolsSentenceSpacing,
 }
 
 fn supported_checks(checks: &Value) -> Option<SelectedCheck> {
@@ -267,6 +271,15 @@ fn supported_checks(checks: &Value) -> Option<SelectedCheck> {
                         Value::Bool(false) => true,
                         Value::Bool(true) if *selected == SelectedCheck::None => {
                             *selected = SelectedCheck::TypographySymbolsCopyright;
+                            true
+                        }
+                        _ => false,
+                    }
+                } else if path == &["typography", "symbols", "sentence_spacing"] {
+                    match child {
+                        Value::Bool(false) => true,
+                        Value::Bool(true) if *selected == SelectedCheck::None => {
+                            *selected = SelectedCheck::TypographySymbolsSentenceSpacing;
                             true
                         }
                         _ => false,

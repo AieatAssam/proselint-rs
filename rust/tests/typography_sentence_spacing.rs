@@ -89,20 +89,12 @@ fn assert_result(input: &str, expected_exit: i32, diagnostics: Vec<Value>) {
 
 #[test]
 fn reports_period_followed_by_three_spaces() {
-    assert_result(
-        "A sentence.   Next.",
-        1,
-        vec![diagnostic([11, 15], 11)],
-    );
+    assert_result("A sentence.   Next.", 1, vec![diagnostic([11, 15], 11)]);
 }
 
 #[test]
 fn four_spaces_match_only_period_and_first_three_spaces() {
-    assert_result(
-        "A sentence.    Next.",
-        1,
-        vec![diagnostic([11, 15], 11)],
-    );
+    assert_result("A sentence.    Next.", 1, vec![diagnostic([11, 15], 11)]);
 }
 
 #[test]
@@ -135,9 +127,5 @@ fn positions_follow_unicode_codepoints() {
 
 #[test]
 fn selected_config_does_not_enable_other_rules() {
-    assert_result(
-        "TODO and very.   Next.",
-        1,
-        vec![diagnostic([14, 18], 14)],
-    );
+    assert_result("TODO and very.   Next.", 1, vec![diagnostic([14, 18], 14)]);
 }

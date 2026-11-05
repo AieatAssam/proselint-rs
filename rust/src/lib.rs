@@ -19,6 +19,9 @@ const TYPOGRAPHY_ELLIPSIS_MESSAGE: &str = "'...' is an approximation, use the el
 const TYPOGRAPHY_COPYRIGHT_PATTERN: &str = "(c)";
 const TYPOGRAPHY_COPYRIGHT_MESSAGE: &str =
     "(c) is a goofy alphabetic approximation, use the symbol ©.";
+const TYPOGRAPHY_SENTENCE_SPACING_PATTERN: &str = ".   ";
+const TYPOGRAPHY_SENTENCE_SPACING_MESSAGE: &str =
+    "More than two spaces after the period; use 1 or 2.";
 const MENTAL_TELEPATHY_PATTERN: &str = "mental telepathy";
 const MENTAL_TELEPATHY_MESSAGE: &str =
     "This is redundant because all purported telepathy is mental.";
@@ -406,6 +409,46 @@ pub fn typography_copyright_diagnostics(text: &str) -> Vec<Value> {
             json!({
                 "check_path": "typography.symbols.copyright",
                 "message": TYPOGRAPHY_COPYRIGHT_MESSAGE,
+                "span": [span_start, span_end],
+                "pos": [line, column],
+                "replacements": null,
+            }),
+        ));
+    }
+
+    matches.sort_unstable_by_key(|(start, _)| *start);
+    matches
+        .into_iter()
+        .map(|(_, diagnostic)| diagnostic)
+        .collect()
+}
+
+/// Return diagnostics for the pinned `typography.symbols.sentence_spacing`
+/// rule. The literal is exactly a period followed by three spaces, so longer
+/// runs match only that prefix. Matches inside paired quotes are suppressed.
+pub fn typography_sentence_spacing_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut matches = Vec::new();
+
+    for (start, _) in padded.match_indices(TYPOGRAPHY_SENTENCE_SPACING_PATTERN) {
+        let span_start = padded[..start].chars().count();
+        let span_end = span_start + TYPOGRAPHY_SENTENCE_SPACING_PATTERN.chars().count();
+        let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+        if quote_index % 2 == 1 {
+            continue;
+        }
+        let (line, column) = line_col_of(span_start, &line_bounds);
+        matches.push((
+            span_start,
+            json!({
+                "check_path": "typography.symbols.sentence_spacing",
+                "message": TYPOGRAPHY_SENTENCE_SPACING_MESSAGE,
                 "span": [span_start, span_end],
                 "pos": [line, column],
                 "replacements": null,

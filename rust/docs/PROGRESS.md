@@ -4,8 +4,8 @@
 
 - `inventoried`: CLI, config/output, matching engine, tests and corpus provenance reviewed by three read-only scouts. The live pinned registry yielded 124 registered entries, 106 unique paths, 110 default-enabled and 14 default-disabled entries; see `rust/inventory.json`.
 - `specified`: no capability accepted or specified with live oracle outputs yet.
-- Oracle: immutable source snapshot and isolated Python 3.12.3 environment are provisioned; import provenance passed and upstream pytest passed (exit 0). Final integrity and portability review is still in progress.
-- Harness: assigned to the custom `oracle_engineer`; `compare.py --self-test` currently reports PASS for its mutation tests, but unit tests, live oracle self-comparison, report/gate validation, and independent review remain outstanding. This provisional result is not an accepted gate.
+- Oracle: immutable source snapshot and isolated Python 3.12.3 environment are provisioned; 98 loaded modules resolve inside the venv, dependency/package/executable hashes verify, and upstream pytest passed (351 tests plus 15 subtests; exit 0).
+- Harness: `rust/harness/**` and `rust/oracle.lock.json` are independently verified on fingerprint `5817279dd9575a62a982da6d943fcbd26e8f31ff317b3626d71175afcdc6b38d`. Unit tests: 14/14; comparator discriminators: 23/23; live oracle self-check: 2/2 PASS with harness-only scope. The strict production gate and benchmark both correctly return BLOCKED while the accepted capability list is empty.
 - Production Rust: not started, per protocol.
 - Independent verifier: not yet assigned; will receive a frozen fingerprint after the first capability reaches green.
 
@@ -21,4 +21,4 @@ Start revision: `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`. The oracle uses Pyth
 
 ## Next gate
 
-Finish harness self-tests and actual oracle-versus-itself CLI comparison; obtain independent verifier evidence. Then specify and RED-test the first CLI/diagnostic capability before assigning the Rust builder.
+Add live CLI cases for the no-findings JSON contract and `annotations.misc`, verify selected-rule config with the pinned CLI, demonstrate a meaningful Rust test RED, then assign the minimal Rust CLI/library implementation. No production Rust capability is accepted yet.

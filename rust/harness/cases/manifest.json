@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "id": "empty_stdin_json",
+      "capability_id": "harness.oracle_smoke",
+      "provenance": "Pinned-oracle self-consistency case; not a delivered Rust capability.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "unicode_space_file_path",
+      "capability_id": "harness.oracle_smoke",
+      "provenance": "Pinned-oracle CLI self-consistency case exercising argv and URI handling for a non-ASCII path with spaces; not a delivered Rust capability.",
+      "input_mode": "files",
+      "files": [
+        {"path": "draft é title.txt", "content_base64": "QSBwbGFpbiBzZW50ZW5jZS4K"}
+      ],
+      "argv": ["check", "--output-format", "json", "{file:draft é title.txt}"],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    }
+  ]
+}

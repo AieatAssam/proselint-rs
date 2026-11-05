@@ -12,13 +12,31 @@
     "artifact": "rust/inventory.json"
   },
   "oracle": {
-    "status": "provisioned_tests_passed_pending_harness_integrity_review",
-    "live_executable": "rust/.cache/oracle-src/source/.venv/bin/proselint",
-    "upstream_tests": "passed_exit_0"
+    "status": "independently_verified",
+    "revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+    "source_tree_sha256": "73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831",
+    "python_version": "3.12.3",
+    "package_version": "0.16.0",
+    "upstream_tests": "passed_351_tests_15_subtests_exit_0",
+    "independent_evidence": "rust/artifacts/independent-harness-verification-final/verification.json"
   },
   "harness": {
-    "status": "in_progress_review_fixes",
-    "negative_self_tests": "not_yet_passed"
+    "status": "independently_verified",
+    "source_fingerprint": "5817279dd9575a62a982da6d943fcbd26e8f31ff317b3626d71175afcdc6b38d",
+    "unit_tests": {
+      "passed": 14,
+      "exit_code": 0
+    },
+    "comparator_discriminators": {
+      "passed": 23,
+      "exit_code": 0
+    },
+    "live_oracle_self_check": {
+      "passed_cases": 2,
+      "exit_code": 0,
+      "scope": "harness_health_only"
+    },
+    "independent_evidence": "rust/artifacts/independent-harness-verification-final/verification.json"
   },
   "active_ownership": {
     "coordinator": [
@@ -27,13 +45,10 @@
       "rust/status-history.jsonl",
       "rust/inventory.json"
     ],
-    "oracle_engineer": [
-      "rust/harness/**",
-      "rust/oracle.lock.json"
-    ]
+    "next_handoff": "oracle_engineer creates live CLI case specifications for cli.json_no_findings and rule.annotations.misc"
   },
   "unresolved": [
-    "harness false-pass risks under correction",
-    "effective Luna per-session model/effort metadata not yet confirmed"
+    "no production Rust capability has passed an independent live gate",
+    "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low"
   ]
 }

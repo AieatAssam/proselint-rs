@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "capability_id": "rule.misc.suddenly",
+  "expected_check_path": "misc.suddenly",
+  "expected_message": "Suddenly is nondescript, slows the action, and warns your reader.",
+  "output_format": "json",
+  "config_file": "selected_config.json",
+  "config_sha256": "88952337fee39358c3cbaec5ce9f14e99ded7b53b7fb7b8f4162ad5aba54ab46",
+  "config": {
+    "max_errors": 1000,
+    "checks": {
+      "misc": {
+        "suddenly": true
+      }
+    }
+  },
+  "sample_pairs": 25,
+  "warmup_pairs": 3,
+  "in_memory_repetitions": 1000,
+  "in_memory_pairs": 25,
+  "workloads": [
+    {
+      "id": "upstream_proselint_demo",
+      "label": "Pinned upstream prose corpus: proselint/demo.md",
+      "kind": "licensed_upstream_prose",
+      "path": "upstream_proselint_demo.md",
+      "attribution": "Proselint contributors, proselint/demo.md",
+      "source_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+      "source_path": "proselint/demo.md",
+      "license": "BSD-3-Clause; see UPSTREAM-LICENSE.md",
+      "generator": null,
+      "sha256": "ac7c30e4765df05db560d43b0d6efb8a7735e477fcf13af2139aa3464a31d3ba",
+      "bytes": 6095,
+      "expected_diagnostics_per_iteration": 2
+    },
+    {
+      "id": "ordinary_generated",
+      "label": "Deterministic ordinary prose, low trigger density",
+      "kind": "deterministic_ordinary_generated",
+      "path": "ordinary_generated.txt",
+      "attribution": "Authored deterministic benchmark fixture; not copied from third-party prose.",
+      "source_revision": null,
+      "source_path": null,
+      "license": "Project test fixture",
+      "generator": "256 paragraph blocks cycling 8 ordinary prose templates; append one trigger to blocks 0, 64, 128, and 192.",
+      "sha256": "592cc296e3dc8780d0c30a266b18eade8f8a43cf0a2e5d8c0a81cd0768be83d0",
+      "bytes": 28531,
+      "expected_diagnostics_per_iteration": 4
+    },
+    {
+      "id": "dense_adversarial_generated",
+      "label": "Dense/adversarial trigger stream",
+      "kind": "deterministic_dense_adversarial_generated",
+      "path": "dense_adversarial_generated.txt",
+      "attribution": "Generated deterministically for stress measurement; not a literary corpus.",
+      "source_revision": null,
+      "source_path": null,
+      "license": "Project test fixture",
+      "generator": "512 numbered lines, each containing exactly one Suddenly, trigger.",
+      "sha256": "de6d2fedce9b6178aa6471d885f92b969043feaf18fe37b1e60b3ff17d253362",
+      "bytes": 21504,
+      "expected_diagnostics_per_iteration": 512
+    }
+  ],
+  "upstream_corpus": {
+    "source_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+    "source_path": "proselint/demo.md",
+    "attribution": "Proselint contributors",
+    "license": "BSD-3-Clause",
+    "license_file": "UPSTREAM-LICENSE.md",
+    "license_sha256": "b493e9e0841fe1688e850f89bfabec8bbf391e5b3b43d06d7ea055f8ae5df446",
+    "prose_corpus_redistribution_note": "The upstream corpora README says the third-party Clean corpus cannot be redistributed; this benchmark instead uses the project-authored proselint/demo.md, distributed under the pinned project BSD-3-Clause license."
+  }
+}

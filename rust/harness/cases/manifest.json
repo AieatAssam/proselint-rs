@@ -2769,6 +2769,204 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "ellipsis_ascii_approximation_positive",
+      "capability_id": "rule.typography.symbols.ellipsis",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers ExistenceSimple(r\"\\.\\.\\.\") at typography.symbols.ellipsis with fixed message; registry/checks/types.py:ExistenceSimple and registry/checks/engine.py:Fast specify unanchored matching. Selected config enables this registry entry only. Case purpose: One exact ASCII ellipsis matches the three-dot pattern.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlIGRyYWZ0IHNheXMgd2FpdC4uLg==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7ImVsbGlwc2lzIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_ellipsis_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "ellipsis_adjacent_nonoverlapping_order",
+      "capability_id": "rule.typography.symbols.ellipsis",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers ExistenceSimple(r\"\\.\\.\\.\") at typography.symbols.ellipsis with fixed message; registry/checks/types.py:ExistenceSimple and registry/checks/engine.py:Fast specify unanchored matching. Selected config enables this registry entry only. Case purpose: A six-dot run produces two consecutive non-overlapping matches, with source order preserved.",
+      "input_mode": "stdin",
+      "stdin_base64": "T25lLi4uIHR3by4uLi4uLiB0aHJlZeKApg==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7ImVsbGlwc2lzIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_ellipsis_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "ellipsis_negative_unicode_symbol_and_short_run",
+      "capability_id": "rule.typography.symbols.ellipsis",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers ExistenceSimple(r\"\\.\\.\\.\") at typography.symbols.ellipsis with fixed message; registry/checks/types.py:ExistenceSimple and registry/checks/engine.py:Fast specify unanchored matching. Selected config enables this registry entry only. Case purpose: A two-dot run and the Unicode ellipsis symbol do not match the ASCII three-dot pattern.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlIHNlbnRlbmNlIGVuZHMuIC4uIGFuZCB0aGVuIOKApg==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7ImVsbGlwc2lzIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_ellipsis_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "ellipsis_quote_suppression",
+      "capability_id": "rule.typography.symbols.ellipsis",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers ExistenceSimple(r\"\\.\\.\\.\") at typography.symbols.ellipsis with fixed message; registry/checks/types.py:ExistenceSimple and registry/checks/engine.py:Fast specify unanchored matching. Selected config enables this registry entry only. Case purpose: A matched pattern inside paired straight quotes is suppressed because allow_quotes=false.",
+      "input_mode": "stdin",
+      "stdin_base64": "SGUgd3JvdGUgIi4uLiIgbGl0ZXJhbGx5Lg==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7ImVsbGlwc2lzIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_ellipsis_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "ellipsis_unicode_codepoint_spans",
+      "capability_id": "rule.typography.symbols.ellipsis",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers ExistenceSimple(r\"\\.\\.\\.\") at typography.symbols.ellipsis with fixed message; registry/checks/types.py:ExistenceSimple and registry/checks/engine.py:Fast specify unanchored matching. Selected config enables this registry entry only. Case purpose: Unicode before each match verifies code-point positions and exact spans.",
+      "input_mode": "stdin",
+      "stdin_base64": "V2FpdOKApiB0aGVuIMOpLi4uIGFuZCBmaW5hbGx5Li4u",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7ImVsbGlwc2lzIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_ellipsis_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "ellipsis_selected_config_interaction",
+      "capability_id": "rule.typography.symbols.ellipsis",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers ExistenceSimple(r\"\\.\\.\\.\") at typography.symbols.ellipsis with fixed message; registry/checks/types.py:ExistenceSimple and registry/checks/engine.py:Fast specify unanchored matching. Selected config enables this registry entry only. Case purpose: Only typography.symbols.ellipsis is selected; unrelated default-trigger text must not emit other diagnostics.",
+      "input_mode": "stdin",
+      "stdin_base64": "QSB2ZXJ5IHVudXN1YWwgY2xhaW0gc2F5cyBUT0RPOyB0aGVuIHdhaXQuLi4=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7ImVsbGlwc2lzIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_ellipsis_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

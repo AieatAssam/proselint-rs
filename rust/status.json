@@ -90,6 +90,10 @@
     {
       "id": "rule.dates_times.am_pm.lowercase_periods",
       "status": "recorded"
+    },
+    {
+      "id": "rule.dates_times.am_pm.spacing",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -1121,12 +1125,59 @@
         "exit_code": 0,
         "report": "rust/artifacts/strict-gate-am-pm-final-20261105.json"
       }
+    },
+    {
+      "id": "rule.dates_times.am_pm.spacing",
+      "status": "recorded",
+      "case_ids": [
+        "am_pm_spacing_case_insensitive_optional_periods",
+        "am_pm_spacing_one_and_two_digit_hours",
+        "am_pm_spacing_required_touching_negative",
+        "am_pm_spacing_three_digit_partial_substrings",
+        "am_pm_spacing_embedded_unanchored_matches",
+        "am_pm_spacing_multiple_order",
+        "am_pm_spacing_quote_suppression",
+        "am_pm_spacing_selected_config_interaction"
+      ],
+      "upstream_spec": "Pinned `dates_times.am_pm.spacing` is case-insensitive Fast `\\d{1,2}[ap]\\.?m\\.?`: unanchored one/two ASCII digits, immediately followed by `a`/`p`, optional period, `m`, optional period. No word boundaries; no whitespace between hour and suffix. Quoted matches suppressed. Static message: `It's standard to put a space before 'a.m.' or 'p.m.'.`",
+      "red": {
+        "behavioral_failures": 8,
+        "total_tests": 8,
+        "exit_code": 101,
+        "cause": "CLI rejected selected am_pm.spacing config"
+      },
+      "green": {
+        "rust_tests_passed": 142,
+        "focused_tests_passed": 8,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 8,
+        "exit_code": 0,
+        "report": "rust/artifacts/dates-times-am-pm-spacing-live-rust-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-am-pm-spacing-20261105-live.json",
+        "frozen_source_fingerprint": "1681c7e539411212e4bc161b16dedb61de3ed0f4ab2091c7cace26861abd582d"
+      },
+      "limitations": [
+        "selected spacing config only",
+        "broader default and combined-check behavior remain unverified"
+      ],
+      "cumulative_live_parity": {
+        "passed_cases": 147,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-am-pm-spacing-final-20261105.json"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-am-pm-final-20261105.json",
-    "passed_cases": 139,
+    "report": "rust/artifacts/strict-gate-am-pm-spacing-final-20261105.json",
+    "passed_cases": 147,
     "exit_code": 0
   },
   "rust_dependencies": {

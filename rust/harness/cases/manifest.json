@@ -4654,6 +4654,270 @@
         "exit_status": "exact"
       },
       "stdin_base64": "QSB2ZXJ5IGdvb2QgdGltZSBpcyA3YW0u"
+    },
+    {
+      "id": "am_pm_spacing_case_insensitive_optional_periods",
+      "capability_id": "rule.dates_times.am_pm.spacing",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path dates_times.am_pm.spacing; upstream module proselint/checks/dates_times/am_pm.py; ExistenceSimple pattern r\"\\d{1,2}[ap]\\.?m\\.?\"; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, ppm_threshold=0; static message \"It's standard to put a space before 'a.m.' or 'p.m.'.\"; selected config enables only this check. Case purpose: Case-insensitive AM/PM and optional periods across a, p, m, and trailing period variants.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsic3BhY2luZyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_spacing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "N0FNIDEyYS5tIDlQbS4gNHBN"
+    },
+    {
+      "id": "am_pm_spacing_one_and_two_digit_hours",
+      "capability_id": "rule.dates_times.am_pm.spacing",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path dates_times.am_pm.spacing; upstream module proselint/checks/dates_times/am_pm.py; ExistenceSimple pattern r\"\\d{1,2}[ap]\\.?m\\.?\"; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, ppm_threshold=0; static message \"It's standard to put a space before 'a.m.' or 'p.m.'.\"; selected config enables only this check. Case purpose: One- and two-digit hour forms, both touching the suffix.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsic3BhY2luZyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_spacing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "N2FtIDEycG0="
+    },
+    {
+      "id": "am_pm_spacing_required_touching_negative",
+      "capability_id": "rule.dates_times.am_pm.spacing",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path dates_times.am_pm.spacing; upstream module proselint/checks/dates_times/am_pm.py; ExistenceSimple pattern r\"\\d{1,2}[ap]\\.?m\\.?\"; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, ppm_threshold=0; static message \"It's standard to put a space before 'a.m.' or 'p.m.'.\"; selected config enables only this check. Case purpose: A space or tab between hour and suffix does not meet the touching-number-suffix pattern.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsic3BhY2luZyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_spacing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "NyBhbSAxMglhbSA5IHAubS4="
+    },
+    {
+      "id": "am_pm_spacing_three_digit_partial_substrings",
+      "capability_id": "rule.dates_times.am_pm.spacing",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path dates_times.am_pm.spacing; upstream module proselint/checks/dates_times/am_pm.py; ExistenceSimple pattern r\"\\d{1,2}[ap]\\.?m\\.?\"; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, ppm_threshold=0; static message \"It's standard to put a space before 'a.m.' or 'p.m.'.\"; selected config enables only this check. Case purpose: No boundary anchors: the matcher finds the final two digits plus suffix inside three-digit strings.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsic3BhY2luZyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_spacing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "MTIzYW0gMTIzcC5tLg=="
+    },
+    {
+      "id": "am_pm_spacing_embedded_unanchored_matches",
+      "capability_id": "rule.dates_times.am_pm.spacing",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path dates_times.am_pm.spacing; upstream module proselint/checks/dates_times/am_pm.py; ExistenceSimple pattern r\"\\d{1,2}[ap]\\.?m\\.?\"; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, ppm_threshold=0; static message \"It's standard to put a space before 'a.m.' or 'p.m.'.\"; selected config enables only this check. Case purpose: Demonstrates raw unanchored substring matching within surrounding letters.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsic3BhY2luZyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_spacing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "eDdhbXggYWJjMTJhLm0uZGVm"
+    },
+    {
+      "id": "am_pm_spacing_multiple_order",
+      "capability_id": "rule.dates_times.am_pm.spacing",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path dates_times.am_pm.spacing; upstream module proselint/checks/dates_times/am_pm.py; ExistenceSimple pattern r\"\\d{1,2}[ap]\\.?m\\.?\"; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, ppm_threshold=0; static message \"It's standard to put a space before 'a.m.' or 'p.m.'.\"; selected config enables only this check. Case purpose: Multiple uppercase/lowercase and period variants preserve exact match order/spans.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsic3BhY2luZyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_spacing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "N2FtLCAxMkEuTS4sIDlwLm0u"
+    },
+    {
+      "id": "am_pm_spacing_quote_suppression",
+      "capability_id": "rule.dates_times.am_pm.spacing",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path dates_times.am_pm.spacing; upstream module proselint/checks/dates_times/am_pm.py; ExistenceSimple pattern r\"\\d{1,2}[ap]\\.?m\\.?\"; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, ppm_threshold=0; static message \"It's standard to put a space before 'a.m.' or 'p.m.'.\"; selected config enables only this check. Case purpose: Quoted matches are suppressed because allow_quotes=false.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsic3BhY2luZyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_spacing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "U2F5ICI3QU0iIGFuZCAnMTJwLm0uJy4="
+    },
+    {
+      "id": "am_pm_spacing_selected_config_interaction",
+      "capability_id": "rule.dates_times.am_pm.spacing",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path dates_times.am_pm.spacing; upstream module proselint/checks/dates_times/am_pm.py; ExistenceSimple pattern r\"\\d{1,2}[ap]\\.?m\\.?\"; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, ppm_threshold=0; static message \"It's standard to put a space before 'a.m.' or 'p.m.'.\"; selected config enables only this check. Case purpose: Only dates_times.am_pm.spacing is enabled; unrelated weasel_words.very and lowercase_periods do not emit diagnostics.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsic3BhY2luZyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_spacing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "QSB2ZXJ5IGdvb2QgdGltZSBpcyA3YW0u"
     }
   ]
 }

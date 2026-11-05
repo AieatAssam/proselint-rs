@@ -15,6 +15,7 @@ const SUDDENLY_MESSAGE: &str = "Suddenly is nondescript, slows the action, and w
 const BUT_PATTERN: &str = "But";
 const BUT_MESSAGE: &str = "No paragraph should start with a 'But'.";
 const AM_PM_MESSAGE: &str = "It's standard to use periods for lowercase 'a.m.' or 'p.m.'.";
+const AM_PM_SPACING_MESSAGE: &str = "It's standard to put a space before 'a.m.' or 'p.m.'.";
 const KUDOS_PATTERN: &str = "many kudos";
 const KUDOS_MESSAGE: &str = "Kudos is singular.";
 const FALSE_PLURALS_MISC: [(&str, &str); 2] =
@@ -408,6 +409,88 @@ pub fn am_pm_lowercase_periods_diagnostics(text: &str) -> Vec<Value> {
                 "replacements": null,
             }),
         ));
+    }
+
+    matches.sort_unstable_by_key(|(start, _)| *start);
+    matches
+        .into_iter()
+        .map(|(_, diagnostic)| diagnostic)
+        .collect()
+}
+
+/// Return diagnostics for the pinned AM/PM spacing rule. It matches the
+/// case-insensitive literal pattern `\d{1,2}[ap]\.?m\.?` without word
+/// boundaries; ASCII digit runs can therefore match from a later digit when
+/// an earlier two-digit candidate fails. Quoted matches are suppressed.
+pub fn am_pm_spacing_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let bytes = padded.as_bytes();
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut matches = Vec::new();
+    let mut cursor = 0;
+
+    while cursor < bytes.len() {
+        if !bytes[cursor].is_ascii_digit() {
+            cursor += 1;
+            continue;
+        }
+
+        let start = cursor;
+        let digit_end = (start..bytes.len())
+            .take_while(|index| bytes[*index].is_ascii_digit())
+            .take(2)
+            .last()
+            .map_or(start, |index| index + 1);
+        let digit_count = digit_end - start;
+        let mut matched_end = None;
+
+        for count in (1..=digit_count).rev() {
+            let mut end = start + count;
+            if !matches!(bytes.get(end), Some(b'a' | b'A' | b'p' | b'P')) {
+                continue;
+            }
+            end += 1;
+            if bytes.get(end) == Some(&b'.') {
+                end += 1;
+            }
+            if !matches!(bytes.get(end), Some(b'm' | b'M')) {
+                continue;
+            }
+            end += 1;
+            if bytes.get(end) == Some(&b'.') {
+                end += 1;
+            }
+            matched_end = Some(end);
+            break;
+        }
+
+        let Some(end) = matched_end else {
+            cursor = start + 1;
+            continue;
+        };
+
+        let span_start = padded[..start].chars().count();
+        let span_end = span_start + padded[start..end].chars().count();
+        let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+        if quote_index % 2 == 0 {
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            matches.push((
+                span_start,
+                json!({
+                    "check_path": "dates_times.am_pm.spacing",
+                    "message": AM_PM_SPACING_MESSAGE,
+                    "span": [span_start, span_end],
+                    "pos": [line, column],
+                    "replacements": null,
+                }),
+            ));
+        }
+        cursor = end;
     }
 
     matches.sort_unstable_by_key(|(start, _)| *start);

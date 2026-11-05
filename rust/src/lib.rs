@@ -64,6 +64,13 @@ const ILLOGIC_COLLUSION_MESSAGE: &str = "It's impossible to defraud yourself. Tr
 const BACK_FORMATIONS_PATTERN: &str = "improprietous";
 const BACK_FORMATIONS_REPLACEMENT: &str = "improper";
 const BACK_FORMATIONS_MESSAGE: &str = "Back-formation. 'improper' is the preferred form.";
+const GREYLIST_TERMS: [(&str, &str); 2] = [
+    ("obviously", "This is obviously an inadvisable word to use."),
+    (
+        "utilize",
+        "Do you know anyone who needs to utilize the word utilize?",
+    ),
+];
 const INSTITUTION_NAME_PATTERN: &str = "Virginia Polytechnic and State University";
 const INSTITUTION_NAME_REPLACEMENT: &str = "Virginia Polytechnic Institute and State University";
 const PROFESSIONS: [(&str, &str); 2] = [("shoe repair guy", "cobbler"), ("geometrist", "geometer")];
@@ -1196,6 +1203,58 @@ pub fn back_formations_diagnostics(text: &str) -> Vec<Value> {
     }
 
     diagnostics
+}
+
+/// Return diagnostics for the pinned `misc.greylist` term family.
+///
+/// The custom upstream check applies Fast case-insensitive ExistenceSimple
+/// matching to each term without word-boundary padding, then formats a
+/// term-specific message. Quoted matches are suppressed by the check default.
+pub fn greylist_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut matches = Vec::new();
+
+    for (term, explanation) in GREYLIST_TERMS {
+        let term_len = term.len();
+        for (start, _) in padded.char_indices() {
+            let Some(candidate) = padded.get(start..start.saturating_add(term_len)) else {
+                continue;
+            };
+            if !candidate.eq_ignore_ascii_case(term) {
+                continue;
+            }
+
+            let span_start = padded[..start].chars().count();
+            let span_end = span_start + term.chars().count();
+            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+            if quote_index % 2 == 1 {
+                continue;
+            }
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            matches.push((
+                span_start,
+                json!({
+                    "check_path": "misc.greylist",
+                    "message": format!("Use of '{term}'. {explanation}"),
+                    "span": [span_start, span_end],
+                    "pos": [line, column],
+                    "replacements": null,
+                }),
+            ));
+        }
+    }
+
+    matches.sort_unstable_by_key(|(start, _)| *start);
+    matches
+        .into_iter()
+        .map(|(_, diagnostic)| diagnostic)
+        .collect()
 }
 
 /// Return diagnostics for the pinned `misc.institution_name` preferred-form rule.

@@ -106,6 +106,10 @@
     {
       "id": "rule.misc.inferior_superior",
       "status": "recorded"
+    },
+    {
+      "id": "rule.misc.greylist",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -1334,12 +1338,59 @@
         "exit_code": 0,
         "report": "rust/artifacts/strict-gate-misc-inferior-superior-final-20261105.json"
       }
+    },
+    {
+      "id": "rule.misc.greylist",
+      "status": "recorded",
+      "case_ids": [
+        "greylist_obviously_independent",
+        "greylist_utilize_independent",
+        "greylist_case_variants_repeated_hits",
+        "greylist_embedded_substrings",
+        "greylist_mixed_terms_source_order",
+        "greylist_quote_suppression",
+        "greylist_unicode_codepoint_positions",
+        "greylist_selected_config_interaction"
+      ],
+      "upstream_spec": "Pinned `misc.greylist` runs case-insensitive Fast `ExistenceSimple` over raw substrings `obviously` and `utilize`, with no word boundaries, exceptions, or offsets. It emits each occurrence with the term-specific message: `Use of 'obviously'. This is obviously an inadvisable word to use.` or `Use of 'utilize'. Do you know anyone who needs to utilize the word utilize?`. Default quote suppression applies.",
+      "red": {
+        "behavioral_failures": 8,
+        "total_tests": 8,
+        "exit_code": 101,
+        "cause": "CLI rejected selected misc.greylist config"
+      },
+      "green": {
+        "rust_tests_passed": 183,
+        "focused_tests_passed": 8,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 8,
+        "exit_code": 0,
+        "report": "rust/artifacts/misc-greylist-live-rust-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-greylist/live-report.json",
+        "frozen_source_fingerprint": "41112e9ed3430ad0d0d936bcc83240c855705e318738d07782a7705f09c85221"
+      },
+      "limitations": [
+        "selected misc.greylist config only",
+        "default and combined-check behavior remain unverified"
+      ],
+      "cumulative_live_parity": {
+        "passed_cases": 188,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-misc-greylist-final-20261105.json"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-misc-inferior-superior-final-20261105.json",
-    "passed_cases": 180,
+    "report": "rust/artifacts/strict-gate-misc-greylist-final-20261105.json",
+    "passed_cases": 188,
     "exit_code": 0
   },
   "rust_dependencies": {

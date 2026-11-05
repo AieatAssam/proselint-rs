@@ -6007,6 +6007,270 @@
         "exit_status": "exact"
       },
       "stdin_base64": "QSB2ZXJ5IGdvb2QgYnV0IGluZmVyaW9yIHRoYW4gZXhjZWxsZW50IHBsYW4gdXNlcyBUT0RPLg=="
+    },
+    {
+      "id": "greylist_obviously_independent",
+      "capability_id": "rule.misc.greylist",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.greylist; upstream module proselint/checks/misc/greylist.py. `_check_greylist` defines GREYLISTED_TERMS in order: obviously -> This is obviously an inadvisable word to use.; utilize -> Do you know anyone who needs to utilize the word utilize?; each uses ExistenceSimple raw pattern, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0. The registered message is `Use of '{}'. {}`, expanded to the term plus its explanation; matches emit raw-substring spans. Selected config enables only misc.greylist. Case purpose: Positive occurrence of the first listed term with its explanatory message.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJncmV5bGlzdCI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_greylist_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "VGhpcyBpcyBvYnZpb3VzbHkgaW5hZHZpc2FibGUu"
+    },
+    {
+      "id": "greylist_utilize_independent",
+      "capability_id": "rule.misc.greylist",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.greylist; upstream module proselint/checks/misc/greylist.py. `_check_greylist` defines GREYLISTED_TERMS in order: obviously -> This is obviously an inadvisable word to use.; utilize -> Do you know anyone who needs to utilize the word utilize?; each uses ExistenceSimple raw pattern, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0. The registered message is `Use of '{}'. {}`, expanded to the term plus its explanation; matches emit raw-substring spans. Selected config enables only misc.greylist. Case purpose: Positive occurrence of the second listed term with its distinct explanatory message.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJncmV5bGlzdCI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_greylist_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "UGxlYXNlIHV0aWxpemUgdGhpcyB0b29sLg=="
+    },
+    {
+      "id": "greylist_case_variants_repeated_hits",
+      "capability_id": "rule.misc.greylist",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.greylist; upstream module proselint/checks/misc/greylist.py. `_check_greylist` defines GREYLISTED_TERMS in order: obviously -> This is obviously an inadvisable word to use.; utilize -> Do you know anyone who needs to utilize the word utilize?; each uses ExistenceSimple raw pattern, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0. The registered message is `Use of '{}'. {}`, expanded to the term plus its explanation; matches emit raw-substring spans. Selected config enables only misc.greylist. Case purpose: Case variants and repeated occurrences of both terms, with message selection and source order.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJncmV5bGlzdCI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_greylist_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "T0JWSU9VU0xZLCBvYnZpb3VzbHk7IFVUSUxJWkUsIHV0aWxpemUsIHV0aWxpemUu"
+    },
+    {
+      "id": "greylist_embedded_substrings",
+      "capability_id": "rule.misc.greylist",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.greylist; upstream module proselint/checks/misc/greylist.py. `_check_greylist` defines GREYLISTED_TERMS in order: obviously -> This is obviously an inadvisable word to use.; utilize -> Do you know anyone who needs to utilize the word utilize?; each uses ExistenceSimple raw pattern, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0. The registered message is `Use of '{}'. {}`, expanded to the term plus its explanation; matches emit raw-substring spans. Selected config enables only misc.greylist. Case purpose: Both terms are matched as unanchored case-insensitive substrings without word boundaries.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJncmV5bGlzdCI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_greylist_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "eG9idmlvdXNseXg7IHV0aWxpemVYWVo7IHByZXV0aWxpemU7IFhVVElMSVpFc3VmZml4Lg=="
+    },
+    {
+      "id": "greylist_mixed_terms_source_order",
+      "capability_id": "rule.misc.greylist",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.greylist; upstream module proselint/checks/misc/greylist.py. `_check_greylist` defines GREYLISTED_TERMS in order: obviously -> This is obviously an inadvisable word to use.; utilize -> Do you know anyone who needs to utilize the word utilize?; each uses ExistenceSimple raw pattern, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0. The registered message is `Use of '{}'. {}`, expanded to the term plus its explanation; matches emit raw-substring spans. Selected config enables only misc.greylist. Case purpose: Mixed terms in reverse dictionary order show diagnostics ordered by source position.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJncmV5bGlzdCI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_greylist_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "dXRpbGl6ZSBmaXJzdDsgb2J2aW91c2x5IHNlY29uZDsgdGhlbiB1dGlsaXplIGFnYWluLg=="
+    },
+    {
+      "id": "greylist_quote_suppression",
+      "capability_id": "rule.misc.greylist",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.greylist; upstream module proselint/checks/misc/greylist.py. `_check_greylist` defines GREYLISTED_TERMS in order: obviously -> This is obviously an inadvisable word to use.; utilize -> Do you know anyone who needs to utilize the word utilize?; each uses ExistenceSimple raw pattern, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0. The registered message is `Use of '{}'. {}`, expanded to the term plus its explanation; matches emit raw-substring spans. Selected config enables only misc.greylist. Case purpose: Quoted term occurrences are suppressed; outside occurrence remains.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJncmV5bGlzdCI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_greylist_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "UXVvdGVkOiAib2J2aW91c2x5IHV0aWxpemUiLiBPdXRzaWRlOiB1dGlsaXplLg=="
+    },
+    {
+      "id": "greylist_unicode_codepoint_positions",
+      "capability_id": "rule.misc.greylist",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.greylist; upstream module proselint/checks/misc/greylist.py. `_check_greylist` defines GREYLISTED_TERMS in order: obviously -> This is obviously an inadvisable word to use.; utilize -> Do you know anyone who needs to utilize the word utilize?; each uses ExistenceSimple raw pattern, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0. The registered message is `Use of '{}'. {}`, expanded to the term plus its explanation; matches emit raw-substring spans. Selected config enables only misc.greylist. Case purpose: Non-ASCII and combining-mark prefixes verify code-point positions and spans.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJncmV5bGlzdCI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_greylist_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "w6kgYmVmb3JlIG9idmlvdXNseTsgZcyBIGJlZm9yZSB1dGlsaXplLg=="
+    },
+    {
+      "id": "greylist_selected_config_interaction",
+      "capability_id": "rule.misc.greylist",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.greylist; upstream module proselint/checks/misc/greylist.py. `_check_greylist` defines GREYLISTED_TERMS in order: obviously -> This is obviously an inadvisable word to use.; utilize -> Do you know anyone who needs to utilize the word utilize?; each uses ExistenceSimple raw pattern, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0. The registered message is `Use of '{}'. {}`, expanded to the term plus its explanation; matches emit raw-substring spans. Selected config enables only misc.greylist. Case purpose: Only misc.greylist is enabled; unrelated weasel_words and annotations triggers do not emit.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJncmV5bGlzdCI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_greylist_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "QSB2ZXJ5IGdvb2QgcGxhbiB3aWxsIG9idmlvdXNseSB1dGlsaXplIFRPRE8u"
     }
   ]
 }

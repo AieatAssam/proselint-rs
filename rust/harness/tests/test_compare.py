@@ -194,13 +194,16 @@ class ComparatorTests(unittest.TestCase):
             "whence_positive_context", "whence_case_variants_order",
             "whence_boundary_negative", "whence_quote_suppression",
             "whence_raw_substring", "whence_selected_config_interaction",
+            "kudos_positive_context", "kudos_case_variants_order",
+            "kudos_boundary_negative", "kudos_quote_suppression",
+            "kudos_raw_substring", "kudos_selected_config_interaction",
         }
         self.assertEqual({item["id"] for item in manifest["cases"]}, expected_case_ids)
         self.assertEqual(len(manifest["cases"]), len(expected_case_ids))
         self.assertEqual(
             {capability: sum(case["capability_id"] == capability for case in manifest["cases"])
              for capability in {case["capability_id"] for case in manifest["cases"]}},
-            {"harness.oracle_smoke": 2, "cli.json_no_findings": 3, "rule.annotations.misc": 7, "cli.coordinates": 6, "rule.cliches.hell": 6, "rule.misc.apologizing": 6, "rule.misc.whence": 6},
+            {"harness.oracle_smoke": 2, "cli.json_no_findings": 3, "rule.annotations.misc": 7, "cli.coordinates": 6, "rule.cliches.hell": 6, "rule.misc.apologizing": 6, "rule.misc.whence": 6, "rule.misc.false_plurals.kudos": 6},
         )
 
     def test_manifest_rejects_duplicate_id_and_bad_base64(self) -> None:

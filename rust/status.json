@@ -71,14 +71,15 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "oracle_engineer owns next bounded rule case specification"
+    "next_handoff": "rust_builder owns rust/src/** and rust/tests/** for rule.misc.false_plurals.kudos"
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
     "default configuration, all other registered rules, and broader CLI behavior remain unimplemented or unverified",
     "broader newline, file-decoding, default-config, and all other registered-rule behavior remain unverified",
     "combined enabled-rule configurations, Unicode case folding beyond tested ASCII variants, broader quote pairing, default config, and remaining rules are unverified",
-    "Unicode case folding outside tested ASCII variants, quote-pairing combinations, combined enabled-rule config, default config, and remaining rules are unverified"
+    "Unicode case folding outside tested ASCII variants, quote-pairing combinations, combined enabled-rule config, default config, and remaining rules are unverified",
+    "rule.misc.false_plurals.kudos is specified but not yet implemented or parity-verified"
   ],
   "capability_states": [
     {
@@ -337,6 +338,26 @@
       "limitations": [
         "combined-rule config and broader Unicode case folding/quote pairing unverified"
       ]
+    },
+    {
+      "id": "rule.misc.false_plurals.kudos",
+      "status": "specified",
+      "case_ids": [
+        "kudos_positive_context",
+        "kudos_case_variants_order",
+        "kudos_boundary_negative",
+        "kudos_quote_suppression",
+        "kudos_raw_substring",
+        "kudos_selected_config_interaction"
+      ],
+      "upstream_spec": "ExistenceSimple literal `many kudos`, Fast case-insensitive, no exceptions or word-boundary padding.",
+      "oracle_live_probe": {
+        "passed_cases": 6,
+        "programmatic_self_comparison": "PASS",
+        "report": "rust/artifacts/kudos-live-20261105T025843Z/kudos-live-report.json",
+        "selected_config": "misc.false_plurals.kudos only"
+      },
+      "source_fingerprint": "04c5fc2399da9300a7edf41746261fe11a31f93c065d010f973c5c5e51540d69"
     }
   ],
   "last_strict_gate": {

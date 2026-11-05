@@ -1185,6 +1185,204 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "kudos_positive_context",
+      "capability_id": "rule.misc.false_plurals.kudos",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Positive phrase in ordinary context; the pinned CLI returns the rule diagnostic. Sources: checks/misc/false_plurals.py:check_kudos; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "SSBnaXZlIHlvdSBtYW55IGt1ZG9zLg==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJmYWxzZV9wbHVyYWxzIjp7Imt1ZG9zIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_false_plurals_kudos_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "kudos_case_variants_order",
+      "capability_id": "rule.misc.false_plurals.kudos",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Uppercase, title-case, and lowercase occurrences exercise case-insensitive matching and ordering. Sources: checks/misc/false_plurals.py:check_kudos; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "TUFOWSBLVURPUzsgTWFueSBLdWRvczsgbWFueSBrdWRvcw==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJmYWxzZV9wbHVyYWxzIjp7Imt1ZG9zIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_false_plurals_kudos_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "kudos_boundary_negative",
+      "capability_id": "rule.misc.false_plurals.kudos",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Negative controls alter the literal space/hyphen sequence or replace many; the oracle reports no diagnostic. Sources: checks/misc/false_plurals.py:check_kudos; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "bWFueS1rdWRvczsgbWFueSAga3Vkb3M7IHNldmVyYWwga3Vkb3M=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJmYWxzZV9wbHVyYWxzIjp7Imt1ZG9zIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_false_plurals_kudos_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "kudos_quote_suppression",
+      "capability_id": "rule.misc.false_plurals.kudos",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Quoted phrase is suppressed because the registered check has allow_quotes=false. Sources: checks/misc/false_plurals.py:check_kudos; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "U2hlIHdyb3RlLCAnbWFueSBrdWRvcycu",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJmYWxzZV9wbHVyYWxzIjp7Imt1ZG9zIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_false_plurals_kudos_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "kudos_raw_substring",
+      "capability_id": "rule.misc.false_plurals.kudos",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Raw-substring positive shows the literal matches within larger tokens without word-boundary padding. Sources: checks/misc/false_plurals.py:check_kudos; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "c29tYW55IGt1ZG9zaXNo",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJmYWxzZV9wbHVyYWxzIjp7Imt1ZG9zIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_false_plurals_kudos_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "kudos_selected_config_interaction",
+      "capability_id": "rule.misc.false_plurals.kudos",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Selected-config interaction includes TODO as an unrelated annotation trigger; config enables only misc.false_plurals.kudos and output contains only that check. Sources: checks/misc/false_plurals.py:check_kudos; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "SSBnaXZlIHlvdSBtYW55IGt1ZG9zLCBUT0RPLg==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJmYWxzZV9wbHVyYWxzIjp7Imt1ZG9zIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_false_plurals_kudos_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

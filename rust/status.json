@@ -30,6 +30,10 @@
     {
       "id": "rule.misc.false_plurals.kudos",
       "status": "recorded"
+    },
+    {
+      "id": "rule.psychology.mental_telepathy",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -75,7 +79,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "rust_builder owns rust/src/** and rust/tests/** for rule.psychology.mental_telepathy"
+    "next_handoff": "oracle_engineer owns next bounded rule case specification"
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
@@ -84,7 +88,7 @@
     "combined enabled-rule configurations, Unicode case folding beyond tested ASCII variants, broader quote pairing, default config, and remaining rules are unverified",
     "Unicode case folding outside tested ASCII variants, quote-pairing combinations, combined enabled-rule config, default config, and remaining rules are unverified",
     "combined enabled-rule configurations, broader Unicode case folding/quote pairing, default configuration, and all unimplemented inventory rules remain unverified",
-    "rule.psychology.mental_telepathy is specified but not yet implemented or parity-verified"
+    "broader Unicode case folding, combined-rule config, default configuration, and most inventory rules remain unverified"
   ],
   "capability_states": [
     {
@@ -390,7 +394,7 @@
     },
     {
       "id": "rule.psychology.mental_telepathy",
-      "status": "specified",
+      "status": "recorded",
       "case_ids": [
         "mental_telepathy_positive_context",
         "mental_telepathy_case_variants_order",
@@ -399,21 +403,47 @@
         "mental_telepathy_raw_substring",
         "mental_telepathy_selected_config_interaction"
       ],
-      "upstream_spec": "literal `mental telepathy`, Fast case-insensitive, no exceptions or word-boundary padding.",
-      "oracle_live_probe": {
-        "passed_cases": 6,
-        "programmatic_self_comparison": "PASS",
-        "report": "rust/artifacts/mental-telepathy-live-20261105T031839Z/mental-telepathy-live-report.json",
-        "selected_config": "psychology.mental_telepathy only"
+      "red": {
+        "behavioral_failures": 6,
+        "total_tests": 6,
+        "exit_code": 101,
+        "cause": "CLI rejected selected psychology.mental_telepathy config"
       },
-      "source_fingerprint": "1a00c76fdb1626139a93e9a5ec4dc7f361fa38e9b0b43aaaac0a4d842f6490cd"
+      "green": {
+        "rust_tests_passed": 46,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 6,
+        "exit_code": 0,
+        "scope": "capability_only",
+        "report": "rust/artifacts/live-mental-telepathy-20261105.json"
+      },
+      "cumulative_live_parity": {
+        "passed_cases": 46,
+        "manifest_case_count": 48,
+        "harness_smoke_excluded": 2,
+        "exit_code": 0,
+        "report": "rust/artifacts/independent-mental-telepathy/cumulative-live-report.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-mental-telepathy/verification.json",
+        "frozen_source_fingerprint": "e8b977cf37707a3f1fba2abe2aac64cb4daf02dcd470526507823033bbbb2e30"
+      },
+      "limitations": [
+        "tested ASCII case variants only",
+        "selected rule config only"
+      ]
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-kudos-20261105.json",
-    "passed_cases": 40,
+    "report": "rust/artifacts/strict-gate-mental-telepathy-20261105.json",
+    "passed_cases": 46,
     "exit_code": 0,
-    "source_fingerprint": "ee6453dd5c1a1006f63fdf693cf58c956c6f67341fd679bf6805b4bf26386ebc"
+    "source_fingerprint": "4a66a365a9bb0ce5947bf73bd164e3af39af01821116d1b8b8eb9205203c88cf"
   }
 }

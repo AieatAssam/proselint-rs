@@ -9406,6 +9406,336 @@
         "exit_status": "exact"
       },
       "stdin_base64": "QSB2ZXJ5IGdvb2Qgc2VudGVuY2U6IG1vdGhlciBuYXR1cmUgaXMgcXVpZXQuIFRPRE8u"
+    },
+    {
+      "id": "lie_detector_both_preferred_forms",
+      "capability_id": "rule.psychology.lie_detector",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`→`polygraph test`, `lie detector machine`→`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector both preferred forms.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicHN5Y2hvbG9neSI6eyJsaWVfZGV0ZWN0b3IiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "psychology_lie_detector_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "bGllIGRldGVjdG9yIHRlc3Q7IGxpZSBkZXRlY3RvciBtYWNoaW5lLg=="
+    },
+    {
+      "id": "lie_detector_case_variants_replacements",
+      "capability_id": "rule.psychology.lie_detector",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`→`polygraph test`, `lie detector machine`→`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector case variants replacements.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicHN5Y2hvbG9neSI6eyJsaWVfZGV0ZWN0b3IiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "psychology_lie_detector_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "TElFIERFVEVDVE9SIFRFU1Q7IExpZSBEZXRlY3RvciBNYWNoaW5lLg=="
+    },
+    {
+      "id": "lie_detector_longer_word_boundary_negatives",
+      "capability_id": "rule.psychology.lie_detector",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`→`polygraph test`, `lie detector machine`→`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector longer word boundary negatives.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicHN5Y2hvbG9neSI6eyJsaWVfZGV0ZWN0b3IiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "psychology_lie_detector_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "eGxpZSBkZXRlY3RvciB0ZXN0OyBsaWUgZGV0ZWN0b3IgdGVzdHg7IGxpZSBkZXRlY3RvciBtYWNoaW5leDsgeGxpZSBkZXRlY3RvciBtYWNoaW5lLg=="
+    },
+    {
+      "id": "lie_detector_near_miss_phrases",
+      "capability_id": "rule.psychology.lie_detector",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`→`polygraph test`, `lie detector machine`→`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector near miss phrases.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicHN5Y2hvbG9neSI6eyJsaWVfZGV0ZWN0b3IiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "psychology_lie_detector_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "ZGV0ZWN0b3IgbGllIHRlc3Q7IGxpZSBkZXRlY3RvcnMgdGVzdDsgbGllIGRldGVjdG9yIG1hY2hpbmVzLg=="
+    },
+    {
+      "id": "lie_detector_punctuation_boundaries",
+      "capability_id": "rule.psychology.lie_detector",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`→`polygraph test`, `lie detector machine`→`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector punctuation boundaries.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicHN5Y2hvbG9neSI6eyJsaWVfZGV0ZWN0b3IiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "psychology_lie_detector_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "KGxpZSBkZXRlY3RvciB0ZXN0KSEgW2xpZSBkZXRlY3RvciBtYWNoaW5lXT8="
+    },
+    {
+      "id": "lie_detector_quote_suppression_with_unquoted",
+      "capability_id": "rule.psychology.lie_detector",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`→`polygraph test`, `lie detector machine`→`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector quote suppression with unquoted.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicHN5Y2hvbG9neSI6eyJsaWVfZGV0ZWN0b3IiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "psychology_lie_detector_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "UXVvdGVkICJsaWUgZGV0ZWN0b3IgdGVzdCIgYW5kICJsaWUgZGV0ZWN0b3IgbWFjaGluZSI7IG91dHNpZGUgbGllIGRldGVjdG9yIHRlc3QgYW5kIGxpZSBkZXRlY3RvciBtYWNoaW5lLg=="
+    },
+    {
+      "id": "lie_detector_repeated_mixed_source_order",
+      "capability_id": "rule.psychology.lie_detector",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`→`polygraph test`, `lie detector machine`→`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector repeated mixed source order.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicHN5Y2hvbG9neSI6eyJsaWVfZGV0ZWN0b3IiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "psychology_lie_detector_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "bGllIGRldGVjdG9yIG1hY2hpbmU7IGxpZSBkZXRlY3RvciB0ZXN0OyBsaWUgZGV0ZWN0b3IgbWFjaGluZTsgbGllIGRldGVjdG9yIHRlc3Qu"
+    },
+    {
+      "id": "lie_detector_unicode_codepoint_positions",
+      "capability_id": "rule.psychology.lie_detector",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`→`polygraph test`, `lie detector machine`→`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector unicode codepoint positions.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicHN5Y2hvbG9neSI6eyJsaWVfZGV0ZWN0b3IiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "psychology_lie_detector_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "w6kgYmVmb3JlIGxpZSBkZXRlY3RvciB0ZXN0OyBlzIEgYmVmb3JlIGxpZSBkZXRlY3RvciBtYWNoaW5lLg=="
+    },
+    {
+      "id": "lie_detector_selected_config_interaction",
+      "capability_id": "rule.psychology.lie_detector",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`→`polygraph test`, `lie detector machine`→`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector selected config interaction.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicHN5Y2hvbG9neSI6eyJsaWVfZGV0ZWN0b3IiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "psychology_lie_detector_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "QSB2ZXJ5IGdvb2Qgc2VudGVuY2U6IGxpZSBkZXRlY3RvciB0ZXN0LCBUT0RPLg=="
+    },
+    {
+      "id": "lie_detector_fastset_activation_raw_copy",
+      "capability_id": "rule.psychology.lie_detector",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple `lie detector test`→`polygraph test` and `lie detector machine`→`polygraph machine`; WORDS_IN_TEXT, Fast case-insensitive, default quote suppression, no exceptions/offsets; message `Polygraph machines measure arousal, not lying per se. Try '{}'.`; FastSet first activates on boundary-valid standalone phrase, then raw phrase regex emits embedded boundary-invalid copies too. Oracle-probed output contains 3 ordered `lie detector test` diagnostics for this input. Selected config enables only psychology.lie_detector.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicHN5Y2hvbG9neSI6eyJsaWVfZGV0ZWN0b3IiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "psychology_lie_detector_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "eGxpZSBkZXRlY3RvciB0ZXN0eDsgbGllIGRldGVjdG9yIHRlc3Q7IHhsaWUgZGV0ZWN0b3IgdGVzdHgu"
     }
   ]
 }

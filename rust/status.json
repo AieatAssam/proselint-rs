@@ -150,6 +150,10 @@
     {
       "id": "rule.misc.capitalization.terms",
       "status": "recorded"
+    },
+    {
+      "id": "rule.psychology.lie_detector",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -1923,12 +1927,68 @@
         "report": "rust/artifacts/strict-gate-capitalization-terms-final-20261105.json",
         "source_fingerprint": "0ef9a79b581c03393a02f2623f9874bef1fd68948d18d2912030f05d875b60d4"
       }
+    },
+    {
+      "id": "rule.psychology.lie_detector",
+      "status": "recorded",
+      "case_ids": [
+        "lie_detector_both_preferred_forms",
+        "lie_detector_case_variants_replacements",
+        "lie_detector_longer_word_boundary_negatives",
+        "lie_detector_near_miss_phrases",
+        "lie_detector_punctuation_boundaries",
+        "lie_detector_quote_suppression_with_unquoted",
+        "lie_detector_repeated_mixed_source_order",
+        "lie_detector_unicode_codepoint_positions",
+        "lie_detector_selected_config_interaction",
+        "lie_detector_fastset_activation_raw_copy"
+      ],
+      "upstream_spec": "Pinned `psychology.lie_detector` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `lie detector test` → `polygraph test` and `lie detector machine` → `polygraph machine`. Message `Polygraph machines measure arousal, not lying per se. Try '{}'.`; mapped phrase is replacement and interpolation; default quote suppression; no exceptions or offsets.",
+      "red": {
+        "behavioral_failures": 9,
+        "total_tests": 9,
+        "exit_code": 101,
+        "cause": "CLI rejected selected psychology.lie_detector config"
+      },
+      "post_green_regression_case": {
+        "case_id": "lie_detector_fastset_activation_raw_copy",
+        "reason": "Pinned FastSet activates on a boundary-valid occurrence and raw finditer returns additional embedded matches for the activated pattern",
+        "oracle_findings": 3,
+        "rust_focused_test_passed": true
+      },
+      "green": {
+        "rust_tests_passed": 284,
+        "focused_tests_passed": 10,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 10,
+        "exit_code": 0,
+        "report": "rust/artifacts/psychology-lie-detector-live-rust-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-lie-detector/live-report.json",
+        "frozen_source_fingerprint": "9b589195705201ae1d84af162a80b5c0467b21e7fb3bc8d2e81bf7066df6a42a"
+      },
+      "limitations": [
+        "selected psychology.lie_detector config only",
+        "default and combined-check behavior remain unverified"
+      ],
+      "cumulative_live_parity": {
+        "passed_cases": 293,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-psychology-lie-detector-final-20261105.json",
+        "source_fingerprint": "b361610843c8ed26e47c8f6856e1a2e81f133e97c25daf5f3b83d4c26ae0f68d"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-capitalization-terms-final-20261105.json",
-    "passed_cases": 283,
+    "report": "rust/artifacts/strict-gate-psychology-lie-detector-final-20261105.json",
+    "passed_cases": 293,
     "exit_code": 0
   },
   "rust_dependencies": {

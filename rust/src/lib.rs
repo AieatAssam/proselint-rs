@@ -127,6 +127,12 @@ const CAPITALIZATION_TERMS: [(&str, &str); 4] = [
     ("the American west", "the American West"),
 ];
 const CAPITALIZATION_TERMS_MESSAGE: &str = "Incorrect capitalization. '{}' is the preferred form.";
+const LIE_DETECTOR_FORMS: [(&str, &str); 2] = [
+    ("lie detector test", "polygraph test"),
+    ("lie detector machine", "polygraph machine"),
+];
+const LIE_DETECTOR_MESSAGE: &str =
+    "Polygraph machines measure arousal, not lying per se. Try '{}'.";
 const INSTITUTION_NAME_PATTERN: &str = "Virginia Polytechnic and State University";
 const INSTITUTION_NAME_REPLACEMENT: &str = "Virginia Polytechnic Institute and State University";
 const PROFESSIONS: [(&str, &str); 2] = [("shoe repair guy", "cobbler"), ("geometrist", "geometer")];
@@ -1978,6 +1984,73 @@ pub fn capitalization_terms_diagnostics(text: &str) -> Vec<Value> {
                 json!({
                     "check_path": "misc.capitalization.terms",
                     "message": CAPITALIZATION_TERMS_MESSAGE.replace("{}", replacement),
+                    "span": [span_start, span_end],
+                    "pos": [line, column],
+                    "replacements": replacement,
+                }),
+            ));
+        }
+    }
+
+    diagnostics.sort_unstable_by_key(|(start, _)| *start);
+    diagnostics
+        .into_iter()
+        .map(|(_, diagnostic)| diagnostic)
+        .collect()
+}
+
+/// Return diagnostics for the pinned `psychology.lie_detector` preferred forms.
+/// Word boundaries use Unicode alphanumeric characters and underscore, as
+/// required by the upstream behavior for this rule.
+pub fn lie_detector_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut diagnostics = Vec::new();
+
+    for (pattern, replacement) in LIE_DETECTOR_FORMS {
+        let pattern_len = pattern.len();
+        let activated = padded.char_indices().any(|(start, _)| {
+            let end = start.saturating_add(pattern_len);
+            let Some(candidate) = padded.get(start..end) else {
+                return false;
+            };
+            let before_is_word = padded[..start]
+                .chars()
+                .next_back()
+                .is_some_and(is_unicode_word);
+            let after_is_word = padded[end..].chars().next().is_some_and(is_unicode_word);
+            candidate.eq_ignore_ascii_case(pattern) && !before_is_word && !after_is_word
+        });
+        if !activated {
+            continue;
+        }
+
+        for (start, _) in padded.char_indices() {
+            let end = start.saturating_add(pattern_len);
+            let Some(matched) = padded.get(start..end) else {
+                continue;
+            };
+            if !matched.eq_ignore_ascii_case(pattern) {
+                continue;
+            }
+
+            let span_start = padded[..start].chars().count();
+            let span_end = span_start + matched.chars().count();
+            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+            if quote_index % 2 == 1 {
+                continue;
+            }
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            diagnostics.push((
+                span_start,
+                json!({
+                    "check_path": "psychology.lie_detector",
+                    "message": LIE_DETECTOR_MESSAGE.replace("{}", replacement),
                     "span": [span_start, span_end],
                     "pos": [line, column],
                     "replacements": replacement,

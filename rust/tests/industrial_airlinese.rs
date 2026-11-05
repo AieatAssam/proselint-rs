@@ -212,3 +212,14 @@ fn selected_config_excludes_unrelated_default_checks() {
         vec![diagnostic([23, 30], 23, "enplane")],
     );
 }
+
+#[test]
+fn unicode_casefold_regression_airlinese() {
+    assert_result(
+        "taKing off momentarily",
+        1,
+        vec![
+            json!({"check_path":"industrial_language.airlinese","message":"'taKing off momentarily' is airlinese.","pos":[1,1],"replacements":null,"span":[1,23]}),
+        ],
+    );
+}

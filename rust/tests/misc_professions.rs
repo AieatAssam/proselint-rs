@@ -139,3 +139,27 @@ fn selected_config_does_not_enable_annotations() {
         vec![diagnostic([3, 18], 3, "cobbler")],
     );
 }
+
+#[test]
+fn fastset_activation_preserves_embedded_raw_copy() {
+    assert_result(
+        "geometrist xgeometrist",
+        1,
+        vec![
+            diagnostic([1, 11], 1, "geometer"),
+            diagnostic([13, 23], 13, "geometer"),
+        ],
+    );
+}
+
+#[test]
+fn unicode_casefold_regression_professions() {
+    assert_result(
+        "ſhoe repair guy shoe repair guy",
+        1,
+        vec![
+            json!({"check_path":"misc.professions","message":"'None' is the name of that job.","pos":[1,1],"replacements":null,"span":[1,16]}),
+            json!({"check_path":"misc.professions","message":"'cobbler' is the name of that job.","pos":[1,17],"replacements":"cobbler","span":[17,32]}),
+        ],
+    );
+}

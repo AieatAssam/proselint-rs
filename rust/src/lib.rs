@@ -63,7 +63,6 @@ const ILLOGIC_COLLUSION_PATTERN: &str = "without your collusion";
 const ILLOGIC_COLLUSION_MESSAGE: &str = "It's impossible to defraud yourself. Try 'aquiescence'.";
 const BACK_FORMATIONS_PATTERN: &str = "improprietous";
 const BACK_FORMATIONS_REPLACEMENT: &str = "improper";
-const BACK_FORMATIONS_MESSAGE: &str = "Back-formation. 'improper' is the preferred form.";
 const GREYLIST_TERMS: [(&str, &str); 2] = [
     ("obviously", "This is obviously an inadvisable word to use."),
     (
@@ -152,7 +151,7 @@ pub fn file_uri(path: &Path) -> Result<String, std::io::Error> {
     let bytes = absolute.to_string_lossy();
     let mut uri = String::from("file://");
     for byte in bytes.as_bytes() {
-        if byte.is_ascii_alphanumeric() || b"/-._~:".contains(byte) {
+        if byte.is_ascii_alphanumeric() || b"/-._~".contains(byte) {
             uri.push(char::from(*byte));
         } else {
             use std::fmt::Write as _;
@@ -179,6 +178,14 @@ pub fn json_result(source: &str, diagnostics: Vec<Value>) -> Value {
 /// Return annotation diagnostics using the pinned check's case-sensitive,
 /// ASCII word-boundary and quote-suppression behavior.
 pub fn annotation_diagnostics(text: &str) -> Vec<Value> {
+    let mut diagnostics = annotation_diagnostics_in_matcher_order(text);
+    diagnostics.sort_by_key(|diagnostic| diagnostic["span"][0].as_u64().unwrap_or_default());
+    diagnostics
+}
+
+/// Return annotation diagnostics in upstream matcher registration order,
+/// before the final source-coordinate sort used by `annotation_diagnostics`.
+pub fn annotation_diagnostics_in_matcher_order(text: &str) -> Vec<Value> {
     if text.is_empty() {
         return Vec::new();
     }
@@ -188,12 +195,24 @@ pub fn annotation_diagnostics(text: &str) -> Vec<Value> {
     let line_bounds = splitlines_bounds(&padded);
     let mut spans = Vec::new();
 
-    for item in ANNOTATIONS {
+    let mut annotation_patterns = ANNOTATIONS
+        .iter()
+        .map(|item| {
+            let first_end = padded
+                .match_indices(item)
+                .filter_map(|(start, m)| {
+                    let end = start + m.len();
+                    (!is_ascii_word_before(&padded, start) && !is_ascii_word_at(&padded, end))
+                        .then_some(end)
+                })
+                .min();
+            (*item, first_end)
+        })
+        .filter(|(_, first_end)| first_end.is_some())
+        .collect::<Vec<_>>();
+    annotation_patterns.sort_by_key(|(_, first_end)| *first_end);
+    for (item, _) in annotation_patterns {
         for (start, matched) in padded.match_indices(item) {
-            let end = start + matched.len();
-            if is_ascii_word_before(&padded, start) || is_ascii_word_at(&padded, end) {
-                continue;
-            }
             let span_start = padded[..start].chars().count();
             let span_end = span_start + matched.chars().count();
             let position = line_col_of(span_start, &line_bounds);
@@ -205,9 +224,6 @@ pub fn annotation_diagnostics(text: &str) -> Vec<Value> {
         }
     }
 
-    // LintFile sorts results by line and column; this check has a single line
-    // coordinate in its current acceptance slice, so source order is equivalent.
-    spans.sort_unstable();
     spans
         .into_iter()
         .map(|(start, end, (line, column))| {
@@ -236,18 +252,13 @@ pub fn cliches_hell_diagnostics(text: &str) -> Vec<Value> {
     let quote_bounds = paired_quote_bounds(&padded);
     let line_bounds = splitlines_bounds(&padded);
     let mut diagnostics = Vec::new();
-    let pattern_len = CLICHE_HELL_PATTERN.len();
-
     for (start, _) in padded.char_indices() {
-        let Some(candidate) = padded.get(start..start.saturating_add(pattern_len)) else {
+        let Some(end) = unicode_case_match_end(&padded, start, CLICHE_HELL_PATTERN) else {
             continue;
         };
-        if !candidate.eq_ignore_ascii_case(CLICHE_HELL_PATTERN) {
-            continue;
-        }
 
         let span_start = padded[..start].chars().count();
-        let span_end = span_start + CLICHE_HELL_PATTERN.chars().count();
+        let span_end = span_start + padded[start..end].chars().count();
         let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
         if quote_index % 2 == 1 {
             continue;
@@ -278,18 +289,13 @@ pub fn apologizing_diagnostics(text: &str) -> Vec<Value> {
     let quote_bounds = paired_quote_bounds(&padded);
     let line_bounds = splitlines_bounds(&padded);
     let mut diagnostics = Vec::new();
-    let pattern_len = APOLOGIZING_PATTERN.len();
-
     for (start, _) in padded.char_indices() {
-        let Some(candidate) = padded.get(start..start.saturating_add(pattern_len)) else {
+        let Some(end) = unicode_case_match_end(&padded, start, APOLOGIZING_PATTERN) else {
             continue;
         };
-        if !candidate.eq_ignore_ascii_case(APOLOGIZING_PATTERN) {
-            continue;
-        }
 
         let span_start = padded[..start].chars().count();
-        let span_end = span_start + APOLOGIZING_PATTERN.chars().count();
+        let span_end = span_start + padded[start..end].chars().count();
         let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
         if quote_index % 2 == 1 {
             continue;
@@ -382,7 +388,6 @@ pub fn suddenly_diagnostics(text: &str) -> Vec<Value> {
         ));
     }
 
-    matches.sort_unstable_by_key(|(start, _)| *start);
     matches
         .into_iter()
         .map(|(_, diagnostic)| diagnostic)
@@ -605,17 +610,18 @@ pub fn debased_diagnostics(text: &str) -> Vec<Value> {
     let mut matches = Vec::new();
 
     for item in DEBASED_ITEMS {
-        let active = lowered.match_indices(item).any(|(start, _)| {
-            let end = start + item.len();
-            !is_ascii_word_before(&lowered, start) && !is_ascii_word_at(&lowered, end)
-        });
+        let active = unicode_case_match_ends(&lowered, item)
+            .iter()
+            .any(|(start, end)| {
+                !is_ascii_word_before(&lowered, *start) && !is_ascii_word_at(&lowered, *end)
+            });
         if !active {
             continue;
         }
 
-        for (start, _) in lowered.match_indices(item) {
+        for (start, end) in unicode_case_match_ends(&lowered, item) {
             let span_start = padded[..start].chars().count();
-            let span_end = span_start + item.chars().count();
+            let span_end = span_start + lowered[start..end].chars().count();
             let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
             if quote_index % 2 == 1 {
                 continue;
@@ -670,13 +676,12 @@ pub fn currency_diagnostics(text: &str) -> Vec<Value> {
             suffix_start += 1;
         }
 
-        let suffix = [b"dollars".as_slice(), b"usd", b"us dollars"]
+        let suffix = ["dollars", "usd", "us dollars"]
             .into_iter()
-            .find(|suffix| bytes.get(suffix_start..suffix_start + suffix.len()) == Some(*suffix));
-        let Some(suffix) = suffix else {
+            .find_map(|suffix| unicode_case_match_end(&lowered, suffix_start, suffix));
+        let Some(end) = suffix else {
             continue;
         };
-        let end = suffix_start + suffix.len();
         if is_ascii_word_at(&lowered, end) {
             continue;
         }
@@ -723,15 +728,29 @@ pub fn inferior_superior_diagnostics(text: &str) -> Vec<Value> {
     let line_bounds = splitlines_bounds(&padded);
     let mut matches = Vec::new();
 
-    for (pattern, replacement) in INFERIOR_SUPERIOR {
-        for (start, _) in lowered.match_indices(pattern) {
-            let end = start + pattern.len();
-            if is_ascii_word_before(&lowered, start) || is_ascii_word_at(&lowered, end) {
-                continue;
-            }
-
+    let mut patterns = INFERIOR_SUPERIOR
+        .iter()
+        .map(|(p, r)| (*p, *r))
+        .collect::<Vec<_>>();
+    patterns.sort_by_key(|(p, _)| {
+        unicode_case_match_ends(&lowered, p)
+            .iter()
+            .filter(|(s, e)| !is_ascii_word_before(&lowered, *s) && !is_ascii_word_at(&lowered, *e))
+            .map(|(_, e)| *e)
+            .min()
+    });
+    for (pattern, replacement) in patterns {
+        let active = unicode_case_match_ends(&lowered, pattern)
+            .iter()
+            .any(|(start, end)| {
+                !is_ascii_word_before(&lowered, *start) && !is_ascii_word_at(&lowered, *end)
+            });
+        if !active {
+            continue;
+        }
+        for (start, end) in unicode_case_match_ends(&lowered, pattern) {
             let span_start = padded[..start].chars().count();
-            let span_end = span_start + pattern.chars().count();
+            let span_end = span_start + lowered[start..end].chars().count();
             let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
             if quote_index % 2 == 1 {
                 continue;
@@ -741,10 +760,10 @@ pub fn inferior_superior_diagnostics(text: &str) -> Vec<Value> {
                 span_start,
                 json!({
                     "check_path": "misc.inferior_superior",
-                    "message": INFERIOR_SUPERIOR_MESSAGE.replace("{}", replacement),
+                    "message": INFERIOR_SUPERIOR_MESSAGE.replace("{}", preferred_lookup(&lowered[start..end], replacement).unwrap_or("None")),
                     "span": [span_start, span_end],
                     "pos": [line, column],
-                    "replacements": replacement,
+                    "replacements": preferred_lookup(&lowered[start..end], replacement),
                 }),
             ));
         }
@@ -770,18 +789,13 @@ pub fn false_plurals_kudos_diagnostics(text: &str) -> Vec<Value> {
     let quote_bounds = paired_quote_bounds(&padded);
     let line_bounds = splitlines_bounds(&padded);
     let mut diagnostics = Vec::new();
-    let pattern_len = KUDOS_PATTERN.len();
-
     for (start, _) in padded.char_indices() {
-        let Some(candidate) = padded.get(start..start.saturating_add(pattern_len)) else {
+        let Some(end) = unicode_case_match_end(&padded, start, KUDOS_PATTERN) else {
             continue;
         };
-        if !candidate.eq_ignore_ascii_case(KUDOS_PATTERN) {
-            continue;
-        }
 
         let span_start = padded[..start].chars().count();
-        let span_end = span_start + KUDOS_PATTERN.chars().count();
+        let span_end = span_start + padded[start..end].chars().count();
         let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
         if quote_index % 2 == 1 {
             continue;
@@ -803,6 +817,12 @@ pub fn false_plurals_kudos_diagnostics(text: &str) -> Vec<Value> {
 /// forms check. Matches use case-insensitive word padding, preserve the
 /// upstream table order for ties, and suppress occurrences inside quotes.
 pub fn false_plurals_misc_diagnostics(text: &str) -> Vec<Value> {
+    let mut diagnostics = false_plurals_misc_diagnostics_in_matcher_order(text);
+    diagnostics.sort_by_key(|diagnostic| diagnostic["span"][0].as_u64().unwrap_or_default());
+    diagnostics
+}
+
+pub fn false_plurals_misc_diagnostics_in_matcher_order(text: &str) -> Vec<Value> {
     if text.is_empty() {
         return Vec::new();
     }
@@ -813,16 +833,29 @@ pub fn false_plurals_misc_diagnostics(text: &str) -> Vec<Value> {
     let line_bounds = splitlines_bounds(&padded);
     let mut matches = Vec::new();
 
-    for (pattern, replacement) in FALSE_PLURALS_MISC {
-        let pattern_len = pattern.len();
-        for (start, _) in lowered.match_indices(pattern) {
-            let end = start + pattern_len;
-            if is_ascii_word_before(&lowered, start) || is_ascii_word_at(&lowered, end) {
-                continue;
-            }
-
+    let mut patterns = FALSE_PLURALS_MISC
+        .iter()
+        .map(|(p, r)| (*p, *r))
+        .collect::<Vec<_>>();
+    patterns.sort_by_key(|(pattern, _)| {
+        unicode_case_match_ends(&lowered, pattern)
+            .iter()
+            .filter(|(s, e)| !is_ascii_word_before(&lowered, *s) && !is_ascii_word_at(&lowered, *e))
+            .map(|(_, e)| *e)
+            .min()
+    });
+    for (pattern, replacement) in patterns {
+        let active = unicode_case_match_ends(&lowered, pattern)
+            .iter()
+            .any(|(start, end)| {
+                !is_ascii_word_before(&lowered, *start) && !is_ascii_word_at(&lowered, *end)
+            });
+        if !active {
+            continue;
+        }
+        for (start, end) in unicode_case_match_ends(&lowered, pattern) {
             let span_start = padded[..start].chars().count();
-            let span_end = span_start + pattern.chars().count();
+            let span_end = span_start + lowered[start..end].chars().count();
             let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
             if quote_index % 2 == 1 {
                 continue;
@@ -832,16 +865,15 @@ pub fn false_plurals_misc_diagnostics(text: &str) -> Vec<Value> {
                 span_start,
                 json!({
                     "check_path": "misc.false_plurals.misc",
-                    "message": format!("The correct plural is '{replacement}'."),
+                    "message": format!("The correct plural is '{}'.", if lowered[start..end].contains('ſ') { "None" } else { replacement }),
                     "span": [span_start, span_end],
                     "pos": [line, column],
-                    "replacements": replacement,
+                    "replacements": if lowered[start..end].contains('ſ') { Value::Null } else { json!(replacement) },
                 }),
             ));
         }
     }
 
-    matches.sort_unstable_by_key(|(start, _)| *start);
     matches
         .into_iter()
         .map(|(_, diagnostic)| diagnostic)
@@ -1156,18 +1188,9 @@ pub fn illogic_coin_diagnostics(text: &str) -> Vec<Value> {
     let quote_bounds = paired_quote_bounds(&padded);
     let line_bounds = splitlines_bounds(&padded);
     let mut diagnostics = Vec::new();
-    let pattern_len = ILLOGIC_COIN_PATTERN.len();
-
-    for (start, _) in padded.char_indices() {
-        let Some(candidate) = padded.get(start..start.saturating_add(pattern_len)) else {
-            continue;
-        };
-        if !candidate.eq_ignore_ascii_case(ILLOGIC_COIN_PATTERN) {
-            continue;
-        }
-
+    for (start, end) in unicode_case_match_ends(&padded, ILLOGIC_COIN_PATTERN) {
         let span_start = padded[..start].chars().count();
-        let span_end = span_start + ILLOGIC_COIN_PATTERN.chars().count();
+        let span_end = span_start + padded[start..end].chars().count();
         let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
         if quote_index % 2 == 1 {
             continue;
@@ -1198,18 +1221,9 @@ pub fn illogic_collusion_diagnostics(text: &str) -> Vec<Value> {
     let quote_bounds = paired_quote_bounds(&padded);
     let line_bounds = splitlines_bounds(&padded);
     let mut diagnostics = Vec::new();
-    let pattern_len = ILLOGIC_COLLUSION_PATTERN.len();
-
-    for (start, _) in padded.char_indices() {
-        let Some(candidate) = padded.get(start..start.saturating_add(pattern_len)) else {
-            continue;
-        };
-        if !candidate.eq_ignore_ascii_case(ILLOGIC_COLLUSION_PATTERN) {
-            continue;
-        }
-
+    for (start, end) in unicode_case_match_ends(&padded, ILLOGIC_COLLUSION_PATTERN) {
         let span_start = padded[..start].chars().count();
-        let span_end = span_start + ILLOGIC_COLLUSION_PATTERN.chars().count();
+        let span_end = span_start + padded[start..end].chars().count();
         let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
         if quote_index % 2 == 1 {
             continue;
@@ -1240,21 +1254,20 @@ pub fn back_formations_diagnostics(text: &str) -> Vec<Value> {
     let quote_bounds = paired_quote_bounds(&padded);
     let line_bounds = splitlines_bounds(&padded);
     let mut diagnostics = Vec::new();
-    let pattern_len = BACK_FORMATIONS_PATTERN.len();
+    let active = unicode_case_match_ends(&padded, BACK_FORMATIONS_PATTERN)
+        .iter()
+        .any(|(start, end)| {
+            !is_ascii_word_before(&padded, *start) && !is_ascii_word_at(&padded, *end)
+        });
+    if !active {
+        return diagnostics;
+    }
 
-    for (start, _) in padded.char_indices() {
-        let Some(candidate) = padded.get(start..start.saturating_add(pattern_len)) else {
-            continue;
-        };
-        if !candidate.eq_ignore_ascii_case(BACK_FORMATIONS_PATTERN)
-            || is_ascii_word_before(&padded, start)
-            || is_ascii_word_at(&padded, start + pattern_len)
-        {
-            continue;
-        }
+    for (start, end) in unicode_case_match_ends(&padded, BACK_FORMATIONS_PATTERN) {
+        let replacement = preferred_lookup(&padded[start..end], BACK_FORMATIONS_REPLACEMENT);
 
         let span_start = padded[..start].chars().count();
-        let span_end = span_start + BACK_FORMATIONS_PATTERN.chars().count();
+        let span_end = span_start + padded[start..end].chars().count();
         let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
         if quote_index % 2 == 1 {
             continue;
@@ -1262,10 +1275,10 @@ pub fn back_formations_diagnostics(text: &str) -> Vec<Value> {
         let (line, column) = line_col_of(span_start, &line_bounds);
         diagnostics.push(json!({
             "check_path": "misc.back_formations",
-            "message": BACK_FORMATIONS_MESSAGE,
+            "message": format!("Back-formation. '{}' is the preferred form.", replacement.unwrap_or("None")),
             "span": [span_start, span_end],
             "pos": [line, column],
-            "replacements": BACK_FORMATIONS_REPLACEMENT,
+            "replacements": replacement,
         }));
     }
 
@@ -1288,17 +1301,9 @@ pub fn greylist_diagnostics(text: &str) -> Vec<Value> {
     let mut matches = Vec::new();
 
     for (term, explanation) in GREYLIST_TERMS {
-        let term_len = term.len();
-        for (start, _) in padded.char_indices() {
-            let Some(candidate) = padded.get(start..start.saturating_add(term_len)) else {
-                continue;
-            };
-            if !candidate.eq_ignore_ascii_case(term) {
-                continue;
-            }
-
+        for (start, end) in unicode_case_match_ends(&padded, term) {
             let span_start = padded[..start].chars().count();
-            let span_end = span_start + term.chars().count();
+            let span_end = span_start + padded[start..end].chars().count();
             let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
             if quote_index % 2 == 1 {
                 continue;
@@ -1338,33 +1343,18 @@ pub fn bureaucratese_diagnostics(text: &str) -> Vec<Value> {
     let quote_bounds = paired_quote_bounds(&padded);
     let line_bounds = splitlines_bounds(&padded);
     let mut matches = Vec::new();
-    let prefix_len = BUREAUCRATESE_PREFIX.len();
-
     for (start, _) in padded.char_indices() {
-        let prefix_end = start.saturating_add(prefix_len);
-        let Some(prefix) = padded.get(start..prefix_end) else {
+        let Some(prefix_end) = unicode_case_match_end(&padded, start, BUREAUCRATESE_PREFIX) else {
             continue;
         };
-        if !prefix.eq_ignore_ascii_case(BUREAUCRATESE_PREFIX) {
-            continue;
-        }
-
-        let middle = if padded
-            .get(prefix_end..prefix_end.saturating_add(1))
-            .is_some_and(|suffix| suffix.eq_ignore_ascii_case("s"))
-        {
-            prefix_end + 1
+        let middle = if unicode_case_match_end(&padded, prefix_end, "s").is_some() {
+            unicode_case_match_end(&padded, prefix_end, "s").unwrap()
         } else {
             prefix_end
         };
-        let Some(suffix) = padded.get(middle..middle.saturating_add(BUREAUCRATESE_SUFFIX.len()))
-        else {
+        let Some(end) = unicode_case_match_end(&padded, middle, BUREAUCRATESE_SUFFIX) else {
             continue;
         };
-        if !suffix.eq_ignore_ascii_case(BUREAUCRATESE_SUFFIX) {
-            continue;
-        }
-        let end = middle + BUREAUCRATESE_SUFFIX.len();
         let matched = padded[start..end].to_owned();
         let span_start = padded[..start].chars().count();
         let span_end = span_start + padded[start..end].chars().count();
@@ -1409,28 +1399,18 @@ pub fn hedging_diagnostics(text: &str) -> Vec<Value> {
     let mut diagnostics = Vec::new();
 
     for pattern in HEDGING_PATTERNS {
-        let pattern_len = pattern.len();
-        let activated = padded.char_indices().any(|(start, _)| {
-            let end = start.saturating_add(pattern_len);
-            let Some(candidate) = padded.get(start..end) else {
-                return false;
-            };
-            candidate.eq_ignore_ascii_case(pattern)
-                && (is_ascii_word_before(&padded, start) != is_ascii_word_at(&padded, start))
-                && (is_ascii_word_before(&padded, end) != is_ascii_word_at(&padded, end))
-        });
+        let activated = unicode_case_match_ends(&padded, pattern)
+            .iter()
+            .any(|(start, end)| {
+                is_ascii_word_before(&padded, *start) != is_ascii_word_at(&padded, *start)
+                    && is_ascii_word_before(&padded, *end) != is_ascii_word_at(&padded, *end)
+            });
         if !activated {
             continue;
         }
 
-        for (start, _) in padded.char_indices() {
-            let end = start.saturating_add(pattern_len);
-            let Some(matched) = padded.get(start..end) else {
-                continue;
-            };
-            if !matched.eq_ignore_ascii_case(pattern) {
-                continue;
-            }
+        for (start, end) in unicode_case_match_ends(&padded, pattern) {
+            let matched = &padded[start..end];
 
             let span_start = padded[..start].chars().count();
             let span_end = span_start + matched.chars().count();
@@ -1475,28 +1455,17 @@ pub fn jargon_diagnostics(text: &str) -> Vec<Value> {
     let mut diagnostics = Vec::new();
 
     for pattern in JARGON_PATTERNS {
-        let pattern_len = pattern.len();
-        let activated = padded.char_indices().any(|(start, _)| {
-            let end = start.saturating_add(pattern_len);
-            let Some(candidate) = padded.get(start..end) else {
-                return false;
-            };
-            candidate.eq_ignore_ascii_case(pattern)
-                && !is_ascii_word_before(&padded, start)
-                && !is_ascii_word_at(&padded, end)
-        });
+        let activated = unicode_case_match_ends(&padded, pattern)
+            .iter()
+            .any(|(start, end)| {
+                !is_ascii_word_before(&padded, *start) && !is_ascii_word_at(&padded, *end)
+            });
         if !activated {
             continue;
         }
 
-        for (start, _) in padded.char_indices() {
-            let end = start.saturating_add(pattern_len);
-            let Some(matched) = padded.get(start..end) else {
-                continue;
-            };
-            if !matched.eq_ignore_ascii_case(pattern) {
-                continue;
-            }
+        for (start, end) in unicode_case_match_ends(&padded, pattern) {
+            let matched = &padded[start..end];
 
             let span_start = padded[..start].chars().count();
             let span_end = span_start + matched.chars().count();
@@ -1542,17 +1511,12 @@ pub fn airlinese_diagnostics(text: &str) -> Vec<Value> {
     let mut diagnostics = Vec::new();
 
     for prefix in AIRLINESE_PREFIXES {
-        let active = padded.char_indices().any(|(start, _)| {
-            AIRLINESE_SUFFIXES.iter().any(|suffix| {
-                let phrase_len = prefix.len() + suffix.len();
-                let end = start.saturating_add(phrase_len);
-                let Some(candidate) = padded.get(start..end) else {
-                    return false;
-                };
-                candidate.eq_ignore_ascii_case(&format!("{prefix}{suffix}"))
-                    && !is_ascii_word_before(&padded, start)
-                    && !is_ascii_word_at(&padded, end)
-            })
+        let active = AIRLINESE_SUFFIXES.iter().any(|suffix| {
+            unicode_case_match_ends(&padded, &format!("{prefix}{suffix}"))
+                .iter()
+                .any(|(start, end)| {
+                    !is_ascii_word_before(&padded, *start) && !is_ascii_word_at(&padded, *end)
+                })
         });
         if !active {
             continue;
@@ -1602,25 +1566,14 @@ pub fn airlinese_diagnostics(text: &str) -> Vec<Value> {
         }
     }
 
-    let phrase_len = AIRLINESE_PHRASE.len();
-    let phrase_active = padded.char_indices().any(|(start, _)| {
-        let end = start.saturating_add(phrase_len);
-        let Some(candidate) = padded.get(start..end) else {
-            return false;
-        };
-        candidate.eq_ignore_ascii_case(AIRLINESE_PHRASE)
-            && !is_ascii_word_before(&padded, start)
-            && !is_ascii_word_at(&padded, end)
-    });
+    let phrase_active = unicode_case_match_ends(&padded, AIRLINESE_PHRASE)
+        .iter()
+        .any(|(start, end)| {
+            !is_ascii_word_before(&padded, *start) && !is_ascii_word_at(&padded, *end)
+        });
     if phrase_active {
-        for (start, _) in padded.char_indices() {
-            let end = start.saturating_add(phrase_len);
-            let Some(matched) = padded.get(start..end) else {
-                continue;
-            };
-            if !matched.eq_ignore_ascii_case(AIRLINESE_PHRASE) {
-                continue;
-            }
+        for (start, end) in unicode_case_match_ends(&padded, AIRLINESE_PHRASE) {
+            let matched = &padded[start..end];
             let span_start = padded[..start].chars().count();
             let span_end = span_start + matched.chars().count();
             let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
@@ -1664,15 +1617,23 @@ pub fn many_a_diagnostics(text: &str) -> Vec<Value> {
 
     for (pattern, replacement) in MANY_A_FORMS {
         let pattern_len = pattern.len();
+        let active = padded.char_indices().any(|(start, _)| {
+            let Some(candidate) = padded.get(start..start.saturating_add(pattern_len)) else {
+                return false;
+            };
+            candidate.eq_ignore_ascii_case(pattern)
+                && !is_ascii_word_before(&padded, start)
+                && !is_ascii_word_at(&padded, start + pattern_len)
+        });
+        if !active {
+            continue;
+        }
         for (start, _) in padded.char_indices() {
             let end = start.saturating_add(pattern_len);
             let Some(candidate) = padded.get(start..end) else {
                 continue;
             };
-            if !candidate.eq_ignore_ascii_case(pattern)
-                || is_ascii_word_before(&padded, start)
-                || is_ascii_word_at(&padded, end)
-            {
+            if !candidate.eq_ignore_ascii_case(pattern) {
                 continue;
             }
 
@@ -1718,28 +1679,17 @@ pub fn metadiscourse_diagnostics(text: &str) -> Vec<Value> {
     let mut diagnostics = Vec::new();
 
     for pattern in METADISCOURSE_PATTERNS {
-        let pattern_len = pattern.len();
-        let activated = padded.char_indices().any(|(start, _)| {
-            let end = start.saturating_add(pattern_len);
-            let Some(candidate) = padded.get(start..end) else {
-                return false;
-            };
-            candidate.eq_ignore_ascii_case(pattern)
-                && !is_ascii_word_before(&padded, start)
-                && !is_ascii_word_at(&padded, end)
-        });
+        let activated = unicode_case_match_ends(&padded, pattern)
+            .iter()
+            .any(|(start, end)| {
+                !is_ascii_word_before(&padded, *start) && !is_ascii_word_at(&padded, *end)
+            });
         if !activated {
             continue;
         }
 
-        for (start, _) in padded.char_indices() {
-            let end = start.saturating_add(pattern_len);
-            let Some(matched) = padded.get(start..end) else {
-                continue;
-            };
-            if !matched.eq_ignore_ascii_case(pattern) {
-                continue;
-            }
+        for (start, end) in unicode_case_match_ends(&padded, pattern) {
+            let matched = &padded[start..end];
 
             let span_start = padded[..start].chars().count();
             let span_end = span_start + matched.chars().count();
@@ -1784,28 +1734,17 @@ pub fn pretension_diagnostics(text: &str) -> Vec<Value> {
     let mut diagnostics = Vec::new();
 
     for term in PRETENSION_TERMS {
-        let term_len = term.len();
-        let activated = padded.char_indices().any(|(start, _)| {
-            let end = start.saturating_add(term_len);
-            let Some(candidate) = padded.get(start..end) else {
-                return false;
-            };
-            candidate.eq_ignore_ascii_case(term)
-                && !is_ascii_word_before(&padded, start)
-                && !is_ascii_word_at(&padded, end)
-        });
+        let activated = unicode_case_match_ends(&padded, term)
+            .iter()
+            .any(|(start, end)| {
+                !is_ascii_word_before(&padded, *start) && !is_ascii_word_at(&padded, *end)
+            });
         if !activated {
             continue;
         }
 
-        for (start, _) in padded.char_indices() {
-            let end = start.saturating_add(term_len);
-            let Some(matched) = padded.get(start..end) else {
-                continue;
-            };
-            if !matched.eq_ignore_ascii_case(term) {
-                continue;
-            }
+        for (start, end) in unicode_case_match_ends(&padded, term) {
+            let matched = &padded[start..end];
 
             let span_start = padded[..start].chars().count();
             let span_end = span_start + matched.chars().count();
@@ -1849,28 +1788,18 @@ pub fn latin_diagnostics(text: &str) -> Vec<Value> {
     let mut diagnostics = Vec::new();
 
     for (pattern, replacement) in LATIN_FORMS {
-        let pattern_len = pattern.len();
-        let activated = padded.char_indices().any(|(start, _)| {
-            let end = start.saturating_add(pattern_len);
-            let Some(candidate) = padded.get(start..end) else {
-                return false;
-            };
-            candidate.eq_ignore_ascii_case(pattern)
-                && !is_ascii_word_before(&padded, start)
-                && !is_ascii_word_at(&padded, end)
-        });
+        let activated = unicode_case_match_ends(&padded, pattern)
+            .iter()
+            .any(|(start, end)| {
+                !is_ascii_word_before(&padded, *start) && !is_ascii_word_at(&padded, *end)
+            });
         if !activated {
             continue;
         }
 
-        for (start, _) in padded.char_indices() {
-            let end = start.saturating_add(pattern_len);
-            let Some(matched) = padded.get(start..end) else {
-                continue;
-            };
-            if !matched.eq_ignore_ascii_case(pattern) {
-                continue;
-            }
+        for (start, end) in unicode_case_match_ends(&padded, pattern) {
+            let matched = &padded[start..end];
+            let preferred = preferred_lookup(matched, replacement);
 
             let span_start = padded[..start].chars().count();
             let span_end = span_start + matched.chars().count();
@@ -1883,10 +1812,10 @@ pub fn latin_diagnostics(text: &str) -> Vec<Value> {
                 span_start,
                 json!({
                     "check_path": "misc.latin",
-                    "message": LATIN_MESSAGE.replace("{}", replacement),
+                    "message": LATIN_MESSAGE.replace("{}", preferred.unwrap_or("None")),
                     "span": [span_start, span_end],
                     "pos": [line, column],
-                    "replacements": replacement,
+                    "replacements": preferred,
                 }),
             ));
         }
@@ -1913,15 +1842,18 @@ pub fn capitalization_seasons_diagnostics(text: &str) -> Vec<Value> {
 
     for (pattern, replacement) in CAPITALIZATION_SEASONS {
         let pattern_len = pattern.len();
+        let active = padded.match_indices(pattern).any(|(start, _)| {
+            !is_ascii_word_before(&padded, start) && !is_ascii_word_at(&padded, start + pattern_len)
+        });
+        if !active {
+            continue;
+        }
         for (start, _) in padded.char_indices() {
             let end = start.saturating_add(pattern_len);
             let Some(matched) = padded.get(start..end) else {
                 continue;
             };
-            if matched != pattern
-                || is_ascii_word_before(&padded, start)
-                || is_ascii_word_at(&padded, end)
-            {
+            if matched != pattern {
                 continue;
             }
 
@@ -1965,15 +1897,18 @@ pub fn capitalization_terms_diagnostics(text: &str) -> Vec<Value> {
 
     for (pattern, replacement) in CAPITALIZATION_TERMS {
         let pattern_len = pattern.len();
+        let active = padded.match_indices(pattern).any(|(start, _)| {
+            !is_ascii_word_before(&padded, start) && !is_ascii_word_at(&padded, start + pattern_len)
+        });
+        if !active {
+            continue;
+        }
         for (start, _) in padded.char_indices() {
             let end = start.saturating_add(pattern_len);
             let Some(matched) = padded.get(start..end) else {
                 continue;
             };
-            if matched != pattern
-                || is_ascii_word_before(&padded, start)
-                || is_ascii_word_at(&padded, end)
-            {
+            if matched != pattern {
                 continue;
             }
 
@@ -2005,8 +1940,7 @@ pub fn capitalization_terms_diagnostics(text: &str) -> Vec<Value> {
 }
 
 /// Return diagnostics for the pinned `psychology.lie_detector` preferred forms.
-/// Word boundaries use Unicode alphanumeric characters and underscore, as
-/// required by the upstream behavior for this rule.
+/// Word boundaries use RE2's default ASCII word class.
 pub fn lie_detector_diagnostics(text: &str) -> Vec<Value> {
     if text.is_empty() {
         return Vec::new();
@@ -2018,31 +1952,18 @@ pub fn lie_detector_diagnostics(text: &str) -> Vec<Value> {
     let mut diagnostics = Vec::new();
 
     for (pattern, replacement) in LIE_DETECTOR_FORMS {
-        let pattern_len = pattern.len();
-        let activated = padded.char_indices().any(|(start, _)| {
-            let end = start.saturating_add(pattern_len);
-            let Some(candidate) = padded.get(start..end) else {
-                return false;
-            };
-            let before_is_word = padded[..start]
-                .chars()
-                .next_back()
-                .is_some_and(is_unicode_word);
-            let after_is_word = padded[end..].chars().next().is_some_and(is_unicode_word);
-            candidate.eq_ignore_ascii_case(pattern) && !before_is_word && !after_is_word
-        });
+        let activated = unicode_case_match_ends(&padded, pattern)
+            .iter()
+            .any(|(start, end)| {
+                !is_ascii_word_before(&padded, *start) && !is_ascii_word_at(&padded, *end)
+            });
         if !activated {
             continue;
         }
 
-        for (start, _) in padded.char_indices() {
-            let end = start.saturating_add(pattern_len);
-            let Some(matched) = padded.get(start..end) else {
-                continue;
-            };
-            if !matched.eq_ignore_ascii_case(pattern) {
-                continue;
-            }
+        for (start, end) in unicode_case_match_ends(&padded, pattern) {
+            let matched = &padded[start..end];
+            let preferred = preferred_lookup(matched, replacement);
 
             let span_start = padded[..start].chars().count();
             let span_end = span_start + matched.chars().count();
@@ -2055,10 +1976,10 @@ pub fn lie_detector_diagnostics(text: &str) -> Vec<Value> {
                 span_start,
                 json!({
                     "check_path": "psychology.lie_detector",
-                    "message": LIE_DETECTOR_MESSAGE.replace("{}", replacement),
+                    "message": LIE_DETECTOR_MESSAGE.replace("{}", preferred.unwrap_or("None")),
                     "span": [span_start, span_end],
                     "pos": [line, column],
-                    "replacements": replacement,
+                    "replacements": preferred,
                 }),
             ));
         }
@@ -2083,28 +2004,18 @@ pub fn wallace_diagnostics(text: &str) -> Vec<Value> {
     let mut diagnostics = Vec::new();
 
     for (pattern, replacement) in WALLACE_FORMS {
-        let pattern_len = pattern.len();
-        let activated = padded.char_indices().any(|(start, _)| {
-            let end = start.saturating_add(pattern_len);
-            let Some(candidate) = padded.get(start..end) else {
-                return false;
-            };
-            candidate.eq_ignore_ascii_case(pattern)
-                && !is_ascii_word_before(&padded, start)
-                && !is_ascii_word_at(&padded, end)
-        });
+        let activated = unicode_case_match_ends(&padded, pattern)
+            .iter()
+            .any(|(start, end)| {
+                !is_ascii_word_before(&padded, *start) && !is_ascii_word_at(&padded, *end)
+            });
         if !activated {
             continue;
         }
 
-        for (start, _) in padded.char_indices() {
-            let end = start.saturating_add(pattern_len);
-            let Some(matched) = padded.get(start..end) else {
-                continue;
-            };
-            if !matched.eq_ignore_ascii_case(pattern) {
-                continue;
-            }
+        for (start, end) in unicode_case_match_ends(&padded, pattern) {
+            let matched = &padded[start..end];
+            let preferred = preferred_lookup(matched, replacement);
 
             let span_start = padded[..start].chars().count();
             let span_end = span_start + matched.chars().count();
@@ -2118,11 +2029,11 @@ pub fn wallace_diagnostics(text: &str) -> Vec<Value> {
                 json!({
                     "check_path": "redundancy.misc.wallace",
                     "message": WALLACE_MESSAGE
-                        .replacen("{}", replacement, 1)
+                        .replacen("{}", preferred.unwrap_or("None"), 1)
                         .replacen("{}", matched, 1),
                     "span": [span_start, span_end],
                     "pos": [line, column],
-                    "replacements": replacement,
+                    "replacements": preferred,
                 }),
             ));
         }
@@ -2148,18 +2059,18 @@ pub fn institution_name_diagnostics(text: &str) -> Vec<Value> {
     let quote_bounds = paired_quote_bounds(&padded);
     let line_bounds = splitlines_bounds(&padded);
     let mut diagnostics = Vec::new();
-    let pattern_len = INSTITUTION_NAME_PATTERN.len();
+    let active = unicode_case_match_ends(&padded, INSTITUTION_NAME_PATTERN)
+        .iter()
+        .any(|(start, end)| {
+            !is_ascii_word_before(&padded, *start) && !is_ascii_word_at(&padded, *end)
+        });
+    if !active {
+        return diagnostics;
+    }
 
-    for (start, _) in padded.char_indices() {
-        let Some(matched) = padded.get(start..start.saturating_add(pattern_len)) else {
-            continue;
-        };
-        if !matched.eq_ignore_ascii_case(INSTITUTION_NAME_PATTERN)
-            || is_ascii_word_before(&padded, start)
-            || is_ascii_word_at(&padded, start + pattern_len)
-        {
-            continue;
-        }
+    for (start, end) in unicode_case_match_ends(&padded, INSTITUTION_NAME_PATTERN) {
+        let matched = &padded[start..end];
+        let preferred = preferred_lookup(matched, INSTITUTION_NAME_REPLACEMENT);
 
         let span_start = padded[..start].chars().count();
         let span_end = span_start + matched.chars().count();
@@ -2172,12 +2083,12 @@ pub fn institution_name_diagnostics(text: &str) -> Vec<Value> {
             "check_path": "misc.institution_name",
             "message": format!(
                 "Incorrect name. Use '{}' instead of '{}'.",
-                INSTITUTION_NAME_REPLACEMENT,
+                preferred.unwrap_or("None"),
                 matched
             ),
             "span": [span_start, span_end],
             "pos": [line, column],
-            "replacements": INSTITUTION_NAME_REPLACEMENT,
+            "replacements": preferred,
         }));
     }
 
@@ -2199,17 +2110,17 @@ pub fn professions_diagnostics(text: &str) -> Vec<Value> {
     let mut matches = Vec::new();
 
     for (pattern, replacement) in PROFESSIONS {
-        let pattern_len = pattern.len();
-        for (start, _) in padded.char_indices() {
-            let Some(matched) = padded.get(start..start.saturating_add(pattern_len)) else {
-                continue;
-            };
-            if !matched.eq_ignore_ascii_case(pattern)
-                || is_ascii_word_before(&padded, start)
-                || is_ascii_word_at(&padded, start + pattern_len)
-            {
-                continue;
-            }
+        let active = unicode_case_match_ends(&padded, pattern)
+            .iter()
+            .any(|(start, end)| {
+                !is_ascii_word_before(&padded, *start) && !is_ascii_word_at(&padded, *end)
+            });
+        if !active {
+            continue;
+        }
+        for (start, end) in unicode_case_match_ends(&padded, pattern) {
+            let matched = &padded[start..end];
+            let preferred = preferred_lookup(matched, replacement);
 
             let span_start = padded[..start].chars().count();
             let span_end = span_start + pattern.chars().count();
@@ -2222,10 +2133,10 @@ pub fn professions_diagnostics(text: &str) -> Vec<Value> {
                 span_start,
                 json!({
                     "check_path": "misc.professions",
-                    "message": format!("'{replacement}' is the name of that job."),
+                    "message": format!("'{}' is the name of that job.", preferred.unwrap_or("None")),
                     "span": [span_start, span_end],
                     "pos": [line, column],
-                    "replacements": replacement,
+                    "replacements": preferred,
                 }),
             ));
         }
@@ -2287,6 +2198,45 @@ fn is_ascii_word_at(text: &str, byte_index: usize) -> bool {
 
 fn is_ascii_word(byte: u8) -> bool {
     byte.is_ascii_alphanumeric() || byte == b'_'
+}
+
+fn unicode_case_match_end(text: &str, start: usize, pattern: &str) -> Option<usize> {
+    let target: Vec<char> = unicode_case_fold(pattern).chars().collect();
+    let mut folded = Vec::with_capacity(target.len());
+    let mut end = start;
+    for ch in text.get(start..)?.chars() {
+        folded.extend(unicode_case_fold(&ch.to_string()).chars());
+        end += ch.len_utf8();
+        if folded.len() >= target.len() {
+            return (folded == target).then_some(end);
+        }
+        if !target.starts_with(&folded) {
+            return None;
+        }
+    }
+    None
+}
+
+fn unicode_case_match_ends(text: &str, pattern: &str) -> Vec<(usize, usize)> {
+    text.char_indices()
+        .filter_map(|(start, _)| {
+            unicode_case_match_end(text, start, pattern).map(|end| (start, end))
+        })
+        .collect()
+}
+
+fn unicode_case_fold(text: &str) -> String {
+    text.chars()
+        .flat_map(|ch| match ch {
+            '\u{017f}' => vec!['s'], // LATIN SMALL LETTER LONG S
+            '\u{212a}' => vec!['k'], // KELVIN SIGN
+            _ => ch.to_lowercase().collect(),
+        })
+        .collect()
+}
+
+fn preferred_lookup(surface: &str, replacement: &'static str) -> Option<&'static str> {
+    (!surface.contains('ſ')).then_some(replacement)
 }
 
 fn paired_quote_bounds(text: &str) -> Vec<usize> {

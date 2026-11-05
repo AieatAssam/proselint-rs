@@ -151,3 +151,14 @@ fn selected_config_excludes_unrelated_default_checks() {
         vec![diagnostic([23, 47], 23)],
     );
 }
+
+#[test]
+fn unicode_casefold_regression_metadiscourse() {
+    assert_result(
+        "This chapter diſcusses",
+        1,
+        vec![
+            json!({"check_path":"misc.metadiscourse","message":"Excessive metadiscourse.","pos":[1,1],"replacements":null,"span":[1,23]}),
+        ],
+    );
+}

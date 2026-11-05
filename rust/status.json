@@ -181,8 +181,9 @@
     "status": "independently_verified",
     "source_fingerprint": "5817279dd9575a62a982da6d943fcbd26e8f31ff317b3626d71175afcdc6b38d",
     "unit_tests": {
-      "passed": 14,
-      "exit_code": 0
+      "passed": 22,
+      "exit_code": 0,
+      "evidence": "python3 -m unittest discover -s rust/harness/tests"
     },
     "comparator_discriminators": {
       "passed": 23,
@@ -191,9 +192,10 @@
     "live_oracle_self_check": {
       "passed_cases": 2,
       "exit_code": 0,
-      "scope": "harness_health_only"
+      "scope": "harness_health_only",
+      "evidence": "rust/artifacts/oracle-self-check-residual-regressions.json"
     },
-    "independent_evidence": "rust/artifacts/independent-harness-verification-final/verification.json"
+    "independent_evidence": "rust/artifacts/independent-review-fixes/final-gate-348.json"
   },
   "active_ownership": {
     "coordinator": [
@@ -2040,8 +2042,13 @@
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-wallace-final-with-inventory-20261105.json",
-    "passed_cases": 302,
+    "report": "rust/artifacts/independent-review-fixes/final-gate-348.json",
+    "passed_cases": 342,
+    "manifest_cases": 348,
+    "excluded_manifest_cases": {
+      "harness.oracle_smoke": 2,
+      "cli.config.per_file_checks": 4
+    },
     "exit_code": 0
   },
   "rust_dependencies": {
@@ -2054,6 +2061,12 @@
       "serde": "1.0.229",
       "serde_json": "1.0.154"
     },
-    "cargo_update_dry_run": "0 packages to update"
+    "cargo_update_dry_run": "0 packages to update",
+    "update_dry_run": {
+      "status": "current",
+      "packages_to_update": 0,
+      "command": "cargo update --manifest-path rust/Cargo.toml --dry-run",
+      "rust_version_constraint": "1.99"
+    }
   }
 }

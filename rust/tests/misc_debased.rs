@@ -199,3 +199,14 @@ fn selected_config_excludes_unrelated_default_checks() {
         vec![diagnostic([27, 52], 27)],
     );
 }
+
+#[test]
+fn unicode_casefold_regression_debased() {
+    assert_result(
+        "leaveſ much to be desired",
+        1,
+        vec![
+            json!({"check_path":"misc.debased","message":"Debased language is a continuous temptation.","pos":[1,1],"replacements":null,"span":[1,26]}),
+        ],
+    );
+}

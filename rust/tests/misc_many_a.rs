@@ -150,3 +150,15 @@ fn selected_rule_does_not_enable_other_default_checks() {
         vec![diagnostic([29, 39], 29, "is many a")],
     );
 }
+
+#[test]
+fn fastset_activation_preserves_embedded_raw_copy() {
+    assert_result(
+        "are many a xare many a",
+        1,
+        vec![
+            diagnostic([1, 11], 1, "is many a"),
+            diagnostic([13, 23], 13, "is many a"),
+        ],
+    );
+}

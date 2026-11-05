@@ -137,3 +137,14 @@ fn selected_config_does_not_enable_annotations() {
         vec![diagnostic([1, 22], 1)],
     );
 }
+
+#[test]
+fn unicode_casefold_regression_coin() {
+    assert_result(
+        "to coin a phraſe from",
+        1,
+        vec![
+            json!({"check_path":"misc.illogic.coin","message":"You can't coin an existing phrase. Did you mean 'borrow'?","pos":[1,1],"replacements":null,"span":[1,22]}),
+        ],
+    );
+}

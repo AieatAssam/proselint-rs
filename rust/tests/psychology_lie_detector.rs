@@ -171,3 +171,23 @@ fn fastset_activation_reports_raw_embedded_copies() {
         ],
     );
 }
+
+#[test]
+fn unicode_letter_boundary_matches_upstream_re2_behavior() {
+    assert_result(
+        "élie detector test",
+        1,
+        vec![diagnostic([2, 19], 2, "polygraph test")],
+    );
+}
+
+#[test]
+fn unicode_casefold_regression_lie_detector() {
+    assert_result(
+        "lie detector teſt",
+        1,
+        vec![
+            json!({"check_path":"psychology.lie_detector","message":"Polygraph machines measure arousal, not lying per se. Try 'None'.","pos":[1,1],"replacements":null,"span":[1,18]}),
+        ],
+    );
+}

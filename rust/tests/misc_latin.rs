@@ -166,3 +166,14 @@ fn selected_config_excludes_unrelated_default_checks() {
         vec![diagnostic([23, 38], 23, "other things being equal")],
     );
 }
+
+#[test]
+fn unicode_casefold_regression_latin() {
+    assert_result(
+        "mutatiſ mutandis",
+        1,
+        vec![
+            json!({"check_path":"misc.latin","message":"Use English. 'None' is the preferred form.","pos":[1,1],"replacements":null,"span":[1,17]}),
+        ],
+    );
+}

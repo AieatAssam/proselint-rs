@@ -131,3 +131,24 @@ fn selected_config_does_not_enable_annotations() {
         vec![diagnostic([4, 17], 4)],
     );
 }
+
+#[test]
+fn fastset_activation_preserves_embedded_raw_copy() {
+    assert_result(
+        "improprietous ximproprietous",
+        1,
+        vec![diagnostic([1, 14], 1), diagnostic([16, 29], 16)],
+    );
+}
+
+#[test]
+fn unicode_casefold_regression_back_formations() {
+    assert_result(
+        "improprietous improprietouſ",
+        1,
+        vec![
+            json!({"check_path":"misc.back_formations","message":"Back-formation. 'improper' is the preferred form.","pos":[1,1],"replacements":"improper","span":[1,14]}),
+            json!({"check_path":"misc.back_formations","message":"Back-formation. 'None' is the preferred form.","pos":[1,15],"replacements":null,"span":[15,28]}),
+        ],
+    );
+}

@@ -183,3 +183,14 @@ fn selected_config_excludes_other_default_rules() {
         ],
     );
 }
+
+#[test]
+fn unicode_casefold_regression_greylist() {
+    assert_result(
+        "obviouſly",
+        1,
+        vec![
+            json!({"check_path":"misc.greylist","message":"Use of 'obviously'. This is obviously an inadvisable word to use.","pos":[1,1],"replacements":null,"span":[1,10]}),
+        ],
+    );
+}

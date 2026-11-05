@@ -163,3 +163,14 @@ fn selected_config_excludes_unrelated_default_checks() {
         )],
     );
 }
+
+#[test]
+fn unicode_casefold_regression_wallace() {
+    assert_result(
+        "rectangular in ſhape",
+        1,
+        vec![
+            json!({"check_path":"redundancy.misc.wallace","message":"Redundancy. Use 'None' instead of 'rectangular in ſhape'.","pos":[1,1],"replacements":null,"span":[1,21]}),
+        ],
+    );
+}

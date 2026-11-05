@@ -201,3 +201,14 @@ fn valid_phrase_activation_emits_embedded_raw_copy() {
         ],
     );
 }
+
+#[test]
+fn unicode_casefold_regression_jargon() {
+    assert_result(
+        "diſincentivize",
+        1,
+        vec![
+            json!({"check_path":"industrial_language.jargon","message":"'diſincentivize' is jargon. Can you replace it with something more standard?","pos":[1,1],"replacements":null,"span":[1,15]}),
+        ],
+    );
+}

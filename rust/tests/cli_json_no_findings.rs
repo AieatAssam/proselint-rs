@@ -131,3 +131,133 @@ fn empty_file_with_unicode_and_spaces_emits_a_clean_json_result() {
         "source key: {source_uri}"
     );
 }
+
+#[test]
+fn colon_in_file_uri_is_percent_encoded() {
+    let workspace = Workspace::new();
+    fs::write(workspace.path().join("a:b.txt"), b"ordinary text").unwrap();
+    let output = run_check(&workspace, None, Some("a:b.txt"));
+    let value = assert_clean_json(&output);
+    let result = value["result"].as_object().unwrap();
+    let key = result.keys().next().unwrap();
+    assert!(key.ends_with("/a%3Ab.txt"), "source key: {key}");
+}
+
+#[test]
+fn missing_source_is_a_per_file_json_error_with_success_exit() {
+    let workspace = Workspace::new();
+    let output = run_check(&workspace, None, Some("absent.txt"));
+    assert_eq!(output.status.code(), Some(0), "stderr: {:?}", output.stderr);
+    assert!(
+        output.stderr.is_empty(),
+        "unexpected stderr: {:?}",
+        output.stderr
+    );
+    let value: serde_json::Value =
+        serde_json::from_slice(&output.stdout).expect("JSON per-file error");
+    let result = value["result"].as_object().expect("result object");
+    let (_, source_result) = result.iter().next().expect("one missing source entry");
+    assert_eq!(source_result["error"]["code"], -31998);
+    let expected_path = workspace.path().join("absent.txt");
+    assert_eq!(
+        source_result["error"]["message"],
+        format!(
+            "[Errno 2] No such file or directory: '{}'",
+            expected_path.display()
+        )
+    );
+}
+
+#[test]
+fn missing_parent_source_uses_absolute_path_in_per_file_json_error() {
+    let workspace = Workspace::new();
+    let output = run_check(&workspace, None, Some("absent-dir/absent.txt"));
+    assert_eq!(output.status.code(), Some(0), "stderr: {:?}", output.stderr);
+    assert!(
+        output.stderr.is_empty(),
+        "unexpected stderr: {:?}",
+        output.stderr
+    );
+    let value: serde_json::Value =
+        serde_json::from_slice(&output.stdout).expect("JSON per-file error");
+    let source_result = value["result"]
+        .as_object()
+        .unwrap()
+        .values()
+        .next()
+        .unwrap();
+    assert_eq!(source_result["error"]["code"], -31998);
+    let expected_path = workspace.path().join("absent-dir/absent.txt");
+    assert_eq!(
+        source_result["error"]["message"],
+        format!(
+            "[Errno 2] No such file or directory: '{}'",
+            expected_path.display()
+        )
+    );
+}
+
+#[test]
+fn invalid_config_is_a_structured_json_decode_error() {
+    let workspace = Workspace::new();
+    fs::write(workspace.path().join("malformed config.json"), b"{").unwrap();
+    let output = Command::new(env!("CARGO_BIN_EXE_proselint"))
+        .current_dir(workspace.path())
+        .args([
+            "check",
+            "--config",
+            "malformed config.json",
+            "--output-format",
+            "json",
+        ])
+        .stdin(Stdio::null())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .output()
+        .expect("run native CLI with malformed config");
+    assert_eq!(output.status.code(), Some(4));
+    assert!(
+        output.stderr.is_empty(),
+        "unexpected stderr: {:?}",
+        output.stderr
+    );
+    let value: serde_json::Value =
+        serde_json::from_slice(&output.stdout).expect("structured JSON error");
+    assert_eq!(value["error"]["code"], -31999);
+    assert_eq!(value["error"]["data"], "JSONDecodeError");
+    assert_eq!(
+        value["error"]["message"],
+        "Expecting property name enclosed in double quotes: line 1 column 2 (char 1)"
+    );
+}
+
+#[test]
+fn explicit_missing_config_is_a_structured_json_error() {
+    let workspace = Workspace::new();
+    let output = Command::new(env!("CARGO_BIN_EXE_proselint"))
+        .current_dir(workspace.path())
+        .args([
+            "check",
+            "--config",
+            "missing config.json",
+            "--output-format",
+            "json",
+        ])
+        .stdin(Stdio::null())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .output()
+        .expect("run native CLI with missing config");
+    assert_eq!(output.status.code(), Some(4));
+    assert!(
+        output.stderr.is_empty(),
+        "unexpected stderr: {:?}",
+        output.stderr
+    );
+    let value: serde_json::Value =
+        serde_json::from_slice(&output.stdout).expect("structured JSON error");
+    assert_eq!(
+        value,
+        serde_json::json!({"error": {"code": -31998, "message": "Configuration file 'missing config.json' could not be read."}})
+    );
+}

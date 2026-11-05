@@ -178,3 +178,27 @@ fn selected_config_excludes_unrelated_default_checks() {
         vec![diagnostic([17, 30], 17, "inferior to")],
     );
 }
+
+#[test]
+fn fastset_activation_preserves_embedded_raw_copy() {
+    assert_result(
+        "inferior than xinferior than",
+        1,
+        vec![
+            diagnostic([1, 14], 1, "inferior to"),
+            diagnostic([16, 29], 16, "inferior to"),
+        ],
+    );
+}
+
+#[test]
+fn unicode_casefold_regression_inferior_superior() {
+    assert_result(
+        "superior than ſuperior than",
+        1,
+        vec![
+            json!({"check_path":"misc.inferior_superior","message":"'Inferior' and 'superior' are not true comparatives. Use 'superior to'.","pos":[1,1],"replacements":"superior to","span":[1,14]}),
+            json!({"check_path":"misc.inferior_superior","message":"'Inferior' and 'superior' are not true comparatives. Use 'None'.","pos":[1,15],"replacements":null,"span":[15,28]}),
+        ],
+    );
+}

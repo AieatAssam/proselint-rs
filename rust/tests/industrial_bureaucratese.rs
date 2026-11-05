@@ -191,3 +191,14 @@ fn selected_config_excludes_unrelated_default_checks() {
         vec![diagnostic([19, 43], 19, "meets with your approval")],
     );
 }
+
+#[test]
+fn unicode_casefold_regression_bureaucratese() {
+    assert_result(
+        "meetſ with your approval",
+        1,
+        vec![
+            json!({"check_path":"industrial_language.bureaucratese","message":"'meetſ with your approval' is bureaucratese.","pos":[1,1],"replacements":null,"span":[1,25]}),
+        ],
+    );
+}

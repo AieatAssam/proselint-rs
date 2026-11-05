@@ -38,6 +38,10 @@ impl Drop for Workspace {
 
 fn run_check(input: &str) -> Output {
     let workspace = Workspace::new();
+    run_check_in(&workspace, input)
+}
+
+fn run_check_in(workspace: &Workspace, input: &str) -> Output {
     let mut child = Command::new(env!("CARGO_BIN_EXE_proselint"))
         .current_dir(workspace.path())
         .args([
@@ -145,5 +149,63 @@ fn selected_config_runs_annotation_without_default_weasel_rule() {
         "A very good sentence with TODO.",
         1,
         vec![diagnostic([27, 31], [1, 27])],
+    );
+}
+
+#[test]
+fn max_errors_one_truncates_repeated_annotation_diagnostics() {
+    let workspace = Workspace::new();
+    let config = r#"{"max_errors":1,"checks":{"annotations":{"misc":true}}}"#;
+    fs::write(workspace.path().join("selected config.json"), config).unwrap();
+    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint"))
+        .current_dir(workspace.path())
+        .args([
+            "check",
+            "--config",
+            "selected config.json",
+            "--output-format",
+            "json",
+        ])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .unwrap();
+    child.stdin.take().unwrap().write_all(b"TODO TODO").unwrap();
+    let out = child.wait_with_output().unwrap();
+    assert_eq!(out.status.code(), Some(1));
+    let actual: Value = serde_json::from_slice(&out.stdout).unwrap();
+    assert_eq!(
+        actual["result"]["<stdin>"]["diagnostics"]
+            .as_array()
+            .unwrap()
+            .len(),
+        1
+    );
+}
+
+#[test]
+fn fastset_activation_preserves_embedded_raw_copy() {
+    assert_result(
+        "TODO xTODO",
+        1,
+        vec![diagnostic([1, 5], [1, 1]), diagnostic([7, 11], [1, 7])],
+    );
+}
+
+#[test]
+fn max_errors_one_keeps_todo_before_fixme() {
+    let workspace = Workspace::new();
+    fs::write(
+        workspace.path().join("selected config.json"),
+        br#"{"max_errors":1,"checks":{"annotations":{"misc":true}}}"#,
+    )
+    .unwrap();
+    let output = run_check_in(&workspace, "TODO FIXME");
+    assert_eq!(output.status.code(), Some(1), "stderr: {:?}", output.stderr);
+    let actual: Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert_eq!(
+        actual,
+        json!({"result":{"<stdin>":{"diagnostics":[diagnostic([1,5],[1,1])]}}})
     );
 }

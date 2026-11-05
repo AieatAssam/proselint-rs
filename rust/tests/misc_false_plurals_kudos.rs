@@ -127,3 +127,8 @@ fn selected_config_does_not_enable_annotations() {
         vec![diagnostic([12, 22], 12)],
     );
 }
+
+#[test]
+fn case_insensitive_match_folds_kelvin_sign() {
+    assert_result("many Kudos", 1, vec![diagnostic([1, 11], 1)]);
+}

@@ -148,3 +148,26 @@ fn selected_config_does_not_enable_annotations() {
         vec![diagnostic([1, 42], 1, ORIGINAL)],
     );
 }
+
+#[test]
+fn fastset_activation_preserves_embedded_raw_copy() {
+    assert_result(
+        "Virginia Polytechnic and State University xVirginia Polytechnic and State University",
+        1,
+        vec![
+            diagnostic([1, 42], 1, ORIGINAL),
+            diagnostic([44, 85], 44, ORIGINAL),
+        ],
+    );
+}
+
+#[test]
+fn unicode_casefold_regression_institution_name() {
+    assert_result(
+        "Virginia Polytechnic and State Univerſity",
+        1,
+        vec![
+            json!({"check_path":"misc.institution_name","message":"Incorrect name. Use 'None' instead of 'Virginia Polytechnic and State Univerſity'.","pos":[1,1],"replacements":null,"span":[1,42]}),
+        ],
+    );
+}

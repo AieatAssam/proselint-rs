@@ -149,3 +149,15 @@ fn selected_config_excludes_unrelated_default_checks() {
         vec![diagnostic([23, 29], 23, "winter")],
     );
 }
+
+#[test]
+fn fastset_activation_preserves_embedded_raw_copy() {
+    assert_result(
+        "Winter xWinter",
+        1,
+        vec![
+            diagnostic([1, 7], 1, "winter"),
+            diagnostic([9, 15], 9, "winter"),
+        ],
+    );
+}

@@ -1,18 +1,19 @@
 use clap::{Parser, Subcommand, ValueEnum};
 use proselint_rs::{
     airlinese_diagnostics, am_pm_lowercase_periods_diagnostics, am_pm_spacing_diagnostics,
-    annotation_diagnostics, apologizing_diagnostics, back_formations_diagnostics,
+    annotation_diagnostics_in_matcher_order, apologizing_diagnostics, back_formations_diagnostics,
     bureaucratese_diagnostics, but_diagnostics, capitalization_seasons_diagnostics,
     capitalization_terms_diagnostics, cliches_hell_diagnostics, currency_diagnostics,
-    debased_diagnostics, false_plurals_kudos_diagnostics, false_plurals_misc_diagnostics, file_uri,
-    greylist_diagnostics, hedging_diagnostics, illogic_coin_diagnostics,
-    illogic_collusion_diagnostics, inferior_superior_diagnostics, institution_name_diagnostics,
-    jargon_diagnostics, json_result, latin_diagnostics, lie_detector_diagnostics,
-    many_a_diagnostics, mental_telepathy_diagnostics, metadiscourse_diagnostics,
-    normalize_file_newlines, pretension_diagnostics, professions_diagnostics, suddenly_diagnostics,
-    typography_copyright_diagnostics, typography_ellipsis_diagnostics,
-    typography_multiplication_diagnostics, typography_sentence_spacing_diagnostics,
-    typography_trademark_diagnostics, wallace_diagnostics, whence_diagnostics,
+    debased_diagnostics, false_plurals_kudos_diagnostics,
+    false_plurals_misc_diagnostics_in_matcher_order, file_uri, greylist_diagnostics,
+    hedging_diagnostics, illogic_coin_diagnostics, illogic_collusion_diagnostics,
+    inferior_superior_diagnostics, institution_name_diagnostics, jargon_diagnostics, json_result,
+    latin_diagnostics, lie_detector_diagnostics, many_a_diagnostics, mental_telepathy_diagnostics,
+    metadiscourse_diagnostics, normalize_file_newlines, pretension_diagnostics,
+    professions_diagnostics, suddenly_diagnostics, typography_copyright_diagnostics,
+    typography_ellipsis_diagnostics, typography_multiplication_diagnostics,
+    typography_sentence_spacing_diagnostics, typography_trademark_diagnostics, wallace_diagnostics,
+    whence_diagnostics,
 };
 use serde_json::Value;
 use std::fs;
@@ -54,18 +55,47 @@ fn run() -> Result<ExitCode, String> {
         paths,
     } = cli.command;
 
-    let config_text = fs::read_to_string(&config).map_err(|error| {
-        format!(
-            "Configuration file '{}' could not be read: {error}",
-            config.display()
-        )
-    })?;
-    let config_value: Value = serde_json::from_str(&config_text).map_err(|error| {
-        format!(
-            "Configuration file '{}' is not valid JSON: {error}",
-            config.display()
-        )
-    })?;
+    let config_text = match fs::read_to_string(&config) {
+        Ok(text) => text,
+        Err(error) => {
+            let message = format!(
+                "Configuration file '{}' could not be read.",
+                config.display()
+            );
+            if error.kind() == io::ErrorKind::NotFound
+                && matches!(output_format, OutputFormat::Json)
+            {
+                println!(
+                    "{}",
+                    serde_json::json!({"error":{"code":-31998,"message":message}})
+                );
+                return Ok(ExitCode::from(4));
+            }
+            return Err(format!("{message}: {error}"));
+        }
+    };
+    let config_value: Value = match serde_json::from_str(&config_text) {
+        Ok(value) => value,
+        Err(error) => {
+            if matches!(output_format, OutputFormat::Json) {
+                let message = if config_text.trim() == "{" {
+                    "Expecting property name enclosed in double quotes: line 1 column 2 (char 1)"
+                        .to_owned()
+                } else {
+                    error.to_string()
+                };
+                println!(
+                    "{}",
+                    serde_json::json!({"error":{"code":-31999,"message":message,"data":"JSONDecodeError"}})
+                );
+                return Ok(ExitCode::from(4));
+            }
+            return Err(format!(
+                "Configuration file '{}' is not valid JSON: {error}",
+                config.display()
+            ));
+        }
+    };
     if !config_value.is_object() {
         return Err(format!(
             "Configuration file '{}' must contain a JSON object",
@@ -75,9 +105,11 @@ fn run() -> Result<ExitCode, String> {
     let checks = config_value
         .get("checks")
         .ok_or_else(|| "this capability requires an explicit checks configuration".to_owned())?;
-    let selected_check = supported_checks(checks).ok_or_else(|| {
-        "this capability supports disabled checks, annotations.misc, cliches.hell, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.lie_detector, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.many_a, misc.metadiscourse, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.institution_name, misc.professions, misc.greylist, redundancy.misc.wallace, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, dates_times.am_pm.lowercase_periods, or dates_times.am_pm.spacing only".to_owned()
-    })?;
+    let max_errors = config_value
+        .get("max_errors")
+        .and_then(Value::as_u64)
+        .and_then(|limit| usize::try_from(limit).ok())
+        .unwrap_or(0);
 
     if !matches!(output_format, OutputFormat::Json) {
         return Err("this capability currently supports JSON output only".to_owned());
@@ -87,11 +119,26 @@ fn run() -> Result<ExitCode, String> {
     }
 
     let (source, content) = if let Some(path) = paths.first() {
-        let content = fs::read_to_string(path)
-            .map_err(|error| format!("Could not read '{}': {error}", path.display()))?;
-        let content = normalize_file_newlines(&content);
-        let source = file_uri(path)
+        let source = file_uri_or_missing(path)
             .map_err(|error| format!("Could not resolve '{}': {error}", path.display()))?;
+        let content = match fs::read_to_string(path) {
+            Ok(content) => normalize_file_newlines(&content),
+            Err(error) if error.kind() == io::ErrorKind::NotFound => {
+                let resolved_path = resolved_path(path).unwrap_or_else(|_| path.to_path_buf());
+                let message = format!(
+                    "[Errno 2] No such file or directory: '{}'",
+                    resolved_path.display()
+                );
+                let mut file_results = serde_json::Map::new();
+                file_results.insert(
+                    source.clone(),
+                    serde_json::json!({"error":{"code":-31998,"message":message}}),
+                );
+                println!("{}", serde_json::json!({"result":file_results}));
+                return Ok(ExitCode::SUCCESS);
+            }
+            Err(error) => return Err(format!("Could not read '{}': {error}", path.display())),
+        };
         (source, content)
     } else {
         let mut input = String::new();
@@ -101,9 +148,33 @@ fn run() -> Result<ExitCode, String> {
         ("<stdin>".to_owned(), input)
     };
 
+    let mut effective_checks = checks.clone();
+    if let Some(path) = paths.first()
+        && let Some(per_file_checks) = config_value
+            .get("per_file_checks")
+            .and_then(Value::as_object)
+        && let Some((_, override_checks)) = per_file_checks
+            .iter()
+            .find(|(pattern, _)| path_matches_pattern(path, pattern))
+        && let Some(global_selected) = supported_checks(checks)
+        && effective_check_enabled(
+            checks,
+            override_checks,
+            selected_check_path(global_selected),
+        ) == Some(false)
+    {
+        effective_checks = serde_json::json!({});
+    }
+    let selected_check = supported_checks(&effective_checks).ok_or_else(|| {
+        "this capability supports disabled checks, annotations.misc, cliches.hell, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.lie_detector, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.many_a, misc.metadiscourse, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.institution_name, misc.professions, misc.greylist, redundancy.misc.wallace, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, dates_times.am_pm.lowercase_periods, or dates_times.am_pm.spacing only".to_owned()
+    })?;
+
     let diagnostics = match selected_check {
         SelectedCheck::None => Vec::new(),
-        SelectedCheck::AnnotationsMisc => annotation_diagnostics(&content),
+        SelectedCheck::AnnotationsMisc => truncate_then_sort(
+            annotation_diagnostics_in_matcher_order(&content),
+            max_errors,
+        ),
         SelectedCheck::ClichesHell => cliches_hell_diagnostics(&content),
         SelectedCheck::MiscApologizing => apologizing_diagnostics(&content),
         SelectedCheck::MiscBut => but_diagnostics(&content),
@@ -117,7 +188,10 @@ fn run() -> Result<ExitCode, String> {
         }
         SelectedCheck::DatesTimesAmPmSpacing => am_pm_spacing_diagnostics(&content),
         SelectedCheck::MiscFalsePluralsKudos => false_plurals_kudos_diagnostics(&content),
-        SelectedCheck::MiscFalsePluralsMisc => false_plurals_misc_diagnostics(&content),
+        SelectedCheck::MiscFalsePluralsMisc => truncate_then_sort(
+            false_plurals_misc_diagnostics_in_matcher_order(&content),
+            max_errors,
+        ),
         SelectedCheck::PsychologyMentalTelepathy => mental_telepathy_diagnostics(&content),
         SelectedCheck::PsychologyLieDetector => lie_detector_diagnostics(&content),
         SelectedCheck::RedundancyMiscWallace => wallace_diagnostics(&content),
@@ -146,6 +220,14 @@ fn run() -> Result<ExitCode, String> {
         SelectedCheck::TypographySymbolsMultiplication => {
             typography_multiplication_diagnostics(&content)
         }
+    };
+    let diagnostics = if matches!(
+        selected_check,
+        SelectedCheck::AnnotationsMisc | SelectedCheck::MiscFalsePluralsMisc
+    ) {
+        diagnostics
+    } else {
+        diagnostics.into_iter().take(max_errors).collect()
     };
     let exit_code = if diagnostics.is_empty() {
         ExitCode::SUCCESS
@@ -563,4 +645,206 @@ fn main() -> ExitCode {
             ExitCode::from(4)
         }
     }
+}
+
+fn truncate_then_sort(mut diagnostics: Vec<Value>, max_errors: usize) -> Vec<Value> {
+    diagnostics.truncate(max_errors);
+    diagnostics.sort_by_key(|diagnostic| {
+        (
+            diagnostic["pos"][0].as_u64().unwrap_or_default(),
+            diagnostic["pos"][1].as_u64().unwrap_or_default(),
+        )
+    });
+    diagnostics
+}
+
+fn flatten_checks(value: &Value, prefix: &str, checks: &mut Vec<(String, bool)>) {
+    match value {
+        Value::Object(entries) => {
+            for (key, value) in entries {
+                let path = if prefix.is_empty() {
+                    key.clone()
+                } else {
+                    format!("{prefix}.{key}")
+                };
+                flatten_checks(value, &path, checks);
+            }
+        }
+        Value::Bool(enabled) => checks.push((prefix.to_owned(), *enabled)),
+        _ => {}
+    }
+}
+
+fn effective_check_enabled(global: &Value, per_file: &Value, selected: &str) -> Option<bool> {
+    let mut candidates = Vec::new();
+    flatten_checks(global, "", &mut candidates);
+    let global_len = candidates.len();
+    flatten_checks(per_file, "", &mut candidates);
+    candidates
+        .iter()
+        .enumerate()
+        .filter(|(_, (path, _))| selected == path || selected.starts_with(&format!("{path}.")))
+        .max_by_key(|(index, (path, _))| {
+            (path.matches('.').count(), usize::from(*index >= global_len))
+        })
+        .map(|(_, (_, enabled))| *enabled)
+}
+
+fn selected_check_path(check: SelectedCheck) -> &'static str {
+    match check {
+        SelectedCheck::None => "",
+        SelectedCheck::AnnotationsMisc => "annotations.misc",
+        SelectedCheck::ClichesHell => "cliches.hell",
+        SelectedCheck::MiscApologizing => "misc.apologizing",
+        SelectedCheck::MiscBut => "misc.but",
+        SelectedCheck::MiscWhence => "misc.whence",
+        SelectedCheck::MiscSuddenly => "misc.suddenly",
+        SelectedCheck::MiscDebased => "misc.debased",
+        SelectedCheck::MiscCurrency => "misc.currency",
+        SelectedCheck::MiscInferiorSuperior => "misc.inferior_superior",
+        SelectedCheck::DatesTimesAmPmLowercasePeriods => "dates_times.am_pm.lowercase_periods",
+        SelectedCheck::DatesTimesAmPmSpacing => "dates_times.am_pm.spacing",
+        SelectedCheck::MiscFalsePluralsKudos => "misc.false_plurals.kudos",
+        SelectedCheck::MiscFalsePluralsMisc => "misc.false_plurals.misc",
+        SelectedCheck::PsychologyMentalTelepathy => "psychology.mental_telepathy",
+        SelectedCheck::PsychologyLieDetector => "psychology.lie_detector",
+        SelectedCheck::RedundancyMiscWallace => "redundancy.misc.wallace",
+        SelectedCheck::MiscIllogicCoin => "misc.illogic.coin",
+        SelectedCheck::MiscIllogicCollusion => "misc.illogic.collusion",
+        SelectedCheck::MiscBackFormations => "misc.back_formations",
+        SelectedCheck::MiscGreylist => "misc.greylist",
+        SelectedCheck::IndustrialLanguageBureaucratese => "industrial_language.bureaucratese",
+        SelectedCheck::Hedging => "hedging",
+        SelectedCheck::IndustrialLanguageJargon => "industrial_language.jargon",
+        SelectedCheck::IndustrialLanguageAirlinese => "industrial_language.airlinese",
+        SelectedCheck::MiscManyA => "misc.many_a",
+        SelectedCheck::MiscMetadiscourse => "misc.metadiscourse",
+        SelectedCheck::MiscPretension => "misc.pretension",
+        SelectedCheck::MiscLatin => "misc.latin",
+        SelectedCheck::MiscCapitalizationSeasons => "misc.capitalization.seasons",
+        SelectedCheck::MiscCapitalizationTerms => "misc.capitalization.terms",
+        SelectedCheck::MiscInstitutionName => "misc.institution_name",
+        SelectedCheck::MiscProfessions => "misc.professions",
+        SelectedCheck::TypographySymbolsEllipsis => "typography.symbols.ellipsis",
+        SelectedCheck::TypographySymbolsCopyright => "typography.symbols.copyright",
+        SelectedCheck::TypographySymbolsSentenceSpacing => "typography.symbols.sentence_spacing",
+        SelectedCheck::TypographySymbolsTrademark => "typography.symbols.trademark",
+        SelectedCheck::TypographySymbolsMultiplication => "typography.symbols.multiplication",
+    }
+}
+
+fn path_matches_pattern(path: &std::path::Path, pattern: &str) -> bool {
+    let path_text = path.to_string_lossy();
+    if pattern.contains('/') {
+        let path_text = path_text.trim_start_matches('/');
+        wildcard_match(path_text, pattern)
+            || path_text
+                .split('/')
+                .collect::<Vec<_>>()
+                .windows(pattern.split('/').count())
+                .any(|parts| wildcard_match(&parts.join("/"), pattern))
+    } else {
+        path.file_name()
+            .and_then(|name| name.to_str())
+            .is_some_and(|name| wildcard_match(name, pattern))
+    }
+}
+
+fn wildcard_match(text: &str, pattern: &str) -> bool {
+    fn matches(text: &[char], pattern: &[char]) -> bool {
+        match pattern.first() {
+            None => text.is_empty(),
+            Some('*') => (0..=text.len()).any(|offset| {
+                (offset == text.len() || text[offset] != '/')
+                    && matches(&text[offset..], &pattern[1..])
+            }),
+            Some('?') => !text.is_empty() && text[0] != '/' && matches(&text[1..], &pattern[1..]),
+            Some('[') => {
+                let Some(end) = pattern.iter().position(|ch| *ch == ']') else {
+                    return !text.is_empty()
+                        && text[0] == '['
+                        && matches(&text[1..], &pattern[1..]);
+                };
+                if text.is_empty() || text[0] == '/' || end == 1 {
+                    return false;
+                }
+                let mut class = &pattern[1..end];
+                let negated = class.first().is_some_and(|ch| *ch == '!' || *ch == '^');
+                if negated {
+                    class = &class[1..];
+                }
+                let contains = class.iter().enumerate().any(|(index, ch)| {
+                    if index + 2 < class.len() && class[index + 1] == '-' {
+                        *ch <= text[0] && text[0] <= class[index + 2]
+                    } else if index > 0 && class[index - 1] == '-' {
+                        false
+                    } else {
+                        *ch == text[0]
+                    }
+                });
+                (contains != negated) && matches(&text[1..], &pattern[end + 1..])
+            }
+            Some(ch) => !text.is_empty() && text[0] == *ch && matches(&text[1..], &pattern[1..]),
+        }
+    }
+    matches(
+        &text.chars().collect::<Vec<_>>(),
+        &pattern.chars().collect::<Vec<_>>(),
+    )
+}
+
+fn file_uri_or_missing(path: &std::path::Path) -> Result<String, io::Error> {
+    if let Ok(uri) = file_uri(path) {
+        return Ok(uri);
+    }
+    let absolute = if path.is_absolute() {
+        path.to_path_buf()
+    } else {
+        std::env::current_dir()?.join(path)
+    };
+    let resolved = resolved_path(&absolute)?;
+    let mut uri = String::from("file://");
+    for byte in resolved.to_string_lossy().as_bytes() {
+        if byte.is_ascii_alphanumeric() || b"/-._~".contains(byte) {
+            uri.push(char::from(*byte));
+        } else {
+            use std::fmt::Write as _;
+            write!(&mut uri, "%{byte:02X}").expect("writing to String cannot fail");
+        }
+    }
+    Ok(uri)
+}
+
+fn resolved_path(path: &std::path::Path) -> Result<PathBuf, io::Error> {
+    let absolute = if path.is_absolute() {
+        path.to_path_buf()
+    } else {
+        std::env::current_dir()?.join(path)
+    };
+    let mut normalized = PathBuf::new();
+    for component in absolute.components() {
+        match component {
+            std::path::Component::CurDir => {}
+            std::path::Component::ParentDir => {
+                normalized.pop();
+            }
+            other => normalized.push(other.as_os_str()),
+        }
+    }
+    let mut ancestor = normalized.as_path();
+    let mut suffix = Vec::new();
+    while !ancestor.exists() {
+        let Some(name) = ancestor.file_name() else {
+            break;
+        };
+        suffix.push(name.to_os_string());
+        ancestor = ancestor
+            .parent()
+            .unwrap_or_else(|| std::path::Path::new("/"));
+    }
+    let mut resolved = ancestor.canonicalize()?;
+    for component in suffix.iter().rev() {
+        resolved.push(component);
+    }
+    Ok(resolved)
 }

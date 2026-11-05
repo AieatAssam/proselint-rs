@@ -131,3 +131,8 @@ fn selected_config_does_not_enable_annotations() {
         vec![diagnostic([1, 24], 1)],
     );
 }
+
+#[test]
+fn case_insensitive_match_folds_long_s() {
+    assert_result("More reſearch is needed", 1, vec![diagnostic([1, 24], 1)]);
+}

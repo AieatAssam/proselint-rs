@@ -37,6 +37,10 @@ impl Drop for Workspace {
 
 fn run_check(input: &str) -> Output {
     let workspace = Workspace::new();
+    run_check_in(&workspace, input)
+}
+
+fn run_check_in(workspace: &Workspace, input: &str) -> Output {
     let mut child = Command::new(env!("CARGO_BIN_EXE_proselint"))
         .current_dir(workspace.path())
         .args([
@@ -137,5 +141,49 @@ fn selected_config_does_not_enable_annotations() {
         "There were several phenomenons, TODO.",
         1,
         vec![diagnostic([20, 31], 20, "phenomena")],
+    );
+}
+
+#[test]
+fn fastset_activation_preserves_embedded_raw_copy() {
+    assert_result(
+        "talismen xtalismen",
+        1,
+        vec![
+            diagnostic([1, 9], 1, "talismans"),
+            diagnostic([11, 19], 11, "talismans"),
+        ],
+    );
+}
+
+#[test]
+fn long_s_match_keeps_upstream_null_replacement_lookup() {
+    assert_result(
+        "taliſmen",
+        1,
+        vec![json!({
+            "check_path": "misc.false_plurals.misc",
+            "message": "The correct plural is 'None'.",
+            "pos": [1, 1],
+            "replacements": null,
+            "span": [1, 9],
+        })],
+    );
+}
+
+#[test]
+fn max_errors_two_keeps_talismen_source_order() {
+    let workspace = Workspace::new();
+    std::fs::write(
+        workspace.path().join("selected config.json"),
+        br#"{"max_errors":2,"checks":{"misc":{"false_plurals":{"misc":true}}}}"#,
+    )
+    .unwrap();
+    let output = run_check_in(&workspace, "talismen phenomenons talismen");
+    assert_eq!(output.status.code(), Some(1), "stderr: {:?}", output.stderr);
+    let actual: Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert_eq!(
+        actual,
+        json!({"result":{"<stdin>":{"diagnostics":[diagnostic([1,9],1,"talismans"),diagnostic([22,30],22,"talismans")]}}})
     );
 }

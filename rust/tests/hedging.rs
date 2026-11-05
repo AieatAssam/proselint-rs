@@ -198,3 +198,15 @@ fn valid_comma_phrase_activation_emits_embedded_raw_copy() {
         vec![diagnostic([5, 18], 5), diagnostic([21, 34], 21)],
     );
 }
+
+#[test]
+fn unicode_casefold_regression_hedging() {
+    assert_result(
+        "x, so to speak x, ſo to speak",
+        1,
+        vec![
+            json!({"check_path":"hedging","message":"Hedging. Just say it.","pos":[1,2],"replacements":null,"span":[2,15]}),
+            json!({"check_path":"hedging","message":"Hedging. Just say it.","pos":[1,17],"replacements":null,"span":[17,30]}),
+        ],
+    );
+}

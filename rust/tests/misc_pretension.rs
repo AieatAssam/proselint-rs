@@ -158,3 +158,14 @@ fn selected_config_excludes_unrelated_default_checks() {
         vec![diagnostic([23, 38], 23, "reconceptualize")],
     );
 }
+
+#[test]
+fn unicode_casefold_regression_pretension() {
+    assert_result(
+        "demaſsification",
+        1,
+        vec![
+            json!({"check_path":"misc.pretension","message":"Jargon words like 'demaſsification' are the hallmarks of a pretentious ass.","pos":[1,1],"replacements":null,"span":[1,16]}),
+        ],
+    );
+}

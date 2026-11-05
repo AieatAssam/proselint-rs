@@ -206,3 +206,14 @@ fn selected_config_excludes_unrelated_default_checks() {
         vec![diagnostic([22, 33], 22, "$10 dollars")],
     );
 }
+
+#[test]
+fn unicode_casefold_regression_currency() {
+    assert_result(
+        "$1 uſd",
+        1,
+        vec![
+            json!({"check_path":"misc.currency","message":"Incorrect use of symbols in $1 uſd.","pos":[1,1],"replacements":null,"span":[1,7]}),
+        ],
+    );
+}

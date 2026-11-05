@@ -135,3 +135,8 @@ fn selected_config_does_not_enable_the_annotation_rule() {
         vec![diagnostic([1, 21], 1)],
     );
 }
+
+#[test]
+fn unicode_casefold_window_handles_kelvin_sign() {
+    assert_result("all hell broKe loose", 1, vec![diagnostic([1, 21], 1)]);
+}

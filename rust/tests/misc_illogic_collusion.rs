@@ -139,3 +139,14 @@ fn selected_config_does_not_enable_annotations() {
         vec![diagnostic([1, 23], 1)],
     );
 }
+
+#[test]
+fn unicode_casefold_regression_collusion() {
+    assert_result(
+        "without your colluſion",
+        1,
+        vec![
+            json!({"check_path":"misc.illogic.collusion","message":"It's impossible to defraud yourself. Try 'aquiescence'.","pos":[1,1],"replacements":null,"span":[1,23]}),
+        ],
+    );
+}

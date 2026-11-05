@@ -24,6 +24,12 @@ const DEBASED_ITEMS: [&str; 4] = [
 ];
 const DEBASED_MESSAGE: &str = "Debased language is a continuous temptation.";
 const CURRENCY_MESSAGE_PREFIX: &str = "Incorrect use of symbols in ";
+const INFERIOR_SUPERIOR: [(&str, &str); 2] = [
+    ("inferior than", "inferior to"),
+    ("superior than", "superior to"),
+];
+const INFERIOR_SUPERIOR_MESSAGE: &str =
+    "'Inferior' and 'superior' are not true comparatives. Use '{}'.";
 const KUDOS_PATTERN: &str = "many kudos";
 const KUDOS_MESSAGE: &str = "Kudos is singular.";
 const FALSE_PLURALS_MISC: [(&str, &str); 2] =
@@ -619,6 +625,55 @@ pub fn currency_diagnostics(text: &str) -> Vec<Value> {
                 "replacements": null,
             }),
         ));
+    }
+
+    matches.sort_unstable_by_key(|(start, _)| *start);
+    matches
+        .into_iter()
+        .map(|(_, diagnostic)| diagnostic)
+        .collect()
+}
+
+/// Return diagnostics for the pinned `misc.inferior_superior` preferred-form
+/// check. It matches the two case-insensitive phrases with ASCII word
+/// boundaries, reports each original span, and supplies the mapped preferred
+/// phrase as both the replacement and the message interpolation.
+pub fn inferior_superior_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let lowered = padded.to_ascii_lowercase();
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut matches = Vec::new();
+
+    for (pattern, replacement) in INFERIOR_SUPERIOR {
+        for (start, _) in lowered.match_indices(pattern) {
+            let end = start + pattern.len();
+            if is_ascii_word_before(&lowered, start) || is_ascii_word_at(&lowered, end) {
+                continue;
+            }
+
+            let span_start = padded[..start].chars().count();
+            let span_end = span_start + pattern.chars().count();
+            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+            if quote_index % 2 == 1 {
+                continue;
+            }
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            matches.push((
+                span_start,
+                json!({
+                    "check_path": "misc.inferior_superior",
+                    "message": INFERIOR_SUPERIOR_MESSAGE.replace("{}", replacement),
+                    "span": [span_start, span_end],
+                    "pos": [line, column],
+                    "replacements": replacement,
+                }),
+            ));
+        }
     }
 
     matches.sort_unstable_by_key(|(start, _)| *start);

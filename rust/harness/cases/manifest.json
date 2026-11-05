@@ -5677,6 +5677,336 @@
         "exit_status": "exact"
       },
       "stdin_base64": "QSB2ZXJ5IGdvb2QgcHJpY2UgaXMgJDEwIGRvbGxhcnMgYW5kIFRPRE8u"
+    },
+    {
+      "id": "inferior_superior_inferior_form",
+      "capability_id": "rule.misc.inferior_superior",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.inferior_superior; upstream module proselint/checks/misc/inferior_superior.py; PreferredFormsSimple items {\"inferior than\":\"inferior to\", \"superior than\":\"superior to\"} with WORDS_IN_TEXT padding; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, offset [0,0], ppm_threshold=0; message template \"'Inferior' and 'superior' are not true comparatives. Use '{}'.\" interpolates the corresponding replacement; selected config enables only misc.inferior_superior. Case purpose: Detects inferior than and returns its preferred form and formatted message.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbmZlcmlvcl9zdXBlcmlvciI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_inferior_superior_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "QSBpcyBpbmZlcmlvciB0aGFuIEIu"
+    },
+    {
+      "id": "inferior_superior_superior_form",
+      "capability_id": "rule.misc.inferior_superior",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.inferior_superior; upstream module proselint/checks/misc/inferior_superior.py; PreferredFormsSimple items {\"inferior than\":\"inferior to\", \"superior than\":\"superior to\"} with WORDS_IN_TEXT padding; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, offset [0,0], ppm_threshold=0; message template \"'Inferior' and 'superior' are not true comparatives. Use '{}'.\" interpolates the corresponding replacement; selected config enables only misc.inferior_superior. Case purpose: Detects superior than and returns its preferred form and formatted message.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbmZlcmlvcl9zdXBlcmlvciI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_inferior_superior_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "QSBpcyBzdXBlcmlvciB0aGFuIEIu"
+    },
+    {
+      "id": "inferior_superior_case_variants_order",
+      "capability_id": "rule.misc.inferior_superior",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.inferior_superior; upstream module proselint/checks/misc/inferior_superior.py; PreferredFormsSimple items {\"inferior than\":\"inferior to\", \"superior than\":\"superior to\"} with WORDS_IN_TEXT padding; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, offset [0,0], ppm_threshold=0; message template \"'Inferior' and 'superior' are not true comparatives. Use '{}'.\" interpolates the corresponding replacement; selected config enables only misc.inferior_superior. Case purpose: Case-insensitive variants in reverse item order confirm replacements, message interpolation, and source order.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbmZlcmlvcl9zdXBlcmlvciI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_inferior_superior_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "U1VQRVJJT1IgVEhBTjsgU3VwZXJpb3IgVGhhbjsgSU5GRVJJT1IgVEhBTjsgSW5mZXJpb3IgVGhhbi4="
+    },
+    {
+      "id": "inferior_superior_correct_forms_clean",
+      "capability_id": "rule.misc.inferior_superior",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.inferior_superior; upstream module proselint/checks/misc/inferior_superior.py; PreferredFormsSimple items {\"inferior than\":\"inferior to\", \"superior than\":\"superior to\"} with WORDS_IN_TEXT padding; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, offset [0,0], ppm_threshold=0; message template \"'Inferior' and 'superior' are not true comparatives. Use '{}'.\" interpolates the corresponding replacement; selected config enables only misc.inferior_superior. Case purpose: Both preferred forms are clean.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbmZlcmlvcl9zdXBlcmlvciI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_inferior_superior_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "aW5mZXJpb3IgdG87IHN1cGVyaW9yIHRvLg=="
+    },
+    {
+      "id": "inferior_superior_embedded_word_boundary_negatives",
+      "capability_id": "rule.misc.inferior_superior",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.inferior_superior; upstream module proselint/checks/misc/inferior_superior.py; PreferredFormsSimple items {\"inferior than\":\"inferior to\", \"superior than\":\"superior to\"} with WORDS_IN_TEXT padding; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, offset [0,0], ppm_threshold=0; message template \"'Inferior' and 'superior' are not true comparatives. Use '{}'.\" interpolates the corresponding replacement; selected config enables only misc.inferior_superior. Case purpose: Each incorrect phrase is present only with word characters immediately adjacent, so padding rejects it.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbmZlcmlvcl9zdXBlcmlvciI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_inferior_superior_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "eGluZmVyaW9yIHRoYW47IGluZmVyaW9yIHRoYW54OyBfc3VwZXJpb3IgdGhhbjsgc3VwZXJpb3IgdGhhbl8="
+    },
+    {
+      "id": "inferior_superior_punctuation_boundaries",
+      "capability_id": "rule.misc.inferior_superior",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.inferior_superior; upstream module proselint/checks/misc/inferior_superior.py; PreferredFormsSimple items {\"inferior than\":\"inferior to\", \"superior than\":\"superior to\"} with WORDS_IN_TEXT padding; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, offset [0,0], ppm_threshold=0; message template \"'Inferior' and 'superior' are not true comparatives. Use '{}'.\" interpolates the corresponding replacement; selected config enables only misc.inferior_superior. Case purpose: Punctuation permits both matches and reports exact spans and replacements.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbmZlcmlvcl9zdXBlcmlvciI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_inferior_superior_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "KGluZmVyaW9yIHRoYW4pISBbc3VwZXJpb3IgdGhhbl0/"
+    },
+    {
+      "id": "inferior_superior_quote_suppression",
+      "capability_id": "rule.misc.inferior_superior",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.inferior_superior; upstream module proselint/checks/misc/inferior_superior.py; PreferredFormsSimple items {\"inferior than\":\"inferior to\", \"superior than\":\"superior to\"} with WORDS_IN_TEXT padding; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, offset [0,0], ppm_threshold=0; message template \"'Inferior' and 'superior' are not true comparatives. Use '{}'.\" interpolates the corresponding replacement; selected config enables only misc.inferior_superior. Case purpose: The occurrence is inside paired quotes and is suppressed.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbmZlcmlvcl9zdXBlcmlvciI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_inferior_superior_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "U2hlIHNhaWQgImluZmVyaW9yIHRoYW4iIGFuZCBsZWZ0Lg=="
+    },
+    {
+      "id": "inferior_superior_reverse_source_order",
+      "capability_id": "rule.misc.inferior_superior",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.inferior_superior; upstream module proselint/checks/misc/inferior_superior.py; PreferredFormsSimple items {\"inferior than\":\"inferior to\", \"superior than\":\"superior to\"} with WORDS_IN_TEXT padding; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, offset [0,0], ppm_threshold=0; message template \"'Inferior' and 'superior' are not true comparatives. Use '{}'.\" interpolates the corresponding replacement; selected config enables only misc.inferior_superior. Case purpose: Opposite source order preserves location order and each phrase gets its corresponding replacement.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbmZlcmlvcl9zdXBlcmlvciI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_inferior_superior_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "c3VwZXJpb3IgdGhhbiBjb21lcyBmaXJzdDsgdGhlbiBpbmZlcmlvciB0aGFuLg=="
+    },
+    {
+      "id": "inferior_superior_unicode_codepoint_positions",
+      "capability_id": "rule.misc.inferior_superior",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.inferior_superior; upstream module proselint/checks/misc/inferior_superior.py; PreferredFormsSimple items {\"inferior than\":\"inferior to\", \"superior than\":\"superior to\"} with WORDS_IN_TEXT padding; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, offset [0,0], ppm_threshold=0; message template \"'Inferior' and 'superior' are not true comparatives. Use '{}'.\" interpolates the corresponding replacement; selected config enables only misc.inferior_superior. Case purpose: Unicode prefix confirms code-point coordinates and replacement/message.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbmZlcmlvcl9zdXBlcmlvciI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_inferior_superior_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "w6kgYmVmb3JlIGluZmVyaW9yIHRoYW4u"
+    },
+    {
+      "id": "inferior_superior_selected_config_interaction",
+      "capability_id": "rule.misc.inferior_superior",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.inferior_superior; upstream module proselint/checks/misc/inferior_superior.py; PreferredFormsSimple items {\"inferior than\":\"inferior to\", \"superior than\":\"superior to\"} with WORDS_IN_TEXT padding; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, offset [0,0], ppm_threshold=0; message template \"'Inferior' and 'superior' are not true comparatives. Use '{}'.\" interpolates the corresponding replacement; selected config enables only misc.inferior_superior. Case purpose: Only misc.inferior_superior is enabled; unrelated weasel_words and annotations checks do not emit.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbmZlcmlvcl9zdXBlcmlvciI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_inferior_superior_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "QSB2ZXJ5IGdvb2QgYnV0IGluZmVyaW9yIHRoYW4gZXhjZWxsZW50IHBsYW4gdXNlcyBUT0RPLg=="
     }
   ]
 }

@@ -102,6 +102,10 @@
     {
       "id": "rule.misc.currency",
       "status": "recorded"
+    },
+    {
+      "id": "rule.misc.inferior_superior",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -1281,12 +1285,61 @@
         "exit_code": 0,
         "report": "rust/artifacts/strict-gate-misc-currency-final-20261105.json"
       }
+    },
+    {
+      "id": "rule.misc.inferior_superior",
+      "status": "recorded",
+      "case_ids": [
+        "inferior_superior_inferior_form",
+        "inferior_superior_superior_form",
+        "inferior_superior_case_variants_order",
+        "inferior_superior_correct_forms_clean",
+        "inferior_superior_embedded_word_boundary_negatives",
+        "inferior_superior_punctuation_boundaries",
+        "inferior_superior_quote_suppression",
+        "inferior_superior_reverse_source_order",
+        "inferior_superior_unicode_codepoint_positions",
+        "inferior_superior_selected_config_interaction"
+      ],
+      "upstream_spec": "Pinned `misc.inferior_superior` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `inferior than` → `inferior to`; `superior than` → `superior to`. Default quote suppression; no exceptions or offsets. The replacement fills the message template `'Inferior' and 'superior' are not true comparatives. Use '{}'.`",
+      "red": {
+        "behavioral_failures": 10,
+        "total_tests": 10,
+        "exit_code": 101,
+        "cause": "CLI rejected selected misc.inferior_superior config"
+      },
+      "green": {
+        "rust_tests_passed": 180,
+        "focused_tests_passed": 10,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 10,
+        "exit_code": 0,
+        "report": "rust/artifacts/misc-inferior-superior-live-rust-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-inferior-superior/live-report.json",
+        "frozen_source_fingerprint": "e9949b9b63a0d674114efca68d45e4a025e8a7489767a18f1dd6c18a4387deaa"
+      },
+      "limitations": [
+        "selected misc.inferior_superior config only",
+        "default and combined-check behavior remain unverified"
+      ],
+      "cumulative_live_parity": {
+        "passed_cases": 180,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-misc-inferior-superior-final-20261105.json"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-misc-currency-final-20261105.json",
-    "passed_cases": 170,
+    "report": "rust/artifacts/strict-gate-misc-inferior-superior-final-20261105.json",
+    "passed_cases": 180,
     "exit_code": 0
   },
   "rust_dependencies": {

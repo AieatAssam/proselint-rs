@@ -3627,6 +3627,237 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "multiplication_compact_positive",
+      "capability_id": "rule.typography.symbols.multiplication",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path typography.symbols.multiplication; upstream module proselint/checks/typography/symbols.py:check_multiplication_symbol; check type ExistenceSimple(pattern=r\"\\d+ ?x ?\\d+\"); message \"Use the multiplication symbol ×, not the letter x.\"; inventory says default_enabled=false, Fast case-insensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: Compact ASCII operands match.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlIGFyZWEgaXMgM3g0Lg==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7Im11bHRpcGxpY2F0aW9uIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_multiplication_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "multiplication_optional_spaces_case_variants",
+      "capability_id": "rule.typography.symbols.multiplication",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path typography.symbols.multiplication; upstream module proselint/checks/typography/symbols.py:check_multiplication_symbol; check type ExistenceSimple(pattern=r\"\\d+ ?x ?\\d+\"); message \"Use the multiplication symbol ×, not the letter x.\"; inventory says default_enabled=false, Fast case-insensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: At most one space on either side is accepted; x matching is case-insensitive.",
+      "input_mode": "stdin",
+      "stdin_base64": "MiB4MzsgNHggNTsgNiBYIDcu",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7Im11bHRpcGxpY2F0aW9uIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_multiplication_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "multiplication_raw_substring_multiple",
+      "capability_id": "rule.typography.symbols.multiplication",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path typography.symbols.multiplication; upstream module proselint/checks/typography/symbols.py:check_multiplication_symbol; check type ExistenceSimple(pattern=r\"\\d+ ?x ?\\d+\"); message \"Use the multiplication symbol ×, not the letter x.\"; inventory says default_enabled=false, Fast case-insensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: Unanchored pattern matches adjacent letters and returns source-ordered findings.",
+      "input_mode": "stdin",
+      "stdin_base64": "YWIyeDNjZCBhbmQgMTJ4MzQu",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7Im11bHRpcGxpY2F0aW9uIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_multiplication_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "multiplication_negative_symbol_spacing_and_unicode_digits",
+      "capability_id": "rule.typography.symbols.multiplication",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path typography.symbols.multiplication; upstream module proselint/checks/typography/symbols.py:check_multiplication_symbol; check type ExistenceSimple(pattern=r\"\\d+ ?x ?\\d+\"); message \"Use the multiplication symbol ×, not the letter x.\"; inventory says default_enabled=false, Fast case-insensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: Actual multiplication sign, missing operand, two-space gap, and non-ASCII digits do not match.",
+      "input_mode": "stdin",
+      "stdin_base64": "MiDDlyAzOyB4MzsgNHg7IDUgIHggNjsg2aN4NDsgM3jvvJQu",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7Im11bHRpcGxpY2F0aW9uIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_multiplication_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "multiplication_quote_suppression",
+      "capability_id": "rule.typography.symbols.multiplication",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path typography.symbols.multiplication; upstream module proselint/checks/typography/symbols.py:check_multiplication_symbol; check type ExistenceSimple(pattern=r\"\\d+ ?x ?\\d+\"); message \"Use the multiplication symbol ×, not the letter x.\"; inventory says default_enabled=false, Fast case-insensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: Both patterns inside paired quotes are suppressed.",
+      "input_mode": "stdin",
+      "stdin_base64": "UXVvdGVkOiAiM3g0IiBhbmQgJzUgeCA2Jy4=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7Im11bHRpcGxpY2F0aW9uIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_multiplication_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "multiplication_unicode_codepoint_positions",
+      "capability_id": "rule.typography.symbols.multiplication",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path typography.symbols.multiplication; upstream module proselint/checks/typography/symbols.py:check_multiplication_symbol; check type ExistenceSimple(pattern=r\"\\d+ ?x ?\\d+\"); message \"Use the multiplication symbol ×, not the letter x.\"; inventory says default_enabled=false, Fast case-insensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: Unicode prefix verifies code-point coordinates for compact and spaced matches.",
+      "input_mode": "stdin",
+      "stdin_base64": "w6kgOHg5LCB0aGVuIDEwIHggMTEu",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7Im11bHRpcGxpY2F0aW9uIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_multiplication_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "multiplication_selected_config_interaction",
+      "capability_id": "rule.typography.symbols.multiplication",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path typography.symbols.multiplication; upstream module proselint/checks/typography/symbols.py:check_multiplication_symbol; check type ExistenceSimple(pattern=r\"\\d+ ?x ?\\d+\"); message \"Use the multiplication symbol ×, not the letter x.\"; inventory says default_enabled=false, Fast case-insensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: Selected config enables only typography.symbols.multiplication despite unrelated check triggers.",
+      "input_mode": "stdin",
+      "stdin_base64": "VE9ETyBhbmQgdmVyeTsgZGltZW5zaW9ucyBhcmUgM3g0Lg==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7Im11bHRpcGxpY2F0aW9uIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_multiplication_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

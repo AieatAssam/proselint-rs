@@ -1779,6 +1779,204 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "collusion_positive_context",
+      "capability_id": "rule.misc.illogic.collusion",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Positive phrase in context; live CLI returns this rule and its exact diagnostic. Sources: checks/misc/illogic.py:check_without_your_collusion; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhleSBhY3RlZCB3aXRob3V0IHlvdXIgY29sbHVzaW9uLg==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbGxvZ2ljIjp7ImNvbGx1c2lvbiI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_illogic_collusion_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "collusion_case_variants_order",
+      "capability_id": "rule.misc.illogic.collusion",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Uppercase, title-case, and lowercase variants demonstrate case-insensitive matching and order. Sources: checks/misc/illogic.py:check_without_your_collusion; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "V0lUSE9VVCBZT1VSIENPTExVU0lPTjsgV2l0aG91dCBZb3VyIENvbGx1c2lvbjsgd2l0aG91dCB5b3VyIGNvbGx1c2lvbg==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbGxvZ2ljIjp7ImNvbGx1c2lvbiI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_illogic_collusion_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "collusion_boundary_negative",
+      "capability_id": "rule.misc.illogic.collusion",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Negative literal controls change separators or one term; live CLI produces no diagnostics. Sources: checks/misc/illogic.py:check_without_your_collusion; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "d2l0aG91dC15b3VyIGNvbGx1c2lvbjsgd2l0aG91dCAgeW91ciBjb2xsdXNpb247IHdpdGhvdXQgb3VyIGNvbGx1c2lvbg==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbGxvZ2ljIjp7ImNvbGx1c2lvbiI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_illogic_collusion_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "collusion_quote_suppression",
+      "capability_id": "rule.misc.illogic.collusion",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Quoted phrase is suppressed because allow_quotes is false. Sources: checks/misc/illogic.py:check_without_your_collusion; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "U2hlIHNhaWQsICd3aXRob3V0IHlvdXIgY29sbHVzaW9uJy4=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbGxvZ2ljIjp7ImNvbGx1c2lvbiI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_illogic_collusion_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "collusion_raw_substring",
+      "capability_id": "rule.misc.illogic.collusion",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Raw-substring positive shows matching within longer tokens without word-boundary padding. Sources: checks/misc/illogic.py:check_without_your_collusion; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "YXdpdGhvdXQgeW91ciBjb2xsdXNpb25hcnk=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbGxvZ2ljIjp7ImNvbGx1c2lvbiI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_illogic_collusion_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "collusion_selected_config_interaction",
+      "capability_id": "rule.misc.illogic.collusion",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Interaction includes TODO as an unrelated annotation trigger; selected config enables only misc.illogic.collusion and output includes only this rule. Sources: checks/misc/illogic.py:check_without_your_collusion; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "V2l0aG91dCB5b3VyIGNvbGx1c2lvbiwgVE9ETy4=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbGxvZ2ljIjp7ImNvbGx1c2lvbiI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_illogic_collusion_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

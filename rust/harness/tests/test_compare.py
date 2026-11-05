@@ -203,13 +203,16 @@ class ComparatorTests(unittest.TestCase):
             "coin_positive_context", "coin_case_variants_order",
             "coin_boundary_negative", "coin_quote_suppression",
             "coin_raw_substring", "coin_selected_config_interaction",
+            "collusion_positive_context", "collusion_case_variants_order",
+            "collusion_boundary_negative", "collusion_quote_suppression",
+            "collusion_raw_substring", "collusion_selected_config_interaction",
         }
         self.assertEqual({item["id"] for item in manifest["cases"]}, expected_case_ids)
         self.assertEqual(len(manifest["cases"]), len(expected_case_ids))
         self.assertEqual(
             {capability: sum(case["capability_id"] == capability for case in manifest["cases"])
              for capability in {case["capability_id"] for case in manifest["cases"]}},
-            {"harness.oracle_smoke": 2, "cli.json_no_findings": 3, "rule.annotations.misc": 7, "cli.coordinates": 6, "rule.cliches.hell": 6, "rule.misc.apologizing": 6, "rule.misc.whence": 6, "rule.misc.false_plurals.kudos": 6, "rule.psychology.mental_telepathy": 6, "rule.misc.illogic.coin": 6},
+            {"harness.oracle_smoke": 2, "cli.json_no_findings": 3, "rule.annotations.misc": 7, "cli.coordinates": 6, "rule.cliches.hell": 6, "rule.misc.apologizing": 6, "rule.misc.whence": 6, "rule.misc.false_plurals.kudos": 6, "rule.psychology.mental_telepathy": 6, "rule.misc.illogic.coin": 6, "rule.misc.illogic.collusion": 6},
         )
 
     def test_manifest_rejects_duplicate_id_and_bad_base64(self) -> None:

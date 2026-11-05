@@ -83,7 +83,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "oracle_engineer owns next bounded rule case specification"
+    "next_handoff": "rust_builder owns rust/src/** and rust/tests/** for rule.misc.illogic.collusion"
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
@@ -93,7 +93,8 @@
     "Unicode case folding outside tested ASCII variants, quote-pairing combinations, combined enabled-rule config, default config, and remaining rules are unverified",
     "combined enabled-rule configurations, broader Unicode case folding/quote pairing, default configuration, and all unimplemented inventory rules remain unverified",
     "broader Unicode case folding, combined-rule config, default configuration, and most inventory rules remain unverified",
-    "Most of the 124 registered checks, default configuration, combined-rule configurations, and Unicode folding beyond ASCII variants remain unverified"
+    "Most of the 124 registered checks, default configuration, combined-rule configurations, and Unicode folding beyond ASCII variants remain unverified",
+    "rule.misc.illogic.collusion is specified but not yet implemented or parity-verified"
   ],
   "capability_states": [
     {
@@ -485,6 +486,26 @@
         "selected-rule config only",
         "broader Unicode folding unverified"
       ]
+    },
+    {
+      "id": "rule.misc.illogic.collusion",
+      "status": "specified",
+      "case_ids": [
+        "collusion_positive_context",
+        "collusion_case_variants_order",
+        "collusion_boundary_negative",
+        "collusion_quote_suppression",
+        "collusion_raw_substring",
+        "collusion_selected_config_interaction"
+      ],
+      "upstream_spec": "ExistenceSimple literal `without your collusion`, Fast case-insensitive, no exceptions, allow_quotes=false; message: It's impossible to defraud yourself. Try 'aquiescence'.",
+      "oracle_live_probe": {
+        "passed_cases": 6,
+        "programmatic_self_comparison": "PASS",
+        "report": "rust/artifacts/collusion-live-20261105T040110Z/collusion-live-report.json",
+        "selected_config": "misc.illogic.collusion only"
+      },
+      "source_fingerprint": "cc07caf1796f7637cf541828b2028a5ae9e0bf8d9e9ef07e66d048ffc04a7a6a"
     }
   ],
   "last_strict_gate": {

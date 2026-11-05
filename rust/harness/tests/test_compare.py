@@ -182,13 +182,16 @@ class ComparatorTests(unittest.TestCase):
             "annotations_case_sensitive_multiple_order", "annotations_boundary_negative",
             "annotations_quote_suppression", "annotations_unicode_boundaries_positions",
             "annotations_selected_config_interaction",
+            "coordinates_multiline_lf_final", "coordinates_multiline_lf_no_final",
+            "coordinates_crlf_no_final", "coordinates_unicode_combining_prefix",
+            "coordinates_negative_word_boundaries", "coordinates_file_crlf_no_final",
         }
         self.assertEqual({item["id"] for item in manifest["cases"]}, expected_case_ids)
         self.assertEqual(len(manifest["cases"]), len(expected_case_ids))
         self.assertEqual(
             {capability: sum(case["capability_id"] == capability for case in manifest["cases"])
              for capability in {case["capability_id"] for case in manifest["cases"]}},
-            {"harness.oracle_smoke": 2, "cli.json_no_findings": 3, "rule.annotations.misc": 7},
+            {"harness.oracle_smoke": 2, "cli.json_no_findings": 3, "rule.annotations.misc": 7, "cli.coordinates": 6},
         )
 
     def test_manifest_rejects_duplicate_id_and_bad_base64(self) -> None:

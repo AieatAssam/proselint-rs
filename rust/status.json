@@ -49,11 +49,12 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "oracle_engineer owns new case specification for CLI coordinates and input newline semantics"
+    "next_handoff": "rust_builder owns rust/src/** and rust/tests/** for cli.coordinates"
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
-    "default configuration, all other registered rules, and broader CLI behavior remain unimplemented or unverified"
+    "default configuration, all other registered rules, and broader CLI behavior remain unimplemented or unverified",
+    "cli.coordinates is specified but not yet implemented or parity-verified"
   ],
   "capability_states": [
     {
@@ -133,6 +134,25 @@
         "explicit config selecting annotations.misc only",
         "default config and other rules are not claimed"
       ]
+    },
+    {
+      "id": "cli.coordinates",
+      "status": "specified",
+      "case_ids": [
+        "coordinates_multiline_lf_final",
+        "coordinates_multiline_lf_no_final",
+        "coordinates_crlf_no_final",
+        "coordinates_unicode_combining_prefix",
+        "coordinates_negative_word_boundaries",
+        "coordinates_file_crlf_no_final"
+      ],
+      "oracle_live_probe": {
+        "passed_cases": 6,
+        "programmatic_self_comparison": "PASS",
+        "scope": "harness_health_only",
+        "report": "rust/artifacts/coordinates-live-20261105T020826Z/coordinates-live-report.json"
+      },
+      "source_fingerprint": "ff568eb19a04c7efb5d289d77183fdb5f06468d0cb6838fc2a8a961b446208c2"
     }
   ]
 }

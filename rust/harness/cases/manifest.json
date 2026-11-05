@@ -389,6 +389,208 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "coordinates_multiline_lf_final",
+      "capability_id": "cli.coordinates",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; two annotation matches on separate lines with final LF. Exact positions/spans queried from live CLI. Sources: checks/annotations.py; tools.py:LintFile._line_bounds and line_col_of.",
+      "input_mode": "stdin",
+      "stdin_base64": "Zmlyc3QKVE9ETwpzZWNvbmQKVE9ETwo=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsibWlzYyI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "annotations_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "coordinates_multiline_lf_no_final",
+      "capability_id": "cli.coordinates",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; same multi-line content without final LF. Exact positions/spans queried from live CLI. Sources: command_line.py; tools.py:LintFile._line_bounds and line_col_of.",
+      "input_mode": "stdin",
+      "stdin_base64": "Zmlyc3QKVE9ETwpzZWNvbmQKVE9ETw==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsibWlzYyI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "annotations_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "coordinates_crlf_no_final",
+      "capability_id": "cli.coordinates",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; CRLF stdin without final newline preserves CRLF code points in span offsets. Exact JSON positions/spans queried from live CLI. Sources: command_line.py; tools.py:LintFile.from_stdin and line_col_of.",
+      "input_mode": "stdin",
+      "stdin_base64": "Zmlyc3QNClRPRE8=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsibWlzYyI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "annotations_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "coordinates_unicode_combining_prefix",
+      "capability_id": "cli.coordinates",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; composed and decomposed Unicode code points precede the match, measuring Python code-point positions. Exact JSON positions/spans queried from live CLI. Sources: tools.py:LintFile.line_col_of; registry/checks/engine.py:Padding.WORDS_IN_TEXT.",
+      "input_mode": "stdin",
+      "stdin_base64": "w6kgZcyBIFRPRE8=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsibWlzYyI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "annotations_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "coordinates_negative_word_boundaries",
+      "capability_id": "cli.coordinates",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; negative boundary controls contain the configured term only as a digit, underscore, or adjacent-letter substring. Sources: checks/annotations.py; registry/checks/engine.py:Padding.WORDS_IN_TEXT.",
+      "input_mode": "stdin",
+      "stdin_base64": "VE9ETzEgVE9ET19mb28gVE9ET3ggeFRPRE8=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsibWlzYyI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "annotations_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "coordinates_file_crlf_no_final",
+      "capability_id": "cli.coordinates",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; file input with CRLF and no final newline, passed by argv under a Unicode filename. Exact file URI key, position and span queried from live CLI. Sources: command_line.py; tools.py:LintFile._read, _line_bounds, and line_col_of.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsibWlzYyI6dHJ1ZX19fQ=="
+        },
+        {
+          "path": "chapter é.txt",
+          "content_base64": "Zmlyc3QNClRPRE8="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json",
+        "{file:chapter é.txt}"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "annotations_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

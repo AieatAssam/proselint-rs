@@ -3,7 +3,8 @@
   "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
   "package_version": "0.16.0",
   "production_capabilities": [
-    "cli.json_no_findings"
+    "cli.json_no_findings",
+    "rule.annotations.misc"
   ],
   "inventory": {
     "status": "generated_from_pinned_snapshot",
@@ -48,11 +49,11 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "rust_builder owns rust/src/** and rust/tests/** for rule.annotations.misc"
+    "next_handoff": "oracle_engineer owns new case specification for CLI coordinates and input newline semantics"
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
-    "rule.annotations.misc and all remaining CLI/rule behavior are not implemented or parity-verified"
+    "default configuration, all other registered rules, and broader CLI behavior remain unimplemented or unverified"
   ],
   "capability_states": [
     {
@@ -92,7 +93,7 @@
     },
     {
       "id": "rule.annotations.misc",
-      "status": "specified",
+      "status": "recorded",
       "case_ids": [
         "annotations_positive_todo",
         "annotations_negative_mixed_case",
@@ -102,13 +103,36 @@
         "annotations_unicode_boundaries_positions",
         "annotations_selected_config_interaction"
       ],
-      "oracle_self_comparison": {
+      "red": {
+        "result": "7 behavioral test failures because selected annotations config was rejected",
+        "exit_code": 101
+      },
+      "green": {
+        "rust_tests_passed": 10,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
         "passed_cases": 7,
         "exit_code": 0,
-        "scope": "harness_health_only",
-        "report": "rust/artifacts/oracle-self-annotations.json"
+        "scope": "capability_only",
+        "report": "rust/artifacts/live-annotations-misc-20261105.json"
       },
-      "configuration_selection_proof": "rust/artifacts/case-spec-20261105-013354/oracle-case-probe-report.json"
+      "cumulative_live_parity": {
+        "passed_cases": 10,
+        "exit_code": 0,
+        "report": "rust/artifacts/independent-annotations-misc/cumulative-live-report.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-annotations-misc/verification.json",
+        "frozen_source_fingerprint": "f1644d864072cfca0a938357196a30f6e274779b2ec4255f53809bbfa9ce42dc"
+      },
+      "limitations": [
+        "explicit config selecting annotations.misc only",
+        "default config and other rules are not claimed"
+      ]
     }
   ]
 }

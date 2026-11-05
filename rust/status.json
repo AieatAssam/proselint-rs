@@ -154,6 +154,10 @@
     {
       "id": "rule.psychology.lie_detector",
       "status": "recorded"
+    },
+    {
+      "id": "rule.redundancy.misc.wallace",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -1983,12 +1987,61 @@
         "report": "rust/artifacts/strict-gate-psychology-lie-detector-final-20261105.json",
         "source_fingerprint": "b361610843c8ed26e47c8f6856e1a2e81f133e97c25daf5f3b83d4c26ae0f68d"
       }
+    },
+    {
+      "id": "rule.redundancy.misc.wallace",
+      "status": "recorded",
+      "case_ids": [
+        "wallace_both_redundant_forms",
+        "wallace_case_variants_surface_text",
+        "wallace_longer_word_boundary_negatives",
+        "wallace_near_miss_phrases",
+        "wallace_punctuation_boundaries",
+        "wallace_quote_suppression_with_unquoted",
+        "wallace_repeated_mixed_source_order",
+        "wallace_unicode_codepoint_positions",
+        "wallace_selected_config_interaction"
+      ],
+      "upstream_spec": "Pinned `redundancy.misc.wallace` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `rectangular in shape` → `rectangular`, `audible to the ear` → `audible`. Message `Redundancy. Use '{}' instead of '{}'.`; the replacement is interpolated first and the original matched surface second. Default quote suppression; no exceptions or offsets.",
+      "red": {
+        "behavioral_failures": 9,
+        "total_tests": 9,
+        "exit_code": 101,
+        "cause": "CLI rejected selected redundancy.misc.wallace config"
+      },
+      "green": {
+        "rust_tests_passed": 293,
+        "focused_tests_passed": 9,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 9,
+        "exit_code": 0,
+        "report": "rust/artifacts/redundancy-wallace-live-rust-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-wallace/live-report.json",
+        "frozen_source_fingerprint": "e1d473235e7bb6ce8a9ef59d168cd21d7d0038991456a8287d51e44a57aa9bd3"
+      },
+      "limitations": [
+        "selected redundancy.misc.wallace config only",
+        "default and combined-check behavior remain unverified"
+      ],
+      "cumulative_live_parity": {
+        "passed_cases": 302,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-redundancy-wallace-final-20261105.json",
+        "source_fingerprint": "43b7a16086d8d3e5368a668f6b8cd726f91082d7200c9c27dd30dc3fe90be4a0"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-psychology-lie-detector-final-20261105.json",
-    "passed_cases": 293,
+    "report": "rust/artifacts/strict-gate-redundancy-wallace-final-20261105.json",
+    "passed_cases": 302,
     "exit_code": 0
   },
   "rust_dependencies": {

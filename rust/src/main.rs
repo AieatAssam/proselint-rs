@@ -12,7 +12,7 @@ use proselint_rs::{
     normalize_file_newlines, pretension_diagnostics, professions_diagnostics, suddenly_diagnostics,
     typography_copyright_diagnostics, typography_ellipsis_diagnostics,
     typography_multiplication_diagnostics, typography_sentence_spacing_diagnostics,
-    typography_trademark_diagnostics, whence_diagnostics,
+    typography_trademark_diagnostics, wallace_diagnostics, whence_diagnostics,
 };
 use serde_json::Value;
 use std::fs;
@@ -76,7 +76,7 @@ fn run() -> Result<ExitCode, String> {
         .get("checks")
         .ok_or_else(|| "this capability requires an explicit checks configuration".to_owned())?;
     let selected_check = supported_checks(checks).ok_or_else(|| {
-        "this capability supports disabled checks, annotations.misc, cliches.hell, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.lie_detector, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.many_a, misc.metadiscourse, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.institution_name, misc.professions, misc.greylist, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, dates_times.am_pm.lowercase_periods, or dates_times.am_pm.spacing only".to_owned()
+        "this capability supports disabled checks, annotations.misc, cliches.hell, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.lie_detector, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.many_a, misc.metadiscourse, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.institution_name, misc.professions, misc.greylist, redundancy.misc.wallace, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, dates_times.am_pm.lowercase_periods, or dates_times.am_pm.spacing only".to_owned()
     })?;
 
     if !matches!(output_format, OutputFormat::Json) {
@@ -120,6 +120,7 @@ fn run() -> Result<ExitCode, String> {
         SelectedCheck::MiscFalsePluralsMisc => false_plurals_misc_diagnostics(&content),
         SelectedCheck::PsychologyMentalTelepathy => mental_telepathy_diagnostics(&content),
         SelectedCheck::PsychologyLieDetector => lie_detector_diagnostics(&content),
+        SelectedCheck::RedundancyMiscWallace => wallace_diagnostics(&content),
         SelectedCheck::MiscIllogicCoin => illogic_coin_diagnostics(&content),
         SelectedCheck::MiscIllogicCollusion => illogic_collusion_diagnostics(&content),
         SelectedCheck::MiscBackFormations => back_formations_diagnostics(&content),
@@ -174,6 +175,7 @@ enum SelectedCheck {
     MiscFalsePluralsMisc,
     PsychologyMentalTelepathy,
     PsychologyLieDetector,
+    RedundancyMiscWallace,
     MiscIllogicCoin,
     MiscIllogicCollusion,
     MiscBackFormations,
@@ -333,6 +335,15 @@ fn supported_checks(checks: &Value) -> Option<SelectedCheck> {
                         Value::Bool(false) => true,
                         Value::Bool(true) if *selected == SelectedCheck::None => {
                             *selected = SelectedCheck::PsychologyLieDetector;
+                            true
+                        }
+                        _ => false,
+                    }
+                } else if path == &["redundancy", "misc", "wallace"] {
+                    match child {
+                        Value::Bool(false) => true,
+                        Value::Bool(true) if *selected == SelectedCheck::None => {
+                            *selected = SelectedCheck::RedundancyMiscWallace;
                             true
                         }
                         _ => false,

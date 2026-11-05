@@ -133,6 +133,11 @@ const LIE_DETECTOR_FORMS: [(&str, &str); 2] = [
 ];
 const LIE_DETECTOR_MESSAGE: &str =
     "Polygraph machines measure arousal, not lying per se. Try '{}'.";
+const WALLACE_FORMS: [(&str, &str); 2] = [
+    ("rectangular in shape", "rectangular"),
+    ("audible to the ear", "audible"),
+];
+const WALLACE_MESSAGE: &str = "Redundancy. Use '{}' instead of '{}'.";
 const INSTITUTION_NAME_PATTERN: &str = "Virginia Polytechnic and State University";
 const INSTITUTION_NAME_REPLACEMENT: &str = "Virginia Polytechnic Institute and State University";
 const PROFESSIONS: [(&str, &str); 2] = [("shoe repair guy", "cobbler"), ("geometrist", "geometer")];
@@ -2051,6 +2056,70 @@ pub fn lie_detector_diagnostics(text: &str) -> Vec<Value> {
                 json!({
                     "check_path": "psychology.lie_detector",
                     "message": LIE_DETECTOR_MESSAGE.replace("{}", replacement),
+                    "span": [span_start, span_end],
+                    "pos": [line, column],
+                    "replacements": replacement,
+                }),
+            ));
+        }
+    }
+
+    diagnostics.sort_unstable_by_key(|(start, _)| *start);
+    diagnostics
+        .into_iter()
+        .map(|(_, diagnostic)| diagnostic)
+        .collect()
+}
+
+/// Return diagnostics for the pinned `redundancy.misc.wallace` preferred forms.
+pub fn wallace_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut diagnostics = Vec::new();
+
+    for (pattern, replacement) in WALLACE_FORMS {
+        let pattern_len = pattern.len();
+        let activated = padded.char_indices().any(|(start, _)| {
+            let end = start.saturating_add(pattern_len);
+            let Some(candidate) = padded.get(start..end) else {
+                return false;
+            };
+            candidate.eq_ignore_ascii_case(pattern)
+                && !is_ascii_word_before(&padded, start)
+                && !is_ascii_word_at(&padded, end)
+        });
+        if !activated {
+            continue;
+        }
+
+        for (start, _) in padded.char_indices() {
+            let end = start.saturating_add(pattern_len);
+            let Some(matched) = padded.get(start..end) else {
+                continue;
+            };
+            if !matched.eq_ignore_ascii_case(pattern) {
+                continue;
+            }
+
+            let span_start = padded[..start].chars().count();
+            let span_end = span_start + matched.chars().count();
+            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+            if quote_index % 2 == 1 {
+                continue;
+            }
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            diagnostics.push((
+                span_start,
+                json!({
+                    "check_path": "redundancy.misc.wallace",
+                    "message": WALLACE_MESSAGE
+                        .replacen("{}", replacement, 1)
+                        .replacen("{}", matched, 1),
                     "span": [span_start, span_end],
                     "pos": [line, column],
                     "replacements": replacement,

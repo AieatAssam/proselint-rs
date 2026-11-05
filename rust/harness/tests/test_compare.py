@@ -330,13 +330,18 @@ class ComparatorTests(unittest.TestCase):
             "lie_detector_punctuation_boundaries", "lie_detector_quote_suppression_with_unquoted",
             "lie_detector_repeated_mixed_source_order", "lie_detector_unicode_codepoint_positions",
             "lie_detector_selected_config_interaction", "lie_detector_fastset_activation_raw_copy",
+            "wallace_both_redundant_forms", "wallace_case_variants_surface_text",
+            "wallace_longer_word_boundary_negatives", "wallace_near_miss_phrases",
+            "wallace_punctuation_boundaries", "wallace_quote_suppression_with_unquoted",
+            "wallace_repeated_mixed_source_order", "wallace_unicode_codepoint_positions",
+            "wallace_selected_config_interaction",
         }
         self.assertEqual({item["id"] for item in manifest["cases"]}, expected_case_ids)
         self.assertEqual(len(manifest["cases"]), len(expected_case_ids))
         self.assertEqual(
             {capability: sum(case["capability_id"] == capability for case in manifest["cases"])
              for capability in {case["capability_id"] for case in manifest["cases"]}},
-            {"harness.oracle_smoke": 2, "cli.json_no_findings": 3, "rule.annotations.misc": 7, "cli.coordinates": 6, "rule.cliches.hell": 6, "rule.misc.apologizing": 6, "rule.misc.whence": 6, "rule.misc.false_plurals.kudos": 6, "rule.psychology.mental_telepathy": 6, "rule.misc.illogic.coin": 6, "rule.misc.illogic.collusion": 6, "rule.misc.back_formations": 6, "rule.misc.institution_name": 6, "rule.misc.professions": 6, "rule.misc.false_plurals.misc": 6, "rule.typography.symbols.ellipsis": 6, "rule.typography.symbols.copyright": 6, "rule.typography.symbols.sentence_spacing": 7, "rule.typography.symbols.trademark": 7, "rule.typography.symbols.multiplication": 7, "rule.misc.suddenly": 7, "rule.misc.but": 8, "rule.dates_times.am_pm.lowercase_periods": 9, "rule.dates_times.am_pm.spacing": 8, "rule.misc.debased": 12, "rule.misc.currency": 11, "rule.misc.inferior_superior": 10, "rule.misc.greylist": 8, "rule.industrial_language.bureaucratese": 10, "rule.hedging": 12, "rule.industrial_language.jargon": 9, "rule.industrial_language.airlinese": 11, "rule.misc.many_a": 9, "rule.misc.metadiscourse": 9, "rule.misc.pretension": 8, "rule.misc.latin": 9, "rule.misc.capitalization.seasons": 9, "rule.misc.capitalization.terms": 9, "rule.psychology.lie_detector": 10},
+            {"harness.oracle_smoke": 2, "cli.json_no_findings": 3, "rule.annotations.misc": 7, "cli.coordinates": 6, "rule.cliches.hell": 6, "rule.misc.apologizing": 6, "rule.misc.whence": 6, "rule.misc.false_plurals.kudos": 6, "rule.psychology.mental_telepathy": 6, "rule.misc.illogic.coin": 6, "rule.misc.illogic.collusion": 6, "rule.misc.back_formations": 6, "rule.misc.institution_name": 6, "rule.misc.professions": 6, "rule.misc.false_plurals.misc": 6, "rule.typography.symbols.ellipsis": 6, "rule.typography.symbols.copyright": 6, "rule.typography.symbols.sentence_spacing": 7, "rule.typography.symbols.trademark": 7, "rule.typography.symbols.multiplication": 7, "rule.misc.suddenly": 7, "rule.misc.but": 8, "rule.dates_times.am_pm.lowercase_periods": 9, "rule.dates_times.am_pm.spacing": 8, "rule.misc.debased": 12, "rule.misc.currency": 11, "rule.misc.inferior_superior": 10, "rule.misc.greylist": 8, "rule.industrial_language.bureaucratese": 10, "rule.hedging": 12, "rule.industrial_language.jargon": 9, "rule.industrial_language.airlinese": 11, "rule.misc.many_a": 9, "rule.misc.metadiscourse": 9, "rule.misc.pretension": 8, "rule.misc.latin": 9, "rule.misc.capitalization.seasons": 9, "rule.misc.capitalization.terms": 9, "rule.psychology.lie_detector": 10, "rule.redundancy.misc.wallace": 9},
         )
 
     def test_manifest_rejects_duplicate_id_and_bad_base64(self) -> None:

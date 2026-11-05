@@ -9,7 +9,7 @@
 - `rule.cliches.hell`: independently verified and recorded at frozen fingerprint `74b6959fe3247f8cab46eedb3a7775e0defc067b6cc860d297a1eb95158ac664`; 6 new and 22 cumulative cases passed. This is an ASCII case-insensitive unanchored phrase rule under selected config. Evidence: `rust/artifacts/live-cliches-hell-20261105.json` and `rust/artifacts/independent-cliches-hell/verification.json`.
 - Oracle: immutable source snapshot and isolated Python 3.12.3 environment are provisioned; 98 loaded modules resolve inside the venv, dependency/package/executable hashes verify, and upstream pytest passed (351 tests plus 15 subtests; exit 0).
 - Harness: `rust/harness/**` and `rust/oracle.lock.json` are independently verified on fingerprint `5817279dd9575a62a982da6d943fcbd26e8f31ff317b3626d71175afcdc6b38d`. Unit tests: 14/14; comparator discriminators: 23/23; live oracle self-check: 2/2 PASS with harness-only scope. Before the first capability was recorded, the strict gate and benchmark correctly returned BLOCKED with no accepted capabilities.
-- Combined enabled-rule configs, broader Unicode case folding and quote pairing, default configuration, and remaining rules remain unverified.
+- `rule.misc.apologizing`: specified with 6 cases for positive/variant/negative/quote/substring/interaction behavior. The pinned source defines the literal `More research is needed`, case-insensitive, without word-boundary padding. Direct and self-comparison passed 6/6; evidence: `rust/artifacts/apologizing-live-20261105T022831Z/apologizing-live-report.json`.
 - Rust crate dependencies in `Cargo.lock`: clap 4.6.7, serde 1.0.229, serde_json 1.0.154; Rust toolchain 1.99.1.
 - The accepted JSON CLI slice was tested only with an explicit configuration disabling all checks. General configuration and lint behavior are excluded from its parity claim.
 - Custom-agent roles were used, but child model and effort metadata remain unavailable for independent routing audit.
@@ -26,4 +26,4 @@ Start revision: `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`. The oracle uses Pyth
 
 ## Next gate
 
-Select the next bounded rule from the pinned inventory and specify it with live cases. Keep cumulative verification at each capability gate; combined rule configurations and default behavior still need separate coverage.
+Add behavioral RED tests for `rule.misc.apologizing`, implement the pinned literal rule, then run cumulative live parity and independent verification. Combined enabled-rule configurations and default behavior still need separate coverage.

@@ -51,13 +51,14 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "oracle_engineer owns next bounded rule case specification"
+    "next_handoff": "rust_builder owns rust/src/** and rust/tests/** for rule.misc.apologizing"
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
     "default configuration, all other registered rules, and broader CLI behavior remain unimplemented or unverified",
     "broader newline, file-decoding, default-config, and all other registered-rule behavior remain unverified",
-    "combined enabled-rule configurations, Unicode case folding beyond tested ASCII variants, broader quote pairing, default config, and remaining rules are unverified"
+    "combined enabled-rule configurations, Unicode case folding beyond tested ASCII variants, broader quote pairing, default config, and remaining rules are unverified",
+    "rule.misc.apologizing is specified but not yet implemented or parity-verified"
   ],
   "capability_states": [
     {
@@ -229,6 +230,26 @@
         "single selected rule config only",
         "broader quote behavior unverified"
       ]
+    },
+    {
+      "id": "rule.misc.apologizing",
+      "status": "specified",
+      "case_ids": [
+        "apologizing_positive_context",
+        "apologizing_case_variants_order",
+        "apologizing_boundary_negative",
+        "apologizing_quote_suppression",
+        "apologizing_raw_substring",
+        "apologizing_selected_config_interaction"
+      ],
+      "upstream_spec": "ExistenceSimple, literal More research is needed, Fast case-insensitive, zero exceptions, no word-boundary padding, message Excessive apologizing.",
+      "oracle_live_probe": {
+        "passed_cases": 6,
+        "programmatic_self_comparison": "PASS",
+        "report": "rust/artifacts/apologizing-live-20261105T022831Z/apologizing-live-report.json",
+        "selected_config": "misc.apologizing only"
+      },
+      "source_fingerprint": "431acd067c2dda50be0004d63594e37e43e53ca4665999f4769f70447918d76b"
     }
   ]
 }

@@ -9109,6 +9109,303 @@
         "exit_status": "exact"
       },
       "stdin_base64": "QSB2ZXJ5IGdvb2Qgc2VudGVuY2U6IFdpbnRlciBpcyBjb21pbmcuIFRPRE8u"
+    },
+    {
+      "id": "capitalization_terms_all_mappings",
+      "capability_id": "rule.misc.capitalization.terms",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`→`Mother Nature`, `Space Age`→`space age`, `stone age`→`Stone Age`, `the American west`→`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms all mappings.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjYXBpdGFsaXphdGlvbiI6eyJ0ZXJtcyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_capitalization_terms_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "bW90aGVyIG5hdHVyZTsgU3BhY2UgQWdlOyBzdG9uZSBhZ2U7IHRoZSBBbWVyaWNhbiB3ZXN0Lg=="
+    },
+    {
+      "id": "capitalization_terms_preferred_forms_clean",
+      "capability_id": "rule.misc.capitalization.terms",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`→`Mother Nature`, `Space Age`→`space age`, `stone age`→`Stone Age`, `the American west`→`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms preferred forms clean.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjYXBpdGFsaXphdGlvbiI6eyJ0ZXJtcyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_capitalization_terms_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "TW90aGVyIE5hdHVyZTsgc3BhY2UgYWdlOyBTdG9uZSBBZ2U7IHRoZSBBbWVyaWNhbiBXZXN0Lg=="
+    },
+    {
+      "id": "capitalization_terms_case_variants_clean",
+      "capability_id": "rule.misc.capitalization.terms",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`→`Mother Nature`, `Space Age`→`space age`, `stone age`→`Stone Age`, `the American west`→`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms case variants clean.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjYXBpdGFsaXphdGlvbiI6eyJ0ZXJtcyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_capitalization_terms_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "TU9USEVSIE5BVFVSRTsgTW90aGVyIG5hdHVyZTsgU1BBQ0UgQUdFOyBzcGFjZSBBZ2U7IFNUT05FIEFHRTsgU3RvbmUgYWdlOyBUaGUgQW1lcmljYW4gV2VzdDsgdGhlIGFtZXJpY2FuIHdlc3Qu"
+    },
+    {
+      "id": "capitalization_terms_longer_word_boundary_negatives",
+      "capability_id": "rule.misc.capitalization.terms",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`→`Mother Nature`, `Space Age`→`space age`, `stone age`→`Stone Age`, `the American west`→`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms longer word boundary negatives.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjYXBpdGFsaXphdGlvbiI6eyJ0ZXJtcyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_capitalization_terms_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "eG1vdGhlciBuYXR1cmU7IG1vdGhlciBuYXR1cmV4OyBTcGFjZSBBZ2V4OyBfc3RvbmUgYWdlOyB0aGUgQW1lcmljYW4gd2VzdDIu"
+    },
+    {
+      "id": "capitalization_terms_punctuation_boundaries",
+      "capability_id": "rule.misc.capitalization.terms",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`→`Mother Nature`, `Space Age`→`space age`, `stone age`→`Stone Age`, `the American west`→`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms punctuation boundaries.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjYXBpdGFsaXphdGlvbiI6eyJ0ZXJtcyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_capitalization_terms_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "KG1vdGhlciBuYXR1cmUpISBbU3BhY2UgQWdlXT8ge3N0b25lIGFnZX0sIDx0aGUgQW1lcmljYW4gd2VzdD4u"
+    },
+    {
+      "id": "capitalization_terms_quote_suppression_with_unquoted",
+      "capability_id": "rule.misc.capitalization.terms",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`→`Mother Nature`, `Space Age`→`space age`, `stone age`→`Stone Age`, `the American west`→`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms quote suppression with unquoted.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjYXBpdGFsaXphdGlvbiI6eyJ0ZXJtcyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_capitalization_terms_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "UXVvdGVkICJtb3RoZXIgbmF0dXJlIiBhbmQgIlNwYWNlIEFnZSI7IG91dHNpZGUgc3RvbmUgYWdlIGFuZCB0aGUgQW1lcmljYW4gd2VzdC4="
+    },
+    {
+      "id": "capitalization_terms_repeated_source_order",
+      "capability_id": "rule.misc.capitalization.terms",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`→`Mother Nature`, `Space Age`→`space age`, `stone age`→`Stone Age`, `the American west`→`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms repeated source order.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjYXBpdGFsaXphdGlvbiI6eyJ0ZXJtcyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_capitalization_terms_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "dGhlIEFtZXJpY2FuIHdlc3Q7IG1vdGhlciBuYXR1cmU7IHRoZSBBbWVyaWNhbiB3ZXN0OyBTcGFjZSBBZ2U7IHN0b25lIGFnZS4="
+    },
+    {
+      "id": "capitalization_terms_unicode_codepoint_positions",
+      "capability_id": "rule.misc.capitalization.terms",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`→`Mother Nature`, `Space Age`→`space age`, `stone age`→`Stone Age`, `the American west`→`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms unicode codepoint positions.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjYXBpdGFsaXphdGlvbiI6eyJ0ZXJtcyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_capitalization_terms_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "w6kgYmVmb3JlIG1vdGhlciBuYXR1cmU7IGXMgSBiZWZvcmUgdGhlIEFtZXJpY2FuIHdlc3Qu"
+    },
+    {
+      "id": "capitalization_terms_selected_config_interaction",
+      "capability_id": "rule.misc.capitalization.terms",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`→`Mother Nature`, `Space Age`→`space age`, `stone age`→`Stone Age`, `the American west`→`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms selected config interaction.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjYXBpdGFsaXphdGlvbiI6eyJ0ZXJtcyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_capitalization_terms_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "QSB2ZXJ5IGdvb2Qgc2VudGVuY2U6IG1vdGhlciBuYXR1cmUgaXMgcXVpZXQuIFRPRE8u"
     }
   ]
 }

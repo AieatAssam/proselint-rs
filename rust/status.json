@@ -146,6 +146,10 @@
     {
       "id": "rule.misc.capitalization.seasons",
       "status": "recorded"
+    },
+    {
+      "id": "rule.misc.capitalization.terms",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -1870,12 +1874,61 @@
         "exit_code": 0,
         "report": "rust/artifacts/strict-gate-seasons-final-20261105.json"
       }
+    },
+    {
+      "id": "rule.misc.capitalization.terms",
+      "status": "recorded",
+      "case_ids": [
+        "capitalization_terms_all_mappings",
+        "capitalization_terms_preferred_forms_clean",
+        "capitalization_terms_case_variants_clean",
+        "capitalization_terms_longer_word_boundary_negatives",
+        "capitalization_terms_punctuation_boundaries",
+        "capitalization_terms_quote_suppression_with_unquoted",
+        "capitalization_terms_repeated_source_order",
+        "capitalization_terms_unicode_codepoint_positions",
+        "capitalization_terms_selected_config_interaction"
+      ],
+      "upstream_spec": "Pinned `misc.capitalization.terms` is case-sensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `mother nature` → `Mother Nature`, `Space Age` → `space age`, `stone age` → `Stone Age`, and `the American west` → `the American West`. Message `Incorrect capitalization. '{}' is the preferred form.`; replacements interpolate the mapped form; default quote suppression; no exceptions or offsets.",
+      "red": {
+        "behavioral_failures": 9,
+        "total_tests": 9,
+        "exit_code": 101,
+        "cause": "CLI rejected selected misc.capitalization.terms config"
+      },
+      "green": {
+        "rust_tests_passed": 283,
+        "focused_tests_passed": 9,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 9,
+        "exit_code": 0,
+        "report": "rust/artifacts/capitalization-terms-live-rust-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-capitalization-terms/live-report.json",
+        "frozen_source_fingerprint": "8c29c7c7f27a7b538e1c77a14460608df9b49d7ff86b4a8f2c7a9a7f746c6410"
+      },
+      "limitations": [
+        "selected misc.capitalization.terms config only",
+        "default and combined-check behavior remain unverified"
+      ],
+      "cumulative_live_parity": {
+        "passed_cases": 283,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-capitalization-terms-final-20261105.json",
+        "source_fingerprint": "0ef9a79b581c03393a02f2623f9874bef1fd68948d18d2912030f05d875b60d4"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-seasons-final-20261105.json",
-    "passed_cases": 274,
+    "report": "rust/artifacts/strict-gate-capitalization-terms-final-20261105.json",
+    "passed_cases": 283,
     "exit_code": 0
   },
   "rust_dependencies": {

@@ -3,8 +3,8 @@ use proselint_rs::{
     airlinese_diagnostics, am_pm_lowercase_periods_diagnostics, am_pm_spacing_diagnostics,
     annotation_diagnostics, apologizing_diagnostics, back_formations_diagnostics,
     bureaucratese_diagnostics, but_diagnostics, capitalization_seasons_diagnostics,
-    cliches_hell_diagnostics, currency_diagnostics, debased_diagnostics,
-    false_plurals_kudos_diagnostics, false_plurals_misc_diagnostics, file_uri,
+    capitalization_terms_diagnostics, cliches_hell_diagnostics, currency_diagnostics,
+    debased_diagnostics, false_plurals_kudos_diagnostics, false_plurals_misc_diagnostics, file_uri,
     greylist_diagnostics, hedging_diagnostics, illogic_coin_diagnostics,
     illogic_collusion_diagnostics, inferior_superior_diagnostics, institution_name_diagnostics,
     jargon_diagnostics, json_result, latin_diagnostics, many_a_diagnostics,
@@ -76,7 +76,7 @@ fn run() -> Result<ExitCode, String> {
         .get("checks")
         .ok_or_else(|| "this capability requires an explicit checks configuration".to_owned())?;
     let selected_check = supported_checks(checks).ok_or_else(|| {
-        "this capability supports disabled checks, annotations.misc, cliches.hell, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.many_a, misc.metadiscourse, misc.pretension, misc.latin, misc.capitalization.seasons, misc.institution_name, misc.professions, misc.greylist, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, dates_times.am_pm.lowercase_periods, or dates_times.am_pm.spacing only".to_owned()
+        "this capability supports disabled checks, annotations.misc, cliches.hell, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.many_a, misc.metadiscourse, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.institution_name, misc.professions, misc.greylist, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, dates_times.am_pm.lowercase_periods, or dates_times.am_pm.spacing only".to_owned()
     })?;
 
     if !matches!(output_format, OutputFormat::Json) {
@@ -132,6 +132,7 @@ fn run() -> Result<ExitCode, String> {
         SelectedCheck::MiscPretension => pretension_diagnostics(&content),
         SelectedCheck::MiscLatin => latin_diagnostics(&content),
         SelectedCheck::MiscCapitalizationSeasons => capitalization_seasons_diagnostics(&content),
+        SelectedCheck::MiscCapitalizationTerms => capitalization_terms_diagnostics(&content),
         SelectedCheck::MiscInstitutionName => institution_name_diagnostics(&content),
         SelectedCheck::MiscProfessions => professions_diagnostics(&content),
         SelectedCheck::TypographySymbolsEllipsis => typography_ellipsis_diagnostics(&content),
@@ -184,6 +185,7 @@ enum SelectedCheck {
     MiscPretension,
     MiscLatin,
     MiscCapitalizationSeasons,
+    MiscCapitalizationTerms,
     MiscInstitutionName,
     MiscProfessions,
     TypographySymbolsEllipsis,
@@ -437,6 +439,15 @@ fn supported_checks(checks: &Value) -> Option<SelectedCheck> {
                         Value::Bool(false) => true,
                         Value::Bool(true) if *selected == SelectedCheck::None => {
                             *selected = SelectedCheck::MiscCapitalizationSeasons;
+                            true
+                        }
+                        _ => false,
+                    }
+                } else if path == &["misc", "capitalization", "terms"] {
+                    match child {
+                        Value::Bool(false) => true,
+                        Value::Bool(true) if *selected == SelectedCheck::None => {
+                            *selected = SelectedCheck::MiscCapitalizationTerms;
                             true
                         }
                         _ => false,

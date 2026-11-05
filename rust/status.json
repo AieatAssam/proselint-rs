@@ -110,6 +110,10 @@
     {
       "id": "rule.misc.greylist",
       "status": "recorded"
+    },
+    {
+      "id": "rule.industrial_language.bureaucratese",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -1385,12 +1389,61 @@
         "exit_code": 0,
         "report": "rust/artifacts/strict-gate-misc-greylist-final-20261105.json"
       }
+    },
+    {
+      "id": "rule.industrial_language.bureaucratese",
+      "status": "recorded",
+      "case_ids": [
+        "bureaucratese_meet_form",
+        "bureaucratese_meets_form",
+        "bureaucratese_case_variants_order",
+        "bureaucratese_embedded_unanchored",
+        "bureaucratese_punctuation_boundaries",
+        "bureaucratese_near_misses",
+        "bureaucratese_quote_suppression",
+        "bureaucratese_repeated_matches_order",
+        "bureaucratese_unicode_positions",
+        "bureaucratese_selected_config_interaction"
+      ],
+      "upstream_spec": "Pinned `industrial_language.bureaucratese` is case-insensitive Fast `ExistenceSimple` for raw substring `meets? with your approval`, unanchored without word boundaries. The message interpolates the exact matched text into `'{}' is bureaucratese.`; default quote suppression applies, with no replacement or offset.",
+      "red": {
+        "behavioral_failures": 10,
+        "total_tests": 10,
+        "exit_code": 101,
+        "cause": "CLI rejected selected industrial_language.bureaucratese config"
+      },
+      "green": {
+        "rust_tests_passed": 193,
+        "focused_tests_passed": 10,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 10,
+        "exit_code": 0,
+        "report": "rust/artifacts/industrial-bureaucratese-live-rust-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-bureaucratese/live-report.json",
+        "frozen_source_fingerprint": "2b5b4d55ff4bc1f5cedf8dd61bfa8c1de8b58c309a6fcbedd1f39474b1961637"
+      },
+      "limitations": [
+        "selected industrial_language.bureaucratese config only",
+        "default and combined-check behavior remain unverified"
+      ],
+      "cumulative_live_parity": {
+        "passed_cases": 198,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-bureaucratese-final-20261105.json"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-misc-greylist-final-20261105.json",
-    "passed_cases": 188,
+    "report": "rust/artifacts/strict-gate-bureaucratese-final-20261105.json",
+    "passed_cases": 198,
     "exit_code": 0
   },
   "rust_dependencies": {

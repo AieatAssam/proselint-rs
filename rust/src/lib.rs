@@ -71,6 +71,9 @@ const GREYLIST_TERMS: [(&str, &str); 2] = [
         "Do you know anyone who needs to utilize the word utilize?",
     ),
 ];
+const BUREAUCRATESE_PREFIX: &str = "meet";
+const BUREAUCRATESE_SUFFIX: &str = " with your approval";
+const BUREAUCRATESE_MESSAGE: &str = "'{}' is bureaucratese.";
 const INSTITUTION_NAME_PATTERN: &str = "Virginia Polytechnic and State University";
 const INSTITUTION_NAME_REPLACEMENT: &str = "Virginia Polytechnic Institute and State University";
 const PROFESSIONS: [(&str, &str); 2] = [("shoe repair guy", "cobbler"), ("geometrist", "geometer")];
@@ -1248,6 +1251,74 @@ pub fn greylist_diagnostics(text: &str) -> Vec<Value> {
                 }),
             ));
         }
+    }
+
+    matches.sort_unstable_by_key(|(start, _)| *start);
+    matches
+        .into_iter()
+        .map(|(_, diagnostic)| diagnostic)
+        .collect()
+}
+
+/// Return diagnostics for the pinned `industrial_language.bureaucratese` rule.
+///
+/// Upstream performs case-insensitive raw substring matching for
+/// `meets? with your approval`; findings retain the matched spelling and are
+/// suppressed inside paired quotes.
+pub fn bureaucratese_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut matches = Vec::new();
+    let prefix_len = BUREAUCRATESE_PREFIX.len();
+
+    for (start, _) in padded.char_indices() {
+        let prefix_end = start.saturating_add(prefix_len);
+        let Some(prefix) = padded.get(start..prefix_end) else {
+            continue;
+        };
+        if !prefix.eq_ignore_ascii_case(BUREAUCRATESE_PREFIX) {
+            continue;
+        }
+
+        let middle = if padded
+            .get(prefix_end..prefix_end.saturating_add(1))
+            .is_some_and(|suffix| suffix.eq_ignore_ascii_case("s"))
+        {
+            prefix_end + 1
+        } else {
+            prefix_end
+        };
+        let Some(suffix) = padded.get(middle..middle.saturating_add(BUREAUCRATESE_SUFFIX.len()))
+        else {
+            continue;
+        };
+        if !suffix.eq_ignore_ascii_case(BUREAUCRATESE_SUFFIX) {
+            continue;
+        }
+        let end = middle + BUREAUCRATESE_SUFFIX.len();
+        let matched = padded[start..end].to_owned();
+        let span_start = padded[..start].chars().count();
+        let span_end = span_start + padded[start..end].chars().count();
+        let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+        if quote_index % 2 == 1 {
+            continue;
+        }
+        let (line, column) = line_col_of(span_start, &line_bounds);
+        matches.push((
+            span_start,
+            json!({
+                "check_path": "industrial_language.bureaucratese",
+                "message": BUREAUCRATESE_MESSAGE.replace("{}", &matched),
+                "span": [span_start, span_end],
+                "pos": [line, column],
+                "replacements": null,
+            }),
+        ));
     }
 
     matches.sort_unstable_by_key(|(start, _)| *start);

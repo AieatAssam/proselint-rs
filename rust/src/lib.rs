@@ -14,6 +14,8 @@ const KUDOS_PATTERN: &str = "many kudos";
 const KUDOS_MESSAGE: &str = "Kudos is singular.";
 const FALSE_PLURALS_MISC: [(&str, &str); 2] =
     [("talismen", "talismans"), ("phenomenons", "phenomena")];
+const TYPOGRAPHY_ELLIPSIS_PATTERN: &str = "...";
+const TYPOGRAPHY_ELLIPSIS_MESSAGE: &str = "'...' is an approximation, use the ellipsis symbol '…'.";
 const MENTAL_TELEPATHY_PATTERN: &str = "mental telepathy";
 const MENTAL_TELEPATHY_MESSAGE: &str =
     "This is redundant because all purported telepathy is mental.";
@@ -317,6 +319,46 @@ pub fn false_plurals_misc_diagnostics(text: &str) -> Vec<Value> {
                 }),
             ));
         }
+    }
+
+    matches.sort_unstable_by_key(|(start, _)| *start);
+    matches
+        .into_iter()
+        .map(|(_, diagnostic)| diagnostic)
+        .collect()
+}
+
+/// Return diagnostics for the pinned `typography.symbols.ellipsis` rule.
+/// The ASCII three-dot pattern is an unanchored literal; matches inside paired
+/// quotes are suppressed by the default check flags.
+pub fn typography_ellipsis_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut matches = Vec::new();
+
+    for (start, _) in padded.match_indices(TYPOGRAPHY_ELLIPSIS_PATTERN) {
+        let span_start = padded[..start].chars().count();
+        let span_end = span_start + TYPOGRAPHY_ELLIPSIS_PATTERN.chars().count();
+        let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+        if quote_index % 2 == 1 {
+            continue;
+        }
+        let (line, column) = line_col_of(span_start, &line_bounds);
+        matches.push((
+            span_start,
+            json!({
+                "check_path": "typography.symbols.ellipsis",
+                "message": TYPOGRAPHY_ELLIPSIS_MESSAGE,
+                "span": [span_start, span_end],
+                "pos": [line, column],
+                "replacements": null,
+            }),
+        ));
     }
 
     matches.sort_unstable_by_key(|(start, _)| *start);

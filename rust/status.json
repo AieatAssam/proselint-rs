@@ -58,6 +58,10 @@
     {
       "id": "rule.misc.false_plurals.misc",
       "status": "recorded"
+    },
+    {
+      "id": "rule.typography.symbols.ellipsis",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -726,14 +730,58 @@
         "selected-rule config only",
         "broader Unicode case folding unverified"
       ]
+    },
+    {
+      "id": "rule.typography.symbols.ellipsis",
+      "status": "recorded",
+      "case_ids": [
+        "ellipsis_ascii_approximation_positive",
+        "ellipsis_adjacent_nonoverlapping_order",
+        "ellipsis_negative_unicode_symbol_and_short_run",
+        "ellipsis_quote_suppression",
+        "ellipsis_unicode_codepoint_spans",
+        "ellipsis_selected_config_interaction"
+      ],
+      "upstream_spec": "ExistenceSimple unanchored literal \\.\\.\\.; exact message \"'...' is an approximation, use the ellipsis symbol '\u2026'.\"; nonoverlapping matches; allow_quotes=false suppresses quoted findings.",
+      "red": {
+        "behavioral_failures": 6,
+        "total_tests": 6,
+        "exit_code": 101,
+        "cause": "CLI rejected selected typography.symbols.ellipsis config"
+      },
+      "green": {
+        "rust_tests_passed": 88,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 6,
+        "exit_code": 0,
+        "report": "rust/artifacts/live-ellipsis-rust-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-ellipsis-20261105/verification-summary.json",
+        "frozen_source_fingerprint": "5a4323da8a811adc5beb2d5db74dc6fe7050a39d1a60e9735e863182a80bb92c"
+      },
+      "cumulative_live_parity": {
+        "passed_cases": 88,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-ellipsis-final-20261105.json"
+      },
+      "limitations": [
+        "selected-rule config only",
+        "broader Unicode case folding not applicable to literal punctuation pattern"
+      ]
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-false-plurals-misc-final-20261105.json",
-    "passed_cases": 82,
+    "report": "rust/artifacts/strict-gate-ellipsis-final-20261105.json",
+    "passed_cases": 88,
     "exit_code": 0,
-    "source_fingerprint": "3462133416a2b3ae0d514d57fce45ee392f9cd529931c34a382e112c3bc4232b"
+    "source_fingerprint": "48afc5256e7b189b6f71d373a3ce1c14f06ae65d5879e77095b21f05d49cda78"
   },
   "rust_dependencies": {
     "status": "current",

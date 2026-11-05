@@ -4,7 +4,8 @@ use proselint_rs::{
     cliches_hell_diagnostics, false_plurals_kudos_diagnostics, false_plurals_misc_diagnostics,
     file_uri, illogic_coin_diagnostics, illogic_collusion_diagnostics,
     institution_name_diagnostics, json_result, mental_telepathy_diagnostics,
-    normalize_file_newlines, professions_diagnostics, whence_diagnostics,
+    normalize_file_newlines, professions_diagnostics, typography_ellipsis_diagnostics,
+    whence_diagnostics,
 };
 use serde_json::Value;
 use std::fs;
@@ -107,6 +108,7 @@ fn run() -> Result<ExitCode, String> {
         SelectedCheck::MiscBackFormations => back_formations_diagnostics(&content),
         SelectedCheck::MiscInstitutionName => institution_name_diagnostics(&content),
         SelectedCheck::MiscProfessions => professions_diagnostics(&content),
+        SelectedCheck::TypographySymbolsEllipsis => typography_ellipsis_diagnostics(&content),
     };
     let exit_code = if diagnostics.is_empty() {
         ExitCode::SUCCESS
@@ -133,6 +135,7 @@ enum SelectedCheck {
     MiscBackFormations,
     MiscInstitutionName,
     MiscProfessions,
+    TypographySymbolsEllipsis,
 }
 
 fn supported_checks(checks: &Value) -> Option<SelectedCheck> {
@@ -244,6 +247,15 @@ fn supported_checks(checks: &Value) -> Option<SelectedCheck> {
                         Value::Bool(false) => true,
                         Value::Bool(true) if *selected == SelectedCheck::None => {
                             *selected = SelectedCheck::MiscProfessions;
+                            true
+                        }
+                        _ => false,
+                    }
+                } else if path == &["typography", "symbols", "ellipsis"] {
+                    match child {
+                        Value::Bool(false) => true,
+                        Value::Bool(true) if *selected == SelectedCheck::None => {
+                            *selected = SelectedCheck::TypographySymbolsEllipsis;
                             true
                         }
                         _ => false,

@@ -89,11 +89,7 @@ fn assert_result(input: &str, expected_exit: i32, diagnostics: Vec<Value>) {
 
 #[test]
 fn reports_ascii_three_dot_approximation() {
-    assert_result(
-        "The draft says wait...",
-        1,
-        vec![diagnostic([20, 23], 20)],
-    );
+    assert_result("The draft says wait...", 1, vec![diagnostic([20, 23], 20)]);
 }
 
 #[test]

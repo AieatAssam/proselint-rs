@@ -5,10 +5,10 @@
 - Immutable baseline: proselint `0.16.0`, revision `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`; pinned Python 3.12.3 integrity checks and all 351 upstream tests plus 15 subtests passed.
 - Inventory: 124 registered rule entries over 106 unique paths (110 enabled by default, 14 disabled); see `rust/inventory.json`.
 - Harness: independently verified; 14/14 harness tests, 23/23 comparator discriminators, and 2/2 harness-only live oracle checks pass.
-- Rust records 14 implemented capabilities and 82 integration tests. `rule.misc.false_plurals.misc` passed six new direct oracle cases and independent verification; its evidence is in `rust/artifacts/live-false-plurals-misc-rust-20261105.json` and `rust/artifacts/independent-false-plurals-20261105/`.
-- The strict gate passes all 82 compatibility cases across 14 accepted capabilities; report: `rust/artifacts/strict-gate-false-plurals-misc-final-20261105.json` (source fingerprint `3462133416a2b3ae0d514d57fce45ee392f9cd529931c34a382e112c3bc4232b`).
-- Rust dependencies are locked at clap 4.6.7, serde 1.0.229 and serde_json 1.0.154. A crates.io check and `cargo update --dry-run` found zero Rust 1.99-compatible packages to update. Rust toolchain: 1.99.1.
-- The accepted capabilities cover selected-rule configurations and bounded CLI behavior. They do not establish default configuration or full Proselint parity. Most registered checks remain unimplemented; combined-rule behavior and broader Unicode case folding remain unverified.
+- Rust records 15 implemented capabilities and 88 integration tests. `rule.misc.false_plurals.misc` passed six direct oracle cases and independent verification; `rule.typography.symbols.ellipsis` passed six direct oracle cases and independent verification. Evidence is in their `rust/artifacts/live-*-rust-20261105.json` reports and `rust/artifacts/independent-*` directories.
+- The strict live gate passes all 88 compatibility cases across 15 accepted capabilities; report: `rust/artifacts/strict-gate-ellipsis-final-20261105.json` (source fingerprint `48afc5256e7b189b6f71d373a3ce1c14f06ae65d5879e77095b21f05d49cda78`).
+- Rust dependencies are current for toolchain 1.99.1: locked clap 4.6.7, serde 1.0.229 and serde_json 1.0.154. Crates.io check and `cargo update --dry-run` found zero compatible packages to update.
+- Accepted capabilities cover selected-rule configurations and bounded CLI behavior; they do not establish default configuration or full Proselint parity. Most registered checks remain unimplemented; combined-rule behavior and broader Unicode case folding remain unverified.
 - Custom agent roles were assigned as requested, but session model and reasoning-effort metadata are not exposed for independent routing audit.
 
 ## Ownership and next gate

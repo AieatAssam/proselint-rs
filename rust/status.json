@@ -26,6 +26,10 @@
     {
       "id": "rule.misc.whence",
       "status": "recorded"
+    },
+    {
+      "id": "rule.misc.false_plurals.kudos",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -71,7 +75,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "rust_builder owns rust/src/** and rust/tests/** for rule.misc.false_plurals.kudos"
+    "next_handoff": "oracle_engineer owns next bounded rule case specification"
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
@@ -79,7 +83,7 @@
     "broader newline, file-decoding, default-config, and all other registered-rule behavior remain unverified",
     "combined enabled-rule configurations, Unicode case folding beyond tested ASCII variants, broader quote pairing, default config, and remaining rules are unverified",
     "Unicode case folding outside tested ASCII variants, quote-pairing combinations, combined enabled-rule config, default config, and remaining rules are unverified",
-    "rule.misc.false_plurals.kudos is specified but not yet implemented or parity-verified"
+    "combined enabled-rule configurations, broader Unicode case folding/quote pairing, default configuration, and all unimplemented inventory rules remain unverified"
   ],
   "capability_states": [
     {
@@ -341,7 +345,7 @@
     },
     {
       "id": "rule.misc.false_plurals.kudos",
-      "status": "specified",
+      "status": "recorded",
       "case_ids": [
         "kudos_positive_context",
         "kudos_case_variants_order",
@@ -350,22 +354,45 @@
         "kudos_raw_substring",
         "kudos_selected_config_interaction"
       ],
-      "upstream_spec": "ExistenceSimple literal `many kudos`, Fast case-insensitive, no exceptions or word-boundary padding.",
-      "oracle_live_probe": {
-        "passed_cases": 6,
-        "programmatic_self_comparison": "PASS",
-        "report": "rust/artifacts/kudos-live-20261105T025843Z/kudos-live-report.json",
-        "selected_config": "misc.false_plurals.kudos only"
+      "red": {
+        "behavioral_failures": 6,
+        "total_tests": 6,
+        "exit_code": 101,
+        "cause": "CLI rejected selected misc.false_plurals.kudos config"
       },
-      "source_fingerprint": "04c5fc2399da9300a7edf41746261fe11a31f93c065d010f973c5c5e51540d69"
+      "green": {
+        "rust_tests_passed": 40,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 6,
+        "exit_code": 0,
+        "scope": "capability_only",
+        "report": "rust/artifacts/live-kudos-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-kudos/verification.json",
+        "frozen_source_fingerprint": "51397dadaaeb71d21b5fa7862a6a9393412905156ef49067c874c31521a77f5a"
+      },
+      "cumulative_live_parity": {
+        "passed_cases": 40,
+        "exit_code": 0,
+        "report": "rust/artifacts/independent-kudos/cumulative-live-report.json"
+      },
+      "limitations": [
+        "tested ASCII case variants only",
+        "single selected rule config only"
+      ]
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/final-gate-20261105.json",
-    "passed_cases": 34,
+    "report": "rust/artifacts/strict-gate-kudos-20261105.json",
+    "passed_cases": 40,
     "exit_code": 0,
-    "source_fingerprint": "90818fb7fbed804755b6bba6ba4287f6a4ef623cdd6dac9897192d28a25eadcc",
-    "note": "The first gate attempt was BLOCKED because production_capabilities used string entries; entries now use the required id/status schema."
+    "source_fingerprint": "ee6453dd5c1a1006f63fdf693cf58c956c6f67341fd679bf6805b4bf26386ebc"
   }
 }

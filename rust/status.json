@@ -75,7 +75,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "oracle_engineer owns next bounded rule case specification"
+    "next_handoff": "rust_builder owns rust/src/** and rust/tests/** for rule.psychology.mental_telepathy"
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
@@ -83,7 +83,8 @@
     "broader newline, file-decoding, default-config, and all other registered-rule behavior remain unverified",
     "combined enabled-rule configurations, Unicode case folding beyond tested ASCII variants, broader quote pairing, default config, and remaining rules are unverified",
     "Unicode case folding outside tested ASCII variants, quote-pairing combinations, combined enabled-rule config, default config, and remaining rules are unverified",
-    "combined enabled-rule configurations, broader Unicode case folding/quote pairing, default configuration, and all unimplemented inventory rules remain unverified"
+    "combined enabled-rule configurations, broader Unicode case folding/quote pairing, default configuration, and all unimplemented inventory rules remain unverified",
+    "rule.psychology.mental_telepathy is specified but not yet implemented or parity-verified"
   ],
   "capability_states": [
     {
@@ -386,6 +387,26 @@
         "tested ASCII case variants only",
         "single selected rule config only"
       ]
+    },
+    {
+      "id": "rule.psychology.mental_telepathy",
+      "status": "specified",
+      "case_ids": [
+        "mental_telepathy_positive_context",
+        "mental_telepathy_case_variants_order",
+        "mental_telepathy_boundary_negative",
+        "mental_telepathy_quote_suppression",
+        "mental_telepathy_raw_substring",
+        "mental_telepathy_selected_config_interaction"
+      ],
+      "upstream_spec": "literal `mental telepathy`, Fast case-insensitive, no exceptions or word-boundary padding.",
+      "oracle_live_probe": {
+        "passed_cases": 6,
+        "programmatic_self_comparison": "PASS",
+        "report": "rust/artifacts/mental-telepathy-live-20261105T031839Z/mental-telepathy-live-report.json",
+        "selected_config": "psychology.mental_telepathy only"
+      },
+      "source_fingerprint": "1a00c76fdb1626139a93e9a5ec4dc7f361fa38e9b0b43aaaac0a4d842f6490cd"
     }
   ],
   "last_strict_gate": {

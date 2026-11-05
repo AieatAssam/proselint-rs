@@ -12,7 +12,7 @@
 - `rule.misc.false_plurals.kudos`: independently verified and recorded at frozen fingerprint `51397dadaaeb71d21b5fa7862a6a9393412905156ef49067c874c31521a77f5a`; 6 new and 40 cumulative cases passed. Evidence: `rust/artifacts/live-kudos-20261105.json` and `rust/artifacts/independent-kudos/verification.json`.
 - Oracle: immutable source snapshot and isolated Python 3.12.3 environment are provisioned; 98 loaded modules resolve inside the venv, dependency/package/executable hashes verify, and upstream pytest passed (351 tests plus 15 subtests; exit 0).
 - Harness: `rust/harness/**` and `rust/oracle.lock.json` are independently verified on fingerprint `5817279dd9575a62a982da6d943fcbd26e8f31ff317b3626d71175afcdc6b38d`. Unit tests: 14/14; comparator discriminators: 23/23; live oracle self-check: 2/2 PASS with harness-only scope. Before the first capability was recorded, the strict gate and benchmark correctly returned BLOCKED with no accepted capabilities.
-- Current selected-rule coverage: 40 live cases across 7 capabilities. Combined rule configs, broader Unicode folding/quote pairing, default configuration, and remaining inventory rules are unverified.
+- `psychology.mental_telepathy`: specified with 6 cases for context, case variants/order, altered-phrase negatives, quote suppression, raw substrings and selected-config interaction. The pinned literal is `mental telepathy`, case-insensitive and unanchored. Direct/self-comparison passed 6/6; evidence: `rust/artifacts/mental-telepathy-live-20261105T031839Z/mental-telepathy-live-report.json`.
 - Rust crate dependencies in `Cargo.lock`: clap 4.6.7, serde 1.0.229, serde_json 1.0.154; Rust toolchain 1.99.1.
 - The accepted JSON CLI slice was tested only with an explicit configuration disabling all checks. General configuration and lint behavior are excluded from its parity claim.
 - Custom-agent roles were used, but child model and effort metadata remain unavailable for independent routing audit.
@@ -29,4 +29,4 @@ Start revision: `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`. The oracle uses Pyth
 
 ## Next gate
 
-The corrected strict live gate passes all 40 cases across seven recorded capabilities; report: `rust/artifacts/strict-gate-kudos-20261105.json`. Obtain final frozen independent verification, then select the next bounded rule. The full inventory and default behavior remain incomplete.
+The corrected strict live gate passes all 40 cases across seven recorded capabilities; report: `rust/artifacts/strict-gate-kudos-20261105.json`. Add behavioral RED tests for `psychology.mental_telepathy`, implement from pinned data, and verify cumulatively. The full inventory, combined rule config, and default behavior remain incomplete.

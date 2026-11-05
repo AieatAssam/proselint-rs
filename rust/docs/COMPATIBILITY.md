@@ -6,7 +6,7 @@ The pinned inventory contains 124 registered entries across 106 unique check pat
 
 ## Verified scope
 
-The Rust port currently has 31 accepted capabilities with 230 live compatibility cases. Coverage includes bounded JSON CLI behavior, selected-rule configurations, and a set of individual rules. The exact accepted rules, cases, and evidence are recorded in [`../status.json`](../status.json) and the cumulative reports under [`../artifacts/`](../artifacts/).
+The Rust port currently has 32 accepted capabilities with 239 live compatibility cases. Coverage includes bounded JSON CLI behavior, selected-rule configurations, and a set of individual rules. The exact accepted rules, cases, and evidence are recorded in [`../status.json`](../status.json) and the cumulative reports under [`../artifacts/`](../artifacts/).
 
 ## Unverified scope
 

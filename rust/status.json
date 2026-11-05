@@ -126,6 +126,10 @@
     {
       "id": "rule.industrial_language.airlinese",
       "status": "recorded"
+    },
+    {
+      "id": "rule.misc.many_a",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -1611,12 +1615,60 @@
         "exit_code": 0,
         "report": "rust/artifacts/strict-gate-airlinese-final-20261105.json"
       }
+    },
+    {
+      "id": "rule.misc.many_a",
+      "status": "recorded",
+      "case_ids": [
+        "many_a_all_three_forms",
+        "many_a_case_variants_replacements_order",
+        "many_a_punctuation_boundaries",
+        "many_a_longer_word_boundary_negatives",
+        "many_a_correct_forms_clean",
+        "many_a_quote_suppression_with_unquoted_match",
+        "many_a_repeated_mixed_source_order",
+        "many_a_unicode_codepoint_positions",
+        "many_a_selected_config_interaction"
+      ],
+      "upstream_spec": "Pinned `misc.many_a` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `are many a` → `is many a`; `have been many a` → `has been many a`; `were many a` → `was many a`. The static message is `'many a' requires a singular verb.`; each mapped replacement is returned. Default quote suppression; no exceptions or offsets.",
+      "red": {
+        "behavioral_failures": 7,
+        "total_tests": 7,
+        "exit_code": 101,
+        "cause": "CLI rejected selected misc.many_a config"
+      },
+      "green": {
+        "rust_tests_passed": 239,
+        "focused_tests_passed": 7,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 9,
+        "exit_code": 0,
+        "report": "rust/artifacts/misc-many-a-live-rust-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-many-a/live-report.json",
+        "frozen_source_fingerprint": "29d62afd037bfad132dbd081e5f55cb17f016739ffc11406d6c0d9b043fb362c"
+      },
+      "limitations": [
+        "selected misc.many_a config only",
+        "default and combined-check behavior remain unverified"
+      ],
+      "cumulative_live_parity": {
+        "passed_cases": 239,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-many-a-final-20261105.json"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-airlinese-final-20261105.json",
-    "passed_cases": 230,
+    "report": "rust/artifacts/strict-gate-many-a-final-20261105.json",
+    "passed_cases": 239,
     "exit_code": 0
   },
   "rust_dependencies": {

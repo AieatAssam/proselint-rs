@@ -89,6 +89,12 @@ const AIRLINESE_PREFIXES: [&str; 2] = ["enplan", "deplan"];
 const AIRLINESE_SUFFIXES: [&str; 4] = ["e", "ed", "ing", "ement"];
 const AIRLINESE_PHRASE: &str = "taking off momentarily";
 const AIRLINESE_MESSAGE: &str = "'{}' is airlinese.";
+const MANY_A_FORMS: [(&str, &str); 3] = [
+    ("are many a", "is many a"),
+    ("have been many a", "has been many a"),
+    ("were many a", "was many a"),
+];
+const MANY_A_MESSAGE: &str = "'many a' requires a singular verb.";
 const INSTITUTION_NAME_PATTERN: &str = "Virginia Polytechnic and State University";
 const INSTITUTION_NAME_REPLACEMENT: &str = "Virginia Polytechnic Institute and State University";
 const PROFESSIONS: [(&str, &str); 2] = [("shoe repair guy", "cobbler"), ("geometrist", "geometer")];
@@ -1587,6 +1593,61 @@ pub fn airlinese_diagnostics(text: &str) -> Vec<Value> {
                     "span": [span_start, span_end],
                     "pos": [line, column],
                     "replacements": null,
+                }),
+            ));
+        }
+    }
+
+    diagnostics.sort_unstable_by_key(|(start, _)| *start);
+    diagnostics
+        .into_iter()
+        .map(|(_, diagnostic)| diagnostic)
+        .collect()
+}
+
+/// Return diagnostics for the pinned `misc.many_a` preferred forms.
+///
+/// Matches use case-insensitive WORDS_IN_TEXT boundaries, while replacements
+/// come from the upstream form mapping and the message remains static.
+pub fn many_a_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut diagnostics = Vec::new();
+
+    for (pattern, replacement) in MANY_A_FORMS {
+        let pattern_len = pattern.len();
+        for (start, _) in padded.char_indices() {
+            let end = start.saturating_add(pattern_len);
+            let Some(candidate) = padded.get(start..end) else {
+                continue;
+            };
+            if !candidate.eq_ignore_ascii_case(pattern)
+                || is_ascii_word_before(&padded, start)
+                || is_ascii_word_at(&padded, end)
+            {
+                continue;
+            }
+
+            let span_start = padded[..start].chars().count();
+            let span_end = span_start + candidate.chars().count();
+            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+            if quote_index % 2 == 1 {
+                continue;
+            }
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            diagnostics.push((
+                span_start,
+                json!({
+                    "check_path": "misc.many_a",
+                    "message": MANY_A_MESSAGE,
+                    "span": [span_start, span_end],
+                    "pos": [line, column],
+                    "replacements": replacement,
                 }),
             ));
         }

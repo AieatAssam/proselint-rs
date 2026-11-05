@@ -134,6 +134,10 @@
     {
       "id": "rule.misc.metadiscourse",
       "status": "recorded"
+    },
+    {
+      "id": "rule.misc.pretension",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -1715,12 +1719,59 @@
         "exit_code": 0,
         "report": "rust/artifacts/strict-gate-metadiscourse-final-20261105.json"
       }
+    },
+    {
+      "id": "rule.misc.pretension",
+      "status": "recorded",
+      "case_ids": [
+        "pretension_all_four_terms",
+        "pretension_case_variants_surface_messages",
+        "pretension_longer_word_boundary_negatives",
+        "pretension_punctuation_boundaries",
+        "pretension_quote_suppression_with_unquoted",
+        "pretension_repeated_mixed_source_order",
+        "pretension_unicode_codepoint_positions",
+        "pretension_selected_config_interaction"
+      ],
+      "upstream_spec": "Pinned `misc.pretension` uses case-insensitive Fast `Existence` with WORDS_IN_TEXT for `reconceptualize`, `demassification`, `attitudinally`, and `judgmentally`. It interpolates the exact matched surface text into `Jargon words like '{}' are the hallmarks of a pretentious ass.`; replacements are null. No exceptions/offsets; default quote suppression applies.",
+      "red": {
+        "behavioral_failures": 8,
+        "total_tests": 8,
+        "exit_code": 101,
+        "cause": "CLI rejected selected misc.pretension config"
+      },
+      "green": {
+        "rust_tests_passed": 255,
+        "focused_tests_passed": 8,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 8,
+        "exit_code": 0,
+        "report": "rust/artifacts/misc-pretension-live-rust-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-pretension/live-report.json",
+        "frozen_source_fingerprint": "a71b77e297ba629b238479273d2591ea5dd55b94bde489cacc6bed4b272b8bf4"
+      },
+      "limitations": [
+        "selected misc.pretension config only",
+        "default and combined-check behavior remain unverified"
+      ],
+      "cumulative_live_parity": {
+        "passed_cases": 256,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-pretension-final-20261105.json"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-metadiscourse-final-20261105.json",
-    "passed_cases": 248,
+    "report": "rust/artifacts/strict-gate-pretension-final-20261105.json",
+    "passed_cases": 256,
     "exit_code": 0
   },
   "rust_dependencies": {

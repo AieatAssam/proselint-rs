@@ -103,6 +103,13 @@ const METADISCOURSE_PATTERNS: [&str; 5] = [
     "The previous section analyzed",
 ];
 const METADISCOURSE_MESSAGE: &str = "Excessive metadiscourse.";
+const PRETENSION_TERMS: [&str; 4] = [
+    "reconceptualize",
+    "demassification",
+    "attitudinally",
+    "judgmentally",
+];
+const PRETENSION_MESSAGE: &str = "Jargon words like '{}' are the hallmarks of a pretentious ass.";
 const INSTITUTION_NAME_PATTERN: &str = "Virginia Polytechnic and State University";
 const INSTITUTION_NAME_REPLACEMENT: &str = "Virginia Polytechnic Institute and State University";
 const PROFESSIONS: [(&str, &str); 2] = [("shoe repair guy", "cobbler"), ("geometrist", "geometer")];
@@ -1718,6 +1725,72 @@ pub fn metadiscourse_diagnostics(text: &str) -> Vec<Value> {
                 json!({
                     "check_path": "misc.metadiscourse",
                     "message": METADISCOURSE_MESSAGE,
+                    "span": [span_start, span_end],
+                    "pos": [line, column],
+                    "replacements": null,
+                }),
+            ));
+        }
+    }
+
+    diagnostics.sort_unstable_by_key(|(start, _)| *start);
+    diagnostics
+        .into_iter()
+        .map(|(_, diagnostic)| diagnostic)
+        .collect()
+}
+
+/// Return diagnostics for the pinned `misc.pretension` existence check.
+///
+/// Each term uses case-insensitive Fast existence matching with
+/// WORDS_IN_TEXT activation; the matched source spelling is interpolated in
+/// the message. Quoted occurrences are suppressed.
+pub fn pretension_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut diagnostics = Vec::new();
+
+    for term in PRETENSION_TERMS {
+        let term_len = term.len();
+        let activated = padded.char_indices().any(|(start, _)| {
+            let end = start.saturating_add(term_len);
+            let Some(candidate) = padded.get(start..end) else {
+                return false;
+            };
+            candidate.eq_ignore_ascii_case(term)
+                && !is_ascii_word_before(&padded, start)
+                && !is_ascii_word_at(&padded, end)
+        });
+        if !activated {
+            continue;
+        }
+
+        for (start, _) in padded.char_indices() {
+            let end = start.saturating_add(term_len);
+            let Some(matched) = padded.get(start..end) else {
+                continue;
+            };
+            if !matched.eq_ignore_ascii_case(term) {
+                continue;
+            }
+
+            let span_start = padded[..start].chars().count();
+            let span_end = span_start + matched.chars().count();
+            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+            if quote_index % 2 == 1 {
+                continue;
+            }
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            diagnostics.push((
+                span_start,
+                json!({
+                    "check_path": "misc.pretension",
+                    "message": PRETENSION_MESSAGE.replace("{}", matched),
                     "span": [span_start, span_end],
                     "pos": [line, column],
                     "replacements": null,

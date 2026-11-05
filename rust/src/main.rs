@@ -7,10 +7,10 @@ use proselint_rs::{
     greylist_diagnostics, hedging_diagnostics, illogic_coin_diagnostics,
     illogic_collusion_diagnostics, inferior_superior_diagnostics, institution_name_diagnostics,
     jargon_diagnostics, json_result, many_a_diagnostics, mental_telepathy_diagnostics,
-    metadiscourse_diagnostics, normalize_file_newlines, professions_diagnostics,
-    suddenly_diagnostics, typography_copyright_diagnostics, typography_ellipsis_diagnostics,
-    typography_multiplication_diagnostics, typography_sentence_spacing_diagnostics,
-    typography_trademark_diagnostics, whence_diagnostics,
+    metadiscourse_diagnostics, normalize_file_newlines, pretension_diagnostics,
+    professions_diagnostics, suddenly_diagnostics, typography_copyright_diagnostics,
+    typography_ellipsis_diagnostics, typography_multiplication_diagnostics,
+    typography_sentence_spacing_diagnostics, typography_trademark_diagnostics, whence_diagnostics,
 };
 use serde_json::Value;
 use std::fs;
@@ -74,7 +74,7 @@ fn run() -> Result<ExitCode, String> {
         .get("checks")
         .ok_or_else(|| "this capability requires an explicit checks configuration".to_owned())?;
     let selected_check = supported_checks(checks).ok_or_else(|| {
-        "this capability supports disabled checks, annotations.misc, cliches.hell, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.many_a, misc.metadiscourse, misc.institution_name, misc.professions, misc.greylist, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, dates_times.am_pm.lowercase_periods, or dates_times.am_pm.spacing only".to_owned()
+        "this capability supports disabled checks, annotations.misc, cliches.hell, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.many_a, misc.metadiscourse, misc.pretension, misc.institution_name, misc.professions, misc.greylist, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, dates_times.am_pm.lowercase_periods, or dates_times.am_pm.spacing only".to_owned()
     })?;
 
     if !matches!(output_format, OutputFormat::Json) {
@@ -127,6 +127,7 @@ fn run() -> Result<ExitCode, String> {
         SelectedCheck::IndustrialLanguageAirlinese => airlinese_diagnostics(&content),
         SelectedCheck::MiscManyA => many_a_diagnostics(&content),
         SelectedCheck::MiscMetadiscourse => metadiscourse_diagnostics(&content),
+        SelectedCheck::MiscPretension => pretension_diagnostics(&content),
         SelectedCheck::MiscInstitutionName => institution_name_diagnostics(&content),
         SelectedCheck::MiscProfessions => professions_diagnostics(&content),
         SelectedCheck::TypographySymbolsEllipsis => typography_ellipsis_diagnostics(&content),
@@ -176,6 +177,7 @@ enum SelectedCheck {
     IndustrialLanguageAirlinese,
     MiscManyA,
     MiscMetadiscourse,
+    MiscPretension,
     MiscInstitutionName,
     MiscProfessions,
     TypographySymbolsEllipsis,
@@ -402,6 +404,15 @@ fn supported_checks(checks: &Value) -> Option<SelectedCheck> {
                         Value::Bool(false) => true,
                         Value::Bool(true) if *selected == SelectedCheck::None => {
                             *selected = SelectedCheck::MiscMetadiscourse;
+                            true
+                        }
+                        _ => false,
+                    }
+                } else if path == &["misc", "pretension"] {
+                    match child {
+                        Value::Bool(false) => true,
+                        Value::Bool(true) if *selected == SelectedCheck::None => {
+                            *selected = SelectedCheck::MiscPretension;
                             true
                         }
                         _ => false,

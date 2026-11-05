@@ -40,15 +40,53 @@
   },
   "active_ownership": {
     "coordinator": [
-      "rust/docs/**",
+      "rust/Cargo.toml",
+      "rust/Cargo.lock",
       "rust/status.json",
       "rust/status-history.jsonl",
-      "rust/inventory.json"
+      "rust/docs/**"
     ],
-    "next_handoff": "oracle_engineer creates live CLI case specifications for cli.json_no_findings and rule.annotations.misc"
+    "next_handoff": "rust_builder owns rust/src/** and rust/tests/** for cli.json_no_findings"
   },
   "unresolved": [
     "no production Rust capability has passed an independent live gate",
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low"
+  ],
+  "capability_states": [
+    {
+      "id": "cli.json_no_findings",
+      "status": "specified",
+      "case_ids": [
+        "cli_json_empty_stdin",
+        "cli_json_no_hit_stdin",
+        "cli_json_empty_unicode_file"
+      ],
+      "oracle_self_comparison": {
+        "passed_cases": 3,
+        "exit_code": 0,
+        "scope": "harness_health_only",
+        "report": "rust/artifacts/oracle-self-cli-no-findings.json"
+      }
+    },
+    {
+      "id": "rule.annotations.misc",
+      "status": "specified",
+      "case_ids": [
+        "annotations_positive_todo",
+        "annotations_negative_mixed_case",
+        "annotations_case_sensitive_multiple_order",
+        "annotations_boundary_negative",
+        "annotations_quote_suppression",
+        "annotations_unicode_boundaries_positions",
+        "annotations_selected_config_interaction"
+      ],
+      "oracle_self_comparison": {
+        "passed_cases": 7,
+        "exit_code": 0,
+        "scope": "harness_health_only",
+        "report": "rust/artifacts/oracle-self-annotations.json"
+      },
+      "configuration_selection_proof": "rust/artifacts/case-spec-20261105-013354/oracle-case-probe-report.json"
+    }
   ]
 }

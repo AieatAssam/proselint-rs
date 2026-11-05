@@ -175,9 +175,21 @@ class ComparatorTests(unittest.TestCase):
     def test_real_manifest_schema_and_unique_ids(self) -> None:
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
-        self.assertEqual(len(manifest["cases"]), 2)
-        self.assertEqual(len({item["id"] for item in manifest["cases"]}), 2)
-        self.assertTrue(all(item["capability_id"] == "harness.oracle_smoke" for item in manifest["cases"]))
+        expected_case_ids = {
+            "empty_stdin_json", "unicode_space_file_path",
+            "cli_json_empty_stdin", "cli_json_no_hit_stdin", "cli_json_empty_unicode_file",
+            "annotations_positive_todo", "annotations_negative_mixed_case",
+            "annotations_case_sensitive_multiple_order", "annotations_boundary_negative",
+            "annotations_quote_suppression", "annotations_unicode_boundaries_positions",
+            "annotations_selected_config_interaction",
+        }
+        self.assertEqual({item["id"] for item in manifest["cases"]}, expected_case_ids)
+        self.assertEqual(len(manifest["cases"]), len(expected_case_ids))
+        self.assertEqual(
+            {capability: sum(case["capability_id"] == capability for case in manifest["cases"])
+             for capability in {case["capability_id"] for case in manifest["cases"]}},
+            {"harness.oracle_smoke": 2, "cli.json_no_findings": 3, "rule.annotations.misc": 7},
+        )
 
     def test_manifest_rejects_duplicate_id_and_bad_base64(self) -> None:
         valid = compare.load_manifest()

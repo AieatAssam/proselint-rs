@@ -19,7 +19,7 @@ The reference environment sets `PYTHONPATH` unset, `PYTHONNOUSERSITE=1`, isolate
 
 ## Cases and live comparison
 
-Cases live in `cases/manifest.json`. Each entry records a unique case and capability ID, provenance, input bytes/layout, argv, output mode, expected oracle outcome category, timeout, environment/config scenario, workspace mutation policy, and comparison policy. File contents are base64 so the fixture bytes are unchanged. Every files-mode fixture must be referenced by an argv `{file:path}` marker or exact path token, or named in `unused_files`; output format, the single `--output-format` option, and stdout comparison mode must agree. The current two `harness.oracle_smoke` cases exercise empty stdin and a file path containing spaces and non-ASCII characters. This capability is harness health only; it is never counted as Rust parity.
+Cases live in `cases/manifest.json`. Each entry records a unique case and capability ID, provenance, input bytes/layout, argv, output mode, expected oracle outcome category, timeout, environment/config scenario, workspace mutation policy, and comparison policy. File contents are base64 so the fixture bytes are unchanged. Every files-mode fixture must be referenced by an argv `{file:path}` marker or exact path token, or named in `unused_files`; output format, the single `--output-format` option, and stdout comparison mode must agree. The two `harness.oracle_smoke` cases exercise empty stdin and a file path containing spaces and non-ASCII characters. The first production case sets are `cli.json_no_findings` (three cases) and `rule.annotations.misc` (seven cases). Their live oracle self-comparisons remain harness-health evidence and are never counted as Rust parity.
 
 Run comparator discrimination tests:
 

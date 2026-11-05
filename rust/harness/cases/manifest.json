@@ -8,13 +8,23 @@
       "input_mode": "stdin",
       "stdin_base64": "",
       "files": [],
-      "argv": ["check", "--output-format", "json"],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
       "output_format": "json",
       "expected_oracle_outcome": "clean",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "workspace_mutates": false,
-      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "unicode_space_file_path",
@@ -22,15 +32,363 @@
       "provenance": "Pinned-oracle CLI self-consistency case exercising argv and URI handling for a non-ASCII path with spaces; not a delivered Rust capability.",
       "input_mode": "files",
       "files": [
-        {"path": "draft é title.txt", "content_base64": "QSBwbGFpbiBzZW50ZW5jZS4K"}
+        {
+          "path": "draft é title.txt",
+          "content_base64": "QSBwbGFpbiBzZW50ZW5jZS4K"
+        }
       ],
-      "argv": ["check", "--output-format", "json", "{file:draft é title.txt}"],
+      "argv": [
+        "check",
+        "--output-format",
+        "json",
+        "{file:draft é title.txt}"
+      ],
       "output_format": "json",
       "expected_oracle_outcome": "clean",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "workspace_mutates": false,
-      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_json_empty_stdin",
+      "capability_id": "cli.json_no_findings",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; empty stdin with explicit JSON output and config max_errors=1000/checks={}. Source: command_line.py.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "empty checks.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnt9fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:empty checks.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "all_checks_disabled",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_json_no_hit_stdin",
+      "capability_id": "cli.json_no_findings",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; ordinary no-hit stdin with explicit JSON output and config max_errors=1000/checks={}. Source: command_line.py.",
+      "input_mode": "stdin",
+      "stdin_base64": "T3JkaW5hcnkgcHJvc2Ugd2l0aG91dCBhbm5vdGF0aW9uIG1hcmtlcnMuCg==",
+      "files": [
+        {
+          "path": "empty checks.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnt9fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:empty checks.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "all_checks_disabled",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_json_empty_unicode_file",
+      "capability_id": "cli.json_no_findings",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; empty file passed by argv under a path containing a space and non-ASCII character; explicit JSON output and config max_errors=1000/checks={}. Source: command_line.py.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "empty checks.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnt9fQ=="
+        },
+        {
+          "path": "draft é blank.txt",
+          "content_base64": ""
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:empty checks.json}",
+        "--output-format",
+        "json",
+        "{file:draft é blank.txt}"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "all_checks_disabled",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "annotations_positive_todo",
+      "capability_id": "rule.annotations.misc",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; positive Existence term TODO. Sources: checks/annotations.py; registry/checks/types.py:Existence.",
+      "input_mode": "stdin",
+      "stdin_base64": "VE9ETw==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsibWlzYyI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "annotations_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "annotations_negative_mixed_case",
+      "capability_id": "rule.annotations.misc",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; mixed-case near miss verifies case-sensitive Fast engine. Sources: checks/annotations.py; registry/checks/engine.py:RegexOptions.",
+      "input_mode": "stdin",
+      "stdin_base64": "VG9kbw==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsibWlzYyI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "annotations_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "annotations_case_sensitive_multiple_order",
+      "capability_id": "rule.annotations.misc",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; lower- and upper-case configured terms, mixed-case near miss, multiple diagnostics in source order. Sources: checks/annotations.py; registry/checks/types.py:Existence; tools.py:LintFile.lint.",
+      "input_mode": "stdin",
+      "stdin_base64": "dG9kbyBUT0RPIFRvZG8gRklYTUU=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsibWlzYyI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "annotations_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "annotations_boundary_negative",
+      "capability_id": "rule.annotations.misc",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; word-boundary negative contrasts for underscore, digit, and adjacent letters. Sources: checks/annotations.py; registry/checks/engine.py:Padding.WORDS_IN_TEXT.",
+      "input_mode": "stdin",
+      "stdin_base64": "VE9ET19mb28gVE9ETzEgeFRPRE8gVE9ET3g=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsibWlzYyI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "annotations_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "annotations_quote_suppression",
+      "capability_id": "rule.annotations.misc",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; quoted occurrence is suppressed by LintFile quote-span filtering. Sources: checks/annotations.py; tools.py:LintFile.lint.",
+      "input_mode": "stdin",
+      "stdin_base64": "IlRPRE8i",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsibWlzYyI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "annotations_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "annotations_unicode_boundaries_positions",
+      "capability_id": "rule.annotations.misc",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; RE2 word-boundary probes around accented letters, em dash, decomposed accent, and hyphen; TODO-list contrasts punctuation boundaries with TODO_foo/TODO1. Exact code-point position evidence comes from live CLI. Sources: checks/annotations.py; registry/checks/engine.py:Padding.WORDS_IN_TEXT; tools.py:LintFile.line_col_of.",
+      "input_mode": "stdin",
+      "stdin_base64": "w6lUT0RPIFRPRE/DqSBUT0RP4oCUZW5kIGXMgVRPRE8gVE9ETy1saXN0",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsibWlzYyI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "annotations_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "annotations_selected_config_interaction",
+      "capability_id": "rule.annotations.misc",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; selected config enables only annotations.misc while text also contains very, a default weasel_words trigger. Registry selection is separately inspected programmatically. Sources: config/__init__.py:load_from; registry/checks/__init__.py:CheckRegistry.get_all_enabled; checks/weasel_words.py.",
+      "input_mode": "stdin",
+      "stdin_base64": "QSB2ZXJ5IGdvb2Qgc2VudGVuY2Ugd2l0aCBUT0RPLg==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsibWlzYyI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "annotations_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

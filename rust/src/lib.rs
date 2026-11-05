@@ -74,6 +74,8 @@ const GREYLIST_TERMS: [(&str, &str); 2] = [
 const BUREAUCRATESE_PREFIX: &str = "meet";
 const BUREAUCRATESE_SUFFIX: &str = " with your approval";
 const BUREAUCRATESE_MESSAGE: &str = "'{}' is bureaucratese.";
+const HEDGING_PATTERNS: [&str; 3] = ["I would argue that", ", so to speak", "to a certain degree"];
+const HEDGING_MESSAGE: &str = "Hedging. Just say it.";
 const INSTITUTION_NAME_PATTERN: &str = "Virginia Polytechnic and State University";
 const INSTITUTION_NAME_REPLACEMENT: &str = "Virginia Polytechnic Institute and State University";
 const PROFESSIONS: [(&str, &str); 2] = [("shoe repair guy", "cobbler"), ("geometrist", "geometer")];
@@ -1323,6 +1325,73 @@ pub fn bureaucratese_diagnostics(text: &str) -> Vec<Value> {
 
     matches.sort_unstable_by_key(|(start, _)| *start);
     matches
+        .into_iter()
+        .map(|(_, diagnostic)| diagnostic)
+        .collect()
+}
+
+/// Return diagnostics for the pinned `hedging` existence check.
+///
+/// Upstream's Fast set first selects patterns with WORDS_IN_TEXT boundaries,
+/// then runs each selected raw pattern through its case-insensitive iterator.
+/// This means an activated phrase can also report raw occurrences that do not
+/// themselves meet the boundary condition.
+pub fn hedging_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut diagnostics = Vec::new();
+
+    for pattern in HEDGING_PATTERNS {
+        let pattern_len = pattern.len();
+        let activated = padded.char_indices().any(|(start, _)| {
+            let end = start.saturating_add(pattern_len);
+            let Some(candidate) = padded.get(start..end) else {
+                return false;
+            };
+            candidate.eq_ignore_ascii_case(pattern)
+                && (is_ascii_word_before(&padded, start) != is_ascii_word_at(&padded, start))
+                && (is_ascii_word_before(&padded, end) != is_ascii_word_at(&padded, end))
+        });
+        if !activated {
+            continue;
+        }
+
+        for (start, _) in padded.char_indices() {
+            let end = start.saturating_add(pattern_len);
+            let Some(matched) = padded.get(start..end) else {
+                continue;
+            };
+            if !matched.eq_ignore_ascii_case(pattern) {
+                continue;
+            }
+
+            let span_start = padded[..start].chars().count();
+            let span_end = span_start + matched.chars().count();
+            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+            if quote_index % 2 == 1 {
+                continue;
+            }
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            diagnostics.push((
+                span_start,
+                json!({
+                    "check_path": "hedging",
+                    "message": HEDGING_MESSAGE,
+                    "span": [span_start, span_end],
+                    "pos": [line, column],
+                    "replacements": null,
+                }),
+            ));
+        }
+    }
+
+    diagnostics.sort_unstable_by_key(|(start, _)| *start);
+    diagnostics
         .into_iter()
         .map(|(_, diagnostic)| diagnostic)
         .collect()

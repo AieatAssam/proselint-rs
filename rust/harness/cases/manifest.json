@@ -6601,6 +6601,402 @@
         "exit_status": "exact"
       },
       "stdin_base64": "QSB2ZXJ5IGdvb2QgZHJhZnQgbWVldHMgd2l0aCB5b3VyIGFwcHJvdmFsIGFuZCBUT0RPLg=="
+    },
+    {
+      "id": "hedging_i_would_argue",
+      "capability_id": "rule.hedging",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path hedging; upstream module proselint/checks/hedging.py; Existence items `I would argue that`, `, so to speak`, `to a certain degree` with WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `Hedging. Just say it.`; selected config enables only hedging. Case purpose: Positive first configured phrase.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaGVkZ2luZyI6dHJ1ZX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "hedging_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "SSB3b3VsZCBhcmd1ZSB0aGF0IHRoaXMgaXMgYSBnb29kIHRlc3Qu"
+    },
+    {
+      "id": "hedging_so_to_speak_after_word",
+      "capability_id": "rule.hedging",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path hedging; upstream module proselint/checks/hedging.py; Existence items `I would argue that`, `, so to speak`, `to a certain degree` with WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `Hedging. Just say it.`; selected config enables only hedging. Case purpose: Upstream example confirms comma is part of matched phrase and preceding word supplies its left boundary.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaGVkZ2luZyI6dHJ1ZX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "hedging_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "WW91IGNvdWxkIHNheSB0aGF0LCBzbyB0byBzcGVhay4="
+    },
+    {
+      "id": "hedging_comma_boundary_start_whitespace_negative",
+      "capability_id": "rule.hedging",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path hedging; upstream module proselint/checks/hedging.py; Existence items `I would argue that`, `, so to speak`, `to a certain degree` with WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `Hedging. Just say it.`; selected config enables only hedging. Case purpose: Comma pattern at start or preceded by whitespace has no word boundary; no later positive occurrence masks this control.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaGVkZ2luZyI6dHJ1ZX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "hedging_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "LCBzbyB0byBzcGVhazsgeCAsIHNvIHRvIHNwZWFrOw=="
+    },
+    {
+      "id": "hedging_to_certain_degree",
+      "capability_id": "rule.hedging",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path hedging; upstream module proselint/checks/hedging.py; Existence items `I would argue that`, `, so to speak`, `to a certain degree` with WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `Hedging. Just say it.`; selected config enables only hedging. Case purpose: Positive third configured phrase.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaGVkZ2luZyI6dHJ1ZX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "hedging_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "VGhpcyBpcyB0cnVlIHRvIGEgY2VydGFpbiBkZWdyZWUu"
+    },
+    {
+      "id": "hedging_case_variants_mixed_order",
+      "capability_id": "rule.hedging",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path hedging; upstream module proselint/checks/hedging.py; Existence items `I would argue that`, `, so to speak`, `to a certain degree` with WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `Hedging. Just say it.`; selected config enables only hedging. Case purpose: Case-insensitive variants for all phrases, mixed/repeated in source order.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaGVkZ2luZyI6dHJ1ZX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "hedging_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "VE8gQSBDRVJUQUlOIERFR1JFRTsgSSBXT1VMRCBBUkdVRSBUSEFUOyB3b3JkcywgU08gVE8gU1BFQUs7IEkgd291bGQgYXJndWUgdGhhdC4="
+    },
+    {
+      "id": "hedging_word_boundary_near_misses",
+      "capability_id": "rule.hedging",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path hedging; upstream module proselint/checks/hedging.py; Existence items `I would argue that`, `, so to speak`, `to a certain degree` with WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `Hedging. Just say it.`; selected config enables only hedging. Case purpose: Phrases with word characters at both ends do not independently activate the WORDS_IN_TEXT match set.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaGVkZ2luZyI6dHJ1ZX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "hedging_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "eEkgd291bGQgYXJndWUgdGhhdHg7IHgsIHNvIHRvIHNwZWFreDsgeHRvIGEgY2VydGFpbiBkZWdyZWV4Lg=="
+    },
+    {
+      "id": "hedging_punctuation_boundaries",
+      "capability_id": "rule.hedging",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path hedging; upstream module proselint/checks/hedging.py; Existence items `I would argue that`, `, so to speak`, `to a certain degree` with WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `Hedging. Just say it.`; selected config enables only hedging. Case purpose: Punctuation boundaries permit each phrase and expose exact spans/order.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaGVkZ2luZyI6dHJ1ZX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "hedging_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "KEkgd291bGQgYXJndWUgdGhhdCkhIHdvcmRzLCBzbyB0byBzcGVhayEgW3RvIGEgY2VydGFpbiBkZWdyZWVdPw=="
+    },
+    {
+      "id": "hedging_quote_suppression",
+      "capability_id": "rule.hedging",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path hedging; upstream module proselint/checks/hedging.py; Existence items `I would argue that`, `, so to speak`, `to a certain degree` with WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `Hedging. Just say it.`; selected config enables only hedging. Case purpose: Quoted items are suppressed while a comma phrase preceded by a word remains.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaGVkZ2luZyI6dHJ1ZX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "hedging_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "UXVvdGVkICJJIHdvdWxkIGFyZ3VlIHRoYXQiIGFuZCAidG8gYSBjZXJ0YWluIGRlZ3JlZSI7IG91dHNpZGUsIHNvIHRvIHNwZWFrLg=="
+    },
+    {
+      "id": "hedging_repeated_match_order",
+      "capability_id": "rule.hedging",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path hedging; upstream module proselint/checks/hedging.py; Existence items `I would argue that`, `, so to speak`, `to a certain degree` with WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `Hedging. Just say it.`; selected config enables only hedging. Case purpose: Repeated occurrences preserve source order.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaGVkZ2luZyI6dHJ1ZX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "hedging_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "SSB3b3VsZCBhcmd1ZSB0aGF0LCB0aGVuIEkgd291bGQgYXJndWUgdGhhdC4="
+    },
+    {
+      "id": "hedging_unicode_codepoint_positions",
+      "capability_id": "rule.hedging",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path hedging; upstream module proselint/checks/hedging.py; Existence items `I would argue that`, `, so to speak`, `to a certain degree` with WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `Hedging. Just say it.`; selected config enables only hedging. Case purpose: Unicode and combining-mark prefixes verify code-point coordinates.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaGVkZ2luZyI6dHJ1ZX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "hedging_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "w6kgYmVmb3JlIEkgd291bGQgYXJndWUgdGhhdDsgZcyBIGJlZm9yZSB0byBhIGNlcnRhaW4gZGVncmVlLg=="
+    },
+    {
+      "id": "hedging_selected_config_interaction",
+      "capability_id": "rule.hedging",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path hedging; upstream module proselint/checks/hedging.py; Existence items `I would argue that`, `, so to speak`, `to a certain degree` with WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `Hedging. Just say it.`; selected config enables only hedging. Case purpose: Only hedging is enabled; unrelated default rules do not emit.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaGVkZ2luZyI6dHJ1ZX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "hedging_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "QSB2ZXJ5IGdvb2QgZHJhZnQsIEkgd291bGQgYXJndWUgdGhhdCwgdXNlcyBUT0RPLg=="
+    },
+    {
+      "id": "hedging_fastset_activation_raw_copy",
+      "capability_id": "rule.hedging",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path hedging; upstream module proselint/checks/hedging.py; Existence item `, so to speak` with WORDS_IN_TEXT padding, Fast case-insensitive. A boundary-valid occurrence after `word` activates the pattern; FastSet then runs the raw phrase iterator, which also emits the copy inside `x, so to speakx` despite its trailing boundary failure. Expected spans/messages are captured from the live pinned CLI. This case isolates and preserves that activation/raw-copy behavior.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaGVkZ2luZyI6dHJ1ZX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "hedging_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "d29yZCwgc28gdG8gc3BlYWs7IHgsIHNvIHRvIHNwZWFreA=="
     }
   ]
 }

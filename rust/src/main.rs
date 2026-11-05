@@ -4,9 +4,9 @@ use proselint_rs::{
     apologizing_diagnostics, back_formations_diagnostics, bureaucratese_diagnostics,
     but_diagnostics, cliches_hell_diagnostics, currency_diagnostics, debased_diagnostics,
     false_plurals_kudos_diagnostics, false_plurals_misc_diagnostics, file_uri,
-    greylist_diagnostics, illogic_coin_diagnostics, illogic_collusion_diagnostics,
-    inferior_superior_diagnostics, institution_name_diagnostics, json_result,
-    mental_telepathy_diagnostics, normalize_file_newlines, professions_diagnostics,
+    greylist_diagnostics, hedging_diagnostics, illogic_coin_diagnostics,
+    illogic_collusion_diagnostics, inferior_superior_diagnostics, institution_name_diagnostics,
+    json_result, mental_telepathy_diagnostics, normalize_file_newlines, professions_diagnostics,
     suddenly_diagnostics, typography_copyright_diagnostics, typography_ellipsis_diagnostics,
     typography_multiplication_diagnostics, typography_sentence_spacing_diagnostics,
     typography_trademark_diagnostics, whence_diagnostics,
@@ -73,7 +73,7 @@ fn run() -> Result<ExitCode, String> {
         .get("checks")
         .ok_or_else(|| "this capability requires an explicit checks configuration".to_owned())?;
     let selected_check = supported_checks(checks).ok_or_else(|| {
-        "this capability supports disabled checks, annotations.misc, cliches.hell, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.institution_name, misc.professions, misc.greylist, industrial_language.bureaucratese, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, dates_times.am_pm.lowercase_periods, or dates_times.am_pm.spacing only".to_owned()
+        "this capability supports disabled checks, annotations.misc, cliches.hell, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.institution_name, misc.professions, misc.greylist, industrial_language.bureaucratese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, dates_times.am_pm.lowercase_periods, or dates_times.am_pm.spacing only".to_owned()
     })?;
 
     if !matches!(output_format, OutputFormat::Json) {
@@ -121,6 +121,7 @@ fn run() -> Result<ExitCode, String> {
         SelectedCheck::MiscBackFormations => back_formations_diagnostics(&content),
         SelectedCheck::MiscGreylist => greylist_diagnostics(&content),
         SelectedCheck::IndustrialLanguageBureaucratese => bureaucratese_diagnostics(&content),
+        SelectedCheck::Hedging => hedging_diagnostics(&content),
         SelectedCheck::MiscInstitutionName => institution_name_diagnostics(&content),
         SelectedCheck::MiscProfessions => professions_diagnostics(&content),
         SelectedCheck::TypographySymbolsEllipsis => typography_ellipsis_diagnostics(&content),
@@ -165,6 +166,7 @@ enum SelectedCheck {
     MiscBackFormations,
     MiscGreylist,
     IndustrialLanguageBureaucratese,
+    Hedging,
     MiscInstitutionName,
     MiscProfessions,
     TypographySymbolsEllipsis,
@@ -346,6 +348,15 @@ fn supported_checks(checks: &Value) -> Option<SelectedCheck> {
                         Value::Bool(false) => true,
                         Value::Bool(true) if *selected == SelectedCheck::None => {
                             *selected = SelectedCheck::IndustrialLanguageBureaucratese;
+                            true
+                        }
+                        _ => false,
+                    }
+                } else if path == &["hedging"] {
+                    match child {
+                        Value::Bool(false) => true,
+                        Value::Bool(true) if *selected == SelectedCheck::None => {
+                            *selected = SelectedCheck::Hedging;
                             true
                         }
                         _ => false,

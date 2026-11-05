@@ -114,6 +114,10 @@
     {
       "id": "rule.industrial_language.bureaucratese",
       "status": "recorded"
+    },
+    {
+      "id": "rule.hedging",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -1438,12 +1442,69 @@
         "exit_code": 0,
         "report": "rust/artifacts/strict-gate-bureaucratese-final-20261105.json"
       }
+    },
+    {
+      "id": "rule.hedging",
+      "status": "recorded",
+      "case_ids": [
+        "hedging_i_would_argue",
+        "hedging_so_to_speak_after_word",
+        "hedging_comma_boundary_start_whitespace_negative",
+        "hedging_to_certain_degree",
+        "hedging_case_variants_mixed_order",
+        "hedging_word_boundary_near_misses",
+        "hedging_punctuation_boundaries",
+        "hedging_quote_suppression",
+        "hedging_repeated_match_order",
+        "hedging_unicode_codepoint_positions",
+        "hedging_selected_config_interaction",
+        "hedging_fastset_activation_raw_copy"
+      ],
+      "upstream_spec": "Pinned `hedging` uses case-insensitive Fast `Existence` with WORDS_IN_TEXT padding for `I would argue that`, `, so to speak`, and `to a certain degree`. All matches use static message `Hedging. Just say it.`; no exceptions or offsets. Quotes are suppressed. FastSet first activates each phrase only when a boundary-valid occurrence exists, then reports all raw copies of that active phrase; for `, so to speak`, a word character before the comma can activate it, while start/whitespace alone does not.",
+      "red": {
+        "behavioral_failures": 11,
+        "total_tests": 11,
+        "exit_code": 101,
+        "cause": "CLI rejected selected hedging config"
+      },
+      "green": {
+        "rust_tests_passed": 205,
+        "focused_tests_passed": 12,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 12,
+        "exit_code": 0,
+        "report": "rust/artifacts/hedging-live-rust-20261105-final.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-hedging-expanded/live-report.json",
+        "frozen_source_fingerprint": "ddbd316cbecd72b479b6f66e1041d5872b1ce770386bc09f338c47a6cd77525f"
+      },
+      "limitations": [
+        "selected hedging config only",
+        "default and combined-check behavior remain unverified"
+      ],
+      "post_green_regression_case": {
+        "id": "hedging_fastset_activation_raw_copy",
+        "oracle_passed": true,
+        "rust_focused_test_passed": true,
+        "independent_live_passed": true
+      },
+      "cumulative_live_parity": {
+        "passed_cases": 210,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-hedging-final-20261105.json"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-bureaucratese-final-20261105.json",
-    "passed_cases": 198,
+    "report": "rust/artifacts/strict-gate-hedging-final-20261105.json",
+    "passed_cases": 210,
     "exit_code": 0
   },
   "rust_dependencies": {

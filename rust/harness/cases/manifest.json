@@ -3858,6 +3858,237 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "suddenly_case_sensitive_positive",
+      "capability_id": "rule.misc.suddenly",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path misc.suddenly; upstream module proselint/checks/misc/suddenly.py:check; pattern is case-sensitive literal \"Suddenly,\"; message \"Suddenly is nondescript, slows the action, and warns your reader.\"; inventory says default_enabled=true, Fast case-sensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: Exact case-sensitive literal plus comma matches.",
+      "input_mode": "stdin",
+      "stdin_base64": "U3VkZGVubHksIHRoZSBsaWdodHMgd2VudCBvdXQu",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJzdWRkZW5seSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_suddenly_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "suddenly_lowercase_case_sensitive_negative",
+      "capability_id": "rule.misc.suddenly",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path misc.suddenly; upstream module proselint/checks/misc/suddenly.py:check; pattern is case-sensitive literal \"Suddenly,\"; message \"Suddenly is nondescript, slows the action, and warns your reader.\"; inventory says default_enabled=true, Fast case-sensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: Lowercase initial letter does not match.",
+      "input_mode": "stdin",
+      "stdin_base64": "c3VkZGVubHksIHRoZSBsaWdodHMgd2VudCBvdXQu",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJzdWRkZW5seSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_suddenly_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "suddenly_raw_substring_multiple",
+      "capability_id": "rule.misc.suddenly",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path misc.suddenly; upstream module proselint/checks/misc/suddenly.py:check; pattern is case-sensitive literal \"Suddenly,\"; message \"Suddenly is nondescript, slows the action, and warns your reader.\"; inventory says default_enabled=true, Fast case-sensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: Raw unanchored literal matches inside an adjacent word and again in source order.",
+      "input_mode": "stdin",
+      "stdin_base64": "Tm90U3VkZGVubHksIGFuZCBTdWRkZW5seSwgYWdhaW4u",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJzdWRkZW5seSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_suddenly_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "suddenly_paired_quote_suppression",
+      "capability_id": "rule.misc.suddenly",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path misc.suddenly; upstream module proselint/checks/misc/suddenly.py:check; pattern is case-sensitive literal \"Suddenly,\"; message \"Suddenly is nondescript, slows the action, and warns your reader.\"; inventory says default_enabled=true, Fast case-sensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: The occurrence inside paired single quotes is suppressed.",
+      "input_mode": "stdin",
+      "stdin_base64": "SGUgd3JvdGUgJ1N1ZGRlbmx5LCcgaW4gdGhlIG5vdGUu",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJzdWRkZW5seSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_suddenly_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "suddenly_comma_and_case_requirement_negative",
+      "capability_id": "rule.misc.suddenly",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path misc.suddenly; upstream module proselint/checks/misc/suddenly.py:check; pattern is case-sensitive literal \"Suddenly,\"; message \"Suddenly is nondescript, slows the action, and warns your reader.\"; inventory says default_enabled=true, Fast case-sensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: Missing comma and case-variant spelling do not match.",
+      "input_mode": "stdin",
+      "stdin_base64": "U3VkZGVubHkhOyBTdWRkZW5MeSw=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJzdWRkZW5seSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_suddenly_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "suddenly_unicode_codepoint_positions",
+      "capability_id": "rule.misc.suddenly",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path misc.suddenly; upstream module proselint/checks/misc/suddenly.py:check; pattern is case-sensitive literal \"Suddenly,\"; message \"Suddenly is nondescript, slows the action, and warns your reader.\"; inventory says default_enabled=true, Fast case-sensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: Unicode prefix verifies code-point columns for repeated matches.",
+      "input_mode": "stdin",
+      "stdin_base64": "w6kgU3VkZGVubHksIHRoZW4gU3VkZGVubHks",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJzdWRkZW5seSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_suddenly_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "suddenly_selected_config_interaction",
+      "capability_id": "rule.misc.suddenly",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path misc.suddenly; upstream module proselint/checks/misc/suddenly.py:check; pattern is case-sensitive literal \"Suddenly,\"; message \"Suddenly is nondescript, slows the action, and warns your reader.\"; inventory says default_enabled=true, Fast case-sensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: Selected config explicitly enables only misc.suddenly despite unrelated trigger text.",
+      "input_mode": "stdin",
+      "stdin_base64": "VE9ETzsgdmVyeTsgU3VkZGVubHksIG5vdw==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJzdWRkZW5seSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_suddenly_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

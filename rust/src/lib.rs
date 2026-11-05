@@ -48,6 +48,7 @@ pub fn annotation_diagnostics(text: &str) -> Vec<Value> {
 
     let padded = format!("\n{text}\n");
     let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
     let mut spans = Vec::new();
 
     for item in ANNOTATIONS {
@@ -58,11 +59,12 @@ pub fn annotation_diagnostics(text: &str) -> Vec<Value> {
             }
             let span_start = padded[..start].chars().count();
             let span_end = span_start + matched.chars().count();
+            let position = line_col_of(span_start, &line_bounds);
             let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
             if quote_index % 2 == 1 {
                 continue;
             }
-            spans.push((span_start, span_end));
+            spans.push((span_start, span_end, position));
         }
     }
 
@@ -71,16 +73,52 @@ pub fn annotation_diagnostics(text: &str) -> Vec<Value> {
     spans.sort_unstable();
     spans
         .into_iter()
-        .map(|(start, end)| {
+        .map(|(start, end, (line, column))| {
             json!({
                 "check_path": "annotations.misc",
                 "message": MESSAGE,
                 "span": [start, end],
-                "pos": [1, start],
+                "pos": [line, column],
                 "replacements": null,
             })
         })
         .collect()
+}
+
+/// Match Python's `splitlines(keepends=True)` line boundaries and the
+/// corresponding `LintFile.line_col_of` zero-based padded-text positions.
+fn splitlines_bounds(text: &str) -> Vec<usize> {
+    let chars: Vec<char> = text.chars().collect();
+    let mut bounds = Vec::new();
+    let mut index = 0;
+    while index < chars.len() {
+        let end = match chars[index] {
+            '\r' if chars.get(index + 1) == Some(&'\n') => {
+                index += 1;
+                index + 1
+            }
+            '\r' | '\n' | '\u{000B}' | '\u{000C}' | '\u{001C}' | '\u{001D}' | '\u{001E}'
+            | '\u{0085}' | '\u{2028}' | '\u{2029}' => index + 1,
+            _ => {
+                index += 1;
+                continue;
+            }
+        };
+        bounds.push(end - 1);
+        index = end;
+    }
+    bounds
+}
+
+fn line_col_of(position: usize, bounds: &[usize]) -> (usize, usize) {
+    let line = bounds.partition_point(|bound| *bound < position);
+    (line, position - bounds[line - 1])
+}
+
+/// Python `Path.read_text()` enables universal newline decoding. Stdin follows
+/// a separate path and retains CRLF code points in its spans.
+pub fn normalize_file_newlines(text: &str) -> String {
+    text.replace("\r\n", "\n").replace('\r', "\n")
 }
 
 fn is_ascii_word_before(text: &str, byte_index: usize) -> bool {

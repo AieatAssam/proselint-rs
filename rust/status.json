@@ -4,7 +4,8 @@
   "package_version": "0.16.0",
   "production_capabilities": [
     "cli.json_no_findings",
-    "rule.annotations.misc"
+    "rule.annotations.misc",
+    "cli.coordinates"
   ],
   "inventory": {
     "status": "generated_from_pinned_snapshot",
@@ -49,12 +50,12 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "rust_builder owns rust/src/** and rust/tests/** for cli.coordinates"
+    "next_handoff": "oracle_engineer owns next bounded case specification; no next capability selected yet"
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
     "default configuration, all other registered rules, and broader CLI behavior remain unimplemented or unverified",
-    "cli.coordinates is specified but not yet implemented or parity-verified"
+    "broader newline, file-decoding, default-config, and all other registered-rule behavior remain unverified"
   ],
   "capability_states": [
     {
@@ -137,7 +138,7 @@
     },
     {
       "id": "cli.coordinates",
-      "status": "specified",
+      "status": "recorded",
       "case_ids": [
         "coordinates_multiline_lf_final",
         "coordinates_multiline_lf_no_final",
@@ -146,13 +147,41 @@
         "coordinates_negative_word_boundaries",
         "coordinates_file_crlf_no_final"
       ],
-      "oracle_live_probe": {
-        "passed_cases": 6,
-        "programmatic_self_comparison": "PASS",
-        "scope": "harness_health_only",
-        "report": "rust/artifacts/coordinates-live-20261105T020826Z/coordinates-live-report.json"
+      "red": {
+        "behavioral_failures": 4,
+        "total_tests": 6,
+        "exit_code": 101,
+        "causes": [
+          "multiline positions used absolute column on line 1",
+          "file CRLF decoding retained carriage returns"
+        ]
       },
-      "source_fingerprint": "ff568eb19a04c7efb5d289d77183fdb5f06468d0cb6838fc2a8a961b446208c2"
+      "green": {
+        "rust_tests_passed": 16,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 6,
+        "exit_code": 0,
+        "scope": "capability_only",
+        "report": "rust/artifacts/live-cli-coordinates-20261105.json"
+      },
+      "cumulative_live_parity": {
+        "passed_cases": 16,
+        "exit_code": 0,
+        "report": "rust/artifacts/independent-cli-coordinates/cumulative-live-report.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-cli-coordinates/verification.json",
+        "frozen_source_fingerprint": "b78fb0812d306959aa43f02471951084dfefe8788f0c4ff3a7b689ea786eaff6"
+      },
+      "limitations": [
+        "only the six listed coordinate/newline cases covered",
+        "broader file decoding remains unverified"
+      ]
     }
   ]
 }

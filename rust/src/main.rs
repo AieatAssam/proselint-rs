@@ -1,5 +1,5 @@
 use clap::{Parser, Subcommand, ValueEnum};
-use proselint_rs::{annotation_diagnostics, file_uri, json_result};
+use proselint_rs::{annotation_diagnostics, file_uri, json_result, normalize_file_newlines};
 use serde_json::Value;
 use std::fs;
 use std::io::{self, Read};
@@ -75,6 +75,7 @@ fn run() -> Result<ExitCode, String> {
     let (source, content) = if let Some(path) = paths.first() {
         let content = fs::read_to_string(path)
             .map_err(|error| format!("Could not read '{}': {error}", path.display()))?;
+        let content = normalize_file_newlines(&content);
         let source = file_uri(path)
             .map_err(|error| format!("Could not resolve '{}': {error}", path.display()))?;
         (source, content)

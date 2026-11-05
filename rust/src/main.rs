@@ -1,5 +1,5 @@
 use clap::{Parser, Subcommand, ValueEnum};
-use proselint_rs::{clean_json_result, file_uri};
+use proselint_rs::{annotation_diagnostics, file_uri, json_result};
 use serde_json::Value;
 use std::fs;
 use std::io::{self, Read};
@@ -32,7 +32,7 @@ enum OutputFormat {
     Compact,
 }
 
-fn run() -> Result<(), String> {
+fn run() -> Result<ExitCode, String> {
     let cli = Cli::parse();
     let Command::Check {
         config,
@@ -61,9 +61,9 @@ fn run() -> Result<(), String> {
     let checks = config_value
         .get("checks")
         .ok_or_else(|| "this capability requires an explicit checks configuration".to_owned())?;
-    if !all_checks_disabled(checks) {
-        return Err("this capability handles configurations with all checks disabled".to_owned());
-    }
+    let annotations_enabled = supported_checks(checks).ok_or_else(|| {
+        "this capability supports disabled checks or annotations.misc only".to_owned()
+    })?;
 
     if !matches!(output_format, OutputFormat::Json) {
         return Err("this capability currently supports JSON output only".to_owned());
@@ -72,35 +72,70 @@ fn run() -> Result<(), String> {
         return Err("this capability currently supports one source at a time".to_owned());
     }
 
-    let source = if let Some(path) = paths.first() {
-        // Reading the file establishes the same input-access behavior for the
-        // empty-file case. Non-empty linting is implemented by later slices.
-        fs::read(path).map_err(|error| format!("Could not read '{}': {error}", path.display()))?;
-        file_uri(path)
-            .map_err(|error| format!("Could not resolve '{}': {error}", path.display()))?
+    let (source, content) = if let Some(path) = paths.first() {
+        let content = fs::read_to_string(path)
+            .map_err(|error| format!("Could not read '{}': {error}", path.display()))?;
+        let source = file_uri(path)
+            .map_err(|error| format!("Could not resolve '{}': {error}", path.display()))?;
+        (source, content)
     } else {
-        let mut input = Vec::new();
+        let mut input = String::new();
         io::stdin()
-            .read_to_end(&mut input)
+            .read_to_string(&mut input)
             .map_err(|error| format!("Could not read stdin: {error}"))?;
-        "<stdin>".to_owned()
+        ("<stdin>".to_owned(), input)
     };
 
-    println!("{}", clean_json_result(&source));
-    Ok(())
+    let diagnostics = if annotations_enabled {
+        annotation_diagnostics(&content)
+    } else {
+        Vec::new()
+    };
+    let exit_code = if diagnostics.is_empty() {
+        ExitCode::SUCCESS
+    } else {
+        ExitCode::from(1)
+    };
+    let result = json_result(&source, diagnostics);
+    println!("{result}");
+    Ok(exit_code)
 }
 
-fn all_checks_disabled(checks: &Value) -> bool {
-    match checks {
-        Value::Object(entries) => entries.values().all(all_checks_disabled),
-        Value::Bool(false) => true,
-        _ => false,
+fn supported_checks(checks: &Value) -> Option<bool> {
+    fn visit(value: &Value, path: &mut Vec<String>, enabled: &mut bool) -> bool {
+        match value {
+            Value::Object(entries) => entries.iter().all(|(key, child)| {
+                path.push(key.clone());
+                let result = if path == &["annotations", "misc"] {
+                    match child {
+                        Value::Bool(false) => true,
+                        Value::Bool(true) if !*enabled => {
+                            *enabled = true;
+                            true
+                        }
+                        _ => false,
+                    }
+                } else {
+                    visit(child, path, enabled)
+                };
+                path.pop();
+                result
+            }),
+            Value::Bool(false) => true,
+            _ => false,
+        }
     }
+
+    if !checks.is_object() {
+        return None;
+    }
+    let mut enabled = false;
+    visit(checks, &mut Vec::new(), &mut enabled).then_some(enabled)
 }
 
 fn main() -> ExitCode {
     match run() {
-        Ok(()) => ExitCode::SUCCESS,
+        Ok(code) => code,
         Err(message) => {
             eprintln!("{message}");
             ExitCode::from(4)

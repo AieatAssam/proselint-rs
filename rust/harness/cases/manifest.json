@@ -2175,6 +2175,204 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "institution_name_positive_context",
+      "capability_id": "rule.misc.institution_name",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Positive upstream example in ordinary context; the CLI returns the preferred institutional name and exact span. Sources: checks/misc/institution_name.py; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "SSB3ZW50IHRvIHRoZSBWaXJnaW5pYSBQb2x5dGVjaG5pYyBhbmQgU3RhdGUgVW5pdmVyc2l0eS4=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbnN0aXR1dGlvbl9uYW1lIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_institution_name_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "institution_name_case_variants_order",
+      "capability_id": "rule.misc.institution_name",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Uppercase and title-case forms exercise case-insensitive matching, original-text messages, replacement, and result order. Sources: checks/misc/institution_name.py; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "VklSR0lOSUEgUE9MWVRFQ0hOSUMgQU5EIFNUQVRFIFVOSVZFUlNJVFk7IFZpcmdpbmlhIFBvbHl0ZWNobmljIGFuZCBTdGF0ZSBVbml2ZXJzaXR5Lg==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbnN0aXR1dGlvbl9uYW1lIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_institution_name_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "institution_name_word_boundary_negative",
+      "capability_id": "rule.misc.institution_name",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Adjacent letters eliminate the WORDS_IN_TEXT boundaries; the CLI returns no diagnostic. Sources: checks/misc/institution_name.py; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "eFZpcmdpbmlhIFBvbHl0ZWNobmljIGFuZCBTdGF0ZSBVbml2ZXJzaXR5IFZpcmdpbmlhIFBvbHl0ZWNobmljIGFuZCBTdGF0ZSBVbml2ZXJzaXR5eA==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbnN0aXR1dGlvbl9uYW1lIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_institution_name_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "institution_name_quote_suppression",
+      "capability_id": "rule.misc.institution_name",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Quoted occurrence is suppressed because allow_quotes=false. Sources: checks/misc/institution_name.py; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "V2UgcmVmZXIgdG8gJ1ZpcmdpbmlhIFBvbHl0ZWNobmljIGFuZCBTdGF0ZSBVbml2ZXJzaXR5Jy4=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbnN0aXR1dGlvbl9uYW1lIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_institution_name_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "institution_name_punctuation_boundaries",
+      "capability_id": "rule.misc.institution_name",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Unicode em-dashes form word boundaries; case-insensitive match returns the preferred replacement. Sources: checks/misc/institution_name.py; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "4oCUVklSR0lOSUEgUE9MWVRFQ0hOSUMgQU5EIFNUQVRFIFVOSVZFUlNJVFnigJQ=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbnN0aXR1dGlvbl9uYW1lIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_institution_name_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "institution_name_selected_config_interaction",
+      "capability_id": "rule.misc.institution_name",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Selected-config interaction includes TODO as an unrelated annotation trigger; only misc.institution_name is enabled and emitted. Sources: checks/misc/institution_name.py; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "VmlyZ2luaWEgUG9seXRlY2huaWMgYW5kIFN0YXRlIFVuaXZlcnNpdHksIFRPRE8u",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbnN0aXR1dGlvbl9uYW1lIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_institution_name_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

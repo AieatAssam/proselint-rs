@@ -3396,6 +3396,237 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "trademark_tm_positive",
+      "capability_id": "rule.typography.symbols.trademark",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers two rules at the same check_path typography.symbols.trademark: check_trademark_symbol uses ExistenceSimple(r\"\\(tm\\)\") with message \"(TM) is a goofy alphabetic approximation, use the symbol ™.\"; check_registered_trademark_symbol uses ExistenceSimple(r\"\\(r\\)\") with message \"(R) is a goofy alphabetic approximation, use the symbol ®.\" Both are Fast, case-insensitive, allow_quotes=false, no exceptions/threshold. Case purpose: First registered pattern, case-insensitive literal match.",
+      "input_mode": "stdin",
+      "stdin_base64": "VXNlIChUTSkgd2hlbiBuZWVkZWQu",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7InRyYWRlbWFyayI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_trademark_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "trademark_registered_r_positive",
+      "capability_id": "rule.typography.symbols.trademark",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers two rules at the same check_path typography.symbols.trademark: check_trademark_symbol uses ExistenceSimple(r\"\\(tm\\)\") with message \"(TM) is a goofy alphabetic approximation, use the symbol ™.\"; check_registered_trademark_symbol uses ExistenceSimple(r\"\\(r\\)\") with message \"(R) is a goofy alphabetic approximation, use the symbol ®.\" Both are Fast, case-insensitive, allow_quotes=false, no exceptions/threshold. Case purpose: Second registered pattern with distinct message and span.",
+      "input_mode": "stdin",
+      "stdin_base64": "VXNlIChSKSB3aGVuIG5lZWRlZC4=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7InRyYWRlbWFyayI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_trademark_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "trademark_case_variants_both_entries_order",
+      "capability_id": "rule.typography.symbols.trademark",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers two rules at the same check_path typography.symbols.trademark: check_trademark_symbol uses ExistenceSimple(r\"\\(tm\\)\") with message \"(TM) is a goofy alphabetic approximation, use the symbol ™.\"; check_registered_trademark_symbol uses ExistenceSimple(r\"\\(r\\)\") with message \"(R) is a goofy alphabetic approximation, use the symbol ®.\" Both are Fast, case-insensitive, allow_quotes=false, no exceptions/threshold. Case purpose: Both patterns, case variants, raw unanchored matches and merged source order.",
+      "input_mode": "stdin",
+      "stdin_base64": "T3VyICh0bSkgbWFyaywgdGhlbiAoUiksIHRoZW4gKChUTSkpLCBhbmQgeChyKXku",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7InRyYWRlbWFyayI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_trademark_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "trademark_negative_near_misses",
+      "capability_id": "rule.typography.symbols.trademark",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers two rules at the same check_path typography.symbols.trademark: check_trademark_symbol uses ExistenceSimple(r\"\\(tm\\)\") with message \"(TM) is a goofy alphabetic approximation, use the symbol ™.\"; check_registered_trademark_symbol uses ExistenceSimple(r\"\\(r\\)\") with message \"(R) is a goofy alphabetic approximation, use the symbol ®.\" Both are Fast, case-insensitive, allow_quotes=false, no exceptions/threshold. Case purpose: Spaced/extended near-misses and actual symbols do not match.",
+      "input_mode": "stdin",
+      "stdin_base64": "VXNlICggVCBNICksIChyICksICh0bXgpLCBhbmQg4oSiIMKuLg==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7InRyYWRlbWFyayI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_trademark_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "trademark_quote_suppression",
+      "capability_id": "rule.typography.symbols.trademark",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers two rules at the same check_path typography.symbols.trademark: check_trademark_symbol uses ExistenceSimple(r\"\\(tm\\)\") with message \"(TM) is a goofy alphabetic approximation, use the symbol ™.\"; check_registered_trademark_symbol uses ExistenceSimple(r\"\\(r\\)\") with message \"(R) is a goofy alphabetic approximation, use the symbol ®.\" Both are Fast, case-insensitive, allow_quotes=false, no exceptions/threshold. Case purpose: Both patterns inside paired quotes are suppressed.",
+      "input_mode": "stdin",
+      "stdin_base64": "UXVvdGVkICIodG0pIiBhbmQgJyhyKScu",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7InRyYWRlbWFyayI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_trademark_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "trademark_unicode_codepoint_positions",
+      "capability_id": "rule.typography.symbols.trademark",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers two rules at the same check_path typography.symbols.trademark: check_trademark_symbol uses ExistenceSimple(r\"\\(tm\\)\") with message \"(TM) is a goofy alphabetic approximation, use the symbol ™.\"; check_registered_trademark_symbol uses ExistenceSimple(r\"\\(r\\)\") with message \"(R) is a goofy alphabetic approximation, use the symbol ®.\" Both are Fast, case-insensitive, allow_quotes=false, no exceptions/threshold. Case purpose: Unicode prefix and symbol test exact code-point offsets.",
+      "input_mode": "stdin",
+      "stdin_base64": "w6kgKFRNKSB0aGVuIMKuIHRoZW4gKFIp",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7InRyYWRlbWFyayI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_trademark_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "trademark_selected_config_interaction",
+      "capability_id": "rule.typography.symbols.trademark",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers two rules at the same check_path typography.symbols.trademark: check_trademark_symbol uses ExistenceSimple(r\"\\(tm\\)\") with message \"(TM) is a goofy alphabetic approximation, use the symbol ™.\"; check_registered_trademark_symbol uses ExistenceSimple(r\"\\(r\\)\") with message \"(R) is a goofy alphabetic approximation, use the symbol ®.\" Both are Fast, case-insensitive, allow_quotes=false, no exceptions/threshold. Case purpose: Only the two trademark registry entries are enabled by the selected path.",
+      "input_mode": "stdin",
+      "stdin_base64": "VE9ETyBhbmQgdmVyeTsgKFRNKSBhbmQgKHIp",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7InRyYWRlbWFyayI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_trademark_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

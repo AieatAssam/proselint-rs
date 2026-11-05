@@ -38,6 +38,10 @@
     {
       "id": "rule.misc.illogic.coin",
       "status": "recorded"
+    },
+    {
+      "id": "rule.misc.illogic.collusion",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -83,7 +87,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "rust_builder owns rust/src/** and rust/tests/** for rule.misc.illogic.collusion"
+    "next_handoff": "oracle_engineer owns next bounded rule case specification"
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
@@ -94,7 +98,7 @@
     "combined enabled-rule configurations, broader Unicode case folding/quote pairing, default configuration, and all unimplemented inventory rules remain unverified",
     "broader Unicode case folding, combined-rule config, default configuration, and most inventory rules remain unverified",
     "Most of the 124 registered checks, default configuration, combined-rule configurations, and Unicode folding beyond ASCII variants remain unverified",
-    "rule.misc.illogic.collusion is specified but not yet implemented or parity-verified"
+    "Most of the 124 registered checks, default configuration, combined-rule configurations, and broader Unicode folding remain unverified"
   ],
   "capability_states": [
     {
@@ -489,7 +493,7 @@
     },
     {
       "id": "rule.misc.illogic.collusion",
-      "status": "specified",
+      "status": "recorded",
       "case_ids": [
         "collusion_positive_context",
         "collusion_case_variants_order",
@@ -498,21 +502,44 @@
         "collusion_raw_substring",
         "collusion_selected_config_interaction"
       ],
-      "upstream_spec": "ExistenceSimple literal `without your collusion`, Fast case-insensitive, no exceptions, allow_quotes=false; message: It's impossible to defraud yourself. Try 'aquiescence'.",
-      "oracle_live_probe": {
-        "passed_cases": 6,
-        "programmatic_self_comparison": "PASS",
-        "report": "rust/artifacts/collusion-live-20261105T040110Z/collusion-live-report.json",
-        "selected_config": "misc.illogic.collusion only"
+      "red": {
+        "behavioral_failures": 6,
+        "total_tests": 6,
+        "exit_code": 101,
+        "cause": "CLI rejected selected misc.illogic.collusion config"
       },
-      "source_fingerprint": "cc07caf1796f7637cf541828b2028a5ae9e0bf8d9e9ef07e66d048ffc04a7a6a"
+      "green": {
+        "rust_tests_passed": 58,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 6,
+        "exit_code": 0,
+        "report": "rust/artifacts/live-collusion-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-collusion/verification.json",
+        "frozen_source_fingerprint": "17caa8f3e1f32ee0c7be0c560c2444a301d4e64b2c5fb3702ee53253b5011142"
+      },
+      "cumulative_live_parity": {
+        "passed_cases": 58,
+        "exit_code": 0,
+        "report": "rust/artifacts/independent-collusion/cumulative-live-report.json"
+      },
+      "limitations": [
+        "selected-rule config only",
+        "broader Unicode folding and combined rules unverified"
+      ]
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-coin-20261105.json",
-    "passed_cases": 52,
+    "report": "rust/artifacts/strict-gate-collusion-20261105.json",
+    "passed_cases": 58,
     "exit_code": 0,
-    "source_fingerprint": "cd56d7c6601a54a2f01068936f4172dcdd73660ef94a1609d67163309bae3611"
+    "source_fingerprint": "1de7ecfe892ee1867d92ee80ac4beb28ea9fd7d25f1a93e67528c1e63135d6d5"
   }
 }

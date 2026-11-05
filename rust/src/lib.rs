@@ -17,6 +17,8 @@ const MENTAL_TELEPATHY_MESSAGE: &str =
     "This is redundant because all purported telepathy is mental.";
 const ILLOGIC_COIN_PATTERN: &str = "to coin a phrase from";
 const ILLOGIC_COIN_MESSAGE: &str = "You can't coin an existing phrase. Did you mean 'borrow'?";
+const ILLOGIC_COLLUSION_PATTERN: &str = "without your collusion";
+const ILLOGIC_COLLUSION_MESSAGE: &str = "It's impossible to defraud yourself. Try 'aquiescence'.";
 const MESSAGE: &str = "Annotation left in text.";
 const QUOTES: [char; 6] = ['"', '\'', '“', '”', '‘', '’'];
 const SEPARATORS: &str = " ,.!?:;-\r\n";
@@ -342,6 +344,48 @@ pub fn illogic_coin_diagnostics(text: &str) -> Vec<Value> {
         diagnostics.push(json!({
             "check_path": "misc.illogic.coin",
             "message": ILLOGIC_COIN_MESSAGE,
+            "span": [span_start, span_end],
+            "pos": [line, column],
+            "replacements": null,
+        }));
+    }
+
+    diagnostics
+}
+
+/// Return diagnostics for the pinned `misc.illogic.collusion` literal rule.
+///
+/// The Fast matcher is case-insensitive and unanchored, with no word-boundary
+/// padding. The default quote policy suppresses matches inside paired quotes.
+pub fn illogic_collusion_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut diagnostics = Vec::new();
+    let pattern_len = ILLOGIC_COLLUSION_PATTERN.len();
+
+    for (start, _) in padded.char_indices() {
+        let Some(candidate) = padded.get(start..start.saturating_add(pattern_len)) else {
+            continue;
+        };
+        if !candidate.eq_ignore_ascii_case(ILLOGIC_COLLUSION_PATTERN) {
+            continue;
+        }
+
+        let span_start = padded[..start].chars().count();
+        let span_end = span_start + ILLOGIC_COLLUSION_PATTERN.chars().count();
+        let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+        if quote_index % 2 == 1 {
+            continue;
+        }
+        let (line, column) = line_col_of(span_start, &line_bounds);
+        diagnostics.push(json!({
+            "check_path": "misc.illogic.collusion",
+            "message": ILLOGIC_COLLUSION_MESSAGE,
             "span": [span_start, span_end],
             "pos": [line, column],
             "replacements": null,

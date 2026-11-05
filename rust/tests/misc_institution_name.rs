@@ -1,0 +1,150 @@
+use serde_json::{Value, json};
+use std::io::Write;
+use std::path::{Path, PathBuf};
+use std::process::{Command, Output, Stdio};
+use std::sync::atomic::{AtomicUsize, Ordering};
+
+static NEXT_DIR: AtomicUsize = AtomicUsize::new(0);
+
+struct Workspace(PathBuf);
+
+impl Workspace {
+    fn new() -> Self {
+        let serial = NEXT_DIR.fetch_add(1, Ordering::Relaxed);
+        let path = std::env::temp_dir().join(format!(
+            "proselint-rs-institution-name-{}-{serial}",
+            std::process::id()
+        ));
+        std::fs::create_dir(&path).expect("create isolated test workspace");
+        std::fs::write(
+            path.join("selected config.json"),
+            br#"{"max_errors":1000,"checks":{"misc":{"institution_name":true}}}"#,
+        )
+        .expect("write config selecting only misc.institution_name");
+        Self(path)
+    }
+
+    fn path(&self) -> &Path {
+        &self.0
+    }
+}
+
+impl Drop for Workspace {
+    fn drop(&mut self) {
+        let _ = std::fs::remove_dir_all(&self.0);
+    }
+}
+
+fn run_check(input: &str) -> Output {
+    let workspace = Workspace::new();
+    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint"))
+        .current_dir(workspace.path())
+        .args([
+            "check",
+            "--config",
+            "selected config.json",
+            "--output-format",
+            "json",
+        ])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .expect("start native CLI");
+    child
+        .stdin
+        .take()
+        .expect("piped stdin")
+        .write_all(input.as_bytes())
+        .expect("write input");
+    child.wait_with_output().expect("wait for native CLI")
+}
+
+fn diagnostic(span: [usize; 2], column: usize, original: &str) -> Value {
+    json!({
+        "check_path": "misc.institution_name",
+        "message": format!(
+            "Incorrect name. Use 'Virginia Polytechnic Institute and State University' instead of '{original}'."
+        ),
+        "pos": [1, column],
+        "replacements": "Virginia Polytechnic Institute and State University",
+        "span": span,
+    })
+}
+
+fn assert_result(input: &str, expected_exit: i32, diagnostics: Vec<Value>) {
+    let output = run_check(input);
+    assert_eq!(
+        output.status.code(),
+        Some(expected_exit),
+        "stderr: {:?}",
+        output.stderr
+    );
+    assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
+    let actual: Value = serde_json::from_slice(&output.stdout).expect("valid JSON output");
+    assert_eq!(
+        actual,
+        json!({"result": {"<stdin>": {"diagnostics": diagnostics}}})
+    );
+}
+
+const ORIGINAL: &str = "Virginia Polytechnic and State University";
+
+#[test]
+fn recommends_the_preferred_name_in_context() {
+    assert_result(
+        "I went to the Virginia Polytechnic and State University.",
+        1,
+        vec![diagnostic([15, 56], 15, ORIGINAL)],
+    );
+}
+
+#[test]
+fn matches_case_variants_and_preserves_order() {
+    let uppercase = "VIRGINIA POLYTECHNIC AND STATE UNIVERSITY";
+    assert_result(
+        "VIRGINIA POLYTECHNIC AND STATE UNIVERSITY; Virginia Polytechnic and State University.",
+        1,
+        vec![
+            diagnostic([1, 42], 1, uppercase),
+            diagnostic([44, 85], 44, ORIGINAL),
+        ],
+    );
+}
+
+#[test]
+fn word_padding_rejects_embedded_names() {
+    assert_result(
+        "xVirginia Polytechnic and State University Virginia Polytechnic and State Universityx",
+        0,
+        vec![],
+    );
+}
+
+#[test]
+fn suppresses_names_inside_quotes() {
+    assert_result(
+        "We refer to 'Virginia Polytechnic and State University'.",
+        0,
+        vec![],
+    );
+}
+
+#[test]
+fn unicode_punctuation_forms_word_boundaries() {
+    let uppercase = "VIRGINIA POLYTECHNIC AND STATE UNIVERSITY";
+    assert_result(
+        "—VIRGINIA POLYTECHNIC AND STATE UNIVERSITY—",
+        1,
+        vec![diagnostic([2, 43], 2, uppercase)],
+    );
+}
+
+#[test]
+fn selected_config_does_not_enable_annotations() {
+    assert_result(
+        "Virginia Polytechnic and State University, TODO.",
+        1,
+        vec![diagnostic([1, 42], 1, ORIGINAL)],
+    );
+}

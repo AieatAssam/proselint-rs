@@ -46,6 +46,10 @@
     {
       "id": "rule.misc.back_formations",
       "status": "recorded"
+    },
+    {
+      "id": "rule.misc.institution_name",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -91,7 +95,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "rust_builder owns rust/src/** and rust/tests/** for rule.misc.institution_name"
+    "next_handoff": "oracle_engineer owns next bounded rule case specification"
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
@@ -104,7 +108,7 @@
     "Most of the 124 registered checks, default configuration, combined-rule configurations, and Unicode folding beyond ASCII variants remain unverified",
     "Most of the 124 registered checks, default configuration, combined-rule configurations, and broader Unicode folding remain unverified",
     "Most of the 124 registered rules, default configuration, combined-rule configurations, and Unicode folding beyond tested ASCII remain unverified",
-    "rule.misc.institution_name is specified but not yet implemented or parity-verified"
+    "Most of the 124 registered rules, default configuration, and combined-rule behavior remain unverified"
   ],
   "capability_states": [
     {
@@ -585,7 +589,7 @@
     },
     {
       "id": "rule.misc.institution_name",
-      "status": "specified",
+      "status": "recorded",
       "case_ids": [
         "institution_name_positive_context",
         "institution_name_case_variants_order",
@@ -594,21 +598,45 @@
         "institution_name_punctuation_boundaries",
         "institution_name_selected_config_interaction"
       ],
-      "upstream_spec": "PreferredFormsSimple one-entry case-insensitive mapping Virginia Polytechnic and State University -> Virginia Polytechnic Institute and State University; WORDS_IN_TEXT padding, quote suppression disabled.",
-      "oracle_live_probe": {
-        "passed_cases": 6,
-        "programmatic_self_comparison": "PASS",
-        "report": "rust/artifacts/institution-name-live-20261105T044243Z/institution-name-live-report.json",
-        "selected_config": "misc.institution_name only"
+      "red": {
+        "behavioral_failures": 6,
+        "total_tests": 6,
+        "exit_code": 101,
+        "cause": "CLI rejected selected misc.institution_name config"
       },
-      "source_fingerprint": "61787c440c44ed9344c8ef82e17173b006f475e52cb84a2db9725f1b6360baa0"
+      "green": {
+        "rust_tests_passed": 70,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 6,
+        "exit_code": 0,
+        "report": "rust/artifacts/live-institution-name-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-institution-name/verification.json",
+        "frozen_source_fingerprint": "d440b43a563186a67704374d3e32a07c88534b107d4b6a41d88bc9b507233d76"
+      },
+      "cumulative_live_parity": {
+        "passed_cases": 70,
+        "exit_code": 0,
+        "report": "rust/artifacts/independent-institution-name/cumulative-live-report.json"
+      },
+      "limitations": [
+        "selected-rule config only",
+        "default/combined-rule behavior not claimed"
+      ],
+      "upstream_spec": "PreferredFormsSimple one-entry case-insensitive mapping Virginia Polytechnic and State University -> Virginia Polytechnic Institute and State University; WORDS_IN_TEXT padding; allow_quotes=false suppresses matches in quotes."
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-back-formations-20261105.json",
-    "passed_cases": 64,
+    "report": "rust/artifacts/strict-gate-institution-name-quote-correction-20261105.json",
+    "passed_cases": 70,
     "exit_code": 0,
-    "source_fingerprint": "060318ef7b36ed1fea2139b25163a3129bc043153b53b23789a56ca8ee8eb6f4"
+    "source_fingerprint": "0dbbe10b402b3430f142bb5c067e5deb943bbec0bb2f3777bc815a84475ec920"
   }
 }

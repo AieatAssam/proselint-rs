@@ -2,7 +2,9 @@
   "schema_version": 1,
   "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
   "package_version": "0.16.0",
-  "production_capabilities": [],
+  "production_capabilities": [
+    "cli.json_no_findings"
+  ],
   "inventory": {
     "status": "generated_from_pinned_snapshot",
     "registered_rule_count": 124,
@@ -46,27 +48,47 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "rust_builder owns rust/src/** and rust/tests/** for cli.json_no_findings"
+    "next_handoff": "rust_builder owns rust/src/** and rust/tests/** for rule.annotations.misc"
   },
   "unresolved": [
-    "no production Rust capability has passed an independent live gate",
-    "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low"
+    "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
+    "rule.annotations.misc and all remaining CLI/rule behavior are not implemented or parity-verified"
   ],
   "capability_states": [
     {
       "id": "cli.json_no_findings",
-      "status": "specified",
+      "status": "recorded",
       "case_ids": [
         "cli_json_empty_stdin",
         "cli_json_no_hit_stdin",
         "cli_json_empty_unicode_file"
       ],
-      "oracle_self_comparison": {
+      "red": {
+        "result": "3 behavioral test failures on empty JSON stdout",
+        "exit_code": 101,
+        "evidence": "builder handoff; all failures were JSON EOF after successful compilation"
+      },
+      "green": {
+        "rust_tests_passed": 3,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
         "passed_cases": 3,
         "exit_code": 0,
-        "scope": "harness_health_only",
-        "report": "rust/artifacts/oracle-self-cli-no-findings.json"
-      }
+        "scope": "capability_only",
+        "report": "rust/artifacts/live-cli-json-no-findings-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-cli-json-no-findings/verification.json",
+        "frozen_source_fingerprint": "0c246effde70e29fa7193efe9b6258d881c0fe20c3af043bf8bc4a533ad3922e"
+      },
+      "limitations": [
+        "explicit all-checks-disabled config only",
+        "no lint rules or general config compatibility claimed"
+      ]
     },
     {
       "id": "rule.annotations.misc",

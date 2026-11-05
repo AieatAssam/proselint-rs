@@ -4,9 +4,10 @@ use proselint_rs::{
     cliches_hell_diagnostics, false_plurals_kudos_diagnostics, false_plurals_misc_diagnostics,
     file_uri, illogic_coin_diagnostics, illogic_collusion_diagnostics,
     institution_name_diagnostics, json_result, mental_telepathy_diagnostics,
-    normalize_file_newlines, professions_diagnostics, typography_copyright_diagnostics,
-    typography_ellipsis_diagnostics, typography_multiplication_diagnostics,
-    typography_sentence_spacing_diagnostics, typography_trademark_diagnostics, whence_diagnostics,
+    normalize_file_newlines, professions_diagnostics, suddenly_diagnostics,
+    typography_copyright_diagnostics, typography_ellipsis_diagnostics,
+    typography_multiplication_diagnostics, typography_sentence_spacing_diagnostics,
+    typography_trademark_diagnostics, whence_diagnostics,
 };
 use serde_json::Value;
 use std::fs;
@@ -101,6 +102,7 @@ fn run() -> Result<ExitCode, String> {
         SelectedCheck::ClichesHell => cliches_hell_diagnostics(&content),
         SelectedCheck::MiscApologizing => apologizing_diagnostics(&content),
         SelectedCheck::MiscWhence => whence_diagnostics(&content),
+        SelectedCheck::MiscSuddenly => suddenly_diagnostics(&content),
         SelectedCheck::MiscFalsePluralsKudos => false_plurals_kudos_diagnostics(&content),
         SelectedCheck::MiscFalsePluralsMisc => false_plurals_misc_diagnostics(&content),
         SelectedCheck::PsychologyMentalTelepathy => mental_telepathy_diagnostics(&content),
@@ -136,6 +138,7 @@ enum SelectedCheck {
     ClichesHell,
     MiscApologizing,
     MiscWhence,
+    MiscSuddenly,
     MiscFalsePluralsKudos,
     MiscFalsePluralsMisc,
     PsychologyMentalTelepathy,
@@ -188,6 +191,15 @@ fn supported_checks(checks: &Value) -> Option<SelectedCheck> {
                         Value::Bool(false) => true,
                         Value::Bool(true) if *selected == SelectedCheck::None => {
                             *selected = SelectedCheck::MiscWhence;
+                            true
+                        }
+                        _ => false,
+                    }
+                } else if path == &["misc", "suddenly"] {
+                    match child {
+                        Value::Bool(false) => true,
+                        Value::Bool(true) if *selected == SelectedCheck::None => {
+                            *selected = SelectedCheck::MiscSuddenly;
                             true
                         }
                         _ => false,

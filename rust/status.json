@@ -78,6 +78,10 @@
     {
       "id": "rule.typography.symbols.multiplication",
       "status": "recorded"
+    },
+    {
+      "id": "rule.misc.suddenly",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -969,14 +973,59 @@
         "selected-rule config only",
         "Unicode digits intentionally do not match the pinned ASCII digit class"
       ]
+    },
+    {
+      "id": "rule.misc.suddenly",
+      "status": "recorded",
+      "case_ids": [
+        "suddenly_case_sensitive_positive",
+        "suddenly_lowercase_case_sensitive_negative",
+        "suddenly_raw_substring_multiple",
+        "suddenly_paired_quote_suppression",
+        "suddenly_comma_and_case_requirement_negative",
+        "suddenly_unicode_codepoint_positions",
+        "suddenly_selected_config_interaction"
+      ],
+      "upstream_spec": "Case-sensitive unanchored literal `Suddenly,`; exact message `Suddenly is nondescript, slows the action, and warns your reader.`; allow_quotes=false suppresses quoted findings.",
+      "red": {
+        "behavioral_failures": 7,
+        "total_tests": 7,
+        "exit_code": 101,
+        "cause": "CLI rejected selected misc.suddenly config"
+      },
+      "green": {
+        "rust_tests_passed": 122,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 7,
+        "exit_code": 0,
+        "report": "rust/artifacts/live-suddenly-rust-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-suddenly-20261105/verification-summary.json",
+        "frozen_source_fingerprint": "071051c4165d803be196976d98339aa303f09a466bfa1948e67edab17dc9ab71"
+      },
+      "cumulative_live_parity": {
+        "passed_cases": 122,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-suddenly-final-20261105.json"
+      },
+      "limitations": [
+        "selected-rule config only",
+        "default and combined-rule behavior remain unverified"
+      ]
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-multiplication-final-20261105.json",
-    "passed_cases": 115,
+    "report": "rust/artifacts/strict-gate-suddenly-final-20261105.json",
+    "passed_cases": 122,
     "exit_code": 0,
-    "source_fingerprint": "5d4c750b111eccddd7c1df94b2d5d5d4b225d946bbf1d453ac786ffbcea4c9d9"
+    "source_fingerprint": "9932244d0a8fd3e914510f124d070ec3e2343b9802296991b328050108c34c32"
   },
   "rust_dependencies": {
     "status": "current",

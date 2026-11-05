@@ -10,6 +10,8 @@ const APOLOGIZING_PATTERN: &str = "More research is needed";
 const APOLOGIZING_MESSAGE: &str = "Excessive apologizing.";
 const WHENCE_PATTERN: &str = "from whence";
 const WHENCE_MESSAGE: &str = "The 'from' in 'from whence' is not needed.";
+const SUDDENLY_PATTERN: &str = "Suddenly,";
+const SUDDENLY_MESSAGE: &str = "Suddenly is nondescript, slows the action, and warns your reader.";
 const KUDOS_PATTERN: &str = "many kudos";
 const KUDOS_MESSAGE: &str = "Kudos is singular.";
 const FALSE_PLURALS_MISC: [(&str, &str); 2] =
@@ -253,6 +255,46 @@ pub fn whence_diagnostics(text: &str) -> Vec<Value> {
     }
 
     diagnostics
+}
+
+/// Return diagnostics for the pinned `misc.suddenly` literal rule. It is
+/// case-sensitive and unanchored; occurrences inside paired quotes are
+/// suppressed by the default check flags.
+pub fn suddenly_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut matches = Vec::new();
+
+    for (start, _) in padded.match_indices(SUDDENLY_PATTERN) {
+        let span_start = padded[..start].chars().count();
+        let span_end = span_start + SUDDENLY_PATTERN.chars().count();
+        let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+        if quote_index % 2 == 1 {
+            continue;
+        }
+        let (line, column) = line_col_of(span_start, &line_bounds);
+        matches.push((
+            span_start,
+            json!({
+                "check_path": "misc.suddenly",
+                "message": SUDDENLY_MESSAGE,
+                "span": [span_start, span_end],
+                "pos": [line, column],
+                "replacements": null,
+            }),
+        ));
+    }
+
+    matches.sort_unstable_by_key(|(start, _)| *start);
+    matches
+        .into_iter()
+        .map(|(_, diagnostic)| diagnostic)
+        .collect()
 }
 
 /// Return diagnostics for the pinned `misc.false_plurals.kudos` literal rule.

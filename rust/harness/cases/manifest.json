@@ -1977,6 +1977,204 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "back_formations_positive_context",
+      "capability_id": "rule.misc.back_formations",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Positive upstream example in ordinary context; oracle returns replacement, message, and span. Sources: checks/misc/back_formations.py; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "SXQgaXMgYW4gaW1wcm9wcmlldG91cyB1c2Uu",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJiYWNrX2Zvcm1hdGlvbnMiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_back_formations_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "back_formations_case_variants_order",
+      "capability_id": "rule.misc.back_formations",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Lowercase, uppercase and title-case variants demonstrate case-insensitive mapping and order. Sources: checks/misc/back_formations.py; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "aW1wcm9wcmlldG91czsgSU1QUk9QUklFVE9VUzsgSW1wcm9wcmlldG91cy4=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJiYWNrX2Zvcm1hdGlvbnMiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_back_formations_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "back_formations_word_boundary_negative",
+      "capability_id": "rule.misc.back_formations",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Underscore and adjacent letters prevent the required WORDS_IN_TEXT boundaries; oracle returns no diagnostics. Sources: checks/misc/back_formations.py; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "eF9pbXByb3ByaWV0b3VzIGltcHJvcHJpZXRvdXNpc2g=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJiYWNrX2Zvcm1hdGlvbnMiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_back_formations_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "back_formations_quote_suppression",
+      "capability_id": "rule.misc.back_formations",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Quoted occurrence is suppressed because allow_quotes=false. Sources: checks/misc/back_formations.py; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "U2hlIGNhbGxlZCBpdCAnaW1wcm9wcmlldG91cycu",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJiYWNrX2Zvcm1hdGlvbnMiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_back_formations_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "back_formations_punctuation_boundaries",
+      "capability_id": "rule.misc.back_formations",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Unicode em-dash boundaries allow the case-insensitive preferred-form match. Sources: checks/misc/back_formations.py; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "4oCUSU1QUk9QUklFVE9VU+KAlA==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJiYWNrX2Zvcm1hdGlvbnMiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_back_formations_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "back_formations_selected_config_interaction",
+      "capability_id": "rule.misc.back_formations",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Selected-config interaction includes TODO as an unrelated annotation trigger; config enables only misc.back_formations and output contains only this rule. Sources: checks/misc/back_formations.py; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "QW4gaW1wcm9wcmlldG91cyBpZGVhLCBUT0RPLg==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJiYWNrX2Zvcm1hdGlvbnMiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_back_formations_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

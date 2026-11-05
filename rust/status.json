@@ -87,7 +87,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "oracle_engineer owns next bounded rule case specification"
+    "next_handoff": "rust_builder owns rust/src/** and rust/tests/** for rule.misc.back_formations"
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
@@ -98,7 +98,8 @@
     "combined enabled-rule configurations, broader Unicode case folding/quote pairing, default configuration, and all unimplemented inventory rules remain unverified",
     "broader Unicode case folding, combined-rule config, default configuration, and most inventory rules remain unverified",
     "Most of the 124 registered checks, default configuration, combined-rule configurations, and Unicode folding beyond ASCII variants remain unverified",
-    "Most of the 124 registered checks, default configuration, combined-rule configurations, and broader Unicode folding remain unverified"
+    "Most of the 124 registered checks, default configuration, combined-rule configurations, and broader Unicode folding remain unverified",
+    "rule.misc.back_formations is specified but not yet implemented or parity-verified"
   ],
   "capability_states": [
     {
@@ -533,6 +534,26 @@
         "selected-rule config only",
         "broader Unicode folding and combined rules unverified"
       ]
+    },
+    {
+      "id": "rule.misc.back_formations",
+      "status": "specified",
+      "case_ids": [
+        "back_formations_positive_context",
+        "back_formations_case_variants_order",
+        "back_formations_word_boundary_negative",
+        "back_formations_quote_suppression",
+        "back_formations_punctuation_boundaries",
+        "back_formations_selected_config_interaction"
+      ],
+      "upstream_spec": "PreferredFormsSimple, one item mapping `improprietous` to replacement `improper`, Fast case-insensitive, WORDS_IN_TEXT padding, quotes suppressed. Exact message: Back-formation. 'improper' is the preferred form.",
+      "oracle_live_probe": {
+        "passed_cases": 6,
+        "programmatic_self_comparison": "PASS",
+        "report": "rust/artifacts/back-formations-live-20261105T041846Z/back-formations-live-report.json",
+        "selected_config": "misc.back_formations only"
+      },
+      "source_fingerprint": "8c48264bfba1b6908bf7c642b3b58c552454f2b96142e4aa2c7783ee15dbe663"
     }
   ],
   "last_strict_gate": {

@@ -6997,6 +6997,303 @@
         "exit_status": "exact"
       },
       "stdin_base64": "d29yZCwgc28gdG8gc3BlYWs7IHgsIHNvIHRvIHNwZWFreA=="
+    },
+    {
+      "id": "jargon_all_six_phrases",
+      "capability_id": "rule.industrial_language.jargon",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path industrial_language.jargon; upstream module proselint/checks/industrial_language/jargon.py; Existence items (in order): `in the affirmative`, `in the negative`, `agendize`, `per your order`, `per your request`, `disincentivize`, with WORDS_IN_TEXT padding; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message template `'{}' is jargon. Can you replace it with something more standard?` interpolates the exact matched surface text; selected config enables only this check. Case purpose: Every registered phrase appears once with exact surface text, message, and ordered span.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJqYXJnb24iOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_jargon_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "aW4gdGhlIGFmZmlybWF0aXZlOyBpbiB0aGUgbmVnYXRpdmU7IGFnZW5kaXplOyBwZXIgeW91ciBvcmRlcjsgcGVyIHlvdXIgcmVxdWVzdDsgZGlzaW5jZW50aXZpemUu"
+    },
+    {
+      "id": "jargon_case_variants_surface_messages",
+      "capability_id": "rule.industrial_language.jargon",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path industrial_language.jargon; upstream module proselint/checks/industrial_language/jargon.py; Existence items (in order): `in the affirmative`, `in the negative`, `agendize`, `per your order`, `per your request`, `disincentivize`, with WORDS_IN_TEXT padding; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message template `'{}' is jargon. Can you replace it with something more standard?` interpolates the exact matched surface text; selected config enables only this check. Case purpose: Case-insensitive matches retain surface casing in message interpolation.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJqYXJnb24iOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_jargon_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "SU4gVEhFIEFGRklSTUFUSVZFOyBJbiBUaGUgTmVnYXRpdmU7IEFHRU5ESVpFOyBQZXIgWW91ciBPcmRlcjsgUEVSIFlPVVIgUkVRVUVTVDsgZGlzSW5jZW50aXZpemUu"
+    },
+    {
+      "id": "jargon_longer_word_boundary_negatives",
+      "capability_id": "rule.industrial_language.jargon",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path industrial_language.jargon; upstream module proselint/checks/industrial_language/jargon.py; Existence items (in order): `in the affirmative`, `in the negative`, `agendize`, `per your order`, `per your request`, `disincentivize`, with WORDS_IN_TEXT padding; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message template `'{}' is jargon. Can you replace it with something more standard?` interpolates the exact matched surface text; selected config enables only this check. Case purpose: Longer words surrounding each phrase prevent WORDS_IN_TEXT activation.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJqYXJnb24iOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_jargon_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "eGluIHRoZSBhZmZpcm1hdGl2ZXg7IHlpbiB0aGUgbmVnYXRpdmV4OyBhZ2VuZGl6ZXI7IHhwZXIgeW91ciBvcmRlcng7IHhwZXIgeW91ciByZXF1ZXN0eDsgZGlzaW5jZW50aXZpemVzeC4="
+    },
+    {
+      "id": "jargon_punctuation_boundaries",
+      "capability_id": "rule.industrial_language.jargon",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path industrial_language.jargon; upstream module proselint/checks/industrial_language/jargon.py; Existence items (in order): `in the affirmative`, `in the negative`, `agendize`, `per your order`, `per your request`, `disincentivize`, with WORDS_IN_TEXT padding; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message template `'{}' is jargon. Can you replace it with something more standard?` interpolates the exact matched surface text; selected config enables only this check. Case purpose: Punctuation permits all six matches in source order.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJqYXJnb24iOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_jargon_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "KGluIHRoZSBhZmZpcm1hdGl2ZSkhIFtpbiB0aGUgbmVnYXRpdmVdPyB7YWdlbmRpemV9OyAocGVyIHlvdXIgb3JkZXIpISBbcGVyIHlvdXIgcmVxdWVzdF0/IHtkaXNpbmNlbnRpdml6ZX0u"
+    },
+    {
+      "id": "jargon_quote_suppression_with_unquoted_hits",
+      "capability_id": "rule.industrial_language.jargon",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path industrial_language.jargon; upstream module proselint/checks/industrial_language/jargon.py; Existence items (in order): `in the affirmative`, `in the negative`, `agendize`, `per your order`, `per your request`, `disincentivize`, with WORDS_IN_TEXT padding; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message template `'{}' is jargon. Can you replace it with something more standard?` interpolates the exact matched surface text; selected config enables only this check. Case purpose: Quoted term is suppressed; outside matches remain.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJqYXJnb24iOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_jargon_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "UXVvdGVkICJhZ2VuZGl6ZSIuIE91dHNpZGUgcGVyIHlvdXIgb3JkZXIsIHRoZW4gZGlzaW5jZW50aXZpemUu"
+    },
+    {
+      "id": "jargon_repeats_mixed_source_order",
+      "capability_id": "rule.industrial_language.jargon",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path industrial_language.jargon; upstream module proselint/checks/industrial_language/jargon.py; Existence items (in order): `in the affirmative`, `in the negative`, `agendize`, `per your order`, `per your request`, `disincentivize`, with WORDS_IN_TEXT padding; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message template `'{}' is jargon. Can you replace it with something more standard?` interpolates the exact matched surface text; selected config enables only this check. Case purpose: Repeated/mixed phrase hits preserve source ordering.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJqYXJnb24iOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_jargon_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "ZGlzaW5jZW50aXZpemU7IGFnZW5kaXplOyBkaXNpbmNlbnRpdml6ZTsgaW4gdGhlIG5lZ2F0aXZlLg=="
+    },
+    {
+      "id": "jargon_unicode_codepoint_positions",
+      "capability_id": "rule.industrial_language.jargon",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path industrial_language.jargon; upstream module proselint/checks/industrial_language/jargon.py; Existence items (in order): `in the affirmative`, `in the negative`, `agendize`, `per your order`, `per your request`, `disincentivize`, with WORDS_IN_TEXT padding; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message template `'{}' is jargon. Can you replace it with something more standard?` interpolates the exact matched surface text; selected config enables only this check. Case purpose: Unicode and combining mark prefixes verify code-point spans and columns.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJqYXJnb24iOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_jargon_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "w6kgYmVmb3JlIGluIHRoZSBhZmZpcm1hdGl2ZTsgZcyBIGJlZm9yZSBkaXNpbmNlbnRpdml6ZS4="
+    },
+    {
+      "id": "jargon_selected_config_interaction",
+      "capability_id": "rule.industrial_language.jargon",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path industrial_language.jargon; upstream module proselint/checks/industrial_language/jargon.py; Existence items (in order): `in the affirmative`, `in the negative`, `agendize`, `per your order`, `per your request`, `disincentivize`, with WORDS_IN_TEXT padding; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message template `'{}' is jargon. Can you replace it with something more standard?` interpolates the exact matched surface text; selected config enables only this check. Case purpose: Only industrial_language.jargon is enabled; unrelated default checks do not emit.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJqYXJnb24iOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_jargon_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "QSB2ZXJ5IGdvb2QgcGxhbiBtYXkgYWdlbmRpemUgdGhlIHJlcXVlc3QgYW5kIFRPRE8u"
+    },
+    {
+      "id": "jargon_fastset_activation_raw_copy",
+      "capability_id": "rule.industrial_language.jargon",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; check industrial_language.jargon, source proselint/checks/industrial_language/jargon.py. A boundary-valid `agendize` activates that item; FastSet then scans the raw pattern and emits the embedded copy in `xagendizey` as well. Expected outputs/spans are from the pinned live CLI.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJqYXJnb24iOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_jargon_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "YWdlbmRpemU7IHhhZ2VuZGl6ZXk="
     }
   ]
 }

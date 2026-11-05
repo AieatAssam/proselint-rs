@@ -118,6 +118,10 @@
     {
       "id": "rule.hedging",
       "status": "recorded"
+    },
+    {
+      "id": "rule.industrial_language.jargon",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -1499,12 +1503,66 @@
         "exit_code": 0,
         "report": "rust/artifacts/strict-gate-hedging-final-20261105.json"
       }
+    },
+    {
+      "id": "rule.industrial_language.jargon",
+      "status": "recorded",
+      "case_ids": [
+        "jargon_all_six_phrases",
+        "jargon_case_variants_surface_messages",
+        "jargon_longer_word_boundary_negatives",
+        "jargon_punctuation_boundaries",
+        "jargon_quote_suppression_with_unquoted_hits",
+        "jargon_repeats_mixed_source_order",
+        "jargon_unicode_codepoint_positions",
+        "jargon_selected_config_interaction",
+        "jargon_fastset_activation_raw_copy"
+      ],
+      "upstream_spec": "Pinned `industrial_language.jargon` uses case-insensitive Fast `Existence` with WORDS_IN_TEXT padding for six phrases: `in the affirmative`, `in the negative`, `agendize`, `per your order`, `per your request`, and `disincentivize`. Messages interpolate the exact matched text into `'{}' is jargon. Can you replace it with something more standard?`; replacements are null. No exceptions or offsets; default quote suppression applies. FastSet activates each phrase at word boundaries and then reports raw occurrences for an activated phrase.",
+      "red": {
+        "behavioral_failures": 8,
+        "total_tests": 8,
+        "exit_code": 101,
+        "cause": "CLI rejected selected industrial_language.jargon config"
+      },
+      "green": {
+        "rust_tests_passed": 214,
+        "focused_tests_passed": 9,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 9,
+        "exit_code": 0,
+        "report": "rust/artifacts/industrial-jargon-live-rust-20261105-final.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-jargon-expanded/live-report.json",
+        "frozen_source_fingerprint": "19e2c1f0d00921af666c930fa8d823a3729a3156098ec640ed742e3b1409faeb"
+      },
+      "limitations": [
+        "selected industrial_language.jargon config only",
+        "default and combined-check behavior remain unverified"
+      ],
+      "post_green_regression_case": {
+        "id": "jargon_fastset_activation_raw_copy",
+        "oracle_passed": true,
+        "rust_focused_test_passed": true,
+        "independent_live_passed": true
+      },
+      "cumulative_live_parity": {
+        "passed_cases": 219,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-jargon-final-20261105.json"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-hedging-final-20261105.json",
-    "passed_cases": 210,
+    "report": "rust/artifacts/strict-gate-jargon-final-20261105.json",
+    "passed_cases": 219,
     "exit_code": 0
   },
   "rust_dependencies": {

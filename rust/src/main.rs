@@ -5,8 +5,8 @@ use proselint_rs::{
     file_uri, illogic_coin_diagnostics, illogic_collusion_diagnostics,
     institution_name_diagnostics, json_result, mental_telepathy_diagnostics,
     normalize_file_newlines, professions_diagnostics, typography_copyright_diagnostics,
-    typography_ellipsis_diagnostics, typography_sentence_spacing_diagnostics,
-    typography_trademark_diagnostics, whence_diagnostics,
+    typography_ellipsis_diagnostics, typography_multiplication_diagnostics,
+    typography_sentence_spacing_diagnostics, typography_trademark_diagnostics, whence_diagnostics,
 };
 use serde_json::Value;
 use std::fs;
@@ -115,6 +115,9 @@ fn run() -> Result<ExitCode, String> {
             typography_sentence_spacing_diagnostics(&content)
         }
         SelectedCheck::TypographySymbolsTrademark => typography_trademark_diagnostics(&content),
+        SelectedCheck::TypographySymbolsMultiplication => {
+            typography_multiplication_diagnostics(&content)
+        }
     };
     let exit_code = if diagnostics.is_empty() {
         ExitCode::SUCCESS
@@ -145,6 +148,7 @@ enum SelectedCheck {
     TypographySymbolsCopyright,
     TypographySymbolsSentenceSpacing,
     TypographySymbolsTrademark,
+    TypographySymbolsMultiplication,
 }
 
 fn supported_checks(checks: &Value) -> Option<SelectedCheck> {
@@ -292,6 +296,15 @@ fn supported_checks(checks: &Value) -> Option<SelectedCheck> {
                         Value::Bool(false) => true,
                         Value::Bool(true) if *selected == SelectedCheck::None => {
                             *selected = SelectedCheck::TypographySymbolsTrademark;
+                            true
+                        }
+                        _ => false,
+                    }
+                } else if path == &["typography", "symbols", "multiplication"] {
+                    match child {
+                        Value::Bool(false) => true,
+                        Value::Bool(true) if *selected == SelectedCheck::None => {
+                            *selected = SelectedCheck::TypographySymbolsMultiplication;
                             true
                         }
                         _ => false,

@@ -32,6 +32,8 @@ const TYPOGRAPHY_TRADEMARKS: [(&str, &str); 2] = [
         "(R) is a goofy alphabetic approximation, use the symbol ®.",
     ),
 ];
+const TYPOGRAPHY_MULTIPLICATION_MESSAGE: &str =
+    "Use the multiplication symbol ×, not the letter x.";
 const MENTAL_TELEPATHY_PATTERN: &str = "mental telepathy";
 const MENTAL_TELEPATHY_MESSAGE: &str =
     "This is redundant because all purported telepathy is mental.";
@@ -514,6 +516,80 @@ pub fn typography_trademark_diagnostics(text: &str) -> Vec<Value> {
                 }),
             ));
         }
+    }
+
+    matches.sort_unstable_by_key(|(start, _)| *start);
+    matches
+        .into_iter()
+        .map(|(_, diagnostic)| diagnostic)
+        .collect()
+}
+
+/// Return diagnostics for the pinned multiplication-symbol check. It matches
+/// ASCII digit runs separated by `x`/`X`, allowing zero or one ASCII space on
+/// either side. Matches are unanchored and nonoverlapping; quote suppression
+/// follows the default check flags.
+pub fn typography_multiplication_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let bytes = padded.as_bytes();
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut matches = Vec::new();
+    let mut cursor = 0;
+
+    while cursor < bytes.len() {
+        if !bytes[cursor].is_ascii_digit() {
+            cursor += 1;
+            continue;
+        }
+
+        let start = cursor;
+        let mut separator = start;
+        while separator < bytes.len() && bytes[separator].is_ascii_digit() {
+            separator += 1;
+        }
+        if bytes.get(separator) == Some(&b' ') {
+            separator += 1;
+        }
+        if !matches!(bytes.get(separator), Some(b'x' | b'X')) {
+            cursor = start + 1;
+            continue;
+        }
+
+        let mut end = separator + 1;
+        if bytes.get(end) == Some(&b' ') {
+            end += 1;
+        }
+        let right_start = end;
+        while end < bytes.len() && bytes[end].is_ascii_digit() {
+            end += 1;
+        }
+        if end == right_start {
+            cursor = start + 1;
+            continue;
+        }
+
+        let span_start = padded[..start].chars().count();
+        let span_end = span_start + padded[start..end].chars().count();
+        let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+        if quote_index % 2 == 0 {
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            matches.push((
+                span_start,
+                json!({
+                    "check_path": "typography.symbols.multiplication",
+                    "message": TYPOGRAPHY_MULTIPLICATION_MESSAGE,
+                    "span": [span_start, span_end],
+                    "pos": [line, column],
+                    "replacements": null,
+                }),
+            ));
+        }
+        cursor = end;
     }
 
     matches.sort_unstable_by_key(|(start, _)| *start);

@@ -74,6 +74,10 @@
     {
       "id": "rule.typography.symbols.trademark",
       "status": "recorded"
+    },
+    {
+      "id": "rule.typography.symbols.multiplication",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -920,14 +924,59 @@
         "selected-rule config only",
         "default and combined-rule behavior remain unverified"
       ]
+    },
+    {
+      "id": "rule.typography.symbols.multiplication",
+      "status": "recorded",
+      "case_ids": [
+        "multiplication_compact_positive",
+        "multiplication_optional_spaces_case_variants",
+        "multiplication_raw_substring_multiple",
+        "multiplication_negative_symbol_spacing_and_unicode_digits",
+        "multiplication_quote_suppression",
+        "multiplication_unicode_codepoint_positions",
+        "multiplication_selected_config_interaction"
+      ],
+      "upstream_spec": "ExistenceSimple `\\d+ ?x ?\\d+`: ASCII digits, case-insensitive x, zero or one ASCII space on either side, unanchored. Exact message: `Use the multiplication symbol \u00d7, not the letter x.`",
+      "red": {
+        "behavioral_failures": 7,
+        "total_tests": 7,
+        "exit_code": 101,
+        "cause": "CLI rejected selected typography.symbols.multiplication config"
+      },
+      "green": {
+        "rust_tests_passed": 115,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 7,
+        "exit_code": 0,
+        "report": "rust/artifacts/live-multiplication-rust-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-multiplication-20261105/verification-summary.json",
+        "frozen_source_fingerprint": "f5a4580d2df11abc19be4ff0a96319b2ff515da50f443eaf02b9ca9c5cc5fce3"
+      },
+      "cumulative_live_parity": {
+        "passed_cases": 115,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-multiplication-final-20261105.json"
+      },
+      "limitations": [
+        "selected-rule config only",
+        "Unicode digits intentionally do not match the pinned ASCII digit class"
+      ]
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-trademark-final-20261105.json",
-    "passed_cases": 108,
+    "report": "rust/artifacts/strict-gate-multiplication-final-20261105.json",
+    "passed_cases": 115,
     "exit_code": 0,
-    "source_fingerprint": "6da05a93b07686ef41870630c2117850ec5e3c5ace1f0ddea78f8a4a647ad476"
+    "source_fingerprint": "5d4c750b111eccddd7c1df94b2d5d5d4b225d946bbf1d453ac786ffbcea4c9d9"
   },
   "rust_dependencies": {
     "status": "current",

@@ -117,6 +117,9 @@ const LATIN_FORMS: [(&str, &str); 4] = [
     ("mutatis mutandis", "having made the necessary changes"),
 ];
 const LATIN_MESSAGE: &str = "Use English. '{}' is the preferred form.";
+const CAPITALIZATION_SEASONS: [(&str, &str); 2] = [("Winter", "winter"), ("Summer", "summer")];
+const CAPITALIZATION_SEASONS_MESSAGE: &str =
+    "Seasons shouldn't be capitalized. '{}' is the preferred form.";
 const INSTITUTION_NAME_PATTERN: &str = "Virginia Polytechnic and State University";
 const INSTITUTION_NAME_REPLACEMENT: &str = "Virginia Polytechnic Institute and State University";
 const PROFESSIONS: [(&str, &str); 2] = [("shoe repair guy", "cobbler"), ("geometrist", "geometer")];
@@ -1863,6 +1866,59 @@ pub fn latin_diagnostics(text: &str) -> Vec<Value> {
                 json!({
                     "check_path": "misc.latin",
                     "message": LATIN_MESSAGE.replace("{}", replacement),
+                    "span": [span_start, span_end],
+                    "pos": [line, column],
+                    "replacements": replacement,
+                }),
+            ));
+        }
+    }
+
+    diagnostics.sort_unstable_by_key(|(start, _)| *start);
+    diagnostics
+        .into_iter()
+        .map(|(_, diagnostic)| diagnostic)
+        .collect()
+}
+
+/// Return diagnostics for the case-sensitive pinned seasons capitalization
+/// preferred forms. Lowercase and other-case variants do not match.
+pub fn capitalization_seasons_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut diagnostics = Vec::new();
+
+    for (pattern, replacement) in CAPITALIZATION_SEASONS {
+        let pattern_len = pattern.len();
+        for (start, _) in padded.char_indices() {
+            let end = start.saturating_add(pattern_len);
+            let Some(matched) = padded.get(start..end) else {
+                continue;
+            };
+            if matched != pattern
+                || is_ascii_word_before(&padded, start)
+                || is_ascii_word_at(&padded, end)
+            {
+                continue;
+            }
+
+            let span_start = padded[..start].chars().count();
+            let span_end = span_start + matched.chars().count();
+            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+            if quote_index % 2 == 1 {
+                continue;
+            }
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            diagnostics.push((
+                span_start,
+                json!({
+                    "check_path": "misc.capitalization.seasons",
+                    "message": CAPITALIZATION_SEASONS_MESSAGE.replace("{}", replacement),
                     "span": [span_start, span_end],
                     "pos": [line, column],
                     "replacements": replacement,

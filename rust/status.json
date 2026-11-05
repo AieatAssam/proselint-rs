@@ -142,6 +142,10 @@
     {
       "id": "rule.misc.latin",
       "status": "recorded"
+    },
+    {
+      "id": "rule.misc.capitalization.seasons",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -1818,12 +1822,60 @@
         "exit_code": 0,
         "report": "rust/artifacts/strict-gate-latin-final-20261105.json"
       }
+    },
+    {
+      "id": "rule.misc.capitalization.seasons",
+      "status": "recorded",
+      "case_ids": [
+        "seasons_winter_summer_mappings",
+        "seasons_lower_upper_mixed_case_clean",
+        "seasons_commented_spring_fall_clean",
+        "seasons_longer_word_boundary_negatives",
+        "seasons_punctuation_boundaries",
+        "seasons_quote_suppression_with_unquoted",
+        "seasons_repeated_source_order",
+        "seasons_unicode_codepoint_positions",
+        "seasons_selected_config_interaction"
+      ],
+      "upstream_spec": "Pinned `misc.capitalization.seasons` is case-sensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries. Only `Winter` → `winter` and `Summer` → `summer` are mapped; lowercase, all-uppercase, and mixed-case variants are clean, as are commented-out `Spring` and `Fall`. Message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements returned, default quote suppression.",
+      "red": {
+        "behavioral_failures": 9,
+        "total_tests": 9,
+        "exit_code": 101,
+        "cause": "CLI rejected selected misc.capitalization.seasons config"
+      },
+      "green": {
+        "rust_tests_passed": 274,
+        "focused_tests_passed": 9,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 9,
+        "exit_code": 0,
+        "report": "rust/artifacts/capitalization-seasons-live-rust-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-seasons/live-report.json",
+        "frozen_source_fingerprint": "7e89e7a20bcb0cb1363774ca7596cc216d48f2ade613f728f2df29292d529068"
+      },
+      "limitations": [
+        "selected misc.capitalization.seasons config only",
+        "default and combined-check behavior remain unverified"
+      ],
+      "cumulative_live_parity": {
+        "passed_cases": 274,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-seasons-final-20261105.json"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-latin-final-20261105.json",
-    "passed_cases": 265,
+    "report": "rust/artifacts/strict-gate-seasons-final-20261105.json",
+    "passed_cases": 274,
     "exit_code": 0
   },
   "rust_dependencies": {

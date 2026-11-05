@@ -8812,6 +8812,303 @@
         "exit_status": "exact"
       },
       "stdin_base64": "QSB2ZXJ5IGdvb2Qgc2VudGVuY2U6IGNldGVyaXMgcGFyaWJ1cywgVE9ETy4="
+    },
+    {
+      "id": "seasons_winter_summer_mappings",
+      "capability_id": "rule.misc.capitalization.seasons",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`→`winter`, `Summer`→`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons winter summer mappings.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjYXBpdGFsaXphdGlvbiI6eyJzZWFzb25zIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_capitalization_seasons_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "V2ludGVyOyBTdW1tZXIu"
+    },
+    {
+      "id": "seasons_lower_upper_mixed_case_clean",
+      "capability_id": "rule.misc.capitalization.seasons",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`→`winter`, `Summer`→`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons lower upper mixed case clean.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjYXBpdGFsaXphdGlvbiI6eyJzZWFzb25zIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_capitalization_seasons_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "d2ludGVyOyBzdW1tZXI7IFdJTlRFUjsgU1VNTUVSOyB3SW50ZXI7IHN1TU1lci4="
+    },
+    {
+      "id": "seasons_commented_spring_fall_clean",
+      "capability_id": "rule.misc.capitalization.seasons",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`→`winter`, `Summer`→`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons commented spring fall clean.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjYXBpdGFsaXphdGlvbiI6eyJzZWFzb25zIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_capitalization_seasons_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "U3ByaW5nOyBGYWxsOyBzcHJpbmc7IGZhbGw7IFNQUklORzsgRkFMTC4="
+    },
+    {
+      "id": "seasons_longer_word_boundary_negatives",
+      "capability_id": "rule.misc.capitalization.seasons",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`→`winter`, `Summer`→`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons longer word boundary negatives.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjYXBpdGFsaXphdGlvbiI6eyJzZWFzb25zIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_capitalization_seasons_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "eFdpbnRlcjsgV2ludGVyeDsgU3VtbWVyXyA7IF9TdW1tZXI7IFdJbnRlcmZhbGwu"
+    },
+    {
+      "id": "seasons_punctuation_boundaries",
+      "capability_id": "rule.misc.capitalization.seasons",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`→`winter`, `Summer`→`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons punctuation boundaries.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjYXBpdGFsaXphdGlvbiI6eyJzZWFzb25zIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_capitalization_seasons_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "KFdpbnRlcikhIFtTdW1tZXJdPyB7V2ludGVyfSwgPFN1bW1lcj4u"
+    },
+    {
+      "id": "seasons_quote_suppression_with_unquoted",
+      "capability_id": "rule.misc.capitalization.seasons",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`→`winter`, `Summer`→`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons quote suppression with unquoted.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjYXBpdGFsaXphdGlvbiI6eyJzZWFzb25zIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_capitalization_seasons_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "UXVvdGVkICJXaW50ZXIiIGFuZCAiU3VtbWVyIjsgb3V0c2lkZSBXaW50ZXIgYW5kIFN1bW1lci4="
+    },
+    {
+      "id": "seasons_repeated_source_order",
+      "capability_id": "rule.misc.capitalization.seasons",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`→`winter`, `Summer`→`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons repeated source order.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjYXBpdGFsaXphdGlvbiI6eyJzZWFzb25zIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_capitalization_seasons_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "U3VtbWVyOyBXaW50ZXI7IFN1bW1lcjsgV2ludGVyLg=="
+    },
+    {
+      "id": "seasons_unicode_codepoint_positions",
+      "capability_id": "rule.misc.capitalization.seasons",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`→`winter`, `Summer`→`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons unicode codepoint positions.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjYXBpdGFsaXphdGlvbiI6eyJzZWFzb25zIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_capitalization_seasons_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "w6kgYmVmb3JlIFdpbnRlcjsgZcyBIGJlZm9yZSBTdW1tZXIu"
+    },
+    {
+      "id": "seasons_selected_config_interaction",
+      "capability_id": "rule.misc.capitalization.seasons",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`→`winter`, `Summer`→`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons selected config interaction.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjYXBpdGFsaXphdGlvbiI6eyJzZWFzb25zIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_capitalization_seasons_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "QSB2ZXJ5IGdvb2Qgc2VudGVuY2U6IFdpbnRlciBpcyBjb21pbmcuIFRPRE8u"
     }
   ]
 }

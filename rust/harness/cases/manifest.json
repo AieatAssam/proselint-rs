@@ -2967,6 +2967,204 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "copyright_ascii_approximation_positive",
+      "capability_id": "rule.typography.symbols.copyright",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py:check_copyright_symbol registers ExistenceSimple(pattern=r\"\\(c\\)\") at typography.symbols.copyright. Message: (c) is a goofy alphabetic approximation, use the symbol ©. Inventory: Fast, case-insensitive, allow_quotes=false, ppm_threshold=0, no exceptions. Case purpose: One canonical ASCII copyright approximation.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhpcyBkb2N1bWVudCBpbmNsdWRlcyAoYykgMjAyNi4=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7ImNvcHlyaWdodCI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_copyright_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "copyright_case_variant_nested_and_substring_order",
+      "capability_id": "rule.typography.symbols.copyright",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py:check_copyright_symbol registers ExistenceSimple(pattern=r\"\\(c\\)\") at typography.symbols.copyright. Message: (c) is a goofy alphabetic approximation, use the symbol ©. Inventory: Fast, case-insensitive, allow_quotes=false, ppm_threshold=0, no exceptions. Case purpose: Tests case-insensitive matching, source order, and raw unanchored matching inside adjacent characters/parentheses.",
+      "input_mode": "stdin",
+      "stdin_base64": "Q29weXJpZ2h0IChDKTsgdGhlbiAoYyksIHRoZW4gKChjKSksIHRoZW4geChjKXku",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7ImNvcHlyaWdodCI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_copyright_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "copyright_negative_spacing_and_symbol",
+      "capability_id": "rule.typography.symbols.copyright",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py:check_copyright_symbol registers ExistenceSimple(pattern=r\"\\(c\\)\") at typography.symbols.copyright. Message: (c) is a goofy alphabetic approximation, use the symbol ©. Inventory: Fast, case-insensitive, allow_quotes=false, ppm_threshold=0, no exceptions. Case purpose: Near misses and the actual copyright symbol do not match the exact (c) pattern.",
+      "input_mode": "stdin",
+      "stdin_base64": "Q29weXJpZ2h0IGMsICggYyApLCDCqSwgYW5kIChjYyku",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7ImNvcHlyaWdodCI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_copyright_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "copyright_quote_suppression",
+      "capability_id": "rule.typography.symbols.copyright",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py:check_copyright_symbol registers ExistenceSimple(pattern=r\"\\(c\\)\") at typography.symbols.copyright. Message: (c) is a goofy alphabetic approximation, use the symbol ©. Inventory: Fast, case-insensitive, allow_quotes=false, ppm_threshold=0, no exceptions. Case purpose: Occurrences inside paired straight double and single quotes are suppressed.",
+      "input_mode": "stdin",
+      "stdin_base64": "UXVvdGVkOiAiKGMpIiBhbmQgJyhjKScu",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7ImNvcHlyaWdodCI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_copyright_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "copyright_unicode_codepoint_positions",
+      "capability_id": "rule.typography.symbols.copyright",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py:check_copyright_symbol registers ExistenceSimple(pattern=r\"\\(c\\)\") at typography.symbols.copyright. Message: (c) is a goofy alphabetic approximation, use the symbol ©. Inventory: Fast, case-insensitive, allow_quotes=false, ppm_threshold=0, no exceptions. Case purpose: Unicode prefix verifies code-point columns; case variant after © verifies later span.",
+      "input_mode": "stdin",
+      "stdin_base64": "w6kgKGMpIMKpIChDKQ==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7ImNvcHlyaWdodCI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_copyright_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "copyright_selected_config_interaction",
+      "capability_id": "rule.typography.symbols.copyright",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py:check_copyright_symbol registers ExistenceSimple(pattern=r\"\\(c\\)\") at typography.symbols.copyright. Message: (c) is a goofy alphabetic approximation, use the symbol ©. Inventory: Fast, case-insensitive, allow_quotes=false, ppm_threshold=0, no exceptions. Case purpose: Config enables only typography.symbols.copyright despite unrelated TODO and very triggers.",
+      "input_mode": "stdin",
+      "stdin_base64": "VE9ETyBhbmQgdmVyeSB3b3JkczsgY29weXJpZ2h0IChjKQ==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7ImNvcHlyaWdodCI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_copyright_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

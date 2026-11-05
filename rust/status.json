@@ -50,12 +50,13 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "oracle_engineer owns next bounded case specification; no next capability selected yet"
+    "next_handoff": "rust_builder owns rust/src/** and rust/tests/** for rule.cliches.hell"
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
     "default configuration, all other registered rules, and broader CLI behavior remain unimplemented or unverified",
-    "broader newline, file-decoding, default-config, and all other registered-rule behavior remain unverified"
+    "broader newline, file-decoding, default-config, and all other registered-rule behavior remain unverified",
+    "rule.cliches.hell is specified but not yet implemented or parity-verified"
   ],
   "capability_states": [
     {
@@ -182,6 +183,26 @@
         "only the six listed coordinate/newline cases covered",
         "broader file decoding remains unverified"
       ]
+    },
+    {
+      "id": "rule.cliches.hell",
+      "status": "specified",
+      "case_ids": [
+        "cliches_hell_positive",
+        "cliches_hell_case_variants_order",
+        "cliches_hell_boundary_negative",
+        "cliches_hell_quote_suppression",
+        "cliches_hell_unanchored_substring",
+        "cliches_hell_selected_config_interaction"
+      ],
+      "oracle_live_probe": {
+        "passed_cases": 6,
+        "programmatic_self_comparison": "PASS",
+        "scope": "harness_health_only",
+        "report": "rust/artifacts/cliches-hell-live-20261105T021856Z/cliches-hell-live-report.json",
+        "selected_config": "cliches.hell only"
+      },
+      "source_fingerprint": "a08d8d25f5579528a333c25604e96a1198fd0969e9531d1e18559dbdfea7fc33"
     }
   ]
 }

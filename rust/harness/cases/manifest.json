@@ -591,6 +591,204 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "cliches_hell_positive",
+      "capability_id": "rule.cliches.hell",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Positive configured phrase with surrounding text; live CLI reported check_path and exact message. Sources: checks/cliches/hell.py; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlbiBhbGwgaGVsbCBicm9rZSBsb29zZSBhZ2Fpbi4=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiY2xpY2hlcyI6eyJoZWxsIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cliches_hell_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cliches_hell_case_variants_order",
+      "capability_id": "rule.cliches.hell",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Uppercase, title-case and lowercase phrase variants exercise case-insensitive matching and diagnostic order. Sources: checks/cliches/hell.py; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "QUxMIEhFTEwgQlJPS0UgTE9PU0U7IEFsbCBIZWxsIEJyb2tlIExvb3NlOyBhbGwgaGVsbCBicm9rZSBsb29zZS4=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiY2xpY2hlcyI6eyJoZWxsIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cliches_hell_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cliches_hell_boundary_negative",
+      "capability_id": "rule.cliches.hell",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Negative controls change literal phrase separators or merge the first token; live CLI returned an empty diagnostic array. Sources: checks/cliches/hell.py; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "YWxsIGhlbGwtYnJva2UgbG9vc2U7IGFsbCBoZWxsICBicm9rZSBsb29zZTsgYWxsaGVsbCBicm9rZSBsb29zZS4=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiY2xpY2hlcyI6eyJoZWxsIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cliches_hell_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cliches_hell_quote_suppression",
+      "capability_id": "rule.cliches.hell",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Quoted phrase is suppressed because the registered check has allow_quotes=false; live CLI returned an empty diagnostic array. Sources: checks/cliches/hell.py; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "ImFsbCBoZWxsIGJyb2tlIGxvb3NlIg==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiY2xpY2hlcyI6eyJoZWxsIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cliches_hell_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cliches_hell_unanchored_substring",
+      "capability_id": "rule.cliches.hell",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Positive raw-substring control: phrase matches inside larger tokens because ExistenceSimple uses no word-boundary padding. Sources: checks/cliches/hell.py; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "c21hbGwgaGVsbCBicm9rZSBsb29zZWx5",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiY2xpY2hlcyI6eyJoZWxsIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cliches_hell_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cliches_hell_selected_config_interaction",
+      "capability_id": "rule.cliches.hell",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Selected-config interaction pairs this rule with TODO, a default annotation trigger; config enables only cliches.hell and live output contains only that rule. Sources: checks/cliches/hell.py; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "QWxsIGhlbGwgYnJva2UgbG9vc2UgYW5kIFRPRE8u",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiY2xpY2hlcyI6eyJoZWxsIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cliches_hell_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

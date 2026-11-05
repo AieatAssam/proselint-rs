@@ -1581,6 +1581,204 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "coin_positive_context",
+      "capability_id": "rule.misc.illogic.coin",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Positive occurrence in ordinary context; live CLI supplies the rule message and exact span. Sources: checks/misc/illogic.py:check_coin_a_phrase_from; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "SGUgbGlrZXMgdG8gY29pbiBhIHBocmFzZSBmcm9tIG9sZCBzb25ncy4=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbGxvZ2ljIjp7ImNvaW4iOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_illogic_coin_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "coin_case_variants_order",
+      "capability_id": "rule.misc.illogic.coin",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Uppercase, title-case, and lowercase variants exercise case-insensitive matching and result order. Sources: checks/misc/illogic.py:check_coin_a_phrase_from; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "VE8gQ09JTiBBIFBIUkFTRSBGUk9NOyBUbyBDb2luIEEgUGhyYXNlIEZyb207IHRvIGNvaW4gYSBwaHJhc2UgZnJvbQ==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbGxvZ2ljIjp7ImNvaW4iOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_illogic_coin_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "coin_boundary_negative",
+      "capability_id": "rule.misc.illogic.coin",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Negative controls alter literal separators or a word; live CLI returns no diagnostics. Sources: checks/misc/illogic.py:check_coin_a_phrase_from; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "dG8tY29pbiBhIHBocmFzZSBmcm9tOyB0byBjb2luICBhIHBocmFzZSBmcm9tOyB0byBjb2luIGEgcGhyYXNlIGZvcg==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbGxvZ2ljIjp7ImNvaW4iOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_illogic_coin_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "coin_quote_suppression",
+      "capability_id": "rule.misc.illogic.coin",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Quoted phrase is suppressed because the check uses allow_quotes=false. Sources: checks/misc/illogic.py:check_coin_a_phrase_from; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "U2hlIHNhaWQsICd0byBjb2luIGEgcGhyYXNlIGZyb20nLg==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbGxvZ2ljIjp7ImNvaW4iOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_illogic_coin_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "coin_raw_substring",
+      "capability_id": "rule.misc.illogic.coin",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Raw-substring positive demonstrates no boundary padding: the phrase matches across token substrings at both ends. Sources: checks/misc/illogic.py:check_coin_a_phrase_from; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "cGhvdG8gY29pbiBhIHBocmFzZSBmcm9tYWdl",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbGxvZ2ljIjp7ImNvaW4iOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_illogic_coin_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "coin_selected_config_interaction",
+      "capability_id": "rule.misc.illogic.coin",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Selected-config interaction adds TODO as an unrelated annotation trigger; only misc.illogic.coin is enabled and returned. Sources: checks/misc/illogic.py:check_coin_a_phrase_from; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "VG8gY29pbiBhIHBocmFzZSBmcm9tIG9sZCBzb25ncywgVE9ETy4=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJpbGxvZ2ljIjp7ImNvaW4iOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_illogic_coin_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

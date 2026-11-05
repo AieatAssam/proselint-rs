@@ -29,4 +29,4 @@ Start revision: `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`. The oracle uses Pyth
 
 ## Next gate
 
-The corrected strict live gate passes all 40 cases across seven recorded capabilities; report: `rust/artifacts/strict-gate-kudos-20261105.json`. The strict live gate passes all 46 cases across eight recorded capabilities; report: `rust/artifacts/strict-gate-mental-telepathy-20261105.json`. Continue the per-capability cycle from the remaining inventory. Default configuration, combined-rule behavior, Unicode folding beyond tested ASCII variants, and most rules remain incomplete.
+The corrected strict live gate passes all 40 cases across seven recorded capabilities; report: `rust/artifacts/strict-gate-kudos-20261105.json`. The strict live gate passes all 46 cases across eight recorded capabilities; report: `rust/artifacts/strict-gate-mental-telepathy-20261105.json`. Add behavioral RED tests for `rule.misc.illogic.coin`, implement its pinned pattern and verify cumulatively. Default configuration, combined-rule behavior, and most rules remain unverified.

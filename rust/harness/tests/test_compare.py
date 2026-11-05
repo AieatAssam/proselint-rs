@@ -200,13 +200,16 @@ class ComparatorTests(unittest.TestCase):
             "mental_telepathy_positive_context", "mental_telepathy_case_variants_order",
             "mental_telepathy_boundary_negative", "mental_telepathy_quote_suppression",
             "mental_telepathy_raw_substring", "mental_telepathy_selected_config_interaction",
+            "coin_positive_context", "coin_case_variants_order",
+            "coin_boundary_negative", "coin_quote_suppression",
+            "coin_raw_substring", "coin_selected_config_interaction",
         }
         self.assertEqual({item["id"] for item in manifest["cases"]}, expected_case_ids)
         self.assertEqual(len(manifest["cases"]), len(expected_case_ids))
         self.assertEqual(
             {capability: sum(case["capability_id"] == capability for case in manifest["cases"])
              for capability in {case["capability_id"] for case in manifest["cases"]}},
-            {"harness.oracle_smoke": 2, "cli.json_no_findings": 3, "rule.annotations.misc": 7, "cli.coordinates": 6, "rule.cliches.hell": 6, "rule.misc.apologizing": 6, "rule.misc.whence": 6, "rule.misc.false_plurals.kudos": 6, "rule.psychology.mental_telepathy": 6},
+            {"harness.oracle_smoke": 2, "cli.json_no_findings": 3, "rule.annotations.misc": 7, "cli.coordinates": 6, "rule.cliches.hell": 6, "rule.misc.apologizing": 6, "rule.misc.whence": 6, "rule.misc.false_plurals.kudos": 6, "rule.psychology.mental_telepathy": 6, "rule.misc.illogic.coin": 6},
         )
 
     def test_manifest_rejects_duplicate_id_and_bad_base64(self) -> None:

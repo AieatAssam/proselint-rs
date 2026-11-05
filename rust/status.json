@@ -79,7 +79,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "oracle_engineer owns next bounded rule case specification"
+    "next_handoff": "rust_builder owns rust/src/** and rust/tests/** for rule.misc.illogic.coin"
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
@@ -88,7 +88,8 @@
     "combined enabled-rule configurations, Unicode case folding beyond tested ASCII variants, broader quote pairing, default config, and remaining rules are unverified",
     "Unicode case folding outside tested ASCII variants, quote-pairing combinations, combined enabled-rule config, default config, and remaining rules are unverified",
     "combined enabled-rule configurations, broader Unicode case folding/quote pairing, default configuration, and all unimplemented inventory rules remain unverified",
-    "broader Unicode case folding, combined-rule config, default configuration, and most inventory rules remain unverified"
+    "broader Unicode case folding, combined-rule config, default configuration, and most inventory rules remain unverified",
+    "rule.misc.illogic.coin is specified but not yet implemented or parity-verified"
   ],
   "capability_states": [
     {
@@ -437,6 +438,26 @@
         "tested ASCII case variants only",
         "selected rule config only"
       ]
+    },
+    {
+      "id": "rule.misc.illogic.coin",
+      "status": "specified",
+      "case_ids": [
+        "coin_positive_context",
+        "coin_case_variants_order",
+        "coin_boundary_negative",
+        "coin_quote_suppression",
+        "coin_raw_substring",
+        "coin_selected_config_interaction"
+      ],
+      "upstream_spec": "ExistenceSimple literal `to coin a phrase from`, Fast case-insensitive.",
+      "oracle_live_probe": {
+        "passed_cases": 6,
+        "programmatic_self_comparison": "PASS",
+        "report": "rust/artifacts/coin-live-20261105T033809Z/coin-live-report.json",
+        "selected_config": "misc.illogic.coin only"
+      },
+      "source_fingerprint": "5e5628f8b02a0971571563d2b3bd19ef78566b30176f5ff755cb29c34f9a11a5"
     }
   ],
   "last_strict_gate": {

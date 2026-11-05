@@ -2373,6 +2373,204 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "professions_shoe_repair_positive",
+      "capability_id": "rule.misc.professions",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Positive upstream phrase for one table entry; live CLI supplies replacement and message. Sources: checks/misc/professions.py; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "SSByZWFsbHkgbmVlZCBhIHNob2UgcmVwYWlyIGd1eS4=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJwcm9mZXNzaW9ucyI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_professions_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "professions_geometrist_positive",
+      "capability_id": "rule.misc.professions",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Positive phrase for the second table entry; live CLI supplies replacement and message. Sources: checks/misc/professions.py; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "QSBnZW9tZXRyaXN0IGpvaW5lZCB0aGUgdGVhbS4=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJwcm9mZXNzaW9ucyI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_professions_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "professions_case_variants_order",
+      "capability_id": "rule.misc.professions",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Uppercase and title-case variants plus repeated phrase test case-insensitive matching and diagnostic ordering across both entries. Sources: checks/misc/professions.py; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "U0hPRSBSRVBBSVIgR1VZOyBHZW9tZXRyaXN0OyBzaG9lIHJlcGFpciBndXk=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJwcm9mZXNzaW9ucyI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_professions_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "professions_boundary_negative",
+      "capability_id": "rule.misc.professions",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Adjacent letters prevent WORDS_IN_TEXT boundaries, and changed plural form does not match. Sources: checks/misc/professions.py; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "eHNob2UgcmVwYWlyIGd1eTsgc2hvZSByZXBhaXIgZ3V5czsgZ2VvbWV0cmlzdGlj",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJwcm9mZXNzaW9ucyI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_professions_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "professions_quote_suppression",
+      "capability_id": "rule.misc.professions",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Quoted occurrence is suppressed because allow_quotes=false. Sources: checks/misc/professions.py; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "SSBjYWxsZWQgaGltIGEgJ3Nob2UgcmVwYWlyIGd1eScu",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJwcm9mZXNzaW9ucyI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_professions_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "professions_selected_config_interaction",
+      "capability_id": "rule.misc.professions",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Selected-config interaction includes TODO as an unrelated annotation trigger; only misc.professions is enabled and emitted. Sources: checks/misc/professions.py; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "QSBzaG9lIHJlcGFpciBndXkgYW5kIFRPRE8u",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJwcm9mZXNzaW9ucyI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_professions_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

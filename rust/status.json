@@ -95,7 +95,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "oracle_engineer owns next bounded rule case specification"
+    "next_handoff": "rust_builder owns rust/src/** and rust/tests/** for rule.misc.professions"
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
@@ -108,7 +108,8 @@
     "Most of the 124 registered checks, default configuration, combined-rule configurations, and Unicode folding beyond ASCII variants remain unverified",
     "Most of the 124 registered checks, default configuration, combined-rule configurations, and broader Unicode folding remain unverified",
     "Most of the 124 registered rules, default configuration, combined-rule configurations, and Unicode folding beyond tested ASCII remain unverified",
-    "Most of the 124 registered rules, default configuration, and combined-rule behavior remain unverified"
+    "Most of the 124 registered rules, default configuration, and combined-rule behavior remain unverified",
+    "rule.misc.professions is specified but not yet implemented or parity-verified"
   ],
   "capability_states": [
     {
@@ -630,6 +631,26 @@
         "default/combined-rule behavior not claimed"
       ],
       "upstream_spec": "PreferredFormsSimple one-entry case-insensitive mapping Virginia Polytechnic and State University -> Virginia Polytechnic Institute and State University; WORDS_IN_TEXT padding; allow_quotes=false suppresses matches in quotes."
+    },
+    {
+      "id": "rule.misc.professions",
+      "status": "specified",
+      "case_ids": [
+        "professions_shoe_repair_positive",
+        "professions_geometrist_positive",
+        "professions_case_variants_order",
+        "professions_boundary_negative",
+        "professions_quote_suppression",
+        "professions_selected_config_interaction"
+      ],
+      "upstream_spec": "PreferredFormsSimple two-entry case-insensitive mapping shoe repair guy -> cobbler; geometrist -> geometer; WORDS_IN_TEXT padding, quotes suppressed.",
+      "oracle_live_probe": {
+        "passed_cases": 6,
+        "programmatic_self_comparison": "PASS",
+        "report": "rust/artifacts/professions-live-20261105T051744Z/professions-live-report.json",
+        "selected_config": "misc.professions only"
+      },
+      "source_fingerprint": "e3d98065b49006b6dfb267f286a174def5f6c3bfb0a4f525ab43ee98c3c4d7d5"
     }
   ],
   "last_strict_gate": {

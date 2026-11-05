@@ -70,6 +70,10 @@
     {
       "id": "rule.typography.symbols.sentence_spacing",
       "status": "recorded"
+    },
+    {
+      "id": "rule.typography.symbols.trademark",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -871,14 +875,59 @@
         "selected-rule config only",
         "default and combined-rule behavior remain unverified"
       ]
+    },
+    {
+      "id": "rule.typography.symbols.trademark",
+      "status": "recorded",
+      "case_ids": [
+        "trademark_tm_positive",
+        "trademark_registered_r_positive",
+        "trademark_case_variants_both_entries_order",
+        "trademark_negative_near_misses",
+        "trademark_quote_suppression",
+        "trademark_unicode_codepoint_positions",
+        "trademark_selected_config_interaction"
+      ],
+      "upstream_spec": "Two case-insensitive ExistenceSimple registrations, `(tm)` and `(r)`, share typography.symbols.trademark and emit distinct messages; allow_quotes=false suppresses quoted matches; findings are source ordered.",
+      "red": {
+        "behavioral_failures": 7,
+        "total_tests": 7,
+        "exit_code": 101,
+        "cause": "CLI rejected selected typography.symbols.trademark config"
+      },
+      "green": {
+        "rust_tests_passed": 108,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 7,
+        "exit_code": 0,
+        "report": "rust/artifacts/live-trademark-rust-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-trademark-20261105/verification-summary.json",
+        "frozen_source_fingerprint": "e0acc27c81d0423c4c1685c8aa108d4fa31749b2da18da15564d7061a64daa45"
+      },
+      "cumulative_live_parity": {
+        "passed_cases": 108,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-trademark-final-20261105.json"
+      },
+      "limitations": [
+        "selected-rule config only",
+        "default and combined-rule behavior remain unverified"
+      ]
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-sentence-spacing-final-20261105.json",
-    "passed_cases": 101,
+    "report": "rust/artifacts/strict-gate-trademark-final-20261105.json",
+    "passed_cases": 108,
     "exit_code": 0,
-    "source_fingerprint": "3149d8d195675dc3c8a67a3e4204f0b606ff2fe4d751fba4d2b0833dd93451b9"
+    "source_fingerprint": "6da05a93b07686ef41870630c2117850ec5e3c5ace1f0ddea78f8a4a647ad476"
   },
   "rust_dependencies": {
     "status": "current",

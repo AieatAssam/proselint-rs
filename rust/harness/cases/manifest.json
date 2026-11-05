@@ -7294,6 +7294,369 @@
         "exit_status": "exact"
       },
       "stdin_base64": "YWdlbmRpemU7IHhhZ2VuZGl6ZXk="
+    },
+    {
+      "id": "airlinese_all_eight_inflections",
+      "capability_id": "rule.industrial_language.airlinese",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path industrial_language.airlinese; upstream module proselint/checks/industrial_language/airlinese.py; Existence patterns in order `enplan(?:e|ed|ing|ement)`, `deplan(?:e|ed|ing|ement)`, `taking off momentarily`, WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `'{}' is airlinese.` interpolates exact matched surface text. Regex alternatives are ordered and raw iteration can report `enplane` for activated `enplaned`/`enplanement` inputs, and similarly `deplane` for `deplaned`/`deplanement`; preserve live results. Selected config enables only this rule. Case purpose: All eight enplan/deplan inflections activate and capture exact oracle surfaces/spans, including shorter first-alternative matches.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJhaXJsaW5lc2UiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_airlinese_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "ZW5wbGFuZTsgZW5wbGFuZWQ7IGVucGxhbmluZzsgZW5wbGFuZW1lbnQ7IGRlcGxhbmU7IGRlcGxhbmVkOyBkZXBsYW5pbmc7IGRlcGxhbmVtZW50Lg=="
+    },
+    {
+      "id": "airlinese_taking_off_momentarily",
+      "capability_id": "rule.industrial_language.airlinese",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path industrial_language.airlinese; upstream module proselint/checks/industrial_language/airlinese.py; Existence patterns in order `enplan(?:e|ed|ing|ement)`, `deplan(?:e|ed|ing|ement)`, `taking off momentarily`, WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `'{}' is airlinese.` interpolates exact matched surface text. Regex alternatives are ordered and raw iteration can report `enplane` for activated `enplaned`/`enplanement` inputs, and similarly `deplane` for `deplaned`/`deplanement`; preserve live results. Selected config enables only this rule. Case purpose: Positive taking off phrase with exact match message.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJhaXJsaW5lc2UiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_airlinese_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "VGhlIGFpcmNyYWZ0IGlzIHRha2luZyBvZmYgbW9tZW50YXJpbHku"
+    },
+    {
+      "id": "airlinese_case_variants_surface_messages",
+      "capability_id": "rule.industrial_language.airlinese",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path industrial_language.airlinese; upstream module proselint/checks/industrial_language/airlinese.py; Existence patterns in order `enplan(?:e|ed|ing|ement)`, `deplan(?:e|ed|ing|ement)`, `taking off momentarily`, WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `'{}' is airlinese.` interpolates exact matched surface text. Regex alternatives are ordered and raw iteration can report `enplane` for activated `enplaned`/`enplanement` inputs, and similarly `deplane` for `deplaned`/`deplanement`; preserve live results. Selected config enables only this rule. Case purpose: Case-insensitive matching preserves exact matched text in messages.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJhaXJsaW5lc2UiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_airlinese_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "RU5QTEFORUQ7IERlUGxhbmluZzsgVEFLSU5HIE9GRiBNT01FTlRBUklMWS4="
+    },
+    {
+      "id": "airlinese_upstream_nonmatches",
+      "capability_id": "rule.industrial_language.airlinese",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path industrial_language.airlinese; upstream module proselint/checks/industrial_language/airlinese.py; Existence patterns in order `enplan(?:e|ed|ing|ement)`, `deplan(?:e|ed|ing|ement)`, `taking off momentarily`, WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `'{}' is airlinese.` interpolates exact matched surface text. Regex alternatives are ordered and raw iteration can report `enplane` for activated `enplaned`/`enplanement` inputs, and similarly `deplane` for `deplaned`/`deplanement`; preserve live results. Selected config enables only this rule. Case purpose: Pinned upstream negative examples remain clean.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJhaXJsaW5lc2UiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_airlinese_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "RGlkIHRoYXQgY2FyIGp1c3QgaHlkcm9wbGFuZT8gSSBrbm93IGhvdyB0byBvcGVyYXRlIGEgcGxhbmluZyBtaWxsLg=="
+    },
+    {
+      "id": "airlinese_longer_word_boundary_negatives",
+      "capability_id": "rule.industrial_language.airlinese",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path industrial_language.airlinese; upstream module proselint/checks/industrial_language/airlinese.py; Existence patterns in order `enplan(?:e|ed|ing|ement)`, `deplan(?:e|ed|ing|ement)`, `taking off momentarily`, WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `'{}' is airlinese.` interpolates exact matched surface text. Regex alternatives are ordered and raw iteration can report `enplane` for activated `enplaned`/`enplanement` inputs, and similarly `deplane` for `deplaned`/`deplanement`; preserve live results. Selected config enables only this rule. Case purpose: Longer words immediately surrounding each pattern are rejected by WORDS_IN_TEXT.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJhaXJsaW5lc2UiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_airlinese_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "eGVucGxhbmVkeDsgeGRlcGxhbmluZ3g7IHh0YWtpbmcgb2ZmIG1vbWVudGFyaWx5eC4="
+    },
+    {
+      "id": "airlinese_spacing_near_misses",
+      "capability_id": "rule.industrial_language.airlinese",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path industrial_language.airlinese; upstream module proselint/checks/industrial_language/airlinese.py; Existence patterns in order `enplan(?:e|ed|ing|ement)`, `deplan(?:e|ed|ing|ement)`, `taking off momentarily`, WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `'{}' is airlinese.` interpolates exact matched surface text. Regex alternatives are ordered and raw iteration can report `enplane` for activated `enplaned`/`enplanement` inputs, and similarly `deplane` for `deplaned`/`deplanement`; preserve live results. Selected config enables only this rule. Case purpose: Changed internal spacing does not match the configured forms.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJhaXJsaW5lc2UiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_airlinese_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "dGFraW5nICBvZmYgbW9tZW50YXJpbHk7IHRha2luZyBvZmYgIG1vbWVudGFyaWx5OyBlbnBsYW4gZWQ7IGRlcGxhbiBpbmcu"
+    },
+    {
+      "id": "airlinese_punctuation_boundaries",
+      "capability_id": "rule.industrial_language.airlinese",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path industrial_language.airlinese; upstream module proselint/checks/industrial_language/airlinese.py; Existence patterns in order `enplan(?:e|ed|ing|ement)`, `deplan(?:e|ed|ing|ement)`, `taking off momentarily`, WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `'{}' is airlinese.` interpolates exact matched surface text. Regex alternatives are ordered and raw iteration can report `enplane` for activated `enplaned`/`enplanement` inputs, and similarly `deplane` for `deplaned`/`deplanement`; preserve live results. Selected config enables only this rule. Case purpose: Punctuation permits all three forms and preserves exact regex match spans.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJhaXJsaW5lc2UiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_airlinese_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "KGVucGxhbmVkKSEgW2RlcGxhbmVtZW50XT8ge3Rha2luZyBvZmYgbW9tZW50YXJpbHl9Lg=="
+    },
+    {
+      "id": "airlinese_quote_suppression_with_unquoted_hits",
+      "capability_id": "rule.industrial_language.airlinese",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path industrial_language.airlinese; upstream module proselint/checks/industrial_language/airlinese.py; Existence patterns in order `enplan(?:e|ed|ing|ement)`, `deplan(?:e|ed|ing|ement)`, `taking off momentarily`, WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `'{}' is airlinese.` interpolates exact matched surface text. Regex alternatives are ordered and raw iteration can report `enplane` for activated `enplaned`/`enplanement` inputs, and similarly `deplane` for `deplaned`/`deplanement`; preserve live results. Selected config enables only this rule. Case purpose: Quoted occurrence is suppressed while unquoted forms remain.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJhaXJsaW5lc2UiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_airlinese_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "UXVvdGVkICJlbnBsYW5pbmciLiBPdXRzaWRlIGRlcGxhbmVkOyB0aGVuIHRha2luZyBvZmYgbW9tZW50YXJpbHku"
+    },
+    {
+      "id": "airlinese_repeated_mixed_source_order",
+      "capability_id": "rule.industrial_language.airlinese",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path industrial_language.airlinese; upstream module proselint/checks/industrial_language/airlinese.py; Existence patterns in order `enplan(?:e|ed|ing|ement)`, `deplan(?:e|ed|ing|ement)`, `taking off momentarily`, WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `'{}' is airlinese.` interpolates exact matched surface text. Regex alternatives are ordered and raw iteration can report `enplane` for activated `enplaned`/`enplanement` inputs, and similarly `deplane` for `deplaned`/`deplanement`; preserve live results. Selected config enables only this rule. Case purpose: Repeated and mixed patterns preserve source order.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJhaXJsaW5lc2UiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_airlinese_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "dGFraW5nIG9mZiBtb21lbnRhcmlseTsgZW5wbGFuZWQ7IHRha2luZyBvZmYgbW9tZW50YXJpbHk7IGRlcGxhbmluZy4="
+    },
+    {
+      "id": "airlinese_unicode_codepoint_positions",
+      "capability_id": "rule.industrial_language.airlinese",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path industrial_language.airlinese; upstream module proselint/checks/industrial_language/airlinese.py; Existence patterns in order `enplan(?:e|ed|ing|ement)`, `deplan(?:e|ed|ing|ement)`, `taking off momentarily`, WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `'{}' is airlinese.` interpolates exact matched surface text. Regex alternatives are ordered and raw iteration can report `enplane` for activated `enplaned`/`enplanement` inputs, and similarly `deplane` for `deplaned`/`deplanement`; preserve live results. Selected config enables only this rule. Case purpose: Unicode and combining-mark prefixes verify code-point spans and positions.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJhaXJsaW5lc2UiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_airlinese_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "w6kgYmVmb3JlIGVucGxhbmVtZW50OyBlzIEgYmVmb3JlIHRha2luZyBvZmYgbW9tZW50YXJpbHku"
+    },
+    {
+      "id": "airlinese_selected_config_interaction",
+      "capability_id": "rule.industrial_language.airlinese",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path industrial_language.airlinese; upstream module proselint/checks/industrial_language/airlinese.py; Existence patterns in order `enplan(?:e|ed|ing|ement)`, `deplan(?:e|ed|ing|ement)`, `taking off momentarily`, WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `'{}' is airlinese.` interpolates exact matched surface text. Regex alternatives are ordered and raw iteration can report `enplane` for activated `enplaned`/`enplanement` inputs, and similarly `deplane` for `deplaned`/`deplanement`; preserve live results. Selected config enables only this rule. Case purpose: Only industrial_language.airlinese is enabled; unrelated default checks do not emit.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJhaXJsaW5lc2UiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_airlinese_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "QSB2ZXJ5IGdvb2QgcGxhbiB3aWxsIGVucGxhbmUgdGhlIHRlYW0gYW5kIFRPRE8u"
     }
   ]
 }

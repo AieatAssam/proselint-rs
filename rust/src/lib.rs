@@ -85,6 +85,10 @@ const JARGON_PATTERNS: [&str; 6] = [
     "disincentivize",
 ];
 const JARGON_MESSAGE: &str = "'{}' is jargon. Can you replace it with something more standard?";
+const AIRLINESE_PREFIXES: [&str; 2] = ["enplan", "deplan"];
+const AIRLINESE_SUFFIXES: [&str; 4] = ["e", "ed", "ing", "ement"];
+const AIRLINESE_PHRASE: &str = "taking off momentarily";
+const AIRLINESE_MESSAGE: &str = "'{}' is airlinese.";
 const INSTITUTION_NAME_PATTERN: &str = "Virginia Polytechnic and State University";
 const INSTITUTION_NAME_REPLACEMENT: &str = "Virginia Polytechnic Institute and State University";
 const PROFESSIONS: [(&str, &str); 2] = [("shoe repair guy", "cobbler"), ("geometrist", "geometer")];
@@ -1457,6 +1461,129 @@ pub fn jargon_diagnostics(text: &str) -> Vec<Value> {
                 json!({
                     "check_path": "industrial_language.jargon",
                     "message": JARGON_MESSAGE.replace("{}", matched),
+                    "span": [span_start, span_end],
+                    "pos": [line, column],
+                    "replacements": null,
+                }),
+            ));
+        }
+    }
+
+    diagnostics.sort_unstable_by_key(|(start, _)| *start);
+    diagnostics
+        .into_iter()
+        .map(|(_, diagnostic)| diagnostic)
+        .collect()
+}
+
+/// Return diagnostics for the pinned `industrial_language.airlinese` rule.
+///
+/// The upstream regex alternation is leftmost-first: `e` precedes `ed` and
+/// `ement`, so those inflections produce the shorter `enplane`/`deplane`
+/// surface match. The Fast existence set activates a pattern on a padded
+/// word-boundary match before raw regex matches are emitted.
+pub fn airlinese_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut diagnostics = Vec::new();
+
+    for prefix in AIRLINESE_PREFIXES {
+        let active = padded.char_indices().any(|(start, _)| {
+            AIRLINESE_SUFFIXES.iter().any(|suffix| {
+                let phrase_len = prefix.len() + suffix.len();
+                let end = start.saturating_add(phrase_len);
+                let Some(candidate) = padded.get(start..end) else {
+                    return false;
+                };
+                candidate.eq_ignore_ascii_case(&format!("{prefix}{suffix}"))
+                    && !is_ascii_word_before(&padded, start)
+                    && !is_ascii_word_at(&padded, end)
+            })
+        });
+        if !active {
+            continue;
+        }
+
+        for (start, _) in padded.char_indices() {
+            let base_end = start.saturating_add(prefix.len());
+            let Some(base) = padded.get(start..base_end) else {
+                continue;
+            };
+            if !base.eq_ignore_ascii_case(prefix) {
+                continue;
+            }
+
+            let matched_len = if padded
+                .get(base_end..base_end.saturating_add(1))
+                .is_some_and(|suffix| suffix.eq_ignore_ascii_case("e"))
+            {
+                prefix.len() + 1
+            } else if padded
+                .get(base_end..base_end.saturating_add(3))
+                .is_some_and(|suffix| suffix.eq_ignore_ascii_case("ing"))
+            {
+                prefix.len() + 3
+            } else {
+                continue;
+            };
+            let end = start + matched_len;
+            let matched = &padded[start..end];
+            let span_start = padded[..start].chars().count();
+            let span_end = span_start + matched.chars().count();
+            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+            if quote_index % 2 == 1 {
+                continue;
+            }
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            diagnostics.push((
+                span_start,
+                json!({
+                    "check_path": "industrial_language.airlinese",
+                    "message": AIRLINESE_MESSAGE.replace("{}", matched),
+                    "span": [span_start, span_end],
+                    "pos": [line, column],
+                    "replacements": null,
+                }),
+            ));
+        }
+    }
+
+    let phrase_len = AIRLINESE_PHRASE.len();
+    let phrase_active = padded.char_indices().any(|(start, _)| {
+        let end = start.saturating_add(phrase_len);
+        let Some(candidate) = padded.get(start..end) else {
+            return false;
+        };
+        candidate.eq_ignore_ascii_case(AIRLINESE_PHRASE)
+            && !is_ascii_word_before(&padded, start)
+            && !is_ascii_word_at(&padded, end)
+    });
+    if phrase_active {
+        for (start, _) in padded.char_indices() {
+            let end = start.saturating_add(phrase_len);
+            let Some(matched) = padded.get(start..end) else {
+                continue;
+            };
+            if !matched.eq_ignore_ascii_case(AIRLINESE_PHRASE) {
+                continue;
+            }
+            let span_start = padded[..start].chars().count();
+            let span_end = span_start + matched.chars().count();
+            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+            if quote_index % 2 == 1 {
+                continue;
+            }
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            diagnostics.push((
+                span_start,
+                json!({
+                    "check_path": "industrial_language.airlinese",
+                    "message": AIRLINESE_MESSAGE.replace("{}", matched),
                     "span": [span_start, span_end],
                     "pos": [line, column],
                     "replacements": null,

@@ -122,6 +122,10 @@
     {
       "id": "rule.industrial_language.jargon",
       "status": "recorded"
+    },
+    {
+      "id": "rule.industrial_language.airlinese",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -1557,12 +1561,62 @@
         "exit_code": 0,
         "report": "rust/artifacts/strict-gate-jargon-final-20261105.json"
       }
+    },
+    {
+      "id": "rule.industrial_language.airlinese",
+      "status": "recorded",
+      "case_ids": [
+        "airlinese_all_eight_inflections",
+        "airlinese_taking_off_momentarily",
+        "airlinese_case_variants_surface_messages",
+        "airlinese_upstream_nonmatches",
+        "airlinese_longer_word_boundary_negatives",
+        "airlinese_spacing_near_misses",
+        "airlinese_punctuation_boundaries",
+        "airlinese_quote_suppression_with_unquoted_hits",
+        "airlinese_repeated_mixed_source_order",
+        "airlinese_unicode_codepoint_positions",
+        "airlinese_selected_config_interaction"
+      ],
+      "upstream_spec": "Pinned `industrial_language.airlinese` uses case-insensitive Fast `Existence` with WORDS_IN_TEXT padding for `enplan(?:e|ed|ing|ement)`, `deplan(?:e|ed|ing|ement)`, and `taking off momentarily`. It interpolates the exact regex match into `'{}' is airlinese.`; replacements are null. No exceptions or offsets; default quote suppression applies. FastSet activation and regex alternation mean `enplaned`/`enplanement` emit the shorter `enplane` prefix and `deplaned`/`deplanement` emit `deplane`.",
+      "red": {
+        "behavioral_failures": 11,
+        "total_tests": 11,
+        "exit_code": 101,
+        "cause": "CLI rejected selected industrial_language.airlinese config"
+      },
+      "green": {
+        "rust_tests_passed": 236,
+        "focused_tests_passed": 11,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 11,
+        "exit_code": 0,
+        "report": "rust/artifacts/industrial-airlinese-live-rust-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-airlinese/live-report.json",
+        "frozen_source_fingerprint": "0222b71dc7f08e92dfb4ff5dc42b278ff8519092c2ac3d2412976df52ad60e8e"
+      },
+      "limitations": [
+        "selected industrial_language.airlinese config only",
+        "default and combined-check behavior remain unverified"
+      ],
+      "cumulative_live_parity": {
+        "passed_cases": 230,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-airlinese-final-20261105.json"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-jargon-final-20261105.json",
-    "passed_cases": 219,
+    "report": "rust/artifacts/strict-gate-airlinese-final-20261105.json",
+    "passed_cases": 230,
     "exit_code": 0
   },
   "rust_dependencies": {

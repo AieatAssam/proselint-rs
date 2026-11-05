@@ -138,6 +138,10 @@
     {
       "id": "rule.misc.pretension",
       "status": "recorded"
+    },
+    {
+      "id": "rule.misc.latin",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -1766,12 +1770,60 @@
         "exit_code": 0,
         "report": "rust/artifacts/strict-gate-pretension-final-20261105.json"
       }
+    },
+    {
+      "id": "rule.misc.latin",
+      "status": "recorded",
+      "case_ids": [
+        "latin_all_four_preferred_forms",
+        "latin_case_variants_and_replacements",
+        "latin_longer_word_boundary_negatives",
+        "latin_near_miss_forms",
+        "latin_punctuation_boundaries",
+        "latin_quote_suppression_with_unquoted",
+        "latin_repeated_mixed_source_order",
+        "latin_unicode_codepoint_positions",
+        "latin_selected_config_interaction"
+      ],
+      "upstream_spec": "Pinned `misc.latin` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `ceteris paribus` → `other things being equal`; `inter alia` → `among other things`; `simpliciter` → `in and of itself`; `mutatis mutandis` → `having made the necessary changes`. The message is `Use English. '{}' is the preferred form.` and interpolates the replacement. Default quote suppression; no exceptions or offsets.",
+      "red": {
+        "behavioral_failures": 9,
+        "total_tests": 9,
+        "exit_code": 101,
+        "cause": "CLI rejected selected misc.latin config"
+      },
+      "green": {
+        "rust_tests_passed": 265,
+        "focused_tests_passed": 9,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 9,
+        "exit_code": 0,
+        "report": "rust/artifacts/misc-latin-live-rust-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-latin/live-report.json",
+        "frozen_source_fingerprint": "1d80ca3a17239baf34d0c48ff243158871a3fd7df59e429cfa8bec4571fe0434"
+      },
+      "limitations": [
+        "selected misc.latin config only",
+        "default and combined-check behavior remain unverified"
+      ],
+      "cumulative_live_parity": {
+        "passed_cases": 265,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-latin-final-20261105.json"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-pretension-final-20261105.json",
-    "passed_cases": 256,
+    "report": "rust/artifacts/strict-gate-latin-final-20261105.json",
+    "passed_cases": 265,
     "exit_code": 0
   },
   "rust_dependencies": {

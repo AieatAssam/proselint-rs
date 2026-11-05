@@ -52,14 +52,15 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "oracle_engineer owns next bounded rule case specification"
+    "next_handoff": "rust_builder owns rust/src/** and rust/tests/** for rule.misc.whence"
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
     "default configuration, all other registered rules, and broader CLI behavior remain unimplemented or unverified",
     "broader newline, file-decoding, default-config, and all other registered-rule behavior remain unverified",
     "combined enabled-rule configurations, Unicode case folding beyond tested ASCII variants, broader quote pairing, default config, and remaining rules are unverified",
-    "Unicode case folding outside tested ASCII variants, quote-pairing combinations, combined enabled-rule config, default config, and remaining rules are unverified"
+    "Unicode case folding outside tested ASCII variants, quote-pairing combinations, combined enabled-rule config, default config, and remaining rules are unverified",
+    "rule.misc.whence is specified but not yet implemented or parity-verified"
   ],
   "capability_states": [
     {
@@ -276,6 +277,26 @@
         "single selected rule config only",
         "broader quote pairing unverified"
       ]
+    },
+    {
+      "id": "rule.misc.whence",
+      "status": "specified",
+      "case_ids": [
+        "whence_positive_context",
+        "whence_case_variants_order",
+        "whence_boundary_negative",
+        "whence_quote_suppression",
+        "whence_raw_substring",
+        "whence_selected_config_interaction"
+      ],
+      "upstream_spec": "ExistenceSimple literal `from whence`, Fast case-insensitive, no exceptions or word-boundary padding; message: The 'from' in 'from whence' is not needed.",
+      "oracle_live_probe": {
+        "passed_cases": 6,
+        "programmatic_self_comparison": "PASS",
+        "report": "rust/artifacts/whence-live-20261105T023931Z/whence-live-report.json",
+        "selected_config": "misc.whence only"
+      },
+      "source_fingerprint": "8202e1f060ffac53795472db3184587ccd0b8c7d10d2b664e20b1fad8d319219"
     }
   ]
 }

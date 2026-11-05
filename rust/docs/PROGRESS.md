@@ -10,7 +10,7 @@
 - `rule.misc.apologizing`: independently verified and recorded at frozen fingerprint `4b9bc41f33731897c46943d3a481b95d7ddc9264191332537a45c28a70f72694`; 6 new and 28 cumulative cases passed. Evidence: `rust/artifacts/live-apologizing-20261105.json` and `rust/artifacts/independent-apologizing/verification.json`.
 - Oracle: immutable source snapshot and isolated Python 3.12.3 environment are provisioned; 98 loaded modules resolve inside the venv, dependency/package/executable hashes verify, and upstream pytest passed (351 tests plus 15 subtests; exit 0).
 - Harness: `rust/harness/**` and `rust/oracle.lock.json` are independently verified on fingerprint `5817279dd9575a62a982da6d943fcbd26e8f31ff317b3626d71175afcdc6b38d`. Unit tests: 14/14; comparator discriminators: 23/23; live oracle self-check: 2/2 PASS with harness-only scope. Before the first capability was recorded, the strict gate and benchmark correctly returned BLOCKED with no accepted capabilities.
-- Coverage remains limited to selected-rule configs; combined rule selection, broader Unicode folding and quote pairing, default config, and remaining rules are unverified.
+- `rule.misc.whence`: specified with 6 cases covering positive contexts, case variants, separator negatives, quote suppression, raw substring matching, and selected-config interaction. The pinned literal is `from whence`, case-insensitive and unanchored. Direct/self comparison passed 6/6; evidence: `rust/artifacts/whence-live-20261105T023931Z/whence-live-report.json`.
 - Rust crate dependencies in `Cargo.lock`: clap 4.6.7, serde 1.0.229, serde_json 1.0.154; Rust toolchain 1.99.1.
 - The accepted JSON CLI slice was tested only with an explicit configuration disabling all checks. General configuration and lint behavior are excluded from its parity claim.
 - Custom-agent roles were used, but child model and effort metadata remain unavailable for independent routing audit.
@@ -27,4 +27,4 @@ Start revision: `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`. The oracle uses Pyth
 
 ## Next gate
 
-Select and specify the next bounded capability from the pinned inventory. Continue with behavioral RED, green tests, cumulative live parity, and independent verification. Combined enabled-rule configuration and default behavior still need dedicated coverage.
+Add behavioral RED tests for `rule.misc.whence`, implement the pinned literal rule, then pass cumulative live parity and independent verification. Combined enabled-rule configuration, broader Unicode folding/quote pairing, and default behavior remain unverified.

@@ -987,6 +987,204 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "whence_positive_context",
+      "capability_id": "rule.misc.whence",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Positive phrase in context; the live CLI reports the registered fixed message and exact span. Sources: checks/misc/whence.py; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "R28gYmFjayBmcm9tIHdoZW5jZSB5b3UgY2FtZSE=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJ3aGVuY2UiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_whence_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "whence_case_variants_order",
+      "capability_id": "rule.misc.whence",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Uppercase, title-case, and lowercase variants exercise Fast case-insensitive matching and preserve source order. Sources: checks/misc/whence.py; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "RlJPTSBXSEVOQ0U7IEZyb20gV2hlbmNlOyBmcm9tIHdoZW5jZQ==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJ3aGVuY2UiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_whence_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "whence_boundary_negative",
+      "capability_id": "rule.misc.whence",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Negative literal-pattern controls change the hyphen/space sequence or one word; the live CLI reports no diagnostics. Sources: checks/misc/whence.py; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "ZnJvbS13aGVuY2U7IGZyb20gIHdoZW5jZTsgZnJvbSBoZW5jZQ==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJ3aGVuY2UiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_whence_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "whence_quote_suppression",
+      "capability_id": "rule.misc.whence",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Quoted occurrence is suppressed because the check uses allow_quotes=false. Sources: checks/misc/whence.py; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "U2hlIHNhaWQsICdmcm9tIHdoZW5jZScu",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJ3aGVuY2UiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_whence_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "whence_raw_substring",
+      "capability_id": "rule.misc.whence",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Raw-substring positive demonstrates no word-boundary padding: from whence matches inside misfrom. Sources: checks/misc/whence.py; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "bWlzZnJvbSB3aGVuY2U=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJ3aGVuY2UiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_whence_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "whence_selected_config_interaction",
+      "capability_id": "rule.misc.whence",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Selected-config interaction includes TODO as an unrelated annotation trigger; config enables only misc.whence and output contains only that check. Sources: checks/misc/whence.py; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "R28gYmFjayBmcm9tIHdoZW5jZSB5b3UgY2FtZSwgVE9ETy4=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJ3aGVuY2UiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_whence_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

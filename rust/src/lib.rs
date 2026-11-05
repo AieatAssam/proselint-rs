@@ -24,6 +24,7 @@ const BACK_FORMATIONS_REPLACEMENT: &str = "improper";
 const BACK_FORMATIONS_MESSAGE: &str = "Back-formation. 'improper' is the preferred form.";
 const INSTITUTION_NAME_PATTERN: &str = "Virginia Polytechnic and State University";
 const INSTITUTION_NAME_REPLACEMENT: &str = "Virginia Polytechnic Institute and State University";
+const PROFESSIONS: [(&str, &str); 2] = [("shoe repair guy", "cobbler"), ("geometrist", "geometer")];
 const MESSAGE: &str = "Annotation left in text.";
 const QUOTES: [char; 6] = ['"', '\'', '“', '”', '‘', '’'];
 const SEPARATORS: &str = " ,.!?:;-\r\n";
@@ -492,6 +493,60 @@ pub fn institution_name_diagnostics(text: &str) -> Vec<Value> {
     }
 
     diagnostics
+}
+
+/// Return diagnostics for the pinned `misc.professions` preferred-form rule.
+///
+/// PreferredFormsSimple uses case-insensitive matching with WORDS_IN_TEXT
+/// boundaries and suppresses matches inside paired quotes.
+pub fn professions_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut matches = Vec::new();
+
+    for (pattern, replacement) in PROFESSIONS {
+        let pattern_len = pattern.len();
+        for (start, _) in padded.char_indices() {
+            let Some(matched) = padded.get(start..start.saturating_add(pattern_len)) else {
+                continue;
+            };
+            if !matched.eq_ignore_ascii_case(pattern)
+                || is_ascii_word_before(&padded, start)
+                || is_ascii_word_at(&padded, start + pattern_len)
+            {
+                continue;
+            }
+
+            let span_start = padded[..start].chars().count();
+            let span_end = span_start + pattern.chars().count();
+            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+            if quote_index % 2 == 1 {
+                continue;
+            }
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            matches.push((
+                span_start,
+                json!({
+                    "check_path": "misc.professions",
+                    "message": format!("'{replacement}' is the name of that job."),
+                    "span": [span_start, span_end],
+                    "pos": [line, column],
+                    "replacements": replacement,
+                }),
+            ));
+        }
+    }
+
+    matches.sort_unstable_by_key(|(start, _)| *start);
+    matches
+        .into_iter()
+        .map(|(_, diagnostic)| diagnostic)
+        .collect()
 }
 
 /// Match Python's `splitlines(keepends=True)` line boundaries and the

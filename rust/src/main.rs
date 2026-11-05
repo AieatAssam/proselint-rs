@@ -3,7 +3,8 @@ use proselint_rs::{
     annotation_diagnostics, apologizing_diagnostics, back_formations_diagnostics,
     cliches_hell_diagnostics, false_plurals_kudos_diagnostics, file_uri, illogic_coin_diagnostics,
     illogic_collusion_diagnostics, institution_name_diagnostics, json_result,
-    mental_telepathy_diagnostics, normalize_file_newlines, whence_diagnostics,
+    mental_telepathy_diagnostics, normalize_file_newlines, professions_diagnostics,
+    whence_diagnostics,
 };
 use serde_json::Value;
 use std::fs;
@@ -67,7 +68,7 @@ fn run() -> Result<ExitCode, String> {
         .get("checks")
         .ok_or_else(|| "this capability requires an explicit checks configuration".to_owned())?;
     let selected_check = supported_checks(checks).ok_or_else(|| {
-        "this capability supports disabled checks, annotations.misc, cliches.hell, misc.apologizing, misc.whence, misc.false_plurals.kudos, psychology.mental_telepathy, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, or misc.institution_name only".to_owned()
+        "this capability supports disabled checks, annotations.misc, cliches.hell, misc.apologizing, misc.whence, misc.false_plurals.kudos, psychology.mental_telepathy, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.institution_name, or misc.professions only".to_owned()
     })?;
 
     if !matches!(output_format, OutputFormat::Json) {
@@ -104,6 +105,7 @@ fn run() -> Result<ExitCode, String> {
         SelectedCheck::MiscIllogicCollusion => illogic_collusion_diagnostics(&content),
         SelectedCheck::MiscBackFormations => back_formations_diagnostics(&content),
         SelectedCheck::MiscInstitutionName => institution_name_diagnostics(&content),
+        SelectedCheck::MiscProfessions => professions_diagnostics(&content),
     };
     let exit_code = if diagnostics.is_empty() {
         ExitCode::SUCCESS
@@ -128,6 +130,7 @@ enum SelectedCheck {
     MiscIllogicCollusion,
     MiscBackFormations,
     MiscInstitutionName,
+    MiscProfessions,
 }
 
 fn supported_checks(checks: &Value) -> Option<SelectedCheck> {
@@ -221,6 +224,15 @@ fn supported_checks(checks: &Value) -> Option<SelectedCheck> {
                         Value::Bool(false) => true,
                         Value::Bool(true) if *selected == SelectedCheck::None => {
                             *selected = SelectedCheck::MiscInstitutionName;
+                            true
+                        }
+                        _ => false,
+                    }
+                } else if path == &["misc", "professions"] {
+                    match child {
+                        Value::Bool(false) => true,
+                        Value::Bool(true) if *selected == SelectedCheck::None => {
+                            *selected = SelectedCheck::MiscProfessions;
                             true
                         }
                         _ => false,

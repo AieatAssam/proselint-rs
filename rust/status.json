@@ -62,6 +62,10 @@
     {
       "id": "rule.typography.symbols.ellipsis",
       "status": "recorded"
+    },
+    {
+      "id": "rule.typography.symbols.copyright",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -774,14 +778,58 @@
         "selected-rule config only",
         "broader Unicode case folding not applicable to literal punctuation pattern"
       ]
+    },
+    {
+      "id": "rule.typography.symbols.copyright",
+      "status": "recorded",
+      "case_ids": [
+        "copyright_ascii_approximation_positive",
+        "copyright_case_variant_nested_and_substring_order",
+        "copyright_negative_spacing_and_symbol",
+        "copyright_quote_suppression",
+        "copyright_unicode_codepoint_positions",
+        "copyright_selected_config_interaction"
+      ],
+      "upstream_spec": "ExistenceSimple unanchored, case-insensitive literal \\(c\\); message `(c) is a goofy alphabetic approximation, use the symbol \u00a9.`; allow_quotes=false suppresses quoted findings.",
+      "red": {
+        "behavioral_failures": 6,
+        "total_tests": 6,
+        "exit_code": 101,
+        "cause": "CLI rejected selected typography.symbols.copyright config"
+      },
+      "green": {
+        "rust_tests_passed": 94,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 6,
+        "exit_code": 0,
+        "report": "rust/artifacts/live-copyright-rust-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-copyright-20261105/verification-summary.json",
+        "frozen_source_fingerprint": "9dddfed0f94df7910b36b37539ad9fe85595a87f73d6e3a5e9f7b4baa50f1c0d"
+      },
+      "cumulative_live_parity": {
+        "passed_cases": 94,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-copyright-final-20261105.json"
+      },
+      "limitations": [
+        "selected-rule config only",
+        "broader output/configuration behavior remains unverified"
+      ]
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-ellipsis-final-20261105.json",
-    "passed_cases": 88,
+    "report": "rust/artifacts/strict-gate-copyright-final-20261105.json",
+    "passed_cases": 94,
     "exit_code": 0,
-    "source_fingerprint": "48afc5256e7b189b6f71d373a3ce1c14f06ae65d5879e77095b21f05d49cda78"
+    "source_fingerprint": "7f160a1dd7b71e1954e3261262eee12c8f63a98d41608c34da73fd4fa1a9830b"
   },
   "rust_dependencies": {
     "status": "current",

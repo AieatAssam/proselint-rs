@@ -215,13 +215,16 @@ class ComparatorTests(unittest.TestCase):
             "professions_shoe_repair_positive", "professions_geometrist_positive",
             "professions_case_variants_order", "professions_boundary_negative",
             "professions_quote_suppression", "professions_selected_config_interaction",
+            "false_plurals_phenomenons_positive", "false_plurals_talismen_positive",
+            "false_plurals_case_variants_order", "false_plurals_boundary_negative",
+            "false_plurals_quote_suppression", "false_plurals_selected_config_interaction",
         }
         self.assertEqual({item["id"] for item in manifest["cases"]}, expected_case_ids)
         self.assertEqual(len(manifest["cases"]), len(expected_case_ids))
         self.assertEqual(
             {capability: sum(case["capability_id"] == capability for case in manifest["cases"])
              for capability in {case["capability_id"] for case in manifest["cases"]}},
-            {"harness.oracle_smoke": 2, "cli.json_no_findings": 3, "rule.annotations.misc": 7, "cli.coordinates": 6, "rule.cliches.hell": 6, "rule.misc.apologizing": 6, "rule.misc.whence": 6, "rule.misc.false_plurals.kudos": 6, "rule.psychology.mental_telepathy": 6, "rule.misc.illogic.coin": 6, "rule.misc.illogic.collusion": 6, "rule.misc.back_formations": 6, "rule.misc.institution_name": 6, "rule.misc.professions": 6},
+            {"harness.oracle_smoke": 2, "cli.json_no_findings": 3, "rule.annotations.misc": 7, "cli.coordinates": 6, "rule.cliches.hell": 6, "rule.misc.apologizing": 6, "rule.misc.whence": 6, "rule.misc.false_plurals.kudos": 6, "rule.psychology.mental_telepathy": 6, "rule.misc.illogic.coin": 6, "rule.misc.illogic.collusion": 6, "rule.misc.back_formations": 6, "rule.misc.institution_name": 6, "rule.misc.professions": 6, "rule.misc.false_plurals.misc": 6},
         )
 
     def test_manifest_rejects_duplicate_id_and_bad_base64(self) -> None:

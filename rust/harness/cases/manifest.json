@@ -2571,6 +2571,204 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "false_plurals_phenomenons_positive",
+      "capability_id": "rule.misc.false_plurals.misc",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Positive upstream example exercises the phenomenons→phenomena replacement and exact message. Sources: checks/misc/false_plurals.py:check; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlcmUgd2VyZSBzZXZlcmFsIHBoZW5vbWVub25zLg==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJmYWxzZV9wbHVyYWxzIjp7Im1pc2MiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_false_plurals_misc_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "false_plurals_talismen_positive",
+      "capability_id": "rule.misc.false_plurals.misc",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Positive second table entry exercises talismen→talismans replacement. Sources: checks/misc/false_plurals.py:check; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlIHNwZWxsYm9vayBtZW50aW9uZWQgdGFsaXNtZW4u",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJmYWxzZV9wbHVyYWxzIjp7Im1pc2MiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_false_plurals_misc_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "false_plurals_case_variants_order",
+      "capability_id": "rule.misc.false_plurals.misc",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Uppercase and title-case variants across both entries test case-insensitive replacements and source order. Sources: checks/misc/false_plurals.py:check; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "VEFMSVNNRU47IFBoZW5vbWVub25zOyB0YWxpc21lbg==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJmYWxzZV9wbHVyYWxzIjp7Im1pc2MiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_false_plurals_misc_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "false_plurals_boundary_negative",
+      "capability_id": "rule.misc.false_plurals.misc",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Adjacent letters and altered suffixes fail the required word boundaries or exact term. Sources: checks/misc/false_plurals.py:check; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "eHBoZW5vbWVub25zOyBwaGVub21lbm9uc2lzaDsgeHRhbGlzbWVuIHRhbGlzbWVucw==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJmYWxzZV9wbHVyYWxzIjp7Im1pc2MiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_false_plurals_misc_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "false_plurals_quote_suppression",
+      "capability_id": "rule.misc.false_plurals.misc",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Both phrase occurrences are suppressed inside quotes because allow_quotes=false. Sources: checks/misc/false_plurals.py:check; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "U2hlIGNhbGxlZCB0aGVtICdwaGVub21lbm9ucycgYW5kICd0YWxpc21lbicu",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJmYWxzZV9wbHVyYWxzIjp7Im1pc2MiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_false_plurals_misc_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "false_plurals_selected_config_interaction",
+      "capability_id": "rule.misc.false_plurals.misc",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Selected-config interaction includes TODO as an unrelated annotation trigger; only misc.false_plurals.misc is enabled and emitted. Sources: checks/misc/false_plurals.py:check; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlcmUgd2VyZSBzZXZlcmFsIHBoZW5vbWVub25zLCBUT0RPLg==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJmYWxzZV9wbHVyYWxzIjp7Im1pc2MiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_false_plurals_misc_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

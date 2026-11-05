@@ -130,6 +130,10 @@
     {
       "id": "rule.misc.many_a",
       "status": "recorded"
+    },
+    {
+      "id": "rule.misc.metadiscourse",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -1663,12 +1667,60 @@
         "exit_code": 0,
         "report": "rust/artifacts/strict-gate-many-a-final-20261105.json"
       }
+    },
+    {
+      "id": "rule.misc.metadiscourse",
+      "status": "recorded",
+      "case_ids": [
+        "metadiscourse_all_five_phrases",
+        "metadiscourse_case_variants_order",
+        "metadiscourse_preserves_upstream_misspelling",
+        "metadiscourse_word_boundary_negatives",
+        "metadiscourse_near_misses",
+        "metadiscourse_quote_suppression_with_unquoted",
+        "metadiscourse_repeated_source_order",
+        "metadiscourse_unicode_codepoint_positions",
+        "metadiscourse_selected_config_interaction"
+      ],
+      "upstream_spec": "Pinned `misc.metadiscourse` uses case-insensitive Fast `Existence` with WORDS_IN_TEXT for five phrases: `The preceeding discussion` (upstream misspelling), `The rest of this article`, `This chapter discusses`, `The preceding paragraph demonstrated`, and `The previous section analyzed`. Static message `Excessive metadiscourse.`, null replacements, no exceptions/offsets, and default quote suppression.",
+      "red": {
+        "behavioral_failures": 7,
+        "total_tests": 7,
+        "exit_code": 101,
+        "cause": "CLI rejected selected misc.metadiscourse config"
+      },
+      "green": {
+        "rust_tests_passed": 246,
+        "focused_tests_passed": 7,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 9,
+        "exit_code": 0,
+        "report": "rust/artifacts/misc-metadiscourse-live-rust-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-metadiscourse/live-report.json",
+        "frozen_source_fingerprint": "e02722af5368a92481dceffb878ce5e560235c5486b6ba5ef00a78d4f18f00f1"
+      },
+      "limitations": [
+        "selected misc.metadiscourse config only",
+        "default and combined-check behavior remain unverified"
+      ],
+      "cumulative_live_parity": {
+        "passed_cases": 248,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-metadiscourse-final-20261105.json"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-many-a-final-20261105.json",
-    "passed_cases": 239,
+    "report": "rust/artifacts/strict-gate-metadiscourse-final-20261105.json",
+    "passed_cases": 248,
     "exit_code": 0
   },
   "rust_dependencies": {

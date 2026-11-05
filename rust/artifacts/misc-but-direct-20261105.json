@@ -1,0 +1,203 @@
+{
+  "passed": true,
+  "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+  "oracle_integrity": "verified",
+  "live_report": "rust/artifacts/misc-but-live-20261105.json",
+  "source_fingerprint": "6609889aed1baf11b3e94c18f6c9affa24d1795db8ac3ec35cf9aa1478b3b1ec",
+  "check_path": "misc.but",
+  "pattern": "(^|^\\n|\\n\\n)But\\b",
+  "message": "No paragraph should start with a 'But'.",
+  "upstream_module": "proselint/checks/misc/but.py",
+  "configuration_selection_proof": {
+    "enabled_registry_paths": [
+      "misc.but"
+    ],
+    "checks_config": {
+      "misc.but": true
+    }
+  },
+  "cases": [
+    {
+      "id": "but_start_of_input_positive",
+      "status": "PASS",
+      "exit_code": 1,
+      "source_key": "<stdin>",
+      "diagnostics": [
+        {
+          "check_path": "misc.but",
+          "message": "No paragraph should start with a 'But'.",
+          "pos": [
+            1,
+            1
+          ],
+          "replacements": null,
+          "span": [
+            1,
+            4
+          ]
+        }
+      ],
+      "stdout_sha256": "642ab0be0b124a9ba97c4cfc370376b7a6d46133db32111e3767d7f2d261fc63",
+      "stderr_bytes": 0
+    },
+    {
+      "id": "but_multiple_blank_paragraphs",
+      "status": "PASS",
+      "exit_code": 1,
+      "source_key": "<stdin>",
+      "diagnostics": [
+        {
+          "check_path": "misc.but",
+          "message": "No paragraph should start with a 'But'.",
+          "pos": [
+            3,
+            1
+          ],
+          "replacements": null,
+          "span": [
+            9,
+            12
+          ]
+        },
+        {
+          "check_path": "misc.but",
+          "message": "No paragraph should start with a 'But'.",
+          "pos": [
+            5,
+            1
+          ],
+          "replacements": null,
+          "span": [
+            22,
+            25
+          ]
+        }
+      ],
+      "stdout_sha256": "c92c66f4afd0827df3603787d0c32c187de1a9d0db2887bbdde7f7843f608e65",
+      "stderr_bytes": 0
+    },
+    {
+      "id": "but_single_newline_not_new_paragraph",
+      "status": "PASS",
+      "exit_code": 0,
+      "source_key": "<stdin>",
+      "diagnostics": [],
+      "stdout_sha256": "db23d554796d74d46ac40645081117fcfaa0456a11ea9ae38f89a3da9f82a2f5",
+      "stderr_bytes": 0
+    },
+    {
+      "id": "but_case_sensitive_word_boundary",
+      "status": "PASS",
+      "exit_code": 1,
+      "source_key": "<stdin>",
+      "diagnostics": [
+        {
+          "check_path": "misc.but",
+          "message": "No paragraph should start with a 'But'.",
+          "pos": [
+            5,
+            1
+          ],
+          "replacements": null,
+          "span": [
+            27,
+            30
+          ]
+        }
+      ],
+      "stdout_sha256": "6dcb99de6b366cc59249125fcc5736133969a000b474c35f007f8129b6cc2056",
+      "stderr_bytes": 0
+    },
+    {
+      "id": "but_inline_and_indented_negative",
+      "status": "PASS",
+      "exit_code": 0,
+      "source_key": "<stdin>",
+      "diagnostics": [],
+      "stdout_sha256": "db23d554796d74d46ac40645081117fcfaa0456a11ea9ae38f89a3da9f82a2f5",
+      "stderr_bytes": 0
+    },
+    {
+      "id": "but_quoted_paragraph_start_suppression",
+      "status": "PASS",
+      "exit_code": 1,
+      "source_key": "<stdin>",
+      "diagnostics": [
+        {
+          "check_path": "misc.but",
+          "message": "No paragraph should start with a 'But'.",
+          "pos": [
+            5,
+            1
+          ],
+          "replacements": null,
+          "span": [
+            49,
+            52
+          ]
+        }
+      ],
+      "stdout_sha256": "a769df0c4b3a57bccafb370126e5b9badf8a4271d247411df6e315c4da4a1d5e",
+      "stderr_bytes": 0
+    },
+    {
+      "id": "but_crlf_file_blank_paragraphs",
+      "status": "PASS",
+      "exit_code": 1,
+      "source_key": "file:///tmp/proselint%20harness%20space-%C3%A9%20qdo72qc2/shared/crlf%20document.txt",
+      "diagnostics": [
+        {
+          "check_path": "misc.but",
+          "message": "No paragraph should start with a 'But'.",
+          "pos": [
+            3,
+            1
+          ],
+          "replacements": null,
+          "span": [
+            9,
+            12
+          ]
+        },
+        {
+          "check_path": "misc.but",
+          "message": "No paragraph should start with a 'But'.",
+          "pos": [
+            6,
+            1
+          ],
+          "replacements": null,
+          "span": [
+            36,
+            39
+          ]
+        }
+      ],
+      "stdout_sha256": "3e4f108ac349c452f198da33b58ce5c5b8faf354d0dae45fa0ed20103da19c64",
+      "stderr_bytes": 0
+    },
+    {
+      "id": "but_selected_config_interaction",
+      "status": "PASS",
+      "exit_code": 1,
+      "source_key": "<stdin>",
+      "diagnostics": [
+        {
+          "check_path": "misc.but",
+          "message": "No paragraph should start with a 'But'.",
+          "pos": [
+            3,
+            1
+          ],
+          "replacements": null,
+          "span": [
+            14,
+            17
+          ]
+        }
+      ],
+      "stdout_sha256": "512e0bd6203a7fdbfa225317296307cf6afc1be17a810efb8f6a0e9c13343e0c",
+      "stderr_bytes": 0
+    }
+  ]
+}

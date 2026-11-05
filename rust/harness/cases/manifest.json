@@ -4089,6 +4089,274 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "but_start_of_input_positive",
+      "capability_id": "rule.misc.but",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path misc.but; upstream module proselint/checks/misc/but.py defines PATTERN = r\"(^|^\\n|\\n\\n)But\\b\" in _check_but_paragraphs; message \"No paragraph should start with a 'But'.\"; inventory: default_enabled=true, Fast case-sensitive, allow_quotes=false, no exceptions/threshold. The leading input sentinel and paragraph separators are inspected through the real CLI, which applies the pinned file/stdin decoding rules. Case purpose: A capitalized But at document start matches.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJidXQiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_but_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "QnV0IEkgbmV2ZXIgc3RhcnQgd2l0aCB0aGUgd29yZCBidXQu"
+    },
+    {
+      "id": "but_multiple_blank_paragraphs",
+      "capability_id": "rule.misc.but",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path misc.but; upstream module proselint/checks/misc/but.py defines PATTERN = r\"(^|^\\n|\\n\\n)But\\b\" in _check_but_paragraphs; message \"No paragraph should start with a 'But'.\"; inventory: default_enabled=true, Fast case-sensitive, allow_quotes=false, no exceptions/threshold. The leading input sentinel and paragraph separators are inspected through the real CLI, which applies the pinned file/stdin decoding rules. Case purpose: Two blank-line paragraph starts match in source order.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJidXQiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_but_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "Rmlyc3QuCgpCdXQgc2Vjb25kLgoKQnV0IHRoaXJkLg=="
+    },
+    {
+      "id": "but_single_newline_not_new_paragraph",
+      "capability_id": "rule.misc.but",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path misc.but; upstream module proselint/checks/misc/but.py defines PATTERN = r\"(^|^\\n|\\n\\n)But\\b\" in _check_but_paragraphs; message \"No paragraph should start with a 'But'.\"; inventory: default_enabled=true, Fast case-sensitive, allow_quotes=false, no exceptions/threshold. The leading input sentinel and paragraph separators are inspected through the real CLI, which applies the pinned file/stdin decoding rules. Case purpose: A single newline does not establish a paragraph boundary.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJidXQiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_but_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "Rmlyc3QuCkJ1dCBub3QgYSBwYXJhZ3JhcGgu"
+    },
+    {
+      "id": "but_case_sensitive_word_boundary",
+      "capability_id": "rule.misc.but",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path misc.but; upstream module proselint/checks/misc/but.py defines PATTERN = r\"(^|^\\n|\\n\\n)But\\b\" in _check_but_paragraphs; message \"No paragraph should start with a 'But'.\"; inventory: default_enabled=true, Fast case-sensitive, allow_quotes=false, no exceptions/threshold. The leading input sentinel and paragraph separators are inspected through the real CLI, which applies the pinned file/stdin decoding rules. Case purpose: Lowercase but and Buttery fail; exact But at a paragraph start passes the word boundary.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJidXQiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_but_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "YnV0IGxvd2VyY2FzZS4KCkJ1dHRlcnkuCgpCdXQu"
+    },
+    {
+      "id": "but_inline_and_indented_negative",
+      "capability_id": "rule.misc.but",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path misc.but; upstream module proselint/checks/misc/but.py defines PATTERN = r\"(^|^\\n|\\n\\n)But\\b\" in _check_but_paragraphs; message \"No paragraph should start with a 'But'.\"; inventory: default_enabled=true, Fast case-sensitive, allow_quotes=false, no exceptions/threshold. The leading input sentinel and paragraph separators are inspected through the real CLI, which applies the pinned file/stdin decoding rules. Case purpose: Inline But and a paragraph-start term preceded by spaces do not match the anchored pattern.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJidXQiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_but_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "SW5saW5lLiBCdXQgaGVyZS4KCiAgQnV0IGluZGVudGVkLg=="
+    },
+    {
+      "id": "but_quoted_paragraph_start_suppression",
+      "capability_id": "rule.misc.but",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path misc.but; upstream module proselint/checks/misc/but.py defines PATTERN = r\"(^|^\\n|\\n\\n)But\\b\" in _check_but_paragraphs; message \"No paragraph should start with a 'But'.\"; inventory: default_enabled=true, Fast case-sensitive, allow_quotes=false, no exceptions/threshold. The leading input sentinel and paragraph separators are inspected through the real CLI, which applies the pinned file/stdin decoding rules. Case purpose: The quoted paragraph-start match is suppressed; the later unquoted paragraph-start match remains.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJidXQiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_but_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "QSBxdW90ZSBzYXlzICJiZWdpbm5pbmcuCgpCdXQgdGhpcyBpcyBxdW90ZWQuIgoKQnV0IHRoaXMgaXMgcmVhbC4="
+    },
+    {
+      "id": "but_crlf_file_blank_paragraphs",
+      "capability_id": "rule.misc.but",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path misc.but; upstream module proselint/checks/misc/but.py defines PATTERN = r\"(^|^\\n|\\n\\n)But\\b\" in _check_but_paragraphs; message \"No paragraph should start with a 'But'.\"; inventory: default_enabled=true, Fast case-sensitive, allow_quotes=false, no exceptions/threshold. The leading input sentinel and paragraph separators are inspected through the real CLI, which applies the pinned file/stdin decoding rules. Case purpose: File input with CRLF normalization recognizes two blank-line paragraph starts.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJidXQiOnRydWV9fX0="
+        },
+        {
+          "path": "crlf document.txt",
+          "content_base64": "SW50cm8uDQoNCkJ1dCBDUkxGIHBhcmFncmFwaC4NCk5leHQuDQoNCkJ1dCBzZWNvbmQu"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json",
+        "{file:crlf document.txt}"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_but_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "but_selected_config_interaction",
+      "capability_id": "rule.misc.but",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path misc.but; upstream module proselint/checks/misc/but.py defines PATTERN = r\"(^|^\\n|\\n\\n)But\\b\" in _check_but_paragraphs; message \"No paragraph should start with a 'But'.\"; inventory: default_enabled=true, Fast case-sensitive, allow_quotes=false, no exceptions/threshold. The leading input sentinel and paragraph separators are inspected through the real CLI, which applies the pinned file/stdin decoding rules. Case purpose: Only misc.but is enabled despite unrelated annotation and weasel-word triggers.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJidXQiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_but_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "VE9ETzsgdmVyeS4KCkJ1dCBjb25maWd1cmVkIGNoZWNrIG9ubHku"
     }
   ]
 }

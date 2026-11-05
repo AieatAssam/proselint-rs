@@ -82,6 +82,10 @@
     {
       "id": "rule.misc.suddenly",
       "status": "recorded"
+    },
+    {
+      "id": "rule.misc.but",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -762,7 +766,7 @@
         "ellipsis_unicode_codepoint_spans",
         "ellipsis_selected_config_interaction"
       ],
-      "upstream_spec": "ExistenceSimple unanchored literal \\.\\.\\.; exact message \"'...' is an approximation, use the ellipsis symbol '\u2026'.\"; nonoverlapping matches; allow_quotes=false suppresses quoted findings.",
+      "upstream_spec": "ExistenceSimple unanchored literal \\.\\.\\.; exact message \"'...' is an approximation, use the ellipsis symbol '…'.\"; nonoverlapping matches; allow_quotes=false suppresses quoted findings.",
       "red": {
         "behavioral_failures": 6,
         "total_tests": 6,
@@ -806,7 +810,7 @@
         "copyright_unicode_codepoint_positions",
         "copyright_selected_config_interaction"
       ],
-      "upstream_spec": "ExistenceSimple unanchored, case-insensitive literal \\(c\\); message `(c) is a goofy alphabetic approximation, use the symbol \u00a9.`; allow_quotes=false suppresses quoted findings.",
+      "upstream_spec": "ExistenceSimple unanchored, case-insensitive literal \\(c\\); message `(c) is a goofy alphabetic approximation, use the symbol ©.`; allow_quotes=false suppresses quoted findings.",
       "red": {
         "behavioral_failures": 6,
         "total_tests": 6,
@@ -941,7 +945,7 @@
         "multiplication_unicode_codepoint_positions",
         "multiplication_selected_config_interaction"
       ],
-      "upstream_spec": "ExistenceSimple `\\d+ ?x ?\\d+`: ASCII digits, case-insensitive x, zero or one ASCII space on either side, unanchored. Exact message: `Use the multiplication symbol \u00d7, not the letter x.`",
+      "upstream_spec": "ExistenceSimple `\\d+ ?x ?\\d+`: ASCII digits, case-insensitive x, zero or one ASCII space on either side, unanchored. Exact message: `Use the multiplication symbol ×, not the letter x.`",
       "red": {
         "behavioral_failures": 7,
         "total_tests": 7,
@@ -1018,14 +1022,60 @@
         "selected-rule config only",
         "default and combined-rule behavior remain unverified"
       ]
+    },
+    {
+      "id": "rule.misc.but",
+      "status": "recorded",
+      "case_ids": [
+        "but_start_of_input_positive",
+        "but_multiple_blank_paragraphs",
+        "but_single_newline_not_new_paragraph",
+        "but_case_sensitive_word_boundary",
+        "but_inline_and_indented_negative",
+        "but_quoted_paragraph_start_suppression",
+        "but_crlf_file_blank_paragraphs",
+        "but_selected_config_interaction"
+      ],
+      "upstream_spec": "Pinned `misc.but` uses case-sensitive `(^|^\\n|\\n\\n)But\\b`; only beginning of document or blank-line paragraph starts match; span excludes matched separators; quotes suppressed. Exact message: `No paragraph should start with a 'But'.`",
+      "red": {
+        "behavioral_failures": 7,
+        "total_tests": 7,
+        "exit_code": 101,
+        "cause": "CLI rejected selected misc.but config"
+      },
+      "green": {
+        "rust_tests_passed": 129,
+        "focused_tests_passed": 7,
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "locked_build_exit_code": 0
+      },
+      "live_parity": {
+        "passed_cases": 8,
+        "exit_code": 0,
+        "report": "rust/artifacts/misc-but-live-rust-20261105.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-misc-but-20261105-live.json",
+        "frozen_source_fingerprint": "a9122015e5e73dde941228ee3e9460eb118bb506575a4ac7c9856e160fc562f7"
+      },
+      "limitations": [
+        "selected misc.but config only",
+        "broader default and combined-check behavior remain unverified"
+      ],
+      "cumulative_live_parity": {
+        "passed_cases": 130,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-misc-but-final-20261105.json"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-suddenly-final-20261105.json",
-    "passed_cases": 122,
-    "exit_code": 0,
-    "source_fingerprint": "9932244d0a8fd3e914510f124d070ec3e2343b9802296991b328050108c34c32"
+    "report": "rust/artifacts/strict-gate-misc-but-final-20261105.json",
+    "passed_cases": 130,
+    "exit_code": 0
   },
   "rust_dependencies": {
     "status": "current",

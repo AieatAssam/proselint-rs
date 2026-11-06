@@ -317,7 +317,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "Specify dates_times.dates.decade_apostrophes, covering both overlapping ExistenceSimple registrations and max_errors-before-position-sort; add pinned-oracle cases and meaningful Rust RED."
+    "next_handoff": "Implement dates_times.dates.decade_apostrophes in rust/src/lib.rs and rust/src/main.rs only; preserve two registration ordering, overlapping suffix/full matches, and frozen max_errors expectations."
   },
   "unresolved": [
     "The no-config-found bundled DEFAULT, every default-enabled rule interaction, and combined enabled-rule configurations remain unverified; selected-rule passes do not establish default behavior.",
@@ -3649,6 +3649,38 @@
         "oracle_integrity": "verified before and after",
         "candidate_sha256": "7dfdf02d2a87111b9b17a7421505be53304ad578bb78a31d6a492584de7e02ab"
       }
+    },
+    {
+      "id": "rule.dates_times.dates.decade_apostrophes",
+      "status": "red_verified",
+      "case_ids": [
+        "decade_apostrophes_overlap_both_registrations",
+        "decade_apostrophes_case_and_length_variants",
+        "decade_apostrophes_negative_near_misses",
+        "decade_apostrophes_quote_suppression",
+        "decade_apostrophes_embedded_raw_match",
+        "decade_apostrophes_unicode_codepoint_positions",
+        "decade_apostrophes_max_errors_one",
+        "decade_apostrophes_max_errors_two",
+        "decade_apostrophes_max_errors_three"
+      ],
+      "registered_entries_exercised": 2,
+      "upstream_spec": "Two default-enabled direct ExistenceSimple Fast case-insensitive registrations share this path: r`\\d0\\'s` then r`\\d\\d\\d0\\'s`. The regexes are unanchored without word-boundary padding. On 1990's, the first emits the 90's suffix and the second emits the full decade. Quote suppression occurs before max_errors; max_errors truncates registration-order results before position sorting. Exact message: Apostrophes aren't needed for decades.; replacements null.",
+      "red": {
+        "focused_rust_tests": "4 compiled behavioral failures at unsupported selected path; exit 4 vs oracle findings exit 1 (clean case oracle exit 0)",
+        "cargo_report": "rust/artifacts/decade-apostrophes-red-20261106/cargo-red.log",
+        "live_report": "rust/artifacts/decade-apostrophes-red-20261106/live-red.json",
+        "live_case_mismatches": 9,
+        "live_oracle_errors": 0,
+        "live_timeouts": 0,
+        "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "source_fingerprint": "da06ccbb7026a0f8f14ddabff9b6c6e96f909896a636b6bb5b8090fe32706e2c",
+        "oracle_integrity": "verified before and after",
+        "harness_tests": "39/39 PASS"
+      },
+      "limitations": [
+        "Implementation, focused green and independent verification remain pending."
+      ]
     }
   ],
   "last_strict_gate": {
@@ -3690,7 +3722,7 @@
       "checked_after_gate": "2026-11-06T16:43:00Z"
     }
   },
-  "next_capability_handoff": "Begin TDD for dates_times.dates.decade_apostrophes: its two direct regex registrations overlap on 1990\u2019s decade form and need frozen truncation-order expectations.",
+  "next_capability_handoff": "Implement and locally validate dates_times.dates.decade_apostrophes; do not alter the nine cases or expected results.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

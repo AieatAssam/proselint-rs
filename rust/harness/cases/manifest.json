@@ -20515,6 +20515,303 @@
         "exit_status": "exact"
       },
       "stdin_base64": "MTIgcC5tLiBpbiB0aGUgZXZlbmluZzsgeDEyIHAubS4gaW4gdGhlIGV2ZW5pbmc="
+    },
+    {
+      "id": "decade_apostrophes_overlap_both_registrations",
+      "capability_id": "rule.dates_times.dates.decade_apostrophes",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/dates_times/dates.py; two default-enabled ExistenceSimple registrations share this path in order: r\"\\d0\\'s\" then r\"\\d\\d\\d0\\'s\"; Fast case-insensitive, no word boundaries, allow_quotes=false, message \"Apostrophes aren't needed for decades.\". Selected config enables only the shared path. Case purpose: find overlapping suffix and full-year registrations.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiZGF0ZXMiOnsiZGVjYWRlX2Fwb3N0cm9waGVzIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_dates_decade_apostrophes_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "MTk5MCdz"
+    },
+    {
+      "id": "decade_apostrophes_case_and_length_variants",
+      "capability_id": "rule.dates_times.dates.decade_apostrophes",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/dates_times/dates.py; two default-enabled ExistenceSimple registrations share this path in order: r\"\\d0\\'s\" then r\"\\d\\d\\d0\\'s\"; Fast case-insensitive, no word boundaries, allow_quotes=false, message \"Apostrophes aren't needed for decades.\". Selected config enables only the shared path. Case purpose: case-insensitive single-digit and four-digit decade forms with overlaps.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiZGF0ZXMiOnsiZGVjYWRlX2Fwb3N0cm9waGVzIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_dates_decade_apostrophes_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "dGhlIDkwJ3MgYW5kIDE5NzAncyBhbmQgMjAwMCdT"
+    },
+    {
+      "id": "decade_apostrophes_negative_near_misses",
+      "capability_id": "rule.dates_times.dates.decade_apostrophes",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/dates_times/dates.py; two default-enabled ExistenceSimple registrations share this path in order: r\"\\d0\\'s\" then r\"\\d\\d\\d0\\'s\"; Fast case-insensitive, no word boundaries, allow_quotes=false, message \"Apostrophes aren't needed for decades.\". Selected config enables only the shared path. Case purpose: reject missing apostrophe, non-decade year, and curly apostrophe.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiZGF0ZXMiOnsiZGVjYWRlX2Fwb3N0cm9waGVzIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_dates_decade_apostrophes_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "MTk5MHMgMTk4OSdzIDE5OTDigJlz"
+    },
+    {
+      "id": "decade_apostrophes_quote_suppression",
+      "capability_id": "rule.dates_times.dates.decade_apostrophes",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/dates_times/dates.py; two default-enabled ExistenceSimple registrations share this path in order: r\"\\d0\\'s\" then r\"\\d\\d\\d0\\'s\"; Fast case-insensitive, no word boundaries, allow_quotes=false, message \"Apostrophes aren't needed for decades.\". Selected config enables only the shared path. Case purpose: suppress quoted occurrences but report unquoted occurrences.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiZGF0ZXMiOnsiZGVjYWRlX2Fwb3N0cm9waGVzIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_dates_decade_apostrophes_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "4oCcMTk5MCdz4oCdIGFuZCAyMDAwJ3M="
+    },
+    {
+      "id": "decade_apostrophes_embedded_raw_match",
+      "capability_id": "rule.dates_times.dates.decade_apostrophes",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/dates_times/dates.py; two default-enabled ExistenceSimple registrations share this path in order: r\"\\d0\\'s\" then r\"\\d\\d\\d0\\'s\"; Fast case-insensitive, no word boundaries, allow_quotes=false, message \"Apostrophes aren't needed for decades.\". Selected config enables only the shared path. Case purpose: unanchored raw matching without word boundaries.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiZGF0ZXMiOnsiZGVjYWRlX2Fwb3N0cm9waGVzIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_dates_decade_apostrophes_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "eDE5OTAnc3k="
+    },
+    {
+      "id": "decade_apostrophes_unicode_codepoint_positions",
+      "capability_id": "rule.dates_times.dates.decade_apostrophes",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/dates_times/dates.py; two default-enabled ExistenceSimple registrations share this path in order: r\"\\d0\\'s\" then r\"\\d\\d\\d0\\'s\"; Fast case-insensitive, no word boundaries, allow_quotes=false, message \"Apostrophes aren't needed for decades.\". Selected config enables only the shared path. Case purpose: codepoint offsets after a multibyte UTF-8 prefix.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiZGF0ZXMiOnsiZGVjYWRlX2Fwb3N0cm9waGVzIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_dates_decade_apostrophes_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "w6kgMTk5MCdz"
+    },
+    {
+      "id": "decade_apostrophes_max_errors_one",
+      "capability_id": "rule.dates_times.dates.decade_apostrophes",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/dates_times/dates.py; two default-enabled ExistenceSimple registrations share this path in order: r\"\\d0\\'s\" then r\"\\d\\d\\d0\\'s\"; Fast case-insensitive, no word boundaries, allow_quotes=false, message \"Apostrophes aren't needed for decades.\". Selected config enables only the shared path. Case purpose: max_errors truncates after first registration first match.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiZGF0ZXMiOnsiZGVjYWRlX2Fwb3N0cm9waGVzIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_dates_decade_apostrophes_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "MTk5MCdzIGFuZCAyMDAwJ3M="
+    },
+    {
+      "id": "decade_apostrophes_max_errors_two",
+      "capability_id": "rule.dates_times.dates.decade_apostrophes",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/dates_times/dates.py; two default-enabled ExistenceSimple registrations share this path in order: r\"\\d0\\'s\" then r\"\\d\\d\\d0\\'s\"; Fast case-insensitive, no word boundaries, allow_quotes=false, message \"Apostrophes aren't needed for decades.\". Selected config enables only the shared path. Case purpose: max_errors truncates in registration order before position sort.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoyLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiZGF0ZXMiOnsiZGVjYWRlX2Fwb3N0cm9waGVzIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_dates_decade_apostrophes_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "MTk5MCdzIGFuZCAyMDAwJ3M="
+    },
+    {
+      "id": "decade_apostrophes_max_errors_three",
+      "capability_id": "rule.dates_times.dates.decade_apostrophes",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/dates_times/dates.py; two default-enabled ExistenceSimple registrations share this path in order: r\"\\d0\\'s\" then r\"\\d\\d\\d0\\'s\"; Fast case-insensitive, no word boundaries, allow_quotes=false, message \"Apostrophes aren't needed for decades.\". Selected config enables only the shared path. Case purpose: truncation includes first match from second registration.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjozLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiZGF0ZXMiOnsiZGVjYWRlX2Fwb3N0cm9waGVzIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_dates_decade_apostrophes_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "MTk5MCdzIGFuZCAyMDAwJ3M="
     }
   ]
 }

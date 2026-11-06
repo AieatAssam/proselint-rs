@@ -214,6 +214,10 @@
     {
       "id": "rule.psychology.p_equals_zero",
       "status": "recorded"
+    },
+    {
+      "id": "spelling.ance_ence",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -261,26 +265,17 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "Select and specify the next unaccepted rule from the 65 remaining inventory paths; benchmark a combined representative profile after a short accepted batch."
+    "next_handoff": "Specify and demonstrate meaningful RED for misc.composition; preserve its two same-path registrations, duplicate findings, max_errors behavior, and source-order ties before implementing."
   },
   "unresolved": [
-    "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
-    "default configuration, all other registered rules, and broader CLI behavior remain unimplemented or unverified",
-    "broader newline, file-decoding, default-config, and all other registered-rule behavior remain unverified",
-    "combined enabled-rule configurations, Unicode case folding beyond tested ASCII variants, broader quote pairing, default config, and remaining rules are unverified",
-    "Unicode case folding outside tested ASCII variants, quote-pairing combinations, combined enabled-rule config, default config, and remaining rules are unverified",
-    "combined enabled-rule configurations, broader Unicode case folding/quote pairing, default configuration, and all unimplemented inventory rules remain unverified",
-    "broader Unicode case folding, combined-rule config, default configuration, and most inventory rules remain unverified",
-    "Most of the 124 registered checks, default configuration, combined-rule configurations, and Unicode folding beyond ASCII variants remain unverified",
-    "Most of the 124 registered checks, default configuration, combined-rule configurations, and broader Unicode folding remain unverified",
-    "Most of the 124 registered rules, default configuration, combined-rule configurations, and Unicode folding beyond tested ASCII remain unverified",
-    "Most of the 124 registered rules, default configuration, and combined-rule behavior remain unverified",
-    "Most registered rules, default configuration, combined-rule behavior, and Unicode case folding beyond tested ASCII variants remain unverified",
-    "Consumed special-value behavior is verified for the 12 listed cases; differently escaped surrogate object-key equality and other invalid setting types remain unverified. Directory config errors match the accepted JSON, Full, and compact cases. Malformed-depth behavior outside the accepted cases remains unverified.",
-    "Astra's 100000-unclosed-array SIGABRT reproducer is now a permanent regression and independently matches the pinned Python RecursionError.",
-    "Rust Check defaults output to Full and discovers cwd/ancestor proselint.json files, but XDG/HOME discovery, no-config-found bundled DEFAULT, and other CLI subcommands remain unimplemented or unverified.",
-    "Compact output, file-path/multi-file Full rendering, and Full-mode error formatting remain unverified; XDG/HOME discovery and bundled default-rule behavior remain separate open CLI capabilities.",
-    "Config discovery covers cwd/ancestor plus XDG/HOME user-file selection, relative XDG paths, unset/empty XDG fallback, precedence, and malformed winning user files. No-config-found bundled DEFAULT, missing nonempty-XDG behavior, HOME-unset platform resolution, and directory user candidates remain unverified."
+    "The no-config-found bundled DEFAULT, every default-enabled rule interaction, and combined enabled-rule configurations remain unverified; selected-rule passes do not establish default behavior.",
+    "64 unique rule paths remain unimplemented or unverified.",
+    "Other CLI behavior remains unverified, including remaining subcommands, missing nonempty-XDG config, HOME-unset resolution, directory user candidates, file/directory traversal and decoding edges, multi-file rendering, and Compact output.",
+    "Unicode case folding and quote-pairing combinations beyond explicitly tested cases remain unverified.",
+    "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
+    "Directory/non-UTF-8 path error formatting on non-Linux platforms remains unverified.",
+    "The benchmark is limited to the accepted misc.suddenly rule and its recorded workloads; a parity-proved combined-rule benchmark remains future work.",
+    "Agent task configuration requested gpt-6-luna/low for implementation and independent review, but runtime model/effort metadata is not exposed, so routing cannot be independently audited."
   ],
   "capability_states": [
     {
@@ -901,7 +896,7 @@
         "ellipsis_unicode_codepoint_spans",
         "ellipsis_selected_config_interaction"
       ],
-      "upstream_spec": "ExistenceSimple unanchored literal \\.\\.\\.; exact message \"'...' is an approximation, use the ellipsis symbol '\u2026'.\"; nonoverlapping matches; allow_quotes=false suppresses quoted findings.",
+      "upstream_spec": "ExistenceSimple unanchored literal \\.\\.\\.; exact message \"'...' is an approximation, use the ellipsis symbol '…'.\"; nonoverlapping matches; allow_quotes=false suppresses quoted findings.",
       "red": {
         "behavioral_failures": 6,
         "total_tests": 6,
@@ -945,7 +940,7 @@
         "copyright_unicode_codepoint_positions",
         "copyright_selected_config_interaction"
       ],
-      "upstream_spec": "ExistenceSimple unanchored, case-insensitive literal \\(c\\); message `(c) is a goofy alphabetic approximation, use the symbol \u00a9.`; allow_quotes=false suppresses quoted findings.",
+      "upstream_spec": "ExistenceSimple unanchored, case-insensitive literal \\(c\\); message `(c) is a goofy alphabetic approximation, use the symbol ©.`; allow_quotes=false suppresses quoted findings.",
       "red": {
         "behavioral_failures": 6,
         "total_tests": 6,
@@ -1080,7 +1075,7 @@
         "multiplication_unicode_codepoint_positions",
         "multiplication_selected_config_interaction"
       ],
-      "upstream_spec": "ExistenceSimple `\\d+ ?x ?\\d+`: ASCII digits, case-insensitive x, zero or one ASCII space on either side, unanchored. Exact message: `Use the multiplication symbol \u00d7, not the letter x.`",
+      "upstream_spec": "ExistenceSimple `\\d+ ?x ?\\d+`: ASCII digits, case-insensitive x, zero or one ASCII space on either side, unanchored. Exact message: `Use the multiplication symbol ×, not the letter x.`",
       "red": {
         "behavioral_failures": 7,
         "total_tests": 7,
@@ -1416,7 +1411,7 @@
         "inferior_superior_unicode_codepoint_positions",
         "inferior_superior_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.inferior_superior` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `inferior than` \u2192 `inferior to`; `superior than` \u2192 `superior to`. Default quote suppression; no exceptions or offsets. The replacement fills the message template `'Inferior' and 'superior' are not true comparatives. Use '{}'.`",
+      "upstream_spec": "Pinned `misc.inferior_superior` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `inferior than` → `inferior to`; `superior than` → `superior to`. Default quote suppression; no exceptions or offsets. The replacement fills the message template `'Inferior' and 'superior' are not true comparatives. Use '{}'.`",
       "red": {
         "behavioral_failures": 10,
         "total_tests": 10,
@@ -1721,7 +1716,7 @@
         "many_a_unicode_codepoint_positions",
         "many_a_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.many_a` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `are many a` \u2192 `is many a`; `have been many a` \u2192 `has been many a`; `were many a` \u2192 `was many a`. The static message is `'many a' requires a singular verb.`; each mapped replacement is returned. Default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `misc.many_a` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `are many a` → `is many a`; `have been many a` → `has been many a`; `were many a` → `was many a`. The static message is `'many a' requires a singular verb.`; each mapped replacement is returned. Default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 7,
         "total_tests": 7,
@@ -1864,7 +1859,7 @@
         "latin_unicode_codepoint_positions",
         "latin_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.latin` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `ceteris paribus` \u2192 `other things being equal`; `inter alia` \u2192 `among other things`; `simpliciter` \u2192 `in and of itself`; `mutatis mutandis` \u2192 `having made the necessary changes`. The message is `Use English. '{}' is the preferred form.` and interpolates the replacement. Default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `misc.latin` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `ceteris paribus` → `other things being equal`; `inter alia` → `among other things`; `simpliciter` → `in and of itself`; `mutatis mutandis` → `having made the necessary changes`. The message is `Use English. '{}' is the preferred form.` and interpolates the replacement. Default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -1912,7 +1907,7 @@
         "seasons_unicode_codepoint_positions",
         "seasons_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.capitalization.seasons` is case-sensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries. Only `Winter` \u2192 `winter` and `Summer` \u2192 `summer` are mapped; lowercase, all-uppercase, and mixed-case variants are clean, as are commented-out `Spring` and `Fall`. Message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements returned, default quote suppression.",
+      "upstream_spec": "Pinned `misc.capitalization.seasons` is case-sensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries. Only `Winter` → `winter` and `Summer` → `summer` are mapped; lowercase, all-uppercase, and mixed-case variants are clean, as are commented-out `Spring` and `Fall`. Message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements returned, default quote suppression.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -1960,7 +1955,7 @@
         "capitalization_terms_unicode_codepoint_positions",
         "capitalization_terms_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.capitalization.terms` is case-sensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `mother nature` \u2192 `Mother Nature`, `Space Age` \u2192 `space age`, `stone age` \u2192 `Stone Age`, and `the American west` \u2192 `the American West`. Message `Incorrect capitalization. '{}' is the preferred form.`; replacements interpolate the mapped form; default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `misc.capitalization.terms` is case-sensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `mother nature` → `Mother Nature`, `Space Age` → `space age`, `stone age` → `Stone Age`, and `the American west` → `the American West`. Message `Incorrect capitalization. '{}' is the preferred form.`; replacements interpolate the mapped form; default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -2010,7 +2005,7 @@
         "lie_detector_selected_config_interaction",
         "lie_detector_fastset_activation_raw_copy"
       ],
-      "upstream_spec": "Pinned `psychology.lie_detector` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `lie detector test` \u2192 `polygraph test` and `lie detector machine` \u2192 `polygraph machine`. Message `Polygraph machines measure arousal, not lying per se. Try '{}'.`; mapped phrase is replacement and interpolation; default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `psychology.lie_detector` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `lie detector test` → `polygraph test` and `lie detector machine` → `polygraph machine`. Message `Polygraph machines measure arousal, not lying per se. Try '{}'.`; mapped phrase is replacement and interpolation; default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -2065,7 +2060,7 @@
         "wallace_unicode_codepoint_positions",
         "wallace_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `redundancy.misc.wallace` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `rectangular in shape` \u2192 `rectangular`, `audible to the ear` \u2192 `audible`. Message `Redundancy. Use '{}' instead of '{}'.`; the replacement is interpolated first and the original matched surface second. Default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `redundancy.misc.wallace` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `rectangular in shape` → `rectangular`, `audible to the ear` → `audible`. Message `Redundancy. Use '{}' instead of '{}'.`; the replacement is interpolated first and the original matched surface second. Default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -2490,7 +2485,7 @@
         "cli_config_cwd_discovers_empty_checks",
         "cli_config_explicit_precedes_cwd_discovery"
       ],
-      "upstream_spec": "When --config is omitted, pinned Python checks the current working directory for proselint.json; an explicit --config path takes precedence over that discovered file. The discovered file\u2019s checks and JSON diagnostics must match the explicit-file loading behavior.",
+      "upstream_spec": "When --config is omitted, pinned Python checks the current working directory for proselint.json; an explicit --config path takes precedence over that discovered file. The discovered file’s checks and JSON diagnostics must match the explicit-file loading behavior.",
       "red": {
         "behavioral_mismatches": 2,
         "total_cases": 3,
@@ -2767,20 +2762,75 @@
         },
         "report": "rust/artifacts/strict-gate-p-equals-zero-20261106.json"
       }
+    },
+    {
+      "id": "spelling.ance_ence",
+      "status": "recorded",
+      "case_ids": [
+        "spelling_ance_ence_all_three",
+        "spelling_ance_ence_correct_forms",
+        "spelling_ance_ence_mixed_case",
+        "spelling_ance_ence_longer_word_controls",
+        "spelling_ance_ence_quote_suppression",
+        "spelling_ance_ence_repeats_pattern_order",
+        "spelling_ance_ence_unicode_codepoint_prefix",
+        "spelling_ance_ence_selected_config",
+        "spelling_ance_ence_max_errors_pattern_order",
+        "spelling_ance_ence_boundary_then_embedded_substring"
+      ],
+      "upstream_spec": "Pinned checks/spelling/ance_ence.py uses Fast case-insensitive PreferredFormsSimple with three misspellings, WORDS_IN_TEXT padding, allow_quotes=false, and zero offset. Each term activates at an ASCII word boundary; activation reports all raw case-insensitive occurrences of that term. Findings are source ordered, quote-suppressed, and use Python code-point positions. Message: -ance vs. -ence. '{}' is the correct spelling.",
+      "red": {
+        "focused_rust_tests_failed": 9,
+        "total_tests": 9,
+        "exit_code": 101,
+        "reason": "Behavioral CLI tests reached the candidate; the selected rule was unsupported and returned exit 4.",
+        "evidence": "Luna spec-test handoff; pinned oracle self-comparison passed 10/10 at rust/artifacts/ance_ence_oracle_self_20261106.json."
+      },
+      "green": {
+        "focused_rust_tests_passed": 9,
+        "live_cases_passed": 10,
+        "report": "rust/artifacts/ance-ence-live-green-20261106.json",
+        "build_attestation": "rust/artifacts/20261106T080452530498Z-build.attestation.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 10,
+        "focused_rust_suite_in_full_locked_tests": "passed",
+        "harness_tests_passed": 28,
+        "harness_subtests_passed": 21,
+        "comparator_discriminators_passed": 23,
+        "report": "rust/artifacts/independent-ance-ence-20261106/verification.json",
+        "live_report": "rust/artifacts/independent-ance-ence-20261106/ance-ence-live.json",
+        "build_attestation": "rust/artifacts/independent-ance-ence-20261106/build.attestation.json",
+        "source_fingerprint": "3cdab86ad8c48fa474faa86572d334d773afd32f860e60ce685091762b664677",
+        "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "agent_configured_model": "gpt-6-luna",
+        "agent_configured_reasoning_effort": "low",
+        "agent_runtime_metadata": "unavailable"
+      },
+      "limitations": [
+        "Only the three registered mappings and recorded matching, ordering, quote, selected-config, max_errors, and coordinate cases are accepted; other preferred-form rules are separate capabilities.",
+        "Combined-rule and bundled default configuration behavior remains unverified."
+      ],
+      "cumulative_live_parity": {
+        "status": "PASS",
+        "passed_cases": 462,
+        "manifest_cases": 468,
+        "report": "rust/artifacts/strict-gate-ance-ence-20261106.json"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-p-equals-zero-20261106.json",
-    "passed_cases": 452,
-    "manifest_cases": 458,
+    "report": "rust/artifacts/strict-gate-ance-ence-20261106.json",
+    "passed_cases": 462,
+    "manifest_cases": 468,
     "excluded_manifest_cases": {
       "cli.config.per_file_checks": 4,
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "source_fingerprint": "5c2ea53c8c9f1f5f976b74db4a99d91b59c6474191f7c12f58a12d8e06f2f5b4",
-    "capability_count": 53
+    "capability_count": 54
   },
   "rust_dependencies": {
     "status": "current",
@@ -2802,7 +2852,7 @@
       "rust_version_constraint": "1.99"
     }
   },
-  "next_capability_handoff": "Select a next capability from the pinned inventory by helper reuse and case quality; derive its exact semantics and demonstrate behavioral RED before production edits. After the next small accepted batch, extend performance evidence to a combined accepted-rule config.",
+  "next_capability_handoff": "Next: specify misc.composition against the pinned oracle, including the simple/regex overlap and max_errors=1 suffix-match behavior, then RED, implement, live-compare, independently verify, and run the cumulative gate.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

@@ -15,6 +15,7 @@ use proselint_rs::{
     typography_sentence_spacing_diagnostics, typography_trademark_diagnostics, wallace_diagnostics,
     whence_diagnostics,
 };
+use serde::Deserialize;
 use serde_json::Value;
 use std::fs;
 use std::io::{self, Read};
@@ -27,38 +28,116 @@ struct JsonSyntaxError {
     offset: usize,
 }
 
+#[derive(Debug)]
+enum JsonScanError {
+    Syntax(JsonSyntaxError),
+    Recursion(&'static str),
+}
+
+#[derive(Clone, Copy)]
+enum JsonFrame {
+    Object(ObjectState),
+    Array(ArrayState),
+}
+
+#[derive(Clone, Copy)]
+enum ObjectState {
+    KeyOrEnd,
+    Key,
+    Colon,
+    Value,
+    CommaOrEnd,
+}
+
+#[derive(Clone, Copy)]
+enum ArrayState {
+    ValueOrEnd,
+    Value,
+    CommaOrEnd,
+}
+
 struct JsonScanner {
     chars: Vec<char>,
     offset: usize,
-    failure: Option<JsonSyntaxError>,
 }
 
 impl JsonScanner {
+    const MAX_CONTAINER_DEPTH: usize = 9_997;
+
     fn new(source: &str) -> Self {
         Self {
             chars: source.chars().collect(),
             offset: 0,
-            failure: None,
         }
     }
 
-    fn scan(mut self) -> Option<JsonSyntaxError> {
+    fn scan(mut self) -> Result<Option<JsonSyntaxError>, JsonScanError> {
         self.space();
         if self.offset == self.chars.len() {
-            return Some(self.error("Expecting value", self.offset));
+            return Ok(Some(self.error("Expecting value", self.offset)));
         }
-        if self.value().is_err() {
-            return self.failure;
+        let mut frames = Vec::new();
+        self.value(&mut frames)?;
+        while let Some(frame) = frames.pop() {
+            self.space();
+            match frame {
+                JsonFrame::Object(state) => match state {
+                    ObjectState::KeyOrEnd if self.take('}') => {}
+                    ObjectState::KeyOrEnd | ObjectState::Key => {
+                        if self.peek() != Some('"') {
+                            return Ok(Some(self.error(
+                                "Expecting property name enclosed in double quotes",
+                                self.offset,
+                            )));
+                        }
+                        if let Err(error) = self.string() {
+                            return Ok(Some(error));
+                        }
+                        frames.push(JsonFrame::Object(ObjectState::Colon));
+                    }
+                    ObjectState::Colon => {
+                        if !self.take(':') {
+                            return Ok(Some(self.error("Expecting ':' delimiter", self.offset)));
+                        }
+                        frames.push(JsonFrame::Object(ObjectState::Value));
+                    }
+                    ObjectState::Value => {
+                        frames.push(JsonFrame::Object(ObjectState::CommaOrEnd));
+                        self.value(&mut frames)?;
+                    }
+                    ObjectState::CommaOrEnd if self.take('}') => {}
+                    ObjectState::CommaOrEnd if self.take(',') => {
+                        frames.push(JsonFrame::Object(ObjectState::Key));
+                    }
+                    ObjectState::CommaOrEnd => {
+                        return Ok(Some(self.error("Expecting ',' delimiter", self.offset)));
+                    }
+                },
+                JsonFrame::Array(state) => match state {
+                    ArrayState::ValueOrEnd if self.take(']') => {}
+                    ArrayState::ValueOrEnd | ArrayState::Value => {
+                        frames.push(JsonFrame::Array(ArrayState::CommaOrEnd));
+                        self.value(&mut frames)?;
+                    }
+                    ArrayState::CommaOrEnd if self.take(']') => {}
+                    ArrayState::CommaOrEnd if self.take(',') => {
+                        frames.push(JsonFrame::Array(ArrayState::Value));
+                    }
+                    ArrayState::CommaOrEnd => {
+                        return Ok(Some(self.error("Expecting ',' delimiter", self.offset)));
+                    }
+                },
+            }
         }
         self.space();
-        (self.offset != self.chars.len()).then(|| self.error("Extra data", self.offset))
+        Ok((self.offset != self.chars.len()).then(|| self.error("Extra data", self.offset)))
     }
 
-    fn value(&mut self) -> Result<(), ()> {
+    fn value(&mut self, frames: &mut Vec<JsonFrame>) -> Result<(), JsonScanError> {
         match self.peek() {
-            Some('{') => self.object(),
-            Some('[') => self.array(),
-            Some('"') => self.string().map(|_| ()),
+            Some('{') => self.open_container(frames, true),
+            Some('[') => self.open_container(frames, false),
+            Some('"') => self.string().map_err(JsonScanError::Syntax),
             Some('t') => self.literal("true"),
             Some('f') => self.literal("false"),
             Some('n') => self.literal("null"),
@@ -66,61 +145,34 @@ impl JsonScanner {
             Some('I') => self.literal("Infinity"),
             Some('-') if self.chars.get(self.offset + 1) == Some(&'I') => self.literal("-Infinity"),
             Some('-' | '0'..='9') => self.number(),
-            _ => self.fail("Expecting value", self.offset),
+            _ => Err(JsonScanError::Syntax(
+                self.error("Expecting value", self.offset),
+            )),
         }
     }
 
-    fn object(&mut self) -> Result<(), ()> {
+    fn open_container(
+        &mut self,
+        frames: &mut Vec<JsonFrame>,
+        object: bool,
+    ) -> Result<(), JsonScanError> {
+        if frames.len() >= Self::MAX_CONTAINER_DEPTH {
+            return Err(JsonScanError::Recursion(if object {
+                "object"
+            } else {
+                "array"
+            }));
+        }
         self.offset += 1;
-        self.space();
-        if self.take('}') {
-            return Ok(());
-        }
-        loop {
-            if self.peek() != Some('"') {
-                return self.fail(
-                    "Expecting property name enclosed in double quotes",
-                    self.offset,
-                );
-            }
-            self.string()?;
-            self.space();
-            if !self.take(':') {
-                return self.fail("Expecting ':' delimiter", self.offset);
-            }
-            self.space();
-            self.value()?;
-            self.space();
-            if self.take('}') {
-                return Ok(());
-            }
-            if !self.take(',') {
-                return self.fail("Expecting ',' delimiter", self.offset);
-            }
-            self.space();
-        }
+        frames.push(if object {
+            JsonFrame::Object(ObjectState::KeyOrEnd)
+        } else {
+            JsonFrame::Array(ArrayState::ValueOrEnd)
+        });
+        Ok(())
     }
 
-    fn array(&mut self) -> Result<(), ()> {
-        self.offset += 1;
-        self.space();
-        if self.take(']') {
-            return Ok(());
-        }
-        loop {
-            self.value()?;
-            self.space();
-            if self.take(']') {
-                return Ok(());
-            }
-            if !self.take(',') {
-                return self.fail("Expecting ',' delimiter", self.offset);
-            }
-            self.space();
-        }
-    }
-
-    fn string(&mut self) -> Result<(), ()> {
+    fn string(&mut self) -> Result<(), JsonSyntaxError> {
         let start = self.offset;
         self.offset += 1;
         while let Some(ch) = self.peek() {
@@ -138,38 +190,37 @@ impl JsonScanner {
                             self.offset += 1;
                             for _ in 0..4 {
                                 if !self.peek().is_some_and(|c| c.is_ascii_hexdigit()) {
-                                    return self.fail("Invalid \\uXXXX escape", slash + 1);
+                                    return Err(self.error("Invalid \\uXXXX escape", slash + 1));
                                 }
                                 self.offset += 1;
                             }
                         }
-                        Some(_) => return self.fail("Invalid \\escape", slash),
-                        None => return self.fail("Unterminated string starting at", start),
+                        Some(_) => return Err(self.error("Invalid \\escape", slash)),
+                        None => return Err(self.error("Unterminated string starting at", start)),
                     }
                 }
                 ch if ch <= '\u{1f}' => {
-                    return self.fail("Invalid control character at", self.offset);
+                    return Err(self.error("Invalid control character at", self.offset));
                 }
                 _ => self.offset += 1,
             }
         }
-        self.fail("Unterminated string starting at", start)
+        Err(self.error("Unterminated string starting at", start))
     }
 
-    fn number(&mut self) -> Result<(), ()> {
+    fn number(&mut self) -> Result<(), JsonScanError> {
         let start = self.offset;
         if self.take('-') && self.offset == self.chars.len() {
-            return self.fail("Expecting value", start);
+            return Err(JsonScanError::Syntax(self.error("Expecting value", start)));
         }
         if self.take('0') {
-            // Python leaves a leading zero's following digit for the delimiter check.
         } else if self.peek().is_some_and(|c| ('1'..='9').contains(&c)) {
             self.offset += 1;
             while self.peek().is_some_and(|c| c.is_ascii_digit()) {
                 self.offset += 1;
             }
         } else {
-            return self.fail("Expecting value", start);
+            return Err(JsonScanError::Syntax(self.error("Expecting value", start)));
         }
         if self.take('.') {
             if !self.peek().is_some_and(|c| c.is_ascii_digit()) {
@@ -196,17 +247,16 @@ impl JsonScanner {
         Ok(())
     }
 
-    fn literal(&mut self, literal: &str) -> Result<(), ()> {
+    fn literal(&mut self, literal: &str) -> Result<(), JsonScanError> {
         let start = self.offset;
         for expected in literal.chars() {
             if self.peek() != Some(expected) {
-                return self.fail("Expecting value", start);
+                return Err(JsonScanError::Syntax(self.error("Expecting value", start)));
             }
             self.offset += 1;
         }
         Ok(())
     }
-
     fn space(&mut self) {
         while self
             .peek()
@@ -229,29 +279,43 @@ impl JsonScanner {
     fn error(&self, reason: &'static str, offset: usize) -> JsonSyntaxError {
         JsonSyntaxError { reason, offset }
     }
-    fn fail(&mut self, reason: &'static str, offset: usize) -> Result<(), ()> {
-        self.failure = Some(self.error(reason, offset));
-        Err(())
-    }
 }
 
-fn python_json_error_message(source: &str) -> Option<String> {
+fn python_json_error_message(source: &str, error: JsonSyntaxError) -> String {
     let normalized = source.replace("\r\n", "\n").replace('\r', "\n");
-    let error = if normalized.starts_with('\u{feff}') {
-        JsonSyntaxError {
-            reason: "Unexpected UTF-8 BOM (decode using utf-8-sig)",
-            offset: 0,
-        }
-    } else {
-        JsonScanner::new(&normalized).scan()?
-    };
     let prefix: Vec<char> = normalized.chars().take(error.offset).collect();
     let line = prefix.iter().filter(|&&ch| ch == '\n').count() + 1;
     let column = prefix.iter().rev().take_while(|&&ch| ch != '\n').count() + 1;
-    Some(format!(
+    format!(
         "{}: line {line} column {column} (char {})",
         error.reason, error.offset
-    ))
+    )
+}
+
+fn recursion_error_message(kind: &str) -> String {
+    format!("maximum recursion depth exceeded while decoding a JSON {kind} from a unicode string")
+}
+
+struct StackSafeValue(Value);
+
+impl std::ops::Deref for StackSafeValue {
+    type Target = Value;
+    fn deref(&self) -> &Value {
+        &self.0
+    }
+}
+
+impl Drop for StackSafeValue {
+    fn drop(&mut self) {
+        let mut pending = vec![std::mem::replace(&mut self.0, Value::Null)];
+        while let Some(mut value) = pending.pop() {
+            match &mut value {
+                Value::Array(children) => pending.extend(std::mem::take(children)),
+                Value::Object(children) => pending.extend(std::mem::take(children).into_values()),
+                _ => {}
+            }
+        }
+    }
 }
 
 fn python_utf8_decode_error_message(bytes: &[u8], error: std::str::Utf8Error) -> String {
@@ -343,11 +407,46 @@ fn run() -> Result<ExitCode, String> {
             ));
         }
     };
-    let config_value: Value = match serde_json::from_str(&config_text) {
+    let normalized_config_text = config_text.replace("\r\n", "\n").replace('\r', "\n");
+    let scan_result = if config_text.starts_with('\u{feff}') {
+        Err(JsonScanError::Syntax(JsonSyntaxError {
+            reason: "Unexpected UTF-8 BOM (decode using utf-8-sig)",
+            offset: 0,
+        }))
+    } else {
+        JsonScanner::new(&normalized_config_text).scan()
+    };
+    let syntax_error = match scan_result {
+        Ok(error) => error,
+        Err(JsonScanError::Syntax(error)) => Some(error),
+        Err(JsonScanError::Recursion(kind)) => {
+            let message = recursion_error_message(kind);
+            if matches!(output_format, OutputFormat::Json) {
+                println!(
+                    "{}",
+                    serde_json::json!({"error":{"code":-31999,"message":message,"data":"RecursionError"}})
+                );
+                return Ok(ExitCode::from(4));
+            }
+            return Err(format!(
+                "Configuration file '{}' is not valid JSON: {message}",
+                config.display()
+            ));
+        }
+    };
+    let parse_result = (|| {
+        let mut deserializer = serde_json::Deserializer::from_str(&config_text);
+        deserializer.disable_recursion_limit();
+        let value = Value::deserialize(serde_stacker::Deserializer::new(&mut deserializer));
+        let value = value?;
+        deserializer.end()?;
+        Ok::<_, serde_json::Error>(StackSafeValue(value))
+    })();
+    let config_value = match parse_result {
         Ok(value) => value,
         Err(error) => {
             if matches!(output_format, OutputFormat::Json) {
-                let Some(message) = python_json_error_message(&config_text) else {
+                let Some(syntax_error) = syntax_error else {
                     return Err(format!(
                         "Configuration file '{}' was rejected by serde_json even though the Python JSON scanner found no syntax error: {error}",
                         config.display()
@@ -355,7 +454,7 @@ fn run() -> Result<ExitCode, String> {
                 };
                 println!(
                     "{}",
-                    serde_json::json!({"error":{"code":-31999,"message":message,"data":"JSONDecodeError"}})
+                    serde_json::json!({"error":{"code":-31999,"message":python_json_error_message(&normalized_config_text, syntax_error),"data":"JSONDecodeError"}})
                 );
                 return Ok(ExitCode::from(4));
             }
@@ -417,7 +516,7 @@ fn run() -> Result<ExitCode, String> {
         ("<stdin>".to_owned(), input)
     };
 
-    let mut effective_checks = checks.clone();
+    let mut selected_check = supported_checks(checks);
     if let Some(path) = paths.first()
         && let Some(per_file_checks) = config_value
             .get("per_file_checks")
@@ -425,16 +524,16 @@ fn run() -> Result<ExitCode, String> {
         && let Some((_, override_checks)) = per_file_checks
             .iter()
             .find(|(pattern, _)| path_matches_pattern(path, pattern))
-        && let Some(global_selected) = supported_checks(checks)
+        && let Some(global_selected) = selected_check
         && effective_check_enabled(
             checks,
             override_checks,
             selected_check_path(global_selected),
         ) == Some(false)
     {
-        effective_checks = serde_json::json!({});
+        selected_check = Some(SelectedCheck::None);
     }
-    let selected_check = supported_checks(&effective_checks).ok_or_else(|| {
+    let selected_check = selected_check.ok_or_else(|| {
         "this capability supports disabled checks, annotations.misc, cliches.hell, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.lie_detector, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.many_a, misc.metadiscourse, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.institution_name, misc.professions, misc.greylist, redundancy.misc.wallace, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, dates_times.am_pm.lowercase_periods, or dates_times.am_pm.spacing only".to_owned()
     })?;
 
@@ -553,368 +652,94 @@ enum SelectedCheck {
 }
 
 fn supported_checks(checks: &Value) -> Option<SelectedCheck> {
-    fn visit(value: &Value, path: &mut Vec<String>, selected: &mut SelectedCheck) -> bool {
-        match value {
-            Value::Object(entries) => entries.iter().all(|(key, child)| {
-                path.push(key.clone());
-                let result = if path == &["annotations", "misc"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::AnnotationsMisc;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["cliches", "hell"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::ClichesHell;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["misc", "apologizing"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::MiscApologizing;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["misc", "but"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::MiscBut;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["misc", "whence"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::MiscWhence;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["misc", "suddenly"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::MiscSuddenly;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["misc", "debased"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::MiscDebased;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["misc", "currency"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::MiscCurrency;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["misc", "inferior_superior"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::MiscInferiorSuperior;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["dates_times", "am_pm", "lowercase_periods"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::DatesTimesAmPmLowercasePeriods;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["dates_times", "am_pm", "spacing"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::DatesTimesAmPmSpacing;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["misc", "false_plurals", "kudos"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::MiscFalsePluralsKudos;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["misc", "false_plurals", "misc"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::MiscFalsePluralsMisc;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["psychology", "mental_telepathy"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::PsychologyMentalTelepathy;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["psychology", "lie_detector"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::PsychologyLieDetector;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["redundancy", "misc", "wallace"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::RedundancyMiscWallace;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["misc", "illogic", "coin"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::MiscIllogicCoin;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["misc", "illogic", "collusion"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::MiscIllogicCollusion;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["misc", "back_formations"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::MiscBackFormations;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["misc", "greylist"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::MiscGreylist;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["industrial_language", "bureaucratese"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::IndustrialLanguageBureaucratese;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["hedging"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::Hedging;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["industrial_language", "jargon"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::IndustrialLanguageJargon;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["industrial_language", "airlinese"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::IndustrialLanguageAirlinese;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["misc", "many_a"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::MiscManyA;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["misc", "metadiscourse"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::MiscMetadiscourse;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["misc", "pretension"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::MiscPretension;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["misc", "latin"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::MiscLatin;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["misc", "capitalization", "seasons"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::MiscCapitalizationSeasons;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["misc", "capitalization", "terms"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::MiscCapitalizationTerms;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["misc", "capitalization", "days"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::MiscCapitalizationDays;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["misc", "institution_name"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::MiscInstitutionName;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["misc", "professions"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::MiscProfessions;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["typography", "symbols", "ellipsis"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::TypographySymbolsEllipsis;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["typography", "symbols", "copyright"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::TypographySymbolsCopyright;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["typography", "symbols", "sentence_spacing"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::TypographySymbolsSentenceSpacing;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["typography", "symbols", "trademark"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::TypographySymbolsTrademark;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else if path == &["typography", "symbols", "multiplication"] {
-                    match child {
-                        Value::Bool(false) => true,
-                        Value::Bool(true) if *selected == SelectedCheck::None => {
-                            *selected = SelectedCheck::TypographySymbolsMultiplication;
-                            true
-                        }
-                        _ => false,
-                    }
-                } else {
-                    visit(child, path, selected)
-                };
-                path.pop();
-                result
-            }),
-            Value::Bool(false) => true,
-            _ => false,
+    fn check_for_path(path: &[String]) -> Option<SelectedCheck> {
+        let path: Vec<&str> = path.iter().map(String::as_str).collect();
+        match path.as_slice() {
+            ["annotations", "misc"] => Some(SelectedCheck::AnnotationsMisc),
+            ["cliches", "hell"] => Some(SelectedCheck::ClichesHell),
+            ["misc", "apologizing"] => Some(SelectedCheck::MiscApologizing),
+            ["misc", "but"] => Some(SelectedCheck::MiscBut),
+            ["misc", "whence"] => Some(SelectedCheck::MiscWhence),
+            ["misc", "suddenly"] => Some(SelectedCheck::MiscSuddenly),
+            ["misc", "debased"] => Some(SelectedCheck::MiscDebased),
+            ["misc", "currency"] => Some(SelectedCheck::MiscCurrency),
+            ["misc", "inferior_superior"] => Some(SelectedCheck::MiscInferiorSuperior),
+            ["dates_times", "am_pm", "lowercase_periods"] => {
+                Some(SelectedCheck::DatesTimesAmPmLowercasePeriods)
+            }
+            ["dates_times", "am_pm", "spacing"] => Some(SelectedCheck::DatesTimesAmPmSpacing),
+            ["misc", "false_plurals", "kudos"] => Some(SelectedCheck::MiscFalsePluralsKudos),
+            ["misc", "false_plurals", "misc"] => Some(SelectedCheck::MiscFalsePluralsMisc),
+            ["psychology", "mental_telepathy"] => Some(SelectedCheck::PsychologyMentalTelepathy),
+            ["psychology", "lie_detector"] => Some(SelectedCheck::PsychologyLieDetector),
+            ["redundancy", "misc", "wallace"] => Some(SelectedCheck::RedundancyMiscWallace),
+            ["misc", "illogic", "coin"] => Some(SelectedCheck::MiscIllogicCoin),
+            ["misc", "illogic", "collusion"] => Some(SelectedCheck::MiscIllogicCollusion),
+            ["misc", "back_formations"] => Some(SelectedCheck::MiscBackFormations),
+            ["misc", "greylist"] => Some(SelectedCheck::MiscGreylist),
+            ["industrial_language", "bureaucratese"] => {
+                Some(SelectedCheck::IndustrialLanguageBureaucratese)
+            }
+            ["hedging"] => Some(SelectedCheck::Hedging),
+            ["industrial_language", "jargon"] => Some(SelectedCheck::IndustrialLanguageJargon),
+            ["industrial_language", "airlinese"] => {
+                Some(SelectedCheck::IndustrialLanguageAirlinese)
+            }
+            ["misc", "many_a"] => Some(SelectedCheck::MiscManyA),
+            ["misc", "metadiscourse"] => Some(SelectedCheck::MiscMetadiscourse),
+            ["misc", "pretension"] => Some(SelectedCheck::MiscPretension),
+            ["misc", "latin"] => Some(SelectedCheck::MiscLatin),
+            ["misc", "capitalization", "seasons"] => Some(SelectedCheck::MiscCapitalizationSeasons),
+            ["misc", "capitalization", "terms"] => Some(SelectedCheck::MiscCapitalizationTerms),
+            ["misc", "capitalization", "days"] => Some(SelectedCheck::MiscCapitalizationDays),
+            ["misc", "institution_name"] => Some(SelectedCheck::MiscInstitutionName),
+            ["misc", "professions"] => Some(SelectedCheck::MiscProfessions),
+            ["typography", "symbols", "ellipsis"] => Some(SelectedCheck::TypographySymbolsEllipsis),
+            ["typography", "symbols", "copyright"] => {
+                Some(SelectedCheck::TypographySymbolsCopyright)
+            }
+            ["typography", "symbols", "sentence_spacing"] => {
+                Some(SelectedCheck::TypographySymbolsSentenceSpacing)
+            }
+            ["typography", "symbols", "trademark"] => {
+                Some(SelectedCheck::TypographySymbolsTrademark)
+            }
+            ["typography", "symbols", "multiplication"] => {
+                Some(SelectedCheck::TypographySymbolsMultiplication)
+            }
+            _ => None,
         }
     }
 
     if !checks.is_object() {
         return None;
     }
+    let mut pending = vec![(checks, Vec::<String>::new())];
     let mut selected = SelectedCheck::None;
-    visit(checks, &mut Vec::new(), &mut selected).then_some(selected)
+    while let Some((value, path)) = pending.pop() {
+        if let Some(check) = check_for_path(&path) {
+            match value {
+                Value::Bool(false) => continue,
+                Value::Bool(true) if selected == SelectedCheck::None => {
+                    selected = check;
+                    continue;
+                }
+                _ => return None,
+            }
+        }
+        match value {
+            Value::Object(entries) => {
+                for (key, child) in entries.iter().rev() {
+                    let mut child_path = path.clone();
+                    child_path.push(key.clone());
+                    pending.push((child, child_path));
+                }
+            }
+            Value::Bool(false) => {}
+            _ => return None,
+        }
+    }
+    Some(selected)
 }
 
 fn main() -> ExitCode {

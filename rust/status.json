@@ -170,6 +170,10 @@
     {
       "id": "rule.misc.capitalization.days",
       "status": "recorded"
+    },
+    {
+      "id": "cli.config.recursion_depth",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -217,7 +221,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "Prioritize the Astra-confirmed JSON recursion stack-overflow capability before selecting further rules."
+    "next_handoff": "Probe Python-valid nonstandard numeric config values in consumed settings, then address any confirmed decoder mismatch; test lone-surrogate and directory-path behavior as separate slices."
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
@@ -232,10 +236,8 @@
     "Most of the 124 registered rules, default configuration, combined-rule configurations, and Unicode folding beyond tested ASCII remain unverified",
     "Most of the 124 registered rules, default configuration, and combined-rule behavior remain unverified",
     "Most registered rules, default configuration, combined-rule behavior, and Unicode case folding beyond tested ASCII variants remain unverified",
-    "valid deeply nested configurations, Python recursion boundary/error messages, nonstandard JSON constants, and lone-surrogate values remain unverified",
     "Astra follow-up observed additional config gaps: Python-valid NaN, 1e999 and lone-surrogate values; valid depth-130 config; recursion error kind at extreme malformed depth; and directory config-path errors.",
-    "Astra confirmed the recursive malformed-JSON scanner aborts with SIGABRT/stack overflow on 100000 unclosed array brackets; replace with bounded/iterative parsing and Python-compatible RecursionError.",
-    "Sol review: a safe depth fix must use an iterative syntax scanner with explicit array/object states, run it before deserialization, type syntax versus recursion errors, and handle deep Value drop/clone paths; if retaining serde_json::Value, evaluate unbounded_depth plus serde_stacker rather than only removing the parser cap."
+    "Astra observed Python-valid NaN, 1e999, and lone-surrogate JSON values, plus directory config-path error differences; probe values in consumed settings before choosing conversion semantics. Extreme malformed-depth cases beyond the accepted boundary suite remain open to targeted live verification."
   ],
   "capability_states": [
     {
@@ -2203,20 +2205,68 @@
         "report": "rust/artifacts/strict-gate-capitalization-days-20261106.json",
         "source_fingerprint": "740a562f088f771fbb5acef4f810fed7a6c68b8ad14a943c922d716fe5e91bcd"
       }
+    },
+    {
+      "id": "cli.config.recursion_depth",
+      "status": "recorded",
+      "case_ids": [
+        "cli_config_recursion_stack_overflow_depth66000",
+        "cli_config_recursion_malformed_alternating_depth1000",
+        "cli_config_recursion_malformed_object_depth1100",
+        "cli_config_recursion_malformed_array_depth10000",
+        "cli_config_recursion_valid_array_depth150",
+        "cli_config_recursion_valid_object_depth150",
+        "cli_config_recursion_valid_alternating_depth150",
+        "cli_config_recursion_valid_array_depth9996",
+        "cli_config_recursion_array_recursion_depth9997",
+        "cli_config_recursion_object_recursion_depth9997",
+        "cli_config_recursion_alternating_recursion_depth9997"
+      ],
+      "upstream_spec": "Match pinned Python JSON decoding recursion behavior for deeply nested valid and malformed arrays/objects, including its 9,996/9,997 valid-container boundary and structured RecursionError; prevent native stack exhaustion.",
+      "red": {
+        "behavioral_mismatches": 8,
+        "candidate_errors": 1,
+        "total_cases": 11,
+        "exit_code": 1,
+        "evidence": "rust/artifacts/config-recursion-boundary-red-live-20261106.json"
+      },
+      "green": {
+        "focused_rust_tests_passed": 9,
+        "live_cases_passed": 11,
+        "exit_code": 0,
+        "evidence": "rust/artifacts/config-recursion-green-live-20261106.json",
+        "build_attestation": "rust/artifacts/config-recursion-green-build.attestation.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 11,
+        "full_locked_build_and_tests": "rust/artifacts/20261106T022925108223Z-build.attestation.json",
+        "report": "rust/artifacts/recursion_depth_final_verifier.json",
+        "frozen_source_fingerprint": "91d8fd24f000cfed1117036c7011c5f9af08667bd48b0f6668d908ac03118793"
+      },
+      "limitations": [
+        "Python-valid serde-incompatible values outside tested depth behavior remain unverified"
+      ],
+      "cumulative_live_parity": {
+        "passed_cases": 390,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-recursion-depth-final-20261106.json",
+        "source_fingerprint": "032e2e89cb0de49fea52997c9f12e27e6128ea329829630fec23a4caa222c0ee"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-capitalization-days-20261106.json",
-    "passed_cases": 379,
-    "manifest_cases": 385,
+    "report": "rust/artifacts/strict-gate-recursion-depth-final-20261106.json",
+    "passed_cases": 390,
+    "manifest_cases": 396,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
       "cli.config.per_file_checks": 4
     },
     "exit_code": 0,
-    "source_fingerprint": "740a562f088f771fbb5acef4f810fed7a6c68b8ad14a943c922d716fe5e91bcd",
-    "capability_count": 42
+    "source_fingerprint": "032e2e89cb0de49fea52997c9f12e27e6128ea329829630fec23a4caa222c0ee",
+    "capability_count": 43
   },
   "rust_dependencies": {
     "status": "current",
@@ -2226,7 +2276,8 @@
     "locked_versions": {
       "clap": "4.6.7",
       "serde": "1.0.229",
-      "serde_json": "1.0.154"
+      "serde_json": "1.0.154",
+      "serde_stacker": "0.1.14"
     },
     "cargo_update_dry_run": "0 packages to update",
     "update_dry_run": {
@@ -2236,5 +2287,5 @@
       "rust_version_constraint": "1.99"
     }
   },
-  "next_capability_handoff": "Address bounded/iterative JSON parsing and Python RecursionError behavior before further rule slices."
+  "next_capability_handoff": "Probe NaN and 1e999 in consumed configuration settings against the pinned oracle before selecting their compatibility implementation; then cover lone-surrogate decoding and structured directory-config errors as separate capabilities."
 }

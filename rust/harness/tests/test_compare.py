@@ -630,6 +630,13 @@ class ComparatorTests(unittest.TestCase):
             "oxymorons_quoted_activation_limit_one",
             "oxymorons_ascii_word_activation_after_non_ascii_letter",
             "oxymorons_matcher_order_truncation_before_position_sort",
+            "oxymorons_interleaved_pattern_order_max_errors_two",
+            "oxymorons_long_s_nonword_boundaries_clean",
+            "oxymorons_optional_s_backtracks_at_nonword_boundary",
+            "not_guilty_optional_articles_case_variants",
+            "not_guilty_near_misses_clean",
+            "not_guilty_quote_filter_before_limit",
+            "not_guilty_unicode_codepoint_position",
             "nordquist_ordinary_mappings", "nordquist_escaped_dot_matches_and_none_replacements",
             "nordquist_escaped_dot_alternates_clean", "nordquist_case_insensitive_surface",
             "nordquist_word_boundaries", "nordquist_quote_suppression",
@@ -643,7 +650,7 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(
             {capability: sum(case["capability_id"] == capability for case in manifest["cases"])
              for capability in {case["capability_id"] for case in manifest["cases"]}},
-            {'rule.misc.debased': 13, 'rule.misc.capitalization.days': 10, 'rule.cliches.hell': 7, 'harness.oracle_smoke': 2, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.dates_times.am_pm.midnight_noon': 10, 'rule.dates_times.dates.decade_apostrophes': 10, 'rule.misc.narcissism': 9, 'rule.misc.latin': 10, 'rule.misc.back_formations': 8, 'rule.misc.capitalization.terms': 10, 'rule.industrial_language.airlinese': 12, 'cli.json_no_findings': 8, 'rule.misc.phrasal_adjectives.ly': 7, 'rule.misc.greylist': 9, 'rule.misc.many_a': 10, 'cli.output_format.full': 3, 'cli.config.ignored_values': 5, 'rule.misc.professions': 8, 'cli.config.cwd_discovery': 3, 'cli.config.ancestor_discovery': 5, 'rule.misc.illogic.coin': 7, 'rule.hedging': 13, 'cli.config.invalid_utf8': 5, 'rule.misc.whence': 6, 'rule.annotations.misc': 10, 'rule.typography.symbols.sentence_spacing': 7, 'cli.config.consumed_special_values': 12, 'cli.config.malformed_json': 22, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.copyright': 6, 'rule.misc.pretension': 9, 'cli.config.recursion_depth': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.misc.institution_name': 8, 'rule.misc.currency': 12, 'rule.misc.suddenly': 7, 'cli.coordinates': 6, 'rule.misc.but': 8, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.collusion': 7, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.capitalization.seasons': 10, 'cli.config.directory_path': 4, 'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 10, 'rule.misc.inferior_superior': 12, 'rule.misc.false_plurals.misc': 9, 'cli.config.per_file_checks': 4, 'rule.redundancy.misc.wallace': 10, 'rule.dates_times.am_pm.spacing': 8, 'rule.typography.symbols.ellipsis': 6, 'rule.psychology.lie_detector': 12, 'rule.industrial_language.jargon': 10, 'cli.config.user_discovery': 8, 'rule.misc.capitalization.months': 6, 'rule.psychology.p_equals_zero': 8, 'spelling.ance_ence': 10, 'rule.misc.composition': 38, 'cli.combined_checks': 3, 'rule.terms.eponymous_adjectives': 4, 'rule.spelling.ally_ly': 10, 'rule.spelling.ely_ly': 9, 'rule.spelling.ve_of': 11, 'rule.malapropisms': 10, 'rule.spelling.in_un': 10, 'rule.mondegreens': 10, 'rule.skunked_terms': 11, 'rule.oxymorons': 13, 'rule.redundancy.misc.nordquist': 11},
+            {'rule.misc.debased': 13, 'rule.misc.capitalization.days': 10, 'rule.cliches.hell': 7, 'harness.oracle_smoke': 2, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.dates_times.am_pm.midnight_noon': 10, 'rule.dates_times.dates.decade_apostrophes': 10, 'rule.misc.narcissism': 9, 'rule.misc.latin': 10, 'rule.misc.back_formations': 8, 'rule.misc.capitalization.terms': 10, 'rule.industrial_language.airlinese': 12, 'cli.json_no_findings': 8, 'rule.misc.phrasal_adjectives.ly': 7, 'rule.misc.greylist': 9, 'rule.misc.many_a': 10, 'cli.output_format.full': 3, 'cli.config.ignored_values': 5, 'rule.misc.professions': 8, 'cli.config.cwd_discovery': 3, 'cli.config.ancestor_discovery': 5, 'rule.misc.illogic.coin': 7, 'rule.hedging': 13, 'cli.config.invalid_utf8': 5, 'rule.misc.whence': 6, 'rule.annotations.misc': 10, 'rule.typography.symbols.sentence_spacing': 7, 'cli.config.consumed_special_values': 12, 'cli.config.malformed_json': 22, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.copyright': 6, 'rule.misc.pretension': 9, 'cli.config.recursion_depth': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.misc.institution_name': 8, 'rule.misc.currency': 12, 'rule.misc.suddenly': 7, 'cli.coordinates': 6, 'rule.misc.but': 8, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.collusion': 7, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.capitalization.seasons': 10, 'cli.config.directory_path': 4, 'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 10, 'rule.misc.inferior_superior': 12, 'rule.misc.false_plurals.misc': 9, 'cli.config.per_file_checks': 4, 'rule.redundancy.misc.wallace': 10, 'rule.dates_times.am_pm.spacing': 8, 'rule.typography.symbols.ellipsis': 6, 'rule.psychology.lie_detector': 12, 'rule.industrial_language.jargon': 10, 'cli.config.user_discovery': 8, 'rule.misc.capitalization.months': 6, 'rule.psychology.p_equals_zero': 8, 'spelling.ance_ence': 10, 'rule.misc.composition': 38, 'cli.combined_checks': 3, 'rule.terms.eponymous_adjectives': 4, 'rule.spelling.ally_ly': 10, 'rule.spelling.ely_ly': 9, 'rule.spelling.ve_of': 11, 'rule.malapropisms': 10, 'rule.spelling.in_un': 10, 'rule.mondegreens': 10, 'rule.skunked_terms': 11, 'rule.oxymorons': 16, 'rule.redundancy.misc.nordquist': 11, 'rule.misc.not_guilty': 4},
         )
 
     def test_mondegreens_cases_select_only_registered_check(self) -> None:
@@ -696,6 +703,9 @@ class ComparatorTests(unittest.TestCase):
             "oxymorons_quoted_activation_limit_one",
             "oxymorons_ascii_word_activation_after_non_ascii_letter",
             "oxymorons_matcher_order_truncation_before_position_sort",
+            "oxymorons_interleaved_pattern_order_max_errors_two",
+            "oxymorons_long_s_nonword_boundaries_clean",
+            "oxymorons_optional_s_backtracks_at_nonword_boundary",
         })
         for case in cases:
             self.assertEqual(len(case["files"]), 1)
@@ -707,10 +717,35 @@ class ComparatorTests(unittest.TestCase):
         }
         self.assertEqual(limits["oxymorons_max_errors_one"], 1)
         self.assertEqual(limits["oxymorons_quoted_activation_limit_one"], 1)
+        self.assertEqual(limits["oxymorons_interleaved_pattern_order_max_errors_two"], 2)
         outcomes = {case["id"]: case["expected_oracle_outcome"] for case in cases}
         self.assertEqual(outcomes["oxymorons_backwardness_isolated_clean"], "clean")
         self.assertEqual(outcomes["oxymorons_boundary_checks"], "clean")
         self.assertEqual(outcomes["oxymorons_backwardness_activation_order"], "findings")
+        self.assertEqual(outcomes["oxymorons_long_s_nonword_boundaries_clean"], "clean")
+        self.assertEqual(outcomes["oxymorons_interleaved_pattern_order_max_errors_two"], "findings")
+        self.assertEqual(outcomes["oxymorons_optional_s_backtracks_at_nonword_boundary"], "findings")
+
+    def test_not_guilty_cases_select_only_registered_check(self) -> None:
+        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "rule.misc.not_guilty"]
+        self.assertEqual({case["id"] for case in cases}, {
+            "not_guilty_optional_articles_case_variants",
+            "not_guilty_near_misses_clean",
+            "not_guilty_quote_filter_before_limit",
+            "not_guilty_unicode_codepoint_position",
+        })
+        for case in cases:
+            self.assertEqual(len(case["files"]), 1)
+            config = json.loads(base64.b64decode(case["files"][0]["content_base64"]))
+            self.assertEqual(config["checks"], {"misc": {"not_guilty": True}})
+        limits = {
+            case["id"]: json.loads(base64.b64decode(case["files"][0]["content_base64"]))["max_errors"]
+            for case in cases
+        }
+        self.assertEqual(limits["not_guilty_quote_filter_before_limit"], 1)
+        outcomes = {case["id"]: case["expected_oracle_outcome"] for case in cases}
+        self.assertEqual(outcomes["not_guilty_near_misses_clean"], "clean")
+        self.assertEqual(outcomes["not_guilty_quote_filter_before_limit"], "findings")
 
     def test_nordquist_cases_select_only_registered_check_and_error_limits(self) -> None:
         cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "rule.redundancy.misc.nordquist"]

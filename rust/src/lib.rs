@@ -11,6 +11,10 @@ const CLICHE_HELL_MESSAGE: &str = "Never use the phrase 'all hell broke loose'."
 const APOLOGIZING_PATTERN: &str = "More research is needed";
 const APOLOGIZING_MESSAGE: &str = "Excessive apologizing.";
 const PHRASAL_ADJECTIVES_MESSAGE: &str = "No hyphen is necessary in phrasal adjectives with an adverb ending in -ly, unless the -ly adverb is part of a longer phrase.";
+const NARCISSISM_PATTERN: &str = r"In recent years, an increasing number of [a-zA-Z]{3,}sts have";
+const NARCISSISM_MESSAGE: &str = "Professional narcissism. Talk about the subject, not its study.";
+const NOT_GUILTY_PATTERN: &str = r"not guilty beyond (a |any )?reasonable doubt";
+const NOT_GUILTY_MESSAGE: &str = "'not guilty beyond a reasonable doubt' is an ambiguous phrasing.";
 const WHENCE_PATTERN: &str = "from whence";
 const WHENCE_MESSAGE: &str = "The 'from' in 'from whence' is not needed.";
 const SUDDENLY_PATTERN: &str = "Suddenly,";
@@ -56,6 +60,18 @@ static DECADE_APOSTROPHES_REGEXES: LazyLock<Vec<Regex>> = LazyLock::new(|| {
                 .expect("valid decade apostrophes regex")
         })
         .collect()
+});
+static NARCISSISM_REGEX: LazyLock<Regex> = LazyLock::new(|| {
+    RegexBuilder::new(NARCISSISM_PATTERN)
+        .case_insensitive(true)
+        .build()
+        .expect("valid narcissism regex")
+});
+static NOT_GUILTY_REGEX: LazyLock<Regex> = LazyLock::new(|| {
+    RegexBuilder::new(NOT_GUILTY_PATTERN)
+        .case_insensitive(true)
+        .build()
+        .expect("valid not-guilty regex")
 });
 const DEBASED_ITEMS: [&str; 4] = [
     "a not unjustifiable assumption",
@@ -155,6 +171,17 @@ static OXYMORON_REGEXES: LazyLock<Vec<Regex>> = LazyLock::new(|| {
                 .case_insensitive(true)
                 .build()
                 .expect("valid oxymoron pattern")
+        })
+        .collect()
+});
+static OXYMORON_ACTIVATION_REGEXES: LazyLock<Vec<Regex>> = LazyLock::new(|| {
+    OXYMORON_PATTERNS
+        .iter()
+        .map(|pattern| {
+            RegexBuilder::new(&format!(r"(?-u:\b)(?:{pattern})(?-u:\b)"))
+                .case_insensitive(true)
+                .build()
+                .expect("valid oxymoron activation pattern")
         })
         .collect()
 });
@@ -415,6 +442,59 @@ pub fn phrasal_adjectives_ly_diagnostics(text: &str) -> Vec<Value> {
                 "span":[start,end], "pos":[line,column], "replacements":null}))
         })
     }).map(|(_, diagnostic)| diagnostic).collect()
+}
+
+/// Return diagnostics for the pinned raw, case-insensitive narcissism pattern.
+pub fn narcissism_diagnostics(text: &str) -> Vec<Value> {
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    NARCISSISM_REGEX
+        .find_iter(&padded)
+        .filter_map(|matched| {
+            let span_start = padded[..matched.start()].chars().count();
+            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+            if quote_index % 2 == 1 {
+                return None;
+            }
+            let span_end = span_start + matched.as_str().chars().count();
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            Some(json!({
+                "check_path": "misc.narcissism",
+                "message": NARCISSISM_MESSAGE,
+                "span": [span_start, span_end],
+                "pos": [line, column],
+                "replacements": null,
+            }))
+        })
+        .collect()
+}
+
+/// Return diagnostics for the pinned raw, case-insensitive not-guilty pattern.
+pub fn not_guilty_diagnostics(text: &str) -> Vec<Value> {
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    NOT_GUILTY_REGEX
+        .find_iter(&padded)
+        .filter_map(|matched| {
+            let padded_start = padded[..matched.start()].chars().count();
+            let span_start = padded_start;
+            let quote_index = quote_bounds.partition_point(|bound| *bound < padded_start);
+            if quote_index % 2 == 1 {
+                return None;
+            }
+            let span_end = span_start + matched.as_str().chars().count();
+            let (line, column) = line_col_of(padded_start, &line_bounds);
+            Some(json!({
+                "check_path": "misc.not_guilty",
+                "message": NOT_GUILTY_MESSAGE,
+                "span": [span_start, span_end],
+                "pos": [line, column],
+                "replacements": null,
+            }))
+        })
+        .collect()
 }
 
 /// Return annotation diagnostics in upstream matcher registration order,
@@ -2030,13 +2110,16 @@ pub fn oxymorons_diagnostics(text: &str) -> Vec<Value> {
     let line_bounds = splitlines_bounds(&padded);
     let mut diagnostics = Vec::new();
 
-    for (pattern, raw_regex) in OXYMORON_PATTERNS.iter().zip(OXYMORON_REGEXES.iter()) {
-        if !raw_regex.find_iter(&padded).any(|matched| {
-            !is_ascii_word_before(&padded, matched.start())
-                && !is_ascii_word_at(&padded, matched.end())
-        }) {
-            continue;
-        }
+    let mut active_patterns = OXYMORON_ACTIVATION_REGEXES
+        .iter()
+        .enumerate()
+        .filter_map(|(index, regex)| regex.find(&padded).map(|matched| (matched.start(), index)))
+        .collect::<Vec<_>>();
+    active_patterns.sort_unstable();
+
+    for (_, index) in active_patterns {
+        let pattern = OXYMORON_PATTERNS[index];
+        let raw_regex = &OXYMORON_REGEXES[index];
         for matched in raw_regex.find_iter(&padded) {
             let surface = matched.as_str();
             let span_start = padded[..matched.start()].chars().count();
@@ -2060,7 +2143,6 @@ pub fn oxymorons_diagnostics(text: &str) -> Vec<Value> {
         }
     }
 
-    diagnostics.sort_by_key(|(start, _, _)| *start);
     diagnostics
         .into_iter()
         .map(|(_, _, diagnostic)| diagnostic)

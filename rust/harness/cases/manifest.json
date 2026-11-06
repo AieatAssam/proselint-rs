@@ -19824,6 +19824,108 @@
       ]
     },
     {
+      "id": "oxymorons_interleaved_pattern_order_max_errors_two",
+      "capability_id": "rule.oxymorons",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/oxymorons.py registers 17 Fast case-insensitive Existence patterns with WORDS_IN_TEXT semantics and quote suppression. Astra live review finding, frozen against the real oracle. Case purpose: interleaved repeats distinguish pattern-group truncation from source-position truncation.",
+      "input_mode": "stdin",
+      "stdin_base64": "YW1hdGV1ciBleHBlcnQ7IG9yZ2FuaXplZCBtZXNzOyBhbWF0ZXVyIGV4cGVydA==",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "oxymorons_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "oxymorons config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoyLCJjaGVja3MiOnsib3h5bW9yb25zIjp0cnVlfX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:oxymorons config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "oxymorons_long_s_nonword_boundaries_clean",
+      "capability_id": "rule.oxymorons",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/oxymorons.py registers 17 Fast case-insensitive Existence patterns with WORDS_IN_TEXT semantics and quote suppression. Astra live review finding, frozen against the real oracle. Case purpose: RE2 ASCII word-boundary activation must reject non-ASCII long-s lookalikes.",
+      "input_mode": "stdin",
+      "stdin_base64": "aW5jcmVhc2luZ2x5IGxlxb/Fvzsgb3JnYW5pemVkIG1lxb/Fvw==",
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "oxymorons_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "oxymorons config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsib3h5bW9yb25zIjp0cnVlfX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:oxymorons config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "oxymorons_optional_s_backtracks_at_nonword_boundary",
+      "capability_id": "rule.oxymorons",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/oxymorons.py registers 17 Fast case-insensitive Existence patterns with WORDS_IN_TEXT semantics and quote suppression. Astra live review finding, frozen against the real oracle. Case purpose: the optional ASCII s may backtrack so a match ending before non-ASCII long-s satisfies RE2 word boundary.",
+      "input_mode": "stdin",
+      "stdin_base64": "YWR2YW5jaW5nIGJhY2t3YXJkxb9Y",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "oxymorons_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "oxymorons config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsib3h5bW9yb25zIjp0cnVlfX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:oxymorons config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
       "id": "nordquist_ordinary_mappings",
       "capability_id": "rule.redundancy.misc.nordquist",
       "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.nordquist in proselint/checks/redundancy/misc.py; PreferredFormsSimple entries `absolutely essential`→`essential`, `absolutely necessary`→`necessary`, `a\\.m\\. in the morning`→`a\\.m\\.`, `p\\.m\\. at night`→`p\\.m\\.`; Fast case-insensitive matching, WORDS_IN_TEXT padding, default enabled, quote suppression; escaped-dot matches yield null replacement because the lowercased surface lookup does not equal escaped mapping keys. Selected config enables only this check with max_errors=1000. Case purpose: mappings.",
@@ -21142,6 +21244,138 @@
         "exit_status": "exact"
       },
       "stdin_base64": "SW4gcmVjZW50IHllYXJzLCBhbiBpbmNyZWFzaW5nIG51bWJlciBvZiBzY2llbnRpc3RzIGhhdmUgYXBwZWFyZWQuIEluIHJlY2VudCB5ZWFycywgYW4gaW5jcmVhc2luZyBudW1iZXIgb2YgYXJ0aXN0cyBoYXZlIGFwcGVhcmVkLg=="
+    },
+    {
+      "id": "not_guilty_optional_articles_case_variants",
+      "capability_id": "rule.misc.not_guilty",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/misc/not_guilty.py registers one default-enabled Fast case-insensitive ExistenceSimple raw/unanchored regex `not guilty beyond (a |any )?reasonable doubt`, no padding, exceptions, offset, or PPM, allow_quotes=false, exact message `'not guilty beyond a reasonable doubt' is an ambiguous phrasing.`, null replacements. Selected config enables only misc.not_guilty. Case purpose: all three optional article forms and case-insensitive matching.",
+      "input_mode": "stdin",
+      "stdin_base64": "bm90IGd1aWx0eSBiZXlvbmQgcmVhc29uYWJsZSBkb3VidDsgbm90IGd1aWx0eSBiZXlvbmQgYSByZWFzb25hYmxlIGRvdWJ0OyBub3QgZ3VpbHR5IGJleW9uZCBhbnkgcmVhc29uYWJsZSBkb3VidDsgTk9UIEdVSUxUWSBCRVlPTkQgQU5ZIFJFQVNPTkFCTEUgRE9VQlQ=",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_not_guilty_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJub3RfZ3VpbHR5Ijp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "not_guilty_near_misses_clean",
+      "capability_id": "rule.misc.not_guilty",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/misc/not_guilty.py registers one default-enabled Fast case-insensitive ExistenceSimple raw/unanchored regex `not guilty beyond (a |any )?reasonable doubt`, no padding, exceptions, offset, or PPM, allow_quotes=false, exact message `'not guilty beyond a reasonable doubt' is an ambiguous phrasing.`, null replacements. Selected config enables only misc.not_guilty. Case purpose: near misses outside the optional article forms.",
+      "input_mode": "stdin",
+      "stdin_base64": "bm90IGd1aWx0eSBiZXlvbmQgdGhlIHJlYXNvbmFibGUgZG91YnQ7IG5vdCBndWlsdHkgZGVzcGl0ZSByZWFzb25hYmxlIHVuY2VydGFpbnR5",
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_not_guilty_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJub3RfZ3VpbHR5Ijp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "not_guilty_quote_filter_before_limit",
+      "capability_id": "rule.misc.not_guilty",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/misc/not_guilty.py registers one default-enabled Fast case-insensitive ExistenceSimple raw/unanchored regex `not guilty beyond (a |any )?reasonable doubt`, no padding, exceptions, offset, or PPM, allow_quotes=false, exact message `'not guilty beyond a reasonable doubt' is an ambiguous phrasing.`, null replacements. Selected config enables only misc.not_guilty. Case purpose: quote suppression before max_errors and raw unanchored matching.",
+      "input_mode": "stdin",
+      "stdin_base64": "Im5vdCBndWlsdHkgYmV5b25kIGEgcmVhc29uYWJsZSBkb3VidCIgdGhlbiB4bm90IGd1aWx0eSBiZXlvbmQgYW55IHJlYXNvbmFibGUgZG91YnR5",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_not_guilty_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJub3RfZ3VpbHR5Ijp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "not_guilty_unicode_codepoint_position",
+      "capability_id": "rule.misc.not_guilty",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/misc/not_guilty.py registers one default-enabled Fast case-insensitive ExistenceSimple raw/unanchored regex `not guilty beyond (a |any )?reasonable doubt`, no padding, exceptions, offset, or PPM, allow_quotes=false, exact message `'not guilty beyond a reasonable doubt' is an ambiguous phrasing.`, null replacements. Selected config enables only misc.not_guilty. Case purpose: codepoint coordinates with a raw embedded match.",
+      "input_mode": "stdin",
+      "stdin_base64": "w6l4bm90IGd1aWx0eSBiZXlvbmQgcmVhc29uYWJsZSBkb3VidA==",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_not_guilty_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJub3RfZ3VpbHR5Ijp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ]
     }
   ]
 }

@@ -2,7 +2,9 @@
 
 ## Candidate freshness
 
-These are reproducible historical comparisons against pinned Python Proselint 0.16.0, not measurements of the current Rust tree or the full rewrite. The isolated-rule report used Rust source fingerprint `f0aa5422…`; the combined selected-rule report used `e4072d0c…`. The current parity-gated candidate has fingerprint `2ae05f171…` (skunked_terms gate, 2026-11-06). Because production source changed after both timing runs, their speed ratios must not be presented as current-candidate performance. Rerun the parity precheck and benchmark against the final frozen source after implementation is complete.
+These are reproducible historical comparisons against pinned Python Proselint 0.16.0, not measurements of the current Rust tree or the full rewrite. The isolated-rule report used Rust source fingerprint `f0aa5422…`; the combined selected-rule report used `e4072d0c…`. The latest official cumulative gate used fingerprint `75b90213a5632772cdbd0a3630f12320517757f59c9d062e44556406214ee990` (oxymorons follow-up, 2026-11-06). No timing report measures that candidate or subsequent `misc.not_guilty` work, so neither historical speed ratio is a current-candidate performance claim. Rerun the parity precheck and benchmark against the final frozen source after implementation is complete.
+
+Every benchmark run performs an exact live parity preflight before timing. The runner enforces an overall 30-minute deadline by default across build, preflight, and sampling (`--overall-timeout-seconds` changes the limit); expiration is reported as `BLOCKED` and produces no timing claim. On POSIX the supervisor terminates the benchmark process group and closes pipes; descendants that detach from that group are outside cleanup. The current Windows fallback terminates only the direct child and does not guarantee descendant cleanup. Correctness gates do not run benchmarks.
 
 
 ## Result

@@ -274,6 +274,14 @@
     {
       "id": "rule.dates_times.dates.decade_apostrophes",
       "status": "independently_verified"
+    },
+    {
+      "id": "rule.misc.narcissism",
+      "status": "independently_verified"
+    },
+    {
+      "id": "rule.misc.not_guilty",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -314,18 +322,12 @@
     "independent_evidence": "rust/artifacts/independent-review-fixes/final-gate-348.json"
   },
   "active_ownership": {
-    "coordinator": [
-      "rust/Cargo.toml",
-      "rust/Cargo.lock",
-      "rust/status.json",
-      "rust/status-history.jsonl",
-      "rust/docs/**"
-    ],
-    "next_handoff": "Implement misc.narcissism in rust/src/lib.rs and rust/src/main.rs only, preserving raw unanchored matching and quote/max_errors/coordinate behavior."
+    "current": "Next capability handoff after independently verified rule.misc.not_guilty; cumulative gate due after 5\u201310 additional recorded capabilities or any shared matcher/config/CLI change.",
+    "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
     "The no-config-found bundled DEFAULT, every default-enabled rule interaction, and combined enabled-rule configurations remain unverified; selected-rule passes do not establish default behavior.",
-    "51 unique rule paths remain unimplemented or unverified.",
+    "49 unique rule paths remain unimplemented or unverified.",
     "Other CLI behavior remains unverified, including remaining subcommands, missing nonempty-XDG config, HOME-unset resolution, directory user candidates, file/directory traversal and decoding edges, multi-file rendering, and Compact output.",
     "Unicode case folding and quote-pairing combinations beyond explicitly tested cases remain unverified.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
@@ -3455,7 +3457,10 @@
         "oxymorons_max_errors_one",
         "oxymorons_quoted_activation_limit_one",
         "oxymorons_ascii_word_activation_after_non_ascii_letter",
-        "oxymorons_matcher_order_truncation_before_position_sort"
+        "oxymorons_matcher_order_truncation_before_position_sort",
+        "oxymorons_interleaved_pattern_order_max_errors_two",
+        "oxymorons_long_s_ascii_boundary_rejection",
+        "oxymorons_optional_s_boundary_backtracking"
       ],
       "registered_entries_exercised": 1,
       "upstream_spec": "Pinned default-enabled Existence check with 17 Fast/RE2 case-insensitive regex strings, WORDS_IN_TEXT, allow_quotes=false, no exceptions, offset0, exact message `'{matched surface}' is an oxymoron.`; replacements null. `advancing backwards?` is unescaped regex where `?` quantifies final s, so both singular and plural surfaces match; a trailing question mark is outside the matched span. FastSet activation followed by raw matches makes `advancing backwardness` clean alone but observable after later bounded activation.",
@@ -3500,32 +3505,70 @@
       },
       "independent_verification": {
         "status": "PASS",
-        "live_cases_passed": 13,
-        "focused_live_report": "rust/artifacts/independent-oxymorons-final-verifier-low2-20261106/oxymorons-focused.json",
-        "combined_live_comparison": "rust/artifacts/independent-oxymorons-final-verifier-low2-20261106/combined-live-comparison.json",
-        "combined_passed_cases": 591,
-        "combined_capability_count": 65,
-        "full_cargo_tests_passed": 485,
-        "harness_tests_passed": 38,
-        "comparator_discriminators_passed": 23,
+        "live_cases_passed": 16,
+        "focused_live_report": "rust/artifacts/independent-oxymorons-astra-20261106/oxymorons-focused-fresh.json",
+        "combined_passed_cases": 634,
+        "combined_capability_count": 69,
+        "full_cargo_tests_passed": 502,
+        "harness_tests_passed": 44,
+        "comparator_self_tests_passed": 23,
         "oracle_self_check_passed": 2,
-        "baseline_integrity": "verified before and after",
-        "evidence": "rust/artifacts/independent-oxymorons-final-verifier-low2-20261106/verification-summary.json",
-        "source_fingerprint": "aaaf2ade858025032be90b30d5328865c8f8a57999fafba6e33f06acee23d47a",
+        "oracle_integrity": "verified before and after",
+        "evidence": "rust/artifacts/independent-oxymorons-astra-20261106/verification-summary.json",
+        "source_fingerprint": "75b90213a5632772cdbd0a3630f12320517757f59c9d062e44556406214ee990",
         "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
         "agent_model": "gpt-6-luna",
-        "agent_reasoning_effort": "low requested",
+        "agent_reasoning_effort": "high requested",
         "agent_runtime_metadata": "unavailable",
-        "cli_supported_check_list_assertion": "passed: oxymorons listed and dispatched to native implementation"
+        "stale_attestation_attempt": "BLOCKED; rerun used fresh cumulative-gate attestation"
       },
       "official_gate": {
         "status": "PASS",
-        "report": "rust/artifacts/strict-gate-oxymorons-final-20261106.json",
-        "passed_cases": 591,
-        "capability_count": 65,
-        "manifest_cases": 597,
-        "source_fingerprint": "a797fada007b078ea9de845f18948959d3121cbf2d96c64942a23ed26af29570",
-        "run_id": "20261106T151833462708Z-90e9c11a"
+        "report": "rust/artifacts/strict-gate-oxymorons-astra-final-20261106.json",
+        "passed_cases": 634,
+        "capability_count": 69,
+        "manifest_cases": 640,
+        "excluded_manifest_cases": {
+          "cli.config.per_file_checks": 4,
+          "harness.oracle_smoke": 2
+        },
+        "source_fingerprint": "75b90213a5632772cdbd0a3630f12320517757f59c9d062e44556406214ee990",
+        "run_id": "20261106T180400718632Z-17a36677",
+        "duration_seconds": 179.325175265,
+        "candidate_attestation": "rust/artifacts/20261106T180355273920Z-build.attestation.json",
+        "candidate_sha256": "bd71148550b9ad5c24ff4f4c229c618d743ade5ebae5b4049b8c14b9dc041fb5"
+      },
+      "astra_review": {
+        "status": "recorded",
+        "review_report": "rust/artifacts/astra-live-review-20261106.md",
+        "red_report": "rust/artifacts/oxymorons-astra-red-20261106/live-red.json",
+        "red_source_fingerprint": "a3c9352158d2384bdba5eb5a7b3f2b7ecdeac8aadf1f51be94f870b023b536f2",
+        "red_cases": 16,
+        "red_passed": 13,
+        "red_mismatches": 3,
+        "oracle_errors": 0,
+        "green_report": "rust/artifacts/oxymorons-astra-green-20261106/live-green-r2.json",
+        "green_source_fingerprint": "f71a3a26cddc8e3fd7b95ebb7cf4ee3ff510e9df457d6a39ded153a3cc6e6011",
+        "green_cases": 16,
+        "green_passed": 16,
+        "green_mismatches": 0,
+        "candidate_attestation": "rust/artifacts/oxymorons-astra-green-20261106/candidate-r2.attestation.json",
+        "candidate_sha256": "bd71148550b9ad5c24ff4f4c229c618d743ade5ebae5b4049b8c14b9dc041fb5",
+        "focused_rust_regression_tests": "3 passed",
+        "full_cargo_tests": "passed; total not separately captured",
+        "cargo_fmt_clippy": "passed",
+        "harness_tests": "44/44 passed",
+        "comparator_self_tests": "23/23 passed",
+        "stage_durations_seconds": {
+          "red_focused_live": 8.79861,
+          "green_locked_build": 0.1864108741,
+          "green_focused_live": 9.232783,
+          "green_focused_rust_tests": 0.21,
+          "green_clippy": 19.71,
+          "harness_tests": 5.068
+        },
+        "independent_verification": "passed",
+        "cumulative_gate": "passed: 634/634 across 69 capabilities"
       }
     },
     {
@@ -3726,7 +3769,7 @@
     },
     {
       "id": "rule.misc.narcissism",
-      "status": "red_verified",
+      "status": "recorded",
       "case_ids": [
         "narcissism_positive_scientists",
         "narcissism_case_insensitive_surface",
@@ -3752,27 +3795,132 @@
         "oracle_integrity": "verified before and after",
         "harness_tests": "39/39 PASS"
       },
-      "limitations": [
-        "Implementation, focused green and independent verification remain pending."
-      ]
+      "limitations": [],
+      "green": {
+        "focused_rust_tests": "4 passed",
+        "focused_live_cases_passed": 9,
+        "focused_live_report": "rust/artifacts/narcissism-green-20261106.json",
+        "build_attestation": "rust/artifacts/20261106T171717754401Z-build.attestation.json",
+        "source_fingerprint": "9261ff0adf6db5ecd982f6681f9d89004fe3d40323c201a784acb7deb031d92d",
+        "candidate_sha256": "5d48be6d9412c8f56e12836945811ac9a765ef3e3544faf8590612b3c89dc97c",
+        "locked_fmt_clippy_full_cargo_tests_build": "passed",
+        "dependencies_added": false,
+        "independent_verification": "passed",
+        "cumulative_gate": "passed: 634/634 across 69 capabilities",
+        "independent_report": "rust/artifacts/independent-narcissism-low-20261106/verification-summary.txt",
+        "official_cumulative_gate": "passed: 631/631 across 69 capabilities",
+        "official_gate_report": "rust/artifacts/strict-gate-narcissism-final-20261106.json",
+        "official_gate_fingerprint": "373288ef102a03b35eaa6d33b32f9805daba0b7ebb15bf1f03812e5e9b89c221",
+        "official_gate_attestation": "rust/artifacts/20261106T172336098747Z-build.attestation.json",
+        "cumulative_gate_report": "rust/artifacts/strict-gate-oxymorons-astra-final-20261106.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-narcissism-low-20261106/verification-summary.txt",
+        "source_fingerprint": "e341993d54d5ed21edcb5dc65139bd21803a083b7d39ecf0db23fb39911f95c5",
+        "live_report": "rust/artifacts/independent-narcissism-low-20261106/live-report.json",
+        "live_cases_passed": 9,
+        "focused_rust_tests_passed": 4,
+        "harness_tests_passed": 39,
+        "comparator_self_tests_passed": 23,
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "oracle_integrity": "verified before and after",
+        "candidate_sha256": "5d48be6d9412c8f56e12836945811ac9a765ef3e3544faf8590612b3c89dc97c"
+      }
+    },
+    {
+      "id": "rule.misc.not_guilty",
+      "status": "recorded",
+      "case_ids": [
+        "not_guilty_optional_articles_case_variants",
+        "not_guilty_near_miss_clean",
+        "not_guilty_quote_filter_before_limit",
+        "not_guilty_unicode_codepoint_position"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_spec": "One default-enabled Fast case-insensitive ExistenceSimple raw/unanchored regex `not guilty beyond (a |any )?reasonable doubt`; no exceptions, offset or PPM; allow_quotes=false; exact message `\\'not guilty beyond a reasonable doubt\\' is an ambiguous phrasing.`; replacements null. Quote suppression precedes max_errors; results are position-sorted afterward.",
+      "red": {
+        "focused_rust_tests": "0/4 passed; all four failed behaviorally on unsupported selected path (exit 4 vs expected 0/1)",
+        "cargo_report": "rust/artifacts/misc-not-guilty-red-20261106/cargo-red.log",
+        "live_report": "rust/artifacts/misc-not-guilty-red-20261106/live-red.json",
+        "live_case_count": 4,
+        "live_mismatches": 4,
+        "oracle_errors": 0,
+        "timeouts": 0,
+        "source_fingerprint": "b1b6ff50083c3bb8608e01193ce9f5360ff119a3cf7a76d8c2e315fec12b0637",
+        "candidate_sha256": "bd71148550b9ad5c24ff4f4c229c618d743ade5ebae5b4049b8c14b9dc041fb5",
+        "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "oracle_integrity": "verified before and after",
+        "focused_live_seconds": 4.812
+      },
+      "test_spec_correction": {
+        "status": "corrected from live oracle before final verification",
+        "evidence": "rust/artifacts/misc-not-guilty-green-20261106/live-green.json",
+        "field_mismatches_corrected": 12,
+        "note": "Initial focused helper asserted source-relative spans; pinned Python emits padded span starts one codepoint higher. Test assertions were corrected from oracle output without changing fixtures or expectations in the comparator."
+      },
+      "green": {
+        "focused_rust_tests": "4 passed",
+        "full_cargo_tests": "506 passed",
+        "focused_live_cases_passed": 4,
+        "focused_live_report": "rust/artifacts/misc-not-guilty-green-20261106/live-green.json",
+        "source_fingerprint": "5416483a394a587a760eb0eb24d11f9ddcec7bb2aa4184b3a3baa250d9f902b6",
+        "candidate_sha256": "048ae012c010914b544d0140191592c8574632b1c3eec6cc79fba7f7c09a107d",
+        "locked_build_attestation": "rust/artifacts/independent-not-guilty-20261106/candidate.attestation.json",
+        "harness_tests": "47/47 passed",
+        "comparator_self_tests": "23/23 passed",
+        "stage_durations_seconds": {
+          "focused_rust_tests": 6.8,
+          "full_cargo_tests": 32.7,
+          "harness_tests": 7.288,
+          "focused_live": 5.189
+        },
+        "note": "Independent verification rebuilt and tested the formatted frozen tree; see its verification summary for timings and integrity checks."
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-not-guilty-20261106/verification-summary.json",
+        "source_fingerprint": "5416483a394a587a760eb0eb24d11f9ddcec7bb2aa4184b3a3baa250d9f902b6",
+        "live_report": "rust/artifacts/independent-not-guilty-20261106/not-guilty-live.json",
+        "live_cases_passed": 4,
+        "focused_rust_tests_passed": 4,
+        "full_cargo_tests_passed": 506,
+        "harness_tests_passed": 47,
+        "comparator_self_tests_passed": 23,
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "oracle_integrity": "verified before and after",
+        "candidate_sha256": "048ae012c010914b544d0140191592c8574632b1c3eec6cc79fba7f7c09a107d",
+        "cumulative_gate": "deferred; next 5\u201310-capability checkpoint",
+        "stage_durations_seconds": {
+          "locked_build": 0.1788,
+          "fmt_check": 0.605222,
+          "clippy": 0.178409,
+          "full_cargo_tests": 5.304586,
+          "harness_tests": 8.229378,
+          "comparator_self_test": 0.487801,
+          "focused_live": 6.318
+        }
+      },
+      "limitations": []
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-decade-apostrophes-final-20261106.json",
-    "passed_cases": 622,
-    "manifest_cases": 628,
+    "report": "rust/artifacts/strict-gate-oxymorons-astra-final-20261106.json",
+    "passed_cases": 634,
+    "manifest_cases": 640,
     "excluded_manifest_cases": {
       "cli.config.per_file_checks": 4,
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "capability_count": 68,
-    "source_fingerprint": "3d638a7d66aa5de3e58cf492103ff4f11faa7d2f6f31ac0afa387ae7e57d81db",
-    "run_id": "20261106T170605916779Z-f070a30f",
-    "finished_at_utc": "2026-11-06T17:08:54.114233+00:00",
-    "candidate_attestation": "rust/artifacts/20261106T170600783843Z-build.attestation.json",
-    "candidate_sha256": "1c6bbd04a1981dfb5cd35983711a714bac1fe9ef878e3f861aea6e88816830e6"
+    "capability_count": 69,
+    "source_fingerprint": "75b90213a5632772cdbd0a3630f12320517757f59c9d062e44556406214ee990",
+    "run_id": "20261106T180400718632Z-17a36677",
+    "finished_at_utc": "2026-11-06T18:06:52.765571+00:00",
+    "candidate_attestation": "rust/artifacts/20261106T180355273920Z-build.attestation.json",
+    "candidate_sha256": "bd71148550b9ad5c24ff4f4c229c618d743ade5ebae5b4049b8c14b9dc041fb5",
+    "duration_seconds": 179.325175265
   },
   "rust_dependencies": {
     "status": "current",
@@ -3796,7 +3944,7 @@
       "checked_after_gate": "2026-11-06T17:09:30Z"
     }
   },
-  "next_capability_handoff": "Implement and locally validate the specified misc.narcissism check; do not alter the nine live cases or expectations.",
+  "next_capability_handoff": "Select the next unblocked inventory path; keep focused live parity and independent verification per capability, and defer the cumulative gate until the next 5\u201310-capability checkpoint unless shared infrastructure changes.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

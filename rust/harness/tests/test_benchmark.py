@@ -1,9 +1,12 @@
 import importlib.util
 import json
+import os
 import sys
 import tempfile
+import time
 import unittest
 from pathlib import Path
+from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -109,6 +112,164 @@ class BenchmarkTests(unittest.TestCase):
         report["performance_claim"] = "fast"
         with self.assertRaises(ValueError):
             benchmark.validate_benchmark_report(report)
+
+    def test_expired_overall_deadline_stops_benchmark_work(self):
+        with self.assertRaises(benchmark.subprocess.TimeoutExpired):
+            benchmark.remaining_seconds(benchmark.time.monotonic() - 1)
+
+    @unittest.skipUnless(os.name == "posix", "requires POSIX process-group termination")
+    def test_timeout_kills_child_inheriting_stdout_and_stderr(self):
+        with tempfile.TemporaryDirectory() as temp:
+            marker = Path(temp) / "child-survived"
+            child = "import sys,time; time.sleep(.4); open(sys.argv[1], 'w').write('alive')"
+            parent = "import subprocess,sys,time; subprocess.Popen([sys.executable,'-c',sys.argv[1],sys.argv[2]]); time.sleep(10)"
+            command = [sys.executable, "-c", parent, child, str(marker)]
+            with self.assertRaises(benchmark.subprocess.TimeoutExpired):
+                benchmark.supervised_run(command, timeout=0.1)
+            time.sleep(0.6)
+            self.assertFalse(marker.exists())
+
+    @unittest.skipUnless(os.name == "posix", "requires POSIX process-group termination")
+    def test_timeout_kills_sigterm_ignoring_child_with_redirected_pipes(self):
+        with tempfile.TemporaryDirectory() as temp:
+            marker = Path(temp) / "child-survived"
+            child = "import signal,sys,time; signal.signal(signal.SIGTERM, signal.SIG_IGN); time.sleep(1.5); open(sys.argv[1], 'w').write('alive')"
+            parent = "import subprocess,sys,time; subprocess.Popen([sys.executable,'-c',sys.argv[1],sys.argv[2]],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL); time.sleep(10)"
+            command = [sys.executable, "-c", parent, child, str(marker)]
+            with self.assertRaises(benchmark.subprocess.TimeoutExpired):
+                benchmark.supervised_run(command, timeout=0.5)
+            time.sleep(0.7)
+            self.assertFalse(marker.exists())
+
+    def test_parity_preflight_reserves_half_budget_for_overhead(self):
+        per_case = benchmark.parity_case_timeout(120, 3)
+        self.assertEqual(per_case, 10)
+        self.assertLessEqual(per_case * 2 * 3, 120 / 2)
+
+    def test_deadline_expiring_during_timing_keeps_parity_report(self):
+        attestation = {
+            "binary_path": "/tmp/target/release/proselint",
+            "source_fingerprint": "f" * 64,
+            "cargo_lock_sha256": "a" * 64,
+            "build_commands": [{"command": ["cargo", "build", "--release", "--locked"], "exit_code": 0}],
+        }
+        with tempfile.TemporaryDirectory() as temp:
+            report_path = Path(temp) / "blocked.json"
+            workloads = benchmark.load_workloads()
+
+            def write_parity_report(payload, _deadline):
+                path = payload["report_path"]
+                Path(path).write_text(
+                    json.dumps({"status": "PASS", "case_ids": ["case"], "counts": {"PASS": 1}}),
+                    encoding="utf-8",
+                )
+                return 0
+
+            def expire_during_timing(*args):
+                benchmark.remaining_seconds(args[-1])
+
+            with (
+                mock.patch.object(benchmark, "RUST_ROOT", Path(temp)),
+                mock.patch.object(benchmark, "accepted_capabilities", return_value={"rule.misc.suddenly"}),
+                mock.patch.object(benchmark, "load_workloads", return_value=workloads),
+                mock.patch.object(benchmark.compare, "default_reference_argv", return_value=["/pinned/python"]),
+                mock.patch.object(benchmark, "supervised_fingerprint", return_value="f" * 64),
+                mock.patch.object(benchmark, "supervised_oracle_integrity", return_value={"integrity": "verified"}),
+                mock.patch.object(
+                    benchmark,
+                    "build_release_candidate",
+                    return_value=(
+                        ["/tmp/target/release/proselint"],
+                        Path(temp) / "attestation.json",
+                        attestation,
+                        {},
+                    ),
+                ),
+                mock.patch.object(benchmark.compare, "read_candidate_attestation", return_value=attestation),
+                mock.patch.object(benchmark, "supervised_live_compare", side_effect=write_parity_report),
+                mock.patch.object(benchmark, "sha256_file", return_value="a" * 64),
+                mock.patch.object(benchmark, "timed_cli_workload", side_effect=expire_during_timing) as timed,
+                mock.patch.object(benchmark.time, "monotonic", side_effect=[0.0, 0.0, 1.0, 11.0]),
+            ):
+                exit_code = benchmark.run(
+                    report_path,
+                    release_attestation=None,
+                    sample_pairs=25,
+                    warmup_pairs=1,
+                    in_memory_repetitions=1,
+                    in_memory_pairs=25,
+                    parity_only=False,
+                    overall_timeout_seconds=10,
+                )
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+        self.assertEqual(timed.call_count, 1)
+        self.assertEqual(exit_code, 2)
+        self.assertEqual(report["status"], "BLOCKED")
+        self.assertEqual(report["parity"]["status"], "PASS")
+        self.assertEqual(report["performance_claim"], "none")
+        self.assertEqual(report["fresh_process"], [])
+        self.assertEqual(report["in_memory"], [])
+
+    def test_parity_manifest_uses_deadline_bounded_case_timeout(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = benchmark.make_parity_manifest(
+                benchmark.load_workloads(), Path(temp) / "cases.json", timeout_seconds=0.25
+            )
+            manifest = benchmark.compare.load_manifest(path)
+        self.assertEqual(len(manifest["cases"]), 3)
+        self.assertTrue(all(case["timeout_seconds"] == 0.25 for case in manifest["cases"]))
+
+    def test_live_preflight_timeout_writes_blocked_report(self):
+        attestation = {
+            "binary_path": "/tmp/target/release/proselint",
+            "source_fingerprint": "f" * 64,
+            "cargo_lock_sha256": "a" * 64,
+            "build_commands": [{"command": ["cargo", "build", "--release", "--locked"], "exit_code": 0}],
+        }
+        with tempfile.TemporaryDirectory() as temp:
+            report_path = Path(temp) / "blocked.json"
+            with (
+                mock.patch.object(benchmark, "RUST_ROOT", Path(temp)),
+                mock.patch.object(benchmark, "accepted_capabilities", return_value={"rule.misc.suddenly"}),
+                mock.patch.object(benchmark, "load_workloads", return_value=benchmark.load_workloads()),
+                mock.patch.object(benchmark.compare, "default_reference_argv", return_value=["/pinned/python"]),
+                mock.patch.object(benchmark, "supervised_fingerprint", return_value="f" * 64),
+                mock.patch.object(benchmark, "supervised_oracle_integrity", return_value={"integrity": "verified"}),
+                mock.patch.object(
+                    benchmark,
+                    "build_release_candidate",
+                    return_value=(
+                        ["/tmp/target/release/proselint"],
+                        Path(temp) / "attestation.json",
+                        attestation,
+                        {},
+                    ),
+                ),
+                mock.patch.object(benchmark.compare, "read_candidate_attestation", return_value=attestation),
+                mock.patch.object(benchmark, "sha256_file", return_value="a" * 64),
+                mock.patch.object(
+                    benchmark, "supervised_live_compare",
+                    side_effect=benchmark.subprocess.TimeoutExpired("live preflight", 1),
+                ),
+                mock.patch.object(benchmark, "timed_cli_workload") as timed,
+            ):
+                exit_code = benchmark.run(
+                    report_path,
+                    release_attestation=None,
+                    sample_pairs=25,
+                    warmup_pairs=1,
+                    in_memory_repetitions=1,
+                    in_memory_pairs=25,
+                    parity_only=False,
+                    overall_timeout_seconds=30,
+                )
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+        self.assertEqual(exit_code, 2)
+        self.assertEqual(report["status"], "BLOCKED")
+        self.assertEqual(report["parity"]["status"], "not_run")
+        self.assertEqual(report["performance_claim"], "none")
+        self.assertEqual(report["fresh_process"], [])
+        timed.assert_not_called()
 
 
 if __name__ == "__main__":

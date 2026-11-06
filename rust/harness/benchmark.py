@@ -10,6 +10,7 @@ import hashlib
 import json
 import os
 import platform
+import signal
 import statistics
 import subprocess
 import sys
@@ -35,6 +36,124 @@ PYTHON_HELPER = WORKLOADS.parent / "python_suddenly_scan.py"
 RUST_HELPER = RUST_ROOT / "target" / "release" / "examples" / "benchmark_suddenly"
 STATUSES = ("PASS", "MISMATCH", "NOT_IMPLEMENTED", "ORACLE_ERROR", "CANDIDATE_ERROR", "TIMEOUT", "BLOCKED")
 REPORT_SCHEMA_VERSION = 1
+DEFAULT_OVERALL_TIMEOUT_SECONDS = 1800
+PROCESS_TREE_CLEANUP = (
+    "POSIX process group; children that deliberately detach into another session are outside the group"
+    if os.name == "posix"
+    else "direct child only; descendant cleanup is not guaranteed on this platform"
+)
+
+
+def remaining_seconds(deadline: float) -> float:
+    remaining = deadline - time.monotonic()
+    if remaining <= 0:
+        raise subprocess.TimeoutExpired("benchmark overall deadline", 0)
+    return remaining
+
+
+def parity_case_timeout(remaining: float, workload_count: int) -> float:
+    return min(60.0, remaining / (4 * workload_count))
+
+
+def supervised_run(command: list[str], *, timeout: float, cwd: Path | None = None, env: dict[str, str] | None = None, input: bytes | None = None, capture_output: bool = True, text: bool = False, check: bool = False) -> subprocess.CompletedProcess:
+    kwargs: dict[str, Any] = {
+        "cwd": cwd, "env": env, "stdin": subprocess.PIPE if input is not None else None,
+        "stdout": subprocess.PIPE if capture_output else None, "stderr": subprocess.PIPE if capture_output else None,
+        "text": text, "shell": False,
+    }
+    if os.name == "posix":
+        kwargs["start_new_session"] = True
+    elif os.name == "nt":
+        kwargs["creationflags"] = subprocess.CREATE_NEW_PROCESS_GROUP
+    process = subprocess.Popen(command, **kwargs)
+    try:
+        stdout, stderr = process.communicate(input=input, timeout=timeout)
+    except subprocess.TimeoutExpired as exc:
+        if os.name == "posix":
+            grace_seconds = 0.5
+            grace_started = time.monotonic()
+            stdout, stderr = exc.output or b"", exc.stderr or b""
+            pipes_drained = False
+            try:
+                os.killpg(process.pid, signal.SIGTERM)
+            except ProcessLookupError:
+                process.kill()
+            try:
+                stdout, stderr = process.communicate(timeout=grace_seconds)
+                pipes_drained = True
+            except subprocess.TimeoutExpired as term_exc:
+                stdout, stderr = term_exc.output or stdout, term_exc.stderr or stderr
+            grace_remaining = grace_seconds - (time.monotonic() - grace_started)
+            if grace_remaining > 0:
+                time.sleep(grace_remaining)
+            try:
+                os.killpg(process.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                if process.poll() is None:
+                    process.kill()
+            if process.poll() is None:
+                process.wait()
+            if not pipes_drained:
+                if process.stdout is not None:
+                    process.stdout.close()
+                if process.stderr is not None:
+                    process.stderr.close()
+        else:
+            process.kill()
+            process.wait()
+            stdout, stderr = exc.output or b"", exc.stderr or b""
+            if process.stdout is not None:
+                process.stdout.close()
+            if process.stderr is not None:
+                process.stderr.close()
+        raise subprocess.TimeoutExpired(command, timeout, output=exc.output or stdout, stderr=exc.stderr or stderr) from exc
+    completed = subprocess.CompletedProcess(command, process.returncode, stdout, stderr)
+    if check and completed.returncode:
+        raise subprocess.CalledProcessError(completed.returncode, command, output=stdout, stderr=stderr)
+    return completed
+
+
+def worker_command(mode: str, payload: dict[str, Any]) -> list[str]:
+    return [sys.executable, str(Path(__file__).resolve()), "--internal-worker", mode, json.dumps(payload)]
+
+
+def run_worker(mode: str, payload: dict[str, Any], deadline: float) -> subprocess.CompletedProcess:
+    return supervised_run(worker_command(mode, payload), timeout=remaining_seconds(deadline), cwd=ROOT, capture_output=True)
+
+
+def supervised_oracle_integrity(deadline: float) -> dict[str, Any]:
+    result = run_worker("oracle-integrity", {}, deadline)
+    if result.returncode != 0:
+        raise RuntimeError(f"oracle integrity worker failed: {result.stderr.decode('utf-8', 'replace')[:1000]}")
+    return json.loads(result.stdout)
+
+
+def supervised_fingerprint(deadline: float) -> str:
+    result = run_worker("source-fingerprint", {}, deadline)
+    if result.returncode != 0:
+        raise RuntimeError(f"source fingerprint worker failed: {result.stderr.decode('utf-8', 'replace')[:1000]}")
+    return json.loads(result.stdout)
+
+
+def supervised_live_compare(payload: dict[str, Any], deadline: float) -> int:
+    return run_worker("live-compare", payload, deadline).returncode
+
+
+def worker_main(mode: str, payload_json: str) -> int:
+    payload = json.loads(payload_json)
+    if mode == "oracle-integrity":
+        print(json.dumps(oracle_integrity()))
+        return 0
+    if mode == "source-fingerprint":
+        print(json.dumps(compare.source_fingerprint()))
+        return 0
+    if mode == "live-compare":
+        return compare.run_live(
+            payload["capability_id"], Path(payload["report_path"]), payload["candidate_json"],
+            payload["reference_json"], Path(payload["attestation_path"]),
+            case_manifest_path=Path(payload["case_manifest_path"]),
+        )
+    raise ValueError(f"unknown benchmark worker: {mode}")
 
 
 def sha256_bytes(data: bytes) -> str:
@@ -110,7 +229,7 @@ def workload_bytes(workload: dict[str, Any], manifest: dict[str, Any]) -> bytes:
     return (WORKLOADS.parent / workload["path"]).read_bytes()
 
 
-def make_parity_manifest(workloads: dict[str, Any], path: Path) -> Path:
+def make_parity_manifest(workloads: dict[str, Any], path: Path, timeout_seconds: float = 60) -> Path:
     cases = []
     config = (WORKLOADS.parent / workloads["config_file"]).read_bytes()
     for workload in workloads["workloads"]:
@@ -127,7 +246,7 @@ def make_parity_manifest(workloads: dict[str, Any], path: Path) -> Path:
             "argv": ["check", "--config", "{file:selected config.json}", "--output-format", "json", "{file:" + input_name + "}"],
             "output_format": "json",
             "expected_oracle_outcome": "findings" if workload["expected_diagnostics_per_iteration"] else "clean",
-            "timeout_seconds": 60,
+            "timeout_seconds": timeout_seconds,
             "environment": {"locale": "C.UTF-8"},
             "config_scenario": workloads["profile_id"],
             "workspace_mutates": False,
@@ -223,7 +342,7 @@ def blocked_report(reason: str, *, fingerprint: str, run_id: str, started: str, 
         "schema_version": REPORT_SCHEMA_VERSION, "run_id": run_id, "started_at_utc": started, "finished_at_utc": now,
         "status": "BLOCKED", "run_level_blocker": True, "source_fingerprint": fingerprint,
         "baseline": {"integrity": "not_verified"}, "candidate": None,
-        "environment": {"python": sys.version, "platform": platform.platform()}, "capability_id": capability_id,
+        "environment": {"python": sys.version, "platform": platform.platform(), "timeout_process_cleanup": PROCESS_TREE_CLEANUP}, "capability_id": capability_id,
         "workload_ids": [], "counts": {**{s: 0 for s in STATUSES}, "BLOCKED": 1},
         "parity": {"status": "not_run", "report": None}, "fresh_process": [], "in_memory": [],
         "rss": {"status": "unavailable", "method": None, "reason": "no benchmark process was measured"},
@@ -231,7 +350,7 @@ def blocked_report(reason: str, *, fingerprint: str, run_id: str, started: str, 
     }
 
 
-def build_release_candidate(run_dir: Path) -> tuple[list[str], Path, dict[str, Any], dict[str, str]]:
+def build_release_candidate(run_dir: Path, deadline: float) -> tuple[list[str], Path, dict[str, Any], dict[str, str]]:
     cargo, channel = locked_cargo()
     cargo_dir = cargo.parent
     manifest = RUST_ROOT / "Cargo.toml"
@@ -243,25 +362,25 @@ def build_release_candidate(run_dir: Path) -> tuple[list[str], Path, dict[str, A
     env.update({"CARGO_HOME": str(RUST_ROOT / ".cache" / "cargo-home"), "RUSTUP_HOME": str(RUST_ROOT / ".cache" / "rustup-home"), "RUSTUP_TOOLCHAIN": channel})
     env["PATH"] = str(cargo_dir) + os.pathsep + env.get("PATH", "")
     command = [str(cargo), "build", "--release", "--locked", "--all-targets", "--manifest-path", str(manifest)]
-    before = compare.source_fingerprint()
+    before = supervised_fingerprint(deadline)
     build_dir = run_dir / "release_build"
     build_dir.mkdir(parents=True, exist_ok=True)
     started_ns = time.perf_counter_ns()
-    process = subprocess.run(command, cwd=ROOT, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=1800, check=False)
+    process = supervised_run(command, cwd=ROOT, env=env, capture_output=True, timeout=remaining_seconds(deadline), check=False)
     elapsed_ns = time.perf_counter_ns() - started_ns
     (build_dir / "stdout.bin").write_bytes(process.stdout)
     (build_dir / "stderr.bin").write_bytes(process.stderr)
     if process.returncode != 0:
         raise RuntimeError(f"locked release build failed ({process.returncode}); logs are in {build_dir}")
-    after = compare.source_fingerprint()
+    after = supervised_fingerprint(deadline)
     if after != before:
         raise RuntimeError("Rust source fingerprint changed during release build")
     binary = RUST_ROOT / "target" / "release" / ("proselint.exe" if os.name == "nt" else "proselint")
     helper = RUST_HELPER
     if not binary.is_file() or not helper.is_file():
         raise RuntimeError("release build did not produce CLI and in-memory example binaries")
-    cargo_version = subprocess.run([str(cargo), "--version"], cwd=ROOT, env=env, check=True, capture_output=True, text=True).stdout.strip()
-    rustc_version = subprocess.run([str(cargo_dir / "rustc"), "--version"], cwd=ROOT, env=env, check=True, capture_output=True, text=True).stdout.strip()
+    cargo_version = supervised_run([str(cargo), "--version"], cwd=ROOT, env=env, check=True, capture_output=True, text=True, timeout=remaining_seconds(deadline)).stdout.strip()
+    rustc_version = supervised_run([str(cargo_dir / "rustc"), "--version"], cwd=ROOT, env=env, check=True, capture_output=True, text=True, timeout=remaining_seconds(deadline)).stdout.strip()
     attestation = {
         "schema_version": 1, "verified": True, "build_exit_code": 0, "source_fingerprint": after,
         "cargo_lock_sha256": sha256_file(lockfile), "binary_path": str(binary.resolve()), "binary_sha256": sha256_file(binary),
@@ -276,11 +395,11 @@ def build_release_candidate(run_dir: Path) -> tuple[list[str], Path, dict[str, A
     return argv, attestation_path, attestation, tools
 
 
-def load_release_candidate(attestation_path: Path) -> tuple[list[str], dict[str, Any], dict[str, str]]:
+def load_release_candidate(attestation_path: Path, deadline: float) -> tuple[list[str], dict[str, Any], dict[str, str]]:
     att = json.loads(attestation_path.read_text(encoding="utf-8"), object_pairs_hook=compare.unique_object)
     binary_path = Path(att.get("binary_path", ""))
     argv = [str(binary_path.resolve())]
-    att = compare.read_candidate_attestation(attestation_path, argv, compare.source_fingerprint())
+    att = compare.read_candidate_attestation(attestation_path, argv, supervised_fingerprint(deadline))
     if "target/release/" not in binary_path.as_posix() and "\\target\\release\\" not in str(binary_path):
         raise ValueError("candidate attestation must name a release-mode binary")
     commands = att.get("build_commands", [])
@@ -310,7 +429,23 @@ def output_diagnostic_count(result: dict[str, Any]) -> int:
 
 
 def invoke_pair(command: list[str], cwd: Path, env: dict[str, str], timeout: float) -> dict[str, Any]:
-    return compare.run_command(command, cwd=cwd, env=env, stdin=b"", timeout=timeout, role="candidate" if "target/release" in command[0] else "reference")
+    role = "candidate" if "target/release" in command[0] else "reference"
+    started = time.monotonic()
+    result: dict[str, Any] = {"argv": command, "cwd": str(cwd), "role": role, "status": "OK"}
+    try:
+        process = supervised_run(command, cwd=cwd, env=env, input=b"", timeout=timeout)
+    except subprocess.TimeoutExpired as exc:
+        result.update({"status": "TIMEOUT", "exit_code": None, "stdout": exc.output or b"", "stderr": exc.stderr or b"", "error": f"deadline exceeded after {timeout}s"})
+    except OSError as exc:
+        result.update({"status": f"{role.upper()}_ERROR", "exit_code": None, "stdout": b"", "stderr": b"", "error": f"{type(exc).__name__}: {exc}"})
+    else:
+        result.update({"exit_code": process.returncode, "stdout": process.stdout, "stderr": process.stderr})
+        if process.returncode < 0:
+            result.update({"status": f"{role.upper()}_ERROR", "error": f"terminated by signal {-process.returncode}"})
+        elif process.returncode not in {0, 1, 2, 3, 4}:
+            result.update({"status": f"{role.upper()}_ERROR", "error": f"unexpected process exit status {process.returncode}"})
+    result["duration_seconds"] = time.monotonic() - started
+    return result
 
 
 def record_run(result: dict[str, Any], workload: dict[str, Any], role: str, path: Path) -> dict[str, Any]:
@@ -327,7 +462,7 @@ def compare_pair(reference: dict[str, Any], candidate: dict[str, Any]) -> list[d
     return compare.compare_outputs(reference, candidate, "json")
 
 
-def timed_cli_workload(workload: dict[str, Any], manifest: dict[str, Any], ref: list[str], candidate: list[str], run_dir: Path, sample_pairs: int, warmup_pairs: int) -> dict[str, Any]:
+def timed_cli_workload(workload: dict[str, Any], manifest: dict[str, Any], ref: list[str], candidate: list[str], run_dir: Path, sample_pairs: int, warmup_pairs: int, deadline: float) -> dict[str, Any]:
     base = run_dir / "cli" / workload["id"]
     workspace = base / "workspace"
     workspace.mkdir(parents=True, exist_ok=True)
@@ -345,7 +480,7 @@ def timed_cli_workload(workload: dict[str, Any], manifest: dict[str, Any], ref: 
     for pair in range(warmup_pairs):
         results = {}
         for side in pair_order(pair):
-            results[side] = invoke_pair(commands[side], workspace, envs[side], 90)
+            results[side] = invoke_pair(commands[side], workspace, envs[side], min(90, remaining_seconds(deadline)))
         diffs = compare_pair(results["reference"], results["candidate"])
         if diffs:
             raise RuntimeError(f"warm-up parity failed for {workload['id']}: {diffs[:3]}")
@@ -354,7 +489,7 @@ def timed_cli_workload(workload: dict[str, Any], manifest: dict[str, Any], ref: 
         results = {}
         records = {}
         for side in pair_order(pair):
-            results[side] = invoke_pair(commands[side], workspace, envs[side], 90)
+            results[side] = invoke_pair(commands[side], workspace, envs[side], min(90, remaining_seconds(deadline)))
             records[side] = record_run(results[side], workload, side, base)
         diffs = compare_pair(results["reference"], results["candidate"])
         if diffs:
@@ -383,10 +518,10 @@ def in_memory_command(side: str, workload: dict[str, Any], reps: int, manifest: 
     return [str(rust_helper.resolve()), str(rust_document.resolve()), str(reps)], {"LC_ALL": "C.UTF-8", "LANG": "C.UTF-8"}
 
 
-def run_in_memory_helper(command: list[str], extra_env: dict[str, str]) -> dict[str, Any]:
+def run_in_memory_helper(command: list[str], extra_env: dict[str, str], deadline: float) -> dict[str, Any]:
     env = {**os.environ, **extra_env}
     env.pop("PYTHONHOME", None)
-    p = subprocess.run(command, cwd=ROOT, env=env, capture_output=True, timeout=900, check=False)
+    p = supervised_run(command, cwd=ROOT, env=env, capture_output=True, timeout=min(900, remaining_seconds(deadline)), check=False)
     if p.returncode != 0 or p.stderr:
         raise RuntimeError(f"in-memory helper failed ({p.returncode}): {p.stderr.decode('utf-8', 'replace')[:1000]}")
     try:
@@ -395,7 +530,7 @@ def run_in_memory_helper(command: list[str], extra_env: dict[str, str]) -> dict[
         raise RuntimeError(f"in-memory helper returned invalid JSON: {exc}") from exc
 
 
-def in_memory_workload(workload: dict[str, Any], manifest: dict[str, Any], reps: int, pairs: int, warmup_pairs: int, run_dir: Path, python: Path) -> dict[str, Any]:
+def in_memory_workload(workload: dict[str, Any], manifest: dict[str, Any], reps: int, pairs: int, warmup_pairs: int, run_dir: Path, python: Path, deadline: float) -> dict[str, Any]:
     doc = WORKLOADS.parent / workload["path"]
     base = run_dir / "in_memory" / workload["id"]
     base.mkdir(parents=True, exist_ok=True)
@@ -409,7 +544,7 @@ def in_memory_workload(workload: dict[str, Any], manifest: dict[str, Any], reps:
         values = {}
         for side in pair_order(pair):
             warm_cmd, warm_env = in_memory_command(side, workload, warm_reps, manifest, python, RUST_HELPER, rust_doc)
-            values[side] = run_in_memory_helper(warm_cmd, warm_env)
+            values[side] = run_in_memory_helper(warm_cmd, warm_env, deadline)
         if values["reference"].get("diagnostics") != values["candidate"].get("diagnostics"):
             raise RuntimeError(f"in-memory warm-up parity failed for {workload['id']}")
     samples = []
@@ -418,7 +553,7 @@ def in_memory_workload(workload: dict[str, Any], manifest: dict[str, Any], reps:
         values = {}
         for side in pair_order(pair):
             command, env = in_memory_command(side, workload, reps, manifest, python, RUST_HELPER, rust_doc)
-            values[side] = run_in_memory_helper(command, env)
+            values[side] = run_in_memory_helper(command, env, deadline)
         for side, value in values.items():
             diagnostics = value.get("diagnostics")
             if not isinstance(diagnostics, list) or value.get("repetitions") != reps:
@@ -464,37 +599,51 @@ def environment_info(tools: dict[str, str], baseline: dict[str, Any]) -> dict[st
         "processor": platform.processor() or None, "cpu_count": os.cpu_count(),
         "rust_toolchain": tools, "oracle_python": baseline.get("python_version"),
         "oracle_package_version": baseline.get("dependencies", {}).get("proselint"),
+        "timeout_process_cleanup": PROCESS_TREE_CLEANUP,
     }
 
 
-def run(report_path: Path, *, release_attestation: Path | None, sample_pairs: int, warmup_pairs: int, in_memory_repetitions: int, in_memory_pairs: int, parity_only: bool, profile_id: str = "misc_suddenly") -> int:
+def run(report_path: Path, *, release_attestation: Path | None, sample_pairs: int, warmup_pairs: int, in_memory_repetitions: int, in_memory_pairs: int, parity_only: bool, profile_id: str = "misc_suddenly", overall_timeout_seconds: int = DEFAULT_OVERALL_TIMEOUT_SECONDS) -> int:
+    if overall_timeout_seconds <= 0:
+        raise ValueError("overall benchmark timeout must be positive")
     started = dt.datetime.now(dt.timezone.utc).isoformat()
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%S%fZ") + "-benchmark-" + uuid.uuid4().hex[:8]
+    deadline = time.monotonic() + overall_timeout_seconds
     raw_dir = RUST_ROOT / "artifacts" / run_id
     raw_dir.mkdir(parents=True, exist_ok=False)
     if profile_id not in PROFILES:
         raise ValueError(f"unknown benchmark profile: {profile_id}")
     capability_id, workload_path = PROFILES[profile_id]
-    fingerprint = compare.source_fingerprint()
+    fingerprint = "unavailable"
     report = blocked_report("benchmark setup not complete", fingerprint=fingerprint, run_id=run_id, started=started, raw_dir=raw_dir, capability_id=capability_id)
     try:
+        fingerprint = supervised_fingerprint(deadline)
+        report["source_fingerprint"] = fingerprint
         if sample_pairs < 25 or warmup_pairs < 1 or in_memory_repetitions < 1 or in_memory_pairs < 25:
             raise ValueError("require >=25 fresh-process and in-memory pairs, >=1 warmup pair, and >=1 in-memory repetition")
         if capability_id not in accepted_capabilities():
             raise ValueError(f"capability {capability_id} is not accepted by rust/status.json")
         workload_manifest = load_workloads(workload_path)
         reference = compare.default_reference_argv()
-        baseline = oracle_integrity()
+        baseline = supervised_oracle_integrity(deadline)
         if release_attestation is None:
-            candidate, attestation_path, attestation, tools = build_release_candidate(raw_dir)
+            candidate, attestation_path, attestation, tools = build_release_candidate(raw_dir, deadline)
         else:
-            candidate, attestation, tools = load_release_candidate(release_attestation)
+            candidate, attestation, tools = load_release_candidate(release_attestation, deadline)
             attestation_path = release_attestation
         validate_release_attestation(attestation)
         compare.read_candidate_attestation(attestation_path, candidate, fingerprint)
-        parity_manifest = make_parity_manifest(workload_manifest, raw_dir / "benchmark-parity-cases.json")
+        parity_timeout = parity_case_timeout(remaining_seconds(deadline), len(workload_manifest["workloads"]))
+        parity_manifest = make_parity_manifest(workload_manifest, raw_dir / "benchmark-parity-cases.json", parity_timeout)
         parity_path = raw_dir / "benchmark-parity-report.json"
-        parity_code = compare.run_live(capability_id, parity_path, json.dumps(candidate), json.dumps(reference), attestation_path, case_manifest_path=parity_manifest)
+        parity_code = supervised_live_compare({
+            "capability_id": capability_id,
+            "report_path": str(parity_path),
+            "candidate_json": json.dumps(candidate),
+            "reference_json": json.dumps(reference),
+            "attestation_path": str(attestation_path),
+            "case_manifest_path": str(parity_manifest),
+        }, deadline)
         parity = json.loads(parity_path.read_text(encoding="utf-8"))
         report.update({
             "baseline": baseline,
@@ -503,6 +652,7 @@ def run(report_path: Path, *, release_attestation: Path | None, sample_pairs: in
             "profile_id": workload_manifest["profile_id"],
             "parity": {"status": parity["status"], "report": str(parity_path.resolve()), "case_ids": parity["case_ids"], "counts": parity["counts"], "exit_code": parity_code},
         })
+        remaining_seconds(deadline)
         if parity_code != 0 or parity["status"] != "PASS":
             report["status"] = "MISMATCH" if parity["status"] == "MISMATCH" else "BLOCKED"
             report["run_level_blocker"] = True
@@ -515,13 +665,13 @@ def run(report_path: Path, *, release_attestation: Path | None, sample_pairs: in
             report["performance_claim"] = "none"
         else:
             for workload in workload_manifest["workloads"]:
-                report["fresh_process"].append(timed_cli_workload(workload, workload_manifest, reference, candidate, raw_dir, sample_pairs, warmup_pairs))
+                report["fresh_process"].append(timed_cli_workload(workload, workload_manifest, reference, candidate, raw_dir, sample_pairs, warmup_pairs, deadline))
             if workload_manifest["profile_id"] == "misc_suddenly":
                 python_exe = Path(reference[0]).resolve().parent / "python"
                 if not python_exe.is_file() or not RUST_HELPER.is_file():
                     raise RuntimeError("pinned Python or locked release Rust in-memory helper is unavailable")
                 for workload in workload_manifest["workloads"]:
-                    report["in_memory"].append(in_memory_workload(workload, workload_manifest, in_memory_repetitions, in_memory_pairs, warmup_pairs, raw_dir, python_exe))
+                    report["in_memory"].append(in_memory_workload(workload, workload_manifest, in_memory_repetitions, in_memory_pairs, warmup_pairs, raw_dir, python_exe, deadline))
                 report["measurement_scope"] = "fresh_process_cli_and_in_memory_isolated_rule"
             else:
                 report["measurement_scope"] = "fresh_process_cli_combined_selected_rules_only"
@@ -531,12 +681,13 @@ def run(report_path: Path, *, release_attestation: Path | None, sample_pairs: in
             report["errors"] = []
             report["performance_claim"] = "Per-workload measurements only; no cross-workload or universal speed claim."
         report["rss"] = {"status": "unavailable", "method": None, "reason": "No per-process RSS sampler is configured; ru_maxrss is cumulative across children and would not attribute a sample reliably."}
-        if compare.source_fingerprint() != fingerprint:
+        if supervised_fingerprint(deadline) != fingerprint:
             raise RuntimeError("Rust source fingerprint changed during benchmark run")
-        if oracle_integrity() != baseline:
+        if supervised_oracle_integrity(deadline) != baseline:
             raise RuntimeError("pinned oracle integrity changed during benchmark run")
         if sha256_file(Path(candidate[0])) != report["candidate"]["binary_sha256"]:
             raise RuntimeError("release CLI binary changed during benchmark run")
+        remaining_seconds(deadline)
         report["finished_at_utc"] = dt.datetime.now(dt.timezone.utc).isoformat()
         validate_benchmark_report(report)
     except (OSError, RuntimeError, ValueError, KeyError, TypeError, subprocess.SubprocessError) as exc:
@@ -566,12 +717,15 @@ def main() -> int:
     parser.add_argument("--release-attestation", type=Path)
     parser.add_argument("--sample-pairs", type=int, default=25)
     parser.add_argument("--warmup-pairs", type=int, default=3)
+    parser.add_argument("--overall-timeout-seconds", type=int, default=DEFAULT_OVERALL_TIMEOUT_SECONDS, help="maximum wall time for build, parity preflight, and measurements (default: 1800)")
     parser.add_argument("--in-memory-repetitions", type=int, default=None)
     parser.add_argument("--in-memory-pairs", type=int, default=None)
     parser.add_argument("--parity-only", action="store_true", help="build/verify release candidate and run exact workload parity without collecting timings")
     args = parser.parse_args()
     if not args.live:
         parser.error("benchmark requires --live")
+    if args.overall_timeout_seconds <= 0:
+        parser.error("--overall-timeout-seconds must be positive")
     try:
         _, workload_path = PROFILES[args.profile]
         manifest = load_workloads(workload_path)
@@ -580,8 +734,10 @@ def main() -> int:
         return 2
     repetitions = args.in_memory_repetitions or manifest.get("in_memory_repetitions", 1)
     in_memory_pairs = args.in_memory_pairs if args.in_memory_pairs is not None else manifest.get("in_memory_pairs", args.sample_pairs)
-    return run(args.report, release_attestation=args.release_attestation, sample_pairs=args.sample_pairs, warmup_pairs=args.warmup_pairs, in_memory_repetitions=repetitions, in_memory_pairs=in_memory_pairs, parity_only=args.parity_only, profile_id=args.profile)
+    return run(args.report, release_attestation=args.release_attestation, sample_pairs=args.sample_pairs, warmup_pairs=args.warmup_pairs, in_memory_repetitions=repetitions, in_memory_pairs=in_memory_pairs, parity_only=args.parity_only, profile_id=args.profile, overall_timeout_seconds=args.overall_timeout_seconds)
 
 
 if __name__ == "__main__":
+    if len(sys.argv) == 4 and sys.argv[1] == "--internal-worker":
+        raise SystemExit(worker_main(sys.argv[2], sys.argv[3]))
     raise SystemExit(main())

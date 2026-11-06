@@ -16731,6 +16731,105 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "cli_combined_registry_order_limit_before_sort",
+      "capability_id": "cli.combined_checks",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live selected-config case for combined accepted checks. Check registry order and that max_errors limits generated diagnostics before final stable source-position sorting.",
+      "input_mode": "stdin",
+      "stdin_base64": "cCA9IDAuMDAgLi4uIFN1ZGRlbmx5LA==",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_combined_selected_checks",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "combined config.json",
+          "content_base64": "eyJjaGVja3MiOnsibWlzYyI6eyJzdWRkZW5seSI6dHJ1ZX0sInBzeWNob2xvZ3kiOnsicF9lcXVhbHNfemVybyI6dHJ1ZX19LCJtYXhfZXJyb3JzIjoxfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:combined config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "cli_combined_position_sort_after_unlimited_checks",
+      "capability_id": "cli.combined_checks",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live selected-config case for combined accepted checks. Check registry order and that max_errors limits generated diagnostics before final stable source-position sorting.",
+      "input_mode": "stdin",
+      "stdin_base64": "cCA9IDAuMDAgLi4uIFN1ZGRlbmx5LA==",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_combined_selected_checks",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "combined config.json",
+          "content_base64": "eyJjaGVja3MiOnsibWlzYyI6eyJzdWRkZW5seSI6dHJ1ZX0sInBzeWNob2xvZ3kiOnsicF9lcXVhbHNfemVybyI6dHJ1ZX19LCJtYXhfZXJyb3JzIjoxMDAwfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:combined config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "cli_combined_equal_span_duplicates_preserved",
+      "capability_id": "cli.combined_checks",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live selected-config case for combined accepted checks. Check registry order and that max_errors limits generated diagnostics before final stable source-position sorting.",
+      "input_mode": "stdin",
+      "stdin_base64": "ZGlkIG5vdCBwYXkgYXR0ZW50aW9uIHRvIC4uLiBTdWRkZW5seSw=",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_combined_selected_checks",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "combined config.json",
+          "content_base64": "eyJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZSwic3VkZGVubHkiOnRydWV9fSwibWF4X2Vycm9ycyI6Mn0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:combined config.json}",
+        "--output-format",
+        "json"
+      ]
     }
   ]
 }

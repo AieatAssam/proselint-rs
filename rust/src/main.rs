@@ -1145,7 +1145,7 @@ fn run() -> Result<ExitCode, String> {
         return Ok(ExitCode::SUCCESS);
     }
 
-    let mut selected_check = supported_checks(checks);
+    let mut selected_checks = supported_checks(checks);
     if let Some(path) = paths.first()
         && let Some(per_file_checks) = config_value
             .get("per_file_checks")
@@ -1153,90 +1153,87 @@ fn run() -> Result<ExitCode, String> {
         && let Some((_, override_checks)) = per_file_checks
             .iter()
             .find(|(pattern, _)| path_matches_pattern(path, pattern))
-        && let Some(global_selected) = selected_check
-        && effective_check_enabled(
-            checks,
-            override_checks,
-            selected_check_path(global_selected),
-        ) == Some(false)
     {
-        selected_check = Some(SelectedCheck::None);
+        selected_checks = selected_checks.map(|selected| {
+            selected
+                .into_iter()
+                .filter(|check| {
+                    effective_check_enabled(checks, override_checks, selected_check_path(*check))
+                        != Some(false)
+                })
+                .collect()
+        });
     }
-    let selected_check = selected_check.ok_or_else(|| {
+    let selected_checks = selected_checks.ok_or_else(|| {
         "this capability supports disabled checks, annotations.misc, cliches.hell, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.many_a, misc.metadiscourse, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, redundancy.misc.wallace, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, or spelling.ance_ence only".to_owned()
     })?;
 
-    let diagnostics = match selected_check {
-        SelectedCheck::None => Vec::new(),
-        SelectedCheck::AnnotationsMisc => truncate_then_sort(
-            annotation_diagnostics_in_matcher_order(&content),
-            max_errors,
-        ),
-        SelectedCheck::ClichesHell => cliches_hell_diagnostics(&content),
-        SelectedCheck::MiscApologizing => apologizing_diagnostics(&content),
-        SelectedCheck::MiscPhrasalAdjectivesLy => phrasal_adjectives_ly_diagnostics(&content),
-        SelectedCheck::MiscBut => but_diagnostics(&content),
-        SelectedCheck::MiscWhence => whence_diagnostics(&content),
-        SelectedCheck::MiscSuddenly => suddenly_diagnostics(&content),
-        SelectedCheck::MiscDebased => debased_diagnostics(&content),
-        SelectedCheck::MiscCurrency => currency_diagnostics(&content),
-        SelectedCheck::MiscInferiorSuperior => inferior_superior_diagnostics(&content),
-        SelectedCheck::DatesTimesAmPmLowercasePeriods => {
-            am_pm_lowercase_periods_diagnostics(&content)
-        }
-        SelectedCheck::DatesTimesAmPmSpacing => am_pm_spacing_diagnostics(&content),
-        SelectedCheck::MiscFalsePluralsKudos => false_plurals_kudos_diagnostics(&content),
-        SelectedCheck::MiscFalsePluralsMisc => truncate_then_sort(
-            false_plurals_misc_diagnostics_in_matcher_order(&content),
-            max_errors,
-        ),
-        SelectedCheck::PsychologyMentalTelepathy => mental_telepathy_diagnostics(&content),
-        SelectedCheck::PsychologyPEqualsZero => p_equals_zero_diagnostics(&content),
-        SelectedCheck::PsychologyLieDetector => lie_detector_diagnostics(&content),
-        SelectedCheck::RedundancyMiscWallace => wallace_diagnostics(&content),
-        SelectedCheck::MiscIllogicCoin => illogic_coin_diagnostics(&content),
-        SelectedCheck::MiscIllogicCollusion => illogic_collusion_diagnostics(&content),
-        SelectedCheck::MiscBackFormations => back_formations_diagnostics(&content),
-        SelectedCheck::MiscGreylist => greylist_diagnostics(&content),
-        SelectedCheck::IndustrialLanguageBureaucratese => bureaucratese_diagnostics(&content),
-        SelectedCheck::Hedging => hedging_diagnostics(&content),
-        SelectedCheck::IndustrialLanguageJargon => jargon_diagnostics(&content),
-        SelectedCheck::IndustrialLanguageAirlinese => airlinese_diagnostics(&content),
-        SelectedCheck::MiscManyA => many_a_diagnostics(&content),
-        SelectedCheck::MiscMetadiscourse => metadiscourse_diagnostics(&content),
-        SelectedCheck::MiscPretension => pretension_diagnostics(&content),
-        SelectedCheck::MiscLatin => latin_diagnostics(&content),
-        SelectedCheck::MiscCapitalizationSeasons => capitalization_seasons_diagnostics(&content),
-        SelectedCheck::MiscCapitalizationTerms => capitalization_terms_diagnostics(&content),
-        SelectedCheck::MiscCapitalizationDays => capitalization_days_diagnostics(&content),
-        SelectedCheck::MiscCapitalizationMonths => capitalization_months_diagnostics(&content),
-        SelectedCheck::MiscInstitutionName => institution_name_diagnostics(&content),
-        SelectedCheck::MiscProfessions => professions_diagnostics(&content),
-        SelectedCheck::SpellingAnceEnce => spelling_ance_ence_diagnostics(&content),
-        SelectedCheck::MiscComposition => truncate_then_sort(
-            composition_diagnostics_in_matcher_order(&content),
-            max_errors,
-        ),
-        SelectedCheck::TypographySymbolsEllipsis => typography_ellipsis_diagnostics(&content),
-        SelectedCheck::TypographySymbolsCopyright => typography_copyright_diagnostics(&content),
-        SelectedCheck::TypographySymbolsSentenceSpacing => {
-            typography_sentence_spacing_diagnostics(&content)
-        }
-        SelectedCheck::TypographySymbolsTrademark => typography_trademark_diagnostics(&content),
-        SelectedCheck::TypographySymbolsMultiplication => {
-            typography_multiplication_diagnostics(&content)
-        }
-    };
-    let diagnostics = if matches!(
-        selected_check,
-        SelectedCheck::AnnotationsMisc
-            | SelectedCheck::MiscFalsePluralsMisc
-            | SelectedCheck::MiscComposition
-    ) {
-        diagnostics
-    } else {
-        diagnostics.into_iter().take(max_errors).collect()
-    };
+    let mut diagnostics = Vec::new();
+    for selected_check in selected_checks {
+        let check_diagnostics = match selected_check {
+            SelectedCheck::AnnotationsMisc => annotation_diagnostics_in_matcher_order(&content),
+            SelectedCheck::ClichesHell => cliches_hell_diagnostics(&content),
+            SelectedCheck::MiscApologizing => apologizing_diagnostics(&content),
+            SelectedCheck::MiscPhrasalAdjectivesLy => phrasal_adjectives_ly_diagnostics(&content),
+            SelectedCheck::MiscBut => but_diagnostics(&content),
+            SelectedCheck::MiscWhence => whence_diagnostics(&content),
+            SelectedCheck::MiscSuddenly => suddenly_diagnostics(&content),
+            SelectedCheck::MiscDebased => debased_diagnostics(&content),
+            SelectedCheck::MiscCurrency => currency_diagnostics(&content),
+            SelectedCheck::MiscInferiorSuperior => inferior_superior_diagnostics(&content),
+            SelectedCheck::DatesTimesAmPmLowercasePeriods => {
+                am_pm_lowercase_periods_diagnostics(&content)
+            }
+            SelectedCheck::DatesTimesAmPmSpacing => am_pm_spacing_diagnostics(&content),
+            SelectedCheck::MiscFalsePluralsKudos => false_plurals_kudos_diagnostics(&content),
+            SelectedCheck::MiscFalsePluralsMisc => {
+                false_plurals_misc_diagnostics_in_matcher_order(&content)
+            }
+            SelectedCheck::PsychologyMentalTelepathy => mental_telepathy_diagnostics(&content),
+            SelectedCheck::PsychologyPEqualsZero => p_equals_zero_diagnostics(&content),
+            SelectedCheck::PsychologyLieDetector => lie_detector_diagnostics(&content),
+            SelectedCheck::RedundancyMiscWallace => wallace_diagnostics(&content),
+            SelectedCheck::MiscIllogicCoin => illogic_coin_diagnostics(&content),
+            SelectedCheck::MiscIllogicCollusion => illogic_collusion_diagnostics(&content),
+            SelectedCheck::MiscBackFormations => back_formations_diagnostics(&content),
+            SelectedCheck::MiscGreylist => greylist_diagnostics(&content),
+            SelectedCheck::IndustrialLanguageBureaucratese => bureaucratese_diagnostics(&content),
+            SelectedCheck::Hedging => hedging_diagnostics(&content),
+            SelectedCheck::IndustrialLanguageJargon => jargon_diagnostics(&content),
+            SelectedCheck::IndustrialLanguageAirlinese => airlinese_diagnostics(&content),
+            SelectedCheck::MiscManyA => many_a_diagnostics(&content),
+            SelectedCheck::MiscMetadiscourse => metadiscourse_diagnostics(&content),
+            SelectedCheck::MiscPretension => pretension_diagnostics(&content),
+            SelectedCheck::MiscLatin => latin_diagnostics(&content),
+            SelectedCheck::MiscCapitalizationSeasons => {
+                capitalization_seasons_diagnostics(&content)
+            }
+            SelectedCheck::MiscCapitalizationTerms => capitalization_terms_diagnostics(&content),
+            SelectedCheck::MiscCapitalizationDays => capitalization_days_diagnostics(&content),
+            SelectedCheck::MiscCapitalizationMonths => capitalization_months_diagnostics(&content),
+            SelectedCheck::MiscInstitutionName => institution_name_diagnostics(&content),
+            SelectedCheck::MiscProfessions => professions_diagnostics(&content),
+            SelectedCheck::SpellingAnceEnce => spelling_ance_ence_diagnostics(&content),
+            SelectedCheck::MiscComposition => composition_diagnostics_in_matcher_order(&content),
+            SelectedCheck::TypographySymbolsEllipsis => typography_ellipsis_diagnostics(&content),
+            SelectedCheck::TypographySymbolsCopyright => typography_copyright_diagnostics(&content),
+            SelectedCheck::TypographySymbolsSentenceSpacing => {
+                typography_sentence_spacing_diagnostics(&content)
+            }
+            SelectedCheck::TypographySymbolsTrademark => typography_trademark_diagnostics(&content),
+            SelectedCheck::TypographySymbolsMultiplication => {
+                typography_multiplication_diagnostics(&content)
+            }
+        };
+        diagnostics.extend(check_diagnostics);
+    }
+    diagnostics.truncate(max_errors);
+    diagnostics.sort_by_key(|diagnostic| {
+        (
+            diagnostic["pos"][0].as_u64().unwrap_or_default(),
+            diagnostic["pos"][1].as_u64().unwrap_or_default(),
+        )
+    });
     let exit_code = if diagnostics.is_empty() {
         ExitCode::SUCCESS
     } else {
@@ -1260,55 +1257,55 @@ fn run() -> Result<ExitCode, String> {
     Ok(exit_code)
 }
 
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, Ord, PartialEq, PartialOrd)]
+// Variant order mirrors registration order in the pinned check modules.
 enum SelectedCheck {
-    None,
     AnnotationsMisc,
     ClichesHell,
-    MiscApologizing,
-    MiscPhrasalAdjectivesLy,
-    MiscBut,
-    MiscWhence,
-    MiscSuddenly,
-    MiscDebased,
-    MiscCurrency,
-    MiscInferiorSuperior,
     DatesTimesAmPmLowercasePeriods,
     DatesTimesAmPmSpacing,
-    MiscFalsePluralsKudos,
+    Hedging,
+    IndustrialLanguageAirlinese,
+    IndustrialLanguageBureaucratese,
+    IndustrialLanguageJargon,
+    MiscApologizing,
+    MiscBackFormations,
+    MiscBut,
+    MiscCapitalizationTerms,
+    MiscCapitalizationSeasons,
+    MiscCapitalizationMonths,
+    MiscCapitalizationDays,
+    MiscComposition,
+    MiscCurrency,
+    MiscDebased,
     MiscFalsePluralsMisc,
-    PsychologyMentalTelepathy,
-    PsychologyPEqualsZero,
-    PsychologyLieDetector,
-    RedundancyMiscWallace,
+    MiscFalsePluralsKudos,
+    MiscGreylist,
     MiscIllogicCoin,
     MiscIllogicCollusion,
-    MiscBackFormations,
-    MiscGreylist,
-    IndustrialLanguageBureaucratese,
-    Hedging,
-    IndustrialLanguageJargon,
-    IndustrialLanguageAirlinese,
+    MiscInferiorSuperior,
+    MiscInstitutionName,
+    MiscLatin,
     MiscManyA,
     MiscMetadiscourse,
+    MiscPhrasalAdjectivesLy,
     MiscPretension,
-    MiscLatin,
-    MiscCapitalizationSeasons,
-    MiscCapitalizationTerms,
-    MiscCapitalizationDays,
-    MiscCapitalizationMonths,
-    MiscInstitutionName,
     MiscProfessions,
+    MiscSuddenly,
+    MiscWhence,
+    PsychologyLieDetector,
+    PsychologyPEqualsZero,
+    PsychologyMentalTelepathy,
+    RedundancyMiscWallace,
     SpellingAnceEnce,
-    MiscComposition,
     TypographySymbolsEllipsis,
     TypographySymbolsCopyright,
-    TypographySymbolsSentenceSpacing,
     TypographySymbolsTrademark,
+    TypographySymbolsSentenceSpacing,
     TypographySymbolsMultiplication,
 }
 
-fn supported_checks(checks: &Value) -> Option<SelectedCheck> {
+fn supported_checks(checks: &Value) -> Option<Vec<SelectedCheck>> {
     fn check_for_path(path: &[String]) -> Option<SelectedCheck> {
         let path: Vec<&str> = path.iter().map(String::as_str).collect();
         match path.as_slice() {
@@ -1377,13 +1374,13 @@ fn supported_checks(checks: &Value) -> Option<SelectedCheck> {
         return None;
     }
     let mut pending = vec![(checks, Vec::<String>::new())];
-    let mut selected = SelectedCheck::None;
+    let mut selected = Vec::new();
     while let Some((value, path)) = pending.pop() {
         if let Some(check) = check_for_path(&path) {
             match value {
                 Value::Bool(false) => continue,
-                Value::Bool(true) if selected == SelectedCheck::None => {
-                    selected = check;
+                Value::Bool(true) => {
+                    selected.push(check);
                     continue;
                 }
                 _ => return None,
@@ -1401,6 +1398,7 @@ fn supported_checks(checks: &Value) -> Option<SelectedCheck> {
             _ => return None,
         }
     }
+    selected.sort_unstable();
     Some(selected)
 }
 
@@ -1412,17 +1410,6 @@ fn main() -> ExitCode {
             ExitCode::from(4)
         }
     }
-}
-
-fn truncate_then_sort(mut diagnostics: Vec<Value>, max_errors: usize) -> Vec<Value> {
-    diagnostics.truncate(max_errors);
-    diagnostics.sort_by_key(|diagnostic| {
-        (
-            diagnostic["pos"][0].as_u64().unwrap_or_default(),
-            diagnostic["pos"][1].as_u64().unwrap_or_default(),
-        )
-    });
-    diagnostics
 }
 
 fn flatten_checks(value: &Value, prefix: &str, checks: &mut Vec<(String, bool)>) {
@@ -1459,7 +1446,6 @@ fn effective_check_enabled(global: &Value, per_file: &Value, selected: &str) -> 
 
 fn selected_check_path(check: SelectedCheck) -> &'static str {
     match check {
-        SelectedCheck::None => "",
         SelectedCheck::AnnotationsMisc => "annotations.misc",
         SelectedCheck::ClichesHell => "cliches.hell",
         SelectedCheck::MiscApologizing => "misc.apologizing",

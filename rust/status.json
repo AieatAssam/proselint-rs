@@ -222,6 +222,10 @@
     {
       "id": "rule.misc.composition",
       "status": "recorded"
+    },
+    {
+      "id": "cli.combined_checks",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -269,7 +273,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "Specify the real CLI capability cli.combined_checks against the pinned oracle; cover registry order, max_errors truncation before final stable position sorting, duplicates, and equal-position ties. Run the parity-proved combined profile benchmark only after that capability is independently verified."
+    "next_handoff": "Extend the benchmark runner from its isolated misc.suddenly profile to an explicit combined accepted-rule profile. Prove exact live parity for every benchmark input before paired fresh-process timing; preserve the existing isolated-rule results."
   },
   "unresolved": [
     "The no-config-found bundled DEFAULT, every default-enabled rule interaction, and combined enabled-rule configurations remain unverified; selected-rule passes do not establish default behavior.",
@@ -900,7 +904,7 @@
         "ellipsis_unicode_codepoint_spans",
         "ellipsis_selected_config_interaction"
       ],
-      "upstream_spec": "ExistenceSimple unanchored literal \\.\\.\\.; exact message \"'...' is an approximation, use the ellipsis symbol '…'.\"; nonoverlapping matches; allow_quotes=false suppresses quoted findings.",
+      "upstream_spec": "ExistenceSimple unanchored literal \\.\\.\\.; exact message \"'...' is an approximation, use the ellipsis symbol '\u2026'.\"; nonoverlapping matches; allow_quotes=false suppresses quoted findings.",
       "red": {
         "behavioral_failures": 6,
         "total_tests": 6,
@@ -944,7 +948,7 @@
         "copyright_unicode_codepoint_positions",
         "copyright_selected_config_interaction"
       ],
-      "upstream_spec": "ExistenceSimple unanchored, case-insensitive literal \\(c\\); message `(c) is a goofy alphabetic approximation, use the symbol ©.`; allow_quotes=false suppresses quoted findings.",
+      "upstream_spec": "ExistenceSimple unanchored, case-insensitive literal \\(c\\); message `(c) is a goofy alphabetic approximation, use the symbol \u00a9.`; allow_quotes=false suppresses quoted findings.",
       "red": {
         "behavioral_failures": 6,
         "total_tests": 6,
@@ -1079,7 +1083,7 @@
         "multiplication_unicode_codepoint_positions",
         "multiplication_selected_config_interaction"
       ],
-      "upstream_spec": "ExistenceSimple `\\d+ ?x ?\\d+`: ASCII digits, case-insensitive x, zero or one ASCII space on either side, unanchored. Exact message: `Use the multiplication symbol ×, not the letter x.`",
+      "upstream_spec": "ExistenceSimple `\\d+ ?x ?\\d+`: ASCII digits, case-insensitive x, zero or one ASCII space on either side, unanchored. Exact message: `Use the multiplication symbol \u00d7, not the letter x.`",
       "red": {
         "behavioral_failures": 7,
         "total_tests": 7,
@@ -1415,7 +1419,7 @@
         "inferior_superior_unicode_codepoint_positions",
         "inferior_superior_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.inferior_superior` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `inferior than` → `inferior to`; `superior than` → `superior to`. Default quote suppression; no exceptions or offsets. The replacement fills the message template `'Inferior' and 'superior' are not true comparatives. Use '{}'.`",
+      "upstream_spec": "Pinned `misc.inferior_superior` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `inferior than` \u2192 `inferior to`; `superior than` \u2192 `superior to`. Default quote suppression; no exceptions or offsets. The replacement fills the message template `'Inferior' and 'superior' are not true comparatives. Use '{}'.`",
       "red": {
         "behavioral_failures": 10,
         "total_tests": 10,
@@ -1720,7 +1724,7 @@
         "many_a_unicode_codepoint_positions",
         "many_a_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.many_a` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `are many a` → `is many a`; `have been many a` → `has been many a`; `were many a` → `was many a`. The static message is `'many a' requires a singular verb.`; each mapped replacement is returned. Default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `misc.many_a` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `are many a` \u2192 `is many a`; `have been many a` \u2192 `has been many a`; `were many a` \u2192 `was many a`. The static message is `'many a' requires a singular verb.`; each mapped replacement is returned. Default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 7,
         "total_tests": 7,
@@ -1863,7 +1867,7 @@
         "latin_unicode_codepoint_positions",
         "latin_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.latin` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `ceteris paribus` → `other things being equal`; `inter alia` → `among other things`; `simpliciter` → `in and of itself`; `mutatis mutandis` → `having made the necessary changes`. The message is `Use English. '{}' is the preferred form.` and interpolates the replacement. Default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `misc.latin` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `ceteris paribus` \u2192 `other things being equal`; `inter alia` \u2192 `among other things`; `simpliciter` \u2192 `in and of itself`; `mutatis mutandis` \u2192 `having made the necessary changes`. The message is `Use English. '{}' is the preferred form.` and interpolates the replacement. Default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -1911,7 +1915,7 @@
         "seasons_unicode_codepoint_positions",
         "seasons_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.capitalization.seasons` is case-sensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries. Only `Winter` → `winter` and `Summer` → `summer` are mapped; lowercase, all-uppercase, and mixed-case variants are clean, as are commented-out `Spring` and `Fall`. Message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements returned, default quote suppression.",
+      "upstream_spec": "Pinned `misc.capitalization.seasons` is case-sensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries. Only `Winter` \u2192 `winter` and `Summer` \u2192 `summer` are mapped; lowercase, all-uppercase, and mixed-case variants are clean, as are commented-out `Spring` and `Fall`. Message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements returned, default quote suppression.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -1959,7 +1963,7 @@
         "capitalization_terms_unicode_codepoint_positions",
         "capitalization_terms_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.capitalization.terms` is case-sensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `mother nature` → `Mother Nature`, `Space Age` → `space age`, `stone age` → `Stone Age`, and `the American west` → `the American West`. Message `Incorrect capitalization. '{}' is the preferred form.`; replacements interpolate the mapped form; default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `misc.capitalization.terms` is case-sensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `mother nature` \u2192 `Mother Nature`, `Space Age` \u2192 `space age`, `stone age` \u2192 `Stone Age`, and `the American west` \u2192 `the American West`. Message `Incorrect capitalization. '{}' is the preferred form.`; replacements interpolate the mapped form; default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -2009,7 +2013,7 @@
         "lie_detector_selected_config_interaction",
         "lie_detector_fastset_activation_raw_copy"
       ],
-      "upstream_spec": "Pinned `psychology.lie_detector` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `lie detector test` → `polygraph test` and `lie detector machine` → `polygraph machine`. Message `Polygraph machines measure arousal, not lying per se. Try '{}'.`; mapped phrase is replacement and interpolation; default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `psychology.lie_detector` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `lie detector test` \u2192 `polygraph test` and `lie detector machine` \u2192 `polygraph machine`. Message `Polygraph machines measure arousal, not lying per se. Try '{}'.`; mapped phrase is replacement and interpolation; default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -2064,7 +2068,7 @@
         "wallace_unicode_codepoint_positions",
         "wallace_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `redundancy.misc.wallace` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `rectangular in shape` → `rectangular`, `audible to the ear` → `audible`. Message `Redundancy. Use '{}' instead of '{}'.`; the replacement is interpolated first and the original matched surface second. Default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `redundancy.misc.wallace` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `rectangular in shape` \u2192 `rectangular`, `audible to the ear` \u2192 `audible`. Message `Redundancy. Use '{}' instead of '{}'.`; the replacement is interpolated first and the original matched surface second. Default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -2489,7 +2493,7 @@
         "cli_config_cwd_discovers_empty_checks",
         "cli_config_explicit_precedes_cwd_discovery"
       ],
-      "upstream_spec": "When --config is omitted, pinned Python checks the current working directory for proselint.json; an explicit --config path takes precedence over that discovered file. The discovered file’s checks and JSON diagnostics must match the explicit-file loading behavior.",
+      "upstream_spec": "When --config is omitted, pinned Python checks the current working directory for proselint.json; an explicit --config path takes precedence over that discovered file. The discovered file\u2019s checks and JSON diagnostics must match the explicit-file loading behavior.",
       "red": {
         "behavioral_mismatches": 2,
         "total_cases": 3,
@@ -2923,19 +2927,64 @@
         "manifest_cases": 506,
         "report": "rust/artifacts/strict-gate-composition-20261106.json"
       }
+    },
+    {
+      "id": "cli.combined_checks",
+      "status": "recorded",
+      "case_ids": [
+        "cli_combined_registry_order_limit_before_sort",
+        "cli_combined_position_sort_after_unlimited_checks",
+        "cli_combined_equal_span_duplicates_preserved"
+      ],
+      "registered_entries_exercised": 4,
+      "upstream_spec": "The pinned CLI iterates enabled checks in registry registration order, filters quoted findings, applies max_errors to that generated stream, then stable-sorts the retained diagnostics by source position. Selected configuration object key order does not replace registry order; distinct diagnostics at equal positions retain their upstream stream order.",
+      "red": {
+        "result": "Three live cases failed because the Rust CLI rejected valid configurations enabling multiple accepted checks.",
+        "evidence": "rust/artifacts/cli-combined-rust-red-20261106.json",
+        "oracle_self_comparison": "rust/artifacts/combined-checks-oracle-self-live-20261106-v2.json",
+        "source_fingerprint": "19aa3cb14703a97460eeb0de2dfb9b065d12c07d298260923b51ebf74481cf5b",
+        "report_status": "MISMATCH",
+        "mismatches": 3
+      },
+      "green": {
+        "live_cases_passed": 3,
+        "report": "rust/artifacts/cli-combined-live-green-20261106.json",
+        "build_attestation": "rust/artifacts/20261106T092901205087Z-build.attestation.json",
+        "source_fingerprint": "a307aebd18f5bbbe3ec6e5df3fcb4d60af433a80a934b72247dd7d23b59391eb",
+        "locked_fmt_clippy_tests_build": "passed"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 3,
+        "focused_cargo_tests": "passed",
+        "harness_tests_passed": 29,
+        "comparator_discriminators_passed": 23,
+        "baseline_integrity": "verified before and after",
+        "prior_cumulative_gate": "500/500 PASS across 55 capabilities",
+        "extra_cross_rule_tie_probes": "3/3 PASS; evidence only, not added to accepted manifest",
+        "evidence": "rust/artifacts/independent-combined-checks-20261106/verification.json",
+        "build_attestation": "rust/artifacts/20261106T093523748458Z-build.attestation.json",
+        "source_fingerprint": "a307aebd18f5bbbe3ec6e5df3fcb4d60af433a80a934b72247dd7d23b59391eb",
+        "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "agent_configured_role": "parity_verifier (gpt-6-luna, high requested by role)",
+        "agent_runtime_metadata": "unavailable"
+      },
+      "limitations": [
+        "Only explicit combined selected-rule cases are accepted; bundled defaults, unsupported paths, and other multi-rule interactions remain unverified."
+      ]
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-composition-20261106.json",
-    "passed_cases": 500,
-    "manifest_cases": 506,
+    "report": "rust/artifacts/strict-gate-combined-checks-20261106.json",
+    "passed_cases": 503,
+    "manifest_cases": 509,
     "excluded_manifest_cases": {
       "cli.config.per_file_checks": 4,
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "capability_count": 55
+    "capability_count": 56
   },
   "rust_dependencies": {
     "status": "current",
@@ -2957,7 +3006,7 @@
       "rust_version_constraint": "1.99"
     }
   },
-  "next_capability_handoff": "Next: specify cli.combined_checks with already accepted selected rules and demonstrate meaningful RED, then implement, live-compare, independently verify, and run the cumulative gate. Afterward generalize the benchmark to an explicit combined accepted-rule profile.",
+  "next_capability_handoff": "Expand the benchmark to an explicit combined accepted-rule profile with representative positive inputs for every selected check; live-compare every input against the pinned baseline before measuring, and retain the isolated misc.suddenly report.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

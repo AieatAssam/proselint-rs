@@ -1,5 +1,10 @@
 //! Native Rust implementation of Proselint.
 
+pub mod rules;
+pub use rules::spelling_able_atable::diagnostics as spelling_able_atable_diagnostics;
+pub use rules::spelling_able_ible::diagnostics as spelling_able_ible_diagnostics;
+pub use rules::spelling_er_or::diagnostics as spelling_er_or_diagnostics;
+
 use regex::{Regex, RegexBuilder};
 use serde_json::{Map, Value, json};
 use std::path::Path;

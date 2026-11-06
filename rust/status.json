@@ -234,7 +234,8 @@
     "Most registered rules, default configuration, combined-rule behavior, and Unicode case folding beyond tested ASCII variants remain unverified",
     "valid deeply nested configurations, Python recursion boundary/error messages, nonstandard JSON constants, and lone-surrogate values remain unverified",
     "Astra follow-up observed additional config gaps: Python-valid NaN, 1e999 and lone-surrogate values; valid depth-130 config; recursion error kind at extreme malformed depth; and directory config-path errors.",
-    "Astra confirmed the recursive malformed-JSON scanner aborts with SIGABRT/stack overflow on 100000 unclosed array brackets; replace with bounded/iterative parsing and Python-compatible RecursionError."
+    "Astra confirmed the recursive malformed-JSON scanner aborts with SIGABRT/stack overflow on 100000 unclosed array brackets; replace with bounded/iterative parsing and Python-compatible RecursionError.",
+    "Sol review: a safe depth fix must use an iterative syntax scanner with explicit array/object states, run it before deserialization, type syntax versus recursion errors, and handle deep Value drop/clone paths; if retaining serde_json::Value, evaluate unbounded_depth plus serde_stacker rather than only removing the parser cap."
   ],
   "capability_states": [
     {

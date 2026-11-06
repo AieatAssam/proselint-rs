@@ -3662,7 +3662,8 @@
         "decade_apostrophes_unicode_codepoint_positions",
         "decade_apostrophes_max_errors_one",
         "decade_apostrophes_max_errors_two",
-        "decade_apostrophes_max_errors_three"
+        "decade_apostrophes_max_errors_three",
+        "decade_apostrophes_ascii_digit_semantics_arabic_indic_prefix"
       ],
       "registered_entries_exercised": 2,
       "upstream_spec": "Two default-enabled direct ExistenceSimple Fast case-insensitive registrations share this path: r`\\d0\\'s` then r`\\d\\d\\d0\\'s`. The regexes are unanchored without word-boundary padding. On 1990's, the first emits the 90's suffix and the second emits the full decade. Quote suppression occurs before max_errors; max_errors truncates registration-order results before position sorting. Exact message: Apostrophes aren't needed for decades.; replacements null.",
@@ -3676,7 +3677,12 @@
         "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
         "source_fingerprint": "da06ccbb7026a0f8f14ddabff9b6c6e96f909896a636b6bb5b8090fe32706e2c",
         "oracle_integrity": "verified before and after",
-        "harness_tests": "39/39 PASS"
+        "harness_tests": "39/39 PASS",
+        "live_case_count": 9,
+        "supplemental_clean_case_id": "decade_apostrophes_ascii_digit_semantics_arabic_indic_prefix",
+        "supplemental_oracle_expected": "clean: exit 0, empty diagnostics for mixed Arabic-Indic/ASCII digits",
+        "supplemental_live_report": "rust/artifacts/decade-apostrophes-red-20261106/ascii-digit-live-red.json",
+        "note": "The primary 9-case report established unsupported-path RED. The tenth case adds an oracle-confirmed clean RE2 ASCII-digit near miss; its optional candidate RED used an older unsupported binary and does not verify digit semantics."
       },
       "limitations": [
         "Implementation, focused green and independent verification remain pending."

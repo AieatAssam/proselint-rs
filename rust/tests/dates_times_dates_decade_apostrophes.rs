@@ -110,6 +110,7 @@ fn both_same_path_registrations_report_overlapping_decade_forms() {
 #[test]
 fn rejects_missing_apostrophes_and_suppresses_quoted_matches() {
     assert_result("1990s 1989's 1990’s", 1000, vec![]);
+    assert_result("١٩٩0's", 1000, vec![]);
     assert_result(
         "“1990's” and 2000's",
         1000,

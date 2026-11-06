@@ -20812,6 +20812,39 @@
         "exit_status": "exact"
       },
       "stdin_base64": "MTk5MCdzIGFuZCAyMDAwJ3M="
+    },
+    {
+      "id": "decade_apostrophes_ascii_digit_semantics_arabic_indic_prefix",
+      "capability_id": "rule.dates_times.dates.decade_apostrophes",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/dates_times/dates.py; two default-enabled Fast case-insensitive ExistenceSimple registrations use RE2 `\\d` and share this path. Selected config enables only the shared path. Case purpose: ASCII RE2 `\\d` semantics must treat mixed Arabic-Indic/ASCII digits as a clean near miss, even though Rust regex Unicode `\\d` would match.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiZGF0ZXMiOnsiZGVjYWRlX2Fwb3N0cm9waGVzIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_dates_decade_apostrophes_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "2aHZqdmpMCdz"
     }
   ]
 }

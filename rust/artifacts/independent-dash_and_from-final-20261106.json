@@ -1,0 +1,1999 @@
+{
+  "baseline": {
+    "dependencies": {
+      "coverage": "7.13.0",
+      "google-re2": "1.1.20251105",
+      "google-re2-stubs": "0.1.1",
+      "hypothesis": "6.148.7",
+      "iniconfig": "2.3.0",
+      "packaging": "25.0",
+      "pluggy": "1.6.0",
+      "proselint": "0.16.0",
+      "pygments": "2.19.2",
+      "pytest": "9.1.1",
+      "pytest-cov": "7.0.0",
+      "rstr": "3.2.2",
+      "sortedcontainers": "2.4.0"
+    },
+    "executable": "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+    "executable_sha256": "b5f88a67377a8f3c32e1bffc41ca96fd8c111b127427459ffb2184e74c99af77",
+    "installed_package_tree_sha256": "e76c6c6472cd77e21e046bf4853b58a7b6b3fe99ab37fb0a321da42b722c0899",
+    "integrity": "verified",
+    "module_provenance": {
+      "proselint": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/__init__.py",
+      "proselint.backports": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/backports.py",
+      "proselint.checks": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/__init__.py",
+      "proselint.checks.annotations": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/annotations.py",
+      "proselint.checks.archaism": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/archaism.py",
+      "proselint.checks.cliches": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/cliches/__init__.py",
+      "proselint.checks.cliches.hell": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/cliches/hell.py",
+      "proselint.checks.cliches.misc": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/cliches/misc.py",
+      "proselint.checks.dates_times": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/dates_times/__init__.py",
+      "proselint.checks.dates_times.am_pm": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/dates_times/am_pm.py",
+      "proselint.checks.dates_times.dates": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/dates_times/dates.py",
+      "proselint.checks.hedging": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/hedging.py",
+      "proselint.checks.industrial_language": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/industrial_language/__init__.py",
+      "proselint.checks.industrial_language.airlinese": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/industrial_language/airlinese.py",
+      "proselint.checks.industrial_language.bureaucratese": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/industrial_language/bureaucratese.py",
+      "proselint.checks.industrial_language.chatspeak": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/industrial_language/chatspeak.py",
+      "proselint.checks.industrial_language.commercialese": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/industrial_language/commercialese.py",
+      "proselint.checks.industrial_language.corporate_speak": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/industrial_language/corporate_speak.py",
+      "proselint.checks.industrial_language.jargon": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/industrial_language/jargon.py",
+      "proselint.checks.lexical_illusions": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/lexical_illusions.py",
+      "proselint.checks.malapropisms": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/malapropisms.py",
+      "proselint.checks.misc": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/__init__.py",
+      "proselint.checks.misc.apologizing": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/apologizing.py",
+      "proselint.checks.misc.back_formations": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/back_formations.py",
+      "proselint.checks.misc.but": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/but.py",
+      "proselint.checks.misc.capitalization": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/capitalization.py",
+      "proselint.checks.misc.composition": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/composition.py",
+      "proselint.checks.misc.currency": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/currency.py",
+      "proselint.checks.misc.debased": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/debased.py",
+      "proselint.checks.misc.false_plurals": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/false_plurals.py",
+      "proselint.checks.misc.greylist": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/greylist.py",
+      "proselint.checks.misc.illogic": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/illogic.py",
+      "proselint.checks.misc.inferior_superior": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/inferior_superior.py",
+      "proselint.checks.misc.institution_name": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/institution_name.py",
+      "proselint.checks.misc.latin": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/latin.py",
+      "proselint.checks.misc.many_a": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/many_a.py",
+      "proselint.checks.misc.metadiscourse": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/metadiscourse.py",
+      "proselint.checks.misc.narcissism": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/narcissism.py",
+      "proselint.checks.misc.not_guilty": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/not_guilty.py",
+      "proselint.checks.misc.phrasal_adjectives": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/phrasal_adjectives.py",
+      "proselint.checks.misc.preferred_forms": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/preferred_forms.py",
+      "proselint.checks.misc.pretension": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/pretension.py",
+      "proselint.checks.misc.professions": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/professions.py",
+      "proselint.checks.misc.scare_quotes": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/scare_quotes.py",
+      "proselint.checks.misc.suddenly": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/suddenly.py",
+      "proselint.checks.misc.tense_present": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/tense_present.py",
+      "proselint.checks.misc.waxed": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/waxed.py",
+      "proselint.checks.misc.whence": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/whence.py",
+      "proselint.checks.mixed_metaphors": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/mixed_metaphors.py",
+      "proselint.checks.mondegreens": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/mondegreens.py",
+      "proselint.checks.needless_variants": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/needless_variants.py",
+      "proselint.checks.nonwords": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/nonwords.py",
+      "proselint.checks.oxymorons": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/oxymorons.py",
+      "proselint.checks.psychology": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/psychology.py",
+      "proselint.checks.redundancy": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/redundancy/__init__.py",
+      "proselint.checks.redundancy.misc": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/redundancy/misc.py",
+      "proselint.checks.redundancy.ras_syndrome": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/redundancy/ras_syndrome.py",
+      "proselint.checks.restricted": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/restricted/__init__.py",
+      "proselint.checks.restricted.elementary": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/restricted/elementary.py",
+      "proselint.checks.restricted.top1000": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/restricted/top1000.py",
+      "proselint.checks.skunked_terms": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/skunked_terms.py",
+      "proselint.checks.social_awareness": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/social_awareness/__init__.py",
+      "proselint.checks.social_awareness.lgbtq": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/social_awareness/lgbtq.py",
+      "proselint.checks.social_awareness.nword": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/social_awareness/nword.py",
+      "proselint.checks.social_awareness.sexism": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/social_awareness/sexism.py",
+      "proselint.checks.spelling": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/spelling/__init__.py",
+      "proselint.checks.spelling.able_atable": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/spelling/able_atable.py",
+      "proselint.checks.spelling.able_ible": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/spelling/able_ible.py",
+      "proselint.checks.spelling.ally_ly": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/spelling/ally_ly.py",
+      "proselint.checks.spelling.ance_ence": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/spelling/ance_ence.py",
+      "proselint.checks.spelling.athletes": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/spelling/athletes.py",
+      "proselint.checks.spelling.consistency": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/spelling/consistency.py",
+      "proselint.checks.spelling.ely_ly": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/spelling/ely_ly.py",
+      "proselint.checks.spelling.em_im_en_in": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/spelling/em_im_en_in.py",
+      "proselint.checks.spelling.er_or": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/spelling/er_or.py",
+      "proselint.checks.spelling.in_un": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/spelling/in_un.py",
+      "proselint.checks.spelling.misc": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/spelling/misc.py",
+      "proselint.checks.spelling.ve_of": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/spelling/ve_of.py",
+      "proselint.checks.terms": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/terms/__init__.py",
+      "proselint.checks.terms.animal_adjectives": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/terms/animal_adjectives.py",
+      "proselint.checks.terms.denizen_labels": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/terms/denizen_labels.py",
+      "proselint.checks.terms.eponymous_adjectives": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/terms/eponymous_adjectives.py",
+      "proselint.checks.terms.venery": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/terms/venery.py",
+      "proselint.checks.typography": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/typography/__init__.py",
+      "proselint.checks.typography.diacritical_marks": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/typography/diacritical_marks.py",
+      "proselint.checks.typography.punctuation": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/typography/punctuation.py",
+      "proselint.checks.typography.symbols": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/typography/symbols.py",
+      "proselint.checks.uncomparables": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/uncomparables.py",
+      "proselint.checks.weasel_words": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/weasel_words.py",
+      "proselint.command_line": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/command_line.py",
+      "proselint.config": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/config/__init__.py",
+      "proselint.config.paths": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/config/paths.py",
+      "proselint.log": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/log.py",
+      "proselint.registry": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/registry/__init__.py",
+      "proselint.registry.checks": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/registry/checks/__init__.py",
+      "proselint.registry.checks.engine": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/registry/checks/engine.py",
+      "proselint.registry.checks.types": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/registry/checks/types.py",
+      "proselint.tools": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/tools.py"
+    },
+    "python": "/usr/bin/python3.12",
+    "python_version": "3.12.3",
+    "revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+    "source_tree_sha256": "73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831",
+    "uv_lock_sha256": "149ff01d4be05c243f3fb332c971091b961c77187af5be5261ba35386d0f29a1"
+  },
+  "candidate": {
+    "argv": [
+      "/home/dev/proselint-rs/rust/target/debug/proselint"
+    ],
+    "build_attestation": "/home/dev/proselint-rs/rust/artifacts/20261106T220632986987Z-build.attestation.json",
+    "build_attestation_sha256": "d6b38f89145b91c9afdfde33fa2a9e6e7560dff90723c966d96f8908c550b34b",
+    "build_commands": [
+      {
+        "command": [
+          "/home/dev/proselint-rs/rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+          "fmt",
+          "--manifest-path",
+          "/home/dev/proselint-rs/rust/Cargo.toml",
+          "--check"
+        ],
+        "exit_code": 0,
+        "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220632986987Z-build-0.stderr.bin",
+        "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220632986987Z-build-0.stdout.bin"
+      },
+      {
+        "command": [
+          "/home/dev/proselint-rs/rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+          "clippy",
+          "--manifest-path",
+          "/home/dev/proselint-rs/rust/Cargo.toml",
+          "--all-targets",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "exit_code": 0,
+        "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220632986987Z-build-1.stderr.bin",
+        "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220632986987Z-build-1.stdout.bin"
+      },
+      {
+        "command": [
+          "/home/dev/proselint-rs/rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+          "test",
+          "--locked",
+          "--manifest-path",
+          "/home/dev/proselint-rs/rust/Cargo.toml"
+        ],
+        "exit_code": 0,
+        "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220632986987Z-build-2.stderr.bin",
+        "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220632986987Z-build-2.stdout.bin"
+      },
+      {
+        "command": [
+          "/home/dev/proselint-rs/rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+          "build",
+          "--locked",
+          "--manifest-path",
+          "/home/dev/proselint-rs/rust/Cargo.toml"
+        ],
+        "exit_code": 0,
+        "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220632986987Z-build-3.stderr.bin",
+        "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220632986987Z-build-3.stdout.bin"
+      }
+    ],
+    "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
+    "executable_sha256": "7b5083a8680574684a35e4075389b86035ebfa9b8af6884eb4f1529a146ef8f0",
+    "kind": "rust_build_attested",
+    "source_fingerprint": "d611593ed7afd289b25539a03b30a10d080fb333ce9ca9133c91c993de9e0415",
+    "toolchain": "1.99.1"
+  },
+  "capability_ids": [
+    "rule.dates_times.dates.dash_and_from"
+  ],
+  "case_ids": [
+    "dash_and_from_standard_ranges",
+    "dash_and_from_valid_date_time_and_prose_controls",
+    "dash_and_from_case_and_punctuation",
+    "dash_and_from_raw_substring",
+    "dash_and_from_quote_suppression",
+    "dash_and_from_unicode_positions",
+    "dash_and_from_multiple_findings_order",
+    "dash_and_from_max_errors",
+    "dash_and_from_unicode_decimal_digits",
+    "dash_and_from_unicode_word_separator",
+    "dash_and_from_combining_mark_separator",
+    "dash_and_from_undertie_separator",
+    "dash_and_from_zero_width_non_joiner_separator"
+  ],
+  "cases": [
+    {
+      "capability_id": "rule.dates_times.dates.dash_and_from",
+      "case_id": "dash_and_from_standard_ranges",
+      "commands": [
+        [
+          "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ],
+        [
+          "/home/dev/proselint-rs/rust/target/debug/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ]
+      ],
+      "diffs": [],
+      "effective_environment": {
+        "candidate": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_standard_ranges/candidate/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_standard_ranges/candidate/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_standard_ranges/candidate/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_standard_ranges/candidate/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        },
+        "reference": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_standard_ranges/reference/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_standard_ranges/reference/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_standard_ranges/reference/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_standard_ranges/reference/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        }
+      },
+      "executions": [
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 mdahw9z4/shared",
+          "duration_seconds": 0.2935870513319969,
+          "exit_code": 1,
+          "role": "reference",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_standard_ranges/reference.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_standard_ranges/reference.stdout.bin",
+          "stdout_sha256": "30a49efac32c31298b68d2ee4cec5bc9ffb7bf8c48120ee073e76a068a3b4308",
+          "workspace": "/tmp/proselint harness space-\u00e9 mdahw9z4/shared"
+        },
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 mdahw9z4/shared",
+          "duration_seconds": 0.045670423191040754,
+          "exit_code": 1,
+          "role": "candidate",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_standard_ranges/candidate.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_standard_ranges/candidate.stdout.bin",
+          "stdout_sha256": "3117d98e6890affdecd41ed0297f1983abe4145ba4087f654d5b27345d4e18de",
+          "workspace": "/tmp/proselint harness space-\u00e9 mdahw9z4/shared"
+        }
+      ],
+      "expected_oracle_outcome": "findings",
+      "normalization": {
+        "source_key_workspace_uri": false
+      },
+      "replay": {
+        "candidate_argv": [
+          "/home/dev/proselint-rs/rust/target/debug/proselint"
+        ],
+        "command": [
+          "python3",
+          "rust/harness/compare.py",
+          "--case-manifest",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_standard_ranges/replay-manifest.json",
+          "--live",
+          "--candidate-argv-json",
+          "[\"/home/dev/proselint-rs/rust/target/debug/proselint\"]",
+          "--candidate-attestation",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T220632986987Z-build.attestation.json",
+          "--report",
+          "<new-report.json>"
+        ],
+        "requires_same_candidate_binary_and_build_attestation": true,
+        "saved_case_manifest": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_standard_ranges/replay-manifest.json",
+        "saved_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_standard_ranges/input-layout",
+        "saved_stdin": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_standard_ranges/stdin.bin"
+      },
+      "status": "PASS",
+      "stdin_sha256": "315be42817f43cabc39a38c23b696c5cff529ded8cba1e17b95bd0751b7462f3",
+      "workspace_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_standard_ranges/input-layout",
+      "workspace_mutates": false
+    },
+    {
+      "capability_id": "rule.dates_times.dates.dash_and_from",
+      "case_id": "dash_and_from_valid_date_time_and_prose_controls",
+      "commands": [
+        [
+          "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ],
+        [
+          "/home/dev/proselint-rs/rust/target/debug/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ]
+      ],
+      "diffs": [],
+      "effective_environment": {
+        "candidate": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_valid_date_time_and_prose_controls/candidate/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_valid_date_time_and_prose_controls/candidate/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_valid_date_time_and_prose_controls/candidate/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_valid_date_time_and_prose_controls/candidate/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        },
+        "reference": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_valid_date_time_and_prose_controls/reference/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_valid_date_time_and_prose_controls/reference/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_valid_date_time_and_prose_controls/reference/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_valid_date_time_and_prose_controls/reference/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        }
+      },
+      "executions": [
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 k3a_7d_a/shared",
+          "duration_seconds": 0.3057412626221776,
+          "exit_code": 0,
+          "role": "reference",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_valid_date_time_and_prose_controls/reference.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_valid_date_time_and_prose_controls/reference.stdout.bin",
+          "stdout_sha256": "db23d554796d74d46ac40645081117fcfaa0456a11ea9ae38f89a3da9f82a2f5",
+          "workspace": "/tmp/proselint harness space-\u00e9 k3a_7d_a/shared"
+        },
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 k3a_7d_a/shared",
+          "duration_seconds": 0.0459315232001245,
+          "exit_code": 0,
+          "role": "candidate",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_valid_date_time_and_prose_controls/candidate.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_valid_date_time_and_prose_controls/candidate.stdout.bin",
+          "stdout_sha256": "7fc2be52bbb78d1dafd2f8c651ae97ad991030a9325247311091627eee7c33f8",
+          "workspace": "/tmp/proselint harness space-\u00e9 k3a_7d_a/shared"
+        }
+      ],
+      "expected_oracle_outcome": "clean",
+      "normalization": {
+        "source_key_workspace_uri": false
+      },
+      "replay": {
+        "candidate_argv": [
+          "/home/dev/proselint-rs/rust/target/debug/proselint"
+        ],
+        "command": [
+          "python3",
+          "rust/harness/compare.py",
+          "--case-manifest",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_valid_date_time_and_prose_controls/replay-manifest.json",
+          "--live",
+          "--candidate-argv-json",
+          "[\"/home/dev/proselint-rs/rust/target/debug/proselint\"]",
+          "--candidate-attestation",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T220632986987Z-build.attestation.json",
+          "--report",
+          "<new-report.json>"
+        ],
+        "requires_same_candidate_binary_and_build_attestation": true,
+        "saved_case_manifest": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_valid_date_time_and_prose_controls/replay-manifest.json",
+        "saved_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_valid_date_time_and_prose_controls/input-layout",
+        "saved_stdin": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_valid_date_time_and_prose_controls/stdin.bin"
+      },
+      "status": "PASS",
+      "stdin_sha256": "a27d120e23c15d52d21617716f6c9470bc01c546f05e2e8587709bd5f3ea0e0b",
+      "workspace_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_valid_date_time_and_prose_controls/input-layout",
+      "workspace_mutates": false
+    },
+    {
+      "capability_id": "rule.dates_times.dates.dash_and_from",
+      "case_id": "dash_and_from_case_and_punctuation",
+      "commands": [
+        [
+          "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ],
+        [
+          "/home/dev/proselint-rs/rust/target/debug/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ]
+      ],
+      "diffs": [],
+      "effective_environment": {
+        "candidate": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_case_and_punctuation/candidate/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_case_and_punctuation/candidate/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_case_and_punctuation/candidate/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_case_and_punctuation/candidate/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        },
+        "reference": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_case_and_punctuation/reference/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_case_and_punctuation/reference/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_case_and_punctuation/reference/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_case_and_punctuation/reference/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        }
+      },
+      "executions": [
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 m12wwclg/shared",
+          "duration_seconds": 0.2795780021697283,
+          "exit_code": 1,
+          "role": "reference",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_case_and_punctuation/reference.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_case_and_punctuation/reference.stdout.bin",
+          "stdout_sha256": "adede4c9cedbca411b1aba4b4c6f35c8e6231e84a73ceb9c30b2d44a2cd452b3",
+          "workspace": "/tmp/proselint harness space-\u00e9 m12wwclg/shared"
+        },
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 m12wwclg/shared",
+          "duration_seconds": 0.05286231217905879,
+          "exit_code": 1,
+          "role": "candidate",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_case_and_punctuation/candidate.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_case_and_punctuation/candidate.stdout.bin",
+          "stdout_sha256": "e1cfb1389708fa28837c3245214822a9b8c2dc2d2d9eaf653c7181d350352e0d",
+          "workspace": "/tmp/proselint harness space-\u00e9 m12wwclg/shared"
+        }
+      ],
+      "expected_oracle_outcome": "findings",
+      "normalization": {
+        "source_key_workspace_uri": false
+      },
+      "replay": {
+        "candidate_argv": [
+          "/home/dev/proselint-rs/rust/target/debug/proselint"
+        ],
+        "command": [
+          "python3",
+          "rust/harness/compare.py",
+          "--case-manifest",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_case_and_punctuation/replay-manifest.json",
+          "--live",
+          "--candidate-argv-json",
+          "[\"/home/dev/proselint-rs/rust/target/debug/proselint\"]",
+          "--candidate-attestation",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T220632986987Z-build.attestation.json",
+          "--report",
+          "<new-report.json>"
+        ],
+        "requires_same_candidate_binary_and_build_attestation": true,
+        "saved_case_manifest": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_case_and_punctuation/replay-manifest.json",
+        "saved_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_case_and_punctuation/input-layout",
+        "saved_stdin": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_case_and_punctuation/stdin.bin"
+      },
+      "status": "PASS",
+      "stdin_sha256": "e16fa2b46886c8eda54f4919e1548f48cb7b2c516a2d7a6ebec5e3db4ea27c13",
+      "workspace_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_case_and_punctuation/input-layout",
+      "workspace_mutates": false
+    },
+    {
+      "capability_id": "rule.dates_times.dates.dash_and_from",
+      "case_id": "dash_and_from_raw_substring",
+      "commands": [
+        [
+          "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ],
+        [
+          "/home/dev/proselint-rs/rust/target/debug/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ]
+      ],
+      "diffs": [],
+      "effective_environment": {
+        "candidate": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_raw_substring/candidate/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_raw_substring/candidate/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_raw_substring/candidate/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_raw_substring/candidate/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        },
+        "reference": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_raw_substring/reference/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_raw_substring/reference/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_raw_substring/reference/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_raw_substring/reference/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        }
+      },
+      "executions": [
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 _1mjlg47/shared",
+          "duration_seconds": 0.3051882889121771,
+          "exit_code": 1,
+          "role": "reference",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_raw_substring/reference.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_raw_substring/reference.stdout.bin",
+          "stdout_sha256": "e214a34f7203a78c2a53460f72edcd0dee5dbf4833fe33608ea869354130d8e2",
+          "workspace": "/tmp/proselint harness space-\u00e9 _1mjlg47/shared"
+        },
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 _1mjlg47/shared",
+          "duration_seconds": 0.04384873807430267,
+          "exit_code": 1,
+          "role": "candidate",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_raw_substring/candidate.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_raw_substring/candidate.stdout.bin",
+          "stdout_sha256": "5ef426d811e6e24ea6f6f4057ca1add9f6d168cd517d8149813f9f46a9b340bd",
+          "workspace": "/tmp/proselint harness space-\u00e9 _1mjlg47/shared"
+        }
+      ],
+      "expected_oracle_outcome": "findings",
+      "normalization": {
+        "source_key_workspace_uri": false
+      },
+      "replay": {
+        "candidate_argv": [
+          "/home/dev/proselint-rs/rust/target/debug/proselint"
+        ],
+        "command": [
+          "python3",
+          "rust/harness/compare.py",
+          "--case-manifest",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_raw_substring/replay-manifest.json",
+          "--live",
+          "--candidate-argv-json",
+          "[\"/home/dev/proselint-rs/rust/target/debug/proselint\"]",
+          "--candidate-attestation",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T220632986987Z-build.attestation.json",
+          "--report",
+          "<new-report.json>"
+        ],
+        "requires_same_candidate_binary_and_build_attestation": true,
+        "saved_case_manifest": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_raw_substring/replay-manifest.json",
+        "saved_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_raw_substring/input-layout",
+        "saved_stdin": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_raw_substring/stdin.bin"
+      },
+      "status": "PASS",
+      "stdin_sha256": "2b99741f5ee538c398611501c6bd8e9e14ab084fa986029e35fad7ca1abf488a",
+      "workspace_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_raw_substring/input-layout",
+      "workspace_mutates": false
+    },
+    {
+      "capability_id": "rule.dates_times.dates.dash_and_from",
+      "case_id": "dash_and_from_quote_suppression",
+      "commands": [
+        [
+          "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ],
+        [
+          "/home/dev/proselint-rs/rust/target/debug/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ]
+      ],
+      "diffs": [],
+      "effective_environment": {
+        "candidate": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_quote_suppression/candidate/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_quote_suppression/candidate/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_quote_suppression/candidate/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_quote_suppression/candidate/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        },
+        "reference": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_quote_suppression/reference/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_quote_suppression/reference/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_quote_suppression/reference/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_quote_suppression/reference/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        }
+      },
+      "executions": [
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 92smkcqi/shared",
+          "duration_seconds": 0.34232567995786667,
+          "exit_code": 0,
+          "role": "reference",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_quote_suppression/reference.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_quote_suppression/reference.stdout.bin",
+          "stdout_sha256": "db23d554796d74d46ac40645081117fcfaa0456a11ea9ae38f89a3da9f82a2f5",
+          "workspace": "/tmp/proselint harness space-\u00e9 92smkcqi/shared"
+        },
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 92smkcqi/shared",
+          "duration_seconds": 0.06500021694228053,
+          "exit_code": 0,
+          "role": "candidate",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_quote_suppression/candidate.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_quote_suppression/candidate.stdout.bin",
+          "stdout_sha256": "7fc2be52bbb78d1dafd2f8c651ae97ad991030a9325247311091627eee7c33f8",
+          "workspace": "/tmp/proselint harness space-\u00e9 92smkcqi/shared"
+        }
+      ],
+      "expected_oracle_outcome": "clean",
+      "normalization": {
+        "source_key_workspace_uri": false
+      },
+      "replay": {
+        "candidate_argv": [
+          "/home/dev/proselint-rs/rust/target/debug/proselint"
+        ],
+        "command": [
+          "python3",
+          "rust/harness/compare.py",
+          "--case-manifest",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_quote_suppression/replay-manifest.json",
+          "--live",
+          "--candidate-argv-json",
+          "[\"/home/dev/proselint-rs/rust/target/debug/proselint\"]",
+          "--candidate-attestation",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T220632986987Z-build.attestation.json",
+          "--report",
+          "<new-report.json>"
+        ],
+        "requires_same_candidate_binary_and_build_attestation": true,
+        "saved_case_manifest": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_quote_suppression/replay-manifest.json",
+        "saved_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_quote_suppression/input-layout",
+        "saved_stdin": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_quote_suppression/stdin.bin"
+      },
+      "status": "PASS",
+      "stdin_sha256": "d3e746f2f245ec633d468da9eff0bad2ba7b64027fb2775553d5b858aece3401",
+      "workspace_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_quote_suppression/input-layout",
+      "workspace_mutates": false
+    },
+    {
+      "capability_id": "rule.dates_times.dates.dash_and_from",
+      "case_id": "dash_and_from_unicode_positions",
+      "commands": [
+        [
+          "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ],
+        [
+          "/home/dev/proselint-rs/rust/target/debug/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ]
+      ],
+      "diffs": [],
+      "effective_environment": {
+        "candidate": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_positions/candidate/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_positions/candidate/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_positions/candidate/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_positions/candidate/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        },
+        "reference": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_positions/reference/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_positions/reference/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_positions/reference/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_positions/reference/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        }
+      },
+      "executions": [
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 7b6949j_/shared",
+          "duration_seconds": 0.41376160318031907,
+          "exit_code": 1,
+          "role": "reference",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_positions/reference.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_positions/reference.stdout.bin",
+          "stdout_sha256": "6a8d7d3086abde8cb97d7ca448ec83f6e0167a46924012f343758dfc2175924b",
+          "workspace": "/tmp/proselint harness space-\u00e9 7b6949j_/shared"
+        },
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 7b6949j_/shared",
+          "duration_seconds": 0.061288260854780674,
+          "exit_code": 1,
+          "role": "candidate",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_positions/candidate.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_positions/candidate.stdout.bin",
+          "stdout_sha256": "959c13b6d22e6bad8aaf9cfc10f406c581ae47b70e67a0a973d2976449c87201",
+          "workspace": "/tmp/proselint harness space-\u00e9 7b6949j_/shared"
+        }
+      ],
+      "expected_oracle_outcome": "findings",
+      "normalization": {
+        "source_key_workspace_uri": false
+      },
+      "replay": {
+        "candidate_argv": [
+          "/home/dev/proselint-rs/rust/target/debug/proselint"
+        ],
+        "command": [
+          "python3",
+          "rust/harness/compare.py",
+          "--case-manifest",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_positions/replay-manifest.json",
+          "--live",
+          "--candidate-argv-json",
+          "[\"/home/dev/proselint-rs/rust/target/debug/proselint\"]",
+          "--candidate-attestation",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T220632986987Z-build.attestation.json",
+          "--report",
+          "<new-report.json>"
+        ],
+        "requires_same_candidate_binary_and_build_attestation": true,
+        "saved_case_manifest": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_positions/replay-manifest.json",
+        "saved_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_positions/input-layout",
+        "saved_stdin": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_positions/stdin.bin"
+      },
+      "status": "PASS",
+      "stdin_sha256": "d414cfb2f80965a87e36a6cfca5b57413883714d134557933b4cd317f346ff83",
+      "workspace_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_positions/input-layout",
+      "workspace_mutates": false
+    },
+    {
+      "capability_id": "rule.dates_times.dates.dash_and_from",
+      "case_id": "dash_and_from_multiple_findings_order",
+      "commands": [
+        [
+          "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ],
+        [
+          "/home/dev/proselint-rs/rust/target/debug/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ]
+      ],
+      "diffs": [],
+      "effective_environment": {
+        "candidate": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_multiple_findings_order/candidate/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_multiple_findings_order/candidate/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_multiple_findings_order/candidate/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_multiple_findings_order/candidate/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        },
+        "reference": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_multiple_findings_order/reference/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_multiple_findings_order/reference/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_multiple_findings_order/reference/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_multiple_findings_order/reference/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        }
+      },
+      "executions": [
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 o388fpax/shared",
+          "duration_seconds": 0.2657246640883386,
+          "exit_code": 1,
+          "role": "reference",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_multiple_findings_order/reference.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_multiple_findings_order/reference.stdout.bin",
+          "stdout_sha256": "30a49efac32c31298b68d2ee4cec5bc9ffb7bf8c48120ee073e76a068a3b4308",
+          "workspace": "/tmp/proselint harness space-\u00e9 o388fpax/shared"
+        },
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 o388fpax/shared",
+          "duration_seconds": 0.042934020049870014,
+          "exit_code": 1,
+          "role": "candidate",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_multiple_findings_order/candidate.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_multiple_findings_order/candidate.stdout.bin",
+          "stdout_sha256": "3117d98e6890affdecd41ed0297f1983abe4145ba4087f654d5b27345d4e18de",
+          "workspace": "/tmp/proselint harness space-\u00e9 o388fpax/shared"
+        }
+      ],
+      "expected_oracle_outcome": "findings",
+      "normalization": {
+        "source_key_workspace_uri": false
+      },
+      "replay": {
+        "candidate_argv": [
+          "/home/dev/proselint-rs/rust/target/debug/proselint"
+        ],
+        "command": [
+          "python3",
+          "rust/harness/compare.py",
+          "--case-manifest",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_multiple_findings_order/replay-manifest.json",
+          "--live",
+          "--candidate-argv-json",
+          "[\"/home/dev/proselint-rs/rust/target/debug/proselint\"]",
+          "--candidate-attestation",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T220632986987Z-build.attestation.json",
+          "--report",
+          "<new-report.json>"
+        ],
+        "requires_same_candidate_binary_and_build_attestation": true,
+        "saved_case_manifest": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_multiple_findings_order/replay-manifest.json",
+        "saved_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_multiple_findings_order/input-layout",
+        "saved_stdin": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_multiple_findings_order/stdin.bin"
+      },
+      "status": "PASS",
+      "stdin_sha256": "e42d8249e6df6bad1b5c5916c1a374fbb7d94b1a9cfa77bac9d0ae4569cea58e",
+      "workspace_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_multiple_findings_order/input-layout",
+      "workspace_mutates": false
+    },
+    {
+      "capability_id": "rule.dates_times.dates.dash_and_from",
+      "case_id": "dash_and_from_max_errors",
+      "commands": [
+        [
+          "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ],
+        [
+          "/home/dev/proselint-rs/rust/target/debug/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ]
+      ],
+      "diffs": [],
+      "effective_environment": {
+        "candidate": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_max_errors/candidate/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_max_errors/candidate/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_max_errors/candidate/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_max_errors/candidate/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        },
+        "reference": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_max_errors/reference/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_max_errors/reference/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_max_errors/reference/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_max_errors/reference/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        }
+      },
+      "executions": [
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 9pdoatdh/shared",
+          "duration_seconds": 0.2675948580726981,
+          "exit_code": 1,
+          "role": "reference",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_max_errors/reference.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_max_errors/reference.stdout.bin",
+          "stdout_sha256": "adede4c9cedbca411b1aba4b4c6f35c8e6231e84a73ceb9c30b2d44a2cd452b3",
+          "workspace": "/tmp/proselint harness space-\u00e9 9pdoatdh/shared"
+        },
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 9pdoatdh/shared",
+          "duration_seconds": 0.053176873829215765,
+          "exit_code": 1,
+          "role": "candidate",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_max_errors/candidate.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_max_errors/candidate.stdout.bin",
+          "stdout_sha256": "e1cfb1389708fa28837c3245214822a9b8c2dc2d2d9eaf653c7181d350352e0d",
+          "workspace": "/tmp/proselint harness space-\u00e9 9pdoatdh/shared"
+        }
+      ],
+      "expected_oracle_outcome": "findings",
+      "normalization": {
+        "source_key_workspace_uri": false
+      },
+      "replay": {
+        "candidate_argv": [
+          "/home/dev/proselint-rs/rust/target/debug/proselint"
+        ],
+        "command": [
+          "python3",
+          "rust/harness/compare.py",
+          "--case-manifest",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_max_errors/replay-manifest.json",
+          "--live",
+          "--candidate-argv-json",
+          "[\"/home/dev/proselint-rs/rust/target/debug/proselint\"]",
+          "--candidate-attestation",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T220632986987Z-build.attestation.json",
+          "--report",
+          "<new-report.json>"
+        ],
+        "requires_same_candidate_binary_and_build_attestation": true,
+        "saved_case_manifest": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_max_errors/replay-manifest.json",
+        "saved_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_max_errors/input-layout",
+        "saved_stdin": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_max_errors/stdin.bin"
+      },
+      "status": "PASS",
+      "stdin_sha256": "e42d8249e6df6bad1b5c5916c1a374fbb7d94b1a9cfa77bac9d0ae4569cea58e",
+      "workspace_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_max_errors/input-layout",
+      "workspace_mutates": false
+    },
+    {
+      "capability_id": "rule.dates_times.dates.dash_and_from",
+      "case_id": "dash_and_from_unicode_decimal_digits",
+      "commands": [
+        [
+          "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ],
+        [
+          "/home/dev/proselint-rs/rust/target/debug/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ]
+      ],
+      "diffs": [],
+      "effective_environment": {
+        "candidate": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_decimal_digits/candidate/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_decimal_digits/candidate/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_decimal_digits/candidate/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_decimal_digits/candidate/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        },
+        "reference": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_decimal_digits/reference/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_decimal_digits/reference/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_decimal_digits/reference/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_decimal_digits/reference/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        }
+      },
+      "executions": [
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 fxz9tzpx/shared",
+          "duration_seconds": 0.2781984247267246,
+          "exit_code": 1,
+          "role": "reference",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_decimal_digits/reference.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_decimal_digits/reference.stdout.bin",
+          "stdout_sha256": "1652f929dfcc8f93caae2641575a385b8c78b12395ba7efc0f500ce55602cd48",
+          "workspace": "/tmp/proselint harness space-\u00e9 fxz9tzpx/shared"
+        },
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 fxz9tzpx/shared",
+          "duration_seconds": 0.04268907103687525,
+          "exit_code": 1,
+          "role": "candidate",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_decimal_digits/candidate.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_decimal_digits/candidate.stdout.bin",
+          "stdout_sha256": "ea129b6c1d763c38bf675104646e5bc4af2a6a40b0c9853caa48cb38c20baedc",
+          "workspace": "/tmp/proselint harness space-\u00e9 fxz9tzpx/shared"
+        }
+      ],
+      "expected_oracle_outcome": "findings",
+      "normalization": {
+        "source_key_workspace_uri": false
+      },
+      "replay": {
+        "candidate_argv": [
+          "/home/dev/proselint-rs/rust/target/debug/proselint"
+        ],
+        "command": [
+          "python3",
+          "rust/harness/compare.py",
+          "--case-manifest",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_decimal_digits/replay-manifest.json",
+          "--live",
+          "--candidate-argv-json",
+          "[\"/home/dev/proselint-rs/rust/target/debug/proselint\"]",
+          "--candidate-attestation",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T220632986987Z-build.attestation.json",
+          "--report",
+          "<new-report.json>"
+        ],
+        "requires_same_candidate_binary_and_build_attestation": true,
+        "saved_case_manifest": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_decimal_digits/replay-manifest.json",
+        "saved_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_decimal_digits/input-layout",
+        "saved_stdin": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_decimal_digits/stdin.bin"
+      },
+      "status": "PASS",
+      "stdin_sha256": "24fd310f111661b89bd76e7c29377ec5e38ebad6a1b65867437c08e1e06db10a",
+      "workspace_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_decimal_digits/input-layout",
+      "workspace_mutates": false
+    },
+    {
+      "capability_id": "rule.dates_times.dates.dash_and_from",
+      "case_id": "dash_and_from_unicode_word_separator",
+      "commands": [
+        [
+          "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ],
+        [
+          "/home/dev/proselint-rs/rust/target/debug/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ]
+      ],
+      "diffs": [],
+      "effective_environment": {
+        "candidate": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_word_separator/candidate/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_word_separator/candidate/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_word_separator/candidate/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_word_separator/candidate/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        },
+        "reference": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_word_separator/reference/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_word_separator/reference/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_word_separator/reference/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_word_separator/reference/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        }
+      },
+      "executions": [
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 cbhgycr5/shared",
+          "duration_seconds": 0.2710990090854466,
+          "exit_code": 0,
+          "role": "reference",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_word_separator/reference.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_word_separator/reference.stdout.bin",
+          "stdout_sha256": "db23d554796d74d46ac40645081117fcfaa0456a11ea9ae38f89a3da9f82a2f5",
+          "workspace": "/tmp/proselint harness space-\u00e9 cbhgycr5/shared"
+        },
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 cbhgycr5/shared",
+          "duration_seconds": 0.035012471955269575,
+          "exit_code": 0,
+          "role": "candidate",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_word_separator/candidate.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_word_separator/candidate.stdout.bin",
+          "stdout_sha256": "7fc2be52bbb78d1dafd2f8c651ae97ad991030a9325247311091627eee7c33f8",
+          "workspace": "/tmp/proselint harness space-\u00e9 cbhgycr5/shared"
+        }
+      ],
+      "expected_oracle_outcome": "clean",
+      "normalization": {
+        "source_key_workspace_uri": false
+      },
+      "replay": {
+        "candidate_argv": [
+          "/home/dev/proselint-rs/rust/target/debug/proselint"
+        ],
+        "command": [
+          "python3",
+          "rust/harness/compare.py",
+          "--case-manifest",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_word_separator/replay-manifest.json",
+          "--live",
+          "--candidate-argv-json",
+          "[\"/home/dev/proselint-rs/rust/target/debug/proselint\"]",
+          "--candidate-attestation",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T220632986987Z-build.attestation.json",
+          "--report",
+          "<new-report.json>"
+        ],
+        "requires_same_candidate_binary_and_build_attestation": true,
+        "saved_case_manifest": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_word_separator/replay-manifest.json",
+        "saved_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_word_separator/input-layout",
+        "saved_stdin": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_word_separator/stdin.bin"
+      },
+      "status": "PASS",
+      "stdin_sha256": "20b4be97503ab01ecdadf1a6282200c2a52e4aa83e0a8dba13323d1f301d56b8",
+      "workspace_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_unicode_word_separator/input-layout",
+      "workspace_mutates": false
+    },
+    {
+      "capability_id": "rule.dates_times.dates.dash_and_from",
+      "case_id": "dash_and_from_combining_mark_separator",
+      "commands": [
+        [
+          "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ],
+        [
+          "/home/dev/proselint-rs/rust/target/debug/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ]
+      ],
+      "diffs": [],
+      "effective_environment": {
+        "candidate": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_combining_mark_separator/candidate/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_combining_mark_separator/candidate/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_combining_mark_separator/candidate/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_combining_mark_separator/candidate/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        },
+        "reference": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_combining_mark_separator/reference/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_combining_mark_separator/reference/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_combining_mark_separator/reference/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_combining_mark_separator/reference/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        }
+      },
+      "executions": [
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 hy4ud54p/shared",
+          "duration_seconds": 0.26986207300797105,
+          "exit_code": 1,
+          "role": "reference",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_combining_mark_separator/reference.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_combining_mark_separator/reference.stdout.bin",
+          "stdout_sha256": "1652f929dfcc8f93caae2641575a385b8c78b12395ba7efc0f500ce55602cd48",
+          "workspace": "/tmp/proselint harness space-\u00e9 hy4ud54p/shared"
+        },
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 hy4ud54p/shared",
+          "duration_seconds": 0.0441666292026639,
+          "exit_code": 1,
+          "role": "candidate",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_combining_mark_separator/candidate.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_combining_mark_separator/candidate.stdout.bin",
+          "stdout_sha256": "ea129b6c1d763c38bf675104646e5bc4af2a6a40b0c9853caa48cb38c20baedc",
+          "workspace": "/tmp/proselint harness space-\u00e9 hy4ud54p/shared"
+        }
+      ],
+      "expected_oracle_outcome": "findings",
+      "normalization": {
+        "source_key_workspace_uri": false
+      },
+      "replay": {
+        "candidate_argv": [
+          "/home/dev/proselint-rs/rust/target/debug/proselint"
+        ],
+        "command": [
+          "python3",
+          "rust/harness/compare.py",
+          "--case-manifest",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_combining_mark_separator/replay-manifest.json",
+          "--live",
+          "--candidate-argv-json",
+          "[\"/home/dev/proselint-rs/rust/target/debug/proselint\"]",
+          "--candidate-attestation",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T220632986987Z-build.attestation.json",
+          "--report",
+          "<new-report.json>"
+        ],
+        "requires_same_candidate_binary_and_build_attestation": true,
+        "saved_case_manifest": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_combining_mark_separator/replay-manifest.json",
+        "saved_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_combining_mark_separator/input-layout",
+        "saved_stdin": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_combining_mark_separator/stdin.bin"
+      },
+      "status": "PASS",
+      "stdin_sha256": "0779cf76c13ba6eb21499ce00bd7f56ecefede0cf34f6c4e255cfd565d837f50",
+      "workspace_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_combining_mark_separator/input-layout",
+      "workspace_mutates": false
+    },
+    {
+      "capability_id": "rule.dates_times.dates.dash_and_from",
+      "case_id": "dash_and_from_undertie_separator",
+      "commands": [
+        [
+          "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ],
+        [
+          "/home/dev/proselint-rs/rust/target/debug/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ]
+      ],
+      "diffs": [],
+      "effective_environment": {
+        "candidate": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_undertie_separator/candidate/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_undertie_separator/candidate/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_undertie_separator/candidate/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_undertie_separator/candidate/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        },
+        "reference": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_undertie_separator/reference/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_undertie_separator/reference/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_undertie_separator/reference/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_undertie_separator/reference/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        }
+      },
+      "executions": [
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 2zr8ti0q/shared",
+          "duration_seconds": 0.28828162979334593,
+          "exit_code": 1,
+          "role": "reference",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_undertie_separator/reference.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_undertie_separator/reference.stdout.bin",
+          "stdout_sha256": "1652f929dfcc8f93caae2641575a385b8c78b12395ba7efc0f500ce55602cd48",
+          "workspace": "/tmp/proselint harness space-\u00e9 2zr8ti0q/shared"
+        },
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 2zr8ti0q/shared",
+          "duration_seconds": 0.04413762455806136,
+          "exit_code": 1,
+          "role": "candidate",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_undertie_separator/candidate.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_undertie_separator/candidate.stdout.bin",
+          "stdout_sha256": "ea129b6c1d763c38bf675104646e5bc4af2a6a40b0c9853caa48cb38c20baedc",
+          "workspace": "/tmp/proselint harness space-\u00e9 2zr8ti0q/shared"
+        }
+      ],
+      "expected_oracle_outcome": "findings",
+      "normalization": {
+        "source_key_workspace_uri": false
+      },
+      "replay": {
+        "candidate_argv": [
+          "/home/dev/proselint-rs/rust/target/debug/proselint"
+        ],
+        "command": [
+          "python3",
+          "rust/harness/compare.py",
+          "--case-manifest",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_undertie_separator/replay-manifest.json",
+          "--live",
+          "--candidate-argv-json",
+          "[\"/home/dev/proselint-rs/rust/target/debug/proselint\"]",
+          "--candidate-attestation",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T220632986987Z-build.attestation.json",
+          "--report",
+          "<new-report.json>"
+        ],
+        "requires_same_candidate_binary_and_build_attestation": true,
+        "saved_case_manifest": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_undertie_separator/replay-manifest.json",
+        "saved_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_undertie_separator/input-layout",
+        "saved_stdin": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_undertie_separator/stdin.bin"
+      },
+      "status": "PASS",
+      "stdin_sha256": "4b578cfe92a57069fde90dbd27bd2b7ff5bf624bc23ae01f42f551914ed87580",
+      "workspace_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_undertie_separator/input-layout",
+      "workspace_mutates": false
+    },
+    {
+      "capability_id": "rule.dates_times.dates.dash_and_from",
+      "case_id": "dash_and_from_zero_width_non_joiner_separator",
+      "commands": [
+        [
+          "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ],
+        [
+          "/home/dev/proselint-rs/rust/target/debug/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ]
+      ],
+      "diffs": [],
+      "effective_environment": {
+        "candidate": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_zero_width_non_joiner_separator/candidate/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_zero_width_non_joiner_separator/candidate/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_zero_width_non_joiner_separator/candidate/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_zero_width_non_joiner_separator/candidate/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        },
+        "reference": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_zero_width_non_joiner_separator/reference/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_zero_width_non_joiner_separator/reference/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_zero_width_non_joiner_separator/reference/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_zero_width_non_joiner_separator/reference/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        }
+      },
+      "executions": [
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 0vpd8wqd/shared",
+          "duration_seconds": 0.2296589920297265,
+          "exit_code": 1,
+          "role": "reference",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_zero_width_non_joiner_separator/reference.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_zero_width_non_joiner_separator/reference.stdout.bin",
+          "stdout_sha256": "1652f929dfcc8f93caae2641575a385b8c78b12395ba7efc0f500ce55602cd48",
+          "workspace": "/tmp/proselint harness space-\u00e9 0vpd8wqd/shared"
+        },
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 0vpd8wqd/shared",
+          "duration_seconds": 0.03505163360387087,
+          "exit_code": 1,
+          "role": "candidate",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_zero_width_non_joiner_separator/candidate.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_zero_width_non_joiner_separator/candidate.stdout.bin",
+          "stdout_sha256": "ea129b6c1d763c38bf675104646e5bc4af2a6a40b0c9853caa48cb38c20baedc",
+          "workspace": "/tmp/proselint harness space-\u00e9 0vpd8wqd/shared"
+        }
+      ],
+      "expected_oracle_outcome": "findings",
+      "normalization": {
+        "source_key_workspace_uri": false
+      },
+      "replay": {
+        "candidate_argv": [
+          "/home/dev/proselint-rs/rust/target/debug/proselint"
+        ],
+        "command": [
+          "python3",
+          "rust/harness/compare.py",
+          "--case-manifest",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_zero_width_non_joiner_separator/replay-manifest.json",
+          "--live",
+          "--candidate-argv-json",
+          "[\"/home/dev/proselint-rs/rust/target/debug/proselint\"]",
+          "--candidate-attestation",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T220632986987Z-build.attestation.json",
+          "--report",
+          "<new-report.json>"
+        ],
+        "requires_same_candidate_binary_and_build_attestation": true,
+        "saved_case_manifest": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_zero_width_non_joiner_separator/replay-manifest.json",
+        "saved_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_zero_width_non_joiner_separator/input-layout",
+        "saved_stdin": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_zero_width_non_joiner_separator/stdin.bin"
+      },
+      "status": "PASS",
+      "stdin_sha256": "5aa85486508204e6409470a0e19704502a49f28fbeb7048d0b5329c156add166",
+      "workspace_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e/cases/dash_and_from_zero_width_non_joiner_separator/input-layout",
+      "workspace_mutates": false
+    }
+  ],
+  "counts": {
+    "BLOCKED": 0,
+    "CANDIDATE_ERROR": 0,
+    "MISMATCH": 0,
+    "NOT_IMPLEMENTED": 0,
+    "ORACLE_ERROR": 0,
+    "PASS": 13,
+    "TIMEOUT": 0
+  },
+  "environment": {
+    "platform": "Linux-7.2.9-arch1-1-x86_64-with-glibc2.39",
+    "python": "3.15.2 (main, Nov  5 2026, 00:40:21) [GCC 13.3.0]"
+  },
+  "errors": [],
+  "finished_at_utc": "2026-11-06T22:08:14.575165+00:00",
+  "raw_artifacts_dir": "/home/dev/proselint-rs/rust/artifacts/20261106T220806160449Z-d7a63b8e",
+  "run_id": "20261106T220806160449Z-d7a63b8e",
+  "run_level_blocker": false,
+  "schema_version": 1,
+  "scope": "compatibility_gate",
+  "self_test": {
+    "checks": [
+      {
+        "name": "drop_diagnostic",
+        "observed_kinds": [
+          "array_length"
+        ],
+        "passed": true
+      },
+      {
+        "name": "add_diagnostic",
+        "observed_kinds": [
+          "array_length"
+        ],
+        "passed": true
+      },
+      {
+        "name": "reorder_diagnostics",
+        "observed_kinds": [
+          "type",
+          "value"
+        ],
+        "passed": true
+      },
+      {
+        "name": "duplicate_diagnostic",
+        "observed_kinds": [
+          "array_length"
+        ],
+        "passed": true
+      },
+      {
+        "name": "message",
+        "observed_kinds": [
+          "value"
+        ],
+        "passed": true
+      },
+      {
+        "name": "rule_id",
+        "observed_kinds": [
+          "value"
+        ],
+        "passed": true
+      },
+      {
+        "name": "coordinate",
+        "observed_kinds": [
+          "value"
+        ],
+        "passed": true
+      },
+      {
+        "name": "replacement",
+        "observed_kinds": [
+          "value"
+        ],
+        "passed": true
+      },
+      {
+        "name": "null_vs_empty_replacement",
+        "observed_kinds": [
+          "type"
+        ],
+        "passed": true
+      },
+      {
+        "name": "field_presence",
+        "observed_kinds": [
+          "JSON_SCHEMA"
+        ],
+        "passed": true
+      },
+      {
+        "name": "file_key",
+        "observed_kinds": [
+          "additional_field",
+          "missing_field"
+        ],
+        "passed": true
+      },
+      {
+        "name": "stderr",
+        "observed_kinds": [
+          "stderr_mismatch"
+        ],
+        "passed": true
+      },
+      {
+        "name": "exit_status",
+        "observed_kinds": [
+          "exit_code_mismatch"
+        ],
+        "passed": true
+      },
+      {
+        "name": "invalid_json",
+        "observed_kinds": [
+          "INVALID_JSON"
+        ],
+        "passed": true
+      },
+      {
+        "name": "unexpected_extra_output",
+        "observed_kinds": [
+          "INVALID_JSON"
+        ],
+        "passed": true
+      },
+      {
+        "name": "wire_schema",
+        "observed_kinds": [],
+        "passed": true
+      },
+      {
+        "name": "no_diagnostics",
+        "observed_kinds": [],
+        "passed": true
+      },
+      {
+        "name": "upstream_error_schema",
+        "observed_kinds": [],
+        "passed": true
+      },
+      {
+        "name": "duplicate_json_key",
+        "observed_kinds": [
+          "INVALID_JSON"
+        ],
+        "passed": true
+      },
+      {
+        "name": "spaces_non_ascii_argv_path",
+        "observed_kinds": [
+          "OK"
+        ],
+        "passed": true
+      },
+      {
+        "name": "spawn_failure",
+        "observed_kinds": [
+          "CANDIDATE_ERROR"
+        ],
+        "passed": true
+      },
+      {
+        "name": "crash_exit",
+        "observed_kinds": [
+          "CANDIDATE_ERROR",
+          "9"
+        ],
+        "passed": true
+      },
+      {
+        "name": "timeout",
+        "observed_kinds": [
+          "TIMEOUT"
+        ],
+        "passed": true
+      }
+    ],
+    "required": true,
+    "status": "PASS"
+  },
+  "source_fingerprint": "d611593ed7afd289b25539a03b30a10d080fb333ce9ca9133c91c993de9e0415",
+  "started_at_utc": "2026-11-06T22:08:06.160414+00:00",
+  "status": "PASS"
+}

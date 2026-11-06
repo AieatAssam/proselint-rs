@@ -302,6 +302,18 @@
     {
       "id": "spelling.athletes",
       "status": "recorded"
+    },
+    {
+      "id": "rule.archaism",
+      "status": "recorded"
+    },
+    {
+      "id": "rule.dates_times.dates.month_year_comma",
+      "status": "recorded"
+    },
+    {
+      "id": "rule.dates_times.dates.dash_and_from",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -343,7 +355,7 @@
     "independent_evidence": "rust/artifacts/independent-review-fixes/final-gate-348.json"
   },
   "active_ownership": {
-    "current": "The latest strict live gate passes 700/700 cases across 75 capabilities. spelling.athletes passed focused and independent live verification and is recorded. Shared flat dotted config-key selection, registry routing, and ordering are covered by the gate. No production worker is active.",
+    "current": "The shared CLI checkpoint passes: 734/734 live cases across 78 capabilities, with six manifest cases excluded for the recorded harness-smoke and per-file-config scopes. Three rules added in this checkpoint are independently verified.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -4367,26 +4379,287 @@
         "duration_seconds": 204.311448,
         "source_fingerprint": "b2cfa57b4e9e8ce4a6d3caee401af6e75283a89bcfd1292af28e671278531f65"
       }
+    },
+    {
+      "id": "rule.archaism",
+      "status": "recorded",
+      "case_ids": [
+        "archaism_all_47_active_forms",
+        "archaism_commented_out_terms_and_clean_controls",
+        "archaism_case_insensitive_repetition",
+        "archaism_boundary_without_activation",
+        "archaism_raw_embedded_after_activation",
+        "archaism_paired_quote_suppression",
+        "archaism_unicode_ascii_boundaries_and_positions",
+        "archaism_multiword_spacing_and_controls",
+        "archaism_embedded_multiword_raw_matches",
+        "archaism_activation_order_full",
+        "archaism_activation_order_max_errors_two",
+        "archaism_different_length_activation_order",
+        "archaism_different_length_activation_order_max_errors_one"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_spec": "47 active literal items in Fast Existence with case-insensitive matching and WORDS_IN_TEXT ASCII boundaries. FastSet groups are ordered by first activation and raw matches are emitted for active patterns. Default quote suppression; exact padded-content code-point spans and line/columns.",
+      "specification": {
+        "live_cases": 13,
+        "forms_or_patterns": 47,
+        "oracle_integrity": "verified before and after",
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "evidence": "rust/artifacts/pinned-oracle-archaism-dates-spec-20261106.json"
+      },
+      "red": {
+        "status": "MISMATCH",
+        "focused_live_report": "rust/artifacts/focused-archaism-red-20261106.json",
+        "live_cases": 11,
+        "mismatches": 11,
+        "duration_seconds": 10.05686,
+        "candidate_errors": 0,
+        "oracle_errors": 0,
+        "timeouts": 0,
+        "oracle_integrity": "verified before and after"
+      },
+      "agent_model": "gpt-6-luna",
+      "agent_reasoning_effort": "low requested for implementation",
+      "agent_runtime_metadata": "unavailable",
+      "stage_durations_seconds": {
+        "red_live": 10.05686,
+        "local_green": 0.42,
+        "focused_green_live": 15.698269,
+        "independent_live": 13.053894,
+        "cumulative_gate": 221.370174
+      },
+      "stage_case_counts": {
+        "red_live": 11,
+        "focused_green_live": 13,
+        "independent_live": 13,
+        "cumulative_gate": 734
+      },
+      "implementation": "6/6 focused tests passed; final fixed run 0.42s test body; 47 active literal items in Fast Existence with case-insensitive matching and WORDS_IN_TEXT ASCII boundaries. FastSet groups are ordered by first activation and raw matches are emitted for active patterns. Default quote suppression; exact padded-content code-point spans and line/columns.",
+      "green": {
+        "status": "PASS",
+        "live_cases_passed": 13,
+        "focused_live_report": "rust/artifacts/focused-archaism-green-final2-20261106.json",
+        "build_attestation": "rust/artifacts/20261106T220632986987Z-build.attestation.json",
+        "source_fingerprint": "d611593ed7afd289b25539a03b30a10d080fb333ce9ca9133c91c993de9e0415",
+        "candidate_sha256": "7b5083a8680574684a35e4075389b86035ebfa9b8af6884eb4f1529a146ef8f0",
+        "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
+        "locked_format_clippy_test_build": "PASS",
+        "duration_seconds": 15.698269
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 13,
+        "report": "rust/artifacts/independent-archaism-final-20261106.json",
+        "duration_seconds": 13.053894,
+        "source_fingerprint": "d611593ed7afd289b25539a03b30a10d080fb333ce9ca9133c91c993de9e0415",
+        "oracle_integrity": "verified",
+        "agent_model": "gpt-6-luna",
+        "agent_effort": "high (parity_verifier role)",
+        "agent_runtime_metadata": "unavailable"
+      },
+      "implementation_source_sha256": "015f391c4fcdcf3b436ed572fe6790c01b8a24a71dfce3ca8b3e8eff6de07d67",
+      "test_source_sha256": "4588e0fcaf189a39b77941a904b126b8be50138efeb273aed41bdebc8a9c3b6d",
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-three-rules-20261106.json",
+        "passed_cases": 734,
+        "capability_count": 78,
+        "duration_seconds": 221.370174,
+        "source_fingerprint": "d611593ed7afd289b25539a03b30a10d080fb333ce9ca9133c91c993de9e0415"
+      }
+    },
+    {
+      "id": "rule.dates_times.dates.month_year_comma",
+      "status": "recorded",
+      "case_ids": [
+        "month_year_comma_all_twelve_months",
+        "month_year_comma_case_and_repetition",
+        "month_year_comma_digit_threshold",
+        "month_year_comma_spacing_and_punctuation_controls",
+        "month_year_comma_raw_substring_match",
+        "month_year_comma_quote_suppression",
+        "month_year_comma_unicode_positions_and_decimal_digits",
+        "month_year_comma_max_errors"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_spec": "One Fast ExistenceSimple regex over all 12 English months, comma-space, and at least three ASCII digits (pinned Fast/RE2 semantics), case-insensitive, quote suppression, null replacements, code-point coordinates.",
+      "specification": {
+        "live_cases": 8,
+        "forms_or_patterns": 12,
+        "oracle_integrity": "verified before and after",
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "evidence": "rust/artifacts/pinned-oracle-archaism-dates-spec-20261106.json"
+      },
+      "red": {
+        "status": "MISMATCH",
+        "focused_live_report": "rust/artifacts/focused-month_year_comma-red-20261106.json",
+        "live_cases": 8,
+        "mismatches": 8,
+        "duration_seconds": 8.691468,
+        "candidate_errors": 0,
+        "oracle_errors": 0,
+        "timeouts": 0,
+        "oracle_integrity": "verified before and after"
+      },
+      "agent_model": "gpt-6-luna",
+      "agent_reasoning_effort": "low requested for implementation",
+      "agent_runtime_metadata": "unavailable",
+      "stage_durations_seconds": {
+        "red_live": 8.691468,
+        "local_green": 0.73,
+        "focused_green_live": 9.737026,
+        "independent_live": 8.023463,
+        "cumulative_gate": 221.370174
+      },
+      "stage_case_counts": {
+        "red_live": 8,
+        "focused_green_live": 8,
+        "independent_live": 8,
+        "cumulative_gate": 734
+      },
+      "implementation": "3/3 focused tests passed; 0.73s; One Fast ExistenceSimple regex over all 12 English months, comma-space, and at least three ASCII digits (pinned Fast/RE2 semantics), case-insensitive, quote suppression, null replacements, code-point coordinates.",
+      "green": {
+        "status": "PASS",
+        "live_cases_passed": 8,
+        "focused_live_report": "rust/artifacts/focused-month_year_comma-green-final2-20261106.json",
+        "build_attestation": "rust/artifacts/20261106T220632986987Z-build.attestation.json",
+        "source_fingerprint": "d611593ed7afd289b25539a03b30a10d080fb333ce9ca9133c91c993de9e0415",
+        "candidate_sha256": "7b5083a8680574684a35e4075389b86035ebfa9b8af6884eb4f1529a146ef8f0",
+        "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
+        "locked_format_clippy_test_build": "PASS",
+        "duration_seconds": 9.737026
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 8,
+        "report": "rust/artifacts/independent-month_year_comma-final-20261106.json",
+        "duration_seconds": 8.023463,
+        "source_fingerprint": "d611593ed7afd289b25539a03b30a10d080fb333ce9ca9133c91c993de9e0415",
+        "oracle_integrity": "verified",
+        "agent_model": "gpt-6-luna",
+        "agent_effort": "high (parity_verifier role)",
+        "agent_runtime_metadata": "unavailable"
+      },
+      "implementation_source_sha256": "3c81da98dd051ee202ccbfaf9f397868146c4d8826f9878459509a73b1c24e7e",
+      "test_source_sha256": "8b4ea0ee3001dad597bcbe9788ed2d3df526144a464aa5394edf981f93a5d73e",
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-three-rules-20261106.json",
+        "passed_cases": 734,
+        "capability_count": 78,
+        "duration_seconds": 221.370174,
+        "source_fingerprint": "d611593ed7afd289b25539a03b30a10d080fb333ce9ca9133c91c993de9e0415"
+      }
+    },
+    {
+      "id": "rule.dates_times.dates.dash_and_from",
+      "status": "recorded",
+      "case_ids": [
+        "dash_and_from_standard_ranges",
+        "dash_and_from_valid_date_time_and_prose_controls",
+        "dash_and_from_case_and_punctuation",
+        "dash_and_from_raw_substring",
+        "dash_and_from_quote_suppression",
+        "dash_and_from_unicode_positions",
+        "dash_and_from_multiple_findings_order",
+        "dash_and_from_max_errors",
+        "dash_and_from_unicode_decimal_digits",
+        "dash_and_from_unicode_word_separator",
+        "dash_and_from_combining_mark_separator",
+        "dash_and_from_undertie_separator",
+        "dash_and_from_zero_width_non_joiner_separator"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_spec": "One Fancy ExistenceSimple regex: Python Unicode digits, negative lookahead excluding ISO date/time suffixes, and a Unicode separator not in Python re \\w; quote suppression, null replacements, padded code-point coordinates.",
+      "specification": {
+        "live_cases": 13,
+        "forms_or_patterns": 1,
+        "oracle_integrity": "verified before and after",
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "evidence": "rust/artifacts/independent-dash_and_from-unicode-repro-20261106.json"
+      },
+      "red": {
+        "status": "MISMATCH",
+        "focused_live_report": "rust/artifacts/focused-dash_and_from-unicode-red-20261106.json",
+        "live_cases": 13,
+        "mismatches": 3,
+        "duration_seconds": 7.582441,
+        "candidate_errors": 0,
+        "oracle_errors": 0,
+        "timeouts": 0,
+        "oracle_integrity": "verified before and after",
+        "earlier_behavioral_red_report": "rust/artifacts/focused-dash_and_from-red-20261106.json",
+        "note": "Expanded Unicode RED: 3 oracle findings are missing in Rust across the 13-case set; the other 10 existing cases pass."
+      },
+      "agent_model": "gpt-6-luna",
+      "agent_reasoning_effort": "low requested for implementation",
+      "agent_runtime_metadata": "unavailable",
+      "stage_durations_seconds": {
+        "red_live": 7.582441,
+        "local_green": 0.07,
+        "focused_green_live": 11.708809,
+        "independent_live": 8.414751,
+        "cumulative_gate": 221.370174
+      },
+      "stage_case_counts": {
+        "red_live": 13,
+        "focused_green_live": 13,
+        "independent_live": 13,
+        "cumulative_gate": 734
+      },
+      "implementation": "6/6 focused tests passed; 0.07s test body (2.956s command including compile); One Fancy ExistenceSimple regex: Python Unicode digits, negative lookahead excluding ISO date/time suffixes, and a Unicode separator not in Python re \\w; quote suppression, null replacements, padded code-point coordinates.",
+      "green": {
+        "status": "PASS",
+        "live_cases_passed": 13,
+        "focused_live_report": "rust/artifacts/focused-dash_and_from-green-final2-20261106.json",
+        "build_attestation": "rust/artifacts/20261106T220632986987Z-build.attestation.json",
+        "source_fingerprint": "d611593ed7afd289b25539a03b30a10d080fb333ce9ca9133c91c993de9e0415",
+        "candidate_sha256": "7b5083a8680574684a35e4075389b86035ebfa9b8af6884eb4f1529a146ef8f0",
+        "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
+        "locked_format_clippy_test_build": "PASS",
+        "duration_seconds": 11.708809
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 13,
+        "report": "rust/artifacts/independent-dash_and_from-final-20261106.json",
+        "duration_seconds": 8.414751,
+        "source_fingerprint": "d611593ed7afd289b25539a03b30a10d080fb333ce9ca9133c91c993de9e0415",
+        "oracle_integrity": "verified",
+        "agent_model": "gpt-6-luna",
+        "agent_effort": "high (parity_verifier role)",
+        "agent_runtime_metadata": "unavailable"
+      },
+      "implementation_source_sha256": "9f64f7cb2fa7c6bda84e0849164728ccd678adeefca67ab61b2f98596f175134",
+      "test_source_sha256": "a98a082fc2ef036bfc77229a69abee0a66f8c624463b192c10f25f4abb73864a",
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-three-rules-20261106.json",
+        "passed_cases": 734,
+        "capability_count": 78,
+        "duration_seconds": 221.370174,
+        "source_fingerprint": "d611593ed7afd289b25539a03b30a10d080fb333ce9ca9133c91c993de9e0415"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-spelling-athletes-20261106.json",
-    "passed_cases": 700,
-    "manifest_cases": 706,
+    "report": "rust/artifacts/strict-gate-three-rules-20261106.json",
+    "passed_cases": 734,
+    "manifest_cases": 740,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
       "cli.config.per_file_checks": 4
     },
     "exit_code": 0,
-    "capability_count": 75,
-    "source_fingerprint": "b2cfa57b4e9e8ce4a6d3caee401af6e75283a89bcfd1292af28e671278531f65",
-    "run_id": "20261106T210837383876Z-c9f8db2e",
-    "started_at_utc": "2026-11-06T21:08:37.383801+00:00",
-    "finished_at_utc": "2026-11-06T21:12:01.695249+00:00",
-    "candidate_attestation": "rust/artifacts/20261106T210829028459Z-build.attestation.json",
-    "candidate_sha256": "5e40fa722a8567cc9a036b499d3b674274df7609dadde7fb688485a2609983e1",
-    "duration_seconds": 204.311448
+    "capability_count": 78,
+    "source_fingerprint": "d611593ed7afd289b25539a03b30a10d080fb333ce9ca9133c91c993de9e0415",
+    "run_id": "20261106T221007789958Z-10693bcd",
+    "started_at_utc": "2026-11-06T22:10:07.789923+00:00",
+    "finished_at_utc": "2026-11-06T22:13:49.160097+00:00",
+    "candidate_attestation": "rust/artifacts/20261106T220959764380Z-build.attestation.json",
+    "candidate_sha256": "7b5083a8680574684a35e4075389b86035ebfa9b8af6884eb4f1529a146ef8f0",
+    "duration_seconds": 221.370174
   },
   "rust_dependencies": {
     "status": "current",
@@ -4410,7 +4683,7 @@
       "checked_after_gate": "2026-11-06T17:09:30Z"
     }
   },
-  "next_capability_handoff": "Continue from the next unimplemented paths in rust/inventory.json. Preserve per-capability live RED/GREEN and independent verification; keep shared registry/config/CLI integration coordinator-owned, and batch the next cumulative gate at the documented checkpoint.",
+  "next_capability_handoff": "Continue at the next unimplemented rules in rust/inventory.json. Keep each focused live parity and independent verification; batch the next cumulative gate at 5–10 capabilities or after shared matcher/config/CLI/output changes.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

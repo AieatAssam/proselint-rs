@@ -1,12 +1,13 @@
 use clap::{Parser, Subcommand, ValueEnum};
 use proselint_rs::{
     airlinese_diagnostics, am_pm_lowercase_periods_diagnostics, am_pm_spacing_diagnostics,
-    annotation_diagnostics_in_matcher_order, apologizing_diagnostics, back_formations_diagnostics,
-    bureaucratese_diagnostics, but_diagnostics, capitalization_days_diagnostics,
-    capitalization_months_diagnostics, capitalization_seasons_diagnostics,
-    capitalization_terms_diagnostics, cliches_hell_diagnostics,
-    composition_diagnostics_in_matcher_order, currency_diagnostics, debased_diagnostics,
-    decade_apostrophes_diagnostics, eponymous_adjectives_diagnostics,
+    annotation_diagnostics_in_matcher_order, apologizing_diagnostics, archaism_diagnostics,
+    back_formations_diagnostics, bureaucratese_diagnostics, but_diagnostics,
+    capitalization_days_diagnostics, capitalization_months_diagnostics,
+    capitalization_seasons_diagnostics, capitalization_terms_diagnostics, cliches_hell_diagnostics,
+    composition_diagnostics_in_matcher_order, currency_diagnostics,
+    dates_times_dates_dash_and_from_diagnostics, dates_times_dates_month_year_comma_diagnostics,
+    debased_diagnostics, decade_apostrophes_diagnostics, eponymous_adjectives_diagnostics,
     false_plurals_kudos_diagnostics, false_plurals_misc_diagnostics_in_matcher_order, file_uri,
     greylist_diagnostics, hedging_diagnostics, illogic_coin_diagnostics,
     illogic_collusion_diagnostics, inferior_superior_diagnostics, institution_name_diagnostics,
@@ -1172,13 +1173,14 @@ fn run() -> Result<ExitCode, String> {
         });
     }
     let selected_checks = selected_checks.ok_or_else(|| {
-        "this capability supports disabled checks, annotations.misc, cliches.hell, malapropisms, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.many_a, misc.metadiscourse, misc.narcissism, misc.not_guilty, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, mondegreens, oxymorons, redundancy.misc.wallace, redundancy.misc.nordquist, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, dates_times.am_pm.midnight_noon, dates_times.dates.decade_apostrophes, spelling.able_atable, spelling.able_ible, spelling.ally_ly, spelling.ance_ence, spelling.athletes, spelling.ely_ly, spelling.em_im_en_in, spelling.er_or, spelling.in_un, spelling.ve_of, skunked_terms, or terms.eponymous_adjectives only".to_owned()
+        "this capability supports disabled checks, annotations.misc, archaism, cliches.hell, malapropisms, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.many_a, misc.metadiscourse, misc.narcissism, misc.not_guilty, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, mondegreens, oxymorons, redundancy.misc.wallace, redundancy.misc.nordquist, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, dates_times.am_pm.midnight_noon, dates_times.dates.decade_apostrophes, spelling.able_atable, spelling.able_ible, spelling.ally_ly, spelling.ance_ence, spelling.athletes, spelling.ely_ly, spelling.em_im_en_in, spelling.er_or, spelling.in_un, spelling.ve_of, skunked_terms, or terms.eponymous_adjectives only".to_owned()
     })?;
 
     let mut diagnostics = Vec::new();
     for selected_check in selected_checks {
         let check_diagnostics = match selected_check {
             SelectedCheck::AnnotationsMisc => annotation_diagnostics_in_matcher_order(&content),
+            SelectedCheck::Archaism => archaism_diagnostics(&content),
             SelectedCheck::ClichesHell => cliches_hell_diagnostics(&content),
             SelectedCheck::Malapropisms => malapropisms_diagnostics(&content),
             SelectedCheck::SkunkedTerms => skunked_terms_diagnostics(&content),
@@ -1197,6 +1199,12 @@ fn run() -> Result<ExitCode, String> {
             SelectedCheck::DatesTimesAmPmMidnightNoon => midnight_noon_diagnostics(&content),
             SelectedCheck::DatesTimesDatesDecadeApostrophes => {
                 decade_apostrophes_diagnostics(&content)
+            }
+            SelectedCheck::DatesTimesDatesDashAndFrom => {
+                dates_times_dates_dash_and_from_diagnostics(&content)
+            }
+            SelectedCheck::DatesTimesDatesMonthYearComma => {
+                dates_times_dates_month_year_comma_diagnostics(&content)
             }
             SelectedCheck::MiscFalsePluralsKudos => false_plurals_kudos_diagnostics(&content),
             SelectedCheck::MiscFalsePluralsMisc => {
@@ -1289,12 +1297,15 @@ fn run() -> Result<ExitCode, String> {
 // Variant order mirrors registration order in the pinned check modules.
 enum SelectedCheck {
     AnnotationsMisc,
+    Archaism,
     ClichesHell,
     Malapropisms,
     DatesTimesAmPmLowercasePeriods,
     DatesTimesAmPmSpacing,
     DatesTimesAmPmMidnightNoon,
     DatesTimesDatesDecadeApostrophes,
+    DatesTimesDatesDashAndFrom,
+    DatesTimesDatesMonthYearComma,
     Hedging,
     IndustrialLanguageAirlinese,
     IndustrialLanguageBureaucratese,
@@ -1357,6 +1368,7 @@ fn supported_checks(checks: &Value) -> Option<Vec<SelectedCheck>> {
         let path: Vec<&str> = path.iter().flat_map(|segment| segment.split('.')).collect();
         match path.as_slice() {
             ["annotations", "misc"] => Some(SelectedCheck::AnnotationsMisc),
+            ["archaism"] => Some(SelectedCheck::Archaism),
             ["cliches", "hell"] => Some(SelectedCheck::ClichesHell),
             ["malapropisms"] => Some(SelectedCheck::Malapropisms),
             ["skunked_terms"] => Some(SelectedCheck::SkunkedTerms),
@@ -1377,6 +1389,12 @@ fn supported_checks(checks: &Value) -> Option<Vec<SelectedCheck>> {
             }
             ["dates_times", "dates", "decade_apostrophes"] => {
                 Some(SelectedCheck::DatesTimesDatesDecadeApostrophes)
+            }
+            ["dates_times", "dates", "dash_and_from"] => {
+                Some(SelectedCheck::DatesTimesDatesDashAndFrom)
+            }
+            ["dates_times", "dates", "month_year_comma"] => {
+                Some(SelectedCheck::DatesTimesDatesMonthYearComma)
             }
             ["misc", "false_plurals", "kudos"] => Some(SelectedCheck::MiscFalsePluralsKudos),
             ["misc", "false_plurals", "misc"] => Some(SelectedCheck::MiscFalsePluralsMisc),
@@ -1517,6 +1535,7 @@ fn effective_check_enabled(global: &Value, per_file: &Value, selected: &str) -> 
 fn selected_check_path(check: SelectedCheck) -> &'static str {
     match check {
         SelectedCheck::AnnotationsMisc => "annotations.misc",
+        SelectedCheck::Archaism => "archaism",
         SelectedCheck::ClichesHell => "cliches.hell",
         SelectedCheck::Malapropisms => "malapropisms",
         SelectedCheck::SkunkedTerms => "skunked_terms",
@@ -1532,6 +1551,8 @@ fn selected_check_path(check: SelectedCheck) -> &'static str {
         SelectedCheck::DatesTimesAmPmSpacing => "dates_times.am_pm.spacing",
         SelectedCheck::DatesTimesAmPmMidnightNoon => "dates_times.am_pm.midnight_noon",
         SelectedCheck::DatesTimesDatesDecadeApostrophes => "dates_times.dates.decade_apostrophes",
+        SelectedCheck::DatesTimesDatesDashAndFrom => "dates_times.dates.dash_and_from",
+        SelectedCheck::DatesTimesDatesMonthYearComma => "dates_times.dates.month_year_comma",
         SelectedCheck::MiscFalsePluralsKudos => "misc.false_plurals.kudos",
         SelectedCheck::MiscFalsePluralsMisc => "misc.false_plurals.misc",
         SelectedCheck::PsychologyMentalTelepathy => "psychology.mental_telepathy",

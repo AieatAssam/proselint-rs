@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "kind": "supplemental_live_reproducer",
+  "capability_id": "rule.dates_times.dates.dash_and_from",
+  "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+  "baseline_integrity": "verified by comparator report rust/artifacts/independent-dash_and_from-20261106.json",
+  "candidate_source_fingerprint": "d5241c3868816dbb5dbe2d37956af85ff4a782c18eab189c0c3cda0408572746",
+  "attestation_source_fingerprint": "d5241c3868816dbb5dbe2d37956af85ff4a782c18eab189c0c3cda0408572746",
+  "candidate_sha256": "5134780135b56dacf5c867ede6589b12ceb73189e12a2bc51843d34f73a72eac",
+  "findings": [
+    {
+      "input": "from 1990́1991",
+      "codepoints": [
+        "U+0301"
+      ],
+      "outcome": "MISMATCH",
+      "executions": [
+        {
+          "role": "oracle",
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "/home/dev/proselint-rs/rust/artifacts/dash-probe-k4xmhdm3/config.json"
+          ],
+          "exit_code": 1,
+          "stdout_utf8": "{\n  \"result\": {\n    \"<stdin>\": {\n      \"diagnostics\": [\n        {\n          \"check_path\": \"dates_times.dates.dash_and_from\",\n          \"message\": \"When specifying a date range, write 'from X to Y'.\",\n          \"pos\": [\n            1,\n            1\n          ],\n          \"replacements\": null,\n          \"span\": [\n            1,\n            15\n          ]\n        }\n      ]\n    }\n  }\n}",
+          "stderr_utf8": "",
+          "stdout_sha256": "1652f929dfcc8f93caae2641575a385b8c78b12395ba7efc0f500ce55602cd48"
+        },
+        {
+          "role": "candidate",
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "/home/dev/proselint-rs/rust/artifacts/dash-probe-k4xmhdm3/config.json"
+          ],
+          "exit_code": 0,
+          "stdout_utf8": "{\"result\":{\"<stdin>\":{\"diagnostics\":[]}}}\n",
+          "stderr_utf8": "",
+          "stdout_sha256": "7fc2be52bbb78d1dafd2f8c651ae97ad991030a9325247311091627eee7c33f8"
+        }
+      ]
+    },
+    {
+      "input": "from 1990‿1991",
+      "codepoints": [
+        "U+203F"
+      ],
+      "outcome": "MISMATCH",
+      "executions": [
+        {
+          "role": "oracle",
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "/home/dev/proselint-rs/rust/artifacts/dash-probe-k4xmhdm3/config.json"
+          ],
+          "exit_code": 1,
+          "stdout_utf8": "{\n  \"result\": {\n    \"<stdin>\": {\n      \"diagnostics\": [\n        {\n          \"check_path\": \"dates_times.dates.dash_and_from\",\n          \"message\": \"When specifying a date range, write 'from X to Y'.\",\n          \"pos\": [\n            1,\n            1\n          ],\n          \"replacements\": null,\n          \"span\": [\n            1,\n            15\n          ]\n        }\n      ]\n    }\n  }\n}",
+          "stderr_utf8": "",
+          "stdout_sha256": "1652f929dfcc8f93caae2641575a385b8c78b12395ba7efc0f500ce55602cd48"
+        },
+        {
+          "role": "candidate",
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "/home/dev/proselint-rs/rust/artifacts/dash-probe-k4xmhdm3/config.json"
+          ],
+          "exit_code": 0,
+          "stdout_utf8": "{\"result\":{\"<stdin>\":{\"diagnostics\":[]}}}\n",
+          "stderr_utf8": "",
+          "stdout_sha256": "7fc2be52bbb78d1dafd2f8c651ae97ad991030a9325247311091627eee7c33f8"
+        }
+      ]
+    },
+    {
+      "input": "from 1990‌1991",
+      "codepoints": [
+        "U+200C"
+      ],
+      "outcome": "MISMATCH",
+      "executions": [
+        {
+          "role": "oracle",
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "/home/dev/proselint-rs/rust/artifacts/dash-probe-k4xmhdm3/config.json"
+          ],
+          "exit_code": 1,
+          "stdout_utf8": "{\n  \"result\": {\n    \"<stdin>\": {\n      \"diagnostics\": [\n        {\n          \"check_path\": \"dates_times.dates.dash_and_from\",\n          \"message\": \"When specifying a date range, write 'from X to Y'.\",\n          \"pos\": [\n            1,\n            1\n          ],\n          \"replacements\": null,\n          \"span\": [\n            1,\n            15\n          ]\n        }\n      ]\n    }\n  }\n}",
+          "stderr_utf8": "",
+          "stdout_sha256": "1652f929dfcc8f93caae2641575a385b8c78b12395ba7efc0f500ce55602cd48"
+        },
+        {
+          "role": "candidate",
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "/home/dev/proselint-rs/rust/artifacts/dash-probe-k4xmhdm3/config.json"
+          ],
+          "exit_code": 0,
+          "stdout_utf8": "{\"result\":{\"<stdin>\":{\"diagnostics\":[]}}}\n",
+          "stderr_utf8": "",
+          "stdout_sha256": "7fc2be52bbb78d1dafd2f8c651ae97ad991030a9325247311091627eee7c33f8"
+        }
+      ]
+    }
+  ],
+  "analysis": "Python re \\w differs from Rust regex \\w for Unicode mark/connector/join-control classes; Python accepts each as the separator after the year, Rust rejects it."
+}

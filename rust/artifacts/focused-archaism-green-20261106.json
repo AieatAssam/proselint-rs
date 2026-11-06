@@ -1,0 +1,2947 @@
+{
+  "baseline": {
+    "dependencies": {
+      "coverage": "7.13.0",
+      "google-re2": "1.1.20251105",
+      "google-re2-stubs": "0.1.1",
+      "hypothesis": "6.148.7",
+      "iniconfig": "2.3.0",
+      "packaging": "25.0",
+      "pluggy": "1.6.0",
+      "proselint": "0.16.0",
+      "pygments": "2.19.2",
+      "pytest": "9.1.1",
+      "pytest-cov": "7.0.0",
+      "rstr": "3.2.2",
+      "sortedcontainers": "2.4.0"
+    },
+    "executable": "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+    "executable_sha256": "b5f88a67377a8f3c32e1bffc41ca96fd8c111b127427459ffb2184e74c99af77",
+    "installed_package_tree_sha256": "e76c6c6472cd77e21e046bf4853b58a7b6b3fe99ab37fb0a321da42b722c0899",
+    "integrity": "verified",
+    "module_provenance": {
+      "proselint": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/__init__.py",
+      "proselint.backports": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/backports.py",
+      "proselint.checks": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/__init__.py",
+      "proselint.checks.annotations": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/annotations.py",
+      "proselint.checks.archaism": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/archaism.py",
+      "proselint.checks.cliches": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/cliches/__init__.py",
+      "proselint.checks.cliches.hell": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/cliches/hell.py",
+      "proselint.checks.cliches.misc": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/cliches/misc.py",
+      "proselint.checks.dates_times": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/dates_times/__init__.py",
+      "proselint.checks.dates_times.am_pm": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/dates_times/am_pm.py",
+      "proselint.checks.dates_times.dates": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/dates_times/dates.py",
+      "proselint.checks.hedging": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/hedging.py",
+      "proselint.checks.industrial_language": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/industrial_language/__init__.py",
+      "proselint.checks.industrial_language.airlinese": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/industrial_language/airlinese.py",
+      "proselint.checks.industrial_language.bureaucratese": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/industrial_language/bureaucratese.py",
+      "proselint.checks.industrial_language.chatspeak": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/industrial_language/chatspeak.py",
+      "proselint.checks.industrial_language.commercialese": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/industrial_language/commercialese.py",
+      "proselint.checks.industrial_language.corporate_speak": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/industrial_language/corporate_speak.py",
+      "proselint.checks.industrial_language.jargon": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/industrial_language/jargon.py",
+      "proselint.checks.lexical_illusions": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/lexical_illusions.py",
+      "proselint.checks.malapropisms": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/malapropisms.py",
+      "proselint.checks.misc": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/__init__.py",
+      "proselint.checks.misc.apologizing": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/apologizing.py",
+      "proselint.checks.misc.back_formations": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/back_formations.py",
+      "proselint.checks.misc.but": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/but.py",
+      "proselint.checks.misc.capitalization": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/capitalization.py",
+      "proselint.checks.misc.composition": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/composition.py",
+      "proselint.checks.misc.currency": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/currency.py",
+      "proselint.checks.misc.debased": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/debased.py",
+      "proselint.checks.misc.false_plurals": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/false_plurals.py",
+      "proselint.checks.misc.greylist": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/greylist.py",
+      "proselint.checks.misc.illogic": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/illogic.py",
+      "proselint.checks.misc.inferior_superior": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/inferior_superior.py",
+      "proselint.checks.misc.institution_name": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/institution_name.py",
+      "proselint.checks.misc.latin": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/latin.py",
+      "proselint.checks.misc.many_a": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/many_a.py",
+      "proselint.checks.misc.metadiscourse": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/metadiscourse.py",
+      "proselint.checks.misc.narcissism": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/narcissism.py",
+      "proselint.checks.misc.not_guilty": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/not_guilty.py",
+      "proselint.checks.misc.phrasal_adjectives": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/phrasal_adjectives.py",
+      "proselint.checks.misc.preferred_forms": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/preferred_forms.py",
+      "proselint.checks.misc.pretension": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/pretension.py",
+      "proselint.checks.misc.professions": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/professions.py",
+      "proselint.checks.misc.scare_quotes": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/scare_quotes.py",
+      "proselint.checks.misc.suddenly": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/suddenly.py",
+      "proselint.checks.misc.tense_present": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/tense_present.py",
+      "proselint.checks.misc.waxed": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/waxed.py",
+      "proselint.checks.misc.whence": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/misc/whence.py",
+      "proselint.checks.mixed_metaphors": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/mixed_metaphors.py",
+      "proselint.checks.mondegreens": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/mondegreens.py",
+      "proselint.checks.needless_variants": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/needless_variants.py",
+      "proselint.checks.nonwords": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/nonwords.py",
+      "proselint.checks.oxymorons": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/oxymorons.py",
+      "proselint.checks.psychology": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/psychology.py",
+      "proselint.checks.redundancy": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/redundancy/__init__.py",
+      "proselint.checks.redundancy.misc": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/redundancy/misc.py",
+      "proselint.checks.redundancy.ras_syndrome": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/redundancy/ras_syndrome.py",
+      "proselint.checks.restricted": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/restricted/__init__.py",
+      "proselint.checks.restricted.elementary": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/restricted/elementary.py",
+      "proselint.checks.restricted.top1000": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/restricted/top1000.py",
+      "proselint.checks.skunked_terms": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/skunked_terms.py",
+      "proselint.checks.social_awareness": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/social_awareness/__init__.py",
+      "proselint.checks.social_awareness.lgbtq": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/social_awareness/lgbtq.py",
+      "proselint.checks.social_awareness.nword": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/social_awareness/nword.py",
+      "proselint.checks.social_awareness.sexism": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/social_awareness/sexism.py",
+      "proselint.checks.spelling": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/spelling/__init__.py",
+      "proselint.checks.spelling.able_atable": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/spelling/able_atable.py",
+      "proselint.checks.spelling.able_ible": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/spelling/able_ible.py",
+      "proselint.checks.spelling.ally_ly": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/spelling/ally_ly.py",
+      "proselint.checks.spelling.ance_ence": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/spelling/ance_ence.py",
+      "proselint.checks.spelling.athletes": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/spelling/athletes.py",
+      "proselint.checks.spelling.consistency": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/spelling/consistency.py",
+      "proselint.checks.spelling.ely_ly": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/spelling/ely_ly.py",
+      "proselint.checks.spelling.em_im_en_in": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/spelling/em_im_en_in.py",
+      "proselint.checks.spelling.er_or": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/spelling/er_or.py",
+      "proselint.checks.spelling.in_un": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/spelling/in_un.py",
+      "proselint.checks.spelling.misc": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/spelling/misc.py",
+      "proselint.checks.spelling.ve_of": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/spelling/ve_of.py",
+      "proselint.checks.terms": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/terms/__init__.py",
+      "proselint.checks.terms.animal_adjectives": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/terms/animal_adjectives.py",
+      "proselint.checks.terms.denizen_labels": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/terms/denizen_labels.py",
+      "proselint.checks.terms.eponymous_adjectives": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/terms/eponymous_adjectives.py",
+      "proselint.checks.terms.venery": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/terms/venery.py",
+      "proselint.checks.typography": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/typography/__init__.py",
+      "proselint.checks.typography.diacritical_marks": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/typography/diacritical_marks.py",
+      "proselint.checks.typography.punctuation": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/typography/punctuation.py",
+      "proselint.checks.typography.symbols": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/typography/symbols.py",
+      "proselint.checks.uncomparables": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/uncomparables.py",
+      "proselint.checks.weasel_words": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/checks/weasel_words.py",
+      "proselint.command_line": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/command_line.py",
+      "proselint.config": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/config/__init__.py",
+      "proselint.config.paths": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/config/paths.py",
+      "proselint.log": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/log.py",
+      "proselint.registry": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/registry/__init__.py",
+      "proselint.registry.checks": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/registry/checks/__init__.py",
+      "proselint.registry.checks.engine": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/registry/checks/engine.py",
+      "proselint.registry.checks.types": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/registry/checks/types.py",
+      "proselint.tools": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/tools.py"
+    },
+    "python": "/usr/bin/python3.12",
+    "python_version": "3.12.3",
+    "revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+    "source_tree_sha256": "73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831",
+    "uv_lock_sha256": "149ff01d4be05c243f3fb332c971091b961c77187af5be5261ba35386d0f29a1"
+  },
+  "candidate": {
+    "argv": [
+      "/home/dev/proselint-rs/rust/target/debug/proselint"
+    ],
+    "build_attestation": "/home/dev/proselint-rs/rust/artifacts/20261106T214729017678Z-build.attestation.json",
+    "build_attestation_sha256": "750b102ef2f5488283bf5dc53b2f68894c307453847b7ec47901c47c109501da",
+    "build_commands": [
+      {
+        "command": [
+          "/home/dev/proselint-rs/rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+          "fmt",
+          "--manifest-path",
+          "/home/dev/proselint-rs/rust/Cargo.toml",
+          "--check"
+        ],
+        "exit_code": 0,
+        "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214729017678Z-build-0.stderr.bin",
+        "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214729017678Z-build-0.stdout.bin"
+      },
+      {
+        "command": [
+          "/home/dev/proselint-rs/rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+          "clippy",
+          "--manifest-path",
+          "/home/dev/proselint-rs/rust/Cargo.toml",
+          "--all-targets",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "exit_code": 0,
+        "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214729017678Z-build-1.stderr.bin",
+        "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214729017678Z-build-1.stdout.bin"
+      },
+      {
+        "command": [
+          "/home/dev/proselint-rs/rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+          "test",
+          "--locked",
+          "--manifest-path",
+          "/home/dev/proselint-rs/rust/Cargo.toml"
+        ],
+        "exit_code": 0,
+        "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214729017678Z-build-2.stderr.bin",
+        "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214729017678Z-build-2.stdout.bin"
+      },
+      {
+        "command": [
+          "/home/dev/proselint-rs/rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+          "build",
+          "--locked",
+          "--manifest-path",
+          "/home/dev/proselint-rs/rust/Cargo.toml"
+        ],
+        "exit_code": 0,
+        "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214729017678Z-build-3.stderr.bin",
+        "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214729017678Z-build-3.stdout.bin"
+      }
+    ],
+    "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
+    "executable_sha256": "cfb7b110b25dda864142ab5cf985ed7f88dd8c8eb1c4ad75024cf5be83a6b56b",
+    "kind": "rust_build_attested",
+    "source_fingerprint": "193fa4737701a7c1d76c2eff96df61a4015c26d352834e5c34d831df52f307f8",
+    "toolchain": "1.99.1"
+  },
+  "capability_ids": [
+    "rule.archaism"
+  ],
+  "case_ids": [
+    "archaism_all_47_active_forms",
+    "archaism_commented_out_terms_and_clean_controls",
+    "archaism_case_insensitive_repetition",
+    "archaism_boundary_without_activation",
+    "archaism_raw_embedded_after_activation",
+    "archaism_paired_quote_suppression",
+    "archaism_unicode_ascii_boundaries_and_positions",
+    "archaism_multiword_spacing_and_controls",
+    "archaism_embedded_multiword_raw_matches",
+    "archaism_activation_order_full",
+    "archaism_activation_order_max_errors_two"
+  ],
+  "cases": [
+    {
+      "capability_id": "rule.archaism",
+      "case_id": "archaism_all_47_active_forms",
+      "commands": [
+        [
+          "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ],
+        [
+          "/home/dev/proselint-rs/rust/target/debug/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ]
+      ],
+      "diffs": [
+        {
+          "actual": 0,
+          "expected": 1,
+          "field": "$.result.<stdin>.diagnostics[0].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 0,
+          "expected": 1,
+          "field": "$.result.<stdin>.diagnostics[0].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 5,
+          "expected": 6,
+          "field": "$.result.<stdin>.diagnostics[0].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 8,
+          "expected": 9,
+          "field": "$.result.<stdin>.diagnostics[1].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 8,
+          "expected": 9,
+          "field": "$.result.<stdin>.diagnostics[1].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 13,
+          "expected": 14,
+          "field": "$.result.<stdin>.diagnostics[1].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 16,
+          "expected": 17,
+          "field": "$.result.<stdin>.diagnostics[2].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 16,
+          "expected": 17,
+          "field": "$.result.<stdin>.diagnostics[2].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 21,
+          "expected": 22,
+          "field": "$.result.<stdin>.diagnostics[2].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 24,
+          "expected": 25,
+          "field": "$.result.<stdin>.diagnostics[3].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 24,
+          "expected": 25,
+          "field": "$.result.<stdin>.diagnostics[3].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 30,
+          "expected": 31,
+          "field": "$.result.<stdin>.diagnostics[3].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 33,
+          "expected": 34,
+          "field": "$.result.<stdin>.diagnostics[4].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 33,
+          "expected": 34,
+          "field": "$.result.<stdin>.diagnostics[4].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 40,
+          "expected": 41,
+          "field": "$.result.<stdin>.diagnostics[4].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 43,
+          "expected": 44,
+          "field": "$.result.<stdin>.diagnostics[5].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 43,
+          "expected": 44,
+          "field": "$.result.<stdin>.diagnostics[5].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 51,
+          "expected": 52,
+          "field": "$.result.<stdin>.diagnostics[5].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 54,
+          "expected": 55,
+          "field": "$.result.<stdin>.diagnostics[6].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 54,
+          "expected": 55,
+          "field": "$.result.<stdin>.diagnostics[6].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 61,
+          "expected": 62,
+          "field": "$.result.<stdin>.diagnostics[6].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 64,
+          "expected": 65,
+          "field": "$.result.<stdin>.diagnostics[7].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 64,
+          "expected": 65,
+          "field": "$.result.<stdin>.diagnostics[7].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 71,
+          "expected": 72,
+          "field": "$.result.<stdin>.diagnostics[7].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 74,
+          "expected": 75,
+          "field": "$.result.<stdin>.diagnostics[8].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 74,
+          "expected": 75,
+          "field": "$.result.<stdin>.diagnostics[8].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 82,
+          "expected": 83,
+          "field": "$.result.<stdin>.diagnostics[8].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 85,
+          "expected": 86,
+          "field": "$.result.<stdin>.diagnostics[9].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 85,
+          "expected": 86,
+          "field": "$.result.<stdin>.diagnostics[9].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 92,
+          "expected": 93,
+          "field": "$.result.<stdin>.diagnostics[9].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 95,
+          "expected": 96,
+          "field": "$.result.<stdin>.diagnostics[10].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 95,
+          "expected": 96,
+          "field": "$.result.<stdin>.diagnostics[10].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 103,
+          "expected": 104,
+          "field": "$.result.<stdin>.diagnostics[10].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 106,
+          "expected": 107,
+          "field": "$.result.<stdin>.diagnostics[11].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 106,
+          "expected": 107,
+          "field": "$.result.<stdin>.diagnostics[11].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 116,
+          "expected": 117,
+          "field": "$.result.<stdin>.diagnostics[11].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 119,
+          "expected": 120,
+          "field": "$.result.<stdin>.diagnostics[12].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 119,
+          "expected": 120,
+          "field": "$.result.<stdin>.diagnostics[12].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 141,
+          "expected": 142,
+          "field": "$.result.<stdin>.diagnostics[12].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 144,
+          "expected": 145,
+          "field": "$.result.<stdin>.diagnostics[13].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 144,
+          "expected": 145,
+          "field": "$.result.<stdin>.diagnostics[13].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 149,
+          "expected": 150,
+          "field": "$.result.<stdin>.diagnostics[13].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 152,
+          "expected": 153,
+          "field": "$.result.<stdin>.diagnostics[14].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 152,
+          "expected": 153,
+          "field": "$.result.<stdin>.diagnostics[14].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 158,
+          "expected": 159,
+          "field": "$.result.<stdin>.diagnostics[14].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 161,
+          "expected": 162,
+          "field": "$.result.<stdin>.diagnostics[15].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 161,
+          "expected": 162,
+          "field": "$.result.<stdin>.diagnostics[15].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 170,
+          "expected": 171,
+          "field": "$.result.<stdin>.diagnostics[15].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 173,
+          "expected": 174,
+          "field": "$.result.<stdin>.diagnostics[16].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 173,
+          "expected": 174,
+          "field": "$.result.<stdin>.diagnostics[16].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 178,
+          "expected": 179,
+          "field": "$.result.<stdin>.diagnostics[16].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 181,
+          "expected": 182,
+          "field": "$.result.<stdin>.diagnostics[17].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 181,
+          "expected": 182,
+          "field": "$.result.<stdin>.diagnostics[17].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 185,
+          "expected": 186,
+          "field": "$.result.<stdin>.diagnostics[17].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 188,
+          "expected": 189,
+          "field": "$.result.<stdin>.diagnostics[18].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 188,
+          "expected": 189,
+          "field": "$.result.<stdin>.diagnostics[18].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 196,
+          "expected": 197,
+          "field": "$.result.<stdin>.diagnostics[18].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 199,
+          "expected": 200,
+          "field": "$.result.<stdin>.diagnostics[19].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 199,
+          "expected": 200,
+          "field": "$.result.<stdin>.diagnostics[19].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 213,
+          "expected": 214,
+          "field": "$.result.<stdin>.diagnostics[19].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 216,
+          "expected": 217,
+          "field": "$.result.<stdin>.diagnostics[20].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 216,
+          "expected": 217,
+          "field": "$.result.<stdin>.diagnostics[20].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 221,
+          "expected": 222,
+          "field": "$.result.<stdin>.diagnostics[20].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 224,
+          "expected": 225,
+          "field": "$.result.<stdin>.diagnostics[21].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 224,
+          "expected": 225,
+          "field": "$.result.<stdin>.diagnostics[21].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 231,
+          "expected": 232,
+          "field": "$.result.<stdin>.diagnostics[21].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 234,
+          "expected": 235,
+          "field": "$.result.<stdin>.diagnostics[22].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 234,
+          "expected": 235,
+          "field": "$.result.<stdin>.diagnostics[22].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 242,
+          "expected": 243,
+          "field": "$.result.<stdin>.diagnostics[22].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 245,
+          "expected": 246,
+          "field": "$.result.<stdin>.diagnostics[23].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 245,
+          "expected": 246,
+          "field": "$.result.<stdin>.diagnostics[23].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 253,
+          "expected": 254,
+          "field": "$.result.<stdin>.diagnostics[23].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 256,
+          "expected": 257,
+          "field": "$.result.<stdin>.diagnostics[24].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 256,
+          "expected": 257,
+          "field": "$.result.<stdin>.diagnostics[24].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 262,
+          "expected": 263,
+          "field": "$.result.<stdin>.diagnostics[24].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 265,
+          "expected": 266,
+          "field": "$.result.<stdin>.diagnostics[25].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 265,
+          "expected": 266,
+          "field": "$.result.<stdin>.diagnostics[25].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 272,
+          "expected": 273,
+          "field": "$.result.<stdin>.diagnostics[25].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 275,
+          "expected": 276,
+          "field": "$.result.<stdin>.diagnostics[26].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 275,
+          "expected": 276,
+          "field": "$.result.<stdin>.diagnostics[26].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 283,
+          "expected": 284,
+          "field": "$.result.<stdin>.diagnostics[26].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 286,
+          "expected": 287,
+          "field": "$.result.<stdin>.diagnostics[27].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 286,
+          "expected": 287,
+          "field": "$.result.<stdin>.diagnostics[27].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 290,
+          "expected": 291,
+          "field": "$.result.<stdin>.diagnostics[27].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 293,
+          "expected": 294,
+          "field": "$.result.<stdin>.diagnostics[28].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 293,
+          "expected": 294,
+          "field": "$.result.<stdin>.diagnostics[28].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 305,
+          "expected": 306,
+          "field": "$.result.<stdin>.diagnostics[28].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 308,
+          "expected": 309,
+          "field": "$.result.<stdin>.diagnostics[29].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 308,
+          "expected": 309,
+          "field": "$.result.<stdin>.diagnostics[29].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 317,
+          "expected": 318,
+          "field": "$.result.<stdin>.diagnostics[29].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 320,
+          "expected": 321,
+          "field": "$.result.<stdin>.diagnostics[30].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 320,
+          "expected": 321,
+          "field": "$.result.<stdin>.diagnostics[30].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 325,
+          "expected": 326,
+          "field": "$.result.<stdin>.diagnostics[30].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 328,
+          "expected": 329,
+          "field": "$.result.<stdin>.diagnostics[31].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 328,
+          "expected": 329,
+          "field": "$.result.<stdin>.diagnostics[31].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 332,
+          "expected": 333,
+          "field": "$.result.<stdin>.diagnostics[31].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 335,
+          "expected": 336,
+          "field": "$.result.<stdin>.diagnostics[32].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 335,
+          "expected": 336,
+          "field": "$.result.<stdin>.diagnostics[32].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 342,
+          "expected": 343,
+          "field": "$.result.<stdin>.diagnostics[32].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 345,
+          "expected": 346,
+          "field": "$.result.<stdin>.diagnostics[33].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 345,
+          "expected": 346,
+          "field": "$.result.<stdin>.diagnostics[33].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 350,
+          "expected": 351,
+          "field": "$.result.<stdin>.diagnostics[33].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 353,
+          "expected": 354,
+          "field": "$.result.<stdin>.diagnostics[34].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 353,
+          "expected": 354,
+          "field": "$.result.<stdin>.diagnostics[34].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 359,
+          "expected": 360,
+          "field": "$.result.<stdin>.diagnostics[34].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 362,
+          "expected": 363,
+          "field": "$.result.<stdin>.diagnostics[35].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 362,
+          "expected": 363,
+          "field": "$.result.<stdin>.diagnostics[35].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 368,
+          "expected": 369,
+          "field": "$.result.<stdin>.diagnostics[35].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 371,
+          "expected": 372,
+          "field": "$.result.<stdin>.diagnostics[36].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 371,
+          "expected": 372,
+          "field": "$.result.<stdin>.diagnostics[36].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 377,
+          "expected": 378,
+          "field": "$.result.<stdin>.diagnostics[36].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 380,
+          "expected": 381,
+          "field": "$.result.<stdin>.diagnostics[37].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 380,
+          "expected": 381,
+          "field": "$.result.<stdin>.diagnostics[37].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 386,
+          "expected": 387,
+          "field": "$.result.<stdin>.diagnostics[37].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 389,
+          "expected": 390,
+          "field": "$.result.<stdin>.diagnostics[38].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 389,
+          "expected": 390,
+          "field": "$.result.<stdin>.diagnostics[38].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 392,
+          "expected": 393,
+          "field": "$.result.<stdin>.diagnostics[38].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 395,
+          "expected": 396,
+          "field": "$.result.<stdin>.diagnostics[39].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 395,
+          "expected": 396,
+          "field": "$.result.<stdin>.diagnostics[39].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 415,
+          "expected": 416,
+          "field": "$.result.<stdin>.diagnostics[39].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 418,
+          "expected": 419,
+          "field": "$.result.<stdin>.diagnostics[40].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 418,
+          "expected": 419,
+          "field": "$.result.<stdin>.diagnostics[40].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 438,
+          "expected": 439,
+          "field": "$.result.<stdin>.diagnostics[40].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 441,
+          "expected": 442,
+          "field": "$.result.<stdin>.diagnostics[41].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 441,
+          "expected": 442,
+          "field": "$.result.<stdin>.diagnostics[41].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 458,
+          "expected": 459,
+          "field": "$.result.<stdin>.diagnostics[41].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 461,
+          "expected": 462,
+          "field": "$.result.<stdin>.diagnostics[42].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 461,
+          "expected": 462,
+          "field": "$.result.<stdin>.diagnostics[42].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 476,
+          "expected": 477,
+          "field": "$.result.<stdin>.diagnostics[42].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 479,
+          "expected": 480,
+          "field": "$.result.<stdin>.diagnostics[43].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 479,
+          "expected": 480,
+          "field": "$.result.<stdin>.diagnostics[43].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 486,
+          "expected": 487,
+          "field": "$.result.<stdin>.diagnostics[43].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 489,
+          "expected": 490,
+          "field": "$.result.<stdin>.diagnostics[44].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 489,
+          "expected": 490,
+          "field": "$.result.<stdin>.diagnostics[44].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 501,
+          "expected": 502,
+          "field": "$.result.<stdin>.diagnostics[44].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 504,
+          "expected": 505,
+          "field": "$.result.<stdin>.diagnostics[45].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 504,
+          "expected": 505,
+          "field": "$.result.<stdin>.diagnostics[45].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 512,
+          "expected": 513,
+          "field": "$.result.<stdin>.diagnostics[45].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 515,
+          "expected": 516,
+          "field": "$.result.<stdin>.diagnostics[46].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 515,
+          "expected": 516,
+          "field": "$.result.<stdin>.diagnostics[46].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 523,
+          "expected": 524,
+          "field": "$.result.<stdin>.diagnostics[46].span[1]",
+          "kind": "value"
+        }
+      ],
+      "effective_environment": {
+        "candidate": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_all_47_active_forms/candidate/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_all_47_active_forms/candidate/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_all_47_active_forms/candidate/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_all_47_active_forms/candidate/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        },
+        "reference": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_all_47_active_forms/reference/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_all_47_active_forms/reference/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_all_47_active_forms/reference/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_all_47_active_forms/reference/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        }
+      },
+      "executions": [
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 j_2hnu8p/shared",
+          "duration_seconds": 0.39398577716201544,
+          "exit_code": 1,
+          "role": "reference",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_all_47_active_forms/reference.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_all_47_active_forms/reference.stdout.bin",
+          "stdout_sha256": "09000c02c484be79613a9dadaab5d2b6c37925bbfaa6c23aad84ef70796cf160",
+          "workspace": "/tmp/proselint harness space-\u00e9 j_2hnu8p/shared"
+        },
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 j_2hnu8p/shared",
+          "duration_seconds": 1.4321326641365886,
+          "exit_code": 1,
+          "role": "candidate",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_all_47_active_forms/candidate.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_all_47_active_forms/candidate.stdout.bin",
+          "stdout_sha256": "4489a7b4092cbc86a4906f6827c01a0ff37392a6e1eb37cdd22f31dafac132a1",
+          "workspace": "/tmp/proselint harness space-\u00e9 j_2hnu8p/shared"
+        }
+      ],
+      "expected_oracle_outcome": "findings",
+      "normalization": {
+        "source_key_workspace_uri": false
+      },
+      "replay": {
+        "candidate_argv": [
+          "/home/dev/proselint-rs/rust/target/debug/proselint"
+        ],
+        "command": [
+          "python3",
+          "rust/harness/compare.py",
+          "--case-manifest",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_all_47_active_forms/replay-manifest.json",
+          "--live",
+          "--candidate-argv-json",
+          "[\"/home/dev/proselint-rs/rust/target/debug/proselint\"]",
+          "--candidate-attestation",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T214729017678Z-build.attestation.json",
+          "--report",
+          "<new-report.json>"
+        ],
+        "requires_same_candidate_binary_and_build_attestation": true,
+        "saved_case_manifest": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_all_47_active_forms/replay-manifest.json",
+        "saved_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_all_47_active_forms/input-layout",
+        "saved_stdin": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_all_47_active_forms/stdin.bin"
+      },
+      "status": "MISMATCH",
+      "stdin_sha256": "b55cea952ef1170d89c15ae68a69de51f24861525d5c6d5d588053126161d8fe",
+      "workspace_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_all_47_active_forms/input-layout",
+      "workspace_mutates": false
+    },
+    {
+      "capability_id": "rule.archaism",
+      "case_id": "archaism_commented_out_terms_and_clean_controls",
+      "commands": [
+        [
+          "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ],
+        [
+          "/home/dev/proselint-rs/rust/target/debug/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ]
+      ],
+      "diffs": [],
+      "effective_environment": {
+        "candidate": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_commented_out_terms_and_clean_controls/candidate/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_commented_out_terms_and_clean_controls/candidate/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_commented_out_terms_and_clean_controls/candidate/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_commented_out_terms_and_clean_controls/candidate/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        },
+        "reference": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_commented_out_terms_and_clean_controls/reference/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_commented_out_terms_and_clean_controls/reference/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_commented_out_terms_and_clean_controls/reference/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_commented_out_terms_and_clean_controls/reference/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        }
+      },
+      "executions": [
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 tluz3_do/shared",
+          "duration_seconds": 0.47407656675204635,
+          "exit_code": 0,
+          "role": "reference",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_commented_out_terms_and_clean_controls/reference.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_commented_out_terms_and_clean_controls/reference.stdout.bin",
+          "stdout_sha256": "db23d554796d74d46ac40645081117fcfaa0456a11ea9ae38f89a3da9f82a2f5",
+          "workspace": "/tmp/proselint harness space-\u00e9 tluz3_do/shared"
+        },
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 tluz3_do/shared",
+          "duration_seconds": 0.4357302221469581,
+          "exit_code": 0,
+          "role": "candidate",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_commented_out_terms_and_clean_controls/candidate.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_commented_out_terms_and_clean_controls/candidate.stdout.bin",
+          "stdout_sha256": "7fc2be52bbb78d1dafd2f8c651ae97ad991030a9325247311091627eee7c33f8",
+          "workspace": "/tmp/proselint harness space-\u00e9 tluz3_do/shared"
+        }
+      ],
+      "expected_oracle_outcome": "clean",
+      "normalization": {
+        "source_key_workspace_uri": false
+      },
+      "replay": {
+        "candidate_argv": [
+          "/home/dev/proselint-rs/rust/target/debug/proselint"
+        ],
+        "command": [
+          "python3",
+          "rust/harness/compare.py",
+          "--case-manifest",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_commented_out_terms_and_clean_controls/replay-manifest.json",
+          "--live",
+          "--candidate-argv-json",
+          "[\"/home/dev/proselint-rs/rust/target/debug/proselint\"]",
+          "--candidate-attestation",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T214729017678Z-build.attestation.json",
+          "--report",
+          "<new-report.json>"
+        ],
+        "requires_same_candidate_binary_and_build_attestation": true,
+        "saved_case_manifest": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_commented_out_terms_and_clean_controls/replay-manifest.json",
+        "saved_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_commented_out_terms_and_clean_controls/input-layout",
+        "saved_stdin": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_commented_out_terms_and_clean_controls/stdin.bin"
+      },
+      "status": "PASS",
+      "stdin_sha256": "4e024bfa051cf59dbdb71c43219033862c8c685e2ca9b72a78b37398443a6c61",
+      "workspace_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_commented_out_terms_and_clean_controls/input-layout",
+      "workspace_mutates": false
+    },
+    {
+      "capability_id": "rule.archaism",
+      "case_id": "archaism_case_insensitive_repetition",
+      "commands": [
+        [
+          "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ],
+        [
+          "/home/dev/proselint-rs/rust/target/debug/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ]
+      ],
+      "diffs": [
+        {
+          "actual": 0,
+          "expected": 1,
+          "field": "$.result.<stdin>.diagnostics[0].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 0,
+          "expected": 1,
+          "field": "$.result.<stdin>.diagnostics[0].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 5,
+          "expected": 6,
+          "field": "$.result.<stdin>.diagnostics[0].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 7,
+          "expected": 8,
+          "field": "$.result.<stdin>.diagnostics[1].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 7,
+          "expected": 8,
+          "field": "$.result.<stdin>.diagnostics[1].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 12,
+          "expected": 13,
+          "field": "$.result.<stdin>.diagnostics[1].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 14,
+          "expected": 15,
+          "field": "$.result.<stdin>.diagnostics[2].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 14,
+          "expected": 15,
+          "field": "$.result.<stdin>.diagnostics[2].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 22,
+          "expected": 23,
+          "field": "$.result.<stdin>.diagnostics[2].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 24,
+          "expected": 25,
+          "field": "$.result.<stdin>.diagnostics[3].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 24,
+          "expected": 25,
+          "field": "$.result.<stdin>.diagnostics[3].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 32,
+          "expected": 33,
+          "field": "$.result.<stdin>.diagnostics[3].span[1]",
+          "kind": "value"
+        }
+      ],
+      "effective_environment": {
+        "candidate": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_case_insensitive_repetition/candidate/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_case_insensitive_repetition/candidate/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_case_insensitive_repetition/candidate/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_case_insensitive_repetition/candidate/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        },
+        "reference": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_case_insensitive_repetition/reference/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_case_insensitive_repetition/reference/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_case_insensitive_repetition/reference/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_case_insensitive_repetition/reference/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        }
+      },
+      "executions": [
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 b_0xxysj/shared",
+          "duration_seconds": 0.7617277046665549,
+          "exit_code": 1,
+          "role": "reference",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_case_insensitive_repetition/reference.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_case_insensitive_repetition/reference.stdout.bin",
+          "stdout_sha256": "65689424d8b51a2f42811ed9181c50a00c7166936d87fd13c8a70b49d4f21a49",
+          "workspace": "/tmp/proselint harness space-\u00e9 b_0xxysj/shared"
+        },
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 b_0xxysj/shared",
+          "duration_seconds": 0.7618052149191499,
+          "exit_code": 1,
+          "role": "candidate",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_case_insensitive_repetition/candidate.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_case_insensitive_repetition/candidate.stdout.bin",
+          "stdout_sha256": "d1f64735da2a0f1ffa917ff8573b8895a0a627ab87a5da57346b8b01005b25b9",
+          "workspace": "/tmp/proselint harness space-\u00e9 b_0xxysj/shared"
+        }
+      ],
+      "expected_oracle_outcome": "findings",
+      "normalization": {
+        "source_key_workspace_uri": false
+      },
+      "replay": {
+        "candidate_argv": [
+          "/home/dev/proselint-rs/rust/target/debug/proselint"
+        ],
+        "command": [
+          "python3",
+          "rust/harness/compare.py",
+          "--case-manifest",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_case_insensitive_repetition/replay-manifest.json",
+          "--live",
+          "--candidate-argv-json",
+          "[\"/home/dev/proselint-rs/rust/target/debug/proselint\"]",
+          "--candidate-attestation",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T214729017678Z-build.attestation.json",
+          "--report",
+          "<new-report.json>"
+        ],
+        "requires_same_candidate_binary_and_build_attestation": true,
+        "saved_case_manifest": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_case_insensitive_repetition/replay-manifest.json",
+        "saved_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_case_insensitive_repetition/input-layout",
+        "saved_stdin": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_case_insensitive_repetition/stdin.bin"
+      },
+      "status": "MISMATCH",
+      "stdin_sha256": "f10992974c3f4dddb2ceef753037d086e2232bc2e5e7714143c7f3bfdc1eb94e",
+      "workspace_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_case_insensitive_repetition/input-layout",
+      "workspace_mutates": false
+    },
+    {
+      "capability_id": "rule.archaism",
+      "case_id": "archaism_boundary_without_activation",
+      "commands": [
+        [
+          "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ],
+        [
+          "/home/dev/proselint-rs/rust/target/debug/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ]
+      ],
+      "diffs": [],
+      "effective_environment": {
+        "candidate": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_boundary_without_activation/candidate/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_boundary_without_activation/candidate/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_boundary_without_activation/candidate/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_boundary_without_activation/candidate/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        },
+        "reference": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_boundary_without_activation/reference/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_boundary_without_activation/reference/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_boundary_without_activation/reference/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_boundary_without_activation/reference/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        }
+      },
+      "executions": [
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 0e1y7pdh/shared",
+          "duration_seconds": 0.4343727291561663,
+          "exit_code": 0,
+          "role": "reference",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_boundary_without_activation/reference.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_boundary_without_activation/reference.stdout.bin",
+          "stdout_sha256": "db23d554796d74d46ac40645081117fcfaa0456a11ea9ae38f89a3da9f82a2f5",
+          "workspace": "/tmp/proselint harness space-\u00e9 0e1y7pdh/shared"
+        },
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 0e1y7pdh/shared",
+          "duration_seconds": 0.25348174711689353,
+          "exit_code": 0,
+          "role": "candidate",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_boundary_without_activation/candidate.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_boundary_without_activation/candidate.stdout.bin",
+          "stdout_sha256": "7fc2be52bbb78d1dafd2f8c651ae97ad991030a9325247311091627eee7c33f8",
+          "workspace": "/tmp/proselint harness space-\u00e9 0e1y7pdh/shared"
+        }
+      ],
+      "expected_oracle_outcome": "clean",
+      "normalization": {
+        "source_key_workspace_uri": false
+      },
+      "replay": {
+        "candidate_argv": [
+          "/home/dev/proselint-rs/rust/target/debug/proselint"
+        ],
+        "command": [
+          "python3",
+          "rust/harness/compare.py",
+          "--case-manifest",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_boundary_without_activation/replay-manifest.json",
+          "--live",
+          "--candidate-argv-json",
+          "[\"/home/dev/proselint-rs/rust/target/debug/proselint\"]",
+          "--candidate-attestation",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T214729017678Z-build.attestation.json",
+          "--report",
+          "<new-report.json>"
+        ],
+        "requires_same_candidate_binary_and_build_attestation": true,
+        "saved_case_manifest": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_boundary_without_activation/replay-manifest.json",
+        "saved_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_boundary_without_activation/input-layout",
+        "saved_stdin": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_boundary_without_activation/stdin.bin"
+      },
+      "status": "PASS",
+      "stdin_sha256": "2e752a824d6d7a2159fe65c22ad7572f1d35e387c515a5b9e68301081552878d",
+      "workspace_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_boundary_without_activation/input-layout",
+      "workspace_mutates": false
+    },
+    {
+      "capability_id": "rule.archaism",
+      "case_id": "archaism_raw_embedded_after_activation",
+      "commands": [
+        [
+          "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ],
+        [
+          "/home/dev/proselint-rs/rust/target/debug/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ]
+      ],
+      "diffs": [
+        {
+          "actual": 0,
+          "expected": 1,
+          "field": "$.result.<stdin>.diagnostics[0].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 0,
+          "expected": 1,
+          "field": "$.result.<stdin>.diagnostics[0].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 5,
+          "expected": 6,
+          "field": "$.result.<stdin>.diagnostics[0].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 7,
+          "expected": 8,
+          "field": "$.result.<stdin>.diagnostics[1].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 7,
+          "expected": 8,
+          "field": "$.result.<stdin>.diagnostics[1].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 12,
+          "expected": 13,
+          "field": "$.result.<stdin>.diagnostics[1].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 13,
+          "expected": 14,
+          "field": "$.result.<stdin>.diagnostics[2].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 13,
+          "expected": 14,
+          "field": "$.result.<stdin>.diagnostics[2].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 18,
+          "expected": 19,
+          "field": "$.result.<stdin>.diagnostics[2].span[1]",
+          "kind": "value"
+        }
+      ],
+      "effective_environment": {
+        "candidate": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_raw_embedded_after_activation/candidate/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_raw_embedded_after_activation/candidate/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_raw_embedded_after_activation/candidate/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_raw_embedded_after_activation/candidate/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        },
+        "reference": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_raw_embedded_after_activation/reference/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_raw_embedded_after_activation/reference/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_raw_embedded_after_activation/reference/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_raw_embedded_after_activation/reference/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        }
+      },
+      "executions": [
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 mq5eorux/shared",
+          "duration_seconds": 0.34088619565591216,
+          "exit_code": 1,
+          "role": "reference",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_raw_embedded_after_activation/reference.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_raw_embedded_after_activation/reference.stdout.bin",
+          "stdout_sha256": "4573acb2142001aeecb2abb3e720bd09a3d55d42973974d00fe5670897e1684e",
+          "workspace": "/tmp/proselint harness space-\u00e9 mq5eorux/shared"
+        },
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 mq5eorux/shared",
+          "duration_seconds": 0.465570333879441,
+          "exit_code": 1,
+          "role": "candidate",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_raw_embedded_after_activation/candidate.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_raw_embedded_after_activation/candidate.stdout.bin",
+          "stdout_sha256": "aef0121361561b9347086241b2e3b18794c66e28d600cef0175311ce84a5fa4a",
+          "workspace": "/tmp/proselint harness space-\u00e9 mq5eorux/shared"
+        }
+      ],
+      "expected_oracle_outcome": "findings",
+      "normalization": {
+        "source_key_workspace_uri": false
+      },
+      "replay": {
+        "candidate_argv": [
+          "/home/dev/proselint-rs/rust/target/debug/proselint"
+        ],
+        "command": [
+          "python3",
+          "rust/harness/compare.py",
+          "--case-manifest",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_raw_embedded_after_activation/replay-manifest.json",
+          "--live",
+          "--candidate-argv-json",
+          "[\"/home/dev/proselint-rs/rust/target/debug/proselint\"]",
+          "--candidate-attestation",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T214729017678Z-build.attestation.json",
+          "--report",
+          "<new-report.json>"
+        ],
+        "requires_same_candidate_binary_and_build_attestation": true,
+        "saved_case_manifest": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_raw_embedded_after_activation/replay-manifest.json",
+        "saved_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_raw_embedded_after_activation/input-layout",
+        "saved_stdin": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_raw_embedded_after_activation/stdin.bin"
+      },
+      "status": "MISMATCH",
+      "stdin_sha256": "6f0d0bb20a2d6ae1664e385cd7e5800c3b20558b55a1000c5040237dbcaeb254",
+      "workspace_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_raw_embedded_after_activation/input-layout",
+      "workspace_mutates": false
+    },
+    {
+      "capability_id": "rule.archaism",
+      "case_id": "archaism_paired_quote_suppression",
+      "commands": [
+        [
+          "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ],
+        [
+          "/home/dev/proselint-rs/rust/target/debug/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ]
+      ],
+      "diffs": [],
+      "effective_environment": {
+        "candidate": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_paired_quote_suppression/candidate/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_paired_quote_suppression/candidate/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_paired_quote_suppression/candidate/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_paired_quote_suppression/candidate/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        },
+        "reference": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_paired_quote_suppression/reference/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_paired_quote_suppression/reference/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_paired_quote_suppression/reference/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_paired_quote_suppression/reference/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        }
+      },
+      "executions": [
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 vhagf2vq/shared",
+          "duration_seconds": 0.40466802893206477,
+          "exit_code": 0,
+          "role": "reference",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_paired_quote_suppression/reference.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_paired_quote_suppression/reference.stdout.bin",
+          "stdout_sha256": "db23d554796d74d46ac40645081117fcfaa0456a11ea9ae38f89a3da9f82a2f5",
+          "workspace": "/tmp/proselint harness space-\u00e9 vhagf2vq/shared"
+        },
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 vhagf2vq/shared",
+          "duration_seconds": 0.4802688048221171,
+          "exit_code": 0,
+          "role": "candidate",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_paired_quote_suppression/candidate.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_paired_quote_suppression/candidate.stdout.bin",
+          "stdout_sha256": "7fc2be52bbb78d1dafd2f8c651ae97ad991030a9325247311091627eee7c33f8",
+          "workspace": "/tmp/proselint harness space-\u00e9 vhagf2vq/shared"
+        }
+      ],
+      "expected_oracle_outcome": "clean",
+      "normalization": {
+        "source_key_workspace_uri": false
+      },
+      "replay": {
+        "candidate_argv": [
+          "/home/dev/proselint-rs/rust/target/debug/proselint"
+        ],
+        "command": [
+          "python3",
+          "rust/harness/compare.py",
+          "--case-manifest",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_paired_quote_suppression/replay-manifest.json",
+          "--live",
+          "--candidate-argv-json",
+          "[\"/home/dev/proselint-rs/rust/target/debug/proselint\"]",
+          "--candidate-attestation",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T214729017678Z-build.attestation.json",
+          "--report",
+          "<new-report.json>"
+        ],
+        "requires_same_candidate_binary_and_build_attestation": true,
+        "saved_case_manifest": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_paired_quote_suppression/replay-manifest.json",
+        "saved_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_paired_quote_suppression/input-layout",
+        "saved_stdin": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_paired_quote_suppression/stdin.bin"
+      },
+      "status": "PASS",
+      "stdin_sha256": "24ceafd79376b49c7c138a5c2752f242c763e9bac4c52534cf80791234348b14",
+      "workspace_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_paired_quote_suppression/input-layout",
+      "workspace_mutates": false
+    },
+    {
+      "capability_id": "rule.archaism",
+      "case_id": "archaism_unicode_ascii_boundaries_and_positions",
+      "commands": [
+        [
+          "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ],
+        [
+          "/home/dev/proselint-rs/rust/target/debug/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ]
+      ],
+      "diffs": [
+        {
+          "actual": 1,
+          "expected": 2,
+          "field": "$.result.<stdin>.diagnostics[0].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 1,
+          "expected": 2,
+          "field": "$.result.<stdin>.diagnostics[0].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 6,
+          "expected": 7,
+          "field": "$.result.<stdin>.diagnostics[0].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 7,
+          "expected": 8,
+          "field": "$.result.<stdin>.diagnostics[1].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 7,
+          "expected": 8,
+          "field": "$.result.<stdin>.diagnostics[1].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 12,
+          "expected": 13,
+          "field": "$.result.<stdin>.diagnostics[1].span[1]",
+          "kind": "value"
+        }
+      ],
+      "effective_environment": {
+        "candidate": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_unicode_ascii_boundaries_and_positions/candidate/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_unicode_ascii_boundaries_and_positions/candidate/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_unicode_ascii_boundaries_and_positions/candidate/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_unicode_ascii_boundaries_and_positions/candidate/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        },
+        "reference": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_unicode_ascii_boundaries_and_positions/reference/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_unicode_ascii_boundaries_and_positions/reference/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_unicode_ascii_boundaries_and_positions/reference/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_unicode_ascii_boundaries_and_positions/reference/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        }
+      },
+      "executions": [
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 2hmm5vnw/shared",
+          "duration_seconds": 0.6335627222433686,
+          "exit_code": 1,
+          "role": "reference",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_unicode_ascii_boundaries_and_positions/reference.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_unicode_ascii_boundaries_and_positions/reference.stdout.bin",
+          "stdout_sha256": "09ea838c4a5d6b8e32393bed98e076be6e123d83de6ad00eed3af75148128e0b",
+          "workspace": "/tmp/proselint harness space-\u00e9 2hmm5vnw/shared"
+        },
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 2hmm5vnw/shared",
+          "duration_seconds": 0.4227703199721873,
+          "exit_code": 1,
+          "role": "candidate",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_unicode_ascii_boundaries_and_positions/candidate.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_unicode_ascii_boundaries_and_positions/candidate.stdout.bin",
+          "stdout_sha256": "60788dabea47a84468fed25a7cdc39bf10aa0bb25788f27103cffd040bc7c235",
+          "workspace": "/tmp/proselint harness space-\u00e9 2hmm5vnw/shared"
+        }
+      ],
+      "expected_oracle_outcome": "findings",
+      "normalization": {
+        "source_key_workspace_uri": false
+      },
+      "replay": {
+        "candidate_argv": [
+          "/home/dev/proselint-rs/rust/target/debug/proselint"
+        ],
+        "command": [
+          "python3",
+          "rust/harness/compare.py",
+          "--case-manifest",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_unicode_ascii_boundaries_and_positions/replay-manifest.json",
+          "--live",
+          "--candidate-argv-json",
+          "[\"/home/dev/proselint-rs/rust/target/debug/proselint\"]",
+          "--candidate-attestation",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T214729017678Z-build.attestation.json",
+          "--report",
+          "<new-report.json>"
+        ],
+        "requires_same_candidate_binary_and_build_attestation": true,
+        "saved_case_manifest": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_unicode_ascii_boundaries_and_positions/replay-manifest.json",
+        "saved_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_unicode_ascii_boundaries_and_positions/input-layout",
+        "saved_stdin": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_unicode_ascii_boundaries_and_positions/stdin.bin"
+      },
+      "status": "MISMATCH",
+      "stdin_sha256": "aac07b618a8b353d1b3ddbac111e47ee272c11c8f5625fc6163048c27d5f594a",
+      "workspace_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_unicode_ascii_boundaries_and_positions/input-layout",
+      "workspace_mutates": false
+    },
+    {
+      "capability_id": "rule.archaism",
+      "case_id": "archaism_multiword_spacing_and_controls",
+      "commands": [
+        [
+          "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ],
+        [
+          "/home/dev/proselint-rs/rust/target/debug/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ]
+      ],
+      "diffs": [
+        {
+          "actual": 0,
+          "expected": 1,
+          "field": "$.result.<stdin>.diagnostics[0].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 0,
+          "expected": 1,
+          "field": "$.result.<stdin>.diagnostics[0].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 22,
+          "expected": 23,
+          "field": "$.result.<stdin>.diagnostics[0].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 49,
+          "expected": 50,
+          "field": "$.result.<stdin>.diagnostics[1].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 49,
+          "expected": 50,
+          "field": "$.result.<stdin>.diagnostics[1].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 61,
+          "expected": 62,
+          "field": "$.result.<stdin>.diagnostics[1].span[1]",
+          "kind": "value"
+        }
+      ],
+      "effective_environment": {
+        "candidate": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_multiword_spacing_and_controls/candidate/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_multiword_spacing_and_controls/candidate/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_multiword_spacing_and_controls/candidate/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_multiword_spacing_and_controls/candidate/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        },
+        "reference": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_multiword_spacing_and_controls/reference/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_multiword_spacing_and_controls/reference/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_multiword_spacing_and_controls/reference/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_multiword_spacing_and_controls/reference/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        }
+      },
+      "executions": [
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 99rwq6_o/shared",
+          "duration_seconds": 0.4742909022606909,
+          "exit_code": 1,
+          "role": "reference",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_multiword_spacing_and_controls/reference.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_multiword_spacing_and_controls/reference.stdout.bin",
+          "stdout_sha256": "b000f0800e67a6398a853bf5175b5cb7a1b5bbebbb4db287154750c48d694cbb",
+          "workspace": "/tmp/proselint harness space-\u00e9 99rwq6_o/shared"
+        },
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 99rwq6_o/shared",
+          "duration_seconds": 0.8340646359138191,
+          "exit_code": 1,
+          "role": "candidate",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_multiword_spacing_and_controls/candidate.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_multiword_spacing_and_controls/candidate.stdout.bin",
+          "stdout_sha256": "3e6e654b27bbec21d6998408bc1b8ce263bebc674af893c239decd4aa57ffbd4",
+          "workspace": "/tmp/proselint harness space-\u00e9 99rwq6_o/shared"
+        }
+      ],
+      "expected_oracle_outcome": "findings",
+      "normalization": {
+        "source_key_workspace_uri": false
+      },
+      "replay": {
+        "candidate_argv": [
+          "/home/dev/proselint-rs/rust/target/debug/proselint"
+        ],
+        "command": [
+          "python3",
+          "rust/harness/compare.py",
+          "--case-manifest",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_multiword_spacing_and_controls/replay-manifest.json",
+          "--live",
+          "--candidate-argv-json",
+          "[\"/home/dev/proselint-rs/rust/target/debug/proselint\"]",
+          "--candidate-attestation",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T214729017678Z-build.attestation.json",
+          "--report",
+          "<new-report.json>"
+        ],
+        "requires_same_candidate_binary_and_build_attestation": true,
+        "saved_case_manifest": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_multiword_spacing_and_controls/replay-manifest.json",
+        "saved_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_multiword_spacing_and_controls/input-layout",
+        "saved_stdin": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_multiword_spacing_and_controls/stdin.bin"
+      },
+      "status": "MISMATCH",
+      "stdin_sha256": "43146149645f0a9531c95924bdfc9f5317b7560d5d3009990ff9ae631f2e8820",
+      "workspace_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_multiword_spacing_and_controls/input-layout",
+      "workspace_mutates": false
+    },
+    {
+      "capability_id": "rule.archaism",
+      "case_id": "archaism_embedded_multiword_raw_matches",
+      "commands": [
+        [
+          "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ],
+        [
+          "/home/dev/proselint-rs/rust/target/debug/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ]
+      ],
+      "diffs": [
+        {
+          "actual": 0,
+          "expected": 1,
+          "field": "$.result.<stdin>.diagnostics[0].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 0,
+          "expected": 1,
+          "field": "$.result.<stdin>.diagnostics[0].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 8,
+          "expected": 9,
+          "field": "$.result.<stdin>.diagnostics[0].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 11,
+          "expected": 12,
+          "field": "$.result.<stdin>.diagnostics[1].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 11,
+          "expected": 12,
+          "field": "$.result.<stdin>.diagnostics[1].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 19,
+          "expected": 20,
+          "field": "$.result.<stdin>.diagnostics[1].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 21,
+          "expected": 22,
+          "field": "$.result.<stdin>.diagnostics[2].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 21,
+          "expected": 22,
+          "field": "$.result.<stdin>.diagnostics[2].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 29,
+          "expected": 30,
+          "field": "$.result.<stdin>.diagnostics[2].span[1]",
+          "kind": "value"
+        }
+      ],
+      "effective_environment": {
+        "candidate": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_embedded_multiword_raw_matches/candidate/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_embedded_multiword_raw_matches/candidate/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_embedded_multiword_raw_matches/candidate/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_embedded_multiword_raw_matches/candidate/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        },
+        "reference": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_embedded_multiword_raw_matches/reference/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_embedded_multiword_raw_matches/reference/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_embedded_multiword_raw_matches/reference/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_embedded_multiword_raw_matches/reference/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        }
+      },
+      "executions": [
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 3qaz1j9s/shared",
+          "duration_seconds": 0.33507527504116297,
+          "exit_code": 1,
+          "role": "reference",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_embedded_multiword_raw_matches/reference.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_embedded_multiword_raw_matches/reference.stdout.bin",
+          "stdout_sha256": "405cf315c6194b4ccd69b809ecb2d896f2b53adb012587a54181c9ca3d4b1d77",
+          "workspace": "/tmp/proselint harness space-\u00e9 3qaz1j9s/shared"
+        },
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 3qaz1j9s/shared",
+          "duration_seconds": 0.6165352230891585,
+          "exit_code": 1,
+          "role": "candidate",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_embedded_multiword_raw_matches/candidate.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_embedded_multiword_raw_matches/candidate.stdout.bin",
+          "stdout_sha256": "6d8b2dd3ffa4a49b6241a812c86502872cbe6bd3a7695f2451a24f92345a9007",
+          "workspace": "/tmp/proselint harness space-\u00e9 3qaz1j9s/shared"
+        }
+      ],
+      "expected_oracle_outcome": "findings",
+      "normalization": {
+        "source_key_workspace_uri": false
+      },
+      "replay": {
+        "candidate_argv": [
+          "/home/dev/proselint-rs/rust/target/debug/proselint"
+        ],
+        "command": [
+          "python3",
+          "rust/harness/compare.py",
+          "--case-manifest",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_embedded_multiword_raw_matches/replay-manifest.json",
+          "--live",
+          "--candidate-argv-json",
+          "[\"/home/dev/proselint-rs/rust/target/debug/proselint\"]",
+          "--candidate-attestation",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T214729017678Z-build.attestation.json",
+          "--report",
+          "<new-report.json>"
+        ],
+        "requires_same_candidate_binary_and_build_attestation": true,
+        "saved_case_manifest": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_embedded_multiword_raw_matches/replay-manifest.json",
+        "saved_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_embedded_multiword_raw_matches/input-layout",
+        "saved_stdin": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_embedded_multiword_raw_matches/stdin.bin"
+      },
+      "status": "MISMATCH",
+      "stdin_sha256": "ac03e510c2a559e77bfcc6107b7c340af8981eb2dfcdcffafd9e92f3fb70073e",
+      "workspace_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_embedded_multiword_raw_matches/input-layout",
+      "workspace_mutates": false
+    },
+    {
+      "capability_id": "rule.archaism",
+      "case_id": "archaism_activation_order_full",
+      "commands": [
+        [
+          "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ],
+        [
+          "/home/dev/proselint-rs/rust/target/debug/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ]
+      ],
+      "diffs": [
+        {
+          "actual": 0,
+          "expected": 1,
+          "field": "$.result.<stdin>.diagnostics[0].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 0,
+          "expected": 1,
+          "field": "$.result.<stdin>.diagnostics[0].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 3,
+          "expected": 4,
+          "field": "$.result.<stdin>.diagnostics[0].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 4,
+          "expected": 5,
+          "field": "$.result.<stdin>.diagnostics[1].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 4,
+          "expected": 5,
+          "field": "$.result.<stdin>.diagnostics[1].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 9,
+          "expected": 10,
+          "field": "$.result.<stdin>.diagnostics[1].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 10,
+          "expected": 11,
+          "field": "$.result.<stdin>.diagnostics[2].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 10,
+          "expected": 11,
+          "field": "$.result.<stdin>.diagnostics[2].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 13,
+          "expected": 14,
+          "field": "$.result.<stdin>.diagnostics[2].span[1]",
+          "kind": "value"
+        }
+      ],
+      "effective_environment": {
+        "candidate": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_full/candidate/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_full/candidate/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_full/candidate/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_full/candidate/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        },
+        "reference": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_full/reference/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_full/reference/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_full/reference/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_full/reference/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        }
+      },
+      "executions": [
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 07ifxt1h/shared",
+          "duration_seconds": 0.32639204105362296,
+          "exit_code": 1,
+          "role": "reference",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_full/reference.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_full/reference.stdout.bin",
+          "stdout_sha256": "528392858f7e0d4c89eeda19f5c8a0245f81aff0f662a6fb1038aad79364248e",
+          "workspace": "/tmp/proselint harness space-\u00e9 07ifxt1h/shared"
+        },
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 07ifxt1h/shared",
+          "duration_seconds": 0.4563073390163481,
+          "exit_code": 1,
+          "role": "candidate",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_full/candidate.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_full/candidate.stdout.bin",
+          "stdout_sha256": "ff7e8dacfcb8965b80e69a37c6b05bd2d4a5497775011eb2f15ae0fb3a148103",
+          "workspace": "/tmp/proselint harness space-\u00e9 07ifxt1h/shared"
+        }
+      ],
+      "expected_oracle_outcome": "findings",
+      "normalization": {
+        "source_key_workspace_uri": false
+      },
+      "replay": {
+        "candidate_argv": [
+          "/home/dev/proselint-rs/rust/target/debug/proselint"
+        ],
+        "command": [
+          "python3",
+          "rust/harness/compare.py",
+          "--case-manifest",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_full/replay-manifest.json",
+          "--live",
+          "--candidate-argv-json",
+          "[\"/home/dev/proselint-rs/rust/target/debug/proselint\"]",
+          "--candidate-attestation",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T214729017678Z-build.attestation.json",
+          "--report",
+          "<new-report.json>"
+        ],
+        "requires_same_candidate_binary_and_build_attestation": true,
+        "saved_case_manifest": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_full/replay-manifest.json",
+        "saved_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_full/input-layout",
+        "saved_stdin": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_full/stdin.bin"
+      },
+      "status": "MISMATCH",
+      "stdin_sha256": "ef5db8855cf90e8d08531ca16516134900c50338cd972e622ffc17326b4ae400",
+      "workspace_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_full/input-layout",
+      "workspace_mutates": false
+    },
+    {
+      "capability_id": "rule.archaism",
+      "case_id": "archaism_activation_order_max_errors_two",
+      "commands": [
+        [
+          "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ],
+        [
+          "/home/dev/proselint-rs/rust/target/debug/proselint",
+          "check",
+          "--output-format",
+          "json",
+          "--config",
+          "config.json"
+        ]
+      ],
+      "diffs": [
+        {
+          "actual": 0,
+          "expected": 1,
+          "field": "$.result.<stdin>.diagnostics[0].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 0,
+          "expected": 1,
+          "field": "$.result.<stdin>.diagnostics[0].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 3,
+          "expected": 4,
+          "field": "$.result.<stdin>.diagnostics[0].span[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 10,
+          "expected": 11,
+          "field": "$.result.<stdin>.diagnostics[1].pos[1]",
+          "kind": "value"
+        },
+        {
+          "actual": 10,
+          "expected": 11,
+          "field": "$.result.<stdin>.diagnostics[1].span[0]",
+          "kind": "value"
+        },
+        {
+          "actual": 13,
+          "expected": 14,
+          "field": "$.result.<stdin>.diagnostics[1].span[1]",
+          "kind": "value"
+        }
+      ],
+      "effective_environment": {
+        "candidate": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_max_errors_two/candidate/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_max_errors_two/candidate/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_max_errors_two/candidate/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_max_errors_two/candidate/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        },
+        "reference": {
+          "HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_max_errors_two/reference/home",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "PATH": "/home/dev/.pyenv/versions/3.15.2/bin:/home/dev/.pyenv/libexec:/home/dev/.pyenv/plugins/python-build/bin:/home/dev/.pyenv/plugins/pyenv-link/bin:/home/dev/.pyenv/plugins/pyenv-binary/bin:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/home/dev/.nvm/versions/node/v26.13.0/bin:/home/dev/.pyenv/shims:/home/dev/.pyenv/bin:/home/dev/.codex/tmp/arg0-linux/codex-arg05xtqEq:/home/dev/.codex/packages/app-server-daemon/releases/0.167.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0wUAomi:/home/dev/.codex/packages/app-server-daemon/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.codex/tmp/arg0-linux/codex-arg0DUjkOE:/home/dev/.codex/packages/standalone/releases/0.166.0-x86_64-unknown-linux-musl/codex-path:/home/dev/.local/bin:/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "PYTHONNOUSERSITE": "1",
+          "PYTHONUTF8": "1",
+          "TMPDIR": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_max_errors_two/reference/home/tmp",
+          "XDG_CACHE_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_max_errors_two/reference/home/cache",
+          "XDG_CONFIG_HOME": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_max_errors_two/reference/home/xdg",
+          "config_scenario": "explicit_selected_rule",
+          "locale": "C.UTF-8"
+        }
+      },
+      "executions": [
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 jjxg_lhx/shared",
+          "duration_seconds": 0.33392241783440113,
+          "exit_code": 1,
+          "role": "reference",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_max_errors_two/reference.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_max_errors_two/reference.stdout.bin",
+          "stdout_sha256": "ac2a6d97dcc2cd1d4024e291daa3dc4c4071ea0c95158e53cd0075fb3ed1960d",
+          "workspace": "/tmp/proselint harness space-\u00e9 jjxg_lhx/shared"
+        },
+        {
+          "argv": [
+            "/home/dev/proselint-rs/rust/target/debug/proselint",
+            "check",
+            "--output-format",
+            "json",
+            "--config",
+            "config.json"
+          ],
+          "cwd": "/tmp/proselint harness space-\u00e9 jjxg_lhx/shared",
+          "duration_seconds": 0.31998212402686477,
+          "exit_code": 1,
+          "role": "candidate",
+          "status": "OK",
+          "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_max_errors_two/candidate.stderr.bin",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_max_errors_two/candidate.stdout.bin",
+          "stdout_sha256": "0579ca4e032e04cc428600c87cd5f0e12779da9a38ef4aa51332caa63af5b45a",
+          "workspace": "/tmp/proselint harness space-\u00e9 jjxg_lhx/shared"
+        }
+      ],
+      "expected_oracle_outcome": "findings",
+      "normalization": {
+        "source_key_workspace_uri": false
+      },
+      "replay": {
+        "candidate_argv": [
+          "/home/dev/proselint-rs/rust/target/debug/proselint"
+        ],
+        "command": [
+          "python3",
+          "rust/harness/compare.py",
+          "--case-manifest",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_max_errors_two/replay-manifest.json",
+          "--live",
+          "--candidate-argv-json",
+          "[\"/home/dev/proselint-rs/rust/target/debug/proselint\"]",
+          "--candidate-attestation",
+          "/home/dev/proselint-rs/rust/artifacts/20261106T214729017678Z-build.attestation.json",
+          "--report",
+          "<new-report.json>"
+        ],
+        "requires_same_candidate_binary_and_build_attestation": true,
+        "saved_case_manifest": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_max_errors_two/replay-manifest.json",
+        "saved_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_max_errors_two/input-layout",
+        "saved_stdin": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_max_errors_two/stdin.bin"
+      },
+      "status": "MISMATCH",
+      "stdin_sha256": "ef5db8855cf90e8d08531ca16516134900c50338cd972e622ffc17326b4ae400",
+      "workspace_layout": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43/cases/archaism_activation_order_max_errors_two/input-layout",
+      "workspace_mutates": false
+    }
+  ],
+  "counts": {
+    "BLOCKED": 0,
+    "CANDIDATE_ERROR": 0,
+    "MISMATCH": 8,
+    "NOT_IMPLEMENTED": 0,
+    "ORACLE_ERROR": 0,
+    "PASS": 3,
+    "TIMEOUT": 0
+  },
+  "environment": {
+    "platform": "Linux-7.2.9-arch1-1-x86_64-with-glibc2.39",
+    "python": "3.15.2 (main, Nov  5 2026, 00:40:21) [GCC 13.3.0]"
+  },
+  "errors": [],
+  "finished_at_utc": "2026-11-06T21:49:07.989267+00:00",
+  "raw_artifacts_dir": "/home/dev/proselint-rs/rust/artifacts/20261106T214851269927Z-1aa91e43",
+  "run_id": "20261106T214851269927Z-1aa91e43",
+  "run_level_blocker": false,
+  "schema_version": 1,
+  "scope": "compatibility_gate",
+  "self_test": {
+    "checks": [
+      {
+        "name": "drop_diagnostic",
+        "observed_kinds": [
+          "array_length"
+        ],
+        "passed": true
+      },
+      {
+        "name": "add_diagnostic",
+        "observed_kinds": [
+          "array_length"
+        ],
+        "passed": true
+      },
+      {
+        "name": "reorder_diagnostics",
+        "observed_kinds": [
+          "type",
+          "value"
+        ],
+        "passed": true
+      },
+      {
+        "name": "duplicate_diagnostic",
+        "observed_kinds": [
+          "array_length"
+        ],
+        "passed": true
+      },
+      {
+        "name": "message",
+        "observed_kinds": [
+          "value"
+        ],
+        "passed": true
+      },
+      {
+        "name": "rule_id",
+        "observed_kinds": [
+          "value"
+        ],
+        "passed": true
+      },
+      {
+        "name": "coordinate",
+        "observed_kinds": [
+          "value"
+        ],
+        "passed": true
+      },
+      {
+        "name": "replacement",
+        "observed_kinds": [
+          "value"
+        ],
+        "passed": true
+      },
+      {
+        "name": "null_vs_empty_replacement",
+        "observed_kinds": [
+          "type"
+        ],
+        "passed": true
+      },
+      {
+        "name": "field_presence",
+        "observed_kinds": [
+          "JSON_SCHEMA"
+        ],
+        "passed": true
+      },
+      {
+        "name": "file_key",
+        "observed_kinds": [
+          "additional_field",
+          "missing_field"
+        ],
+        "passed": true
+      },
+      {
+        "name": "stderr",
+        "observed_kinds": [
+          "stderr_mismatch"
+        ],
+        "passed": true
+      },
+      {
+        "name": "exit_status",
+        "observed_kinds": [
+          "exit_code_mismatch"
+        ],
+        "passed": true
+      },
+      {
+        "name": "invalid_json",
+        "observed_kinds": [
+          "INVALID_JSON"
+        ],
+        "passed": true
+      },
+      {
+        "name": "unexpected_extra_output",
+        "observed_kinds": [
+          "INVALID_JSON"
+        ],
+        "passed": true
+      },
+      {
+        "name": "wire_schema",
+        "observed_kinds": [],
+        "passed": true
+      },
+      {
+        "name": "no_diagnostics",
+        "observed_kinds": [],
+        "passed": true
+      },
+      {
+        "name": "upstream_error_schema",
+        "observed_kinds": [],
+        "passed": true
+      },
+      {
+        "name": "duplicate_json_key",
+        "observed_kinds": [
+          "INVALID_JSON"
+        ],
+        "passed": true
+      },
+      {
+        "name": "spaces_non_ascii_argv_path",
+        "observed_kinds": [
+          "OK"
+        ],
+        "passed": true
+      },
+      {
+        "name": "spawn_failure",
+        "observed_kinds": [
+          "CANDIDATE_ERROR"
+        ],
+        "passed": true
+      },
+      {
+        "name": "crash_exit",
+        "observed_kinds": [
+          "CANDIDATE_ERROR",
+          "9"
+        ],
+        "passed": true
+      },
+      {
+        "name": "timeout",
+        "observed_kinds": [
+          "TIMEOUT"
+        ],
+        "passed": true
+      }
+    ],
+    "required": true,
+    "status": "PASS"
+  },
+  "source_fingerprint": "193fa4737701a7c1d76c2eff96df61a4015c26d352834e5c34d831df52f307f8",
+  "started_at_utc": "2026-11-06T21:48:51.269883+00:00",
+  "status": "MISMATCH"
+}

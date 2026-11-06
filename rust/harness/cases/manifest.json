@@ -17612,6 +17612,380 @@
         "--output-format",
         "json"
       ]
+    },
+    {
+      "id": "spelling_ve_of_all_mappings",
+      "capability_id": "rule.spelling.ve_of",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/ve_of.py registers default-enabled PreferredFormsSimple with Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, PPM 0, and message \"-ve vs. -of. '{}' is the preferred spelling.\" Mappings: could of → could've, should of → should've, would of → would've. Exercises every mapping and exact message, replacement and positions.",
+      "input_mode": "stdin",
+      "stdin_base64": "Y291bGQgb2Ygc2hvdWxkIG9mIHdvdWxkIG9m",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ve_of_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ve of config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsidmVfb2YiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ve of config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ve_of_case_and_repetition",
+      "capability_id": "rule.spelling.ve_of",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/ve_of.py registers default-enabled PreferredFormsSimple with Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, PPM 0, and message \"-ve vs. -of. '{}' is the preferred spelling.\" Mappings: could of → could've, should of → should've, would of → would've. Exercises case-insensitive lookup and repeated raw occurrences.",
+      "input_mode": "stdin",
+      "stdin_base64": "Q291bGQgT2YgQ09VTEQgT0YgU2hvdWxkIE9mIHdvdWxkIE9m",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ve_of_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ve of config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsidmVfb2YiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ve of config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ve_of_clean_and_word_boundaries",
+      "capability_id": "rule.spelling.ve_of",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/ve_of.py registers default-enabled PreferredFormsSimple with Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, PPM 0, and message \"-ve vs. -of. '{}' is the preferred spelling.\" Mappings: could of → could've, should of → should've, would of → would've. Preferred forms, embedded-only terms, nonmatching spacing and hyphenated forms stay clean.",
+      "input_mode": "stdin",
+      "stdin_base64": "Y291bGQndmUgc2hvdWxkJ3ZlIHdvdWxkJ3ZlIHhjb3VsZCBvZiBzaG91bGQgb2Z4IGNvdWxkICBvZiB3b3VsZC1vZg==",
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ve_of_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ve of config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsidmVfb2YiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ve of config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ve_of_raw_occurrences_after_activation",
+      "capability_id": "rule.spelling.ve_of",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/ve_of.py registers default-enabled PreferredFormsSimple with Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, PPM 0, and message \"-ve vs. -of. '{}' is the preferred spelling.\" Mappings: could of → could've, should of → should've, would of → would've. Once the bounded second phrase activates this pattern, raw matching also returns the earlier embedded occurrence.",
+      "input_mode": "stdin",
+      "stdin_base64": "eGNvdWxkIG9mIGNvdWxkIG9m",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ve_of_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ve of config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsidmVfb2YiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ve of config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ve_of_quote_suppression",
+      "capability_id": "rule.spelling.ve_of",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/ve_of.py registers default-enabled PreferredFormsSimple with Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, PPM 0, and message \"-ve vs. -of. '{}' is the preferred spelling.\" Mappings: could of → could've, should of → should've, would of → would've. The quoted phrase is suppressed while the unquoted phrase remains reportable.",
+      "input_mode": "stdin",
+      "stdin_base64": "ImNvdWxkIG9mIiBzaG91bGQgb2Y=",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ve_of_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ve of config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsidmVfb2YiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ve of config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ve_of_unicode_positions",
+      "capability_id": "rule.spelling.ve_of",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/ve_of.py registers default-enabled PreferredFormsSimple with Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, PPM 0, and message \"-ve vs. -of. '{}' is the preferred spelling.\" Mappings: could of → could've, should of → should've, would of → would've. Emoji and non-ASCII prefix exercise Python code-point positions and line/column reporting.",
+      "input_mode": "stdin",
+      "stdin_base64": "8J+ZgiBjb3VsZCBvZi4Kw4kgc2hvdWxkIG9m",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ve_of_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ve of config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsidmVfb2YiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ve of config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ve_of_max_errors_one",
+      "capability_id": "rule.spelling.ve_of",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/ve_of.py registers default-enabled PreferredFormsSimple with Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, PPM 0, and message \"-ve vs. -of. '{}' is the preferred spelling.\" Mappings: could of → could've, should of → should've, would of → would've. With three different patterns, max_errors=1 retains the first generated match.",
+      "input_mode": "stdin",
+      "stdin_base64": "d291bGQgb2YgY291bGQgb2Ygc2hvdWxkIG9m",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ve_of_only_max_errors_one",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ve of config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsic3BlbGxpbmciOnsidmVfb2YiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ve of config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ve_of_limit_activation_order",
+      "capability_id": "rule.spelling.ve_of",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/ve_of.py registers default-enabled PreferredFormsSimple with Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, PPM 0, and message \"-ve vs. -of. '{}' is the preferred spelling.\" Mappings: could of → could've, should of → should've, would of → would've. The first bounded would of activates before the later bounded could of; max_errors must choose that pattern before its raw earlier embedded match.",
+      "input_mode": "stdin",
+      "stdin_base64": "eGNvdWxkIG9mIHdvdWxkIG9mIGNvdWxkIG9m",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ve_of_only_max_errors_one",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ve of config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsic3BlbGxpbmciOnsidmVfb2YiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ve of config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ve_of_quoted_activation",
+      "capability_id": "rule.spelling.ve_of",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/ve_of.py registers default-enabled PreferredFormsSimple with Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, PPM 0, and message \"-ve vs. -of. '{}' is the preferred spelling.\" Mappings: could of → could've, should of → should've, would of → would've. The quoted phrase activates the could pattern before quote suppression, allowing its later raw match to precede the intervening would finding under max_errors=1.",
+      "input_mode": "stdin",
+      "stdin_base64": "ImNvdWxkIG9mIiB3b3VsZCBvZiB4Y291bGQgb2Y=",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ve_of_only_max_errors_one",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ve of config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsic3BlbGxpbmciOnsidmVfb2YiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ve of config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ve_of_long_s_lookup",
+      "capability_id": "rule.spelling.ve_of",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/ve_of.py registers default-enabled PreferredFormsSimple with Fast case-insensitive matching and WORDS_IN_TEXT padding. The bounded ASCII phrase activates the pattern; raw iteration then reports the later long-s form, whose lowercase dictionary lookup misses and yields message replacement None and JSON null.",
+      "input_mode": "stdin",
+      "stdin_base64": "c2hvdWxkIG9mIMW/aG91bGQgb2Y=",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ve_of_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ve of config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsidmVfb2YiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ve of config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ve_of_long_s_no_activation",
+      "capability_id": "rule.spelling.ve_of",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; the raw case-insensitive RE2 pattern can match the long-s spelling, but WORDS_IN_TEXT boundary activation does not occur because long-s is non-word on both sides. The isolated text therefore produces no result.",
+      "input_mode": "stdin",
+      "stdin_base64": "xb9ob3VsZCBvZg==",
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ve_of_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ve of config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsidmVfb2YiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ve of config.json}",
+        "--output-format",
+        "json"
+      ]
     }
   ]
 }

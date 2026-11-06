@@ -239,6 +239,11 @@ const ELY_LY_FORMS: [(&str, &str); 3] = [
     ("immediatly", "immediately"),
     ("unfortunatly", "unfortunately"),
 ];
+const VE_OF_FORMS: [(&str, &str); 3] = [
+    ("could of", "could've"),
+    ("should of", "should've"),
+    ("would of", "would've"),
+];
 const MESSAGE: &str = "Annotation left in text.";
 const QUOTES: [char; 6] = ['"', '\'', '“', '”', '‘', '’'];
 const SEPARATORS: &str = " ,.!?:;-\r\n";
@@ -2606,6 +2611,65 @@ pub fn spelling_ely_ly_diagnostics(text: &str) -> Vec<Value> {
             diagnostics.push(json!({
                 "check_path": "spelling.ely_ly",
                 "message": format!("-ely vs. -ly. '{}' is the correct spelling.", preferred.unwrap_or("None")),
+                "span": [span_start, span_end],
+                "pos": [line, column],
+                "replacements": preferred,
+            }));
+        }
+        active_patterns.push((activation_position, pattern_index, diagnostics));
+    }
+
+    // Preserve FastSet activation order until the caller applies max_errors.
+    active_patterns.sort_by_key(|(activation_position, pattern_index, _)| {
+        (*activation_position, *pattern_index)
+    });
+    active_patterns
+        .into_iter()
+        .flat_map(|(_, _, diagnostics)| diagnostics)
+        .collect()
+}
+
+/// Return diagnostics for the pinned `spelling.ve_of` preferred forms.
+/// Activation requires word characters at both ends of the raw match.
+pub fn spelling_ve_of_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut active_patterns = Vec::new();
+
+    for (pattern_index, (pattern, replacement)) in VE_OF_FORMS.iter().enumerate() {
+        let pattern_matches = unicode_case_match_ends(&padded, pattern);
+        let activation_position = pattern_matches
+            .iter()
+            .filter(|(start, end)| {
+                !is_ascii_word_before(&padded, *start)
+                    && is_ascii_word_at(&padded, *start)
+                    && is_ascii_word_before(&padded, *end)
+                    && !is_ascii_word_at(&padded, *end)
+            })
+            .map(|(start, _)| *start)
+            .min();
+        let Some(activation_position) = activation_position else {
+            continue;
+        };
+        let mut diagnostics = Vec::new();
+        for (start, end) in pattern_matches {
+            let matched = &padded[start..end];
+            let preferred = preferred_lookup(matched, replacement);
+            let span_start = padded[..start].chars().count();
+            let span_end = span_start + matched.chars().count();
+            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+            if quote_index % 2 == 1 {
+                continue;
+            }
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            diagnostics.push(json!({
+                "check_path": "spelling.ve_of",
+                "message": format!("-ve vs. -of. '{}' is the preferred spelling.", preferred.unwrap_or("None")),
                 "span": [span_start, span_end],
                 "pos": [line, column],
                 "replacements": preferred,

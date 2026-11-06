@@ -238,6 +238,10 @@
     {
       "id": "rule.spelling.ely_ly",
       "status": "recorded"
+    },
+    {
+      "id": "rule.spelling.ve_of",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -285,11 +289,11 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "Specify the next small data-backed rule, spelling.ve_of, against the pinned oracle; add meaningful RED tests and exact live cases, implement, independently verify, and run the cumulative gate."
+    "next_handoff": "Specify the next smallest default-enabled rule, malapropisms, against the pinned oracle; add meaningful RED tests and exact live cases, implement, independently verify, and run the cumulative gate."
   },
   "unresolved": [
     "The no-config-found bundled DEFAULT, every default-enabled rule interaction, and combined enabled-rule configurations remain unverified; selected-rule passes do not establish default behavior.",
-    "60 unique rule paths remain unimplemented or unverified.",
+    "59 unique rule paths remain unimplemented or unverified.",
     "Other CLI behavior remains unverified, including remaining subcommands, missing nonempty-XDG config, HOME-unset resolution, directory user candidates, file/directory traversal and decoding edges, multi-file rendering, and Compact output.",
     "Unicode case folding and quote-pairing combinations beyond explicitly tested cases remain unverified.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
@@ -3138,19 +3142,71 @@
       "limitations": [
         "No dedicated Rust integration-test target covers ely_ly; the nine end-to-end live cases and full locked Cargo suite passed."
       ]
+    },
+    {
+      "id": "rule.spelling.ve_of",
+      "status": "recorded",
+      "case_ids": [
+        "spelling_ve_of_all_mappings",
+        "spelling_ve_of_case_and_repetition",
+        "spelling_ve_of_clean_and_word_boundaries",
+        "spelling_ve_of_raw_occurrences_after_activation",
+        "spelling_ve_of_quote_suppression",
+        "spelling_ve_of_unicode_positions",
+        "spelling_ve_of_max_errors_one",
+        "spelling_ve_of_limit_activation_order",
+        "spelling_ve_of_quoted_activation",
+        "spelling_ve_of_long_s_lookup",
+        "spelling_ve_of_long_s_no_activation"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_spec": "Pinned default-enabled PreferredFormsSimple rule spelling.ve_of with could of→could've, should of→should've, would of→would've; Fast case-insensitive WORDS_IN_TEXT matching, quote suppression, offset/PPM0. Activation requires ASCII word transitions at both match edges. A lone long-s should of is not activated; after normal should of activates the pattern, raw matching includes the later long-s surface and Python lower-key lookup returns None/null.",
+      "red": {
+        "report_status": "MISMATCH",
+        "mismatches": 11,
+        "reason": "All eleven frozen target cases reached the CLI; Rust returned unsupported-path exit 4.",
+        "evidence": "rust/artifacts/ve-of-rust-red-20261106.json",
+        "source_fingerprint_before": "cf9ea2acd384b4d1306199f2c67ca2c227890806ff5a41fa7f22f4e9bf28198d"
+      },
+      "green": {
+        "live_cases_passed": 11,
+        "report": "rust/artifacts/ve-of-green-20261106.json",
+        "build_attestation": "rust/artifacts/20261106T121227647470Z-build.attestation.json",
+        "source_fingerprint": "5cecfd0b0dd49a399bef2aa054f1d1c50da1fa7a482042c1dd823af15e89f58e",
+        "locked_fmt_clippy_tests_build": "passed"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 11,
+        "focused_live_report": "rust/artifacts/independent-ve-of-20261106/ve-of-live.json",
+        "full_cargo_tests": "469 passed across 58 test binaries, 0 failed",
+        "harness_tests_passed": 34,
+        "comparator_discriminators_passed": 23,
+        "oracle_self_check_passed": 2,
+        "baseline_integrity": "verified before and after",
+        "evidence": "rust/artifacts/independent-ve-of-20261106/verification-evidence.json",
+        "source_fingerprint": "5cecfd0b0dd49a399bef2aa054f1d1c50da1fa7a482042c1dd823af15e89f58e",
+        "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "agent_model": "gpt-6-luna",
+        "agent_reasoning_effort": "low requested",
+        "agent_runtime_metadata": "unavailable"
+      },
+      "limitations": [
+        "No dedicated Rust integration-test target covers ve_of; the eleven end-to-end live cases and full locked Cargo suite passed."
+      ]
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-ely-ly-20261106.json",
-    "passed_cases": 526,
-    "manifest_cases": 532,
+    "report": "rust/artifacts/strict-gate-ve-of-20261106.json",
+    "passed_cases": 537,
+    "manifest_cases": 543,
     "excluded_manifest_cases": {
       "cli.config.per_file_checks": 4,
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "capability_count": 59
+    "capability_count": 60
   },
   "rust_dependencies": {
     "status": "current",
@@ -3173,7 +3229,7 @@
       "rust_version_constraint": "1.99"
     }
   },
-  "next_capability_handoff": "Specify spelling.ve_of against the pinned oracle; demonstrate meaningful RED, then implement, live-compare, independently verify, and run the cumulative gate.",
+  "next_capability_handoff": "Specify malapropisms against the pinned oracle; demonstrate meaningful RED, then implement, live-compare, independently verify, and run the cumulative gate.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

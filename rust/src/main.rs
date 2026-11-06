@@ -14,9 +14,10 @@ use proselint_rs::{
     metadiscourse_diagnostics, normalize_file_newlines, p_equals_zero_diagnostics,
     phrasal_adjectives_ly_diagnostics, pretension_diagnostics, professions_diagnostics,
     spelling_ally_ly_diagnostics, spelling_ance_ence_diagnostics, spelling_ely_ly_diagnostics,
-    suddenly_diagnostics, typography_copyright_diagnostics, typography_ellipsis_diagnostics,
-    typography_multiplication_diagnostics, typography_sentence_spacing_diagnostics,
-    typography_trademark_diagnostics, wallace_diagnostics, whence_diagnostics,
+    spelling_ve_of_diagnostics, suddenly_diagnostics, typography_copyright_diagnostics,
+    typography_ellipsis_diagnostics, typography_multiplication_diagnostics,
+    typography_sentence_spacing_diagnostics, typography_trademark_diagnostics, wallace_diagnostics,
+    whence_diagnostics,
 };
 use serde::Deserialize;
 use serde_json::Value;
@@ -1166,7 +1167,7 @@ fn run() -> Result<ExitCode, String> {
         });
     }
     let selected_checks = selected_checks.ok_or_else(|| {
-        "this capability supports disabled checks, annotations.misc, cliches.hell, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.many_a, misc.metadiscourse, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, redundancy.misc.wallace, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, spelling.ally_ly, spelling.ance_ence, spelling.ely_ly, or terms.eponymous_adjectives only".to_owned()
+        "this capability supports disabled checks, annotations.misc, cliches.hell, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.many_a, misc.metadiscourse, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, redundancy.misc.wallace, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, spelling.ally_ly, spelling.ance_ence, spelling.ely_ly, spelling.ve_of, or terms.eponymous_adjectives only".to_owned()
     })?;
 
     let mut diagnostics = Vec::new();
@@ -1217,6 +1218,7 @@ fn run() -> Result<ExitCode, String> {
             SelectedCheck::SpellingAllyLy => spelling_ally_ly_diagnostics(&content),
             SelectedCheck::SpellingAnceEnce => spelling_ance_ence_diagnostics(&content),
             SelectedCheck::SpellingElyLy => spelling_ely_ly_diagnostics(&content),
+            SelectedCheck::SpellingVeOf => spelling_ve_of_diagnostics(&content),
             SelectedCheck::MiscComposition => composition_diagnostics_in_matcher_order(&content),
             SelectedCheck::TermsEponymousAdjectives => eponymous_adjectives_diagnostics(&content),
             SelectedCheck::TypographySymbolsEllipsis => typography_ellipsis_diagnostics(&content),
@@ -1304,6 +1306,7 @@ enum SelectedCheck {
     RedundancyMiscWallace,
     SpellingAnceEnce,
     SpellingElyLy,
+    SpellingVeOf,
     TermsEponymousAdjectives,
     TypographySymbolsEllipsis,
     TypographySymbolsCopyright,
@@ -1361,6 +1364,7 @@ fn supported_checks(checks: &Value) -> Option<Vec<SelectedCheck>> {
             ["spelling", "ally_ly"] => Some(SelectedCheck::SpellingAllyLy),
             ["spelling", "ance_ence"] => Some(SelectedCheck::SpellingAnceEnce),
             ["spelling", "ely_ly"] => Some(SelectedCheck::SpellingElyLy),
+            ["spelling", "ve_of"] => Some(SelectedCheck::SpellingVeOf),
             ["misc", "composition"] => Some(SelectedCheck::MiscComposition),
             ["terms", "eponymous_adjectives"] => Some(SelectedCheck::TermsEponymousAdjectives),
             ["typography", "symbols", "ellipsis"] => Some(SelectedCheck::TypographySymbolsEllipsis),
@@ -1495,6 +1499,7 @@ fn selected_check_path(check: SelectedCheck) -> &'static str {
         SelectedCheck::SpellingAllyLy => "spelling.ally_ly",
         SelectedCheck::SpellingAnceEnce => "spelling.ance_ence",
         SelectedCheck::SpellingElyLy => "spelling.ely_ly",
+        SelectedCheck::SpellingVeOf => "spelling.ve_of",
         SelectedCheck::MiscComposition => "misc.composition",
         SelectedCheck::TermsEponymousAdjectives => "terms.eponymous_adjectives",
         SelectedCheck::TypographySymbolsEllipsis => "typography.symbols.ellipsis",

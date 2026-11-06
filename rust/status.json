@@ -271,9 +271,9 @@
   },
   "harness": {
     "status": "independently_verified",
-    "source_fingerprint": "5817279dd9575a62a982da6d943fcbd26e8f31ff317b3626d71175afcdc6b38d",
+    "source_fingerprint": "6cb0d0bda40a466b34307204c8b19cc22859c64eaa80c2bfb5c90bbef860054b",
     "unit_tests": {
-      "passed": 23,
+      "passed": 36,
       "exit_code": 0,
       "evidence": "python3 -m unittest discover -s rust/harness/tests"
     },
@@ -297,7 +297,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "spelling.in_un passed the 557-case cumulative gate. Next: specify mondegreens, then execute RED → implementation → independent verification → cumulative gate."
+    "next_handoff": "Luna implementer owns rust/src/lib.rs and rust/src/main.rs for mondegreens; coordinator owns rust/status.json, rust/status-history.jsonl, and rust/docs/**."
   },
   "unresolved": [
     "The no-config-found bundled DEFAULT, every default-enabled rule interaction, and combined enabled-rule configurations remain unverified; selected-rule passes do not establish default behavior.",
@@ -3307,6 +3307,35 @@
         "agent_runtime_metadata": "unavailable",
         "cli_supported_check_list_assertion": "passed: spelling.in_un between spelling.ely_ly and spelling.ve_of"
       }
+    },
+    {
+      "id": "rule.mondegreens",
+      "status": "in_progress",
+      "case_ids": [
+        "mondegreens_all_mappings",
+        "mondegreens_mixed_case_and_repetition",
+        "mondegreens_correct_target_forms_clean",
+        "mondegreens_embedded_only_clean",
+        "mondegreens_raw_occurrences_after_activation",
+        "mondegreens_quote_suppression",
+        "mondegreens_unicode_positions",
+        "mondegreens_max_errors_activation_order",
+        "mondegreens_punctuation_context",
+        "mondegreens_quoted_activation_limit_one"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_spec": "Pinned default-enabled PreferredFormsSimple check with eight literal Fast, case-insensitive WORDS_IN_TEXT mappings from proselint/checks/mondegreens.py. Quotes are suppressed; replacement forms appear in the exact message `'{replacement}' is the preferred form.` and replacements field. Preserve source matcher activation/raw iteration and document-position output behavior.",
+      "red": {
+        "report_status": "MISMATCH",
+        "mismatches": 10,
+        "reason": "All ten frozen cases reached the pinned oracle and Rust candidate; oracle outcomes were valid (eight findings, two clean), while Rust returned unsupported-path exit 4.",
+        "evidence": "rust/artifacts/mondegreens-rust-red-live-20261106.json",
+        "source_fingerprint": "6cb0d0bda40a466b34307204c8b19cc22859c64eaa80c2bfb5c90bbef860054b",
+        "build_attestation": "rust/artifacts/20261106T133250577012Z-build.attestation.json"
+      },
+      "limitations": [
+        "RED is not acceptance evidence; implementation, focused live green, independent verification, and updated cumulative gate remain required."
+      ]
     }
   ],
   "last_strict_gate": {
@@ -3345,7 +3374,7 @@
       "rust_version_constraint": "1.99"
     }
   },
-  "next_capability_handoff": "Specify mondegreens against the pinned oracle; demonstrate meaningful RED, then implement, live-compare, independently verify, and run the cumulative gate.",
+  "next_capability_handoff": "Implement mondegreens from the frozen ten-case RED using pinned PreferredFormsSimple behavior; independently verify and run the cumulative live gate.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

@@ -229,7 +229,8 @@
     "Most of the 124 registered rules, default configuration, and combined-rule behavior remain unverified",
     "Most registered rules, default configuration, combined-rule behavior, and Unicode case folding beyond tested ASCII variants remain unverified",
     "valid deeply nested configurations, Python recursion boundary/error messages, nonstandard JSON constants, and lone-surrogate values remain unverified",
-    "Astra follow-up observed additional config gaps: Python-valid NaN, 1e999 and lone-surrogate values; valid depth-130 config; recursion error kind at extreme malformed depth; and directory config-path errors."
+    "Astra follow-up observed additional config gaps: Python-valid NaN, 1e999 and lone-surrogate values; valid depth-130 config; recursion error kind at extreme malformed depth; and directory config-path errors.",
+    "Astra confirmed the recursive malformed-JSON scanner aborts with SIGABRT/stack overflow on 100000 unclosed array brackets; replace with bounded/iterative parsing and Python-compatible RecursionError."
   ],
   "capability_states": [
     {

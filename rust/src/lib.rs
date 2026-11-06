@@ -245,6 +245,19 @@ const IN_UN_FORMS: [(&str, &str); 4] = [
     ("unexpressive", "inexpressive"),
     ("unfeasible", "infeasible"),
 ];
+const MONDEGREENS_FORMS: [(&str, &str); 8] = [
+    (
+        "a girl with colitis goes by",
+        "a girl with kaleidoscope eyes",
+    ),
+    ("a part-red gingerbread tree", "a partridge in a pear tree"),
+    ("attorney and not a republic", "attorney and notary public"),
+    ("beckon call", "beck and call"),
+    ("for all intensive purposes", "for all intents and purposes"),
+    ("lady mondegreen", "laid him on the green"),
+    ("olive, the other reindeer", "all of the other reindeer"),
+    ("to the manor born", "to the manner born"),
+];
 const MALAPROPISMS: [&str; 3] = [
     "the infinitesimal universe",
     "a serial experience",
@@ -2749,6 +2762,61 @@ pub fn spelling_in_un_diagnostics(text: &str) -> Vec<Value> {
         .collect()
 }
 
+/// Return diagnostics for the pinned `mondegreens` preferred forms.
+pub fn mondegreens_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut active_patterns = Vec::new();
+
+    for (pattern_index, (pattern, replacement)) in MONDEGREENS_FORMS.iter().enumerate() {
+        let pattern_matches = unicode_case_match_ends(&padded, pattern);
+        let activation_position = pattern_matches
+            .iter()
+            .filter(|(start, end)| {
+                !is_ascii_word_before(&padded, *start) && !is_ascii_word_at(&padded, *end)
+            })
+            .map(|(start, _)| *start)
+            .min();
+        let Some(activation_position) = activation_position else {
+            continue;
+        };
+        let mut diagnostics = Vec::new();
+        for (start, end) in pattern_matches {
+            let matched = &padded[start..end];
+            let preferred = preferred_lookup(matched, replacement);
+            let span_start = padded[..start].chars().count();
+            let span_end = span_start + matched.chars().count();
+            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+            if quote_index % 2 == 1 {
+                continue;
+            }
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            diagnostics.push(json!({
+                "check_path": "mondegreens",
+                "message": format!("'{}' is the preferred form.", preferred.unwrap_or("None")),
+                "span": [span_start, span_end],
+                "pos": [line, column],
+                "replacements": preferred,
+            }));
+        }
+        active_patterns.push((activation_position, pattern_index, diagnostics));
+    }
+
+    // FastSet orders activated patterns before the caller applies max_errors.
+    active_patterns.sort_by_key(|(activation_position, pattern_index, _)| {
+        (*activation_position, *pattern_index)
+    });
+    active_patterns
+        .into_iter()
+        .flat_map(|(_, _, diagnostics)| diagnostics)
+        .collect()
+}
+
 /// Return diagnostics for the pinned `spelling.ve_of` preferred forms.
 /// Activation requires word characters at both ends of the raw match.
 pub fn spelling_ve_of_diagnostics(text: &str) -> Vec<Value> {
@@ -3073,5 +3141,91 @@ mod spelling_in_un_tests {
         assert_eq!(diagnostics.len(), 2);
         assert_eq!(diagnostics[0]["span"], json!([27, 38]));
         assert_eq!(diagnostics[1]["span"], json!([15, 25]));
+    }
+}
+
+#[cfg(test)]
+mod mondegreens_tests {
+    use super::mondegreens_diagnostics;
+    use serde_json::json;
+
+    #[test]
+    fn maps_all_eight_phrases_with_exact_messages_and_spans() {
+        let diagnostics = mondegreens_diagnostics(
+            "a girl with colitis goes by | a part-red gingerbread tree | attorney and not a republic | beckon call | for all intensive purposes | lady mondegreen | olive, the other reindeer | to the manor born",
+        );
+        assert_eq!(diagnostics.len(), 8);
+        assert_eq!(
+            diagnostics[0]["message"],
+            "'a girl with kaleidoscope eyes' is the preferred form."
+        );
+        assert_eq!(diagnostics[0]["span"], json!([1, 28]));
+        assert_eq!(
+            diagnostics[1]["message"],
+            "'a partridge in a pear tree' is the preferred form."
+        );
+        assert_eq!(
+            diagnostics[2]["message"],
+            "'attorney and notary public' is the preferred form."
+        );
+        assert_eq!(
+            diagnostics[3]["message"],
+            "'beck and call' is the preferred form."
+        );
+        assert_eq!(
+            diagnostics[4]["message"],
+            "'for all intents and purposes' is the preferred form."
+        );
+        assert_eq!(
+            diagnostics[5]["message"],
+            "'laid him on the green' is the preferred form."
+        );
+        assert_eq!(
+            diagnostics[6]["message"],
+            "'all of the other reindeer' is the preferred form."
+        );
+        assert_eq!(
+            diagnostics[7]["message"],
+            "'to the manner born' is the preferred form."
+        );
+    }
+
+    #[test]
+    fn matching_is_case_insensitive_and_preserves_repetitions() {
+        let diagnostics = mondegreens_diagnostics("BECKON CALL, beckon call");
+        assert_eq!(diagnostics.len(), 2);
+        assert_eq!(
+            diagnostics[0]["message"],
+            "'beck and call' is the preferred form."
+        );
+        assert_eq!(diagnostics[0]["span"], json!([1, 12]));
+        assert_eq!(diagnostics[1]["span"], json!([14, 25]));
+    }
+
+    #[test]
+    fn quotes_and_outer_word_boundaries_match_the_live_contract() {
+        assert!(mondegreens_diagnostics("xbeckon call beckon caller").is_empty());
+        let diagnostics = mondegreens_diagnostics("\"beckon call\" and beckon call");
+        assert_eq!(diagnostics.len(), 1);
+        assert_eq!(diagnostics[0]["span"], json!([19, 30]));
+        let comma = mondegreens_diagnostics("(olive, the other reindeer!)");
+        assert_eq!(comma.len(), 1);
+        assert_eq!(
+            comma[0]["message"],
+            "'all of the other reindeer' is the preferred form."
+        );
+        assert_eq!(comma[0]["span"], json!([2, 27]));
+    }
+
+    #[test]
+    fn pattern_activation_order_is_preserved_before_max_errors() {
+        let diagnostics = mondegreens_diagnostics("to the manor born; a girl with colitis goes by");
+        assert_eq!(diagnostics.len(), 2);
+        assert_eq!(
+            diagnostics[0]["message"],
+            "'to the manner born' is the preferred form."
+        );
+        assert_eq!(diagnostics[0]["span"], json!([1, 18]));
+        assert_eq!(diagnostics[1]["span"], json!([20, 47]));
     }
 }

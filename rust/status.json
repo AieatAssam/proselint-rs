@@ -250,6 +250,10 @@
     {
       "id": "rule.spelling.in_un",
       "status": "recorded"
+    },
+    {
+      "id": "rule.mondegreens",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -271,7 +275,7 @@
   },
   "harness": {
     "status": "independently_verified",
-    "source_fingerprint": "6cb0d0bda40a466b34307204c8b19cc22859c64eaa80c2bfb5c90bbef860054b",
+    "source_fingerprint": "1561d69cee2934282e4a0bb3ec3f03e9d0a191868598ed5563b46a03f6fb7350",
     "unit_tests": {
       "passed": 36,
       "exit_code": 0,
@@ -297,11 +301,11 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "Luna implementer owns rust/src/lib.rs and rust/src/main.rs for mondegreens; coordinator owns rust/status.json, rust/status-history.jsonl, and rust/docs/**."
+    "next_handoff": "mondegreens passed the 567-case cumulative gate. Next: specify skunked_terms, including the pinned Thankfully, boundary behavior."
   },
   "unresolved": [
     "The no-config-found bundled DEFAULT, every default-enabled rule interaction, and combined enabled-rule configurations remain unverified; selected-rule passes do not establish default behavior.",
-    "57 unique rule paths remain unimplemented or unverified.",
+    "55 unique rule paths remain unimplemented or unverified.",
     "Other CLI behavior remains unverified, including remaining subcommands, missing nonempty-XDG config, HOME-unset resolution, directory user candidates, file/directory traversal and decoding edges, multi-file rendering, and Compact output.",
     "Unicode case folding and quote-pairing combinations beyond explicitly tested cases remain unverified.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
@@ -3310,7 +3314,7 @@
     },
     {
       "id": "rule.mondegreens",
-      "status": "in_progress",
+      "status": "recorded",
       "case_ids": [
         "mondegreens_all_mappings",
         "mondegreens_mixed_case_and_repetition",
@@ -3333,25 +3337,49 @@
         "source_fingerprint": "6cb0d0bda40a466b34307204c8b19cc22859c64eaa80c2bfb5c90bbef860054b",
         "build_attestation": "rust/artifacts/20261106T133250577012Z-build.attestation.json"
       },
-      "limitations": [
-        "RED is not acceptance evidence; implementation, focused live green, independent verification, and updated cumulative gate remain required."
-      ]
+      "limitations": [],
+      "green": {
+        "live_cases_passed": 10,
+        "report": "rust/artifacts/mondegreens-live-green-20261106.json",
+        "build_attestation": "rust/artifacts/20261106T133250577012Z-build.attestation.json",
+        "source_fingerprint": "1561d69cee2934282e4a0bb3ec3f03e9d0a191868598ed5563b46a03f6fb7350",
+        "locked_fmt_clippy_tests_build": "passed",
+        "focused_rust_tests": "4 passed",
+        "full_cargo_tests": "477 passed"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 10,
+        "focused_live_report": "rust/artifacts/independent-mondegreens-live-20261106.json",
+        "full_cargo_tests": "477 passed across 58 test binaries",
+        "harness_tests_passed": 36,
+        "comparator_discriminators_passed": 23,
+        "oracle_self_check_passed": 2,
+        "baseline_integrity": "verified before and after",
+        "evidence": "rust/artifacts/independent-mondegreens-live-20261106.json",
+        "source_fingerprint": "1561d69cee2934282e4a0bb3ec3f03e9d0a191868598ed5563b46a03f6fb7350",
+        "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "agent_model": "gpt-6-luna",
+        "agent_reasoning_effort": "low requested",
+        "agent_runtime_metadata": "unavailable",
+        "cli_supported_check_list_assertion": "passed: mondegreens between misc.composition and redundancy.misc.wallace"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/independent-in-un-strict-gate-20261106.json",
-    "passed_cases": 557,
-    "manifest_cases": 563,
+    "report": "rust/artifacts/strict-gate-mondegreens-20261106.json",
+    "passed_cases": 567,
+    "manifest_cases": 573,
     "excluded_manifest_cases": {
       "cli.config.per_file_checks": 4,
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "capability_count": 62,
-    "source_fingerprint": "b502f9337f6f6d4598184aea78143a93d3f3c8f6e3e8b693be8cd79ede7a7971",
-    "run_id": "20261106T132116845617Z-fd92e075",
-    "finished_at_utc": "2026-11-06T13:23:41.677585+00:00"
+    "capability_count": 63,
+    "source_fingerprint": "d87e22aa705ab6158949cee9ecf41b65b5bf2b763651e2ebcf69ee3ecc42a71a",
+    "run_id": "20261106T135115849374Z-8fac2deb",
+    "finished_at_utc": "2026-11-06T13:53:42.374972+00:00"
   },
   "rust_dependencies": {
     "status": "current",
@@ -3374,7 +3402,7 @@
       "rust_version_constraint": "1.99"
     }
   },
-  "next_capability_handoff": "Implement mondegreens from the frozen ten-case RED using pinned PreferredFormsSimple behavior; independently verify and run the cumulative live gate.",
+  "next_capability_handoff": "Specify skunked_terms against the pinned oracle; preserve the literal trailing comma plus WORDS_IN_TEXT edge for Thankfully,; demonstrate meaningful RED, then implement, live-compare, independently verify, and run the cumulative gate.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

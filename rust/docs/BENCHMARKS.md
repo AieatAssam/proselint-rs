@@ -2,7 +2,7 @@
 
 ## Candidate freshness
 
-These are reproducible historical comparisons against pinned Python Proselint 0.16.0, not measurements of the current Rust tree or the full rewrite. The isolated-rule report used Rust source fingerprint `f0aa5422…`; the combined selected-rule report used `e4072d0c…`. The current parity-gated candidate has fingerprint `b502f9337…` (spelling.in_un gate, 2026-11-06). Because production source changed after both timing runs, their speed ratios must not be presented as current-candidate performance. Rerun the parity precheck and benchmark against the final frozen source after implementation is complete.
+These are reproducible historical comparisons against pinned Python Proselint 0.16.0, not measurements of the current Rust tree or the full rewrite. The isolated-rule report used Rust source fingerprint `f0aa5422…`; the combined selected-rule report used `e4072d0c…`. The current parity-gated candidate has fingerprint `d87e22aa7…` (mondegreens gate, 2026-11-06). Because production source changed after both timing runs, their speed ratios must not be presented as current-candidate performance. Rerun the parity precheck and benchmark against the final frozen source after implementation is complete.
 
 
 ## Result

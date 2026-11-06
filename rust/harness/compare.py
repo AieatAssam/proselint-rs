@@ -25,7 +25,7 @@ from setup_oracle import ROOT, RUST_ROOT, oracle_integrity, read_lock
 
 MANIFEST = RUST_ROOT / "harness" / "cases" / "manifest.json"
 REPORT_SCHEMA_VERSION = 1
-EXCLUDED_TREE_PARTS = {".cache", "artifacts", "target", ".git", "__pycache__", "docs", "status.json", "status-history.jsonl"}
+EXCLUDED_TREE_PARTS = {".cache", "artifacts", "target", ".git", "__pycache__", "docs", "inventory.json", "status.json", "status-history.jsonl"}
 VALID_COMPARISON = {"stdout": {"bytes", "json"}, "stderr": {"bytes"}, "exit_status": {"exact"}}
 
 

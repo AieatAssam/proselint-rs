@@ -23,12 +23,14 @@ class ComparatorTests(unittest.TestCase):
             (root / "docs").mkdir()
             source = root / "src" / "main.rs"
             manifest = root / "harness" / "cases" / "manifest.json"
+            inventory = root / "inventory.json"
             status = root / "status.json"
             docs = root / "docs" / "PROGRESS.md"
             migration = root / "MIGRATION.md"
             history = root / "status-history.jsonl"
             source.write_text("fn main() {}", encoding="utf-8")
             manifest.write_text("{}", encoding="utf-8")
+            inventory.write_text("{}", encoding="utf-8")
             status.write_text("{}", encoding="utf-8")
             docs.write_text("progress", encoding="utf-8")
             migration.write_text("protocol", encoding="utf-8")
@@ -38,6 +40,7 @@ class ComparatorTests(unittest.TestCase):
                 docs.write_text("updated progress", encoding="utf-8")
                 migration.write_text("updated protocol", encoding="utf-8")
                 history.write_text("{}\n{}\n", encoding="utf-8")
+                inventory.write_text('{"accepted": ["new"]}', encoding="utf-8")
                 status.write_text('{"accepted": ["new"]}', encoding="utf-8")
                 self.assertEqual(compare.source_fingerprint(), initial)
                 source.write_text("fn main() { changed() }", encoding="utf-8")

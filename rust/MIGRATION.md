@@ -79,7 +79,7 @@ Implement and document these **proposed interfaces** (they are requirements to c
     python3 rust/harness/gate.py --live --report <unique-path.json>
     python3 rust/harness/benchmark.py --live --report <unique-path.json>
 
-Allow configurable absolute executable argv for both implementations and platform-specific executable names. The verifier must rebuild or verify the source fingerprint of the Rust binary before testing; never accept a stale binary. Capture the behavioral source fingerprint, Cargo.lock hash, toolchain and binary hash. The fingerprint covers Rust/build inputs, tests, harness and fixtures/manifests; it excludes Markdown documentation and the acceptance ledger/history because those do not affect the candidate. The exact capability and case scope is recorded in each gate report. Local uncommitted changes to covered files must be reflected in the fingerprint.
+Allow configurable absolute executable argv for both implementations and platform-specific executable names. The verifier must rebuild or verify the source fingerprint of the Rust binary before testing; never accept a stale binary. Capture the behavioral source fingerprint, Cargo.lock hash, toolchain and binary hash. The fingerprint covers Rust/build inputs, tests, harness and fixtures/manifests; it excludes Markdown documentation and the inventory/acceptance ledgers because those do not affect the candidate. The exact capability and case scope is recorded in each gate report. Local uncommitted changes to covered files must be reflected in the fingerprint.
 
 ### Case and execution contract
 

@@ -225,7 +225,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "Implement exact Python exception behavior for NaN, 1e999, and lone-surrogate values in consumed settings, then implement directory config-path errors separately."
+    "next_handoff": "Finish independent verification for cli.config.consumed_special_values; add Astra’s 100000-unclosed-array input as a live regression and confirm current bounded scanner returns structured Python-compatible RecursionError; then implement cli.config.directory_path as a separate slice."
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
@@ -240,7 +240,8 @@
     "Most of the 124 registered rules, default configuration, combined-rule configurations, and Unicode folding beyond tested ASCII remain unverified",
     "Most of the 124 registered rules, default configuration, and combined-rule behavior remain unverified",
     "Most registered rules, default configuration, combined-rule behavior, and Unicode case folding beyond tested ASCII variants remain unverified",
-    "Python-compatible NaN, 1e999, and lone-surrogate values in consumed settings still need exact error-behavior parity; directory config paths still lack structured OSError output. Additional malformed-depth behavior beyond accepted boundary cases remains subject to targeted live reproduction."
+    "Python-compatible NaN, 1e999, and lone-surrogate values in consumed settings still need exact error-behavior parity; directory config paths still lack structured OSError output. Additional malformed-depth behavior beyond accepted boundary cases remains subject to targeted live reproduction.",
+    "Astra live review identified a historical SIGABRT on 100000 unclosed JSON array brackets; the current iterative bounded scanner appears to mitigate it, but the exact reviewed input is not yet a permanent verified regression."
   ],
   "capability_states": [
     {
@@ -2334,5 +2335,43 @@
       "rust_version_constraint": "1.99"
     }
   },
-  "next_capability_handoff": "Use pinned-oracle probes for non-finite and lone-surrogate values in consumed configuration fields to reproduce their ValueError/AttributeError behavior; then address structured directory-config OSError output."
+  "next_capability_handoff": "1) Complete consumed_special_values independent verification and cumulative gate. 2) Permanently add/replay the 100000-unclosed-array Astra reproducer against pinned Python and the current Rust binary; record the mitigation only if no stack abort occurs and output matches. 3) Implement structured directory-config OSError behavior using the existing unaccepted red case.",
+  "live_review_findings": {
+    "reviewer": "Astra, low effort",
+    "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",
+    "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+    "reviewed_source_fingerprint": "a1ec14cca3cc20136cd72bbb84bc6a35bbd481d84e2d07003b242b7fed9abd7a",
+    "plan": [
+      {
+        "priority": 1,
+        "finding": "100000 unclosed array brackets caused SIGABRT/stack overflow in the reviewed candidate.",
+        "disposition": "Mitigation is present in the iterative bounded scanner and accepted depth capability; add this exact input as a permanent live regression and verify it returns Python-compatible structured RecursionError on the current source before claiming the robustness issue closed.",
+        "scope": "cli.config.recursion_depth"
+      },
+      {
+        "priority": 2,
+        "finding": "Python accepts NaN, 1e999, and lone-surrogate JSON values that serde_json rejects; when values are consumed, Python can raise value-specific ValueError/AttributeError.",
+        "disposition": "Active slice cli.config.consumed_special_values; complete independent verification and record its tested type/context limits. Keep ignored-field acceptance separate from consumed-field error semantics.",
+        "scope": "cli.config.ignored_values; cli.config.consumed_special_values"
+      },
+      {
+        "priority": 3,
+        "finding": "A directory passed as --config returns structured JSON OSError from Python but generic stderr from Rust.",
+        "disposition": "Existing unaccepted cli.config.directory_path red case; retain it as a separate next implementation slice after consumed-value verification.",
+        "scope": "cli.config.directory_path"
+      },
+      {
+        "priority": 4,
+        "finding": "Valid depth-130 config and Python recursion-boundary/error wording diverged in the reviewed source.",
+        "disposition": "Depth-130 and pinned recursion boundary behavior are covered by the recorded recursion-depth capability; review report used an older source fingerprint. Preserve separate coverage for any recursion behavior outside the accepted cases.",
+        "scope": "cli.config.recursion_depth"
+      },
+      {
+        "priority": 5,
+        "finding": "Astra observed Python-valid NaN, 1e999, and lone-surrogate values in ignored fields being rejected by the candidate.",
+        "disposition": "Resolved for the five accepted ignored_values cases; current source also has a consumed_special_values slice pending independent verification. Do not broaden claims beyond those cases.",
+        "scope": "cli.config.ignored_values"
+      }
+    ]
+  }
 }

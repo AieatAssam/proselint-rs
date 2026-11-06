@@ -263,6 +263,16 @@ const MALAPROPISMS: [&str; 3] = [
     "a serial experience",
     "attack my voracity",
 ];
+const SKUNKED_TERMS: [&str; 8] = [
+    "bona fides",
+    "deceptively",
+    "decimate",
+    "effete",
+    "fulsome",
+    "hopefully",
+    "impassionate",
+    "Thankfully,",
+];
 const VE_OF_FORMS: [(&str, &str); 3] = [
     ("could of", "could've"),
     ("should of", "should've"),
@@ -477,6 +487,112 @@ pub fn malapropisms_diagnostics(text: &str) -> Vec<Value> {
         .into_iter()
         .flat_map(|(_, _, diagnostics)| diagnostics)
         .collect()
+}
+
+/// Return diagnostics for the pinned `skunked_terms` existence check.
+pub fn skunked_terms_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut active_patterns = Vec::new();
+
+    for (pattern_index, pattern) in SKUNKED_TERMS.iter().enumerate() {
+        let pattern_matches = unicode_case_match_ends(&padded, pattern);
+        let activation_position = pattern_matches
+            .iter()
+            .filter(|(start, end)| {
+                is_ascii_word_before(&padded, *start) != is_ascii_word_at(&padded, *start)
+                    && is_ascii_word_before(&padded, *end) != is_ascii_word_at(&padded, *end)
+            })
+            .map(|(start, _)| *start)
+            .min();
+        let Some(activation_position) = activation_position else {
+            continue;
+        };
+
+        let mut diagnostics = Vec::new();
+        for (start, end) in pattern_matches {
+            let matched = &padded[start..end];
+            let span_start = padded[..start].chars().count();
+            let span_end = span_start + matched.chars().count();
+            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+            if quote_index % 2 == 1 {
+                continue;
+            }
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            diagnostics.push(json!({
+                "check_path": "skunked_terms",
+                "message": format!("'{}' is a a skunked term - impossible to use without issue. Find some other way to say it.", matched.trim()),
+                "span": [span_start, span_end],
+                "pos": [line, column],
+                "replacements": null,
+            }));
+        }
+        active_patterns.push((activation_position, pattern_index, diagnostics));
+    }
+
+    // FastSet selects patterns by padded boundaries, then emits their raw matches.
+    active_patterns.sort_by_key(|(activation_position, pattern_index, _)| {
+        (*activation_position, *pattern_index)
+    });
+    active_patterns
+        .into_iter()
+        .flat_map(|(_, _, diagnostics)| diagnostics)
+        .collect()
+}
+
+#[cfg(test)]
+mod skunked_terms_tests {
+    use super::skunked_terms_diagnostics;
+    use serde_json::json;
+
+    #[test]
+    fn reports_the_seven_standard_terms() {
+        let diagnostics = skunked_terms_diagnostics(
+            "bona fides deceptively decimate effete fulsome hopefully impassionate",
+        );
+        assert_eq!(diagnostics.len(), 7);
+        assert_eq!(diagnostics[0]["span"], json!([1, 11]));
+        assert_eq!(
+            diagnostics[0]["message"],
+            "'bona fides' is a a skunked term - impossible to use without issue. Find some other way to say it."
+        );
+        assert_eq!(
+            diagnostics[6]["message"],
+            "'impassionate' is a a skunked term - impossible to use without issue. Find some other way to say it."
+        );
+        assert!(
+            diagnostics
+                .iter()
+                .all(|diagnostic| diagnostic["replacements"].is_null())
+        );
+    }
+
+    #[test]
+    fn comma_pattern_needs_a_following_word_for_activation() {
+        let diagnostics = skunked_terms_diagnostics("Thankfully,however");
+        assert_eq!(diagnostics.len(), 1);
+        assert_eq!(diagnostics[0]["span"], json!([1, 12]));
+        assert_eq!(
+            diagnostics[0]["message"],
+            "'Thankfully,' is a a skunked term - impossible to use without issue. Find some other way to say it."
+        );
+        assert!(skunked_terms_diagnostics("Thankfully,").is_empty());
+        assert!(skunked_terms_diagnostics("Thankfully, however").is_empty());
+    }
+
+    #[test]
+    fn quoted_activation_keeps_the_later_raw_match_before_a_space() {
+        let diagnostics =
+            skunked_terms_diagnostics("\"Thankfully,however\" decimate Thankfully, I agree.");
+        assert_eq!(diagnostics.len(), 2);
+        assert_eq!(diagnostics[0]["span"], json!([31, 42]));
+        assert_eq!(diagnostics[1]["span"], json!([22, 30]));
+    }
 }
 
 /// Return diagnostics for the pinned `misc.apologizing` literal rule.

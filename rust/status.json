@@ -254,6 +254,10 @@
     {
       "id": "rule.mondegreens",
       "status": "recorded"
+    },
+    {
+      "id": "rule.skunked_terms",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -275,7 +279,7 @@
   },
   "harness": {
     "status": "independently_verified",
-    "source_fingerprint": "eff70100c88b18084fd5e8cb81569957865335d30e8882bd4ee33183d4d03e8a",
+    "source_fingerprint": "9ecc3f3d445d14fff0dc4a1c98b57579be18abc40b240fbc40a9bf5bb6770d9e",
     "unit_tests": {
       "passed": 37,
       "exit_code": 0,
@@ -301,11 +305,11 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "Luna implementer owns rust/src/lib.rs and rust/src/main.rs for skunked_terms; coordinator owns rust/status.json, rust/status-history.jsonl, and rust/docs/**."
+    "next_handoff": "skunked_terms passed the 578-case cumulative gate. Next: specify oxymorons, including its optional-s regex case."
   },
   "unresolved": [
     "The no-config-found bundled DEFAULT, every default-enabled rule interaction, and combined enabled-rule configurations remain unverified; selected-rule passes do not establish default behavior.",
-    "55 unique rule paths remain unimplemented or unverified.",
+    "54 unique rule paths remain unimplemented or unverified.",
     "Other CLI behavior remains unverified, including remaining subcommands, missing nonempty-XDG config, HOME-unset resolution, directory user candidates, file/directory traversal and decoding edges, multi-file rendering, and Compact output.",
     "Unicode case folding and quote-pairing combinations beyond explicitly tested cases remain unverified.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
@@ -3367,7 +3371,7 @@
     },
     {
       "id": "rule.skunked_terms",
-      "status": "in_progress",
+      "status": "recorded",
       "case_ids": [
         "skunked_terms_all_ordinary_phrases",
         "skunked_terms_thankfully_punctuation",
@@ -3391,25 +3395,49 @@
         "source_fingerprint": "eff70100c88b18084fd5e8cb81569957865335d30e8882bd4ee33183d4d03e8a",
         "build_attestation": "rust/artifacts/20261106T135741799605Z-build.attestation.json"
       },
-      "limitations": [
-        "RED is not acceptance evidence; implementation, focused live green, independent verification, and updated cumulative gate remain required."
-      ]
+      "limitations": [],
+      "green": {
+        "live_cases_passed": 11,
+        "report": "rust/artifacts/skunked-terms-live-green-20261106.json",
+        "build_attestation": "rust/artifacts/20261106T141323851888Z-build.attestation.json",
+        "source_fingerprint": "9ecc3f3d445d14fff0dc4a1c98b57579be18abc40b240fbc40a9bf5bb6770d9e",
+        "locked_fmt_clippy_tests_build": "passed",
+        "focused_rust_tests": "3 passed",
+        "full_cargo_tests": "480 passed"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 11,
+        "focused_live_report": "rust/artifacts/independent-skunked-terms-live-20261106.json",
+        "full_cargo_tests": "480 passed across 58 test binaries",
+        "harness_tests_passed": 37,
+        "comparator_discriminators_passed": 23,
+        "oracle_self_check_passed": 2,
+        "baseline_integrity": "verified before and after",
+        "evidence": "rust/artifacts/independent-skunked-terms-live-20261106.json",
+        "source_fingerprint": "9ecc3f3d445d14fff0dc4a1c98b57579be18abc40b240fbc40a9bf5bb6770d9e",
+        "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "agent_model": "gpt-6-luna",
+        "agent_reasoning_effort": "low requested",
+        "agent_runtime_metadata": "unavailable",
+        "sol_probe": "quoted activation followed by raw unquoted Thankfully, at [31,42] passes with max_errors=1"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-mondegreens-20261106.json",
-    "passed_cases": 567,
-    "manifest_cases": 573,
+    "report": "rust/artifacts/strict-gate-skunked-terms-final-20261106.json",
+    "passed_cases": 578,
+    "manifest_cases": 584,
     "excluded_manifest_cases": {
       "cli.config.per_file_checks": 4,
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "capability_count": 63,
-    "source_fingerprint": "d87e22aa705ab6158949cee9ecf41b65b5bf2b763651e2ebcf69ee3ecc42a71a",
-    "run_id": "20261106T135115849374Z-8fac2deb",
-    "finished_at_utc": "2026-11-06T13:53:42.374972+00:00"
+    "capability_count": 64,
+    "source_fingerprint": "2ae05f171274a3ebb778a6aaef689b8e5712e54de701a02bd3da0ab443799bbd",
+    "run_id": "20261106T142151933663Z-0fd238e1",
+    "finished_at_utc": "2026-11-06T14:24:29.723385+00:00"
   },
   "rust_dependencies": {
     "status": "current",
@@ -3432,7 +3460,7 @@
       "rust_version_constraint": "1.99"
     }
   },
-  "next_capability_handoff": "Implement skunked_terms from its eleven frozen RED cases; preserve the literal trailing comma / WORDS_IN_TEXT / raw-match / quote-filter / max_errors behavior, then independently verify and run the cumulative gate.",
+  "next_capability_handoff": "Specify oxymorons against the pinned oracle; cover `advancing backwards?` as a regex with optional final s, then demonstrate meaningful RED, implement, independently verify, and run the cumulative gate.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

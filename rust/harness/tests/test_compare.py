@@ -545,6 +545,16 @@ class ComparatorTests(unittest.TestCase):
             "terms_eponymous_adjectives_clean_boundaries",
             "terms_eponymous_adjectives_unicode_positions",
             "terms_eponymous_adjectives_max_errors_one",
+            "spelling_ally_ly_all_mappings",
+            "spelling_ally_ly_case_and_repetition",
+            "spelling_ally_ly_clean_and_word_boundaries",
+            "spelling_ally_ly_raw_occurrences_after_activation",
+            "spelling_ally_ly_quote_suppression",
+            "spelling_ally_ly_unicode_positions",
+            "spelling_ally_ly_max_errors_one",
+            "spelling_ally_ly_limit_activation_order",
+            "spelling_ally_ly_long_s_lookup",
+            "spelling_ally_ly_quoted_activation",
         }
         self.assertEqual({item["id"] for item in manifest["cases"]}, expected_case_ids)
         self.assertEqual(len(manifest["cases"]), len(expected_case_ids))
@@ -552,7 +562,7 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(
             {capability: sum(case["capability_id"] == capability for case in manifest["cases"])
              for capability in {case["capability_id"] for case in manifest["cases"]}},
-            {'rule.misc.debased': 13, 'rule.misc.capitalization.days': 10, 'rule.cliches.hell': 7, 'harness.oracle_smoke': 2, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.misc.latin': 10, 'rule.misc.back_formations': 8, 'rule.misc.capitalization.terms': 10, 'rule.industrial_language.airlinese': 12, 'cli.json_no_findings': 8, 'rule.misc.phrasal_adjectives.ly': 7, 'rule.misc.greylist': 9, 'rule.misc.many_a': 10, 'cli.output_format.full': 3, 'cli.config.ignored_values': 5, 'rule.misc.professions': 8, 'cli.config.cwd_discovery': 3, 'cli.config.ancestor_discovery': 5, 'rule.misc.illogic.coin': 7, 'rule.hedging': 13, 'cli.config.invalid_utf8': 5, 'rule.misc.whence': 6, 'rule.annotations.misc': 10, 'rule.typography.symbols.sentence_spacing': 7, 'cli.config.consumed_special_values': 12, 'cli.config.malformed_json': 22, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.copyright': 6, 'rule.misc.pretension': 9, 'cli.config.recursion_depth': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.misc.institution_name': 8, 'rule.misc.currency': 12, 'rule.misc.suddenly': 7, 'cli.coordinates': 6, 'rule.misc.but': 8, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.collusion': 7, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.capitalization.seasons': 10, 'cli.config.directory_path': 4, 'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 10, 'rule.misc.inferior_superior': 12, 'rule.misc.false_plurals.misc': 9, 'cli.config.per_file_checks': 4, 'rule.redundancy.misc.wallace': 10, 'rule.dates_times.am_pm.spacing': 8, 'rule.typography.symbols.ellipsis': 6, 'rule.psychology.lie_detector': 12, 'rule.industrial_language.jargon': 10, 'cli.config.user_discovery': 8, 'rule.misc.capitalization.months': 6, 'rule.psychology.p_equals_zero': 8, 'spelling.ance_ence': 10, 'rule.misc.composition': 38, 'cli.combined_checks': 3, 'rule.terms.eponymous_adjectives': 4},
+            {'rule.misc.debased': 13, 'rule.misc.capitalization.days': 10, 'rule.cliches.hell': 7, 'harness.oracle_smoke': 2, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.misc.latin': 10, 'rule.misc.back_formations': 8, 'rule.misc.capitalization.terms': 10, 'rule.industrial_language.airlinese': 12, 'cli.json_no_findings': 8, 'rule.misc.phrasal_adjectives.ly': 7, 'rule.misc.greylist': 9, 'rule.misc.many_a': 10, 'cli.output_format.full': 3, 'cli.config.ignored_values': 5, 'rule.misc.professions': 8, 'cli.config.cwd_discovery': 3, 'cli.config.ancestor_discovery': 5, 'rule.misc.illogic.coin': 7, 'rule.hedging': 13, 'cli.config.invalid_utf8': 5, 'rule.misc.whence': 6, 'rule.annotations.misc': 10, 'rule.typography.symbols.sentence_spacing': 7, 'cli.config.consumed_special_values': 12, 'cli.config.malformed_json': 22, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.copyright': 6, 'rule.misc.pretension': 9, 'cli.config.recursion_depth': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.misc.institution_name': 8, 'rule.misc.currency': 12, 'rule.misc.suddenly': 7, 'cli.coordinates': 6, 'rule.misc.but': 8, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.collusion': 7, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.capitalization.seasons': 10, 'cli.config.directory_path': 4, 'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 10, 'rule.misc.inferior_superior': 12, 'rule.misc.false_plurals.misc': 9, 'cli.config.per_file_checks': 4, 'rule.redundancy.misc.wallace': 10, 'rule.dates_times.am_pm.spacing': 8, 'rule.typography.symbols.ellipsis': 6, 'rule.psychology.lie_detector': 12, 'rule.industrial_language.jargon': 10, 'cli.config.user_discovery': 8, 'rule.misc.capitalization.months': 6, 'rule.psychology.p_equals_zero': 8, 'spelling.ance_ence': 10, 'rule.misc.composition': 38, 'cli.combined_checks': 3, 'rule.terms.eponymous_adjectives': 4, 'rule.spelling.ally_ly': 10},
         )
 
     def test_eponymous_adjectives_cases_select_only_registered_check(self) -> None:
@@ -570,6 +580,29 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(
             [json.loads(base64.b64decode(case["files"][0]["content_base64"]))["max_errors"] for case in cases],
             [1000, 1000, 1000, 1],
+        )
+
+    def test_ally_ly_cases_select_only_registered_check(self) -> None:
+        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "rule.spelling.ally_ly"]
+        self.assertEqual({case["id"] for case in cases}, {
+            "spelling_ally_ly_all_mappings",
+            "spelling_ally_ly_case_and_repetition",
+            "spelling_ally_ly_clean_and_word_boundaries",
+            "spelling_ally_ly_raw_occurrences_after_activation",
+            "spelling_ally_ly_quote_suppression",
+            "spelling_ally_ly_unicode_positions",
+            "spelling_ally_ly_max_errors_one",
+            "spelling_ally_ly_limit_activation_order",
+            "spelling_ally_ly_long_s_lookup",
+            "spelling_ally_ly_quoted_activation",
+        })
+        for case in cases:
+            self.assertEqual(len(case["files"]), 1)
+            config = json.loads(base64.b64decode(case["files"][0]["content_base64"]))
+            self.assertEqual(config["checks"], {"spelling": {"ally_ly": True}})
+        self.assertEqual(
+            [json.loads(base64.b64decode(case["files"][0]["content_base64"]))["max_errors"] for case in cases],
+            [1000, 1000, 1000, 1000, 1000, 1000, 1, 1, 1, 1],
         )
 
     def test_combined_check_cases_enable_the_expected_paths(self) -> None:

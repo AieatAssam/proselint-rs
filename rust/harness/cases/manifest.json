@@ -16966,6 +16966,346 @@
         "--output-format",
         "json"
       ]
+    },
+    {
+      "id": "spelling_ally_ly_all_mappings",
+      "capability_id": "rule.spelling.ally_ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/spelling/ally_ly.py registers PreferredFormsSimple with eight source→preferred mappings, Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, and message \"-ally vs. -ly. '{}' is the correct spelling.\" Exercises all eight mappings and confirms exact messages, replacement values, spans, and result order against the live CLI.",
+      "input_mode": "stdin",
+      "stdin_base64": "YWNhZGVtaWNseSBhY2NpZGVudGx5IGF1dG9tYXRpY2x5IGJhc2ljbHkgZHJhbWF0aWNseSBlbW90aW9ubHkgaW5jaWRlbnRseSBvcHRpbWlzdGljbHk=",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ally_ly_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ally ly config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsiYWxseV9seSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ally ly config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ally_ly_case_and_repetition",
+      "capability_id": "rule.spelling.ally_ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/spelling/ally_ly.py registers PreferredFormsSimple with eight source→preferred mappings, Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, and message \"-ally vs. -ly. '{}' is the correct spelling.\" Mixed-case and repeated occurrences exercise case-insensitive matching while retaining the observed source text in each message.",
+      "input_mode": "stdin",
+      "stdin_base64": "QWNhZGVtaWNseSBBQ0FERU1JQ0xZIGFjY2lkZW50bHkgQWNjaWRlbnRseQ==",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ally_ly_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ally ly config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsiYWxseV9seSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ally ly config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ally_ly_clean_and_word_boundaries",
+      "capability_id": "rule.spelling.ally_ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/spelling/ally_ly.py registers PreferredFormsSimple with eight source→preferred mappings, Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, and message \"-ally vs. -ly. '{}' is the correct spelling.\" All preferred forms are clean. A lone embedded spelling has no WORDS_IN_TEXT activation and produces no result.",
+      "input_mode": "stdin",
+      "stdin_base64": "YWNhZGVtaWNhbGx5IGFjY2lkZW50YWxseSBhdXRvbWF0aWNhbGx5IGJhc2ljYWxseSBkcmFtYXRpY2FsbHkgZW1vdGlvbmFsbHkgaW5jaWRlbnRhbGx5IG9wdGltaXN0aWNhbGx5IHhhY2FkZW1pY2x5IGFjYWRlbWljbHl4",
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ally_ly_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ally ly config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsiYWxseV9seSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ally ly config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ally_ly_raw_occurrences_after_activation",
+      "capability_id": "rule.spelling.ally_ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/spelling/ally_ly.py registers PreferredFormsSimple with eight source→preferred mappings, Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, and message \"-ally vs. -ly. '{}' is the correct spelling.\" FastSet WORDS_IN_TEXT activation by the second occurrence selects the spelling pattern; subsequent raw finditer reports both the embedded first occurrence and bounded second occurrence.",
+      "input_mode": "stdin",
+      "stdin_base64": "YWNhZGVtaWNseXggYWNhZGVtaWNseQ==",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ally_ly_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ally ly config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsiYWxseV9seSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ally ly config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ally_ly_quote_suppression",
+      "capability_id": "rule.spelling.ally_ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/spelling/ally_ly.py registers PreferredFormsSimple with eight source→preferred mappings, Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, and message \"-ally vs. -ly. '{}' is the correct spelling.\" The quoted spelling is suppressed by allow_quotes=false while the unquoted spelling remains reportable.",
+      "input_mode": "stdin",
+      "stdin_base64": "ImFjYWRlbWljbHkiIGFjY2lkZW50bHk=",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ally_ly_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ally ly config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsiYWxseV9seSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ally ly config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ally_ly_unicode_positions",
+      "capability_id": "rule.spelling.ally_ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/spelling/ally_ly.py registers PreferredFormsSimple with eight source→preferred mappings, Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, and message \"-ally vs. -ly. '{}' is the correct spelling.\" Emoji/non-ASCII prefixes and a second line exercise Python code-point positions and line/column reporting.",
+      "input_mode": "stdin",
+      "stdin_base64": "8J+ZgiBhY2FkZW1pY2x5LgrDiSBhY2NpZGVudGx5",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ally_ly_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ally ly config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsiYWxseV9seSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ally ly config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ally_ly_max_errors_one",
+      "capability_id": "rule.spelling.ally_ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/spelling/ally_ly.py registers PreferredFormsSimple with eight source→preferred mappings, Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, and message \"-ally vs. -ly. '{}' is the correct spelling.\" With two different mappings in reverse registry order, max_errors=1 preserves the first generated finding at the earlier source position.",
+      "input_mode": "stdin",
+      "stdin_base64": "b3B0aW1pc3RpY2x5IGFjYWRlbWljbHk=",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ally_ly_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ally ly config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsic3BlbGxpbmciOnsiYWxseV9seSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ally ly config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ally_ly_limit_activation_order",
+      "capability_id": "rule.spelling.ally_ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/spelling/ally_ly.py uses case-insensitive Fast matching with WORDS_IN_TEXT activation, then reports raw occurrences. With max_errors=1, the bounded optimisticly occurrence activates its pattern before the later bounded academicly activates that pattern; the embedded xacademicly hit is not emitted first.",
+      "input_mode": "stdin",
+      "stdin_base64": "eGFjYWRlbWljbHkgb3B0aW1pc3RpY2x5IGFjYWRlbWljbHk=",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ally_ly_only_max_errors_one",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ally ly config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsic3BlbGxpbmciOnsiYWxseV9seSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ally ly config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ally_ly_long_s_lookup",
+      "capability_id": "rule.spelling.ally_ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live Fast case-insensitive matching recognizes long-s forms, but PreferredFormsSimple lookup uses original.lower(), which leaves long-s unchanged and yields a None replacement.",
+      "input_mode": "stdin",
+      "stdin_base64": "YmHFv2ljbHkgb3B0aW1pxb90aWNseQ==",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ally_ly_only_max_errors_one",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ally ly config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsic3BlbGxpbmciOnsiYWxseV9seSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ally ly config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ally_ly_quoted_activation",
+      "capability_id": "rule.spelling.ally_ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; a quoted academicly occurrence activates its FastSet pattern before allow_quotes=false suppresses that hit, so the later raw xacademicly occurrence is emitted first under max_errors=1.",
+      "input_mode": "stdin",
+      "stdin_base64": "ImFjYWRlbWljbHkiIG9wdGltaXN0aWNseSB4YWNhZGVtaWNseQ==",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ally_ly_only_max_errors_one",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ally ly config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsic3BlbGxpbmciOnsiYWxseV9seSI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ally ly config.json}",
+        "--output-format",
+        "json"
+      ]
     }
   ]
 }

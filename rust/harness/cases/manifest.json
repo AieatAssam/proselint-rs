@@ -22168,6 +22168,39 @@
         }
       ],
       "config_scenario": "explicit_selected_rule"
+    },
+    {
+      "capability_id": "spelling.able_ible",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; confirms Unicode casefold edge behavior of spelling.able_ible with long s and Cyrillic i. Expected oracle output confirmed by the pinned executable.",
+      "input_mode": "stdin",
+      "output_format": "json",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "id": "spelling_able_ible_unicode_casefolds",
+      "stdin_base64": "xb9lbnNhYmxlIHNlbsW/YWJsZSB2aXNhYmxlIHbRlnNhYmxl",
+      "expected_oracle_outcome": "findings",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsiYWJsZV9pYmxlIjp0cnVlfX19"
+        }
+      ],
+      "config_scenario": "explicit_selected_rule"
     }
   ]
 }

@@ -322,7 +322,7 @@
     "independent_evidence": "rust/artifacts/independent-review-fixes/final-gate-348.json"
   },
   "active_ownership": {
-    "current": "Parallel isolated implementation of spelling.er_or and spelling.able_ible; spelling.able_atable cases are specified, with live RED pending. Coordinator owns shared exports, main.rs, manifest, status and docs.",
+    "current": "Parallel isolated spelling module work: spelling.able_ible and spelling.er_or focused GREEN; spelling.able_atable has pinned live RED 8/8 and is in implementation. Coordinator owns shared lib.rs/main.rs integration.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -3948,10 +3948,11 @@
         "spelling_able_ible_quotes",
         "spelling_able_ible_unicode_positions",
         "spelling_able_ible_max_errors_one",
-        "spelling_able_ible_max_errors_order"
+        "spelling_able_ible_max_errors_order",
+        "spelling_able_ible_unicode_casefolds"
       ],
       "registered_entries_exercised": 1,
-      "upstream_spec": "142 insertion-ordered preferred-form mappings; Fast case-insensitive PreferredFormsSimple with WORDS_IN_TEXT boundaries; exact message `-able vs. -ible. '{}' is the preferred spelling.`; replacement is the mapped spelling.",
+      "upstream_spec": "156 insertion-ordered preferred-form mappings; Fast case-insensitive PreferredFormsSimple with WORDS_IN_TEXT boundaries; exact message `-able vs. -ible. '{}' is the preferred spelling.`; replacement is the mapped spelling.",
       "red": {
         "focused_live_report": "rust/artifacts/spelling-able_ible-red-20261106/live-red.json",
         "live_cases": 8,
@@ -3966,14 +3967,21 @@
         "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
         "oracle_integrity": "verified"
       },
-      "implementation": "in progress in isolated rust/src/rules module; shared export/CLI integration is coordinator-owned",
+      "implementation": "in progress in isolated rust/src/rules module; shared export/CLI integration is coordinator-owned; the additional Unicode-casefold live case is frozen and awaits the focused GREEN comparison",
       "agent_model": "gpt-6-luna",
       "agent_reasoning_effort": "low requested",
-      "agent_runtime_metadata": "unavailable"
+      "agent_runtime_metadata": "unavailable",
+      "additional_case_specification": {
+        "case_id": "spelling_able_ible_unicode_casefolds",
+        "case_count": 1,
+        "oracle_result": "two findings: sen\u017fable with None/null replacement and visable with visible; no findings for \u017fensable or Cyrillic v\u0456sable",
+        "oracle_integrity": "verified before and after",
+        "evidence": "rust/harness/cases/manifest.json"
+      }
     },
     {
       "id": "spelling.able_atable",
-      "status": "specified_live_cases_pending_red",
+      "status": "red_verified_implementation_in_progress",
       "case_ids": [
         "spelling_able_atable_representative_mappings",
         "spelling_able_atable_clean_controls",
@@ -3996,10 +4004,24 @@
         "harness_tests_passed": 34,
         "evidence": "rust/harness/cases/manifest.json"
       },
-      "implementation": "not started; wait for pinned-live RED after current spelling modules are integrated",
+      "implementation": "in progress in isolated rust/src/rules module; shared export/CLI integration is coordinator-owned",
       "agent_model": "gpt-6-luna",
       "agent_reasoning_effort": "low requested",
-      "agent_runtime_metadata": "unavailable"
+      "agent_runtime_metadata": "unavailable",
+      "red": {
+        "focused_live_report": "rust/artifacts/spelling-able_atable-red-20261106/live-red.json",
+        "live_cases": 8,
+        "mismatches": 8,
+        "candidate_errors": 0,
+        "oracle_errors": 0,
+        "timeouts": 0,
+        "started_at_utc": "2026-11-06T19:27:22.097958+00:00",
+        "finished_at_utc": "2026-11-06T19:27:28.109882+00:00",
+        "duration_seconds": 6.011924,
+        "source_fingerprint": "48e78aa5c3af22c83b6ecc5f9467a926d37dbee5f143fa69efb63e895a4b5586",
+        "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "oracle_integrity": "verified before and after"
+      }
     }
   ],
   "last_strict_gate": {
@@ -4043,7 +4065,7 @@
       "checked_after_gate": "2026-11-06T17:09:30Z"
     }
   },
-  "next_capability_handoff": "Finish isolated rule modules and focused Rust tests for spelling.er_or and spelling.able_ible, then integrate both through the coordinator-owned lib.rs/main.rs and run focused live GREEN plus separate independent verifications.",
+  "next_capability_handoff": "Finish spelling.able_atable isolated module/test, then integrate all three spelling modules through coordinator-owned lib.rs/main.rs and run focused live GREEN plus separate independent verification.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

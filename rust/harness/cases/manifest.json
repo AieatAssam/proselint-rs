@@ -11506,6 +11506,870 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "cli_config_malformed_json_empty",
+      "capability_id": "cli.config.malformed_json",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI response captured live; malformed explicit JSON config returns top-level JSONDecodeError ResponseError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "malformed config.json",
+          "content_base64": ""
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malformed config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_json_empty",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_malformed_json_trailing_comma",
+      "capability_id": "cli.config.malformed_json",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI response captured live; malformed explicit JSON config returns top-level JSONDecodeError ResponseError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "malformed config.json",
+          "content_base64": "eyJjaGVja3MiOnt9LH0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malformed config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_json_trailing_comma",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_malformed_json_invalid_escape",
+      "capability_id": "cli.config.malformed_json",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI response captured live; malformed explicit JSON config returns top-level JSONDecodeError ResponseError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "malformed config.json",
+          "content_base64": "eyJjaGVja3MiOnsieCI6IlxxIn19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malformed config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_json_invalid_escape",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_malformed_json_unterminated_string",
+      "capability_id": "cli.config.malformed_json",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI response captured live; malformed explicit JSON config returns top-level JSONDecodeError ResponseError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "malformed config.json",
+          "content_base64": "eyJjaGVja3MiOnsieCI6Im9vcHN9fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malformed config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_json_unterminated_string",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_malformed_json_extra_data",
+      "capability_id": "cli.config.malformed_json",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI response captured live; malformed explicit JSON config returns top-level JSONDecodeError ResponseError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "malformed config.json",
+          "content_base64": "e30ge30="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malformed config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_json_extra_data",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_malformed_json_missing_colon",
+      "capability_id": "cli.config.malformed_json",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI response captured live; malformed explicit JSON config returns top-level JSONDecodeError ResponseError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "malformed config.json",
+          "content_base64": "eyJjaGVja3MiIHt9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malformed config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_json_missing_colon",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_malformed_json_leading_zero",
+      "capability_id": "cli.config.malformed_json",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI response captured live; malformed explicit JSON config returns top-level JSONDecodeError ResponseError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "malformed config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjowMX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malformed config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_json_leading_zero",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_malformed_json_multibyte_multiline",
+      "capability_id": "cli.config.malformed_json",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI response captured live; malformed explicit JSON config returns top-level JSONDecodeError ResponseError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "malformed config.json",
+          "content_base64": "ewogICJjaGVja3MiOiB7IsOpIjogdHJ1ZSwKICB9Cn0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malformed config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_json_multibyte_multiline",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_malformed_json_crlf_newlines",
+      "capability_id": "cli.config.malformed_json",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI response captured live; malformed explicit JSON config returns top-level JSONDecodeError ResponseError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "malformed config.json",
+          "content_base64": "ew0KICAiY2hlY2tzIjogLA0KfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malformed config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_json_crlf_newlines",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_malformed_json_incomplete_exponent",
+      "capability_id": "cli.config.malformed_json",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI response captured live; malformed explicit JSON config returns top-level JSONDecodeError ResponseError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "malformed config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxZX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malformed config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_json_incomplete_exponent",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_malformed_json_incomplete_unicode_escape",
+      "capability_id": "cli.config.malformed_json",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI response captured live; malformed explicit JSON config returns top-level JSONDecodeError ResponseError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "malformed config.json",
+          "content_base64": "eyJjaGVja3MiOiJcdTEyIn0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malformed config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_json_incomplete_unicode_escape",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_malformed_json_array_trailing_comma",
+      "capability_id": "cli.config.malformed_json",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI response captured live with exact config bytes; malformed explicit JSON config returns top-level JSONDecodeError ResponseError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "malformed config.json",
+          "content_base64": "WzEsXQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malformed config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_json_array_trailing_comma",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_malformed_json_literal_control_character",
+      "capability_id": "cli.config.malformed_json",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI response captured live with exact config bytes; malformed explicit JSON config returns top-level JSONDecodeError ResponseError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "malformed config.json",
+          "content_base64": "eyJ4IjoiYQFiIn0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malformed config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_json_literal_control_character",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_malformed_json_utf8_bom",
+      "capability_id": "cli.config.malformed_json",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI response captured live with exact config bytes; malformed explicit JSON config returns top-level JSONDecodeError ResponseError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "malformed config.json",
+          "content_base64": "77u/e30="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malformed config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_json_utf8_bom",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_malformed_json_leading_newline",
+      "capability_id": "cli.config.malformed_json",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI response captured live with exact config bytes; malformed explicit JSON config returns top-level JSONDecodeError ResponseError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "malformed config.json",
+          "content_base64": "Cns="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malformed config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_json_leading_newline",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_malformed_json_nonstandard_constants",
+      "capability_id": "cli.config.malformed_json",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI response captured live with exact malformed config bytes; scanner continues through the value to the trailing object comma and returns JSONDecodeError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "malformed config.json",
+          "content_base64": "eyJ4IjpbTmFOLEluZmluaXR5LC1JbmZpbml0eV0sfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malformed config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_json_nonstandard_constants",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_malformed_json_surrogate_escape",
+      "capability_id": "cli.config.malformed_json",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI response captured live with exact malformed config bytes; scanner continues through the value to the trailing object comma and returns JSONDecodeError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "malformed config.json",
+          "content_base64": "eyJ4IjoiXHVkODAwIix9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malformed config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_json_surrogate_escape",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_malformed_json_long_integer",
+      "capability_id": "cli.config.malformed_json",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI response captured live with exact malformed config bytes; scanner continues through the value to the trailing object comma and returns JSONDecodeError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "malformed config.json",
+          "content_base64": "eyJ4IjoxMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExLH0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malformed config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_json_long_integer",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_malformed_json_deep_arrays",
+      "capability_id": "cli.config.malformed_json",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI response captured live with exact malformed config bytes; scanner continues through the value to the trailing object comma and returns JSONDecodeError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "malformed config.json",
+          "content_base64": "eyJ4IjpbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1swXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dLH0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malformed config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_json_deep_arrays",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_malformed_json_partial_literal",
+      "capability_id": "cli.config.malformed_json",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI response recorded in rust/artifacts/astra-live-review-20261105.jsonl; exact malformed config bytes return JSONDecodeError ResponseError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "malformed config.json",
+          "content_base64": "eyJ4Ijp0cnV9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malformed config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_json_partial_literal",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_malformed_json_invalid_minus",
+      "capability_id": "cli.config.malformed_json",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI response recorded in rust/artifacts/astra-live-review-20261105.jsonl; exact malformed config bytes return JSONDecodeError ResponseError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "malformed config.json",
+          "content_base64": "eyJ4IjotfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malformed config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_json_invalid_minus",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_malformed_json_root_incomplete_number",
+      "capability_id": "cli.config.malformed_json",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI response recorded in rust/artifacts/astra-live-review-20261105.jsonl; exact malformed config bytes return JSONDecodeError ResponseError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "malformed config.json",
+          "content_base64": "MS4="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malformed config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_json_root_incomplete_number",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_invalid_utf8_invalid_lead_85",
+      "capability_id": "cli.config.invalid_utf8",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI captured live with exact config bytes; UTF-8 decoding failure returns top-level UnicodeDecodeError ResponseError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "invalid config.json",
+          "content_base64": "eyKFIn0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:invalid config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "invalid_utf8_invalid_lead_85",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_invalid_utf8_invalid_lead_ff",
+      "capability_id": "cli.config.invalid_utf8",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI captured live with exact config bytes; UTF-8 decoding failure returns top-level UnicodeDecodeError ResponseError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "invalid config.json",
+          "content_base64": "eyJ4Ijoi/yJ9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:invalid config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "invalid_utf8_invalid_lead_ff",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_invalid_utf8_invalid_continuation",
+      "capability_id": "cli.config.invalid_utf8",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI captured live with exact config bytes; UTF-8 decoding failure returns top-level UnicodeDecodeError ResponseError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "invalid config.json",
+          "content_base64": "eyJ4IjoiwygifQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:invalid config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "invalid_utf8_invalid_continuation",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_invalid_utf8_truncated_2byte",
+      "capability_id": "cli.config.invalid_utf8",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI captured live with exact config bytes; UTF-8 decoding failure returns top-level UnicodeDecodeError ResponseError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "invalid config.json",
+          "content_base64": "eyJ4Ijoiww=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:invalid config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "invalid_utf8_truncated_2byte",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_invalid_utf8_truncated_4byte",
+      "capability_id": "cli.config.invalid_utf8",
+      "provenance": "Pinned Python 3.12.3 Proselint 0.16.0 CLI captured live with exact config bytes; UTF-8 decoding failure returns top-level UnicodeDecodeError ResponseError, exit 4, empty stderr.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "invalid config.json",
+          "content_base64": "eyJ4Ijoi8J8="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:invalid config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "invalid_utf8_truncated_4byte",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

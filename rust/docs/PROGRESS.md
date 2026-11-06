@@ -4,11 +4,13 @@
 
 - The immutable reference is Proselint `0.16.0`, revision `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`; its upstream suite passed 351 tests and 15 subtests.
 - The rule inventory contains 124 registered entries across 106 unique paths (110 enabled by default and 14 disabled by default).
-- The Rust port has 39 accepted capabilities and 342 accepted compatibility cases. The latest independent cumulative live comparison passed all 342 cases with zero mismatches; see [`../artifacts/independent-review-fixes/final-gate-348.json`](../artifacts/independent-review-fixes/final-gate-348.json).
-- The current manifest contains 348 cases: 342 accepted-scope cases, four passing per-file configuration cases that are not yet accepted as a capability, and two harness smoke cases outside production comparison. The per-file comparison is recorded at [`../artifacts/independent-review-fixes/per-file-targeted-348.json`](../artifacts/independent-review-fixes/per-file-targeted-348.json).
+- The Rust port has 41 accepted capabilities and 369 accepted compatibility cases. The latest cumulative live gate passed all 369 accepted cases with zero mismatches; see [`../artifacts/strict-gate-config-errors-20261106.json`](../artifacts/strict-gate-config-errors-20261106.json). The new 27-case configuration slice was also independently verified at a frozen fingerprint in [`../artifacts/independent-invalid-config/live-report.json`](../artifacts/independent-invalid-config/live-report.json).
+- The current manifest contains 375 cases: 369 accepted-scope cases, four passing per-file configuration cases that are not yet accepted as a capability, and two harness smoke cases outside production comparison. The per-file comparison is recorded at [`../artifacts/independent-review-fixes/per-file-targeted-348.json`](../artifacts/independent-review-fixes/per-file-targeted-348.json).
 - Accepted coverage includes two bounded CLI contracts and selected rules in annotations, cliches, misc, psychology, and typography. The inventory remains the source of truth for exact coverage.
 - This is a partial port. Most registered checks, broad default configuration behavior, and full CLI compatibility have not been accepted. Passing selected-rule configurations does not establish full parity.
 - See [`BENCHMARKS.md`](BENCHMARKS.md) for measured performance on one accepted rule. Those results apply only to the specified workloads and measurement modes.
+
+- The configuration error slices now cover 22 malformed-JSON cases and five invalid-UTF-8 cases. Valid nested configs above serde’s depth limit, Python’s recursion boundary, and serde-incompatible valid JSON values remain open.
 
 ## Next work
 

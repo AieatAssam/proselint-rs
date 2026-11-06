@@ -158,6 +158,14 @@
     {
       "id": "rule.redundancy.misc.wallace",
       "status": "recorded"
+    },
+    {
+      "id": "cli.config.malformed_json",
+      "status": "recorded"
+    },
+    {
+      "id": "cli.config.invalid_utf8",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -205,7 +213,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "oracle_engineer owns next bounded rule case specification"
+    "next_handoff": "Select the next unblocked rule capability after the cumulative 41-capability gate."
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
@@ -219,7 +227,8 @@
     "Most of the 124 registered checks, default configuration, combined-rule configurations, and broader Unicode folding remain unverified",
     "Most of the 124 registered rules, default configuration, combined-rule configurations, and Unicode folding beyond tested ASCII remain unverified",
     "Most of the 124 registered rules, default configuration, and combined-rule behavior remain unverified",
-    "Most registered rules, default configuration, combined-rule behavior, and Unicode case folding beyond tested ASCII variants remain unverified"
+    "Most registered rules, default configuration, combined-rule behavior, and Unicode case folding beyond tested ASCII variants remain unverified",
+    "valid deeply nested configurations, Python recursion boundary/error messages, nonstandard JSON constants, and lone-surrogate values remain unverified"
   ],
   "capability_states": [
     {
@@ -2038,24 +2047,121 @@
         "report": "rust/artifacts/strict-gate-wallace-final-with-inventory-20261105.json",
         "source_fingerprint": "56cd9f50bee91d073e3bccfd5c1c09bdd3890e672fc49f93c71c22698c4eeb39"
       }
+    },
+    {
+      "id": "cli.config.malformed_json",
+      "status": "recorded",
+      "case_ids": [
+        "cli_config_malformed_json_empty",
+        "cli_config_malformed_json_trailing_comma",
+        "cli_config_malformed_json_invalid_escape",
+        "cli_config_malformed_json_unterminated_string",
+        "cli_config_malformed_json_extra_data",
+        "cli_config_malformed_json_missing_colon",
+        "cli_config_malformed_json_leading_zero",
+        "cli_config_malformed_json_multibyte_multiline",
+        "cli_config_malformed_json_crlf_newlines",
+        "cli_config_malformed_json_incomplete_exponent",
+        "cli_config_malformed_json_incomplete_unicode_escape",
+        "cli_config_malformed_json_array_trailing_comma",
+        "cli_config_malformed_json_literal_control_character",
+        "cli_config_malformed_json_utf8_bom",
+        "cli_config_malformed_json_leading_newline",
+        "cli_config_malformed_json_nonstandard_constants",
+        "cli_config_malformed_json_surrogate_escape",
+        "cli_config_malformed_json_long_integer",
+        "cli_config_malformed_json_deep_arrays",
+        "cli_config_malformed_json_partial_literal",
+        "cli_config_malformed_json_invalid_minus",
+        "cli_config_malformed_json_root_incomplete_number"
+      ],
+      "upstream_spec": "Pinned Python json.loads errors are returned as top-level JSON ResponseError values with code -31999 and data JSONDecodeError. Match reason, line/column and Unicode code-point offset after universal newline translation.",
+      "red": {
+        "behavioral_mismatches": 15,
+        "failed_live_cases": 15,
+        "exit_code": 1,
+        "evidence": "rust/artifacts/malformed-config-red-live-15.json"
+      },
+      "green": {
+        "focused_rust_tests_passed": 22,
+        "live_cases_passed": 22,
+        "exit_code": 0,
+        "evidence": "rust/artifacts/malformed-config-green-22-live.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 22,
+        "combined_report": "rust/artifacts/independent-invalid-config/live-report.json",
+        "frozen_source_fingerprint": "d936f0eed92645bfce961f3f8d036e4b91b5e19925836783e1334bca45aa209a"
+      },
+      "limitations": [
+        "valid serde-incompatible JSON values and Python recursion-depth behavior remain unverified"
+      ],
+      "cumulative_live_parity": {
+        "passed_cases": 369,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-config-errors-20261106.json",
+        "source_fingerprint": "ccb3bf66a2f246f0e35a8781ad7b48df4f9cb4b0af9fcacc0ae84d51a02de502"
+      }
+    },
+    {
+      "id": "cli.config.invalid_utf8",
+      "status": "recorded",
+      "case_ids": [
+        "cli_config_invalid_utf8_invalid_lead_85",
+        "cli_config_invalid_utf8_invalid_lead_ff",
+        "cli_config_invalid_utf8_invalid_continuation",
+        "cli_config_invalid_utf8_truncated_2byte",
+        "cli_config_invalid_utf8_truncated_4byte"
+      ],
+      "upstream_spec": "For JSON output, decode config bytes as UTF-8 and return Python-compatible UnicodeDecodeError code -31999, error data, byte position/range and reason. Non-JSON file-read behavior retains its existing stderr error.",
+      "red": {
+        "behavioral_mismatches": 5,
+        "failed_live_cases": 5,
+        "exit_code": 1,
+        "evidence": "rust/artifacts/invalid-utf8-red-live.json"
+      },
+      "green": {
+        "focused_rust_tests_passed": 27,
+        "capability_live_cases_passed": 5,
+        "exit_code": 0,
+        "evidence": "rust/artifacts/independent-invalid-utf8/live-report.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 5,
+        "combined_report": "rust/artifacts/independent-invalid-config/live-report.json",
+        "frozen_source_fingerprint": "d936f0eed92645bfce961f3f8d036e4b91b5e19925836783e1334bca45aa209a"
+      },
+      "limitations": [
+        "invalid UTF-8 config bytes only; broader source-file decoding behavior remains unverified"
+      ],
+      "cumulative_live_parity": {
+        "passed_cases": 369,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-config-errors-20261106.json",
+        "source_fingerprint": "ccb3bf66a2f246f0e35a8781ad7b48df4f9cb4b0af9fcacc0ae84d51a02de502"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/independent-review-fixes/final-gate-348.json",
-    "passed_cases": 342,
-    "manifest_cases": 348,
+    "report": "rust/artifacts/strict-gate-config-errors-20261106.json",
+    "passed_cases": 369,
+    "manifest_cases": 375,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
       "cli.config.per_file_checks": 4
     },
-    "exit_code": 0
+    "exit_code": 0,
+    "source_fingerprint": "ccb3bf66a2f246f0e35a8781ad7b48df4f9cb4b0af9fcacc0ae84d51a02de502",
+    "capability_count": 41
   },
   "rust_dependencies": {
     "status": "current",
     "toolchain": "1.99.1",
     "registry": "crates.io",
-    "latest_checked": "2026-11-05",
+    "latest_checked": "2026-11-06",
     "locked_versions": {
       "clap": "4.6.7",
       "serde": "1.0.229",
@@ -2068,5 +2174,6 @@
       "command": "cargo update --manifest-path rust/Cargo.toml --dry-run",
       "rust_version_constraint": "1.99"
     }
-  }
+  },
+  "next_capability_handoff": "Select the next unblocked inventoried rule after the 41-capability, 369-case strict gate."
 }

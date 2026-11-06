@@ -158,6 +158,39 @@ class ComparatorTests(unittest.TestCase):
                     result = compare.run_case(case, reference, executable(stdout, stderr, exit_code), root / label, None)
                     self.assertEqual(result["status"], "MISMATCH", result)
 
+    def test_binary_stderr_mismatch_report_keeps_only_hashes_and_artifacts(self) -> None:
+        stdout = b'{"result":{"<stdin>":{"diagnostics":[]}}}'
+        binary_stderr = b"\xff\x00invalid utf8\xfe"
+
+        def executable(stderr: bytes) -> list[str]:
+            code = (
+                "import sys;sys.stdout.buffer.write(bytes.fromhex(sys.argv[1]));"
+                "sys.stderr.buffer.write(bytes.fromhex(sys.argv[2]));raise SystemExit(0)"
+            )
+            return [sys.executable, "-c", code, stdout.hex(), stderr.hex()]
+
+        case = {
+            "id": "binary_stderr", "capability_id": "harness.test", "provenance": "synthetic stderr serialization regression",
+            "input_mode": "stdin", "stdin_base64": "", "files": [], "argv": [], "output_format": "json",
+            "expected_oracle_outcome": "clean", "timeout_seconds": 2, "environment": {},
+            "workspace_mutates": False,
+            "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"},
+        }
+        with tempfile.TemporaryDirectory(prefix="binary stderr harness-é ") as temp_name:
+            root = Path(temp_name)
+            result = compare.run_case(case, executable(b""), executable(binary_stderr), root / "case", None)
+            self.assertEqual(result["status"], "MISMATCH", result)
+            stderr_diff = next(diff for diff in result["diffs"] if diff["field"] == "stderr")
+            self.assertEqual(stderr_diff["expected_sha256"], compare.sha256_bytes(b""))
+            self.assertEqual(stderr_diff["actual_sha256"], compare.sha256_bytes(binary_stderr))
+            self.assertNotIn("expected", stderr_diff)
+            self.assertNotIn("actual", stderr_diff)
+            self.assertEqual(Path(result["executions"][1]["stderr_path"]).read_bytes(), binary_stderr)
+            self.assertEqual(result["executions"][1]["stderr_sha256"], compare.sha256_bytes(binary_stderr))
+            serialized = json.dumps(compare.json_report_value(result))
+            self.assertIn('"stderr_mismatch"', serialized)
+            self.assertNotIn('"actual":', serialized)
+
     def test_required_mutation_and_process_discriminators(self) -> None:
         checks = compare.run_self_tests()
         self.assertTrue(checks)
@@ -179,6 +212,21 @@ class ComparatorTests(unittest.TestCase):
             "empty_stdin_json", "unicode_space_file_path",
             "cli_json_empty_stdin", "cli_json_no_hit_stdin", "cli_json_empty_unicode_file", "file_uri_colon_percent_encoding",
             "cli_json_missing_source_per_file_error", "cli_json_missing_config_structured_error", "per_file_checks_glob_disables_global_annotation",
+            "cli_config_malformed_json_empty", "cli_config_malformed_json_trailing_comma",
+            "cli_config_malformed_json_invalid_escape", "cli_config_malformed_json_unterminated_string",
+            "cli_config_malformed_json_extra_data", "cli_config_malformed_json_missing_colon",
+            "cli_config_malformed_json_leading_zero", "cli_config_malformed_json_multibyte_multiline",
+            "cli_config_malformed_json_crlf_newlines", "cli_config_malformed_json_incomplete_exponent",
+            "cli_config_malformed_json_incomplete_unicode_escape",
+            "cli_config_malformed_json_array_trailing_comma", "cli_config_malformed_json_literal_control_character",
+            "cli_config_malformed_json_utf8_bom", "cli_config_malformed_json_leading_newline",
+            "cli_config_malformed_json_nonstandard_constants", "cli_config_malformed_json_surrogate_escape",
+            "cli_config_malformed_json_long_integer", "cli_config_malformed_json_deep_arrays",
+            "cli_config_malformed_json_partial_literal", "cli_config_malformed_json_invalid_minus",
+            "cli_config_malformed_json_root_incomplete_number",
+            "cli_config_invalid_utf8_invalid_lead_85", "cli_config_invalid_utf8_invalid_lead_ff",
+            "cli_config_invalid_utf8_invalid_continuation", "cli_config_invalid_utf8_truncated_2byte",
+            "cli_config_invalid_utf8_truncated_4byte",
             "annotations_positive_todo", "annotations_negative_mixed_case",
             "annotations_case_sensitive_multiple_order", "annotations_boundary_negative",
             "annotations_quote_suppression", "annotations_unicode_boundaries_positions",
@@ -346,7 +394,7 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(
             {capability: sum(case["capability_id"] == capability for case in manifest["cases"])
              for capability in {case["capability_id"] for case in manifest["cases"]}},
-            {'cli.config.per_file_checks': 4, 'cli.coordinates': 6, 'cli.json_no_findings': 8, 'harness.oracle_smoke': 2, 'rule.annotations.misc': 10, 'rule.cliches.hell': 7, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.dates_times.am_pm.spacing': 8, 'rule.hedging': 13, 'rule.industrial_language.airlinese': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.industrial_language.jargon': 10, 'rule.misc.apologizing': 7, 'rule.misc.back_formations': 8, 'rule.misc.but': 8, 'rule.misc.capitalization.seasons': 10, 'rule.misc.capitalization.terms': 10, 'rule.misc.currency': 12, 'rule.misc.debased': 13, 'rule.misc.false_plurals.kudos': 7, 'rule.misc.false_plurals.misc': 9, 'rule.misc.greylist': 9, 'rule.misc.illogic.coin': 7, 'rule.misc.illogic.collusion': 7, 'rule.misc.inferior_superior': 12, 'rule.misc.institution_name': 8, 'rule.misc.latin': 10, 'rule.misc.many_a': 10, 'rule.misc.metadiscourse': 10, 'rule.misc.pretension': 9, 'rule.misc.professions': 8, 'rule.misc.suddenly': 7, 'rule.misc.whence': 6, 'rule.psychology.lie_detector': 12, 'rule.psychology.mental_telepathy': 6, 'rule.redundancy.misc.wallace': 10, 'rule.typography.symbols.copyright': 6, 'rule.typography.symbols.ellipsis': 6, 'rule.typography.symbols.multiplication': 7, 'rule.typography.symbols.sentence_spacing': 7, 'rule.typography.symbols.trademark': 7},
+            {'cli.config.invalid_utf8': 5, 'cli.config.malformed_json': 22, 'cli.config.per_file_checks': 4, 'cli.coordinates': 6, 'cli.json_no_findings': 8, 'harness.oracle_smoke': 2, 'rule.annotations.misc': 10, 'rule.cliches.hell': 7, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.dates_times.am_pm.spacing': 8, 'rule.hedging': 13, 'rule.industrial_language.airlinese': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.industrial_language.jargon': 10, 'rule.misc.apologizing': 7, 'rule.misc.back_formations': 8, 'rule.misc.but': 8, 'rule.misc.capitalization.seasons': 10, 'rule.misc.capitalization.terms': 10, 'rule.misc.currency': 12, 'rule.misc.debased': 13, 'rule.misc.false_plurals.kudos': 7, 'rule.misc.false_plurals.misc': 9, 'rule.misc.greylist': 9, 'rule.misc.illogic.coin': 7, 'rule.misc.illogic.collusion': 7, 'rule.misc.inferior_superior': 12, 'rule.misc.institution_name': 8, 'rule.misc.latin': 10, 'rule.misc.many_a': 10, 'rule.misc.metadiscourse': 10, 'rule.misc.pretension': 9, 'rule.misc.professions': 8, 'rule.misc.suddenly': 7, 'rule.misc.whence': 6, 'rule.psychology.lie_detector': 12, 'rule.psychology.mental_telepathy': 6, 'rule.redundancy.misc.wallace': 10, 'rule.typography.symbols.copyright': 6, 'rule.typography.symbols.ellipsis': 6, 'rule.typography.symbols.multiplication': 7, 'rule.typography.symbols.sentence_spacing': 7, 'rule.typography.symbols.trademark': 7},
         )
 
     def test_manifest_rejects_duplicate_id_and_bad_base64(self) -> None:

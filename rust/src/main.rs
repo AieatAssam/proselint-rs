@@ -21,6 +21,258 @@ use std::io::{self, Read};
 use std::path::PathBuf;
 use std::process::ExitCode;
 
+#[derive(Debug)]
+struct JsonSyntaxError {
+    reason: &'static str,
+    offset: usize,
+}
+
+struct JsonScanner {
+    chars: Vec<char>,
+    offset: usize,
+    failure: Option<JsonSyntaxError>,
+}
+
+impl JsonScanner {
+    fn new(source: &str) -> Self {
+        Self {
+            chars: source.chars().collect(),
+            offset: 0,
+            failure: None,
+        }
+    }
+
+    fn scan(mut self) -> Option<JsonSyntaxError> {
+        self.space();
+        if self.offset == self.chars.len() {
+            return Some(self.error("Expecting value", self.offset));
+        }
+        if self.value().is_err() {
+            return self.failure;
+        }
+        self.space();
+        (self.offset != self.chars.len()).then(|| self.error("Extra data", self.offset))
+    }
+
+    fn value(&mut self) -> Result<(), ()> {
+        match self.peek() {
+            Some('{') => self.object(),
+            Some('[') => self.array(),
+            Some('"') => self.string().map(|_| ()),
+            Some('t') => self.literal("true"),
+            Some('f') => self.literal("false"),
+            Some('n') => self.literal("null"),
+            Some('N') => self.literal("NaN"),
+            Some('I') => self.literal("Infinity"),
+            Some('-') if self.chars.get(self.offset + 1) == Some(&'I') => self.literal("-Infinity"),
+            Some('-' | '0'..='9') => self.number(),
+            _ => self.fail("Expecting value", self.offset),
+        }
+    }
+
+    fn object(&mut self) -> Result<(), ()> {
+        self.offset += 1;
+        self.space();
+        if self.take('}') {
+            return Ok(());
+        }
+        loop {
+            if self.peek() != Some('"') {
+                return self.fail(
+                    "Expecting property name enclosed in double quotes",
+                    self.offset,
+                );
+            }
+            self.string()?;
+            self.space();
+            if !self.take(':') {
+                return self.fail("Expecting ':' delimiter", self.offset);
+            }
+            self.space();
+            self.value()?;
+            self.space();
+            if self.take('}') {
+                return Ok(());
+            }
+            if !self.take(',') {
+                return self.fail("Expecting ',' delimiter", self.offset);
+            }
+            self.space();
+        }
+    }
+
+    fn array(&mut self) -> Result<(), ()> {
+        self.offset += 1;
+        self.space();
+        if self.take(']') {
+            return Ok(());
+        }
+        loop {
+            self.value()?;
+            self.space();
+            if self.take(']') {
+                return Ok(());
+            }
+            if !self.take(',') {
+                return self.fail("Expecting ',' delimiter", self.offset);
+            }
+            self.space();
+        }
+    }
+
+    fn string(&mut self) -> Result<(), ()> {
+        let start = self.offset;
+        self.offset += 1;
+        while let Some(ch) = self.peek() {
+            match ch {
+                '"' => {
+                    self.offset += 1;
+                    return Ok(());
+                }
+                '\\' => {
+                    let slash = self.offset;
+                    self.offset += 1;
+                    match self.peek() {
+                        Some('"' | '\\' | '/' | 'b' | 'f' | 'n' | 'r' | 't') => self.offset += 1,
+                        Some('u') => {
+                            self.offset += 1;
+                            for _ in 0..4 {
+                                if !self.peek().is_some_and(|c| c.is_ascii_hexdigit()) {
+                                    return self.fail("Invalid \\uXXXX escape", slash + 1);
+                                }
+                                self.offset += 1;
+                            }
+                        }
+                        Some(_) => return self.fail("Invalid \\escape", slash),
+                        None => return self.fail("Unterminated string starting at", start),
+                    }
+                }
+                ch if ch <= '\u{1f}' => {
+                    return self.fail("Invalid control character at", self.offset);
+                }
+                _ => self.offset += 1,
+            }
+        }
+        self.fail("Unterminated string starting at", start)
+    }
+
+    fn number(&mut self) -> Result<(), ()> {
+        let start = self.offset;
+        if self.take('-') && self.offset == self.chars.len() {
+            return self.fail("Expecting value", start);
+        }
+        if self.take('0') {
+            // Python leaves a leading zero's following digit for the delimiter check.
+        } else if self.peek().is_some_and(|c| ('1'..='9').contains(&c)) {
+            self.offset += 1;
+            while self.peek().is_some_and(|c| c.is_ascii_digit()) {
+                self.offset += 1;
+            }
+        } else {
+            return self.fail("Expecting value", start);
+        }
+        if self.take('.') {
+            if !self.peek().is_some_and(|c| c.is_ascii_digit()) {
+                self.offset -= 1;
+                return Ok(());
+            }
+            while self.peek().is_some_and(|c| c.is_ascii_digit()) {
+                self.offset += 1;
+            }
+        }
+        let exponent = self.offset;
+        if self.take('e') || self.take('E') {
+            if self.peek().is_some_and(|c| c == '+' || c == '-') {
+                self.offset += 1;
+            }
+            if !self.peek().is_some_and(|c| c.is_ascii_digit()) {
+                self.offset = exponent;
+                return Ok(());
+            }
+            while self.peek().is_some_and(|c| c.is_ascii_digit()) {
+                self.offset += 1;
+            }
+        }
+        Ok(())
+    }
+
+    fn literal(&mut self, literal: &str) -> Result<(), ()> {
+        let start = self.offset;
+        for expected in literal.chars() {
+            if self.peek() != Some(expected) {
+                return self.fail("Expecting value", start);
+            }
+            self.offset += 1;
+        }
+        Ok(())
+    }
+
+    fn space(&mut self) {
+        while self
+            .peek()
+            .is_some_and(|c| matches!(c, ' ' | '\t' | '\n' | '\r'))
+        {
+            self.offset += 1;
+        }
+    }
+    fn peek(&self) -> Option<char> {
+        self.chars.get(self.offset).copied()
+    }
+    fn take(&mut self, ch: char) -> bool {
+        if self.peek() == Some(ch) {
+            self.offset += 1;
+            true
+        } else {
+            false
+        }
+    }
+    fn error(&self, reason: &'static str, offset: usize) -> JsonSyntaxError {
+        JsonSyntaxError { reason, offset }
+    }
+    fn fail(&mut self, reason: &'static str, offset: usize) -> Result<(), ()> {
+        self.failure = Some(self.error(reason, offset));
+        Err(())
+    }
+}
+
+fn python_json_error_message(source: &str) -> Option<String> {
+    let normalized = source.replace("\r\n", "\n").replace('\r', "\n");
+    let error = if normalized.starts_with('\u{feff}') {
+        JsonSyntaxError {
+            reason: "Unexpected UTF-8 BOM (decode using utf-8-sig)",
+            offset: 0,
+        }
+    } else {
+        JsonScanner::new(&normalized).scan()?
+    };
+    let prefix: Vec<char> = normalized.chars().take(error.offset).collect();
+    let line = prefix.iter().filter(|&&ch| ch == '\n').count() + 1;
+    let column = prefix.iter().rev().take_while(|&&ch| ch != '\n').count() + 1;
+    Some(format!(
+        "{}: line {line} column {column} (char {})",
+        error.reason, error.offset
+    ))
+}
+
+fn python_utf8_decode_error_message(bytes: &[u8], error: std::str::Utf8Error) -> String {
+    let position = error.valid_up_to();
+    let length = error.error_len().unwrap_or(bytes.len() - position);
+    let end = position + length - 1;
+    let reason = if error.error_len().is_none() {
+        "unexpected end of data"
+    } else if (0xc2..=0xf4).contains(&bytes[position]) {
+        "invalid continuation byte"
+    } else {
+        "invalid start byte"
+    };
+    let span = if end == position {
+        format!("byte 0x{:02x} in position {position}", bytes[position])
+    } else {
+        format!("bytes in position {position}-{end}")
+    };
+    format!("'utf-8' codec can't decode {span}: {reason}")
+}
+
 #[derive(Debug, Parser)]
 #[command(name = "proselint", about = "A linter for prose")]
 struct Cli {
@@ -55,8 +307,8 @@ fn run() -> Result<ExitCode, String> {
         paths,
     } = cli.command;
 
-    let config_text = match fs::read_to_string(&config) {
-        Ok(text) => text,
+    let config_bytes = match fs::read(&config) {
+        Ok(bytes) => bytes,
         Err(error) => {
             let message = format!(
                 "Configuration file '{}' could not be read.",
@@ -74,15 +326,32 @@ fn run() -> Result<ExitCode, String> {
             return Err(format!("{message}: {error}"));
         }
     };
+    let config_text = match String::from_utf8(config_bytes) {
+        Ok(text) => text,
+        Err(error) if matches!(output_format, OutputFormat::Json) => {
+            let message = python_utf8_decode_error_message(error.as_bytes(), error.utf8_error());
+            println!(
+                "{}",
+                serde_json::json!({"error":{"code":-31999,"message":message,"data":"UnicodeDecodeError"}})
+            );
+            return Ok(ExitCode::from(4));
+        }
+        Err(_) => {
+            return Err(format!(
+                "Configuration file '{}' could not be read.: stream did not contain valid UTF-8",
+                config.display()
+            ));
+        }
+    };
     let config_value: Value = match serde_json::from_str(&config_text) {
         Ok(value) => value,
         Err(error) => {
             if matches!(output_format, OutputFormat::Json) {
-                let message = if config_text.trim() == "{" {
-                    "Expecting property name enclosed in double quotes: line 1 column 2 (char 1)"
-                        .to_owned()
-                } else {
-                    error.to_string()
+                let Some(message) = python_json_error_message(&config_text) else {
+                    return Err(format!(
+                        "Configuration file '{}' was rejected by serde_json even though the Python JSON scanner found no syntax error: {error}",
+                        config.display()
+                    ));
                 };
                 println!(
                     "{}",

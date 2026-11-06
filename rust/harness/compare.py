@@ -17,6 +17,7 @@ import sys
 import tempfile
 import time
 import uuid
+import os
 from pathlib import Path
 from typing import Any, Sequence
 
@@ -40,10 +41,12 @@ def sha256_file(path: Path) -> str:
 def source_fingerprint() -> str:
     root = RUST_ROOT
     digest = hashlib.sha256()
-    for path in sorted(
-        p for p in root.rglob("*")
-        if p.is_file() and not (set(p.relative_to(root).parts) & EXCLUDED_TREE_PARTS)
-    ):
+    paths: list[Path] = []
+    for directory, subdirectories, filenames in os.walk(root):
+        subdirectories[:] = sorted(name for name in subdirectories if name not in EXCLUDED_TREE_PARTS)
+        base = Path(directory)
+        paths.extend(base / name for name in filenames if name not in EXCLUDED_TREE_PARTS)
+    for path in sorted(path for path in paths if path.is_file()):
         relative = path.relative_to(root).as_posix().encode("utf-8")
         content = path.read_bytes()
         digest.update(len(relative).to_bytes(8, "big"))
@@ -262,9 +265,14 @@ def compare_outputs(
     workspace_uris: tuple[str, str] | None = None,
 ) -> list[dict[str, Any]]:
     diffs: list[dict[str, Any]] = []
-    for field in ("exit_code", "stderr"):
-        if expected[field] != actual[field]:
-            diffs.append({"field": field, "expected": expected[field], "actual": actual[field], "kind": f"{field}_mismatch"})
+    if expected["exit_code"] != actual["exit_code"]:
+        diffs.append({"field": "exit_code", "expected": expected["exit_code"], "actual": actual["exit_code"], "kind": "exit_code_mismatch"})
+    if expected["stderr"] != actual["stderr"]:
+        diffs.append({
+            "field": "stderr", "kind": "stderr_mismatch",
+            "expected_sha256": sha256_bytes(expected["stderr"]),
+            "actual_sha256": sha256_bytes(actual["stderr"]),
+        })
     if output_policy == "json":
         left, left_error = decode_json_output(expected["stdout"])
         right, right_error = decode_json_output(actual["stdout"])

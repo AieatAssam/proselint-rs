@@ -89,6 +89,37 @@ const JARGON_PATTERNS: [&str; 6] = [
     "disincentivize",
 ];
 const JARGON_MESSAGE: &str = "'{}' is jargon. Can you replace it with something more standard?";
+const OXYMORON_PATTERNS: [&str; 17] = [
+    "amateur expert",
+    "increasingly less",
+    "advancing backwards?",
+    "alludes explicitly to",
+    "explicitly alludes to",
+    "totally obsolescent",
+    "completely obsolescent",
+    "generally always",
+    "usually always",
+    "build down",
+    "conspicuous absence",
+    "exact estimate",
+    "found missing",
+    "intense apathy",
+    "mandatory choice",
+    "nonworking mother",
+    "organized mess",
+];
+const OXYMORON_MESSAGE: &str = "'{}' is an oxymoron.";
+static OXYMORON_REGEXES: LazyLock<Vec<Regex>> = LazyLock::new(|| {
+    OXYMORON_PATTERNS
+        .iter()
+        .map(|pattern| {
+            RegexBuilder::new(pattern)
+                .case_insensitive(true)
+                .build()
+                .expect("valid oxymoron pattern")
+        })
+        .collect()
+});
 const AIRLINESE_PREFIXES: [&str; 2] = ["enplan", "deplan"];
 const AIRLINESE_SUFFIXES: [&str; 4] = ["e", "ed", "ing", "ement"];
 const AIRLINESE_PHRASE: &str = "taking off momentarily";
@@ -1841,6 +1872,58 @@ pub fn jargon_diagnostics(text: &str) -> Vec<Value> {
         .collect()
 }
 
+/// Return diagnostics for the pinned `oxymorons` Fast `Existence` check.
+///
+/// Patterns first activate on WORDS_IN_TEXT boundaries, then raw regex
+/// occurrences are reported. The upstream `advancing backwards?` syntax is
+/// intentionally retained: the question mark quantifies the final `s`.
+pub fn oxymorons_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut diagnostics = Vec::new();
+
+    for (pattern, raw_regex) in OXYMORON_PATTERNS.iter().zip(OXYMORON_REGEXES.iter()) {
+        if !raw_regex.find_iter(&padded).any(|matched| {
+            !is_ascii_word_before(&padded, matched.start())
+                && !is_ascii_word_at(&padded, matched.end())
+        }) {
+            continue;
+        }
+        for matched in raw_regex.find_iter(&padded) {
+            let surface = matched.as_str();
+            let span_start = padded[..matched.start()].chars().count();
+            let span_end = span_start + surface.chars().count();
+            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+            if quote_index % 2 == 1 {
+                continue;
+            }
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            diagnostics.push((
+                span_start,
+                pattern,
+                json!({
+                    "check_path": "oxymorons",
+                    "message": OXYMORON_MESSAGE.replace("{}", surface),
+                    "span": [span_start, span_end],
+                    "pos": [line, column],
+                    "replacements": null,
+                }),
+            ));
+        }
+    }
+
+    diagnostics.sort_by_key(|(start, _, _)| *start);
+    diagnostics
+        .into_iter()
+        .map(|(_, _, diagnostic)| diagnostic)
+        .collect()
+}
+
 /// Return diagnostics for the pinned `industrial_language.airlinese` rule.
 ///
 /// The upstream regex alternation is leftmost-first: `e` precedes `ed` and
@@ -3208,6 +3291,78 @@ fn quotes_match(open: char, close: char) -> bool {
             (open, close),
             ('“', '”') | ('”', '“') | ('‘', '’') | ('’', '‘')
         ))
+}
+
+#[cfg(test)]
+mod oxymorons_tests {
+    use super::oxymorons_diagnostics;
+    use serde_json::json;
+
+    #[test]
+    fn reports_all_registered_phrases_with_surface_messages() {
+        let text = "amateur expert | increasingly less | advancing backward | alludes explicitly to | explicitly alludes to | totally obsolescent | completely obsolescent | generally always | usually always | build down | conspicuous absence | exact estimate | found missing | intense apathy | mandatory choice | nonworking mother | organized mess";
+        let diagnostics = oxymorons_diagnostics(text);
+        assert_eq!(diagnostics.len(), 17);
+        assert_eq!(
+            diagnostics[0]["message"],
+            "'amateur expert' is an oxymoron."
+        );
+        assert_eq!(
+            diagnostics[2]["message"],
+            "'advancing backward' is an oxymoron."
+        );
+        assert_eq!(
+            diagnostics[16]["message"],
+            "'organized mess' is an oxymoron."
+        );
+        assert!(
+            diagnostics
+                .iter()
+                .all(|d| d["replacements"] == serde_json::Value::Null)
+        );
+    }
+
+    #[test]
+    fn question_mark_in_source_pattern_is_an_optional_s() {
+        let diagnostics = oxymorons_diagnostics("advancing backward; advancing backwards?");
+        assert_eq!(diagnostics.len(), 2);
+        assert_eq!(
+            diagnostics[0]["message"],
+            "'advancing backward' is an oxymoron."
+        );
+        assert_eq!(
+            diagnostics[1]["message"],
+            "'advancing backwards' is an oxymoron."
+        );
+        assert_eq!(diagnostics[1]["span"], json!([21, 40]));
+    }
+
+    #[test]
+    fn raw_prefix_is_only_emitted_after_boundary_activation() {
+        assert!(oxymorons_diagnostics("advancing backwardness").is_empty());
+        let diagnostics = oxymorons_diagnostics("advancing backwardness; advancing backward");
+        assert_eq!(diagnostics.len(), 2);
+        assert_eq!(diagnostics[0]["span"], json!([1, 19]));
+        assert_eq!(diagnostics[1]["span"], json!([25, 43]));
+    }
+
+    #[test]
+    fn quotes_are_suppressed_and_unicode_positions_are_codepoints() {
+        assert!(oxymorons_diagnostics("\"amateur expert\"").is_empty());
+        let diagnostics = oxymorons_diagnostics("é amateur expert");
+        assert_eq!(diagnostics[0]["span"], json!([3, 17]));
+        assert_eq!(diagnostics[0]["pos"], json!([1, 3]));
+    }
+
+    #[test]
+    fn unicode_letter_before_phrase_is_ascii_word_boundary() {
+        let diagnostics = oxymorons_diagnostics("éamateur expert");
+        assert_eq!(diagnostics.len(), 1);
+        assert_eq!(
+            diagnostics[0]["message"],
+            "'amateur expert' is an oxymoron."
+        );
+    }
 }
 
 #[cfg(test)]

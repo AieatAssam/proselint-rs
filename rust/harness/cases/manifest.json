@@ -19754,6 +19754,74 @@
         "--output-format",
         "json"
       ]
+    },
+    {
+      "id": "oxymorons_ascii_word_activation_after_non_ascii_letter",
+      "capability_id": "rule.oxymorons",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/oxymorons.py uses WORDS_IN_TEXT with ASCII RE2 word semantics. This input probes activation immediately after a non-ASCII letter; expected result is derived by live pinned CLI comparison.",
+      "input_mode": "stdin",
+      "stdin_base64": "w6lhbWF0ZXVyIGV4cGVydA==",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "oxymorons_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "oxymorons config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsib3h5bW9yb25zIjp0cnVlfX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:oxymorons config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "oxymorons_matcher_order_truncation_before_position_sort",
+      "capability_id": "rule.oxymorons",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/oxymorons.py registers items in source order, with \"organized mess\" last. max_errors=2 probes truncation in matcher order before the final position sort; expected result is derived by live pinned CLI comparison.",
+      "input_mode": "stdin",
+      "stdin_base64": "b3JnYW5pemVkIG1lc3M7IGFtYXRldXIgZXhwZXJ0OyBhbWF0ZXVyIGV4cGVydA==",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "oxymorons_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "oxymorons config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoyLCJjaGVja3MiOnsib3h5bW9yb25zIjp0cnVlfX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:oxymorons config.json}",
+        "--output-format",
+        "json"
+      ]
     }
   ]
 }

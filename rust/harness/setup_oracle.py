@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+from contextlib import contextmanager
 import hashlib
 import json
 import os
@@ -15,7 +16,7 @@ import tarfile
 import tempfile
 import urllib.request
 from pathlib import Path
-from typing import Any
+from typing import Any, Iterator
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -71,7 +72,12 @@ def tree_fingerprint(root: Path) -> str:
 
 def package_fingerprint(root: Path) -> str:
     digest = hashlib.sha256()
-    for path in sorted(p for p in root.rglob("*") if p.is_file()):
+    for path in sorted(
+        p for p in root.rglob("*")
+        if p.is_file()
+        and "__pycache__" not in p.relative_to(root).parts
+        and p.suffix not in {".pyc", ".pyo"}
+    ):
         rel = path.relative_to(root).as_posix().encode("utf-8")
         data = path.read_bytes()
         digest.update(len(rel).to_bytes(8, "big"))
@@ -79,6 +85,31 @@ def package_fingerprint(root: Path) -> str:
         digest.update(len(data).to_bytes(8, "big"))
         digest.update(data)
     return digest.hexdigest()
+
+
+def require_package_matches_source(installed: Path, pinned: Path) -> None:
+    """Require installed package source files to equal the immutable snapshot."""
+    def source_files(root: Path) -> dict[str, Path]:
+        return {
+            path.relative_to(root).as_posix(): path
+            for path in root.rglob("*")
+            if path.is_file()
+            and "__pycache__" not in path.relative_to(root).parts
+            and path.suffix not in {".pyc", ".pyo"}
+        }
+
+    installed_files = source_files(installed)
+    pinned_files = source_files(pinned)
+    if installed_files.keys() != pinned_files.keys():
+        missing = sorted(pinned_files.keys() - installed_files.keys())
+        extra = sorted(installed_files.keys() - pinned_files.keys())
+        raise RuntimeError(f"Installed reference package file set differs from pinned source: missing={missing}, extra={extra}")
+    changed = sorted(
+        name for name in pinned_files
+        if installed_files[name].read_bytes() != pinned_files[name].read_bytes()
+    )
+    if changed:
+        raise RuntimeError(f"Installed reference package source differs from pinned source: {changed}")
 
 
 def observed_build_backend() -> dict[str, str]:
@@ -111,23 +142,27 @@ def runtime_provenance(python_path: Path) -> dict[str, Any]:
         "'dependencies':{d.metadata['Name'].lower().replace('_','-'):d.version "
         "for d in importlib.metadata.distributions() if d.metadata.get('Name')}}))"
     )
-    result = subprocess.run(
-        [str(python_path), "-c", probe],
-        cwd=RUST_ROOT,
-        env=scrubbed_env(),
-        check=True,
-        capture_output=True,
-        text=True,
-    )
+    with scrubbed_env() as env:
+        result = subprocess.run(
+            [str(python_path), "-c", probe],
+            cwd=RUST_ROOT,
+            env=env,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
     data = json.loads(result.stdout)
     package = Path(data["package"]).resolve()
     module_files = {name: Path(path).resolve() for name, path in data["modules"].items()}
     invalid = [str(path) for path in module_files.values() if package not in path.parents]
     if invalid:
         raise RuntimeError(f"Loaded proselint modules outside installed package: {invalid}")
+    pinned_package = ORACLE_SOURCE / "proselint"
+    require_package_matches_source(package, pinned_package)
     return {
         "package_root": package,
         "package_tree_sha256": package_fingerprint(package),
+        "package_source_projection_matches_pinned": True,
         "module_provenance": {name: str(path) for name, path in sorted(module_files.items())},
         "dependencies": dict(sorted(data["dependencies"].items())),
     }
@@ -164,16 +199,18 @@ def oracle_integrity() -> dict[str, Any]:
     env_python = resolve_locked(lock["python"])
     if not env_python.is_file():
         raise RuntimeError(f"Reference Python missing: {env_python}")
-    interpreter_version = subprocess.run(
-        [str(env_python), "--version"], check=True, capture_output=True, text=True
-    ).stdout.strip().split()[-1]
+    with scrubbed_env() as env:
+        interpreter_version = subprocess.run(
+            [str(env_python), "--version"], env=env,
+            check=True, capture_output=True, text=True
+        ).stdout.strip().split()[-1]
     if interpreter_version != lock.get("python_version"):
         raise RuntimeError(f"Reference Python version differs from oracle.lock.json: {interpreter_version}")
     if sha256_file(executable) != lock.get("reference_executable_sha256"):
         raise RuntimeError("Reference executable hash differs from oracle.lock.json")
     runtime = runtime_provenance(env_python)
-    if runtime["package_tree_sha256"] != lock.get("installed_package_tree_sha256"):
-        raise RuntimeError("Installed reference package tree differs from oracle.lock.json")
+    if not runtime["package_source_projection_matches_pinned"]:
+        raise RuntimeError("Installed reference package source differs from pinned source snapshot")
     if runtime["dependencies"] != lock.get("dependencies"):
         raise RuntimeError("Reference environment dependency versions differ from oracle.lock.json")
     if observed_build_backend() != lock.get("build_backend"):
@@ -197,6 +234,8 @@ def oracle_integrity() -> dict[str, Any]:
         "integrity": "verified",
         "executable_sha256": sha256_file(executable),
         "installed_package_tree_sha256": runtime["package_tree_sha256"],
+        "installed_package_source_projection_matches_pinned": runtime["package_source_projection_matches_pinned"],
+        "locked_installed_package_tree_sha256_historical": lock.get("installed_package_tree_sha256"),
         "dependencies": runtime["dependencies"],
         "module_provenance": actual_modules,
     }
@@ -263,20 +302,24 @@ def build_snapshot() -> tuple[str, str]:
     return archive_hash, tree_fingerprint(source)
 
 
-def scrubbed_env(extra: dict[str, str] | None = None) -> dict[str, str]:
-    env = {
-        "PATH": os.environ.get("PATH", ""),
-        "HOME": str(RUST_ROOT / ".cache" / "oracle-home"),
-        "XDG_CONFIG_HOME": str(RUST_ROOT / ".cache" / "oracle-xdg"),
-        "PYTHONNOUSERSITE": "1",
-        "PYTHONUTF8": "1",
-        "LC_ALL": "C.UTF-8",
-        "LANG": "C.UTF-8",
-    }
-    env.pop("PYTHONPATH", None)
-    if extra:
-        env.update(extra)
-    return env
+@contextmanager
+def scrubbed_env(extra: dict[str, str] | None = None) -> Iterator[dict[str, str]]:
+    with tempfile.TemporaryDirectory(prefix="proselint-oracle-pycache-") as pycache:
+        env = {
+            "PATH": os.environ.get("PATH", ""),
+            "HOME": str(RUST_ROOT / ".cache" / "oracle-home"),
+            "XDG_CONFIG_HOME": str(RUST_ROOT / ".cache" / "oracle-xdg"),
+            "PYTHONNOUSERSITE": "1",
+            "PYTHONUTF8": "1",
+            "PYTHONPYCACHEPREFIX": pycache,
+            "LC_ALL": "C.UTF-8",
+            "LANG": "C.UTF-8",
+        }
+        env.pop("PYTHONPATH", None)
+        if extra:
+            env.update(extra)
+        env["PYTHONPYCACHEPREFIX"] = pycache
+        yield env
 
 
 def write_lock(
@@ -362,26 +405,28 @@ def main() -> int:
             "--python",
             REFERENCE_PYTHON,
         ]
-        env = scrubbed_env()
-        subprocess.run(setup_command, cwd=ORACLE_SOURCE, env=env, check=True)
-        venv_python_version = subprocess.run(
-            [str(ORACLE_SOURCE / ".venv" / ("Scripts" if os.name == "nt" else "bin") / ("python.exe" if os.name == "nt" else "python")), "--version"],
-            check=True,
-            capture_output=True,
-            text=True,
-        ).stdout.strip().split()[-1]
+        with scrubbed_env() as env:
+            subprocess.run(setup_command, cwd=ORACLE_SOURCE, env=env, check=True)
+            venv_python_version = subprocess.run(
+                [str(ORACLE_SOURCE / ".venv" / ("Scripts" if os.name == "nt" else "bin") / ("python.exe" if os.name == "nt" else "python")), "--version"],
+                env=env,
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip().split()[-1]
         if venv_python_version != REFERENCE_PYTHON:
             raise RuntimeError(f"Expected reference Python {REFERENCE_PYTHON}, got {venv_python_version}")
         lock = write_lock(archive_sha, source_sha, uv_path, version_text, setup_command, venv_python_version)
         python_path = resolve_locked(lock["python"])
-        provenance = subprocess.run(
-            [str(python_path), "-c", "import json,proselint,proselint.version,pathlib; print(json.dumps({'file':str(pathlib.Path(proselint.__file__).resolve()),'version':proselint.version.__version__}))"],
-            cwd=RUST_ROOT,
-            env=scrubbed_env(),
-            check=True,
-            capture_output=True,
-            text=True,
-        )
+        with scrubbed_env() as env:
+            provenance = subprocess.run(
+                [str(python_path), "-c", "import json,proselint,proselint.version,pathlib; print(json.dumps({'file':str(pathlib.Path(proselint.__file__).resolve()),'version':proselint.version.__version__}))"],
+                cwd=RUST_ROOT,
+                env=env,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
         data = json.loads(provenance.stdout)
         imported = Path(data["file"]).resolve()
         runtime = runtime_provenance(python_path)
@@ -399,13 +444,14 @@ def main() -> int:
             {"verified": True, "file": str(imported.relative_to(RUST_ROOT)), "reported_version": data["version"]}
         )
         test_command = [str(python_path), "-m", "pytest", "-q"]
-        test_run = subprocess.run(
-            test_command,
-            cwd=ORACLE_SOURCE,
-            env=scrubbed_env(),
-            capture_output=True,
-            text=True,
-        )
+        with scrubbed_env() as env:
+            test_run = subprocess.run(
+                test_command,
+                cwd=ORACLE_SOURCE,
+                env=env,
+                capture_output=True,
+                text=True,
+            )
         (RUST_ROOT / ".cache" / "oracle-src" / "upstream-pytest.stdout.txt").write_text(test_run.stdout, encoding="utf-8")
         (RUST_ROOT / ".cache" / "oracle-src" / "upstream-pytest.stderr.txt").write_text(test_run.stderr, encoding="utf-8")
         lock["upstream_tests"] = {

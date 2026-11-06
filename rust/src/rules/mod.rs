@@ -1,6 +1,11 @@
 pub mod archaism;
 pub mod dash_and_from;
+pub mod exclamation;
+pub mod hyperbole;
+pub mod misplaced;
+pub mod month_of_year;
 pub mod month_year_comma;
+pub mod scare_quotes;
 pub mod spelling_able_atable;
 pub mod spelling_able_ible;
 pub mod spelling_athletes;

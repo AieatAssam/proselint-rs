@@ -106,6 +106,8 @@ def validate_case(case: Any) -> None:
         raise ValueError(f"{case['id']}: timeout_seconds must be positive")
     if not isinstance(case["environment"], dict) or not isinstance(case["comparison"], dict):
         raise ValueError(f"{case['id']}: environment and comparison must be objects")
+    if "PYTHONPYCACHEPREFIX" in case["environment"]:
+        raise ValueError(f"{case['id']}: PYTHONPYCACHEPREFIX is reserved for oracle isolation")
     if any(not isinstance(key, str) or (value is not None and not isinstance(value, str)) or (value is None and key != "XDG_CONFIG_HOME") for key, value in case["environment"].items()):
         raise ValueError(f"{case['id']}: environment values must be strings; only XDG_CONFIG_HOME may be unset")
     home_files = case.get("home_files", [])
@@ -388,6 +390,7 @@ def fresh_env(home: Path, extra: dict[str, Any]) -> dict[str, str]:
                 env[key] = value
         elif key not in {"HOME", "PYTHONPATH", "PYTHONHOME"}:
             env[key] = value
+    env["PYTHONPYCACHEPREFIX"] = str(home / "isolated-pycache")
     return env
 
 
@@ -432,6 +435,9 @@ def run_case(
         args[index] = value
     commands = []
     executions = []
+    environments = {}
+    reference_cache = run_dir / "reference-pycache"
+    reference_cache.mkdir(exist_ok=True)
     with tempfile.TemporaryDirectory(prefix="proselint harness space-é ") as temp_root:
         temp_base = Path(temp_root)
         for role, executable in (("reference", reference_argv), ("candidate", candidate_argv)):
@@ -446,6 +452,9 @@ def run_case(
             materialize_home_files(case, home)
             argv = executable + args
             env = fresh_env(home, case["environment"])
+            if role == "reference":
+                env["PYTHONPYCACHEPREFIX"] = str(reference_cache)
+            environments[role] = env
             commands.append(argv)
             run = run_command(argv, cwd=working_directory, env=env, stdin=stdin, timeout=case["timeout_seconds"], role=role)
             run["workspace"] = str(role_workspace)
@@ -506,7 +515,7 @@ def run_case(
         "normalization": {"source_key_workspace_uri": bool(case["comparison"].get("normalize_workspace_uri", False))},
         "effective_environment": {
             role: {
-                **fresh_env(case_dir / role / "home", case["environment"]),
+                **environments[role],
                 "config_scenario": case.get("config_scenario", "isolated_default"),
             }
             for role in ("reference", "candidate")

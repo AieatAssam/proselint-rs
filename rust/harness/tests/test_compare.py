@@ -3,6 +3,9 @@ from __future__ import annotations
 import json
 import base64
 import os
+import py_compile
+import re
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -12,9 +15,157 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import compare
+import setup_oracle
 
 
 class ComparatorTests(unittest.TestCase):
+    def test_reference_python_cache_prefix_bypasses_normal_bytecode_cache(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="pycache isolation-é ") as directory:
+            root = Path(directory)
+            module = root / "victim.py"
+            module.write_text("value = 'evil'\n", encoding="utf-8")
+            py_compile.compile(str(module), doraise=True)
+            source_stat = module.stat()
+            module.write_text("value = 'good'\n", encoding="utf-8")
+            os.utime(module, (int(source_stat.st_mtime), int(source_stat.st_mtime)))
+
+            code = "import sys; sys.path.insert(0, sys.argv[1]); import victim; print(victim.value)"
+            env = os.environ.copy()
+            env.pop("PYTHONPATH", None)
+            env.pop("PYTHONPYCACHEPREFIX", None)
+            unisolated = subprocess.run(
+                [sys.executable, "-c", code, str(root)], env=env,
+                capture_output=True, text=True, check=True,
+            )
+            self.assertEqual(unisolated.stdout.strip(), "evil")
+
+            isolated_home = root / "isolated-home"
+            isolated_home.mkdir()
+            isolated_env = compare.fresh_env(isolated_home, {})
+            self.assertEqual(isolated_env["PYTHONPYCACHEPREFIX"], str(isolated_home / "isolated-pycache"))
+            isolated = subprocess.run(
+                [sys.executable, "-c", code, str(root)], env=isolated_env,
+                capture_output=True, text=True, check=True,
+            )
+            self.assertEqual(isolated.stdout.strip(), "good")
+
+            with setup_oracle.scrubbed_env() as oracle_env:
+                self.assertTrue(Path(oracle_env["PYTHONPYCACHEPREFIX"]).is_dir())
+
+    def test_reference_cases_share_only_the_run_scoped_cache_prefix(self) -> None:
+        case = {"id":"cache_probe", "capability_id":"test", "provenance":"test", "input_mode":"stdin", "stdin_base64":"", "files":[], "argv":[], "output_format":"json", "expected_oracle_outcome":"clean", "timeout_seconds":2, "environment":{}, "workspace_mutates":False, "comparison":{"stdout":"json","stderr":"bytes","exit_status":"exact"}}
+        probe = [sys.executable, "-c", "import json;print(json.dumps({'result':{'<stdin>':{'diagnostics':[]}}}))"]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            first = compare.run_case(case, probe, probe, root, None)
+            second_case = dict(case, id="cache_probe_2")
+            second = compare.run_case(second_case, probe, probe, root, None)
+        self.assertEqual(first["status"], "PASS", first)
+        self.assertEqual(second["status"], "PASS", second)
+        expected = str(root / "reference-pycache")
+        self.assertEqual(first["effective_environment"]["reference"]["PYTHONPYCACHEPREFIX"], expected)
+        self.assertEqual(second["effective_environment"]["reference"]["PYTHONPYCACHEPREFIX"], expected)
+        self.assertNotEqual(first["effective_environment"]["candidate"]["PYTHONPYCACHEPREFIX"], expected)
+
+    def test_selected_check_order_matches_pinned_inventory_first_occurrence(self) -> None:
+        source = (compare.RUST_ROOT / "src" / "main.rs").read_text(encoding="utf-8")
+        declaration = re.search(r"enum SelectedCheck\s*\{(.*?)\n\}", source, re.S)
+        mapping = re.search(r"fn selected_check_path\(check: SelectedCheck\).*?match check\s*\{(.*?)\n\s*\}\n\}", source, re.S)
+        self.assertIsNotNone(declaration)
+        self.assertIsNotNone(mapping)
+        variants = re.findall(r"^\s*([A-Z][A-Za-z0-9_]*),\s*$", declaration.group(1), re.M)
+        paths = dict(re.findall(r'SelectedCheck::([A-Za-z0-9_]+)\s*=>\s*"([^"]+)"', mapping.group(1)))
+        self.assertEqual(set(variants), set(paths))
+        self.assertTrue({
+            "DatesTimesDatesMonthOfYear", "MiscScareQuotes", "TypographyPunctuationHyperbole",
+            "TypographyPunctuationMisplaced", "TypographyPunctuationExclamation",
+        }.issubset(paths))
+
+        inventory = json.loads((compare.RUST_ROOT / "inventory.json").read_text(encoding="utf-8"))
+        first_occurrence = {}
+        for rule in inventory["rules"]:
+            first_occurrence.setdefault(rule["check_path"], rule["registration_index"])
+        indices = [first_occurrence[paths[variant]] for variant in variants]
+        self.assertTrue(all(left < right for left, right in zip(indices, indices[1:])), indices)
+
+    def test_installed_package_integrity_ignores_bytecode_but_checks_source(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            pinned = root / "pinned" / "proselint"
+            installed = root / "installed" / "proselint"
+            for package in (pinned, installed):
+                (package / "submodule").mkdir(parents=True)
+                (package / "__pycache__").mkdir()
+                (package / "module.py").write_bytes(b"value = 1\n")
+                (package / "submodule" / "__init__.py").write_bytes(b"\n")
+                (package / "__pycache__" / "module.cpython-312.pyc").write_bytes(b"initial bytecode")
+
+            setup_oracle.require_package_matches_source(installed, pinned)
+            expected = setup_oracle.package_fingerprint(pinned)
+            self.assertEqual(setup_oracle.package_fingerprint(installed), expected)
+
+            bytecode = installed / "__pycache__" / "module.cpython-312.pyc"
+            bytecode.write_bytes(b"regenerated bytecode")
+            self.assertEqual(setup_oracle.package_fingerprint(installed), expected)
+            setup_oracle.require_package_matches_source(installed, pinned)
+            bytecode.unlink()
+            self.assertEqual(setup_oracle.package_fingerprint(installed), expected)
+            setup_oracle.require_package_matches_source(installed, pinned)
+
+            (installed / "module.py").write_bytes(b"value = 2\n")
+            with self.assertRaisesRegex(RuntimeError, "source differs from pinned source"):
+                setup_oracle.require_package_matches_source(installed, pinned)
+
+    def test_next_rule_batch_manifest_ids_counts_and_selected_configs(self) -> None:
+        expected = {
+            "rule.dates_times.dates.month_of_year": {
+                "month_of_year_all_months",
+                "month_of_year_digits_quotes_unicode_positions",
+                "month_of_year_ascii_digit_boundary",
+            },
+            "rule.misc.scare_quotes": {
+                "scare_quotes_positive_and_boundary_controls",
+                "scare_quotes_unicode_word_boundaries",
+                "scare_quotes_quote_suppression",
+            },
+            "rule.typography.punctuation.hyperbole": {
+                "hyperbole_raw_greedy_mixed_punctuation",
+                "hyperbole_single_punctuation_negative",
+                "hyperbole_unicode_word_match",
+            },
+            "rule.typography.punctuation.misplaced": {
+                "misplaced_punctuation_ordered_fast_patterns",
+                "misplaced_punctuation_word_boundaries",
+                "misplaced_punctuation_unicode_positions",
+            },
+            "rule.typography.punctuation.exclamation": {
+                "exclamation_two_match_threshold",
+                "exclamation_padded_length_threshold_lower_edge",
+                "exclamation_padded_length_threshold_upper_edge",
+                "exclamation_quote_selected_then_suppressed",
+            },
+        }
+        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] in expected]
+        by_capability = {capability: {case["id"] for case in cases if case["capability_id"] == capability} for capability in expected}
+        self.assertEqual(by_capability, expected)
+
+        for case in cases:
+            with self.subTest(case=case["id"]):
+                self.assertEqual(len(case["files"]), 1)
+                self.assertEqual(case["files"][0]["path"], "config.json")
+                config = json.loads(base64.b64decode(case["files"][0]["content_base64"]))
+                enabled = []
+
+                def collect(value: object, path: str = "") -> None:
+                    if isinstance(value, dict):
+                        for key, child in value.items():
+                            collect(child, f"{path}.{key}" if path else key)
+                    elif value is True:
+                        enabled.append(path)
+
+                collect(config.get("checks"))
+                self.assertEqual(enabled, [case["capability_id"].removeprefix("rule.")])
+
     def test_source_fingerprint_ignores_docs_and_status_but_tracks_inputs(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -79,6 +230,10 @@ class ComparatorTests(unittest.TestCase):
         invalid = json.loads(json.dumps(case))
         invalid["environment"] = {"PATH": None}
         with self.assertRaisesRegex(ValueError, "only XDG_CONFIG_HOME may be unset"):
+            compare.validate_case(invalid)
+        invalid = json.loads(json.dumps(case))
+        invalid["environment"] = {"PYTHONPYCACHEPREFIX": "/tmp/shared-pycache"}
+        with self.assertRaisesRegex(ValueError, "reserved for oracle isolation"):
             compare.validate_case(invalid)
 
     def test_home_fixtures_are_materialized_inside_each_role_home(self) -> None:
@@ -734,6 +889,14 @@ class ComparatorTests(unittest.TestCase):
         })
         expected_case_ids.update(f"spelling_athletes_form_{index:02d}" for index in range(1, 18))
         expected_case_ids.update({
+            "month_of_year_all_months", "month_of_year_digits_quotes_unicode_positions", "month_of_year_ascii_digit_boundary",
+            "scare_quotes_positive_and_boundary_controls", "scare_quotes_unicode_word_boundaries", "scare_quotes_quote_suppression",
+            "hyperbole_raw_greedy_mixed_punctuation", "hyperbole_single_punctuation_negative", "hyperbole_unicode_word_match",
+            "misplaced_punctuation_ordered_fast_patterns", "misplaced_punctuation_word_boundaries", "misplaced_punctuation_unicode_positions",
+            "exclamation_two_match_threshold", "exclamation_padded_length_threshold_lower_edge",
+            "exclamation_padded_length_threshold_upper_edge", "exclamation_quote_selected_then_suppressed",
+        })
+        expected_case_ids.update({
             "spelling_athletes_negative_correct_forms",
             "spelling_athletes_case_insensitive_repetition",
             "spelling_athletes_ascii_prefix_suffix_boundaries",
@@ -753,7 +916,7 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(
             {capability: sum(case["capability_id"] == capability for case in manifest["cases"])
              for capability in {case["capability_id"] for case in manifest["cases"]}},
-            {'rule.misc.debased': 13, 'rule.misc.capitalization.days': 10, 'rule.cliches.hell': 7, 'harness.oracle_smoke': 2, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.dates_times.am_pm.midnight_noon': 10, 'rule.dates_times.dates.decade_apostrophes': 10, 'rule.misc.narcissism': 9, 'rule.misc.latin': 10, 'rule.misc.back_formations': 8, 'rule.misc.capitalization.terms': 10, 'rule.industrial_language.airlinese': 12, 'cli.json_no_findings': 8, 'rule.misc.phrasal_adjectives.ly': 7, 'rule.misc.greylist': 9, 'rule.misc.many_a': 10, 'cli.output_format.full': 3, 'cli.config.ignored_values': 5, 'rule.misc.professions': 8, 'cli.config.cwd_discovery': 3, 'cli.config.ancestor_discovery': 5, 'rule.misc.illogic.coin': 7, 'rule.hedging': 13, 'cli.config.invalid_utf8': 5, 'rule.misc.whence': 6, 'rule.annotations.misc': 10, 'rule.typography.symbols.sentence_spacing': 7, 'cli.config.consumed_special_values': 12, 'cli.config.malformed_json': 22, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.copyright': 6, 'rule.misc.pretension': 9, 'cli.config.recursion_depth': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.misc.institution_name': 8, 'rule.misc.currency': 12, 'rule.misc.suddenly': 7, 'cli.coordinates': 6, 'rule.misc.but': 8, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.collusion': 7, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.capitalization.seasons': 10, 'cli.config.directory_path': 4, 'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 10, 'rule.misc.inferior_superior': 12, 'rule.misc.false_plurals.misc': 9, 'cli.config.per_file_checks': 4, 'rule.redundancy.misc.wallace': 10, 'rule.dates_times.am_pm.spacing': 8, 'rule.typography.symbols.ellipsis': 6, 'rule.psychology.lie_detector': 12, 'rule.industrial_language.jargon': 10, 'cli.config.user_discovery': 8, 'rule.misc.capitalization.months': 6, 'rule.psychology.p_equals_zero': 8, 'spelling.ance_ence': 10, 'rule.misc.composition': 38, 'cli.combined_checks': 3, 'rule.terms.eponymous_adjectives': 4, 'rule.spelling.ally_ly': 10, 'rule.spelling.ely_ly': 9, 'rule.spelling.ve_of': 11, 'rule.malapropisms': 10, 'rule.spelling.in_un': 10, 'rule.mondegreens': 10, 'rule.skunked_terms': 11, 'rule.oxymorons': 16, 'rule.redundancy.misc.nordquist': 11, 'rule.misc.not_guilty': 4, 'spelling.er_or': 8, 'spelling.able_ible': 9, 'spelling.able_atable': 8, 'spelling.em_im_en_in': 8, 'spelling.athletes': 29, 'rule.archaism': 13, 'rule.dates_times.dates.month_year_comma': 8, 'rule.dates_times.dates.dash_and_from': 13},
+            {'rule.misc.debased': 13, 'rule.misc.capitalization.days': 10, 'rule.cliches.hell': 7, 'harness.oracle_smoke': 2, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.dates_times.am_pm.midnight_noon': 10, 'rule.dates_times.dates.decade_apostrophes': 10, 'rule.misc.narcissism': 9, 'rule.misc.latin': 10, 'rule.misc.back_formations': 8, 'rule.misc.capitalization.terms': 10, 'rule.industrial_language.airlinese': 12, 'cli.json_no_findings': 8, 'rule.misc.phrasal_adjectives.ly': 7, 'rule.misc.greylist': 9, 'rule.misc.many_a': 10, 'cli.output_format.full': 3, 'cli.config.ignored_values': 5, 'rule.misc.professions': 8, 'cli.config.cwd_discovery': 3, 'cli.config.ancestor_discovery': 5, 'rule.misc.illogic.coin': 7, 'rule.hedging': 13, 'cli.config.invalid_utf8': 5, 'rule.misc.whence': 6, 'rule.annotations.misc': 10, 'rule.typography.symbols.sentence_spacing': 7, 'cli.config.consumed_special_values': 12, 'cli.config.malformed_json': 22, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.copyright': 6, 'rule.misc.pretension': 9, 'cli.config.recursion_depth': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.misc.institution_name': 8, 'rule.misc.currency': 12, 'rule.misc.suddenly': 7, 'cli.coordinates': 6, 'rule.misc.but': 8, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.collusion': 7, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.capitalization.seasons': 10, 'cli.config.directory_path': 4, 'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 10, 'rule.misc.inferior_superior': 12, 'rule.misc.false_plurals.misc': 9, 'cli.config.per_file_checks': 4, 'rule.redundancy.misc.wallace': 10, 'rule.dates_times.am_pm.spacing': 8, 'rule.typography.symbols.ellipsis': 6, 'rule.psychology.lie_detector': 12, 'rule.industrial_language.jargon': 10, 'cli.config.user_discovery': 8, 'rule.misc.capitalization.months': 6, 'rule.psychology.p_equals_zero': 8, 'spelling.ance_ence': 10, 'rule.misc.composition': 38, 'cli.combined_checks': 3, 'rule.terms.eponymous_adjectives': 4, 'rule.spelling.ally_ly': 10, 'rule.spelling.ely_ly': 9, 'rule.spelling.ve_of': 11, 'rule.malapropisms': 10, 'rule.spelling.in_un': 10, 'rule.mondegreens': 10, 'rule.skunked_terms': 11, 'rule.oxymorons': 16, 'rule.redundancy.misc.nordquist': 11, 'rule.misc.not_guilty': 4, 'spelling.er_or': 8, 'spelling.able_ible': 9, 'spelling.able_atable': 8, 'spelling.em_im_en_in': 8, 'spelling.athletes': 29, 'rule.archaism': 13, 'rule.dates_times.dates.month_year_comma': 8, 'rule.dates_times.dates.dash_and_from': 13, 'rule.dates_times.dates.month_of_year': 3, 'rule.misc.scare_quotes': 3, 'rule.typography.punctuation.hyperbole': 3, 'rule.typography.punctuation.misplaced': 3, 'rule.typography.punctuation.exclamation': 4},
         )
 
         archaism = [case for case in manifest["cases"] if case["capability_id"] == "rule.archaism"]

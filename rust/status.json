@@ -314,6 +314,26 @@
     {
       "id": "rule.dates_times.dates.dash_and_from",
       "status": "recorded"
+    },
+    {
+      "id": "rule.dates_times.dates.month_of_year",
+      "status": "recorded"
+    },
+    {
+      "id": "rule.misc.scare_quotes",
+      "status": "recorded"
+    },
+    {
+      "id": "rule.typography.punctuation.hyperbole",
+      "status": "recorded"
+    },
+    {
+      "id": "rule.typography.punctuation.misplaced",
+      "status": "recorded"
+    },
+    {
+      "id": "rule.typography.punctuation.exclamation",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -335,16 +355,17 @@
   },
   "harness": {
     "status": "verified after metadata fingerprint changes; Markdown/ledger exclusion is covered by a discrimination test",
-    "source_fingerprint": "ea26c47fb4cbe5fe9ea6899ab4dc9dded7f51859a951750d8da5c92bee083622",
+    "source_fingerprint": "6abf318b9b2776bf55f865f23da1362c9ec18ad9eb292e1cabee15f9278c63a0",
     "unit_tests": {
-      "passed": 52,
+      "passed": 57,
       "exit_code": 0,
-      "evidence": "rust/artifacts/harness-process-tests-final-20261106.log"
+      "duration_seconds": 12.111,
+      "evidence": "rust/artifacts/harness-process-tests-five-rule-20261106.log"
     },
     "comparator_discriminators": {
       "passed": 23,
       "exit_code": 0,
-      "evidence": "rust/artifacts/harness-process-self-test-20261106.json"
+      "evidence": "rust/artifacts/harness-process-self-test-five-rule-20261106.json"
     },
     "live_oracle_self_check": {
       "passed_cases": 2,
@@ -352,10 +373,16 @@
       "scope": "harness_health_only",
       "evidence": "rust/artifacts/oracle-self-check-residual-regressions.json"
     },
-    "independent_evidence": "rust/artifacts/independent-review-fixes/final-gate-348.json"
+    "independent_evidence": "rust/artifacts/independent-review-fixes/final-gate-348.json",
+    "oracle_integrity": {
+      "status": "verified",
+      "source_projection_sha256": "6e6b1a625b7bf776549975cfd2d312d21906e5e6a96173d69c7596bbcc64d849",
+      "evidence": "rust/artifacts/oracle-verify-only-cache-isolation-20261106.json",
+      "pycache_isolation": "valid altered .pyc is bypassed by per-run isolated PYTHONPYCACHEPREFIX"
+    }
   },
   "active_ownership": {
-    "current": "The shared CLI checkpoint passes: 734/734 live cases across 78 capabilities, with six manifest cases excluded for the recorded harness-smoke and per-file-config scopes. Three rules added in this checkpoint are independently verified.",
+    "current": "Strict gate passes 750/750 cases across 83 capabilities, including five newly verified rules. Per-run Python bytecode cache isolation restored cumulative gate runtime to 226.239s. Continue with the next 5–10 independent rule capabilities.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -4640,26 +4667,428 @@
         "duration_seconds": 221.370174,
         "source_fingerprint": "d611593ed7afd289b25539a03b30a10d080fb333ce9ca9133c91c993de9e0415"
       }
+    },
+    {
+      "id": "rule.dates_times.dates.month_of_year",
+      "status": "recorded",
+      "case_ids": [
+        "month_of_year_all_months",
+        "month_of_year_digits_quotes_unicode_positions",
+        "month_of_year_ascii_digit_boundary"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_spec": "One case-insensitive Fast existence pattern for month names followed by ` of ` and at least three ASCII digits. Raw occurrences follow activation, paired quotes suppress output, and spans/positions count padded Unicode code points.",
+      "specification": {
+        "live_cases": 3,
+        "forms_or_patterns": 12,
+        "oracle_integrity": "verified before and after",
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "evidence": "rust/harness/cases/manifest.json"
+      },
+      "red": {
+        "status": "MISMATCH",
+        "focused_live_report": "rust/artifacts/focused-month_of_year-red-20261106.json",
+        "live_cases": 3,
+        "mismatches": 3,
+        "duration_seconds": 11.555756,
+        "candidate_errors": 0,
+        "oracle_errors": 0,
+        "timeouts": 0,
+        "oracle_integrity": "verified before and after"
+      },
+      "agent_model": "gpt-6-luna",
+      "agent_reasoning_effort": "low requested for implementation",
+      "agent_runtime_metadata": "unavailable",
+      "stage_durations_seconds": {
+        "red_live": 11.555756,
+        "local_green": 0.544,
+        "focused_green_live": 20.470907,
+        "independent_live": 10.567829,
+        "locked_build": 9.167,
+        "cumulative_gate": 226.238536
+      },
+      "stage_case_counts": {
+        "red_live": 3,
+        "local_green_tests": 3,
+        "focused_green_live": 3,
+        "independent_live": 3,
+        "cumulative_gate": 750
+      },
+      "implementation": "3/3 focused Rust tests pass; One case-insensitive Fast existence pattern for month names followed by ` of ` and at least three ASCII digits. Raw occurrences follow activation, paired quotes suppress output, and spans/positions count padded Unicode code points.",
+      "green": {
+        "status": "PASS",
+        "live_cases_passed": 3,
+        "focused_live_report": "rust/artifacts/focused-month_of_year-green-final3-20261106.json",
+        "build_attestation": "rust/artifacts/20261106T232820211275Z-build.attestation.json",
+        "source_fingerprint": "6abf318b9b2776bf55f865f23da1362c9ec18ad9eb292e1cabee15f9278c63a0",
+        "candidate_sha256": "3732d28803704fda3e8ab614379f59c6c04b3408bdd2ece2dd862459e90310da",
+        "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
+        "locked_format_clippy_test_build": "PASS",
+        "duration_seconds": 20.470907
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 3,
+        "report": "rust/artifacts/independent-five-rules-final-20261106/month_of_year.json",
+        "duration_seconds": 10.567829,
+        "source_fingerprint": "6abf318b9b2776bf55f865f23da1362c9ec18ad9eb292e1cabee15f9278c63a0",
+        "oracle_integrity": "verified",
+        "agent_model": "gpt-6-luna",
+        "agent_effort": "low requested",
+        "agent_runtime_metadata": "unavailable"
+      },
+      "implementation_source_sha256": "2bc168cdb82b2531dba451c5af788ff463b0be8d6b46afc78e0d92dcb6c28c6f",
+      "test_source_sha256": "73cef12963cf249ed83239c85d903651681af7b9527a6f59e04000841e522b14",
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-five-rule-checkpoint-20261106.json",
+        "passed_cases": 750,
+        "capability_count": 83,
+        "duration_seconds": 226.238536,
+        "source_fingerprint": "6abf318b9b2776bf55f865f23da1362c9ec18ad9eb292e1cabee15f9278c63a0"
+      }
+    },
+    {
+      "id": "rule.misc.scare_quotes",
+      "status": "recorded",
+      "case_ids": [
+        "scare_quotes_positive_and_boundary_controls",
+        "scare_quotes_unicode_word_boundaries",
+        "scare_quotes_quote_suppression"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_spec": "Case-insensitive exact phrase `the 'take-home message'` with Python-compatible Unicode word/non-word boundaries and default paired-quote suppression.",
+      "specification": {
+        "live_cases": 3,
+        "forms_or_patterns": 3,
+        "oracle_integrity": "verified before and after",
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "evidence": "rust/harness/cases/manifest.json"
+      },
+      "red": {
+        "status": "MISMATCH",
+        "focused_live_report": "rust/artifacts/focused-scare_quotes-red-20261106.json",
+        "live_cases": 3,
+        "mismatches": 3,
+        "duration_seconds": 12.203333,
+        "candidate_errors": 0,
+        "oracle_errors": 0,
+        "timeouts": 0,
+        "oracle_integrity": "verified before and after"
+      },
+      "agent_model": "gpt-6-luna",
+      "agent_reasoning_effort": "low requested for implementation",
+      "agent_runtime_metadata": "unavailable",
+      "stage_durations_seconds": {
+        "red_live": 12.203333,
+        "local_green": 0.449,
+        "focused_green_live": 21.340724,
+        "independent_live": 11.875383,
+        "locked_build": 9.167,
+        "cumulative_gate": 226.238536
+      },
+      "stage_case_counts": {
+        "red_live": 3,
+        "local_green_tests": 3,
+        "focused_green_live": 3,
+        "independent_live": 3,
+        "cumulative_gate": 750
+      },
+      "implementation": "3/3 focused Rust tests pass; Case-insensitive exact phrase `the 'take-home message'` with Python-compatible Unicode word/non-word boundaries and default paired-quote suppression.",
+      "green": {
+        "status": "PASS",
+        "live_cases_passed": 3,
+        "focused_live_report": "rust/artifacts/focused-scare_quotes-green-final3-20261106.json",
+        "build_attestation": "rust/artifacts/20261106T232820211275Z-build.attestation.json",
+        "source_fingerprint": "6abf318b9b2776bf55f865f23da1362c9ec18ad9eb292e1cabee15f9278c63a0",
+        "candidate_sha256": "3732d28803704fda3e8ab614379f59c6c04b3408bdd2ece2dd862459e90310da",
+        "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
+        "locked_format_clippy_test_build": "PASS",
+        "duration_seconds": 21.340724
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 3,
+        "report": "rust/artifacts/independent-five-rules-final-20261106/scare_quotes.json",
+        "duration_seconds": 11.875383,
+        "source_fingerprint": "6abf318b9b2776bf55f865f23da1362c9ec18ad9eb292e1cabee15f9278c63a0",
+        "oracle_integrity": "verified",
+        "agent_model": "gpt-6-luna",
+        "agent_effort": "low requested",
+        "agent_runtime_metadata": "unavailable"
+      },
+      "implementation_source_sha256": "f40439e1b81e4a93e404af3a32fd04f6596619e1b7a1092b3b420edf46e41338",
+      "test_source_sha256": "d8d4d740f88aa5476443c6645e38fb687728d0de69de523c66cd10315a0a576c",
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-five-rule-checkpoint-20261106.json",
+        "passed_cases": 750,
+        "capability_count": 83,
+        "duration_seconds": 226.238536,
+        "source_fingerprint": "6abf318b9b2776bf55f865f23da1362c9ec18ad9eb292e1cabee15f9278c63a0"
+      }
+    },
+    {
+      "id": "rule.typography.punctuation.hyperbole",
+      "status": "recorded",
+      "case_ids": [
+        "hyperbole_raw_greedy_mixed_punctuation",
+        "hyperbole_single_punctuation_negative",
+        "hyperbole_unicode_word_match"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_spec": "Fast regex `\\w*(?:!|\\?){2,}` with ASCII `\\w`, greedy raw match spans, quote suppression, and code-point coordinates.",
+      "specification": {
+        "live_cases": 3,
+        "forms_or_patterns": 1,
+        "oracle_integrity": "verified before and after",
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "evidence": "rust/harness/cases/manifest.json"
+      },
+      "red": {
+        "status": "MISMATCH",
+        "focused_live_report": "rust/artifacts/focused-hyperbole-red-20261106.json",
+        "live_cases": 3,
+        "mismatches": 3,
+        "duration_seconds": 11.773302,
+        "candidate_errors": 0,
+        "oracle_errors": 0,
+        "timeouts": 0,
+        "oracle_integrity": "verified before and after"
+      },
+      "agent_model": "gpt-6-luna",
+      "agent_reasoning_effort": "low requested for implementation",
+      "agent_runtime_metadata": "unavailable",
+      "stage_durations_seconds": {
+        "red_live": 11.773302,
+        "local_green": 0.556,
+        "focused_green_live": 21.461363,
+        "independent_live": 9.913634,
+        "locked_build": 9.167,
+        "cumulative_gate": 226.238536
+      },
+      "stage_case_counts": {
+        "red_live": 3,
+        "local_green_tests": 3,
+        "focused_green_live": 3,
+        "independent_live": 3,
+        "cumulative_gate": 750
+      },
+      "implementation": "3/3 focused Rust tests pass; Fast regex `\\w*(?:!|\\?){2,}` with ASCII `\\w`, greedy raw match spans, quote suppression, and code-point coordinates.",
+      "green": {
+        "status": "PASS",
+        "live_cases_passed": 3,
+        "focused_live_report": "rust/artifacts/focused-hyperbole-green-final3-20261106.json",
+        "build_attestation": "rust/artifacts/20261106T232820211275Z-build.attestation.json",
+        "source_fingerprint": "6abf318b9b2776bf55f865f23da1362c9ec18ad9eb292e1cabee15f9278c63a0",
+        "candidate_sha256": "3732d28803704fda3e8ab614379f59c6c04b3408bdd2ece2dd862459e90310da",
+        "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
+        "locked_format_clippy_test_build": "PASS",
+        "duration_seconds": 21.461363
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 3,
+        "report": "rust/artifacts/independent-five-rules-final-20261106/hyperbole.json",
+        "duration_seconds": 9.913634,
+        "source_fingerprint": "6abf318b9b2776bf55f865f23da1362c9ec18ad9eb292e1cabee15f9278c63a0",
+        "oracle_integrity": "verified",
+        "agent_model": "gpt-6-luna",
+        "agent_effort": "low requested",
+        "agent_runtime_metadata": "unavailable"
+      },
+      "implementation_source_sha256": "1f0b0a16ccb3159f83446535af264b032efa608961bfd6262d464a31893f3f32",
+      "test_source_sha256": "df450413c60df6a9acea30cd32ddd86db13623becf26813587dc950bcc4b2527",
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-five-rule-checkpoint-20261106.json",
+        "passed_cases": 750,
+        "capability_count": 83,
+        "duration_seconds": 226.238536,
+        "source_fingerprint": "6abf318b9b2776bf55f865f23da1362c9ec18ad9eb292e1cabee15f9278c63a0"
+      }
+    },
+    {
+      "id": "rule.typography.punctuation.misplaced",
+      "status": "recorded",
+      "case_ids": [
+        "misplaced_punctuation_ordered_fast_patterns",
+        "misplaced_punctuation_word_boundaries",
+        "misplaced_punctuation_unicode_positions"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_spec": "Fast case-sensitive raw `et. al` / `et. al.` punctuation patterns with ASCII word boundaries, quote suppression, and one-based columns over padded Unicode code points.",
+      "specification": {
+        "live_cases": 3,
+        "forms_or_patterns": 2,
+        "oracle_integrity": "verified before and after",
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "evidence": "rust/harness/cases/manifest.json"
+      },
+      "red": {
+        "status": "MISMATCH",
+        "focused_live_report": "rust/artifacts/focused-misplaced-red-20261106.json",
+        "live_cases": 3,
+        "mismatches": 3,
+        "duration_seconds": 11.381323,
+        "candidate_errors": 0,
+        "oracle_errors": 0,
+        "timeouts": 0,
+        "oracle_integrity": "verified before and after"
+      },
+      "agent_model": "gpt-6-luna",
+      "agent_reasoning_effort": "low requested for implementation",
+      "agent_runtime_metadata": "unavailable",
+      "stage_durations_seconds": {
+        "red_live": 11.381323,
+        "local_green": 0.553,
+        "focused_green_live": 21.187751,
+        "independent_live": 10.381731,
+        "locked_build": 9.167,
+        "cumulative_gate": 226.238536
+      },
+      "stage_case_counts": {
+        "red_live": 3,
+        "local_green_tests": 3,
+        "focused_green_live": 3,
+        "independent_live": 3,
+        "cumulative_gate": 750
+      },
+      "implementation": "3/3 focused Rust tests pass; Fast case-sensitive raw `et. al` / `et. al.` punctuation patterns with ASCII word boundaries, quote suppression, and one-based columns over padded Unicode code points.",
+      "green": {
+        "status": "PASS",
+        "live_cases_passed": 3,
+        "focused_live_report": "rust/artifacts/focused-misplaced-green-final3-20261106.json",
+        "build_attestation": "rust/artifacts/20261106T232820211275Z-build.attestation.json",
+        "source_fingerprint": "6abf318b9b2776bf55f865f23da1362c9ec18ad9eb292e1cabee15f9278c63a0",
+        "candidate_sha256": "3732d28803704fda3e8ab614379f59c6c04b3408bdd2ece2dd862459e90310da",
+        "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
+        "locked_format_clippy_test_build": "PASS",
+        "duration_seconds": 21.187751
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 3,
+        "report": "rust/artifacts/independent-five-rules-final-20261106/misplaced.json",
+        "duration_seconds": 10.381731,
+        "source_fingerprint": "6abf318b9b2776bf55f865f23da1362c9ec18ad9eb292e1cabee15f9278c63a0",
+        "oracle_integrity": "verified",
+        "agent_model": "gpt-6-luna",
+        "agent_effort": "low requested",
+        "agent_runtime_metadata": "unavailable"
+      },
+      "implementation_source_sha256": "db1b413fcb0a7584b6c52d92c927d8279f3faaba20fa80dd88c918fe53a81b89",
+      "test_source_sha256": "346da07098f6ad658090bb5125c75b43052010d58bd563929e01c1f78f50498b",
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-five-rule-checkpoint-20261106.json",
+        "passed_cases": 750,
+        "capability_count": 83,
+        "duration_seconds": 226.238536,
+        "source_fingerprint": "6abf318b9b2776bf55f865f23da1362c9ec18ad9eb292e1cabee15f9278c63a0"
+      }
+    },
+    {
+      "id": "rule.typography.punctuation.exclamation",
+      "status": "recorded",
+      "case_ids": [
+        "exclamation_two_match_threshold",
+        "exclamation_padded_length_threshold_lower_edge",
+        "exclamation_padded_length_threshold_upper_edge",
+        "exclamation_quote_selected_then_suppressed"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_spec": "Custom 30-ppm threshold rule: calculate threshold from padded input length, select the threshold-indexed exclamation finding before quote suppression, and append the pinned suffix message.",
+      "specification": {
+        "live_cases": 4,
+        "forms_or_patterns": 1,
+        "oracle_integrity": "verified before and after",
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "evidence": "rust/harness/cases/manifest.json"
+      },
+      "red": {
+        "status": "MISMATCH",
+        "focused_live_report": "rust/artifacts/focused-exclamation-red-20261106.json",
+        "live_cases": 4,
+        "mismatches": 4,
+        "duration_seconds": 12.201493,
+        "candidate_errors": 0,
+        "oracle_errors": 0,
+        "timeouts": 0,
+        "oracle_integrity": "verified before and after"
+      },
+      "agent_model": "gpt-6-luna",
+      "agent_reasoning_effort": "low requested for implementation",
+      "agent_runtime_metadata": "unavailable",
+      "stage_durations_seconds": {
+        "red_live": 12.201493,
+        "local_green": 0.572,
+        "focused_green_live": 21.233594,
+        "independent_live": 12.826231,
+        "locked_build": 9.167,
+        "cumulative_gate": 226.238536
+      },
+      "stage_case_counts": {
+        "red_live": 4,
+        "local_green_tests": 4,
+        "focused_green_live": 4,
+        "independent_live": 4,
+        "cumulative_gate": 750
+      },
+      "implementation": "4/4 focused Rust tests pass; Custom 30-ppm threshold rule: calculate threshold from padded input length, select the threshold-indexed exclamation finding before quote suppression, and append the pinned suffix message.",
+      "green": {
+        "status": "PASS",
+        "live_cases_passed": 4,
+        "focused_live_report": "rust/artifacts/focused-exclamation-green-final3-20261106.json",
+        "build_attestation": "rust/artifacts/20261106T232820211275Z-build.attestation.json",
+        "source_fingerprint": "6abf318b9b2776bf55f865f23da1362c9ec18ad9eb292e1cabee15f9278c63a0",
+        "candidate_sha256": "3732d28803704fda3e8ab614379f59c6c04b3408bdd2ece2dd862459e90310da",
+        "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
+        "locked_format_clippy_test_build": "PASS",
+        "duration_seconds": 21.233594
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 4,
+        "report": "rust/artifacts/independent-five-rules-final-20261106/exclamation-live.json",
+        "duration_seconds": 12.826231,
+        "source_fingerprint": "6abf318b9b2776bf55f865f23da1362c9ec18ad9eb292e1cabee15f9278c63a0",
+        "oracle_integrity": "verified",
+        "agent_model": "gpt-6-luna",
+        "agent_effort": "low requested",
+        "agent_runtime_metadata": "unavailable"
+      },
+      "implementation_source_sha256": "e8a81a1f57839a15efd8cb2044742e7795de2856c7f941965ce4dce6727767e9",
+      "test_source_sha256": "7c274aa79c278923217b83b18ec222e976e879446bf191d683fcd166bd2dc3af",
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-five-rule-checkpoint-20261106.json",
+        "passed_cases": 750,
+        "capability_count": 83,
+        "duration_seconds": 226.238536,
+        "source_fingerprint": "6abf318b9b2776bf55f865f23da1362c9ec18ad9eb292e1cabee15f9278c63a0"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-three-rules-20261106.json",
-    "passed_cases": 734,
-    "manifest_cases": 740,
+    "report": "rust/artifacts/strict-gate-five-rule-checkpoint-20261106.json",
+    "passed_cases": 750,
+    "manifest_cases": 756,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
       "cli.config.per_file_checks": 4
     },
     "exit_code": 0,
-    "capability_count": 78,
-    "source_fingerprint": "d611593ed7afd289b25539a03b30a10d080fb333ce9ca9133c91c993de9e0415",
-    "run_id": "20261106T221007789958Z-10693bcd",
-    "started_at_utc": "2026-11-06T22:10:07.789923+00:00",
-    "finished_at_utc": "2026-11-06T22:13:49.160097+00:00",
-    "candidate_attestation": "rust/artifacts/20261106T220959764380Z-build.attestation.json",
-    "candidate_sha256": "7b5083a8680574684a35e4075389b86035ebfa9b8af6884eb4f1529a146ef8f0",
-    "duration_seconds": 221.370174
+    "capability_count": 83,
+    "source_fingerprint": "6abf318b9b2776bf55f865f23da1362c9ec18ad9eb292e1cabee15f9278c63a0",
+    "run_id": "20261106T233600613000Z-f7566479",
+    "started_at_utc": "2026-11-06T23:36:00.612969+00:00",
+    "finished_at_utc": "2026-11-06T23:39:46.851505+00:00",
+    "candidate_attestation": "rust/artifacts/20261106T233551420055Z-build.attestation.json",
+    "candidate_sha256": "3732d28803704fda3e8ab614379f59c6c04b3408bdd2ece2dd862459e90310da",
+    "duration_seconds": 226.238536,
+    "build_duration_seconds": 9.167
   },
   "rust_dependencies": {
     "status": "current",
@@ -4680,10 +5109,10 @@
       "packages_to_update": 0,
       "command": "rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo update --manifest-path rust/Cargo.toml --dry-run",
       "rust_version_constraint": "1.99",
-      "checked_after_gate": "2026-11-06T17:09:30Z"
+      "checked_after_gate": "2026-11-06T23:44:17Z"
     }
   },
-  "next_capability_handoff": "Continue at the next unimplemented rules in rust/inventory.json. Keep each focused live parity and independent verification; batch the next cumulative gate at 5–10 capabilities or after shared matcher/config/CLI/output changes.",
+  "next_capability_handoff": "Select the next 5–10 independent paths from rust/inventory.json. Keep focused live and independent verification per capability. Run the cumulative gate at the next batch checkpoint and after shared matching/config/CLI/output changes. Keep benchmarks separate and bounded.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

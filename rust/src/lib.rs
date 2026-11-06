@@ -60,6 +60,8 @@ const TYPOGRAPHY_MULTIPLICATION_MESSAGE: &str =
 const MENTAL_TELEPATHY_PATTERN: &str = "mental telepathy";
 const MENTAL_TELEPATHY_MESSAGE: &str =
     "This is redundant because all purported telepathy is mental.";
+const P_EQUALS_ZERO_MESSAGE: &str =
+    "Unless p really equals zero, you should use more decimal places.";
 const ILLOGIC_COIN_PATTERN: &str = "to coin a phrase from";
 const ILLOGIC_COIN_MESSAGE: &str = "You can't coin an existing phrase. Did you mean 'borrow'?";
 const ILLOGIC_COLLUSION_PATTERN: &str = "without your collusion";
@@ -1222,6 +1224,34 @@ pub fn mental_telepathy_diagnostics(text: &str) -> Vec<Value> {
     }
 
     diagnostics
+}
+
+/// Return diagnostics for the pinned Fast `psychology.p_equals_zero` regex.
+pub fn p_equals_zero_diagnostics(text: &str) -> Vec<Value> {
+    let padded = format!("\n{text}\n");
+    static PATTERN: LazyLock<Regex> =
+        LazyLock::new(|| Regex::new(r"(?i)p = 0.0{2,4}").expect("constant regex"));
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    PATTERN
+        .find_iter(&padded)
+        .filter_map(|matched| {
+            let span_start = padded[..matched.start()].chars().count();
+            let span_end = span_start + matched.as_str().chars().count();
+            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+            if quote_index % 2 == 1 {
+                return None;
+            }
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            Some(json!({
+                "check_path": "psychology.p_equals_zero",
+                "message": P_EQUALS_ZERO_MESSAGE,
+                "span": [span_start, span_end],
+                "pos": [line, column],
+                "replacements": null,
+            }))
+        })
+        .collect()
 }
 
 /// Return diagnostics for the pinned `misc.illogic.coin` literal rule.

@@ -10,9 +10,9 @@ use proselint_rs::{
     hedging_diagnostics, illogic_coin_diagnostics, illogic_collusion_diagnostics,
     inferior_superior_diagnostics, institution_name_diagnostics, jargon_diagnostics, json_result,
     latin_diagnostics, lie_detector_diagnostics, many_a_diagnostics, mental_telepathy_diagnostics,
-    metadiscourse_diagnostics, normalize_file_newlines, phrasal_adjectives_ly_diagnostics,
-    pretension_diagnostics, professions_diagnostics, suddenly_diagnostics,
-    typography_copyright_diagnostics, typography_ellipsis_diagnostics,
+    metadiscourse_diagnostics, normalize_file_newlines, p_equals_zero_diagnostics,
+    phrasal_adjectives_ly_diagnostics, pretension_diagnostics, professions_diagnostics,
+    suddenly_diagnostics, typography_copyright_diagnostics, typography_ellipsis_diagnostics,
     typography_multiplication_diagnostics, typography_sentence_spacing_diagnostics,
     typography_trademark_diagnostics, wallace_diagnostics, whence_diagnostics,
 };
@@ -1162,7 +1162,7 @@ fn run() -> Result<ExitCode, String> {
         selected_check = Some(SelectedCheck::None);
     }
     let selected_check = selected_check.ok_or_else(|| {
-        "this capability supports disabled checks, annotations.misc, cliches.hell, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.lie_detector, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.many_a, misc.metadiscourse, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, redundancy.misc.wallace, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, dates_times.am_pm.lowercase_periods, or dates_times.am_pm.spacing only".to_owned()
+        "this capability supports disabled checks, annotations.misc, cliches.hell, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.many_a, misc.metadiscourse, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, redundancy.misc.wallace, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, dates_times.am_pm.lowercase_periods, or dates_times.am_pm.spacing only".to_owned()
     })?;
 
     let diagnostics = match selected_check {
@@ -1190,6 +1190,7 @@ fn run() -> Result<ExitCode, String> {
             max_errors,
         ),
         SelectedCheck::PsychologyMentalTelepathy => mental_telepathy_diagnostics(&content),
+        SelectedCheck::PsychologyPEqualsZero => p_equals_zero_diagnostics(&content),
         SelectedCheck::PsychologyLieDetector => lie_detector_diagnostics(&content),
         SelectedCheck::RedundancyMiscWallace => wallace_diagnostics(&content),
         SelectedCheck::MiscIllogicCoin => illogic_coin_diagnostics(&content),
@@ -1269,6 +1270,7 @@ enum SelectedCheck {
     MiscFalsePluralsKudos,
     MiscFalsePluralsMisc,
     PsychologyMentalTelepathy,
+    PsychologyPEqualsZero,
     PsychologyLieDetector,
     RedundancyMiscWallace,
     MiscIllogicCoin,
@@ -1317,6 +1319,7 @@ fn supported_checks(checks: &Value) -> Option<SelectedCheck> {
             ["misc", "false_plurals", "kudos"] => Some(SelectedCheck::MiscFalsePluralsKudos),
             ["misc", "false_plurals", "misc"] => Some(SelectedCheck::MiscFalsePluralsMisc),
             ["psychology", "mental_telepathy"] => Some(SelectedCheck::PsychologyMentalTelepathy),
+            ["psychology", "p_equals_zero"] => Some(SelectedCheck::PsychologyPEqualsZero),
             ["psychology", "lie_detector"] => Some(SelectedCheck::PsychologyLieDetector),
             ["redundancy", "misc", "wallace"] => Some(SelectedCheck::RedundancyMiscWallace),
             ["misc", "illogic", "coin"] => Some(SelectedCheck::MiscIllogicCoin),
@@ -1460,6 +1463,7 @@ fn selected_check_path(check: SelectedCheck) -> &'static str {
         SelectedCheck::MiscFalsePluralsKudos => "misc.false_plurals.kudos",
         SelectedCheck::MiscFalsePluralsMisc => "misc.false_plurals.misc",
         SelectedCheck::PsychologyMentalTelepathy => "psychology.mental_telepathy",
+        SelectedCheck::PsychologyPEqualsZero => "psychology.p_equals_zero",
         SelectedCheck::PsychologyLieDetector => "psychology.lie_detector",
         SelectedCheck::RedundancyMiscWallace => "redundancy.misc.wallace",
         SelectedCheck::MiscIllogicCoin => "misc.illogic.coin",

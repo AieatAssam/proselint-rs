@@ -210,6 +210,10 @@
     {
       "id": "rule.misc.capitalization.months",
       "status": "recorded"
+    },
+    {
+      "id": "rule.psychology.p_equals_zero",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -257,7 +261,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "Implement and verify psychology.p_equals_zero; its pinned pattern has an unescaped wildcard dot and eight oracle-derived cases."
+    "next_handoff": "Select and specify the next unaccepted rule from the 65 remaining inventory paths; benchmark a combined representative profile after a short accepted batch."
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
@@ -2708,21 +2712,75 @@
         },
         "report": "rust/artifacts/strict-gate-capitalization-months-20261106.json"
       }
+    },
+    {
+      "id": "rule.psychology.p_equals_zero",
+      "status": "recorded",
+      "case_ids": [
+        "psychology_p_equals_zero_positive_casefold",
+        "psychology_p_equals_zero_unescaped_dot",
+        "psychology_p_equals_zero_negative_controls",
+        "psychology_p_equals_zero_excess_zeros",
+        "psychology_p_equals_zero_dot_excludes_newline",
+        "psychology_p_equals_zero_quote_suppression",
+        "psychology_p_equals_zero_repeated_matches",
+        "psychology_p_equals_zero_unicode_positions"
+      ],
+      "upstream_spec": "Pinned check_p_equals_zero is ExistenceSimple(pattern=r\"p = 0.0{2,4}\") with Fast case-insensitive matching, no check-specific offset and no exceptions. The dot is intentionally unescaped and matches one non-LF character. LintFile globally pads nonempty input with a newline on both ends; quote suppression and codepoint coordinates are observable. Message: Unless p really equals zero, you should use more decimal places.",
+      "red": {
+        "focused_rust_tests_passed": 0,
+        "focused_rust_tests_failed": 5,
+        "result": "All tests reached the CLI; selected check was unsupported and returned exit 4.",
+        "oracle_self_comparison": "rust/artifacts/p_equals_zero-oracle-self-20261106.json"
+      },
+      "green": {
+        "focused_rust_tests_passed": 5,
+        "live_cases_passed": 8,
+        "report": "rust/artifacts/p_equals-zero-live-green-20261106.json",
+        "build_attestation": "rust/artifacts/20261106T074429793974Z-build.attestation.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 8,
+        "focused_rust_tests_passed": 5,
+        "harness_tests_passed": 28,
+        "comparator_discriminators_passed": 23,
+        "report": "rust/artifacts/independent-p-equals-zero-20261106/p-equals-zero-live.json",
+        "verification": "rust/artifacts/independent-p-equals-zero-20261106/verification.json",
+        "build_attestation": "rust/artifacts/independent-p-equals-zero-20261106/build.attestation.json",
+        "source_fingerprint": "f890b782a1a8740e42344d8b2e322c3017218c9c377e331c51003db210e7bd1e",
+        "binary_sha256": "2a99c85bc254481532648e30aec5a00e1a2e61d20bd5993d3fa411039e1cd0a9",
+        "agent_model": "gpt-6-luna",
+        "agent_reasoning_effort": "low"
+      },
+      "limitations": [
+        "The verified regex semantics are scoped to this exact pattern and recorded input matrix; broader Rust regex versus RE2 equivalence is not established.",
+        "Combined-rule/default configuration behavior and Unicode folding beyond the tested ASCII P/p case remain unverified."
+      ],
+      "cumulative_live_parity": {
+        "status": "PASS",
+        "passed_cases": 452,
+        "manifest_cases": 458,
+        "excluded_manifest_cases": {
+          "cli.config.per_file_checks": 4,
+          "harness.oracle_smoke": 2
+        },
+        "report": "rust/artifacts/strict-gate-p-equals-zero-20261106.json"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-capitalization-months-20261106.json",
-    "passed_cases": 444,
+    "report": "rust/artifacts/strict-gate-p-equals-zero-20261106.json",
+    "passed_cases": 452,
     "manifest_cases": 458,
     "excluded_manifest_cases": {
-      "rule.psychology.p_equals_zero": 8,
       "cli.config.per_file_checks": 4,
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "source_fingerprint": "b459db1aff9340cf72cc0f9564a6f4a0b94b373b4a89b00ed3e1a5dec99ef88e",
-    "capability_count": 52
+    "source_fingerprint": "5c2ea53c8c9f1f5f976b74db4a99d91b59c6474191f7c12f58a12d8e06f2f5b4",
+    "capability_count": 53
   },
   "rust_dependencies": {
     "status": "current",
@@ -2744,7 +2802,7 @@
       "rust_version_constraint": "1.99"
     }
   },
-  "next_capability_handoff": "Resume the prepared psychology.p_equals_zero TDD slice: move its case tests from rust/tests/pending to active after demonstrating RED, run its 8 live cases, independently verify, then cumulative gate.",
+  "next_capability_handoff": "Select a next capability from the pinned inventory by helper reuse and case quality; derive its exact semantics and demonstrate behavioral RED before production edits. After the next small accepted batch, extend performance evidence to a combined accepted-rule config.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

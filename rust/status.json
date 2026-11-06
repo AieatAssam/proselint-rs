@@ -234,6 +234,10 @@
     {
       "id": "rule.spelling.ally_ly",
       "status": "recorded"
+    },
+    {
+      "id": "rule.spelling.ely_ly",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -281,11 +285,11 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "Specify the next small data-backed rule, spelling.ely_ly, against the pinned oracle; add meaningful RED tests and exact live cases, implement, independently verify, and run the cumulative gate."
+    "next_handoff": "Specify the next small data-backed rule, spelling.ve_of, against the pinned oracle; add meaningful RED tests and exact live cases, implement, independently verify, and run the cumulative gate."
   },
   "unresolved": [
     "The no-config-found bundled DEFAULT, every default-enabled rule interaction, and combined enabled-rule configurations remain unverified; selected-rule passes do not establish default behavior.",
-    "61 unique rule paths remain unimplemented or unverified.",
+    "60 unique rule paths remain unimplemented or unverified.",
     "Other CLI behavior remains unverified, including remaining subcommands, missing nonempty-XDG config, HOME-unset resolution, directory user candidates, file/directory traversal and decoding edges, multi-file rendering, and Compact output.",
     "Unicode case folding and quote-pairing combinations beyond explicitly tested cases remain unverified.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
@@ -3083,19 +3087,70 @@
       "limitations": [
         "No dedicated Rust integration-test target covers ally_ly; the ten end-to-end live cases independently cover its CLI behavior, and the full locked Cargo suite passed."
       ]
+    },
+    {
+      "id": "rule.spelling.ely_ly",
+      "status": "recorded",
+      "case_ids": [
+        "spelling_ely_ly_all_mappings",
+        "spelling_ely_ly_case_and_repetition",
+        "spelling_ely_ly_clean_and_word_boundaries",
+        "spelling_ely_ly_raw_occurrences_after_activation",
+        "spelling_ely_ly_quote_suppression",
+        "spelling_ely_ly_unicode_positions",
+        "spelling_ely_ly_max_errors_one",
+        "spelling_ely_ly_limit_activation_order",
+        "spelling_ely_ly_quoted_activation"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_spec": "Pinned default-enabled PreferredFormsSimple rule at spelling.ely_ly: completly→completely, immediatly→immediately, unfortunatly→unfortunately. Uses Fast case-insensitive matching, WORDS_IN_TEXT boundaries, quote suppression, zero offset and PPM, with message -ely vs. -ly. Preserve activation-order emission, raw occurrences after activation, max_errors truncation, Unicode positions, and exact preferred lookup.",
+      "red": {
+        "report_status": "MISMATCH",
+        "mismatches": 9,
+        "reason": "All nine frozen selected-rule live cases reached the CLI; Rust returned unsupported-path exit 4.",
+        "evidence": "rust/artifacts/ely-ly-rust-red-20261106.json",
+        "source_fingerprint_before": "6c73be860367f870f22935175528647080b6c6d607efae7e387ff54140806b0d"
+      },
+      "green": {
+        "live_cases_passed": 9,
+        "report": "rust/artifacts/ely-ly-green-20261106.json",
+        "build_attestation": "rust/artifacts/20261106T114859082538Z-build.attestation.json",
+        "source_fingerprint": "3626871e59c0f25db93a3275b427a73b60c9a622818199dfaed00b5f27f169df",
+        "locked_fmt_clippy_tests_build": "passed"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 9,
+        "focused_live_report": "rust/artifacts/independent-ely-ly-20261106/ely-ly-live.json",
+        "full_cargo_tests": "469 passed across 58 test binaries, 0 failed",
+        "harness_tests_passed": 33,
+        "comparator_discriminators_passed": 23,
+        "oracle_self_check_passed": 2,
+        "baseline_integrity": "verified before and after",
+        "evidence": "rust/artifacts/independent-ely-ly-20261106/verification-evidence.json",
+        "source_fingerprint": "3626871e59c0f25db93a3275b427a73b60c9a622818199dfaed00b5f27f169df",
+        "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "agent_model": "gpt-6-luna",
+        "agent_reasoning_effort": "low requested",
+        "agent_runtime_metadata": "unavailable",
+        "cumulative_gate": "526/526 PASS across 59 capabilities; report rust/artifacts/strict-gate-ely-ly-20261106.json"
+      },
+      "limitations": [
+        "No dedicated Rust integration-test target covers ely_ly; the nine end-to-end live cases and full locked Cargo suite passed."
+      ]
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-ally-ly-20261106.json",
-    "passed_cases": 517,
-    "manifest_cases": 523,
+    "report": "rust/artifacts/strict-gate-ely-ly-20261106.json",
+    "passed_cases": 526,
+    "manifest_cases": 532,
     "excluded_manifest_cases": {
       "cli.config.per_file_checks": 4,
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "capability_count": 58
+    "capability_count": 59
   },
   "rust_dependencies": {
     "status": "current",
@@ -3118,7 +3173,7 @@
       "rust_version_constraint": "1.99"
     }
   },
-  "next_capability_handoff": "Specify spelling.ely_ly against the pinned oracle; demonstrate meaningful RED, then implement, live-compare, independently verify, and run the cumulative gate.",
+  "next_capability_handoff": "Specify spelling.ve_of against the pinned oracle; demonstrate meaningful RED, then implement, live-compare, independently verify, and run the cumulative gate.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

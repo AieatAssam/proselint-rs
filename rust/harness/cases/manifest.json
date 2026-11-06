@@ -17306,6 +17306,312 @@
         "--output-format",
         "json"
       ]
+    },
+    {
+      "id": "spelling_ely_ly_all_mappings",
+      "capability_id": "rule.spelling.ely_ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/ely_ly.py registers PreferredFormsSimple with three source→preferred mappings, Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, PPM 0, and message \"-ely vs. -ly. '{}' is the correct spelling.\" Mappings: completly → completely, immediatly → immediately, unfortunatly → unfortunately. Exercises all registered spellings and their exact replacements.",
+      "input_mode": "stdin",
+      "stdin_base64": "Y29tcGxldGx5IGltbWVkaWF0bHkgdW5mb3J0dW5hdGx5",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ely_ly_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ely ly config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsiZWx5X2x5Ijp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ely ly config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ely_ly_case_and_repetition",
+      "capability_id": "rule.spelling.ely_ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/ely_ly.py registers PreferredFormsSimple with three source→preferred mappings, Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, PPM 0, and message \"-ely vs. -ly. '{}' is the correct spelling.\" Mappings: completly → completely, immediatly → immediately, unfortunatly → unfortunately. Exercises case-insensitive matching and repeated occurrences.",
+      "input_mode": "stdin",
+      "stdin_base64": "Q29tcGxldGx5IENPTVBMRVRMWSBpbW1lZGlhdGx5IEltbWVkaWF0bHk=",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ely_ly_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ely ly config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsiZWx5X2x5Ijp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ely ly config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ely_ly_clean_and_word_boundaries",
+      "capability_id": "rule.spelling.ely_ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/ely_ly.py registers PreferredFormsSimple with three source→preferred mappings, Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, PPM 0, and message \"-ely vs. -ly. '{}' is the correct spelling.\" Mappings: completly → completely, immediatly → immediately, unfortunatly → unfortunately. Preferred forms are clean; lone embedded misspellings cannot activate WORDS_IN_TEXT.",
+      "input_mode": "stdin",
+      "stdin_base64": "Y29tcGxldGVseSBpbW1lZGlhdGVseSB1bmZvcnR1bmF0ZWx5IHhjb21wbGV0bHkgY29tcGxldGx5eA==",
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ely_ly_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ely ly config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsiZWx5X2x5Ijp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ely ly config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ely_ly_raw_occurrences_after_activation",
+      "capability_id": "rule.spelling.ely_ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/ely_ly.py registers PreferredFormsSimple with three source→preferred mappings, Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, PPM 0, and message \"-ely vs. -ly. '{}' is the correct spelling.\" Mappings: completly → completely, immediatly → immediately, unfortunatly → unfortunately. The later bounded occurrence activates the pattern, after which raw iteration reports the earlier embedded occurrence too.",
+      "input_mode": "stdin",
+      "stdin_base64": "Y29tcGxldGx5eCBjb21wbGV0bHk=",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ely_ly_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ely ly config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsiZWx5X2x5Ijp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ely ly config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ely_ly_quote_suppression",
+      "capability_id": "rule.spelling.ely_ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/ely_ly.py registers PreferredFormsSimple with three source→preferred mappings, Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, PPM 0, and message \"-ely vs. -ly. '{}' is the correct spelling.\" Mappings: completly → completely, immediatly → immediately, unfortunatly → unfortunately. The quoted occurrence is suppressed while the unquoted mapping remains reportable.",
+      "input_mode": "stdin",
+      "stdin_base64": "ImNvbXBsZXRseSIgaW1tZWRpYXRseQ==",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ely_ly_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ely ly config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsiZWx5X2x5Ijp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ely ly config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ely_ly_unicode_positions",
+      "capability_id": "rule.spelling.ely_ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/ely_ly.py registers PreferredFormsSimple with three source→preferred mappings, Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, PPM 0, and message \"-ely vs. -ly. '{}' is the correct spelling.\" Mappings: completly → completely, immediatly → immediately, unfortunatly → unfortunately. Emoji and non-ASCII prefix exercise code-point spans and line/column positions.",
+      "input_mode": "stdin",
+      "stdin_base64": "8J+YgCBjb21wbGV0bHkuCsOYIGltbWVkaWF0bHk=",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ely_ly_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ely ly config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsiZWx5X2x5Ijp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ely ly config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ely_ly_max_errors_one",
+      "capability_id": "rule.spelling.ely_ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/ely_ly.py registers PreferredFormsSimple with three source→preferred mappings, Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, PPM 0, and message \"-ely vs. -ly. '{}' is the correct spelling.\" Mappings: completly → completely, immediatly → immediately, unfortunatly → unfortunately. With reverse mapping order in text, max_errors=1 must retain the earliest generated diagnostic.",
+      "input_mode": "stdin",
+      "stdin_base64": "dW5mb3J0dW5hdGx5IGltbWVkaWF0bHkgY29tcGxldGx5",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ely_ly_only_max_errors_one",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ely ly config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsic3BlbGxpbmciOnsiZWx5X2x5Ijp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ely ly config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ely_ly_limit_activation_order",
+      "capability_id": "rule.spelling.ely_ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/ely_ly.py registers PreferredFormsSimple with three source→preferred mappings, Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, PPM 0, and message \"-ely vs. -ly. '{}' is the correct spelling.\" Mappings: completly → completely, immediatly → immediately, unfortunatly → unfortunately. An earlier embedded raw match must not outrank the first eligible cross-pattern activation under max_errors=1.",
+      "input_mode": "stdin",
+      "stdin_base64": "eGNvbXBsZXRseSB1bmZvcnR1bmF0bHkgY29tcGxldGx5",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ely_ly_only_max_errors_one",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ely ly config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsic3BlbGxpbmciOnsiZWx5X2x5Ijp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ely ly config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_ely_ly_quoted_activation",
+      "capability_id": "rule.spelling.ely_ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/ely_ly.py registers PreferredFormsSimple with three source→preferred mappings, Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, PPM 0, and message \"-ely vs. -ly. '{}' is the correct spelling.\" Mappings: completly → completely, immediatly → immediately, unfortunatly → unfortunately. The quoted occurrence activates its pattern before quote suppression, allowing its later raw substring to compete for max_errors=1.",
+      "input_mode": "stdin",
+      "stdin_base64": "ImNvbXBsZXRseSIgaW1tZWRpYXRseSB4Y29tcGxldGx5",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_ely_ly_only_max_errors_one",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "ely ly config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsic3BlbGxpbmciOnsiZWx5X2x5Ijp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:ely ly config.json}",
+        "--output-format",
+        "json"
+      ]
     }
   ]
 }

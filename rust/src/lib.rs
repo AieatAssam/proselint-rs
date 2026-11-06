@@ -234,6 +234,11 @@ const ALLY_LY_FORMS: [(&str, &str); 8] = [
     ("incidently", "incidentally"),
     ("optimisticly", "optimistically"),
 ];
+const ELY_LY_FORMS: [(&str, &str); 3] = [
+    ("completly", "completely"),
+    ("immediatly", "immediately"),
+    ("unfortunatly", "unfortunately"),
+];
 const MESSAGE: &str = "Annotation left in text.";
 const QUOTES: [char; 6] = ['"', '\'', '“', '”', '‘', '’'];
 const SEPARATORS: &str = " ,.!?:;-\r\n";
@@ -2553,6 +2558,63 @@ pub fn spelling_ally_ly_diagnostics(text: &str) -> Vec<Value> {
     // FastSet orders selected patterns by their earliest eligible boundary
     // activation, then emits every raw occurrence for each selected pattern.
     // The caller applies max_errors before its final document-position sort.
+    active_patterns.sort_by_key(|(activation_position, pattern_index, _)| {
+        (*activation_position, *pattern_index)
+    });
+    active_patterns
+        .into_iter()
+        .flat_map(|(_, _, diagnostics)| diagnostics)
+        .collect()
+}
+
+/// Return diagnostics for the pinned `spelling.ely_ly` preferred forms.
+/// Each spelling activates at an ASCII word boundary; after activation, all
+/// case-insensitive raw occurrences of that spelling are reported.
+pub fn spelling_ely_ly_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut active_patterns = Vec::new();
+
+    for (pattern_index, (pattern, replacement)) in ELY_LY_FORMS.iter().enumerate() {
+        let pattern_matches = unicode_case_match_ends(&padded, pattern);
+        let activation_position = pattern_matches
+            .iter()
+            .filter(|(start, end)| {
+                !is_ascii_word_before(&padded, *start) && !is_ascii_word_at(&padded, *end)
+            })
+            .map(|(start, _)| *start)
+            .min();
+        let Some(activation_position) = activation_position else {
+            continue;
+        };
+        let mut diagnostics = Vec::new();
+        for (start, end) in pattern_matches {
+            let matched = &padded[start..end];
+            let preferred = preferred_lookup(matched, replacement);
+            let span_start = padded[..start].chars().count();
+            let span_end = span_start + matched.chars().count();
+            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+            if quote_index % 2 == 1 {
+                continue;
+            }
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            diagnostics.push(json!({
+                "check_path": "spelling.ely_ly",
+                "message": format!("-ely vs. -ly. '{}' is the correct spelling.", preferred.unwrap_or("None")),
+                "span": [span_start, span_end],
+                "pos": [line, column],
+                "replacements": preferred,
+            }));
+        }
+        active_patterns.push((activation_position, pattern_index, diagnostics));
+    }
+
+    // Preserve FastSet activation order until the caller applies max_errors.
     active_patterns.sort_by_key(|(activation_position, pattern_index, _)| {
         (*activation_position, *pattern_index)
     });

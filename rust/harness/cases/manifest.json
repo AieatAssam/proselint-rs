@@ -20845,6 +20845,303 @@
         "exit_status": "exact"
       },
       "stdin_base64": "2aHZqdmpMCdz"
+    },
+    {
+      "id": "narcissism_scientists_positive",
+      "capability_id": "rule.misc.narcissism",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/misc/narcissism.py; one default-enabled Fast case-insensitive ExistenceSimple raw unanchored pattern `In recent years, an increasing number of [a-zA-Z]{3,}sts have`, no padding/offset/PPM/exceptions, allow_quotes=false, exact message `Professional narcissism. Talk about the subject, not its study.`, null replacements. Selected config enables only misc.narcissism. Case purpose: positive scientists example.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJuYXJjaXNzaXNtIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_narcissism_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "SW4gcmVjZW50IHllYXJzLCBhbiBpbmNyZWFzaW5nIG51bWJlciBvZiBzY2llbnRpc3RzIGhhdmUgYXBwZWFyZWQu"
+    },
+    {
+      "id": "narcissism_case_insensitive",
+      "capability_id": "rule.misc.narcissism",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/misc/narcissism.py; one default-enabled Fast case-insensitive ExistenceSimple raw unanchored pattern `In recent years, an increasing number of [a-zA-Z]{3,}sts have`, no padding/offset/PPM/exceptions, allow_quotes=false, exact message `Professional narcissism. Talk about the subject, not its study.`, null replacements. Selected config enables only misc.narcissism. Case purpose: case-insensitive phrase and study suffix.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJuYXJjaXNzaXNtIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_narcissism_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "SU4gUkVDRU5UIFlFQVJTLCBBTiBJTkNSRUFTSU5HIE5VTUJFUiBPRiBTY2llbnRpc3RzIEhBVkUgYXBwZWFyZWQu"
+    },
+    {
+      "id": "narcissism_extra_context_negative",
+      "capability_id": "rule.misc.narcissism",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/misc/narcissism.py; one default-enabled Fast case-insensitive ExistenceSimple raw unanchored pattern `In recent years, an increasing number of [a-zA-Z]{3,}sts have`, no padding/offset/PPM/exceptions, allow_quotes=false, exact message `Professional narcissism. Talk about the subject, not its study.`, null replacements. Selected config enables only misc.narcissism. Case purpose: extra word breaks the fixed phrase.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJuYXJjaXNzaXNtIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_narcissism_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "SW4gcmVjZW50IHllYXJzLCBhbiBpbmNyZWFzaW5nIG51bWJlciBvZiBBSSBzY2llbnRpc3RzIGhhdmUgYXBwZWFyZWQu"
+    },
+    {
+      "id": "narcissism_have_suffix_negative",
+      "capability_id": "rule.misc.narcissism",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/misc/narcissism.py; one default-enabled Fast case-insensitive ExistenceSimple raw unanchored pattern `In recent years, an increasing number of [a-zA-Z]{3,}sts have`, no padding/offset/PPM/exceptions, allow_quotes=false, exact message `Professional narcissism. Talk about the subject, not its study.`, null replacements. Selected config enables only misc.narcissism. Case purpose: the required final have token is absent.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJuYXJjaXNzaXNtIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_narcissism_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "SW4gcmVjZW50IHllYXJzLCBhbiBpbmNyZWFzaW5nIG51bWJlciBvZiBzY2llbnRpc3RzIGhhZCBhcHBlYXJlZC4="
+    },
+    {
+      "id": "narcissism_embedded_raw_match",
+      "capability_id": "rule.misc.narcissism",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/misc/narcissism.py; one default-enabled Fast case-insensitive ExistenceSimple raw unanchored pattern `In recent years, an increasing number of [a-zA-Z]{3,}sts have`, no padding/offset/PPM/exceptions, allow_quotes=false, exact message `Professional narcissism. Talk about the subject, not its study.`, null replacements. Selected config enables only misc.narcissism. Case purpose: raw unanchored match has no word boundaries.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJuYXJjaXNzaXNtIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_narcissism_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "eEluIHJlY2VudCB5ZWFycywgYW4gaW5jcmVhc2luZyBudW1iZXIgb2Ygc2NpZW50aXN0cyBoYXZleQ=="
+    },
+    {
+      "id": "narcissism_quote_suppression",
+      "capability_id": "rule.misc.narcissism",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/misc/narcissism.py; one default-enabled Fast case-insensitive ExistenceSimple raw unanchored pattern `In recent years, an increasing number of [a-zA-Z]{3,}sts have`, no padding/offset/PPM/exceptions, allow_quotes=false, exact message `Professional narcissism. Talk about the subject, not its study.`, null replacements. Selected config enables only misc.narcissism. Case purpose: suppress quoted occurrence and report unquoted occurrence.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJuYXJjaXNzaXNtIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_narcissism_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "4oCcSW4gcmVjZW50IHllYXJzLCBhbiBpbmNyZWFzaW5nIG51bWJlciBvZiBzY2llbnRpc3RzIGhhdmXigJ0gYW5kIEluIHJlY2VudCB5ZWFycywgYW4gaW5jcmVhc2luZyBudW1iZXIgb2YgYXJ0aXN0cyBoYXZlIGFwcGVhcmVkLg=="
+    },
+    {
+      "id": "narcissism_unicode_codepoint_positions",
+      "capability_id": "rule.misc.narcissism",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/misc/narcissism.py; one default-enabled Fast case-insensitive ExistenceSimple raw unanchored pattern `In recent years, an increasing number of [a-zA-Z]{3,}sts have`, no padding/offset/PPM/exceptions, allow_quotes=false, exact message `Professional narcissism. Talk about the subject, not its study.`, null replacements. Selected config enables only misc.narcissism. Case purpose: codepoint offsets after multibyte UTF-8 prefix.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJuYXJjaXNzaXNtIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_narcissism_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "w6kgSW4gcmVjZW50IHllYXJzLCBhbiBpbmNyZWFzaW5nIG51bWJlciBvZiBzY2llbnRpc3RzIGhhdmUgYXBwZWFyZWQu"
+    },
+    {
+      "id": "narcissism_max_errors_one",
+      "capability_id": "rule.misc.narcissism",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/misc/narcissism.py; one default-enabled Fast case-insensitive ExistenceSimple raw unanchored pattern `In recent years, an increasing number of [a-zA-Z]{3,}sts have`, no padding/offset/PPM/exceptions, allow_quotes=false, exact message `Professional narcissism. Talk about the subject, not its study.`, null replacements. Selected config enables only misc.narcissism. Case purpose: truncate repeated matches at one.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJuYXJjaXNzaXNtIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_narcissism_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "SW4gcmVjZW50IHllYXJzLCBhbiBpbmNyZWFzaW5nIG51bWJlciBvZiBzY2llbnRpc3RzIGhhdmUgYXBwZWFyZWQuIEluIHJlY2VudCB5ZWFycywgYW4gaW5jcmVhc2luZyBudW1iZXIgb2YgYXJ0aXN0cyBoYXZlIGFwcGVhcmVkLg=="
+    },
+    {
+      "id": "narcissism_max_errors_two",
+      "capability_id": "rule.misc.narcissism",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/misc/narcissism.py; one default-enabled Fast case-insensitive ExistenceSimple raw unanchored pattern `In recent years, an increasing number of [a-zA-Z]{3,}sts have`, no padding/offset/PPM/exceptions, allow_quotes=false, exact message `Professional narcissism. Talk about the subject, not its study.`, null replacements. Selected config enables only misc.narcissism. Case purpose: retain both repeated matches.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoyLCJjaGVja3MiOnsibWlzYyI6eyJuYXJjaXNzaXNtIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_narcissism_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "SW4gcmVjZW50IHllYXJzLCBhbiBpbmNyZWFzaW5nIG51bWJlciBvZiBzY2llbnRpc3RzIGhhdmUgYXBwZWFyZWQuIEluIHJlY2VudCB5ZWFycywgYW4gaW5jcmVhc2luZyBudW1iZXIgb2YgYXJ0aXN0cyBoYXZlIGFwcGVhcmVkLg=="
     }
   ]
 }

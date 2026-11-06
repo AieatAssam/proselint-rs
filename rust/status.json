@@ -321,7 +321,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "Begin TDD for misc.narcissism using pinned upstream regex and exact live cases; production implementation waits for RED."
+    "next_handoff": "Implement misc.narcissism in rust/src/lib.rs and rust/src/main.rs only, preserving raw unanchored matching and quote/max_errors/coordinate behavior."
   },
   "unresolved": [
     "The no-config-found bundled DEFAULT, every default-enabled rule interaction, and combined enabled-rule configurations remain unverified; selected-rule passes do not establish default behavior.",
@@ -3723,6 +3723,38 @@
         "oracle_integrity": "verified before and after",
         "candidate_sha256": "1c6bbd04a1981dfb5cd35983711a714bac1fe9ef878e3f861aea6e88816830e6"
       }
+    },
+    {
+      "id": "rule.misc.narcissism",
+      "status": "red_verified",
+      "case_ids": [
+        "narcissism_positive_scientists",
+        "narcissism_case_insensitive_surface",
+        "narcissism_missing_comma_negative",
+        "narcissism_wrong_final_verb_negative",
+        "narcissism_embedded_raw_match",
+        "narcissism_quote_suppression",
+        "narcissism_unicode_codepoint_positions",
+        "narcissism_max_errors_one",
+        "narcissism_max_errors_two"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_spec": "One default-enabled ExistenceSimple check using Fast case-insensitive raw/unanchored regex `In recent years, an increasing number of [a-zA-Z]{3,}sts have`, no exceptions/padding/offset/PPM, allow_quotes=false, exact message `Professional narcissism. Talk about the subject, not its study.`, null replacements. Quote suppression precedes max_errors; results are position-sorted afterward.",
+      "red": {
+        "focused_rust_tests": "4 compiled behavioral failures at unsupported selected path; candidate exit 4 vs Python findings exit 1 (clean case expects exit 0)",
+        "cargo_report": "rust/artifacts/misc-narcissism-red-20261106/cargo-red.log",
+        "live_report": "rust/artifacts/misc-narcissism-red-20261106/live-red.json",
+        "live_case_mismatches": 9,
+        "live_oracle_errors": 0,
+        "live_timeouts": 0,
+        "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "source_fingerprint": "7b3d4eb15d2f5e302710ef6ebbd09366a3c158e888968f972b4eec61d0e5a746",
+        "oracle_integrity": "verified before and after",
+        "harness_tests": "39/39 PASS"
+      },
+      "limitations": [
+        "Implementation, focused green and independent verification remain pending."
+      ]
     }
   ],
   "last_strict_gate": {
@@ -3764,7 +3796,7 @@
       "checked_after_gate": "2026-11-06T17:09:30Z"
     }
   },
-  "next_capability_handoff": "Implement the specified misc.narcissism check after meaningful test/live RED evidence is recorded.",
+  "next_capability_handoff": "Implement and locally validate the specified misc.narcissism check; do not alter the nine live cases or expectations.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

@@ -239,6 +239,12 @@ const ELY_LY_FORMS: [(&str, &str); 3] = [
     ("immediatly", "immediately"),
     ("unfortunatly", "unfortunately"),
 ];
+const IN_UN_FORMS: [(&str, &str); 4] = [
+    ("unadvisable", "inadvisable"),
+    ("unalienable", "inalienable"),
+    ("unexpressive", "inexpressive"),
+    ("unfeasible", "infeasible"),
+];
 const MALAPROPISMS: [&str; 3] = [
     "the infinitesimal universe",
     "a serial experience",
@@ -2688,6 +2694,61 @@ pub fn spelling_ely_ly_diagnostics(text: &str) -> Vec<Value> {
         .collect()
 }
 
+/// Return diagnostics for the pinned `spelling.in_un` preferred forms.
+pub fn spelling_in_un_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut active_patterns = Vec::new();
+
+    for (pattern_index, (pattern, replacement)) in IN_UN_FORMS.iter().enumerate() {
+        let pattern_matches = unicode_case_match_ends(&padded, pattern);
+        let activation_position = pattern_matches
+            .iter()
+            .filter(|(start, end)| {
+                !is_ascii_word_before(&padded, *start) && !is_ascii_word_at(&padded, *end)
+            })
+            .map(|(start, _)| *start)
+            .min();
+        let Some(activation_position) = activation_position else {
+            continue;
+        };
+        let mut diagnostics = Vec::new();
+        for (start, end) in pattern_matches {
+            let matched = &padded[start..end];
+            let preferred = preferred_lookup(matched, replacement);
+            let span_start = padded[..start].chars().count();
+            let span_end = span_start + matched.chars().count();
+            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+            if quote_index % 2 == 1 {
+                continue;
+            }
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            diagnostics.push(json!({
+                "check_path": "spelling.in_un",
+                "message": format!("in- vs. un-. '{}' is the preferred spelling.", preferred.unwrap_or("None")),
+                "span": [span_start, span_end],
+                "pos": [line, column],
+                "replacements": preferred,
+            }));
+        }
+        active_patterns.push((activation_position, pattern_index, diagnostics));
+    }
+
+    // FastSet activation order is observable before max_errors truncation.
+    active_patterns.sort_by_key(|(activation_position, pattern_index, _)| {
+        (*activation_position, *pattern_index)
+    });
+    active_patterns
+        .into_iter()
+        .flat_map(|(_, _, diagnostics)| diagnostics)
+        .collect()
+}
+
 /// Return diagnostics for the pinned `spelling.ve_of` preferred forms.
 /// Activation requires word characters at both ends of the raw match.
 pub fn spelling_ve_of_diagnostics(text: &str) -> Vec<Value> {
@@ -2963,4 +3024,54 @@ fn quotes_match(open: char, close: char) -> bool {
             (open, close),
             ('“', '”') | ('”', '“') | ('‘', '’') | ('’', '‘')
         ))
+}
+
+#[cfg(test)]
+mod spelling_in_un_tests {
+    use super::spelling_in_un_diagnostics;
+    use serde_json::json;
+
+    #[test]
+    fn maps_all_four_forms_with_codepoint_positions() {
+        let diagnostics =
+            spelling_in_un_diagnostics("unadvisable unalienable unexpressive unfeasible");
+        assert_eq!(
+            diagnostics,
+            vec![
+                json!({"check_path":"spelling.in_un","message":"in- vs. un-. 'inadvisable' is the preferred spelling.","span":[1,12],"pos":[1,1],"replacements":"inadvisable"}),
+                json!({"check_path":"spelling.in_un","message":"in- vs. un-. 'inalienable' is the preferred spelling.","span":[13,24],"pos":[1,13],"replacements":"inalienable"}),
+                json!({"check_path":"spelling.in_un","message":"in- vs. un-. 'inexpressive' is the preferred spelling.","span":[25,37],"pos":[1,25],"replacements":"inexpressive"}),
+                json!({"check_path":"spelling.in_un","message":"in- vs. un-. 'infeasible' is the preferred spelling.","span":[38,48],"pos":[1,38],"replacements":"infeasible"}),
+            ]
+        );
+    }
+
+    #[test]
+    fn embedded_occurrence_is_reported_after_boundary_activation() {
+        let diagnostics = spelling_in_un_diagnostics("xunadvisable unadvisable");
+        assert_eq!(diagnostics.len(), 2);
+        assert_eq!(diagnostics[0]["span"], json!([2, 13]));
+        assert_eq!(diagnostics[1]["span"], json!([14, 25]));
+    }
+
+    #[test]
+    fn long_s_matches_but_exact_lookup_returns_none() {
+        let diagnostics = spelling_in_un_diagnostics("unexpreſſive unfeaſible");
+        assert_eq!(diagnostics.len(), 2);
+        for diagnostic in diagnostics {
+            assert_eq!(
+                diagnostic["message"],
+                "in- vs. un-. 'None' is the preferred spelling."
+            );
+            assert_eq!(diagnostic["replacements"], serde_json::Value::Null);
+        }
+    }
+
+    #[test]
+    fn quoted_activation_is_suppressed_before_caller_truncation() {
+        let diagnostics = spelling_in_un_diagnostics("\"unadvisable\" unfeasible xunadvisable");
+        assert_eq!(diagnostics.len(), 2);
+        assert_eq!(diagnostics[0]["span"], json!([27, 38]));
+        assert_eq!(diagnostics[1]["span"], json!([15, 25]));
+    }
 }

@@ -246,6 +246,10 @@
     {
       "id": "rule.malapropisms",
       "status": "recorded"
+    },
+    {
+      "id": "rule.spelling.in_un",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -293,11 +297,11 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "Luna implementer owns rust/src/lib.rs and rust/src/main.rs for spelling.in_un; coordinator owns rust/status.json, rust/status-history.jsonl, and rust/docs/**."
+    "next_handoff": "spelling.in_un passed the 557-case cumulative gate. Next: specify mondegreens, then execute RED → implementation → independent verification → cumulative gate."
   },
   "unresolved": [
     "The no-config-found bundled DEFAULT, every default-enabled rule interaction, and combined enabled-rule configurations remain unverified; selected-rule passes do not establish default behavior.",
-    "58 unique rule paths remain unimplemented or unverified.",
+    "57 unique rule paths remain unimplemented or unverified.",
     "Other CLI behavior remains unverified, including remaining subcommands, missing nonempty-XDG config, HOME-unset resolution, directory user candidates, file/directory traversal and decoding edges, multi-file rendering, and Compact output.",
     "Unicode case folding and quote-pairing combinations beyond explicitly tested cases remain unverified.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
@@ -3252,7 +3256,7 @@
     },
     {
       "id": "rule.spelling.in_un",
-      "status": "in_progress",
+      "status": "recorded",
       "case_ids": [
         "spelling_in_un_all_mappings",
         "spelling_in_un_case_and_repetition",
@@ -3275,25 +3279,50 @@
         "source_fingerprint": "8cc7c679eee3d9bac847fd8c31d8794920c2e0ced97e2aacd0276f6e9c384570",
         "build_attestation": "rust/artifacts/20261106T125359605704Z-build.attestation.json"
       },
-      "limitations": [
-        "RED is not acceptance evidence; implementation, focused live green, independent verification, and cumulative gate remain required."
-      ]
+      "limitations": [],
+      "green": {
+        "live_cases_passed": 10,
+        "report": "rust/artifacts/spelling-in-un-live-green-20261106b.json",
+        "build_attestation": "rust/artifacts/20261106T131927567718Z-build.attestation.json",
+        "source_fingerprint": "b502f9337f6f6d4598184aea78143a93d3f3c8f6e3e8b693be8cd79ede7a7971",
+        "locked_fmt_clippy_tests_build": "passed",
+        "focused_rust_tests": "4 passed",
+        "full_cargo_tests": "473 passed"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 10,
+        "focused_live_report": "rust/artifacts/independent-in-un-focused-20261106.json",
+        "strict_gate": "rust/artifacts/independent-in-un-strict-gate-20261106.json",
+        "full_cargo_tests": "473 passed",
+        "harness_tests_passed": 35,
+        "comparator_discriminators_passed": 23,
+        "oracle_self_check_passed": 2,
+        "baseline_integrity": "verified before and after",
+        "evidence": "rust/artifacts/independent-in-un-focused-20261106.json",
+        "source_fingerprint": "b502f9337f6f6d4598184aea78143a93d3f3c8f6e3e8b693be8cd79ede7a7971",
+        "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "agent_model": "gpt-6-luna",
+        "agent_reasoning_effort": "low requested",
+        "agent_runtime_metadata": "unavailable",
+        "cli_supported_check_list_assertion": "passed: spelling.in_un between spelling.ely_ly and spelling.ve_of"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-malapropisms-20261106.json",
-    "passed_cases": 547,
-    "manifest_cases": 553,
+    "report": "rust/artifacts/independent-in-un-strict-gate-20261106.json",
+    "passed_cases": 557,
+    "manifest_cases": 563,
     "excluded_manifest_cases": {
       "cli.config.per_file_checks": 4,
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "capability_count": 61,
-    "source_fingerprint": "4ff9affaae4d6438d30d5a1201d3d0079c575ae781f6dbb0d4f47f17bc9a8f87",
-    "run_id": "20261106T124741544169Z-9ff7fe5e",
-    "finished_at_utc": "2026-11-06T12:50:06.228925+00:00"
+    "capability_count": 62,
+    "source_fingerprint": "b502f9337f6f6d4598184aea78143a93d3f3c8f6e3e8b693be8cd79ede7a7971",
+    "run_id": "20261106T132116845617Z-fd92e075",
+    "finished_at_utc": "2026-11-06T13:23:41.677585+00:00"
   },
   "rust_dependencies": {
     "status": "current",
@@ -3316,7 +3345,7 @@
       "rust_version_constraint": "1.99"
     }
   },
-  "next_capability_handoff": "Implement spelling.in_un from the frozen ten-case RED using existing PreferredFormsSimple semantics; preserve FastSet activation order, quote/max_errors order, and exact long-s lookup behavior, then independently verify and run the cumulative live gate.",
+  "next_capability_handoff": "Specify mondegreens against the pinned oracle; demonstrate meaningful RED, then implement, live-compare, independently verify, and run the cumulative gate.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

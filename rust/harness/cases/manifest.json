@@ -20185,6 +20185,336 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "midnight_noon_optional_forms",
+      "capability_id": "rule.dates_times.am_pm.midnight_noon",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/dates_times/am_pm.py; two default-enabled registrations share this path: ExistenceSimple `12 ?[ap]\\.?m\\.?` and Existence with four redundant-time phrases. Selected config enables only the shared path. Case purpose: both periods and a space.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsibWlkbmlnaHRfbm9vbiI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_midnight_noon_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "MTIgYS5tLjsgMTIgcC5tLg=="
+    },
+    {
+      "id": "midnight_noon_case_and_period_variants",
+      "capability_id": "rule.dates_times.am_pm.midnight_noon",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/dates_times/am_pm.py; two default-enabled registrations share this path: ExistenceSimple `12 ?[ap]\\.?m\\.?` and Existence with four redundant-time phrases. Selected config enables only the shared path. Case purpose: case-insensitive matcher, optional spaces and periods.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsibWlkbmlnaHRfbm9vbiI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_midnight_noon_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "MTJhbSAxMkFNIDEyIHAubS4gMTJQLk0u"
+    },
+    {
+      "id": "midnight_noon_unanchored_and_near_misses",
+      "capability_id": "rule.dates_times.am_pm.midnight_noon",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/dates_times/am_pm.py; two default-enabled registrations share this path: ExistenceSimple `12 ?[ap]\\.?m\\.?` and Existence with four redundant-time phrases. Selected config enables only the shared path. Case purpose: unanchored matching plus hour/spacing near misses.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsibWlkbmlnaHRfbm9vbiI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_midnight_noon_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "eDEyYW14OyAxMWFtOyAxM3BtOyAxMiAgYW07IDEyCWFt"
+    },
+    {
+      "id": "midnight_noon_quote_suppression",
+      "capability_id": "rule.dates_times.am_pm.midnight_noon",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/dates_times/am_pm.py; two default-enabled registrations share this path: ExistenceSimple `12 ?[ap]\\.?m\\.?` and Existence with four redundant-time phrases. Selected config enables only the shared path. Case purpose: suppress quoted match and retain later unquoted match.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsibWlkbmlnaHRfbm9vbiI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_midnight_noon_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "4oCcMTJhbeKAnSBhbmQgMTJwbQ=="
+    },
+    {
+      "id": "midnight_noon_unicode_codepoint_position",
+      "capability_id": "rule.dates_times.am_pm.midnight_noon",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/dates_times/am_pm.py; two default-enabled registrations share this path: ExistenceSimple `12 ?[ap]\\.?m\\.?` and Existence with four redundant-time phrases. Selected config enables only the shared path. Case purpose: codepoint coordinates after multibyte UTF-8 prefix.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsibWlkbmlnaHRfbm9vbiI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_midnight_noon_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "w6kgMTJhbQ=="
+    },
+    {
+      "id": "midnight_noon_shared_path_limit_one",
+      "capability_id": "rule.dates_times.am_pm.midnight_noon",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/dates_times/am_pm.py; two default-enabled registrations share this path: ExistenceSimple `12 ?[ap]\\.?m\\.?` and Existence with four redundant-time phrases. Selected config enables only the shared path. Case purpose: both registrations share path; truncate after first registration item.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsibWlkbmlnaHRfbm9vbiI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_midnight_noon_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "MTIgcC5tLiBpbiB0aGUgZXZlbmluZzsgMTIgYS5tLiBpbiB0aGUgbW9ybmluZw=="
+    },
+    {
+      "id": "midnight_noon_shared_path_limit_two",
+      "capability_id": "rule.dates_times.am_pm.midnight_noon",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/dates_times/am_pm.py; two default-enabled registrations share this path: ExistenceSimple `12 ?[ap]\\.?m\\.?` and Existence with four redundant-time phrases. Selected config enables only the shared path. Case purpose: max_errors truncation occurs before final stable position sort.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoyLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsibWlkbmlnaHRfbm9vbiI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_midnight_noon_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "MTIgcC5tLiBpbiB0aGUgZXZlbmluZzsgMTIgYS5tLiBpbiB0aGUgbW9ybmluZw=="
+    },
+    {
+      "id": "midnight_noon_shared_path_limit_three",
+      "capability_id": "rule.dates_times.am_pm.midnight_noon",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/dates_times/am_pm.py; two default-enabled registrations share this path: ExistenceSimple `12 ?[ap]\\.?m\\.?` and Existence with four redundant-time phrases. Selected config enables only the shared path. Case purpose: truncation crosses from first registration to second.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjozLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsibWlkbmlnaHRfbm9vbiI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_midnight_noon_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "MTIgcC5tLiBpbiB0aGUgZXZlbmluZzsgMTIgYS5tLiBpbiB0aGUgbW9ybmluZw=="
+    },
+    {
+      "id": "midnight_noon_shared_path_all_findings",
+      "capability_id": "rule.dates_times.am_pm.midnight_noon",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/dates_times/am_pm.py; two default-enabled registrations share this path: ExistenceSimple `12 ?[ap]\\.?m\\.?` and Existence with four redundant-time phrases. Selected config enables only the shared path. Case purpose: both same-path registrations and equal-position order.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsibWlkbmlnaHRfbm9vbiI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_midnight_noon_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "MTIgcC5tLiBpbiB0aGUgZXZlbmluZzsgMTIgYS5tLiBpbiB0aGUgbW9ybmluZw=="
+    },
+    {
+      "id": "midnight_noon_fastset_activation_preserves_embedded_raw_matches",
+      "capability_id": "rule.dates_times.am_pm.midnight_noon",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/dates_times/am_pm.py; two default-enabled registrations share this path: ExistenceSimple `12 ?[ap]\\.?m\\.?` and Existence with four redundant-time phrases. Selected config enables only the shared path. Case purpose: one boundary-eligible `12 p.m. in the evening` activates FastSet, after which raw matches include the second embedded `x12 p.m. in the evening` phrase.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsibWlkbmlnaHRfbm9vbiI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dates_times_am_pm_midnight_noon_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "MTIgcC5tLiBpbiB0aGUgZXZlbmluZzsgeDEyIHAubS4gaW4gdGhlIGV2ZW5pbmc="
     }
   ]
 }

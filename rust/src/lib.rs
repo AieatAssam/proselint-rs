@@ -19,6 +19,31 @@ const BUT_PATTERN: &str = "But";
 const BUT_MESSAGE: &str = "No paragraph should start with a 'But'.";
 const AM_PM_MESSAGE: &str = "It's standard to use periods for lowercase 'a.m.' or 'p.m.'.";
 const AM_PM_SPACING_MESSAGE: &str = "It's standard to put a space before 'a.m.' or 'p.m.'.";
+const MIDNIGHT_NOON_MESSAGE: &str =
+    "'12 a.m.' and '12 p.m.' are ambiguous. Use 'midnight' or 'noon'.";
+const MIDNIGHT_NOON_REDUNDANT_PATTERNS: [&str; 4] = [
+    r"[0-9]{1,2} ?a\.?m\.? in the morning",
+    r"[0-9]{1,2} ?p\.?m\.? in the evening",
+    r"[0-9]{1,2} ?p\.?m\.? at night",
+    r"[0-9]{1,2} ?p\.?m\.? in the afternoon",
+];
+const MIDNIGHT_NOON_REDUNDANT_MESSAGE: &str = "'a.m.' is always morning; 'p.m.' is always night.";
+static MIDNIGHT_NOON_REGEX: LazyLock<Regex> = LazyLock::new(|| {
+    RegexBuilder::new(r"(?i)12 ?[ap]\.?m\.?")
+        .build()
+        .expect("valid midnight/noon regex")
+});
+static MIDNIGHT_NOON_REDUNDANT_REGEXES: LazyLock<Vec<Regex>> = LazyLock::new(|| {
+    MIDNIGHT_NOON_REDUNDANT_PATTERNS
+        .iter()
+        .map(|pattern| {
+            RegexBuilder::new(pattern)
+                .case_insensitive(true)
+                .build()
+                .expect("valid midnight/noon redundancy regex")
+        })
+        .collect()
+});
 const DEBASED_ITEMS: [&str; 4] = [
     "a not unjustifiable assumption",
     "leaves much to be desired",
@@ -947,6 +972,72 @@ pub fn am_pm_spacing_diagnostics(text: &str) -> Vec<Value> {
         .into_iter()
         .map(|(_, diagnostic)| diagnostic)
         .collect()
+}
+
+/// Return diagnostics for both pinned checks registered at the shared
+/// midnight/noon path, preserving registration and FastSet matcher order.
+pub fn midnight_noon_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut diagnostics = Vec::new();
+
+    for matched in MIDNIGHT_NOON_REGEX.find_iter(&padded) {
+        let span_start = padded[..matched.start()].chars().count();
+        if quote_bounds.partition_point(|bound| *bound < span_start) % 2 == 1 {
+            continue;
+        }
+        let span_end = span_start + padded[matched.start()..matched.end()].chars().count();
+        let (line, column) = line_col_of(span_start, &line_bounds);
+        diagnostics.push(json!({
+            "check_path": "dates_times.am_pm.midnight_noon",
+            "message": MIDNIGHT_NOON_MESSAGE,
+            "span": [span_start, span_end],
+            "pos": [line, column],
+            "replacements": null,
+        }));
+    }
+
+    let mut active_patterns = MIDNIGHT_NOON_REDUNDANT_REGEXES
+        .iter()
+        .enumerate()
+        .filter_map(|(index, regex)| {
+            let matches = regex.find_iter(&padded).collect::<Vec<_>>();
+            let activation_start = matches
+                .iter()
+                .find(|matched| {
+                    !is_ascii_word_before(&padded, matched.start())
+                        && !is_ascii_word_at(&padded, matched.end())
+                })
+                .map(|matched| matched.start());
+            activation_start.map(|start| (start, index, matches))
+        })
+        .collect::<Vec<_>>();
+    active_patterns.sort_unstable_by_key(|(start, index, _)| (*start, *index));
+
+    for (_, _, matches) in active_patterns {
+        for matched in matches {
+            let span_start = padded[..matched.start()].chars().count();
+            if quote_bounds.partition_point(|bound| *bound < span_start) % 2 == 1 {
+                continue;
+            }
+            let span_end = span_start + padded[matched.start()..matched.end()].chars().count();
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            diagnostics.push(json!({
+                "check_path": "dates_times.am_pm.midnight_noon",
+                "message": MIDNIGHT_NOON_REDUNDANT_MESSAGE,
+                "span": [span_start, span_end],
+                "pos": [line, column],
+                "replacements": null,
+            }));
+        }
+    }
+
+    diagnostics
 }
 
 /// Return diagnostics for the pinned `misc.debased` check. WORDS_IN_TEXT

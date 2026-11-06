@@ -266,6 +266,10 @@
     {
       "id": "rule.redundancy.misc.nordquist",
       "status": "recorded"
+    },
+    {
+      "id": "rule.dates_times.am_pm.midnight_noon",
+      "status": "independently_verified"
     }
   ],
   "inventory": {
@@ -313,11 +317,11 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "Specify `dates_times.am_pm.midnight_noon`, including both registrations on the shared path, then add focused live cases and a meaningful Rust RED test."
+    "next_handoff": "Specify dates_times.dates.decade_apostrophes, covering both overlapping ExistenceSimple registrations and max_errors-before-position-sort; add pinned-oracle cases and meaningful Rust RED."
   },
   "unresolved": [
     "The no-config-found bundled DEFAULT, every default-enabled rule interaction, and combined enabled-rule configurations remain unverified; selected-rule passes do not establish default behavior.",
-    "53 unique rule paths remain unimplemented or unverified.",
+    "52 unique rule paths remain unimplemented or unverified.",
     "Other CLI behavior remains unverified, including remaining subcommands, missing nonempty-XDG config, HOME-unset resolution, directory user candidates, file/directory traversal and decoding edges, multi-file rendering, and Compact output.",
     "Unicode case folding and quote-pairing combinations beyond explicitly tested cases remain unverified.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
@@ -3581,24 +3585,88 @@
         "oracle_integrity": "verified before and after",
         "candidate_sha256": "015c3f7c0b0fa9b6f633a463cc9da04509445563d8bf4d9505d62be739926308"
       }
+    },
+    {
+      "id": "rule.dates_times.am_pm.midnight_noon",
+      "status": "recorded",
+      "case_ids": [
+        "midnight_noon_optional_forms",
+        "midnight_noon_case_and_period_variants",
+        "midnight_noon_unanchored_and_near_misses",
+        "midnight_noon_quote_suppression",
+        "midnight_noon_unicode_codepoint_position",
+        "midnight_noon_shared_path_limit_one",
+        "midnight_noon_shared_path_limit_two",
+        "midnight_noon_shared_path_limit_three",
+        "midnight_noon_shared_path_all_findings",
+        "midnight_noon_fastset_activation_preserves_embedded_raw_matches"
+      ],
+      "registered_entries_exercised": 2,
+      "upstream_spec": "Two default-enabled registrations share this path. ExistenceSimple Fast case-insensitive regex `12 ?[ap]\\.?m\\.?`, unanchored with no word padding; ambiguity message about using midnight/noon. Four Existence strings report redundant a.m./p.m. time phrases. Both suppress quoted matches, have null replacements, and participate in registration-order max_errors truncation before final position sorting.",
+      "red": {
+        "rust_behavioral_tests": "4 failed after reaching CLI; unsupported selected path exit 4 vs Python findings exit 1",
+        "cargo_report": "rust/artifacts/midnight-noon-red-20261106/cargo-red.log",
+        "live_report": "rust/artifacts/midnight-noon-red-20261106/live-red.json",
+        "live_case_mismatches": 9,
+        "live_oracle_errors": 0,
+        "live_timeouts": 0,
+        "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "source_fingerprint": "197017982abbcf75cb2c5ba8a1a89a414ba640e9f777cf8a4da2bb10037a63be",
+        "oracle_integrity": "verified before and after",
+        "harness_tests": "39/39 PASS"
+      },
+      "limitations": [],
+      "green": {
+        "focused_rust_tests": "5 passed",
+        "focused_live_cases_passed": 10,
+        "focused_live_report": "rust/artifacts/midnight-noon-green-20261106/live-green.json",
+        "build_attestation": "rust/artifacts/20261106T163226397264Z-build.attestation.json",
+        "source_fingerprint": "4d4c29ac535acbf404de1ddd09a92ebe0cac331400a3d2115545cc7b5466c587",
+        "candidate_sha256": "7dfdf02d2a87111b9b17a7421505be53304ad578bb78a31d6a492584de7e02ab",
+        "locked_fmt_clippy_full_cargo_tests_build": "passed",
+        "harness_tests_passed": 39,
+        "comparator_self_tests_passed": 23,
+        "dependencies_added": false,
+        "independent_verification": "passed",
+        "cumulative_gate": "pending",
+        "independent_report": "rust/artifacts/independent-midnight-noon-low-20261106/verification-summary.json",
+        "official_cumulative_gate": "passed: 612/612 across 67 capabilities",
+        "official_gate_report": "rust/artifacts/strict-gate-midnight-noon-final-20261106.json",
+        "official_gate_fingerprint": "f53b42ffd247c7bbd47ee53b3008c22d176ef15aec59a17eb5d30c0f690cac55",
+        "official_gate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261106T163958388339Z-build.attestation.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-midnight-noon-low-20261106/verification-summary.json",
+        "source_fingerprint": "86d43cb5b134cd0abd4b9ca22618133c0317ac6e1e45f957044ac14a2554a73f",
+        "live_report": "rust/artifacts/independent-midnight-noon-low-20261106/midnight-noon-live.json",
+        "live_cases_passed": 10,
+        "focused_rust_tests_passed": 5,
+        "full_cargo_tests_passed": 491,
+        "harness_tests_passed": 39,
+        "comparator_self_tests_passed": 23,
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "oracle_integrity": "verified before and after",
+        "candidate_sha256": "7dfdf02d2a87111b9b17a7421505be53304ad578bb78a31d6a492584de7e02ab"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-nordquist-final-20261106.json",
-    "passed_cases": 602,
-    "manifest_cases": 608,
+    "report": "rust/artifacts/strict-gate-midnight-noon-final-20261106.json",
+    "passed_cases": 612,
+    "manifest_cases": 618,
     "excluded_manifest_cases": {
       "cli.config.per_file_checks": 4,
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "capability_count": 66,
-    "source_fingerprint": "2b10b9c84770b2c408bbbc88fd8a10bbd33c633f2daa3337bcb9ac040fa5874e",
-    "run_id": "20261106T160724483580Z-9a24d2dc",
-    "finished_at_utc": "2026-11-06T16:10:14.834824+00:00",
-    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261106T160719219252Z-build.attestation.json",
-    "candidate_sha256": "015c3f7c0b0fa9b6f633a463cc9da04509445563d8bf4d9505d62be739926308"
+    "capability_count": 67,
+    "source_fingerprint": "f53b42ffd247c7bbd47ee53b3008c22d176ef15aec59a17eb5d30c0f690cac55",
+    "run_id": "20261106T164003363551Z-c9c167b0",
+    "finished_at_utc": "2026-11-06T16:42:49.832774+00:00",
+    "candidate_attestation": "rust/artifacts/20261106T163958388339Z-build.attestation.json",
+    "candidate_sha256": "7dfdf02d2a87111b9b17a7421505be53304ad578bb78a31d6a492584de7e02ab"
   },
   "rust_dependencies": {
     "status": "current",
@@ -3619,10 +3687,10 @@
       "packages_to_update": 0,
       "command": "rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo update --manifest-path rust/Cargo.toml --dry-run",
       "rust_version_constraint": "1.99",
-      "checked_after_gate": "2026-11-06T16:10:00Z"
+      "checked_after_gate": "2026-11-06T16:43:00Z"
     }
   },
-  "next_capability_handoff": "Implement the next capability only after upstream specification and meaningful RED evidence; include both `dates_times.am_pm.midnight_noon` registrations.",
+  "next_capability_handoff": "Begin TDD for dates_times.dates.decade_apostrophes: its two direct regex registrations overlap on 1990\u2019s decade form and need frozen truncation-order expectations.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

@@ -28,6 +28,8 @@ const MIDNIGHT_NOON_REDUNDANT_PATTERNS: [&str; 4] = [
     r"[0-9]{1,2} ?p\.?m\.? in the afternoon",
 ];
 const MIDNIGHT_NOON_REDUNDANT_MESSAGE: &str = "'a.m.' is always morning; 'p.m.' is always night.";
+const DECADE_APOSTROPHES_MESSAGE: &str = "Apostrophes aren't needed for decades.";
+const DECADE_APOSTROPHES_PATTERNS: [&str; 2] = [r"[0-9]0's", r"[0-9]{3}0's"];
 static MIDNIGHT_NOON_REGEX: LazyLock<Regex> = LazyLock::new(|| {
     RegexBuilder::new(r"(?i)12 ?[ap]\.?m\.?")
         .build()
@@ -41,6 +43,17 @@ static MIDNIGHT_NOON_REDUNDANT_REGEXES: LazyLock<Vec<Regex>> = LazyLock::new(|| 
                 .case_insensitive(true)
                 .build()
                 .expect("valid midnight/noon redundancy regex")
+        })
+        .collect()
+});
+static DECADE_APOSTROPHES_REGEXES: LazyLock<Vec<Regex>> = LazyLock::new(|| {
+    DECADE_APOSTROPHES_PATTERNS
+        .iter()
+        .map(|pattern| {
+            RegexBuilder::new(pattern)
+                .case_insensitive(true)
+                .build()
+                .expect("valid decade apostrophes regex")
         })
         .collect()
 });
@@ -972,6 +985,39 @@ pub fn am_pm_spacing_diagnostics(text: &str) -> Vec<Value> {
         .into_iter()
         .map(|(_, diagnostic)| diagnostic)
         .collect()
+}
+
+/// Return diagnostics for both pinned direct decade apostrophe regex checks,
+/// preserving registration order for max_errors truncation.
+pub fn decade_apostrophes_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut diagnostics = Vec::new();
+
+    for regex in DECADE_APOSTROPHES_REGEXES.iter() {
+        for matched in regex.find_iter(&padded) {
+            let span_start = padded[..matched.start()].chars().count();
+            if quote_bounds.partition_point(|bound| *bound < span_start) % 2 == 1 {
+                continue;
+            }
+            let span_end = span_start + matched.as_str().chars().count();
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            diagnostics.push(json!({
+                "check_path": "dates_times.dates.decade_apostrophes",
+                "message": DECADE_APOSTROPHES_MESSAGE,
+                "span": [span_start, span_end],
+                "pos": [line, column],
+                "replacements": null,
+            }));
+        }
+    }
+
+    diagnostics
 }
 
 /// Return diagnostics for both pinned checks registered at the shared

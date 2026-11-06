@@ -6,13 +6,14 @@ use proselint_rs::{
     capitalization_months_diagnostics, capitalization_seasons_diagnostics,
     capitalization_terms_diagnostics, cliches_hell_diagnostics,
     composition_diagnostics_in_matcher_order, currency_diagnostics, debased_diagnostics,
-    eponymous_adjectives_diagnostics, false_plurals_kudos_diagnostics,
-    false_plurals_misc_diagnostics_in_matcher_order, file_uri, greylist_diagnostics,
-    hedging_diagnostics, illogic_coin_diagnostics, illogic_collusion_diagnostics,
-    inferior_superior_diagnostics, institution_name_diagnostics, jargon_diagnostics, json_result,
-    latin_diagnostics, lie_detector_diagnostics, malapropisms_diagnostics, many_a_diagnostics,
-    mental_telepathy_diagnostics, metadiscourse_diagnostics, midnight_noon_diagnostics,
-    mondegreens_diagnostics, nordquist_diagnostics, normalize_file_newlines, oxymorons_diagnostics,
+    decade_apostrophes_diagnostics, eponymous_adjectives_diagnostics,
+    false_plurals_kudos_diagnostics, false_plurals_misc_diagnostics_in_matcher_order, file_uri,
+    greylist_diagnostics, hedging_diagnostics, illogic_coin_diagnostics,
+    illogic_collusion_diagnostics, inferior_superior_diagnostics, institution_name_diagnostics,
+    jargon_diagnostics, json_result, latin_diagnostics, lie_detector_diagnostics,
+    malapropisms_diagnostics, many_a_diagnostics, mental_telepathy_diagnostics,
+    metadiscourse_diagnostics, midnight_noon_diagnostics, mondegreens_diagnostics,
+    nordquist_diagnostics, normalize_file_newlines, oxymorons_diagnostics,
     p_equals_zero_diagnostics, phrasal_adjectives_ly_diagnostics, pretension_diagnostics,
     professions_diagnostics, skunked_terms_diagnostics, spelling_ally_ly_diagnostics,
     spelling_ance_ence_diagnostics, spelling_ely_ly_diagnostics, spelling_in_un_diagnostics,
@@ -1169,7 +1170,7 @@ fn run() -> Result<ExitCode, String> {
         });
     }
     let selected_checks = selected_checks.ok_or_else(|| {
-        "this capability supports disabled checks, annotations.misc, cliches.hell, malapropisms, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.many_a, misc.metadiscourse, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, mondegreens, oxymorons, redundancy.misc.wallace, redundancy.misc.nordquist, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, dates_times.am_pm.midnight_noon, spelling.ally_ly, spelling.ance_ence, spelling.ely_ly, spelling.in_un, spelling.ve_of, skunked_terms, or terms.eponymous_adjectives only".to_owned()
+        "this capability supports disabled checks, annotations.misc, cliches.hell, malapropisms, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.many_a, misc.metadiscourse, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, mondegreens, oxymorons, redundancy.misc.wallace, redundancy.misc.nordquist, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, dates_times.am_pm.midnight_noon, dates_times.dates.decade_apostrophes, spelling.ally_ly, spelling.ance_ence, spelling.ely_ly, spelling.in_un, spelling.ve_of, skunked_terms, or terms.eponymous_adjectives only".to_owned()
     })?;
 
     let mut diagnostics = Vec::new();
@@ -1192,6 +1193,9 @@ fn run() -> Result<ExitCode, String> {
             }
             SelectedCheck::DatesTimesAmPmSpacing => am_pm_spacing_diagnostics(&content),
             SelectedCheck::DatesTimesAmPmMidnightNoon => midnight_noon_diagnostics(&content),
+            SelectedCheck::DatesTimesDatesDecadeApostrophes => {
+                decade_apostrophes_diagnostics(&content)
+            }
             SelectedCheck::MiscFalsePluralsKudos => false_plurals_kudos_diagnostics(&content),
             SelectedCheck::MiscFalsePluralsMisc => {
                 false_plurals_misc_diagnostics_in_matcher_order(&content)
@@ -1281,6 +1285,7 @@ enum SelectedCheck {
     DatesTimesAmPmLowercasePeriods,
     DatesTimesAmPmSpacing,
     DatesTimesAmPmMidnightNoon,
+    DatesTimesDatesDecadeApostrophes,
     Hedging,
     IndustrialLanguageAirlinese,
     IndustrialLanguageBureaucratese,
@@ -1353,6 +1358,9 @@ fn supported_checks(checks: &Value) -> Option<Vec<SelectedCheck>> {
             ["dates_times", "am_pm", "spacing"] => Some(SelectedCheck::DatesTimesAmPmSpacing),
             ["dates_times", "am_pm", "midnight_noon"] => {
                 Some(SelectedCheck::DatesTimesAmPmMidnightNoon)
+            }
+            ["dates_times", "dates", "decade_apostrophes"] => {
+                Some(SelectedCheck::DatesTimesDatesDecadeApostrophes)
             }
             ["misc", "false_plurals", "kudos"] => Some(SelectedCheck::MiscFalsePluralsKudos),
             ["misc", "false_plurals", "misc"] => Some(SelectedCheck::MiscFalsePluralsMisc),
@@ -1500,6 +1508,7 @@ fn selected_check_path(check: SelectedCheck) -> &'static str {
         SelectedCheck::DatesTimesAmPmLowercasePeriods => "dates_times.am_pm.lowercase_periods",
         SelectedCheck::DatesTimesAmPmSpacing => "dates_times.am_pm.spacing",
         SelectedCheck::DatesTimesAmPmMidnightNoon => "dates_times.am_pm.midnight_noon",
+        SelectedCheck::DatesTimesDatesDecadeApostrophes => "dates_times.dates.decade_apostrophes",
         SelectedCheck::MiscFalsePluralsKudos => "misc.false_plurals.kudos",
         SelectedCheck::MiscFalsePluralsMisc => "misc.false_plurals.misc",
         SelectedCheck::PsychologyMentalTelepathy => "psychology.mental_telepathy",

@@ -270,6 +270,10 @@
     {
       "id": "rule.dates_times.am_pm.midnight_noon",
       "status": "independently_verified"
+    },
+    {
+      "id": "rule.dates_times.dates.decade_apostrophes",
+      "status": "independently_verified"
     }
   ],
   "inventory": {
@@ -317,11 +321,11 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "Implement dates_times.dates.decade_apostrophes in rust/src/lib.rs and rust/src/main.rs only; preserve two registration ordering, overlapping suffix/full matches, and frozen max_errors expectations."
+    "next_handoff": "Begin TDD for misc.narcissism using pinned upstream regex and exact live cases; production implementation waits for RED."
   },
   "unresolved": [
     "The no-config-found bundled DEFAULT, every default-enabled rule interaction, and combined enabled-rule configurations remain unverified; selected-rule passes do not establish default behavior.",
-    "52 unique rule paths remain unimplemented or unverified.",
+    "51 unique rule paths remain unimplemented or unverified.",
     "Other CLI behavior remains unverified, including remaining subcommands, missing nonempty-XDG config, HOME-unset resolution, directory user candidates, file/directory traversal and decoding edges, multi-file rendering, and Compact output.",
     "Unicode case folding and quote-pairing combinations beyond explicitly tested cases remain unverified.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
@@ -3652,7 +3656,7 @@
     },
     {
       "id": "rule.dates_times.dates.decade_apostrophes",
-      "status": "red_verified",
+      "status": "recorded",
       "case_ids": [
         "decade_apostrophes_overlap_both_registrations",
         "decade_apostrophes_case_and_length_variants",
@@ -3684,27 +3688,59 @@
         "supplemental_live_report": "rust/artifacts/decade-apostrophes-red-20261106/ascii-digit-live-red.json",
         "note": "The primary 9-case report established unsupported-path RED. The tenth case adds an oracle-confirmed clean RE2 ASCII-digit near miss; its optional candidate RED used an older unsupported binary and does not verify digit semantics."
       },
-      "limitations": [
-        "Implementation, focused green and independent verification remain pending."
-      ]
+      "limitations": [],
+      "green": {
+        "focused_rust_tests": "4 passed",
+        "focused_live_cases_passed": 10,
+        "focused_live_report": "rust/artifacts/decade-apostrophes-green-20261106/live-green.json",
+        "build_attestation": "rust/artifacts/20261106T165832078391Z-build.attestation.json",
+        "source_fingerprint": "1bca62750e3059481edbe074ae5b667aa66683d2c907e40b7f8760ae0e2ac325",
+        "candidate_sha256": "1c6bbd04a1981dfb5cd35983711a714bac1fe9ef878e3f861aea6e88816830e6",
+        "locked_fmt_clippy_full_cargo_tests_build": "passed",
+        "full_cargo_tests_passed": 495,
+        "harness_tests_passed": 39,
+        "comparator_self_tests_passed": 23,
+        "dependencies_added": false,
+        "independent_verification": "passed",
+        "cumulative_gate": "pending",
+        "independent_report": "rust/artifacts/independent-decade-apostrophes-low-20261106/verification-summary.json",
+        "official_cumulative_gate": "passed: 622/622 across 68 capabilities",
+        "official_gate_report": "rust/artifacts/strict-gate-decade-apostrophes-final-20261106.json",
+        "official_gate_fingerprint": "3d638a7d66aa5de3e58cf492103ff4f11faa7d2f6f31ac0afa387ae7e57d81db",
+        "official_gate_attestation": "rust/artifacts/20261106T170600783843Z-build.attestation.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "evidence": "rust/artifacts/independent-decade-apostrophes-low-20261106/verification-summary.json",
+        "source_fingerprint": "fbb2c0e1f40323fd66de2315995f7757557314838463cd0a749108cc9ed7547a",
+        "live_report": "rust/artifacts/independent-decade-apostrophes-low-20261106/decade-apostrophes-live.json",
+        "live_cases_passed": 10,
+        "focused_rust_tests_passed": 4,
+        "full_cargo_tests_passed": 495,
+        "harness_tests_passed": 39,
+        "comparator_self_tests_passed": 23,
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "oracle_integrity": "verified before and after",
+        "candidate_sha256": "1c6bbd04a1981dfb5cd35983711a714bac1fe9ef878e3f861aea6e88816830e6"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-midnight-noon-final-20261106.json",
-    "passed_cases": 612,
-    "manifest_cases": 618,
+    "report": "rust/artifacts/strict-gate-decade-apostrophes-final-20261106.json",
+    "passed_cases": 622,
+    "manifest_cases": 628,
     "excluded_manifest_cases": {
       "cli.config.per_file_checks": 4,
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "capability_count": 67,
-    "source_fingerprint": "f53b42ffd247c7bbd47ee53b3008c22d176ef15aec59a17eb5d30c0f690cac55",
-    "run_id": "20261106T164003363551Z-c9c167b0",
-    "finished_at_utc": "2026-11-06T16:42:49.832774+00:00",
-    "candidate_attestation": "rust/artifacts/20261106T163958388339Z-build.attestation.json",
-    "candidate_sha256": "7dfdf02d2a87111b9b17a7421505be53304ad578bb78a31d6a492584de7e02ab"
+    "capability_count": 68,
+    "source_fingerprint": "3d638a7d66aa5de3e58cf492103ff4f11faa7d2f6f31ac0afa387ae7e57d81db",
+    "run_id": "20261106T170605916779Z-f070a30f",
+    "finished_at_utc": "2026-11-06T17:08:54.114233+00:00",
+    "candidate_attestation": "rust/artifacts/20261106T170600783843Z-build.attestation.json",
+    "candidate_sha256": "1c6bbd04a1981dfb5cd35983711a714bac1fe9ef878e3f861aea6e88816830e6"
   },
   "rust_dependencies": {
     "status": "current",
@@ -3725,10 +3761,10 @@
       "packages_to_update": 0,
       "command": "rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo update --manifest-path rust/Cargo.toml --dry-run",
       "rust_version_constraint": "1.99",
-      "checked_after_gate": "2026-11-06T16:43:00Z"
+      "checked_after_gate": "2026-11-06T17:09:30Z"
     }
   },
-  "next_capability_handoff": "Implement and locally validate dates_times.dates.decade_apostrophes; do not alter the nine cases or expected results.",
+  "next_capability_handoff": "Implement the specified misc.narcissism check after meaningful test/live RED evidence is recorded.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

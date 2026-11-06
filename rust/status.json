@@ -166,6 +166,10 @@
     {
       "id": "cli.config.invalid_utf8",
       "status": "recorded"
+    },
+    {
+      "id": "rule.misc.capitalization.days",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -213,7 +217,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "Select the next unblocked rule capability after the cumulative 41-capability gate."
+    "next_handoff": "Prioritize the Astra-confirmed JSON recursion stack-overflow capability before selecting further rules."
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
@@ -2144,20 +2148,74 @@
         "report": "rust/artifacts/strict-gate-config-errors-20261106.json",
         "source_fingerprint": "ccb3bf66a2f246f0e35a8781ad7b48df4f9cb4b0af9fcacc0ae84d51a02de502"
       }
+    },
+    {
+      "id": "rule.misc.capitalization.days",
+      "status": "recorded",
+      "case_ids": [
+        "capitalization_days_all_seven_mappings",
+        "capitalization_days_case_sensitive_clean",
+        "capitalization_days_longer_word_boundaries_clean",
+        "capitalization_days_punctuation_boundaries",
+        "capitalization_days_quote_suppression_with_unquoted",
+        "capitalization_days_repeated_source_order",
+        "capitalization_days_max_errors_first_source_order",
+        "capitalization_days_unicode_codepoint_positions",
+        "capitalization_days_fastset_activation_raw_copy",
+        "capitalization_days_selected_config_interaction"
+      ],
+      "upstream_spec": "Pinned `misc.capitalization.days` uses PreferredFormsSimple with lowercase monday through sunday mapped to title case; case-sensitive Fast matching with word-boundary activation followed by raw matches, paired-quote suppression, source ordering, Python code-point coordinates, and configured max_errors.",
+      "red": {
+        "behavioral_test_failures": 10,
+        "total_tests": 10,
+        "exit_code": 101,
+        "reason": "current CLI rejected misc.capitalization.days selection",
+        "rust_evidence": "rust/artifacts/capitalization-days-red-rust-summary.json",
+        "live_mismatches": 10,
+        "live_report": "rust/artifacts/capitalization-days-red-live.json"
+      },
+      "green": {
+        "focused_rust_tests_passed": 10,
+        "all_target_tests": "passed",
+        "fmt_exit_code": 0,
+        "clippy_exit_code": 0,
+        "evidence": "rust/artifacts/20261106T015051787897Z-build.attestation.json"
+      },
+      "live_parity": {
+        "passed_cases": 10,
+        "exit_code": 0,
+        "report": "rust/artifacts/capitalization-days-green-live.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "passed_cases": 10,
+        "report": "rust/artifacts/independent-days-focused-live.json",
+        "cumulative_prior_report": "rust/artifacts/independent-days-cumulative-gate.json",
+        "frozen_source_fingerprint": "794f81fc9a84015043fd0ef50c62f924a2a40cc356cde10b3434b956df5e524a"
+      },
+      "limitations": [
+        "selected misc.capitalization.days only; other capitalization paths and default combined behavior remain unverified"
+      ],
+      "cumulative_live_parity": {
+        "passed_cases": 379,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-capitalization-days-20261106.json",
+        "source_fingerprint": "740a562f088f771fbb5acef4f810fed7a6c68b8ad14a943c922d716fe5e91bcd"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-config-errors-20261106.json",
-    "passed_cases": 369,
-    "manifest_cases": 375,
+    "report": "rust/artifacts/strict-gate-capitalization-days-20261106.json",
+    "passed_cases": 379,
+    "manifest_cases": 385,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
       "cli.config.per_file_checks": 4
     },
     "exit_code": 0,
-    "source_fingerprint": "ccb3bf66a2f246f0e35a8781ad7b48df4f9cb4b0af9fcacc0ae84d51a02de502",
-    "capability_count": 41
+    "source_fingerprint": "740a562f088f771fbb5acef4f810fed7a6c68b8ad14a943c922d716fe5e91bcd",
+    "capability_count": 42
   },
   "rust_dependencies": {
     "status": "current",
@@ -2177,5 +2235,5 @@
       "rust_version_constraint": "1.99"
     }
   },
-  "next_capability_handoff": "Select the next unblocked inventoried rule after the 41-capability, 369-case strict gate."
+  "next_capability_handoff": "Address bounded/iterative JSON parsing and Python RecursionError behavior before further rule slices."
 }

@@ -7,6 +7,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
@@ -14,6 +15,39 @@ import compare
 
 
 class ComparatorTests(unittest.TestCase):
+    def test_source_fingerprint_ignores_docs_and_history_but_tracks_inputs(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "src").mkdir()
+            (root / "harness" / "cases").mkdir(parents=True)
+            (root / "docs").mkdir()
+            source = root / "src" / "main.rs"
+            manifest = root / "harness" / "cases" / "manifest.json"
+            status = root / "status.json"
+            docs = root / "docs" / "PROGRESS.md"
+            migration = root / "MIGRATION.md"
+            history = root / "status-history.jsonl"
+            source.write_text("fn main() {}", encoding="utf-8")
+            manifest.write_text("{}", encoding="utf-8")
+            status.write_text("{}", encoding="utf-8")
+            docs.write_text("progress", encoding="utf-8")
+            migration.write_text("protocol", encoding="utf-8")
+            history.write_text("{}\n", encoding="utf-8")
+            with patch.object(compare, "RUST_ROOT", root):
+                initial = compare.source_fingerprint()
+                docs.write_text("updated progress", encoding="utf-8")
+                migration.write_text("updated protocol", encoding="utf-8")
+                history.write_text("{}\n{}\n", encoding="utf-8")
+                self.assertEqual(compare.source_fingerprint(), initial)
+                source.write_text("fn main() { changed() }", encoding="utf-8")
+                self.assertNotEqual(compare.source_fingerprint(), initial)
+                changed_source = compare.source_fingerprint()
+                manifest.write_text('{"cases": []}', encoding="utf-8")
+                self.assertNotEqual(compare.source_fingerprint(), changed_source)
+                changed_manifest = compare.source_fingerprint()
+                status.write_text('{"accepted": []}', encoding="utf-8")
+                self.assertNotEqual(compare.source_fingerprint(), changed_manifest)
+
     def test_working_directory_must_be_relative_and_contained(self) -> None:
         case = json.loads(json.dumps(compare.load_manifest()["cases"][0]))
         for path in ("../outside", "/tmp/outside", "nested/../../outside"):

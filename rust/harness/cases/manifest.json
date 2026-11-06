@@ -2,6 +2,182 @@
   "schema_version": 1,
   "cases": [
     {
+      "id": "cli_config_directory_json_error",
+      "capability_id": "cli.config.directory_path",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; passing the isolated current directory as --config makes Python reject it before stdin processing and return structured OSError JSON.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": ["check", "--config", ".", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "directory_config_json_error",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "cli_config_ignored_nested_special_values",
+      "capability_id": "cli.config.ignored_values",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; a nested unused top-level value containing NaN, an overflowing exponent, and a lone-surrogate escape; loader recognizes checks and discards x; live oracle returns exit 0 with empty diagnostics.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnt9LCJ4Ijp7InZhbHVlcyI6W05hTiwxZTk5OSwiXHVkODAwIl19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cli_config_ignored_nested_special_values",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_escaped_checks_key_with_ignored_nan",
+      "capability_id": "cli.config.ignored_values",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; an escaped spelling of the consumed checks key paired with an ignored NaN field; loader recognizes checks and discards x; live oracle returns exit 0 with empty diagnostics.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJcdTAwNjNoZWNrcyI6e30sIngiOk5hTn0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cli_config_escaped_checks_key_with_ignored_nan",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_ignored_nan",
+      "capability_id": "cli.config.ignored_values",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Python json.loads accepts NaN and load_from discards the unused top-level x field; the pinned CLI returns exit 0 with empty diagnostics.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnt9LCJ4IjpOYU59"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cli_config_ignored_nan",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_ignored_overflow_float",
+      "capability_id": "cli.config.ignored_values",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Python json.loads accepts 1e999 as infinity and load_from discards the unused top-level x field; the pinned CLI returns exit 0 with empty diagnostics.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnt9LCJ4IjoxZTk5OX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cli_config_ignored_overflow_float",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_ignored_lone_surrogate",
+      "capability_id": "cli.config.ignored_values",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Python json.loads accepts the lone-surrogate string and load_from discards the unused top-level x field; the pinned CLI returns exit 0 with empty diagnostics.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnt9LCJ4IjoiXHVkODAwIn0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cli_config_ignored_lone_surrogate",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
       "id": "cli_config_recursion_stack_overflow_depth66000",
       "capability_id": "cli.config.recursion_depth",
       "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; malformed array config depth 66000, probe evidence in config-depth-probe-20261106.jsonl; payload regenerated for this manifest case and live outcome rechecked.",
@@ -264,7 +440,7 @@
       "input_mode": "files",
       "files": [
         {
-          "path": "draft \u00e9 title.txt",
+          "path": "draft é title.txt",
           "content_base64": "QSBwbGFpbiBzZW50ZW5jZS4K"
         }
       ],
@@ -272,7 +448,7 @@
         "check",
         "--output-format",
         "json",
-        "{file:draft \u00e9 title.txt}"
+        "{file:draft é title.txt}"
       ],
       "output_format": "json",
       "expected_oracle_outcome": "clean",
@@ -364,7 +540,7 @@
           "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnt9fQ=="
         },
         {
-          "path": "draft \u00e9 blank.txt",
+          "path": "draft é blank.txt",
           "content_base64": ""
         }
       ],
@@ -374,7 +550,7 @@
         "{file:empty checks.json}",
         "--output-format",
         "json",
-        "{file:draft \u00e9 blank.txt}"
+        "{file:draft é blank.txt}"
       ],
       "output_format": "json",
       "expected_oracle_outcome": "clean",
@@ -797,7 +973,7 @@
           "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsibWlzYyI6dHJ1ZX19fQ=="
         },
         {
-          "path": "chapter \u00e9.txt",
+          "path": "chapter é.txt",
           "content_base64": "Zmlyc3QNClRPRE8="
         }
       ],
@@ -807,7 +983,7 @@
         "{file:selected config.json}",
         "--output-format",
         "json",
-        "{file:chapter \u00e9.txt}"
+        "{file:chapter é.txt}"
       ],
       "output_format": "json",
       "expected_oracle_outcome": "findings",
@@ -2806,7 +2982,7 @@
     {
       "id": "false_plurals_phenomenons_positive",
       "capability_id": "rule.misc.false_plurals.misc",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Positive upstream example exercises the phenomenons\u2192phenomena replacement and exact message. Sources: checks/misc/false_plurals.py:check; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Positive upstream example exercises the phenomenons→phenomena replacement and exact message. Sources: checks/misc/false_plurals.py:check; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
       "input_mode": "stdin",
       "stdin_base64": "VGhlcmUgd2VyZSBzZXZlcmFsIHBoZW5vbWVub25zLg==",
       "files": [
@@ -2839,7 +3015,7 @@
     {
       "id": "false_plurals_talismen_positive",
       "capability_id": "rule.misc.false_plurals.misc",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Positive second table entry exercises talismen\u2192talismans replacement. Sources: checks/misc/false_plurals.py:check; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Positive second table entry exercises talismen→talismans replacement. Sources: checks/misc/false_plurals.py:check; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",
       "input_mode": "stdin",
       "stdin_base64": "VGhlIHNwZWxsYm9vayBtZW50aW9uZWQgdGFsaXNtZW4u",
       "files": [
@@ -3202,7 +3378,7 @@
     {
       "id": "copyright_ascii_approximation_positive",
       "capability_id": "rule.typography.symbols.copyright",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py:check_copyright_symbol registers ExistenceSimple(pattern=r\"\\(c\\)\") at typography.symbols.copyright. Message: (c) is a goofy alphabetic approximation, use the symbol \u00a9. Inventory: Fast, case-insensitive, allow_quotes=false, ppm_threshold=0, no exceptions. Case purpose: One canonical ASCII copyright approximation.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py:check_copyright_symbol registers ExistenceSimple(pattern=r\"\\(c\\)\") at typography.symbols.copyright. Message: (c) is a goofy alphabetic approximation, use the symbol ©. Inventory: Fast, case-insensitive, allow_quotes=false, ppm_threshold=0, no exceptions. Case purpose: One canonical ASCII copyright approximation.",
       "input_mode": "stdin",
       "stdin_base64": "VGhpcyBkb2N1bWVudCBpbmNsdWRlcyAoYykgMjAyNi4=",
       "files": [
@@ -3235,7 +3411,7 @@
     {
       "id": "copyright_case_variant_nested_and_substring_order",
       "capability_id": "rule.typography.symbols.copyright",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py:check_copyright_symbol registers ExistenceSimple(pattern=r\"\\(c\\)\") at typography.symbols.copyright. Message: (c) is a goofy alphabetic approximation, use the symbol \u00a9. Inventory: Fast, case-insensitive, allow_quotes=false, ppm_threshold=0, no exceptions. Case purpose: Tests case-insensitive matching, source order, and raw unanchored matching inside adjacent characters/parentheses.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py:check_copyright_symbol registers ExistenceSimple(pattern=r\"\\(c\\)\") at typography.symbols.copyright. Message: (c) is a goofy alphabetic approximation, use the symbol ©. Inventory: Fast, case-insensitive, allow_quotes=false, ppm_threshold=0, no exceptions. Case purpose: Tests case-insensitive matching, source order, and raw unanchored matching inside adjacent characters/parentheses.",
       "input_mode": "stdin",
       "stdin_base64": "Q29weXJpZ2h0IChDKTsgdGhlbiAoYyksIHRoZW4gKChjKSksIHRoZW4geChjKXku",
       "files": [
@@ -3268,7 +3444,7 @@
     {
       "id": "copyright_negative_spacing_and_symbol",
       "capability_id": "rule.typography.symbols.copyright",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py:check_copyright_symbol registers ExistenceSimple(pattern=r\"\\(c\\)\") at typography.symbols.copyright. Message: (c) is a goofy alphabetic approximation, use the symbol \u00a9. Inventory: Fast, case-insensitive, allow_quotes=false, ppm_threshold=0, no exceptions. Case purpose: Near misses and the actual copyright symbol do not match the exact (c) pattern.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py:check_copyright_symbol registers ExistenceSimple(pattern=r\"\\(c\\)\") at typography.symbols.copyright. Message: (c) is a goofy alphabetic approximation, use the symbol ©. Inventory: Fast, case-insensitive, allow_quotes=false, ppm_threshold=0, no exceptions. Case purpose: Near misses and the actual copyright symbol do not match the exact (c) pattern.",
       "input_mode": "stdin",
       "stdin_base64": "Q29weXJpZ2h0IGMsICggYyApLCDCqSwgYW5kIChjYyku",
       "files": [
@@ -3301,7 +3477,7 @@
     {
       "id": "copyright_quote_suppression",
       "capability_id": "rule.typography.symbols.copyright",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py:check_copyright_symbol registers ExistenceSimple(pattern=r\"\\(c\\)\") at typography.symbols.copyright. Message: (c) is a goofy alphabetic approximation, use the symbol \u00a9. Inventory: Fast, case-insensitive, allow_quotes=false, ppm_threshold=0, no exceptions. Case purpose: Occurrences inside paired straight double and single quotes are suppressed.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py:check_copyright_symbol registers ExistenceSimple(pattern=r\"\\(c\\)\") at typography.symbols.copyright. Message: (c) is a goofy alphabetic approximation, use the symbol ©. Inventory: Fast, case-insensitive, allow_quotes=false, ppm_threshold=0, no exceptions. Case purpose: Occurrences inside paired straight double and single quotes are suppressed.",
       "input_mode": "stdin",
       "stdin_base64": "UXVvdGVkOiAiKGMpIiBhbmQgJyhjKScu",
       "files": [
@@ -3334,7 +3510,7 @@
     {
       "id": "copyright_unicode_codepoint_positions",
       "capability_id": "rule.typography.symbols.copyright",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py:check_copyright_symbol registers ExistenceSimple(pattern=r\"\\(c\\)\") at typography.symbols.copyright. Message: (c) is a goofy alphabetic approximation, use the symbol \u00a9. Inventory: Fast, case-insensitive, allow_quotes=false, ppm_threshold=0, no exceptions. Case purpose: Unicode prefix verifies code-point columns; case variant after \u00a9 verifies later span.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py:check_copyright_symbol registers ExistenceSimple(pattern=r\"\\(c\\)\") at typography.symbols.copyright. Message: (c) is a goofy alphabetic approximation, use the symbol ©. Inventory: Fast, case-insensitive, allow_quotes=false, ppm_threshold=0, no exceptions. Case purpose: Unicode prefix verifies code-point columns; case variant after © verifies later span.",
       "input_mode": "stdin",
       "stdin_base64": "w6kgKGMpIMKpIChDKQ==",
       "files": [
@@ -3367,7 +3543,7 @@
     {
       "id": "copyright_selected_config_interaction",
       "capability_id": "rule.typography.symbols.copyright",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py:check_copyright_symbol registers ExistenceSimple(pattern=r\"\\(c\\)\") at typography.symbols.copyright. Message: (c) is a goofy alphabetic approximation, use the symbol \u00a9. Inventory: Fast, case-insensitive, allow_quotes=false, ppm_threshold=0, no exceptions. Case purpose: Config enables only typography.symbols.copyright despite unrelated TODO and very triggers.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py:check_copyright_symbol registers ExistenceSimple(pattern=r\"\\(c\\)\") at typography.symbols.copyright. Message: (c) is a goofy alphabetic approximation, use the symbol ©. Inventory: Fast, case-insensitive, allow_quotes=false, ppm_threshold=0, no exceptions. Case purpose: Config enables only typography.symbols.copyright despite unrelated TODO and very triggers.",
       "input_mode": "stdin",
       "stdin_base64": "VE9ETyBhbmQgdmVyeSB3b3JkczsgY29weXJpZ2h0IChjKQ==",
       "files": [
@@ -3631,7 +3807,7 @@
     {
       "id": "trademark_tm_positive",
       "capability_id": "rule.typography.symbols.trademark",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers two rules at the same check_path typography.symbols.trademark: check_trademark_symbol uses ExistenceSimple(r\"\\(tm\\)\") with message \"(TM) is a goofy alphabetic approximation, use the symbol \u2122.\"; check_registered_trademark_symbol uses ExistenceSimple(r\"\\(r\\)\") with message \"(R) is a goofy alphabetic approximation, use the symbol \u00ae.\" Both are Fast, case-insensitive, allow_quotes=false, no exceptions/threshold. Case purpose: First registered pattern, case-insensitive literal match.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers two rules at the same check_path typography.symbols.trademark: check_trademark_symbol uses ExistenceSimple(r\"\\(tm\\)\") with message \"(TM) is a goofy alphabetic approximation, use the symbol ™.\"; check_registered_trademark_symbol uses ExistenceSimple(r\"\\(r\\)\") with message \"(R) is a goofy alphabetic approximation, use the symbol ®.\" Both are Fast, case-insensitive, allow_quotes=false, no exceptions/threshold. Case purpose: First registered pattern, case-insensitive literal match.",
       "input_mode": "stdin",
       "stdin_base64": "VXNlIChUTSkgd2hlbiBuZWVkZWQu",
       "files": [
@@ -3664,7 +3840,7 @@
     {
       "id": "trademark_registered_r_positive",
       "capability_id": "rule.typography.symbols.trademark",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers two rules at the same check_path typography.symbols.trademark: check_trademark_symbol uses ExistenceSimple(r\"\\(tm\\)\") with message \"(TM) is a goofy alphabetic approximation, use the symbol \u2122.\"; check_registered_trademark_symbol uses ExistenceSimple(r\"\\(r\\)\") with message \"(R) is a goofy alphabetic approximation, use the symbol \u00ae.\" Both are Fast, case-insensitive, allow_quotes=false, no exceptions/threshold. Case purpose: Second registered pattern with distinct message and span.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers two rules at the same check_path typography.symbols.trademark: check_trademark_symbol uses ExistenceSimple(r\"\\(tm\\)\") with message \"(TM) is a goofy alphabetic approximation, use the symbol ™.\"; check_registered_trademark_symbol uses ExistenceSimple(r\"\\(r\\)\") with message \"(R) is a goofy alphabetic approximation, use the symbol ®.\" Both are Fast, case-insensitive, allow_quotes=false, no exceptions/threshold. Case purpose: Second registered pattern with distinct message and span.",
       "input_mode": "stdin",
       "stdin_base64": "VXNlIChSKSB3aGVuIG5lZWRlZC4=",
       "files": [
@@ -3697,7 +3873,7 @@
     {
       "id": "trademark_case_variants_both_entries_order",
       "capability_id": "rule.typography.symbols.trademark",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers two rules at the same check_path typography.symbols.trademark: check_trademark_symbol uses ExistenceSimple(r\"\\(tm\\)\") with message \"(TM) is a goofy alphabetic approximation, use the symbol \u2122.\"; check_registered_trademark_symbol uses ExistenceSimple(r\"\\(r\\)\") with message \"(R) is a goofy alphabetic approximation, use the symbol \u00ae.\" Both are Fast, case-insensitive, allow_quotes=false, no exceptions/threshold. Case purpose: Both patterns, case variants, raw unanchored matches and merged source order.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers two rules at the same check_path typography.symbols.trademark: check_trademark_symbol uses ExistenceSimple(r\"\\(tm\\)\") with message \"(TM) is a goofy alphabetic approximation, use the symbol ™.\"; check_registered_trademark_symbol uses ExistenceSimple(r\"\\(r\\)\") with message \"(R) is a goofy alphabetic approximation, use the symbol ®.\" Both are Fast, case-insensitive, allow_quotes=false, no exceptions/threshold. Case purpose: Both patterns, case variants, raw unanchored matches and merged source order.",
       "input_mode": "stdin",
       "stdin_base64": "T3VyICh0bSkgbWFyaywgdGhlbiAoUiksIHRoZW4gKChUTSkpLCBhbmQgeChyKXku",
       "files": [
@@ -3730,7 +3906,7 @@
     {
       "id": "trademark_negative_near_misses",
       "capability_id": "rule.typography.symbols.trademark",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers two rules at the same check_path typography.symbols.trademark: check_trademark_symbol uses ExistenceSimple(r\"\\(tm\\)\") with message \"(TM) is a goofy alphabetic approximation, use the symbol \u2122.\"; check_registered_trademark_symbol uses ExistenceSimple(r\"\\(r\\)\") with message \"(R) is a goofy alphabetic approximation, use the symbol \u00ae.\" Both are Fast, case-insensitive, allow_quotes=false, no exceptions/threshold. Case purpose: Spaced/extended near-misses and actual symbols do not match.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers two rules at the same check_path typography.symbols.trademark: check_trademark_symbol uses ExistenceSimple(r\"\\(tm\\)\") with message \"(TM) is a goofy alphabetic approximation, use the symbol ™.\"; check_registered_trademark_symbol uses ExistenceSimple(r\"\\(r\\)\") with message \"(R) is a goofy alphabetic approximation, use the symbol ®.\" Both are Fast, case-insensitive, allow_quotes=false, no exceptions/threshold. Case purpose: Spaced/extended near-misses and actual symbols do not match.",
       "input_mode": "stdin",
       "stdin_base64": "VXNlICggVCBNICksIChyICksICh0bXgpLCBhbmQg4oSiIMKuLg==",
       "files": [
@@ -3763,7 +3939,7 @@
     {
       "id": "trademark_quote_suppression",
       "capability_id": "rule.typography.symbols.trademark",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers two rules at the same check_path typography.symbols.trademark: check_trademark_symbol uses ExistenceSimple(r\"\\(tm\\)\") with message \"(TM) is a goofy alphabetic approximation, use the symbol \u2122.\"; check_registered_trademark_symbol uses ExistenceSimple(r\"\\(r\\)\") with message \"(R) is a goofy alphabetic approximation, use the symbol \u00ae.\" Both are Fast, case-insensitive, allow_quotes=false, no exceptions/threshold. Case purpose: Both patterns inside paired quotes are suppressed.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers two rules at the same check_path typography.symbols.trademark: check_trademark_symbol uses ExistenceSimple(r\"\\(tm\\)\") with message \"(TM) is a goofy alphabetic approximation, use the symbol ™.\"; check_registered_trademark_symbol uses ExistenceSimple(r\"\\(r\\)\") with message \"(R) is a goofy alphabetic approximation, use the symbol ®.\" Both are Fast, case-insensitive, allow_quotes=false, no exceptions/threshold. Case purpose: Both patterns inside paired quotes are suppressed.",
       "input_mode": "stdin",
       "stdin_base64": "UXVvdGVkICIodG0pIiBhbmQgJyhyKScu",
       "files": [
@@ -3796,7 +3972,7 @@
     {
       "id": "trademark_unicode_codepoint_positions",
       "capability_id": "rule.typography.symbols.trademark",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers two rules at the same check_path typography.symbols.trademark: check_trademark_symbol uses ExistenceSimple(r\"\\(tm\\)\") with message \"(TM) is a goofy alphabetic approximation, use the symbol \u2122.\"; check_registered_trademark_symbol uses ExistenceSimple(r\"\\(r\\)\") with message \"(R) is a goofy alphabetic approximation, use the symbol \u00ae.\" Both are Fast, case-insensitive, allow_quotes=false, no exceptions/threshold. Case purpose: Unicode prefix and symbol test exact code-point offsets.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers two rules at the same check_path typography.symbols.trademark: check_trademark_symbol uses ExistenceSimple(r\"\\(tm\\)\") with message \"(TM) is a goofy alphabetic approximation, use the symbol ™.\"; check_registered_trademark_symbol uses ExistenceSimple(r\"\\(r\\)\") with message \"(R) is a goofy alphabetic approximation, use the symbol ®.\" Both are Fast, case-insensitive, allow_quotes=false, no exceptions/threshold. Case purpose: Unicode prefix and symbol test exact code-point offsets.",
       "input_mode": "stdin",
       "stdin_base64": "w6kgKFRNKSB0aGVuIMKuIHRoZW4gKFIp",
       "files": [
@@ -3829,7 +4005,7 @@
     {
       "id": "trademark_selected_config_interaction",
       "capability_id": "rule.typography.symbols.trademark",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers two rules at the same check_path typography.symbols.trademark: check_trademark_symbol uses ExistenceSimple(r\"\\(tm\\)\") with message \"(TM) is a goofy alphabetic approximation, use the symbol \u2122.\"; check_registered_trademark_symbol uses ExistenceSimple(r\"\\(r\\)\") with message \"(R) is a goofy alphabetic approximation, use the symbol \u00ae.\" Both are Fast, case-insensitive, allow_quotes=false, no exceptions/threshold. Case purpose: Only the two trademark registry entries are enabled by the selected path.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers two rules at the same check_path typography.symbols.trademark: check_trademark_symbol uses ExistenceSimple(r\"\\(tm\\)\") with message \"(TM) is a goofy alphabetic approximation, use the symbol ™.\"; check_registered_trademark_symbol uses ExistenceSimple(r\"\\(r\\)\") with message \"(R) is a goofy alphabetic approximation, use the symbol ®.\" Both are Fast, case-insensitive, allow_quotes=false, no exceptions/threshold. Case purpose: Only the two trademark registry entries are enabled by the selected path.",
       "input_mode": "stdin",
       "stdin_base64": "VE9ETyBhbmQgdmVyeTsgKFRNKSBhbmQgKHIp",
       "files": [
@@ -3862,7 +4038,7 @@
     {
       "id": "multiplication_compact_positive",
       "capability_id": "rule.typography.symbols.multiplication",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path typography.symbols.multiplication; upstream module proselint/checks/typography/symbols.py:check_multiplication_symbol; check type ExistenceSimple(pattern=r\"\\d+ ?x ?\\d+\"); message \"Use the multiplication symbol \u00d7, not the letter x.\"; inventory says default_enabled=false, Fast case-insensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: Compact ASCII operands match.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path typography.symbols.multiplication; upstream module proselint/checks/typography/symbols.py:check_multiplication_symbol; check type ExistenceSimple(pattern=r\"\\d+ ?x ?\\d+\"); message \"Use the multiplication symbol ×, not the letter x.\"; inventory says default_enabled=false, Fast case-insensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: Compact ASCII operands match.",
       "input_mode": "stdin",
       "stdin_base64": "VGhlIGFyZWEgaXMgM3g0Lg==",
       "files": [
@@ -3895,7 +4071,7 @@
     {
       "id": "multiplication_optional_spaces_case_variants",
       "capability_id": "rule.typography.symbols.multiplication",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path typography.symbols.multiplication; upstream module proselint/checks/typography/symbols.py:check_multiplication_symbol; check type ExistenceSimple(pattern=r\"\\d+ ?x ?\\d+\"); message \"Use the multiplication symbol \u00d7, not the letter x.\"; inventory says default_enabled=false, Fast case-insensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: At most one space on either side is accepted; x matching is case-insensitive.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path typography.symbols.multiplication; upstream module proselint/checks/typography/symbols.py:check_multiplication_symbol; check type ExistenceSimple(pattern=r\"\\d+ ?x ?\\d+\"); message \"Use the multiplication symbol ×, not the letter x.\"; inventory says default_enabled=false, Fast case-insensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: At most one space on either side is accepted; x matching is case-insensitive.",
       "input_mode": "stdin",
       "stdin_base64": "MiB4MzsgNHggNTsgNiBYIDcu",
       "files": [
@@ -3928,7 +4104,7 @@
     {
       "id": "multiplication_raw_substring_multiple",
       "capability_id": "rule.typography.symbols.multiplication",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path typography.symbols.multiplication; upstream module proselint/checks/typography/symbols.py:check_multiplication_symbol; check type ExistenceSimple(pattern=r\"\\d+ ?x ?\\d+\"); message \"Use the multiplication symbol \u00d7, not the letter x.\"; inventory says default_enabled=false, Fast case-insensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: Unanchored pattern matches adjacent letters and returns source-ordered findings.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path typography.symbols.multiplication; upstream module proselint/checks/typography/symbols.py:check_multiplication_symbol; check type ExistenceSimple(pattern=r\"\\d+ ?x ?\\d+\"); message \"Use the multiplication symbol ×, not the letter x.\"; inventory says default_enabled=false, Fast case-insensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: Unanchored pattern matches adjacent letters and returns source-ordered findings.",
       "input_mode": "stdin",
       "stdin_base64": "YWIyeDNjZCBhbmQgMTJ4MzQu",
       "files": [
@@ -3961,7 +4137,7 @@
     {
       "id": "multiplication_negative_symbol_spacing_and_unicode_digits",
       "capability_id": "rule.typography.symbols.multiplication",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path typography.symbols.multiplication; upstream module proselint/checks/typography/symbols.py:check_multiplication_symbol; check type ExistenceSimple(pattern=r\"\\d+ ?x ?\\d+\"); message \"Use the multiplication symbol \u00d7, not the letter x.\"; inventory says default_enabled=false, Fast case-insensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: Actual multiplication sign, missing operand, two-space gap, and non-ASCII digits do not match.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path typography.symbols.multiplication; upstream module proselint/checks/typography/symbols.py:check_multiplication_symbol; check type ExistenceSimple(pattern=r\"\\d+ ?x ?\\d+\"); message \"Use the multiplication symbol ×, not the letter x.\"; inventory says default_enabled=false, Fast case-insensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: Actual multiplication sign, missing operand, two-space gap, and non-ASCII digits do not match.",
       "input_mode": "stdin",
       "stdin_base64": "MiDDlyAzOyB4MzsgNHg7IDUgIHggNjsg2aN4NDsgM3jvvJQu",
       "files": [
@@ -3994,7 +4170,7 @@
     {
       "id": "multiplication_quote_suppression",
       "capability_id": "rule.typography.symbols.multiplication",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path typography.symbols.multiplication; upstream module proselint/checks/typography/symbols.py:check_multiplication_symbol; check type ExistenceSimple(pattern=r\"\\d+ ?x ?\\d+\"); message \"Use the multiplication symbol \u00d7, not the letter x.\"; inventory says default_enabled=false, Fast case-insensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: Both patterns inside paired quotes are suppressed.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path typography.symbols.multiplication; upstream module proselint/checks/typography/symbols.py:check_multiplication_symbol; check type ExistenceSimple(pattern=r\"\\d+ ?x ?\\d+\"); message \"Use the multiplication symbol ×, not the letter x.\"; inventory says default_enabled=false, Fast case-insensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: Both patterns inside paired quotes are suppressed.",
       "input_mode": "stdin",
       "stdin_base64": "UXVvdGVkOiAiM3g0IiBhbmQgJzUgeCA2Jy4=",
       "files": [
@@ -4027,7 +4203,7 @@
     {
       "id": "multiplication_unicode_codepoint_positions",
       "capability_id": "rule.typography.symbols.multiplication",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path typography.symbols.multiplication; upstream module proselint/checks/typography/symbols.py:check_multiplication_symbol; check type ExistenceSimple(pattern=r\"\\d+ ?x ?\\d+\"); message \"Use the multiplication symbol \u00d7, not the letter x.\"; inventory says default_enabled=false, Fast case-insensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: Unicode prefix verifies code-point coordinates for compact and spaced matches.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path typography.symbols.multiplication; upstream module proselint/checks/typography/symbols.py:check_multiplication_symbol; check type ExistenceSimple(pattern=r\"\\d+ ?x ?\\d+\"); message \"Use the multiplication symbol ×, not the letter x.\"; inventory says default_enabled=false, Fast case-insensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: Unicode prefix verifies code-point coordinates for compact and spaced matches.",
       "input_mode": "stdin",
       "stdin_base64": "w6kgOHg5LCB0aGVuIDEwIHggMTEu",
       "files": [
@@ -4060,7 +4236,7 @@
     {
       "id": "multiplication_selected_config_interaction",
       "capability_id": "rule.typography.symbols.multiplication",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path typography.symbols.multiplication; upstream module proselint/checks/typography/symbols.py:check_multiplication_symbol; check type ExistenceSimple(pattern=r\"\\d+ ?x ?\\d+\"); message \"Use the multiplication symbol \u00d7, not the letter x.\"; inventory says default_enabled=false, Fast case-insensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: Selected config enables only typography.symbols.multiplication despite unrelated check triggers.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact check_path typography.symbols.multiplication; upstream module proselint/checks/typography/symbols.py:check_multiplication_symbol; check type ExistenceSimple(pattern=r\"\\d+ ?x ?\\d+\"); message \"Use the multiplication symbol ×, not the letter x.\"; inventory says default_enabled=false, Fast case-insensitive, allow_quotes=false, no exceptions, ppm_threshold=0. Case purpose: Selected config enables only typography.symbols.multiplication despite unrelated check triggers.",
       "input_mode": "stdin",
       "stdin_base64": "VE9ETyBhbmQgdmVyeTsgZGltZW5zaW9ucyBhcmUgM3g0Lg==",
       "files": [
@@ -7892,7 +8068,7 @@
     {
       "id": "many_a_all_three_forms",
       "capability_id": "rule.misc.many_a",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.many_a; upstream module proselint/checks/misc/many_a.py; PreferredFormsSimple items `are many a`\u2192`is many a`, `have been many a`\u2192`has been many a`, `were many a`\u2192`was many a`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `'many a' requires a singular verb.`; replacements are mapped preferred forms. Selected config enables only misc.many_a. Case purpose: many a all three forms.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.many_a; upstream module proselint/checks/misc/many_a.py; PreferredFormsSimple items `are many a`→`is many a`, `have been many a`→`has been many a`, `were many a`→`was many a`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `'many a' requires a singular verb.`; replacements are mapped preferred forms. Selected config enables only misc.many_a. Case purpose: many a all three forms.",
       "input_mode": "stdin",
       "files": [
         {
@@ -7925,7 +8101,7 @@
     {
       "id": "many_a_case_variants_replacements_order",
       "capability_id": "rule.misc.many_a",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.many_a; upstream module proselint/checks/misc/many_a.py; PreferredFormsSimple items `are many a`\u2192`is many a`, `have been many a`\u2192`has been many a`, `were many a`\u2192`was many a`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `'many a' requires a singular verb.`; replacements are mapped preferred forms. Selected config enables only misc.many_a. Case purpose: many a case variants replacements order.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.many_a; upstream module proselint/checks/misc/many_a.py; PreferredFormsSimple items `are many a`→`is many a`, `have been many a`→`has been many a`, `were many a`→`was many a`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `'many a' requires a singular verb.`; replacements are mapped preferred forms. Selected config enables only misc.many_a. Case purpose: many a case variants replacements order.",
       "input_mode": "stdin",
       "files": [
         {
@@ -7958,7 +8134,7 @@
     {
       "id": "many_a_punctuation_boundaries",
       "capability_id": "rule.misc.many_a",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.many_a; upstream module proselint/checks/misc/many_a.py; PreferredFormsSimple items `are many a`\u2192`is many a`, `have been many a`\u2192`has been many a`, `were many a`\u2192`was many a`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `'many a' requires a singular verb.`; replacements are mapped preferred forms. Selected config enables only misc.many_a. Case purpose: many a punctuation boundaries.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.many_a; upstream module proselint/checks/misc/many_a.py; PreferredFormsSimple items `are many a`→`is many a`, `have been many a`→`has been many a`, `were many a`→`was many a`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `'many a' requires a singular verb.`; replacements are mapped preferred forms. Selected config enables only misc.many_a. Case purpose: many a punctuation boundaries.",
       "input_mode": "stdin",
       "files": [
         {
@@ -7991,7 +8167,7 @@
     {
       "id": "many_a_longer_word_boundary_negatives",
       "capability_id": "rule.misc.many_a",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.many_a; upstream module proselint/checks/misc/many_a.py; PreferredFormsSimple items `are many a`\u2192`is many a`, `have been many a`\u2192`has been many a`, `were many a`\u2192`was many a`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `'many a' requires a singular verb.`; replacements are mapped preferred forms. Selected config enables only misc.many_a. Case purpose: many a longer word boundary negatives.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.many_a; upstream module proselint/checks/misc/many_a.py; PreferredFormsSimple items `are many a`→`is many a`, `have been many a`→`has been many a`, `were many a`→`was many a`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `'many a' requires a singular verb.`; replacements are mapped preferred forms. Selected config enables only misc.many_a. Case purpose: many a longer word boundary negatives.",
       "input_mode": "stdin",
       "files": [
         {
@@ -8024,7 +8200,7 @@
     {
       "id": "many_a_correct_forms_clean",
       "capability_id": "rule.misc.many_a",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.many_a; upstream module proselint/checks/misc/many_a.py; PreferredFormsSimple items `are many a`\u2192`is many a`, `have been many a`\u2192`has been many a`, `were many a`\u2192`was many a`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `'many a' requires a singular verb.`; replacements are mapped preferred forms. Selected config enables only misc.many_a. Case purpose: many a correct forms clean.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.many_a; upstream module proselint/checks/misc/many_a.py; PreferredFormsSimple items `are many a`→`is many a`, `have been many a`→`has been many a`, `were many a`→`was many a`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `'many a' requires a singular verb.`; replacements are mapped preferred forms. Selected config enables only misc.many_a. Case purpose: many a correct forms clean.",
       "input_mode": "stdin",
       "files": [
         {
@@ -8057,7 +8233,7 @@
     {
       "id": "many_a_quote_suppression_with_unquoted_match",
       "capability_id": "rule.misc.many_a",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.many_a; upstream module proselint/checks/misc/many_a.py; PreferredFormsSimple items `are many a`\u2192`is many a`, `have been many a`\u2192`has been many a`, `were many a`\u2192`was many a`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `'many a' requires a singular verb.`; replacements are mapped preferred forms. Selected config enables only misc.many_a. Case purpose: many a quote suppression with unquoted match.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.many_a; upstream module proselint/checks/misc/many_a.py; PreferredFormsSimple items `are many a`→`is many a`, `have been many a`→`has been many a`, `were many a`→`was many a`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `'many a' requires a singular verb.`; replacements are mapped preferred forms. Selected config enables only misc.many_a. Case purpose: many a quote suppression with unquoted match.",
       "input_mode": "stdin",
       "files": [
         {
@@ -8090,7 +8266,7 @@
     {
       "id": "many_a_repeated_mixed_source_order",
       "capability_id": "rule.misc.many_a",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.many_a; upstream module proselint/checks/misc/many_a.py; PreferredFormsSimple items `are many a`\u2192`is many a`, `have been many a`\u2192`has been many a`, `were many a`\u2192`was many a`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `'many a' requires a singular verb.`; replacements are mapped preferred forms. Selected config enables only misc.many_a. Case purpose: many a repeated mixed source order.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.many_a; upstream module proselint/checks/misc/many_a.py; PreferredFormsSimple items `are many a`→`is many a`, `have been many a`→`has been many a`, `were many a`→`was many a`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `'many a' requires a singular verb.`; replacements are mapped preferred forms. Selected config enables only misc.many_a. Case purpose: many a repeated mixed source order.",
       "input_mode": "stdin",
       "files": [
         {
@@ -8123,7 +8299,7 @@
     {
       "id": "many_a_unicode_codepoint_positions",
       "capability_id": "rule.misc.many_a",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.many_a; upstream module proselint/checks/misc/many_a.py; PreferredFormsSimple items `are many a`\u2192`is many a`, `have been many a`\u2192`has been many a`, `were many a`\u2192`was many a`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `'many a' requires a singular verb.`; replacements are mapped preferred forms. Selected config enables only misc.many_a. Case purpose: many a unicode codepoint positions.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.many_a; upstream module proselint/checks/misc/many_a.py; PreferredFormsSimple items `are many a`→`is many a`, `have been many a`→`has been many a`, `were many a`→`was many a`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `'many a' requires a singular verb.`; replacements are mapped preferred forms. Selected config enables only misc.many_a. Case purpose: many a unicode codepoint positions.",
       "input_mode": "stdin",
       "files": [
         {
@@ -8156,7 +8332,7 @@
     {
       "id": "many_a_selected_config_interaction",
       "capability_id": "rule.misc.many_a",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.many_a; upstream module proselint/checks/misc/many_a.py; PreferredFormsSimple items `are many a`\u2192`is many a`, `have been many a`\u2192`has been many a`, `were many a`\u2192`was many a`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `'many a' requires a singular verb.`; replacements are mapped preferred forms. Selected config enables only misc.many_a. Case purpose: many a selected config interaction.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.many_a; upstream module proselint/checks/misc/many_a.py; PreferredFormsSimple items `are many a`→`is many a`, `have been many a`→`has been many a`, `were many a`→`was many a`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `'many a' requires a singular verb.`; replacements are mapped preferred forms. Selected config enables only misc.many_a. Case purpose: many a selected config interaction.",
       "input_mode": "stdin",
       "files": [
         {
@@ -8750,7 +8926,7 @@
     {
       "id": "latin_all_four_preferred_forms",
       "capability_id": "rule.misc.latin",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.latin; upstream module proselint/checks/misc/latin.py; PreferredFormsSimple mappings `ceteris paribus`\u2192`other things being equal`, `inter alia`\u2192`among other things`, `simpliciter`\u2192`in and of itself`, `mutatis mutandis`\u2192`having made the necessary changes`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Use English. '{}' is the preferred form.` interpolates the mapped preferred form; replacements carry that mapping. Selected config enables only misc.latin. Case purpose: latin all four preferred forms.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.latin; upstream module proselint/checks/misc/latin.py; PreferredFormsSimple mappings `ceteris paribus`→`other things being equal`, `inter alia`→`among other things`, `simpliciter`→`in and of itself`, `mutatis mutandis`→`having made the necessary changes`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Use English. '{}' is the preferred form.` interpolates the mapped preferred form; replacements carry that mapping. Selected config enables only misc.latin. Case purpose: latin all four preferred forms.",
       "input_mode": "stdin",
       "files": [
         {
@@ -8783,7 +8959,7 @@
     {
       "id": "latin_case_variants_and_replacements",
       "capability_id": "rule.misc.latin",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.latin; upstream module proselint/checks/misc/latin.py; PreferredFormsSimple mappings `ceteris paribus`\u2192`other things being equal`, `inter alia`\u2192`among other things`, `simpliciter`\u2192`in and of itself`, `mutatis mutandis`\u2192`having made the necessary changes`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Use English. '{}' is the preferred form.` interpolates the mapped preferred form; replacements carry that mapping. Selected config enables only misc.latin. Case purpose: latin case variants and replacements.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.latin; upstream module proselint/checks/misc/latin.py; PreferredFormsSimple mappings `ceteris paribus`→`other things being equal`, `inter alia`→`among other things`, `simpliciter`→`in and of itself`, `mutatis mutandis`→`having made the necessary changes`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Use English. '{}' is the preferred form.` interpolates the mapped preferred form; replacements carry that mapping. Selected config enables only misc.latin. Case purpose: latin case variants and replacements.",
       "input_mode": "stdin",
       "files": [
         {
@@ -8816,7 +8992,7 @@
     {
       "id": "latin_longer_word_boundary_negatives",
       "capability_id": "rule.misc.latin",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.latin; upstream module proselint/checks/misc/latin.py; PreferredFormsSimple mappings `ceteris paribus`\u2192`other things being equal`, `inter alia`\u2192`among other things`, `simpliciter`\u2192`in and of itself`, `mutatis mutandis`\u2192`having made the necessary changes`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Use English. '{}' is the preferred form.` interpolates the mapped preferred form; replacements carry that mapping. Selected config enables only misc.latin. Case purpose: latin longer word boundary negatives.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.latin; upstream module proselint/checks/misc/latin.py; PreferredFormsSimple mappings `ceteris paribus`→`other things being equal`, `inter alia`→`among other things`, `simpliciter`→`in and of itself`, `mutatis mutandis`→`having made the necessary changes`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Use English. '{}' is the preferred form.` interpolates the mapped preferred form; replacements carry that mapping. Selected config enables only misc.latin. Case purpose: latin longer word boundary negatives.",
       "input_mode": "stdin",
       "files": [
         {
@@ -8849,7 +9025,7 @@
     {
       "id": "latin_near_miss_forms",
       "capability_id": "rule.misc.latin",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.latin; upstream module proselint/checks/misc/latin.py; PreferredFormsSimple mappings `ceteris paribus`\u2192`other things being equal`, `inter alia`\u2192`among other things`, `simpliciter`\u2192`in and of itself`, `mutatis mutandis`\u2192`having made the necessary changes`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Use English. '{}' is the preferred form.` interpolates the mapped preferred form; replacements carry that mapping. Selected config enables only misc.latin. Case purpose: latin near miss forms.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.latin; upstream module proselint/checks/misc/latin.py; PreferredFormsSimple mappings `ceteris paribus`→`other things being equal`, `inter alia`→`among other things`, `simpliciter`→`in and of itself`, `mutatis mutandis`→`having made the necessary changes`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Use English. '{}' is the preferred form.` interpolates the mapped preferred form; replacements carry that mapping. Selected config enables only misc.latin. Case purpose: latin near miss forms.",
       "input_mode": "stdin",
       "files": [
         {
@@ -8882,7 +9058,7 @@
     {
       "id": "latin_punctuation_boundaries",
       "capability_id": "rule.misc.latin",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.latin; upstream module proselint/checks/misc/latin.py; PreferredFormsSimple mappings `ceteris paribus`\u2192`other things being equal`, `inter alia`\u2192`among other things`, `simpliciter`\u2192`in and of itself`, `mutatis mutandis`\u2192`having made the necessary changes`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Use English. '{}' is the preferred form.` interpolates the mapped preferred form; replacements carry that mapping. Selected config enables only misc.latin. Case purpose: latin punctuation boundaries.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.latin; upstream module proselint/checks/misc/latin.py; PreferredFormsSimple mappings `ceteris paribus`→`other things being equal`, `inter alia`→`among other things`, `simpliciter`→`in and of itself`, `mutatis mutandis`→`having made the necessary changes`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Use English. '{}' is the preferred form.` interpolates the mapped preferred form; replacements carry that mapping. Selected config enables only misc.latin. Case purpose: latin punctuation boundaries.",
       "input_mode": "stdin",
       "files": [
         {
@@ -8915,7 +9091,7 @@
     {
       "id": "latin_quote_suppression_with_unquoted",
       "capability_id": "rule.misc.latin",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.latin; upstream module proselint/checks/misc/latin.py; PreferredFormsSimple mappings `ceteris paribus`\u2192`other things being equal`, `inter alia`\u2192`among other things`, `simpliciter`\u2192`in and of itself`, `mutatis mutandis`\u2192`having made the necessary changes`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Use English. '{}' is the preferred form.` interpolates the mapped preferred form; replacements carry that mapping. Selected config enables only misc.latin. Case purpose: latin quote suppression with unquoted.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.latin; upstream module proselint/checks/misc/latin.py; PreferredFormsSimple mappings `ceteris paribus`→`other things being equal`, `inter alia`→`among other things`, `simpliciter`→`in and of itself`, `mutatis mutandis`→`having made the necessary changes`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Use English. '{}' is the preferred form.` interpolates the mapped preferred form; replacements carry that mapping. Selected config enables only misc.latin. Case purpose: latin quote suppression with unquoted.",
       "input_mode": "stdin",
       "files": [
         {
@@ -8948,7 +9124,7 @@
     {
       "id": "latin_repeated_mixed_source_order",
       "capability_id": "rule.misc.latin",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.latin; upstream module proselint/checks/misc/latin.py; PreferredFormsSimple mappings `ceteris paribus`\u2192`other things being equal`, `inter alia`\u2192`among other things`, `simpliciter`\u2192`in and of itself`, `mutatis mutandis`\u2192`having made the necessary changes`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Use English. '{}' is the preferred form.` interpolates the mapped preferred form; replacements carry that mapping. Selected config enables only misc.latin. Case purpose: latin repeated mixed source order.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.latin; upstream module proselint/checks/misc/latin.py; PreferredFormsSimple mappings `ceteris paribus`→`other things being equal`, `inter alia`→`among other things`, `simpliciter`→`in and of itself`, `mutatis mutandis`→`having made the necessary changes`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Use English. '{}' is the preferred form.` interpolates the mapped preferred form; replacements carry that mapping. Selected config enables only misc.latin. Case purpose: latin repeated mixed source order.",
       "input_mode": "stdin",
       "files": [
         {
@@ -8981,7 +9157,7 @@
     {
       "id": "latin_unicode_codepoint_positions",
       "capability_id": "rule.misc.latin",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.latin; upstream module proselint/checks/misc/latin.py; PreferredFormsSimple mappings `ceteris paribus`\u2192`other things being equal`, `inter alia`\u2192`among other things`, `simpliciter`\u2192`in and of itself`, `mutatis mutandis`\u2192`having made the necessary changes`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Use English. '{}' is the preferred form.` interpolates the mapped preferred form; replacements carry that mapping. Selected config enables only misc.latin. Case purpose: latin unicode codepoint positions.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.latin; upstream module proselint/checks/misc/latin.py; PreferredFormsSimple mappings `ceteris paribus`→`other things being equal`, `inter alia`→`among other things`, `simpliciter`→`in and of itself`, `mutatis mutandis`→`having made the necessary changes`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Use English. '{}' is the preferred form.` interpolates the mapped preferred form; replacements carry that mapping. Selected config enables only misc.latin. Case purpose: latin unicode codepoint positions.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9014,7 +9190,7 @@
     {
       "id": "latin_selected_config_interaction",
       "capability_id": "rule.misc.latin",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.latin; upstream module proselint/checks/misc/latin.py; PreferredFormsSimple mappings `ceteris paribus`\u2192`other things being equal`, `inter alia`\u2192`among other things`, `simpliciter`\u2192`in and of itself`, `mutatis mutandis`\u2192`having made the necessary changes`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Use English. '{}' is the preferred form.` interpolates the mapped preferred form; replacements carry that mapping. Selected config enables only misc.latin. Case purpose: latin selected config interaction.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.latin; upstream module proselint/checks/misc/latin.py; PreferredFormsSimple mappings `ceteris paribus`→`other things being equal`, `inter alia`→`among other things`, `simpliciter`→`in and of itself`, `mutatis mutandis`→`having made the necessary changes`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Use English. '{}' is the preferred form.` interpolates the mapped preferred form; replacements carry that mapping. Selected config enables only misc.latin. Case purpose: latin selected config interaction.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9047,7 +9223,7 @@
     {
       "id": "seasons_winter_summer_mappings",
       "capability_id": "rule.misc.capitalization.seasons",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`\u2192`winter`, `Summer`\u2192`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons winter summer mappings.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`→`winter`, `Summer`→`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons winter summer mappings.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9080,7 +9256,7 @@
     {
       "id": "seasons_lower_upper_mixed_case_clean",
       "capability_id": "rule.misc.capitalization.seasons",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`\u2192`winter`, `Summer`\u2192`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons lower upper mixed case clean.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`→`winter`, `Summer`→`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons lower upper mixed case clean.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9113,7 +9289,7 @@
     {
       "id": "seasons_commented_spring_fall_clean",
       "capability_id": "rule.misc.capitalization.seasons",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`\u2192`winter`, `Summer`\u2192`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons commented spring fall clean.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`→`winter`, `Summer`→`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons commented spring fall clean.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9146,7 +9322,7 @@
     {
       "id": "seasons_longer_word_boundary_negatives",
       "capability_id": "rule.misc.capitalization.seasons",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`\u2192`winter`, `Summer`\u2192`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons longer word boundary negatives.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`→`winter`, `Summer`→`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons longer word boundary negatives.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9179,7 +9355,7 @@
     {
       "id": "seasons_punctuation_boundaries",
       "capability_id": "rule.misc.capitalization.seasons",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`\u2192`winter`, `Summer`\u2192`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons punctuation boundaries.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`→`winter`, `Summer`→`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons punctuation boundaries.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9212,7 +9388,7 @@
     {
       "id": "seasons_quote_suppression_with_unquoted",
       "capability_id": "rule.misc.capitalization.seasons",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`\u2192`winter`, `Summer`\u2192`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons quote suppression with unquoted.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`→`winter`, `Summer`→`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons quote suppression with unquoted.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9245,7 +9421,7 @@
     {
       "id": "seasons_repeated_source_order",
       "capability_id": "rule.misc.capitalization.seasons",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`\u2192`winter`, `Summer`\u2192`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons repeated source order.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`→`winter`, `Summer`→`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons repeated source order.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9278,7 +9454,7 @@
     {
       "id": "seasons_unicode_codepoint_positions",
       "capability_id": "rule.misc.capitalization.seasons",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`\u2192`winter`, `Summer`\u2192`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons unicode codepoint positions.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`→`winter`, `Summer`→`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons unicode codepoint positions.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9311,7 +9487,7 @@
     {
       "id": "seasons_selected_config_interaction",
       "capability_id": "rule.misc.capitalization.seasons",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`\u2192`winter`, `Summer`\u2192`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons selected config interaction.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.seasons; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `Winter`→`winter`, `Summer`→`summer`; `Spring`/`Fall` are commented out and clean; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements carry lowercase mapping. Selected config enables only misc.capitalization.seasons. Case purpose: seasons selected config interaction.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9344,7 +9520,7 @@
     {
       "id": "capitalization_terms_all_mappings",
       "capability_id": "rule.misc.capitalization.terms",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`\u2192`Mother Nature`, `Space Age`\u2192`space age`, `stone age`\u2192`Stone Age`, `the American west`\u2192`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms all mappings.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`→`Mother Nature`, `Space Age`→`space age`, `stone age`→`Stone Age`, `the American west`→`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms all mappings.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9377,7 +9553,7 @@
     {
       "id": "capitalization_terms_preferred_forms_clean",
       "capability_id": "rule.misc.capitalization.terms",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`\u2192`Mother Nature`, `Space Age`\u2192`space age`, `stone age`\u2192`Stone Age`, `the American west`\u2192`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms preferred forms clean.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`→`Mother Nature`, `Space Age`→`space age`, `stone age`→`Stone Age`, `the American west`→`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms preferred forms clean.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9410,7 +9586,7 @@
     {
       "id": "capitalization_terms_case_variants_clean",
       "capability_id": "rule.misc.capitalization.terms",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`\u2192`Mother Nature`, `Space Age`\u2192`space age`, `stone age`\u2192`Stone Age`, `the American west`\u2192`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms case variants clean.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`→`Mother Nature`, `Space Age`→`space age`, `stone age`→`Stone Age`, `the American west`→`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms case variants clean.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9443,7 +9619,7 @@
     {
       "id": "capitalization_terms_longer_word_boundary_negatives",
       "capability_id": "rule.misc.capitalization.terms",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`\u2192`Mother Nature`, `Space Age`\u2192`space age`, `stone age`\u2192`Stone Age`, `the American west`\u2192`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms longer word boundary negatives.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`→`Mother Nature`, `Space Age`→`space age`, `stone age`→`Stone Age`, `the American west`→`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms longer word boundary negatives.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9476,7 +9652,7 @@
     {
       "id": "capitalization_terms_punctuation_boundaries",
       "capability_id": "rule.misc.capitalization.terms",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`\u2192`Mother Nature`, `Space Age`\u2192`space age`, `stone age`\u2192`Stone Age`, `the American west`\u2192`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms punctuation boundaries.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`→`Mother Nature`, `Space Age`→`space age`, `stone age`→`Stone Age`, `the American west`→`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms punctuation boundaries.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9509,7 +9685,7 @@
     {
       "id": "capitalization_terms_quote_suppression_with_unquoted",
       "capability_id": "rule.misc.capitalization.terms",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`\u2192`Mother Nature`, `Space Age`\u2192`space age`, `stone age`\u2192`Stone Age`, `the American west`\u2192`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms quote suppression with unquoted.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`→`Mother Nature`, `Space Age`→`space age`, `stone age`→`Stone Age`, `the American west`→`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms quote suppression with unquoted.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9542,7 +9718,7 @@
     {
       "id": "capitalization_terms_repeated_source_order",
       "capability_id": "rule.misc.capitalization.terms",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`\u2192`Mother Nature`, `Space Age`\u2192`space age`, `stone age`\u2192`Stone Age`, `the American west`\u2192`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms repeated source order.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`→`Mother Nature`, `Space Age`→`space age`, `stone age`→`Stone Age`, `the American west`→`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms repeated source order.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9575,7 +9751,7 @@
     {
       "id": "capitalization_terms_unicode_codepoint_positions",
       "capability_id": "rule.misc.capitalization.terms",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`\u2192`Mother Nature`, `Space Age`\u2192`space age`, `stone age`\u2192`Stone Age`, `the American west`\u2192`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms unicode codepoint positions.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`→`Mother Nature`, `Space Age`→`space age`, `stone age`→`Stone Age`, `the American west`→`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms unicode codepoint positions.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9608,7 +9784,7 @@
     {
       "id": "capitalization_terms_selected_config_interaction",
       "capability_id": "rule.misc.capitalization.terms",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`\u2192`Mother Nature`, `Space Age`\u2192`space age`, `stone age`\u2192`Stone Age`, `the American west`\u2192`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms selected config interaction.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.capitalization.terms; upstream module proselint/checks/misc/capitalization.py; PreferredFormsSimple exact case-sensitive mappings `mother nature`→`Mother Nature`, `Space Age`→`space age`, `stone age`→`Stone Age`, `the American west`→`the American West`; WORDS_IN_TEXT padding, Fast case-sensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Incorrect capitalization. '{}' is the preferred form.`; replacements carry mapped preferred form. Selected config enables only misc.capitalization.terms. Case purpose: capitalization terms selected config interaction.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9641,7 +9817,7 @@
     {
       "id": "lie_detector_both_preferred_forms",
       "capability_id": "rule.psychology.lie_detector",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`\u2192`polygraph test`, `lie detector machine`\u2192`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector both preferred forms.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`→`polygraph test`, `lie detector machine`→`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector both preferred forms.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9674,7 +9850,7 @@
     {
       "id": "lie_detector_case_variants_replacements",
       "capability_id": "rule.psychology.lie_detector",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`\u2192`polygraph test`, `lie detector machine`\u2192`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector case variants replacements.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`→`polygraph test`, `lie detector machine`→`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector case variants replacements.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9707,7 +9883,7 @@
     {
       "id": "lie_detector_longer_word_boundary_negatives",
       "capability_id": "rule.psychology.lie_detector",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`\u2192`polygraph test`, `lie detector machine`\u2192`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector longer word boundary negatives.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`→`polygraph test`, `lie detector machine`→`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector longer word boundary negatives.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9740,7 +9916,7 @@
     {
       "id": "lie_detector_near_miss_phrases",
       "capability_id": "rule.psychology.lie_detector",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`\u2192`polygraph test`, `lie detector machine`\u2192`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector near miss phrases.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`→`polygraph test`, `lie detector machine`→`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector near miss phrases.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9773,7 +9949,7 @@
     {
       "id": "lie_detector_punctuation_boundaries",
       "capability_id": "rule.psychology.lie_detector",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`\u2192`polygraph test`, `lie detector machine`\u2192`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector punctuation boundaries.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`→`polygraph test`, `lie detector machine`→`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector punctuation boundaries.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9806,7 +9982,7 @@
     {
       "id": "lie_detector_quote_suppression_with_unquoted",
       "capability_id": "rule.psychology.lie_detector",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`\u2192`polygraph test`, `lie detector machine`\u2192`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector quote suppression with unquoted.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`→`polygraph test`, `lie detector machine`→`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector quote suppression with unquoted.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9839,7 +10015,7 @@
     {
       "id": "lie_detector_repeated_mixed_source_order",
       "capability_id": "rule.psychology.lie_detector",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`\u2192`polygraph test`, `lie detector machine`\u2192`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector repeated mixed source order.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`→`polygraph test`, `lie detector machine`→`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector repeated mixed source order.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9872,7 +10048,7 @@
     {
       "id": "lie_detector_unicode_codepoint_positions",
       "capability_id": "rule.psychology.lie_detector",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`\u2192`polygraph test`, `lie detector machine`\u2192`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector unicode codepoint positions.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`→`polygraph test`, `lie detector machine`→`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector unicode codepoint positions.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9905,7 +10081,7 @@
     {
       "id": "lie_detector_selected_config_interaction",
       "capability_id": "rule.psychology.lie_detector",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`\u2192`polygraph test`, `lie detector machine`\u2192`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector selected config interaction.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple mappings `lie detector test`→`polygraph test`, `lie detector machine`→`polygraph machine`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Polygraph machines measure arousal, not lying per se. Try '{}'.` interpolates preferred form; replacement carries the mapping. Selected config enables only psychology.lie_detector. Case purpose: lie detector selected config interaction.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9938,7 +10114,7 @@
     {
       "id": "lie_detector_fastset_activation_raw_copy",
       "capability_id": "rule.psychology.lie_detector",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple `lie detector test`\u2192`polygraph test` and `lie detector machine`\u2192`polygraph machine`; WORDS_IN_TEXT, Fast case-insensitive, default quote suppression, no exceptions/offsets; message `Polygraph machines measure arousal, not lying per se. Try '{}'.`; FastSet first activates on boundary-valid standalone phrase, then raw phrase regex emits embedded boundary-invalid copies too. Oracle-probed output contains 3 ordered `lie detector test` diagnostics for this input. Selected config enables only psychology.lie_detector.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path psychology.lie_detector; upstream module proselint/checks/psychology.py; PreferredFormsSimple `lie detector test`→`polygraph test` and `lie detector machine`→`polygraph machine`; WORDS_IN_TEXT, Fast case-insensitive, default quote suppression, no exceptions/offsets; message `Polygraph machines measure arousal, not lying per se. Try '{}'.`; FastSet first activates on boundary-valid standalone phrase, then raw phrase regex emits embedded boundary-invalid copies too. Oracle-probed output contains 3 ordered `lie detector test` diagnostics for this input. Selected config enables only psychology.lie_detector.",
       "input_mode": "stdin",
       "files": [
         {
@@ -9971,7 +10147,7 @@
     {
       "id": "wallace_both_redundant_forms",
       "capability_id": "rule.redundancy.misc.wallace",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.wallace; upstream module proselint/checks/redundancy/misc.py; PreferredFormsSimple mappings `rectangular in shape`\u2192`rectangular` and `audible to the ear`\u2192`audible`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Redundancy. Use '{}' instead of '{}'.` with replacement as first format argument and matched original surface as second; replacements carry mapped preferred form. Selected config enables only redundancy.misc.wallace. Case purpose: wallace both redundant forms.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.wallace; upstream module proselint/checks/redundancy/misc.py; PreferredFormsSimple mappings `rectangular in shape`→`rectangular` and `audible to the ear`→`audible`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Redundancy. Use '{}' instead of '{}'.` with replacement as first format argument and matched original surface as second; replacements carry mapped preferred form. Selected config enables only redundancy.misc.wallace. Case purpose: wallace both redundant forms.",
       "input_mode": "stdin",
       "files": [
         {
@@ -10004,7 +10180,7 @@
     {
       "id": "wallace_case_variants_surface_text",
       "capability_id": "rule.redundancy.misc.wallace",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.wallace; upstream module proselint/checks/redundancy/misc.py; PreferredFormsSimple mappings `rectangular in shape`\u2192`rectangular` and `audible to the ear`\u2192`audible`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Redundancy. Use '{}' instead of '{}'.` with replacement as first format argument and matched original surface as second; replacements carry mapped preferred form. Selected config enables only redundancy.misc.wallace. Case purpose: wallace case variants surface text.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.wallace; upstream module proselint/checks/redundancy/misc.py; PreferredFormsSimple mappings `rectangular in shape`→`rectangular` and `audible to the ear`→`audible`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Redundancy. Use '{}' instead of '{}'.` with replacement as first format argument and matched original surface as second; replacements carry mapped preferred form. Selected config enables only redundancy.misc.wallace. Case purpose: wallace case variants surface text.",
       "input_mode": "stdin",
       "files": [
         {
@@ -10037,7 +10213,7 @@
     {
       "id": "wallace_longer_word_boundary_negatives",
       "capability_id": "rule.redundancy.misc.wallace",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.wallace; upstream module proselint/checks/redundancy/misc.py; PreferredFormsSimple mappings `rectangular in shape`\u2192`rectangular` and `audible to the ear`\u2192`audible`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Redundancy. Use '{}' instead of '{}'.` with replacement as first format argument and matched original surface as second; replacements carry mapped preferred form. Selected config enables only redundancy.misc.wallace. Case purpose: wallace longer word boundary negatives.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.wallace; upstream module proselint/checks/redundancy/misc.py; PreferredFormsSimple mappings `rectangular in shape`→`rectangular` and `audible to the ear`→`audible`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Redundancy. Use '{}' instead of '{}'.` with replacement as first format argument and matched original surface as second; replacements carry mapped preferred form. Selected config enables only redundancy.misc.wallace. Case purpose: wallace longer word boundary negatives.",
       "input_mode": "stdin",
       "files": [
         {
@@ -10070,7 +10246,7 @@
     {
       "id": "wallace_near_miss_phrases",
       "capability_id": "rule.redundancy.misc.wallace",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.wallace; upstream module proselint/checks/redundancy/misc.py; PreferredFormsSimple mappings `rectangular in shape`\u2192`rectangular` and `audible to the ear`\u2192`audible`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Redundancy. Use '{}' instead of '{}'.` with replacement as first format argument and matched original surface as second; replacements carry mapped preferred form. Selected config enables only redundancy.misc.wallace. Case purpose: wallace near miss phrases.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.wallace; upstream module proselint/checks/redundancy/misc.py; PreferredFormsSimple mappings `rectangular in shape`→`rectangular` and `audible to the ear`→`audible`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Redundancy. Use '{}' instead of '{}'.` with replacement as first format argument and matched original surface as second; replacements carry mapped preferred form. Selected config enables only redundancy.misc.wallace. Case purpose: wallace near miss phrases.",
       "input_mode": "stdin",
       "files": [
         {
@@ -10103,7 +10279,7 @@
     {
       "id": "wallace_punctuation_boundaries",
       "capability_id": "rule.redundancy.misc.wallace",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.wallace; upstream module proselint/checks/redundancy/misc.py; PreferredFormsSimple mappings `rectangular in shape`\u2192`rectangular` and `audible to the ear`\u2192`audible`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Redundancy. Use '{}' instead of '{}'.` with replacement as first format argument and matched original surface as second; replacements carry mapped preferred form. Selected config enables only redundancy.misc.wallace. Case purpose: wallace punctuation boundaries.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.wallace; upstream module proselint/checks/redundancy/misc.py; PreferredFormsSimple mappings `rectangular in shape`→`rectangular` and `audible to the ear`→`audible`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Redundancy. Use '{}' instead of '{}'.` with replacement as first format argument and matched original surface as second; replacements carry mapped preferred form. Selected config enables only redundancy.misc.wallace. Case purpose: wallace punctuation boundaries.",
       "input_mode": "stdin",
       "files": [
         {
@@ -10136,7 +10312,7 @@
     {
       "id": "wallace_quote_suppression_with_unquoted",
       "capability_id": "rule.redundancy.misc.wallace",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.wallace; upstream module proselint/checks/redundancy/misc.py; PreferredFormsSimple mappings `rectangular in shape`\u2192`rectangular` and `audible to the ear`\u2192`audible`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Redundancy. Use '{}' instead of '{}'.` with replacement as first format argument and matched original surface as second; replacements carry mapped preferred form. Selected config enables only redundancy.misc.wallace. Case purpose: wallace quote suppression with unquoted.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.wallace; upstream module proselint/checks/redundancy/misc.py; PreferredFormsSimple mappings `rectangular in shape`→`rectangular` and `audible to the ear`→`audible`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Redundancy. Use '{}' instead of '{}'.` with replacement as first format argument and matched original surface as second; replacements carry mapped preferred form. Selected config enables only redundancy.misc.wallace. Case purpose: wallace quote suppression with unquoted.",
       "input_mode": "stdin",
       "files": [
         {
@@ -10169,7 +10345,7 @@
     {
       "id": "wallace_repeated_mixed_source_order",
       "capability_id": "rule.redundancy.misc.wallace",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.wallace; upstream module proselint/checks/redundancy/misc.py; PreferredFormsSimple mappings `rectangular in shape`\u2192`rectangular` and `audible to the ear`\u2192`audible`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Redundancy. Use '{}' instead of '{}'.` with replacement as first format argument and matched original surface as second; replacements carry mapped preferred form. Selected config enables only redundancy.misc.wallace. Case purpose: wallace repeated mixed source order.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.wallace; upstream module proselint/checks/redundancy/misc.py; PreferredFormsSimple mappings `rectangular in shape`→`rectangular` and `audible to the ear`→`audible`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Redundancy. Use '{}' instead of '{}'.` with replacement as first format argument and matched original surface as second; replacements carry mapped preferred form. Selected config enables only redundancy.misc.wallace. Case purpose: wallace repeated mixed source order.",
       "input_mode": "stdin",
       "files": [
         {
@@ -10202,7 +10378,7 @@
     {
       "id": "wallace_unicode_codepoint_positions",
       "capability_id": "rule.redundancy.misc.wallace",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.wallace; upstream module proselint/checks/redundancy/misc.py; PreferredFormsSimple mappings `rectangular in shape`\u2192`rectangular` and `audible to the ear`\u2192`audible`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Redundancy. Use '{}' instead of '{}'.` with replacement as first format argument and matched original surface as second; replacements carry mapped preferred form. Selected config enables only redundancy.misc.wallace. Case purpose: wallace unicode codepoint positions.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.wallace; upstream module proselint/checks/redundancy/misc.py; PreferredFormsSimple mappings `rectangular in shape`→`rectangular` and `audible to the ear`→`audible`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Redundancy. Use '{}' instead of '{}'.` with replacement as first format argument and matched original surface as second; replacements carry mapped preferred form. Selected config enables only redundancy.misc.wallace. Case purpose: wallace unicode codepoint positions.",
       "input_mode": "stdin",
       "files": [
         {
@@ -10235,7 +10411,7 @@
     {
       "id": "wallace_selected_config_interaction",
       "capability_id": "rule.redundancy.misc.wallace",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.wallace; upstream module proselint/checks/redundancy/misc.py; PreferredFormsSimple mappings `rectangular in shape`\u2192`rectangular` and `audible to the ear`\u2192`audible`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Redundancy. Use '{}' instead of '{}'.` with replacement as first format argument and matched original surface as second; replacements carry mapped preferred form. Selected config enables only redundancy.misc.wallace. Case purpose: wallace selected config interaction.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.wallace; upstream module proselint/checks/redundancy/misc.py; PreferredFormsSimple mappings `rectangular in shape`→`rectangular` and `audible to the ear`→`audible`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `Redundancy. Use '{}' instead of '{}'.` with replacement as first format argument and matched original surface as second; replacements carry mapped preferred form. Selected config enables only redundancy.misc.wallace. Case purpose: wallace selected config interaction.",
       "input_mode": "stdin",
       "files": [
         {
@@ -10499,7 +10675,7 @@
     {
       "id": "lie_detector_unicode_boundary",
       "capability_id": "rule.psychology.lie_detector",
-      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; non-ASCII letter `\u00e9` before the configured phrase tests upstream RE2 Unicode boundary activation and codepoint span.",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; non-ASCII letter `é` before the configured phrase tests upstream RE2 Unicode boundary activation and codepoint span.",
       "input_mode": "stdin",
       "files": [
         {

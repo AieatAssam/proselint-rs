@@ -257,6 +257,50 @@ impl JsonScanner {
         }
         Ok(())
     }
+
+    fn skip_value(&mut self) -> Result<(), JsonScanError> {
+        self.space();
+        match self.peek() {
+            Some('"') => self.string().map_err(JsonScanError::Syntax),
+            Some(open @ ('{' | '[')) => {
+                let mut closing = vec![if open == '{' { '}' } else { ']' }];
+                self.offset += 1;
+                while !closing.is_empty() {
+                    match self.peek() {
+                        Some('"') => self.string().map_err(JsonScanError::Syntax)?,
+                        Some(open @ ('{' | '[')) => {
+                            closing.push(if open == '{' { '}' } else { ']' });
+                            self.offset += 1;
+                        }
+                        Some(ch) if closing.last() == Some(&ch) => {
+                            closing.pop();
+                            self.offset += 1;
+                        }
+                        Some(_) => self.offset += 1,
+                        None => {
+                            return Err(JsonScanError::Syntax(
+                                self.error("Expecting value", self.offset),
+                            ));
+                        }
+                    }
+                }
+                Ok(())
+            }
+            Some(_) => {
+                while self
+                    .peek()
+                    .is_some_and(|ch| !matches!(ch, ' ' | '\t' | '\n' | '\r' | ',' | ']' | '}'))
+                {
+                    self.offset += 1;
+                }
+                Ok(())
+            }
+            None => Err(JsonScanError::Syntax(
+                self.error("Expecting value", self.offset),
+            )),
+        }
+    }
+
     fn space(&mut self) {
         while self
             .peek()
@@ -279,6 +323,117 @@ impl JsonScanner {
     fn error(&self, reason: &'static str, offset: usize) -> JsonSyntaxError {
         JsonSyntaxError { reason, offset }
     }
+}
+
+fn config_field_name(raw: &[char]) -> Option<String> {
+    let mut decoded = String::new();
+    let mut index = 1;
+    while index + 1 < raw.len() {
+        let ch = raw[index];
+        index += 1;
+        if ch != '\\' {
+            decoded.push(ch);
+            continue;
+        }
+        let escape = *raw.get(index)?;
+        index += 1;
+        match escape {
+            '"' | '\\' | '/' => decoded.push(escape),
+            'b' => decoded.push('\u{0008}'),
+            'f' => decoded.push('\u{000c}'),
+            'n' => decoded.push('\n'),
+            'r' => decoded.push('\r'),
+            't' => decoded.push('\t'),
+            'u' => {
+                let high = parse_hex_quad(raw, &mut index)?;
+                let scalar = match high {
+                    0xd800..=0xdbff => {
+                        if raw.get(index) != Some(&'\\') || raw.get(index + 1) != Some(&'u') {
+                            return None;
+                        }
+                        index += 2;
+                        let low = parse_hex_quad(raw, &mut index)?;
+                        if !(0xdc00..=0xdfff).contains(&low) {
+                            return None;
+                        }
+                        0x10000 + ((u32::from(high) - 0xd800) << 10) + (u32::from(low) - 0xdc00)
+                    }
+                    0xdc00..=0xdfff => return None,
+                    value => u32::from(value),
+                };
+                decoded.push(char::from_u32(scalar)?);
+            }
+            _ => return None,
+        }
+    }
+    (index == raw.len() - 1).then_some(decoded)
+}
+
+fn parse_hex_quad(raw: &[char], index: &mut usize) -> Option<u16> {
+    let mut value = 0_u16;
+    for _ in 0..4 {
+        value = value.checked_mul(16)? + raw.get(*index)?.to_digit(16)? as u16;
+        *index += 1;
+    }
+    Some(value)
+}
+
+fn project_config_fields(source: &str) -> Option<String> {
+    let mut scanner = JsonScanner::new(source);
+    scanner.space();
+    if !scanner.take('{') {
+        return None;
+    }
+
+    let mut fields = [None; 3];
+    scanner.space();
+    while !scanner.take('}') {
+        let key_start = scanner.offset;
+        scanner.string().ok()?;
+        let key_end = scanner.offset;
+        scanner.space();
+        if !scanner.take(':') {
+            return None;
+        }
+        let field_index = match config_field_name(&scanner.chars[key_start..key_end]).as_deref() {
+            Some("max_errors") => Some(0),
+            Some("checks") => Some(1),
+            Some("per_file_checks") => Some(2),
+            _ => None,
+        };
+        scanner.space();
+        let value_start = scanner.offset;
+        scanner.skip_value().ok()?;
+        if let Some(field_index) = field_index {
+            fields[field_index] = Some((value_start, scanner.offset));
+        }
+        scanner.space();
+        if scanner.take('}') {
+            break;
+        }
+        if !scanner.take(',') {
+            return None;
+        }
+        scanner.space();
+    }
+
+    let mut projected = String::from("{");
+    for (name, span) in ["max_errors", "checks", "per_file_checks"]
+        .into_iter()
+        .zip(fields)
+    {
+        if let Some((start, end)) = span {
+            if projected.len() > 1 {
+                projected.push(',');
+            }
+            projected.push('"');
+            projected.push_str(name);
+            projected.push_str("\":");
+            projected.extend(scanner.chars[start..end].iter().copied());
+        }
+    }
+    projected.push('}');
+    Some(projected)
 }
 
 fn python_json_error_message(source: &str, error: JsonSyntaxError) -> String {
@@ -434,8 +589,13 @@ fn run() -> Result<ExitCode, String> {
             ));
         }
     };
+    let parse_source = if syntax_error.is_none() {
+        project_config_fields(&config_text).unwrap_or_else(|| config_text.clone())
+    } else {
+        config_text.clone()
+    };
     let parse_result = (|| {
-        let mut deserializer = serde_json::Deserializer::from_str(&config_text);
+        let mut deserializer = serde_json::Deserializer::from_str(&parse_source);
         deserializer.disable_recursion_limit();
         let value = Value::deserialize(serde_stacker::Deserializer::new(&mut deserializer));
         let value = value?;

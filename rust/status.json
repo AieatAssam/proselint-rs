@@ -174,6 +174,10 @@
     {
       "id": "cli.config.recursion_depth",
       "status": "recorded"
+    },
+    {
+      "id": "cli.config.ignored_values",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -221,7 +225,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "Probe Python-valid nonstandard numeric config values in consumed settings, then address any confirmed decoder mismatch; test lone-surrogate and directory-path behavior as separate slices."
+    "next_handoff": "Implement exact Python exception behavior for NaN, 1e999, and lone-surrogate values in consumed settings, then implement directory config-path errors separately."
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
@@ -236,8 +240,7 @@
     "Most of the 124 registered rules, default configuration, combined-rule configurations, and Unicode folding beyond tested ASCII remain unverified",
     "Most of the 124 registered rules, default configuration, and combined-rule behavior remain unverified",
     "Most registered rules, default configuration, combined-rule behavior, and Unicode case folding beyond tested ASCII variants remain unverified",
-    "Astra follow-up observed additional config gaps: Python-valid NaN, 1e999 and lone-surrogate values; valid depth-130 config; recursion error kind at extreme malformed depth; and directory config-path errors.",
-    "Astra observed Python-valid NaN, 1e999, and lone-surrogate JSON values, plus directory config-path error differences; probe values in consumed settings before choosing conversion semantics. Extreme malformed-depth cases beyond the accepted boundary suite remain open to targeted live verification."
+    "Python-compatible NaN, 1e999, and lone-surrogate values in consumed settings still need exact error-behavior parity; directory config paths still lack structured OSError output. Additional malformed-depth behavior beyond accepted boundary cases remains subject to targeted live reproduction."
   ],
   "capability_states": [
     {
@@ -2253,20 +2256,64 @@
         "report": "rust/artifacts/strict-gate-recursion-depth-final-20261106.json",
         "source_fingerprint": "032e2e89cb0de49fea52997c9f12e27e6128ea329829630fec23a4caa222c0ee"
       }
+    },
+    {
+      "id": "cli.config.ignored_values",
+      "status": "recorded",
+      "case_ids": [
+        "cli_config_ignored_nested_special_values",
+        "cli_config_escaped_checks_key_with_ignored_nan",
+        "cli_config_ignored_nan",
+        "cli_config_ignored_overflow_float",
+        "cli_config_ignored_lone_surrogate"
+      ],
+      "upstream_spec": "The pinned loader parses JSON values with Python json.loads, then discards unrecognized top-level fields. Valid NaN, overflowing numeric literals, and lone-surrogate strings in those ignored fields must not reject the config; the whole-document syntax/depth scanner still governs malformed input.",
+      "red": {
+        "behavioral_mismatches": 5,
+        "focused_rust_tests_failed": 5,
+        "total_cases": 5,
+        "exit_code": 1,
+        "evidence": "rust/artifacts/ignored-values-red-live-20261106.json",
+        "rust_test_evidence": "rust/artifacts/20261106T024217430547Z-ignored-values-red-rust-tests.stdout.bin"
+      },
+      "green": {
+        "focused_rust_tests_passed": 5,
+        "live_cases_passed": 5,
+        "exit_code": 0,
+        "evidence": "rust/artifacts/ignored-values-green-live-20261106.json",
+        "build_attestation": "rust/artifacts/20261106T025220342747Z-build.attestation.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 5,
+        "full_locked_build_and_tests": "rust/artifacts/20261106T025434629189Z-build.attestation.json",
+        "report": "rust/artifacts/ignored-values-independent-live-20261106.json",
+        "frozen_source_fingerprint": "5c8cdf3dd2f0ecb0258ec7fd835d430e98de7a5128a0a46656977cc26f524e4f"
+      },
+      "limitations": [
+        "consumed settings have distinct Python error semantics and remain unverified"
+      ],
+      "cumulative_live_parity": {
+        "passed_cases": 395,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-ignored-values-final-20261106.json",
+        "source_fingerprint": "b074774aed97385dfc4568a8d76d76d0a5f8f68a7ab5f9525d14c86672e4d83f"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-recursion-depth-final-20261106.json",
-    "passed_cases": 390,
-    "manifest_cases": 396,
+    "report": "rust/artifacts/strict-gate-ignored-values-final-20261106.json",
+    "passed_cases": 395,
+    "manifest_cases": 402,
     "excluded_manifest_cases": {
-      "harness.oracle_smoke": 2,
-      "cli.config.per_file_checks": 4
+      "cli.config.directory_path": 1,
+      "cli.config.per_file_checks": 4,
+      "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "source_fingerprint": "032e2e89cb0de49fea52997c9f12e27e6128ea329829630fec23a4caa222c0ee",
-    "capability_count": 43
+    "source_fingerprint": "b074774aed97385dfc4568a8d76d76d0a5f8f68a7ab5f9525d14c86672e4d83f",
+    "capability_count": 44
   },
   "rust_dependencies": {
     "status": "current",
@@ -2287,5 +2334,5 @@
       "rust_version_constraint": "1.99"
     }
   },
-  "next_capability_handoff": "Probe NaN and 1e999 in consumed configuration settings against the pinned oracle before selecting their compatibility implementation; then cover lone-surrogate decoding and structured directory-config errors as separate capabilities."
+  "next_capability_handoff": "Use pinned-oracle probes for non-finite and lone-surrogate values in consumed configuration fields to reproduce their ValueError/AttributeError behavior; then address structured directory-config OSError output."
 }

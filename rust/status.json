@@ -279,9 +279,9 @@
   },
   "harness": {
     "status": "independently_verified",
-    "source_fingerprint": "9ecc3f3d445d14fff0dc4a1c98b57579be18abc40b240fbc40a9bf5bb6770d9e",
+    "source_fingerprint": "3166f639cc2ea9dc04461ba8e23aca1f9c92248af5347f4da21cf11f68811b65",
     "unit_tests": {
-      "passed": 37,
+      "passed": 38,
       "exit_code": 0,
       "evidence": "python3 -m unittest discover -s rust/harness/tests"
     },
@@ -305,7 +305,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "skunked_terms passed the 578-case cumulative gate. Next: specify oxymorons, including its optional-s regex case."
+    "next_handoff": "Luna implementer owns rust/src/lib.rs and rust/src/main.rs for oxymorons; coordinator owns rust/status.json, rust/status-history.jsonl, and rust/docs/**."
   },
   "unresolved": [
     "The no-config-found bundled DEFAULT, every default-enabled rule interaction, and combined enabled-rule configurations remain unverified; selected-rule passes do not establish default behavior.",
@@ -3422,6 +3422,36 @@
         "agent_runtime_metadata": "unavailable",
         "sol_probe": "quoted activation followed by raw unquoted Thankfully, at [31,42] passes with max_errors=1"
       }
+    },
+    {
+      "id": "rule.oxymorons",
+      "status": "in_progress",
+      "case_ids": [
+        "oxymorons_all_registered_phrases",
+        "oxymorons_optional_s_variants",
+        "oxymorons_backwardness_isolated_clean",
+        "oxymorons_backwardness_activation_order",
+        "oxymorons_boundary_checks",
+        "oxymorons_quote_suppression",
+        "oxymorons_overlapping_phrase_variants",
+        "oxymorons_unicode_positions",
+        "oxymorons_punctuation_case_repetition",
+        "oxymorons_max_errors_one",
+        "oxymorons_quoted_activation_limit_one"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_spec": "Pinned default-enabled Existence check with 17 Fast/RE2 case-insensitive regex strings, WORDS_IN_TEXT, allow_quotes=false, no exceptions, offset0, exact message `'{matched surface}' is an oxymoron.`; replacements null. `advancing backwards?` is unescaped regex where `?` quantifies final s, so both singular and plural surfaces match; a trailing question mark is outside the matched span. FastSet activation followed by raw matches makes `advancing backwardness` clean alone but observable after later bounded activation.",
+      "red": {
+        "report_status": "MISMATCH",
+        "mismatches": 11,
+        "reason": "All eleven frozen cases reached pinned oracle and candidate; oracle outcomes were valid while Rust returned unsupported-path exit 4.",
+        "evidence": "rust/artifacts/oxymorons-live-red-20261106.json",
+        "source_fingerprint": "3166f639cc2ea9dc04461ba8e23aca1f9c92248af5347f4da21cf11f68811b65",
+        "build_attestation": "rust/artifacts/20261106T143425773916Z-build.attestation.json"
+      },
+      "limitations": [
+        "RED is not acceptance evidence; implementation, focused live green, independent verification, and updated cumulative gate remain required."
+      ]
     }
   ],
   "last_strict_gate": {
@@ -3460,7 +3490,7 @@
       "rust_version_constraint": "1.99"
     }
   },
-  "next_capability_handoff": "Specify oxymorons against the pinned oracle; cover `advancing backwards?` as a regex with optional final s, then demonstrate meaningful RED, implement, independently verify, and run the cumulative gate.",
+  "next_capability_handoff": "Implement oxymorons from its eleven frozen live RED cases, preserving the unescaped optional-s regex and activation/raw-match ordering; then independently verify and run the cumulative gate.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

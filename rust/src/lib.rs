@@ -198,6 +198,12 @@ const WALLACE_FORMS: [(&str, &str); 2] = [
     ("audible to the ear", "audible"),
 ];
 const WALLACE_MESSAGE: &str = "Redundancy. Use '{}' instead of '{}'.";
+const NORDQUIST_FORMS: [&str; 4] = [
+    "absolutely essential",
+    "absolutely necessary",
+    "a.m. in the morning",
+    "p.m. at night",
+];
 const INSTITUTION_NAME_PATTERN: &str = "Virginia Polytechnic and State University";
 const INSTITUTION_NAME_REPLACEMENT: &str = "Virginia Polytechnic Institute and State University";
 const PROFESSIONS: [(&str, &str); 2] = [("shoe repair guy", "cobbler"), ("geometrist", "geometer")];
@@ -2582,6 +2588,57 @@ pub fn wallace_diagnostics(text: &str) -> Vec<Value> {
     }
 
     diagnostics.sort_unstable_by_key(|(start, _)| *start);
+    diagnostics
+        .into_iter()
+        .map(|(_, diagnostic)| diagnostic)
+        .collect()
+}
+
+/// Return diagnostics for the pinned `redundancy.misc.nordquist` rule.
+pub fn nordquist_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+    let padded = format!("\n{text}\n");
+    let quotes = paired_quote_bounds(&padded);
+    let lines = splitlines_bounds(&padded);
+    let mut activated = Vec::new();
+    for (index, pattern) in NORDQUIST_FORMS.into_iter().enumerate() {
+        let matches = unicode_case_match_ends(&padded, pattern);
+        let Some(first) = matches
+            .iter()
+            .find(|(start, end)| {
+                !is_ascii_word_before(&padded, *start) && !is_ascii_word_at(&padded, *end)
+            })
+            .map(|(start, _)| *start)
+        else {
+            continue;
+        };
+        activated.push((first, index, matches));
+    }
+    activated.sort_unstable_by_key(|(first, index, _)| (*first, *index));
+    let mut diagnostics = Vec::new();
+    for (_, _, matches) in activated {
+        for (start, end) in matches {
+            let matched = &padded[start..end];
+            let replacement = match matched.to_lowercase().as_str() {
+                "absolutely essential" => Some("essential"),
+                "absolutely necessary" => Some("necessary"),
+                _ => None,
+            };
+            let span_start = padded[..start].chars().count();
+            let span_end = span_start + matched.chars().count();
+            if quotes.partition_point(|bound| *bound < span_start) % 2 == 1 {
+                continue;
+            }
+            let (line, column) = line_col_of(span_start, &lines);
+            diagnostics.push((span_start, json!({
+                "check_path":"redundancy.misc.nordquist",
+                "message":WALLACE_MESSAGE.replacen("{}", replacement.unwrap_or("None"), 1).replacen("{}", matched, 1),
+                "span":[span_start,span_end], "pos":[line,column], "replacements":replacement
+            })));
+        }
+    }
     diagnostics
         .into_iter()
         .map(|(_, diagnostic)| diagnostic)

@@ -140,6 +140,20 @@ const CAPITALIZATION_DAYS: [(&str, &str); 7] = [
 ];
 const CAPITALIZATION_DAYS_MESSAGE: &str =
     "Days of the week should be capitalized. '{}' is the preferred form.";
+const CAPITALIZATION_MONTHS: [(&str, &str); 10] = [
+    ("january", "January"),
+    ("february", "February"),
+    ("april", "April"),
+    ("june", "June"),
+    ("july", "July"),
+    ("august", "August"),
+    ("september", "September"),
+    ("october", "October"),
+    ("november", "November"),
+    ("december", "December"),
+];
+const CAPITALIZATION_MONTHS_MESSAGE: &str =
+    "Months should be capitalized. '{}' is the preferred form.";
 const LIE_DETECTOR_FORMS: [(&str, &str); 2] = [
     ("lie detector test", "polygraph test"),
     ("lie detector machine", "polygraph machine"),
@@ -2016,6 +2030,61 @@ pub fn capitalization_days_diagnostics(text: &str) -> Vec<Value> {
                 json!({
                     "check_path": "misc.capitalization.days",
                     "message": CAPITALIZATION_DAYS_MESSAGE.replace("{}", replacement),
+                    "span": [span_start, span_end],
+                    "pos": [line, column],
+                    "replacements": replacement,
+                }),
+            ));
+        }
+    }
+
+    diagnostics.sort_unstable_by_key(|(start, _)| *start);
+    diagnostics
+        .into_iter()
+        .map(|(_, diagnostic)| diagnostic)
+        .collect()
+}
+
+/// Return diagnostics for the pinned case-sensitive month capitalization rule.
+pub fn capitalization_months_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut diagnostics = Vec::new();
+
+    for (pattern, replacement) in CAPITALIZATION_MONTHS {
+        let pattern_len = pattern.len();
+        let active = padded.match_indices(pattern).any(|(start, _)| {
+            !is_ascii_word_before(&padded, start) && !is_ascii_word_at(&padded, start + pattern_len)
+        });
+        if !active {
+            continue;
+        }
+        for (start, _) in padded.char_indices() {
+            let end = start.saturating_add(pattern_len);
+            let Some(matched) = padded.get(start..end) else {
+                continue;
+            };
+            if matched != pattern {
+                continue;
+            }
+
+            let span_start = padded[..start].chars().count();
+            let span_end = span_start + matched.chars().count();
+            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+            if quote_index % 2 == 1 {
+                continue;
+            }
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            diagnostics.push((
+                span_start,
+                json!({
+                    "check_path": "misc.capitalization.months",
+                    "message": CAPITALIZATION_MONTHS_MESSAGE.replace("{}", replacement),
                     "span": [span_start, span_end],
                     "pos": [line, column],
                     "replacements": replacement,

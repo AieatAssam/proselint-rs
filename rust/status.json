@@ -206,6 +206,10 @@
     {
       "id": "rule.misc.phrasal_adjectives.ly",
       "status": "recorded"
+    },
+    {
+      "id": "rule.misc.capitalization.months",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -253,7 +257,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "Select and specify the next unaccepted rule path; do not infer general regex-engine equivalence from the phrasal-adjectives pattern."
+    "next_handoff": "Implement and verify psychology.p_equals_zero; its pinned pattern has an unescaped wildcard dot and eight oracle-derived cases."
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
@@ -2650,20 +2654,75 @@
         "manifest_cases": 444,
         "report": "rust/artifacts/strict-gate-phrasal-adjectives-accepted-20261106.json"
       }
+    },
+    {
+      "id": "rule.misc.capitalization.months",
+      "status": "recorded",
+      "case_ids": [
+        "months_all_ten_lowercase_mappings",
+        "months_uppercase_and_excluded_march_may_are_clean",
+        "months_embedded_term_without_boundary_activation_is_clean",
+        "months_boundary_activation_then_raw_substrings",
+        "months_quote_suppression_and_repeated_matches",
+        "months_unicode_codepoint_coordinates"
+      ],
+      "upstream_spec": "Pinned misc.capitalization.check_months is case-sensitive PreferredFormsSimple under Fast. The ten lowercase entries map to title case; march and may are excluded. PreferredFormsSimple activates each configured term at an ASCII word boundary, then reports all raw occurrences in padded text, suppressing quoted findings. Message: Months should be capitalized. '{}' is the preferred form.",
+      "red": {
+        "focused_rust_tests_passed": 0,
+        "focused_rust_tests_failed": 5,
+        "result": "All tests reached the CLI; unimplemented selected check returned exit 4.",
+        "oracle_self_comparison": "rust/artifacts/capitalization-months-oracle-self-20261106.json"
+      },
+      "green": {
+        "focused_rust_tests_passed": 5,
+        "live_cases_passed": 6,
+        "report": "rust/artifacts/capitalization-months-attested-live-20261106.json",
+        "build_attestation": "rust/artifacts/20261106T071423370497Z-build.attestation.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 6,
+        "focused_rust_tests_passed": 5,
+        "harness_tests_passed": 28,
+        "comparator_discriminators_passed": 23,
+        "report": "rust/artifacts/independent-capitalization-months-20261106/months-live.json",
+        "verification": "rust/artifacts/independent-capitalization-months-20261106/verification.json",
+        "build_attestation": "rust/artifacts/independent-capitalization-months-20261106/build.attestation.json",
+        "source_fingerprint": "939b1ec82c6850587c02afb7c173e0a8955e2fc8b32b7a3abc8a613fbf62fa96",
+        "binary_sha256": "a9f4a4ed404c1f144494dfaa83516939bdfbee1e5dcb301b62d0371536fe762c",
+        "agent_model": "gpt-6-luna",
+        "agent_reasoning_effort": "low"
+      },
+      "limitations": [
+        "Only ten configured month terms and the recorded case behaviors are covered; other PreferredFormsSimple rules are separate capabilities.",
+        "Combined-rule and bundled default configuration behavior remains unverified."
+      ],
+      "cumulative_live_parity": {
+        "status": "PASS",
+        "passed_cases": 444,
+        "manifest_cases": 458,
+        "excluded_manifest_cases": {
+          "rule.psychology.p_equals_zero": 8,
+          "cli.config.per_file_checks": 4,
+          "harness.oracle_smoke": 2
+        },
+        "report": "rust/artifacts/strict-gate-capitalization-months-20261106.json"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-phrasal-adjectives-accepted-20261106.json",
-    "passed_cases": 438,
-    "manifest_cases": 444,
+    "report": "rust/artifacts/strict-gate-capitalization-months-20261106.json",
+    "passed_cases": 444,
+    "manifest_cases": 458,
     "excluded_manifest_cases": {
+      "rule.psychology.p_equals_zero": 8,
       "cli.config.per_file_checks": 4,
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "source_fingerprint": "64456b7e0fe62eb2e6ea7d5ec75e9062221beb5219a4a708b9da32129069eb0f",
-    "capability_count": 51
+    "source_fingerprint": "b459db1aff9340cf72cc0f9564a6f4a0b94b373b4a89b00ed3e1a5dec99ef88e",
+    "capability_count": 52
   },
   "rust_dependencies": {
     "status": "current",
@@ -2685,7 +2744,7 @@
       "rust_version_constraint": "1.99"
     }
   },
-  "next_capability_handoff": "Select the next unaccepted rule path from the pinned inventory, specify its upstream semantics, demonstrate meaningful failing tests, then implement and independently verify. No general Rust regex/RE2 equivalence is established. Keep bundled DEFAULT behavior separate.",
+  "next_capability_handoff": "Resume the prepared psychology.p_equals_zero TDD slice: move its case tests from rust/tests/pending to active after demonstrating RED, run its 8 live cases, independently verify, then cumulative gate.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

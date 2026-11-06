@@ -478,6 +478,9 @@ class ComparatorTests(unittest.TestCase):
             "capitalization_days_quote_suppression_with_unquoted", "capitalization_days_repeated_source_order",
             "capitalization_days_max_errors_first_source_order", "capitalization_days_unicode_codepoint_positions",
             "capitalization_days_fastset_activation_raw_copy", "capitalization_days_selected_config_interaction",
+            "months_all_ten_lowercase_mappings", "months_uppercase_and_excluded_march_may_are_clean",
+            "months_embedded_term_without_boundary_activation_is_clean", "months_boundary_activation_then_raw_substrings",
+            "months_quote_suppression_and_repeated_matches", "months_unicode_codepoint_coordinates",
             "lie_detector_both_preferred_forms", "lie_detector_case_variants_replacements",
             "lie_detector_longer_word_boundary_negatives", "lie_detector_near_miss_phrases",
             "lie_detector_punctuation_boundaries", "lie_detector_quote_suppression_with_unquoted",
@@ -494,6 +497,10 @@ class ComparatorTests(unittest.TestCase):
             "rule_misc_phrasal_adjectives_ly_whitespace", "rule_misc_phrasal_adjectives_ly_nbsp",
             "rule_misc_phrasal_adjectives_ly_unicode", "rule_misc_phrasal_adjectives_ly_quoted",
             "rule_misc_phrasal_adjectives_ly_config_only",
+            "psychology_p_equals_zero_positive_casefold", "psychology_p_equals_zero_unescaped_dot",
+            "psychology_p_equals_zero_negative_controls", "psychology_p_equals_zero_excess_zeros",
+            "psychology_p_equals_zero_dot_excludes_newline", "psychology_p_equals_zero_quote_suppression",
+            "psychology_p_equals_zero_repeated_matches", "psychology_p_equals_zero_unicode_positions",
         }
         self.assertEqual({item["id"] for item in manifest["cases"]}, expected_case_ids)
         self.assertEqual(len(manifest["cases"]), len(expected_case_ids))
@@ -501,7 +508,7 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(
             {capability: sum(case["capability_id"] == capability for case in manifest["cases"])
              for capability in {case["capability_id"] for case in manifest["cases"]}},
-            {'rule.misc.debased': 13, 'rule.misc.capitalization.days': 10, 'rule.cliches.hell': 7, 'harness.oracle_smoke': 2, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.misc.latin': 10, 'rule.misc.back_formations': 8, 'rule.misc.capitalization.terms': 10, 'rule.industrial_language.airlinese': 12, 'cli.json_no_findings': 8, 'rule.misc.phrasal_adjectives.ly': 7, 'rule.misc.greylist': 9, 'rule.misc.many_a': 10, 'cli.output_format.full': 3, 'cli.config.ignored_values': 5, 'rule.misc.professions': 8, 'cli.config.cwd_discovery': 3, 'cli.config.ancestor_discovery': 5, 'rule.misc.illogic.coin': 7, 'rule.hedging': 13, 'cli.config.invalid_utf8': 5, 'rule.misc.whence': 6, 'rule.annotations.misc': 10, 'rule.typography.symbols.sentence_spacing': 7, 'cli.config.consumed_special_values': 12, 'cli.config.malformed_json': 22, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.copyright': 6, 'rule.misc.pretension': 9, 'cli.config.recursion_depth': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.misc.institution_name': 8, 'rule.misc.currency': 12, 'rule.misc.suddenly': 7, 'cli.coordinates': 6, 'rule.misc.but': 8, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.collusion': 7, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.capitalization.seasons': 10, 'cli.config.directory_path': 4, 'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 10, 'rule.misc.inferior_superior': 12, 'rule.misc.false_plurals.misc': 9, 'cli.config.per_file_checks': 4, 'rule.redundancy.misc.wallace': 10, 'rule.dates_times.am_pm.spacing': 8, 'rule.typography.symbols.ellipsis': 6, 'rule.psychology.lie_detector': 12, 'rule.industrial_language.jargon': 10, 'cli.config.user_discovery': 8},
+            {'rule.misc.debased': 13, 'rule.misc.capitalization.days': 10, 'rule.cliches.hell': 7, 'harness.oracle_smoke': 2, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.misc.latin': 10, 'rule.misc.back_formations': 8, 'rule.misc.capitalization.terms': 10, 'rule.industrial_language.airlinese': 12, 'cli.json_no_findings': 8, 'rule.misc.phrasal_adjectives.ly': 7, 'rule.misc.greylist': 9, 'rule.misc.many_a': 10, 'cli.output_format.full': 3, 'cli.config.ignored_values': 5, 'rule.misc.professions': 8, 'cli.config.cwd_discovery': 3, 'cli.config.ancestor_discovery': 5, 'rule.misc.illogic.coin': 7, 'rule.hedging': 13, 'cli.config.invalid_utf8': 5, 'rule.misc.whence': 6, 'rule.annotations.misc': 10, 'rule.typography.symbols.sentence_spacing': 7, 'cli.config.consumed_special_values': 12, 'cli.config.malformed_json': 22, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.copyright': 6, 'rule.misc.pretension': 9, 'cli.config.recursion_depth': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.misc.institution_name': 8, 'rule.misc.currency': 12, 'rule.misc.suddenly': 7, 'cli.coordinates': 6, 'rule.misc.but': 8, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.collusion': 7, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.capitalization.seasons': 10, 'cli.config.directory_path': 4, 'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 10, 'rule.misc.inferior_superior': 12, 'rule.misc.false_plurals.misc': 9, 'cli.config.per_file_checks': 4, 'rule.redundancy.misc.wallace': 10, 'rule.dates_times.am_pm.spacing': 8, 'rule.typography.symbols.ellipsis': 6, 'rule.psychology.lie_detector': 12, 'rule.industrial_language.jargon': 10, 'cli.config.user_discovery': 8, 'rule.misc.capitalization.months': 6, 'rule.psychology.p_equals_zero': 8},
         )
 
     def test_phrasal_adjective_cases_select_only_the_registered_check(self) -> None:

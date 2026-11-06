@@ -14683,6 +14683,468 @@
       },
       "config_scenario": "phrasal_adjectives_only",
       "unused_files": []
+    },
+    {
+      "id": "months_all_ten_lowercase_mappings",
+      "capability_id": "rule.misc.capitalization.months",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; upstream proselint/checks/misc/capitalization.py::check_months uses case-sensitive Fast PreferredFormsSimple mappings for lowercase month names except march and may. Expected outcomes must be verified through the pinned live CLI.",
+      "input_mode": "stdin",
+      "stdin_base64": "amFudWFyeSBmZWJydWFyeSBhcHJpbCBqdW5lIGp1bHkgYXVndXN0IHNlcHRlbWJlciBvY3RvYmVyIG5vdmVtYmVyIGRlY2VtYmVy",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjYXBpdGFsaXphdGlvbiI6eyJtb250aHMiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_capitalization_months_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "months_uppercase_and_excluded_march_may_are_clean",
+      "capability_id": "rule.misc.capitalization.months",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; upstream proselint/checks/misc/capitalization.py::check_months uses case-sensitive Fast PreferredFormsSimple mappings for lowercase month names except march and may. Expected outcomes must be verified through the pinned live CLI.",
+      "input_mode": "stdin",
+      "stdin_base64": "SmFudWFyeSBGRUJSVUFSWSBNYXJjaCBtYXJjaCBNQVkgbWF5IHdlZG5lc2RheQ==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjYXBpdGFsaXphdGlvbiI6eyJtb250aHMiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_capitalization_months_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "months_embedded_term_without_boundary_activation_is_clean",
+      "capability_id": "rule.misc.capitalization.months",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; upstream proselint/checks/misc/capitalization.py::check_months uses case-sensitive Fast PreferredFormsSimple mappings for lowercase month names except march and may. Expected outcomes must be verified through the pinned live CLI.",
+      "input_mode": "stdin",
+      "stdin_base64": "eGphbnVhcnk=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjYXBpdGFsaXphdGlvbiI6eyJtb250aHMiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_capitalization_months_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "months_boundary_activation_then_raw_substrings",
+      "capability_id": "rule.misc.capitalization.months",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; upstream proselint/checks/misc/capitalization.py::check_months uses case-sensitive Fast PreferredFormsSimple mappings for lowercase month names except march and may. Expected outcomes must be verified through the pinned live CLI.",
+      "input_mode": "stdin",
+      "stdin_base64": "amFudWFyeSB4amFudWFyeQ==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjYXBpdGFsaXphdGlvbiI6eyJtb250aHMiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_capitalization_months_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "months_quote_suppression_and_repeated_matches",
+      "capability_id": "rule.misc.capitalization.months",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; upstream proselint/checks/misc/capitalization.py::check_months uses case-sensitive Fast PreferredFormsSimple mappings for lowercase month names except march and may. Expected outcomes must be verified through the pinned live CLI.",
+      "input_mode": "stdin",
+      "stdin_base64": "amFudWFyeSAiZmVicnVhcnkiIGFwcmlsIGphbnVhcnk=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjYXBpdGFsaXphdGlvbiI6eyJtb250aHMiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_capitalization_months_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "months_unicode_codepoint_coordinates",
+      "capability_id": "rule.misc.capitalization.months",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; upstream proselint/checks/misc/capitalization.py::check_months uses case-sensitive Fast PreferredFormsSimple mappings for lowercase month names except march and may. Expected outcomes must be verified through the pinned live CLI.",
+      "input_mode": "stdin",
+      "stdin_base64": "w6kgamFudWFyeSBlzIEgZmVicnVhcnkg8J+YgCBhcHJpbA==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjYXBpdGFsaXphdGlvbiI6eyJtb250aHMiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_capitalization_months_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "psychology_p_equals_zero_positive_casefold",
+      "capability_id": "rule.psychology.p_equals_zero",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Ordinary and uppercase positives confirm Fast case-insensitive matching. Source: checks/psychology.py:check_p_equals_zero (ExistenceSimple raw pattern r\"p = 0.0{2,4}\"), registry/checks/types.py:178+, registry/checks/__init__.py:Check defaults.",
+      "input_mode": "stdin",
+      "stdin_base64": "cCA9IDAuMDA7IFAgPSAwLjAw",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicHN5Y2hvbG9neSI6eyJwX2VxdWFsc196ZXJvIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "psychology_p_equals_zero_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "psychology_p_equals_zero_unescaped_dot",
+      "capability_id": "rule.psychology.p_equals_zero",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; The pinned raw regex contains an unescaped dot; x is matched by that wildcard. Source: checks/psychology.py:check_p_equals_zero (ExistenceSimple raw pattern r\"p = 0.0{2,4}\"), registry/checks/types.py:178+, registry/checks/__init__.py:Check defaults.",
+      "input_mode": "stdin",
+      "stdin_base64": "cCA9IDB4MDA=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicHN5Y2hvbG9neSI6eyJwX2VxdWFsc196ZXJvIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "psychology_p_equals_zero_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "psychology_p_equals_zero_negative_controls",
+      "capability_id": "rule.psychology.p_equals_zero",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Too few zeros, wrong leading letter, and missing required spaces are negative controls. Source: checks/psychology.py:check_p_equals_zero (ExistenceSimple raw pattern r\"p = 0.0{2,4}\"), registry/checks/types.py:178+, registry/checks/__init__.py:Check defaults.",
+      "input_mode": "stdin",
+      "stdin_base64": "cCA9IDAuMDsgcSA9IDAuMDA7IHA9MC4wMA==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicHN5Y2hvbG9neSI6eyJwX2VxdWFsc196ZXJvIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "psychology_p_equals_zero_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "psychology_p_equals_zero_excess_zeros",
+      "capability_id": "rule.psychology.p_equals_zero",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Unanchored matching consumes only the first four zeros permitted by the quantifier. Source: checks/psychology.py:check_p_equals_zero (ExistenceSimple raw pattern r\"p = 0.0{2,4}\"), registry/checks/types.py:178+, registry/checks/__init__.py:Check defaults.",
+      "input_mode": "stdin",
+      "stdin_base64": "cCA9IDAuMDAwMDA=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicHN5Y2hvbG9neSI6eyJwX2VxdWFsc196ZXJvIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "psychology_p_equals_zero_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "psychology_p_equals_zero_dot_excludes_newline",
+      "capability_id": "rule.psychology.p_equals_zero",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; The regex dot does not match LF in the pinned Fast engine. Source: checks/psychology.py:check_p_equals_zero (ExistenceSimple raw pattern r\"p = 0.0{2,4}\"), registry/checks/types.py:178+, registry/checks/__init__.py:Check defaults.",
+      "input_mode": "stdin",
+      "stdin_base64": "cCA9IDAKMDA=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicHN5Y2hvbG9neSI6eyJwX2VxdWFsc196ZXJvIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "psychology_p_equals_zero_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "psychology_p_equals_zero_quote_suppression",
+      "capability_id": "rule.psychology.p_equals_zero",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; The quoted match is suppressed while the unquoted wildcard-dot match remains. Source: checks/psychology.py:check_p_equals_zero (ExistenceSimple raw pattern r\"p = 0.0{2,4}\"), registry/checks/types.py:178+, registry/checks/__init__.py:Check defaults.",
+      "input_mode": "stdin",
+      "stdin_base64": "J3AgPSAwLjAwJyBhbmQgcCA9IDB4MDA=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicHN5Y2hvbG9neSI6eyJwX2VxdWFsc196ZXJvIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "psychology_p_equals_zero_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "psychology_p_equals_zero_repeated_matches",
+      "capability_id": "rule.psychology.p_equals_zero",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Both nonoverlapping matches are reported in source order. Source: checks/psychology.py:check_p_equals_zero (ExistenceSimple raw pattern r\"p = 0.0{2,4}\"), registry/checks/types.py:178+, registry/checks/__init__.py:Check defaults.",
+      "input_mode": "stdin",
+      "stdin_base64": "cCA9IDAuMDA7IHAgPSAweDAwMDA=",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicHN5Y2hvbG9neSI6eyJwX2VxdWFsc196ZXJvIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "psychology_p_equals_zero_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "psychology_p_equals_zero_unicode_positions",
+      "capability_id": "rule.psychology.p_equals_zero",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; The emoji prefix verifies Python code-point coordinates. Source: checks/psychology.py:check_p_equals_zero (ExistenceSimple raw pattern r\"p = 0.0{2,4}\"), registry/checks/types.py:178+, registry/checks/__init__.py:Check defaults.",
+      "input_mode": "stdin",
+      "stdin_base64": "8J+YgCBwID0gMHgwMA==",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicHN5Y2hvbG9neSI6eyJwX2VxdWFsc196ZXJvIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "psychology_p_equals_zero_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

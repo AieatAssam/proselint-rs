@@ -3,8 +3,9 @@ use proselint_rs::{
     airlinese_diagnostics, am_pm_lowercase_periods_diagnostics, am_pm_spacing_diagnostics,
     annotation_diagnostics_in_matcher_order, apologizing_diagnostics, back_formations_diagnostics,
     bureaucratese_diagnostics, but_diagnostics, capitalization_days_diagnostics,
-    capitalization_seasons_diagnostics, capitalization_terms_diagnostics, cliches_hell_diagnostics,
-    currency_diagnostics, debased_diagnostics, false_plurals_kudos_diagnostics,
+    capitalization_months_diagnostics, capitalization_seasons_diagnostics,
+    capitalization_terms_diagnostics, cliches_hell_diagnostics, currency_diagnostics,
+    debased_diagnostics, false_plurals_kudos_diagnostics,
     false_plurals_misc_diagnostics_in_matcher_order, file_uri, greylist_diagnostics,
     hedging_diagnostics, illogic_coin_diagnostics, illogic_collusion_diagnostics,
     inferior_superior_diagnostics, institution_name_diagnostics, jargon_diagnostics, json_result,
@@ -1161,7 +1162,7 @@ fn run() -> Result<ExitCode, String> {
         selected_check = Some(SelectedCheck::None);
     }
     let selected_check = selected_check.ok_or_else(|| {
-        "this capability supports disabled checks, annotations.misc, cliches.hell, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.lie_detector, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.many_a, misc.metadiscourse, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.institution_name, misc.professions, misc.greylist, redundancy.misc.wallace, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, dates_times.am_pm.lowercase_periods, or dates_times.am_pm.spacing only".to_owned()
+        "this capability supports disabled checks, annotations.misc, cliches.hell, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.lie_detector, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.many_a, misc.metadiscourse, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, redundancy.misc.wallace, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, dates_times.am_pm.lowercase_periods, or dates_times.am_pm.spacing only".to_owned()
     })?;
 
     let diagnostics = match selected_check {
@@ -1206,6 +1207,7 @@ fn run() -> Result<ExitCode, String> {
         SelectedCheck::MiscCapitalizationSeasons => capitalization_seasons_diagnostics(&content),
         SelectedCheck::MiscCapitalizationTerms => capitalization_terms_diagnostics(&content),
         SelectedCheck::MiscCapitalizationDays => capitalization_days_diagnostics(&content),
+        SelectedCheck::MiscCapitalizationMonths => capitalization_months_diagnostics(&content),
         SelectedCheck::MiscInstitutionName => institution_name_diagnostics(&content),
         SelectedCheck::MiscProfessions => professions_diagnostics(&content),
         SelectedCheck::TypographySymbolsEllipsis => typography_ellipsis_diagnostics(&content),
@@ -1284,6 +1286,7 @@ enum SelectedCheck {
     MiscCapitalizationSeasons,
     MiscCapitalizationTerms,
     MiscCapitalizationDays,
+    MiscCapitalizationMonths,
     MiscInstitutionName,
     MiscProfessions,
     TypographySymbolsEllipsis,
@@ -1335,6 +1338,7 @@ fn supported_checks(checks: &Value) -> Option<SelectedCheck> {
             ["misc", "capitalization", "seasons"] => Some(SelectedCheck::MiscCapitalizationSeasons),
             ["misc", "capitalization", "terms"] => Some(SelectedCheck::MiscCapitalizationTerms),
             ["misc", "capitalization", "days"] => Some(SelectedCheck::MiscCapitalizationDays),
+            ["misc", "capitalization", "months"] => Some(SelectedCheck::MiscCapitalizationMonths),
             ["misc", "institution_name"] => Some(SelectedCheck::MiscInstitutionName),
             ["misc", "professions"] => Some(SelectedCheck::MiscProfessions),
             ["typography", "symbols", "ellipsis"] => Some(SelectedCheck::TypographySymbolsEllipsis),
@@ -1473,6 +1477,7 @@ fn selected_check_path(check: SelectedCheck) -> &'static str {
         SelectedCheck::MiscCapitalizationSeasons => "misc.capitalization.seasons",
         SelectedCheck::MiscCapitalizationTerms => "misc.capitalization.terms",
         SelectedCheck::MiscCapitalizationDays => "misc.capitalization.days",
+        SelectedCheck::MiscCapitalizationMonths => "misc.capitalization.months",
         SelectedCheck::MiscInstitutionName => "misc.institution_name",
         SelectedCheck::MiscProfessions => "misc.professions",
         SelectedCheck::TypographySymbolsEllipsis => "typography.symbols.ellipsis",

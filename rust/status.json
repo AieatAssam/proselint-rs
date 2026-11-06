@@ -178,6 +178,14 @@
     {
       "id": "cli.config.ignored_values",
       "status": "recorded"
+    },
+    {
+      "id": "cli.config.consumed_special_values",
+      "status": "recorded"
+    },
+    {
+      "id": "cli.config.directory_path",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -201,7 +209,7 @@
     "status": "independently_verified",
     "source_fingerprint": "5817279dd9575a62a982da6d943fcbd26e8f31ff317b3626d71175afcdc6b38d",
     "unit_tests": {
-      "passed": 22,
+      "passed": 23,
       "exit_code": 0,
       "evidence": "python3 -m unittest discover -s rust/harness/tests"
     },
@@ -225,7 +233,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "Finish independent verification for cli.config.consumed_special_values; add Astra’s 100000-unclosed-array input as a live regression and confirm current bounded scanner returns structured Python-compatible RecursionError; then implement cli.config.directory_path as a separate slice."
+    "next_handoff": "Specify and RED-test Python default CLI arguments/config discovery, then implement and independently verify the smallest default invocation capability."
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
@@ -240,8 +248,9 @@
     "Most of the 124 registered rules, default configuration, combined-rule configurations, and Unicode folding beyond tested ASCII remain unverified",
     "Most of the 124 registered rules, default configuration, and combined-rule behavior remain unverified",
     "Most registered rules, default configuration, combined-rule behavior, and Unicode case folding beyond tested ASCII variants remain unverified",
-    "Python-compatible NaN, 1e999, and lone-surrogate values in consumed settings still need exact error-behavior parity; directory config paths still lack structured OSError output. Additional malformed-depth behavior beyond accepted boundary cases remains subject to targeted live reproduction.",
-    "Astra live review identified a historical SIGABRT on 100000 unclosed JSON array brackets; the current iterative bounded scanner appears to mitigate it, but the exact reviewed input is not yet a permanent verified regression."
+    "Consumed special-value behavior is verified only for the 12 listed cases; differently escaped surrogate object-key equality and other invalid setting types remain unverified. Directory config paths still lack structured OSError output. Malformed-depth behavior outside the accepted 12 cases remains unverified.",
+    "Astra live review identified a historical SIGABRT on 100000 unclosed JSON array brackets; the current iterative bounded scanner appears to mitigate it, but the exact reviewed input is not yet a permanent verified regression.",
+    "Rust Check currently requires --config and --output-format, while pinned Python supplies defaults and discovers configuration paths; default invocation/config discovery and other CLI subcommands remain unimplemented or unverified."
   ],
   "capability_states": [
     {
@@ -2224,7 +2233,8 @@
         "cli_config_recursion_valid_array_depth9996",
         "cli_config_recursion_array_recursion_depth9997",
         "cli_config_recursion_object_recursion_depth9997",
-        "cli_config_recursion_alternating_recursion_depth9997"
+        "cli_config_recursion_alternating_recursion_depth9997",
+        "cli_config_recursion_array_unclosed_depth100000"
       ],
       "upstream_spec": "Match pinned Python JSON decoding recursion behavior for deeply nested valid and malformed arrays/objects, including its 9,996/9,997 valid-container boundary and structured RecursionError; prevent native stack exhaustion.",
       "red": {
@@ -2235,27 +2245,28 @@
         "evidence": "rust/artifacts/config-recursion-boundary-red-live-20261106.json"
       },
       "green": {
-        "focused_rust_tests_passed": 9,
-        "live_cases_passed": 11,
+        "focused_rust_test": "one_hundred_thousand_unclosed_array_brackets_return_python_recursion_error passed",
+        "live_cases_passed": 12,
         "exit_code": 0,
-        "evidence": "rust/artifacts/config-recursion-green-live-20261106.json",
-        "build_attestation": "rust/artifacts/config-recursion-green-build.attestation.json"
+        "exact_astra_reproducer": "rust/artifacts/depth100000-current-live-20261106.json",
+        "evidence": "rust/artifacts/config-recursion-green-live-20261106.json"
       },
       "independent_verification": {
         "status": "PASS",
-        "live_cases_passed": 11,
-        "full_locked_build_and_tests": "rust/artifacts/20261106T022925108223Z-build.attestation.json",
-        "report": "rust/artifacts/recursion_depth_final_verifier.json",
-        "frozen_source_fingerprint": "91d8fd24f000cfed1117036c7011c5f9af08667bd48b0f6668d908ac03118793"
+        "live_cases_passed": 12,
+        "full_locked_build_and_tests": "rust/artifacts/20261106T035205673223Z-build.attestation.json",
+        "report": "rust/artifacts/independent-verifier-20261106/recursion_depth.json",
+        "frozen_source_fingerprint": "f56ebcc218b6f4779776f3e500c777f6a2bcdbd10f59efd3313c6687390e1a94",
+        "exact_astra_case": "cli_config_recursion_array_unclosed_depth100000"
       },
       "limitations": [
-        "Python-valid serde-incompatible values outside tested depth behavior remain unverified"
+        "Python-valid serde-incompatible values are covered only by separate accepted configuration capabilities and their listed cases"
       ],
       "cumulative_live_parity": {
-        "passed_cases": 390,
+        "passed_cases": 412,
         "exit_code": 0,
-        "report": "rust/artifacts/strict-gate-recursion-depth-final-20261106.json",
-        "source_fingerprint": "032e2e89cb0de49fea52997c9f12e27e6128ea329829630fec23a4caa222c0ee"
+        "report": "rust/artifacts/strict-gate-directory-all-modes-20261106.json",
+        "source_fingerprint": "1a17920e7f6d6fd4bcd116196c605c1401fa74f1b4964449b79810f0fbc513da"
       }
     },
     {
@@ -2300,21 +2311,116 @@
         "report": "rust/artifacts/strict-gate-ignored-values-final-20261106.json",
         "source_fingerprint": "b074774aed97385dfc4568a8d76d76d0a5f8f68a7ab5f9525d14c86672e4d83f"
       }
+    },
+    {
+      "id": "cli.config.consumed_special_values",
+      "status": "recorded",
+      "case_ids": [
+        "cli_config_consumed_checks_duplicate_annotations_last_wins",
+        "cli_config_consumed_checks_array_nan",
+        "cli_config_consumed_checks_nested_array_nan",
+        "cli_config_consumed_checks_lone_surrogate",
+        "cli_config_checks_error_precedes_max_errors_error",
+        "cli_config_missing_source_precedes_max_errors_error",
+        "cli_config_duplicate_max_errors_last_value_wins",
+        "cli_config_consumed_max_errors_nan",
+        "cli_config_consumed_max_errors_overflow",
+        "cli_config_consumed_max_errors_surrogate",
+        "cli_config_consumed_checks_nan",
+        "cli_config_consumed_checks_overflow"
+      ],
+      "upstream_spec": "Pinned Python json.loads accepts NaN, Infinity, overflowing numeric literals and lone-surrogate strings. Consumed checks/max_errors then expose Python type- and traversal-specific ValueError/AttributeError behavior; object duplicates keep first insertion position and last value, and array values are scalars for checks validation.",
+      "red": {
+        "behavioral_mismatches": 7,
+        "initial_live_case_count": 8,
+        "evidence": "rust/artifacts/consumed-special-values-red-live-final-20261106.json",
+        "expanded_regressions": "rust/artifacts/consumed-special-values-expanded-red-current.stdout.bin",
+        "note": "Additional list/string behavior mismatches were found by independent review and added before the green run; no expectation was changed to match Rust."
+      },
+      "green": {
+        "focused_rust_tests_passed": 12,
+        "live_cases_passed": 12,
+        "exit_code": 0,
+        "report": "rust/artifacts/consumed-special-values-live-final-20261106.json",
+        "independent_report": "rust/artifacts/independent-verifier-20261106/consumed_special_values.json",
+        "build_attestation": "rust/artifacts/20261106T034842648520Z-build.attestation.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 12,
+        "full_locked_build_and_tests": "rust/artifacts/20261106T035205673223Z-build.attestation.json",
+        "report": "rust/artifacts/independent-consumed-special-20261106b.json",
+        "frozen_source_fingerprint": "f56ebcc218b6f4779776f3e500c777f6a2bcdbd10f59efd3313c6687390e1a94"
+      },
+      "limitations": [
+        "Surrogate object keys with differently cased escapes and Python key equality remain untested.",
+        "Consumed-value semantics are verified only for the listed checks/max_errors cases; other invalid setting types remain outside this capability."
+      ],
+      "cumulative_live_parity": {
+        "passed_cases": 412,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-directory-all-modes-20261106.json",
+        "source_fingerprint": "1a17920e7f6d6fd4bcd116196c605c1401fa74f1b4964449b79810f0fbc513da"
+      }
+    },
+    {
+      "id": "cli.config.directory_path",
+      "status": "recorded",
+      "case_ids": [
+        "cli_config_directory_json_error",
+        "cli_config_directory_parent_json_error",
+        "cli_config_directory_full_error",
+        "cli_config_directory_compact_error"
+      ],
+      "upstream_spec": "When --config names an existing directory, Python resolves the path and raises OSError before reading it. JSON mode returns exit 4 with structured {code:-31999,data:OSError,message:\"[Errno Directories not permitted - found directory %s] <canonical path>\"}; Full and compact modes return exit 4, empty stdout, and the exact unrecoverable-error message on stderr. Relative parent and symlink paths resolve to the canonical directory.",
+      "red": {
+        "behavioral_mismatches": 2,
+        "total_cases": 4,
+        "focused_behavioral_failures": 2,
+        "exit_code": 1,
+        "evidence": "rust/artifacts/directory-path-modes-live-20261106.json",
+        "initial_json_mode_red": "rust/artifacts/directory-path-red-20261106.json"
+      },
+      "green": {
+        "focused_rust_tests_passed": 5,
+        "live_cases_passed": 4,
+        "exit_code": 0,
+        "report": "rust/artifacts/directory-path-modes-green-20261106.json",
+        "oracle_probe": "rust/artifacts/directory-path-oracle-probe-20261106.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 4,
+        "full_locked_build_and_tests": "rust/artifacts/20261106T043346105182Z-build.attestation.json",
+        "report": "rust/artifacts/independent-directory-all-modes-report-20261106.json",
+        "source_fingerprint": "42243e34468829e38fc504a7a351abdd813e63e7056e57503792a7ef282a7357",
+        "harness_tests_passed": 23,
+        "comparator_discriminators_passed": 23
+      },
+      "limitations": [
+        "Rust currently requires an explicit --config and --output-format; Python defaults and config discovery remain a separate CLI capability.",
+        "The symlink unit test is Unix-only; non-UTF-8 config paths, dangling symlinks, and non-Linux path/error formatting remain unverified."
+      ],
+      "cumulative_live_parity": {
+        "passed_cases": 412,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-directory-all-modes-20261106.json",
+        "source_fingerprint": "1a17920e7f6d6fd4bcd116196c605c1401fa74f1b4964449b79810f0fbc513da"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-ignored-values-final-20261106.json",
-    "passed_cases": 395,
-    "manifest_cases": 402,
+    "report": "rust/artifacts/strict-gate-directory-all-modes-20261106.json",
+    "passed_cases": 412,
+    "manifest_cases": 418,
     "excluded_manifest_cases": {
-      "cli.config.directory_path": 1,
       "cli.config.per_file_checks": 4,
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "source_fingerprint": "b074774aed97385dfc4568a8d76d76d0a5f8f68a7ab5f9525d14c86672e4d83f",
-    "capability_count": 44
+    "source_fingerprint": "1a17920e7f6d6fd4bcd116196c605c1401fa74f1b4964449b79810f0fbc513da",
+    "capability_count": 46
   },
   "rust_dependencies": {
     "status": "current",
@@ -2331,11 +2437,11 @@
     "update_dry_run": {
       "status": "current",
       "packages_to_update": 0,
-      "command": "cargo update --manifest-path rust/Cargo.toml --dry-run",
+      "command": "rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo update --manifest-path rust/Cargo.toml --dry-run",
       "rust_version_constraint": "1.99"
     }
   },
-  "next_capability_handoff": "1) Complete consumed_special_values independent verification and cumulative gate. 2) Permanently add/replay the 100000-unclosed-array Astra reproducer against pinned Python and the current Rust binary; record the mitigation only if no stack abort occurs and output matches. 3) Implement structured directory-config OSError behavior using the existing unaccepted red case.",
+  "next_capability_handoff": "Specify Python default invocation and config discovery: omitted output format means Full; config search is explicit path, cwd/ancestor proselint.json, then XDG_CONFIG_HOME/proselint/config.json; home/proselintrc and system-wide paths are not used. Probe explicit-versus-discovered precedence with distinct configs, then add red cases before implementation. Keep version/dump-config and other CLI options separate.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",
@@ -2345,19 +2451,19 @@
       {
         "priority": 1,
         "finding": "100000 unclosed array brackets caused SIGABRT/stack overflow in the reviewed candidate.",
-        "disposition": "Mitigation is present in the iterative bounded scanner and accepted depth capability; add this exact input as a permanent live regression and verify it returns Python-compatible structured RecursionError on the current source before claiming the robustness issue closed.",
+        "disposition": "Resolved on current source: the exact 100000-unclosed-array input is a permanent regression and independently matches pinned Python structured RecursionError (exit 4, empty stderr); report rust/artifacts/independent-verifier-20261106/recursion_depth.json.",
         "scope": "cli.config.recursion_depth"
       },
       {
         "priority": 2,
         "finding": "Python accepts NaN, 1e999, and lone-surrogate JSON values that serde_json rejects; when values are consumed, Python can raise value-specific ValueError/AttributeError.",
-        "disposition": "Active slice cli.config.consumed_special_values; complete independent verification and record its tested type/context limits. Keep ignored-field acceptance separate from consumed-field error semantics.",
+        "disposition": "Independently verified for the 12 listed consumed-value cases and five ignored-value cases at the frozen current-source fingerprint; retain surrogate-key and other invalid-setting limits below.",
         "scope": "cli.config.ignored_values; cli.config.consumed_special_values"
       },
       {
         "priority": 3,
         "finding": "A directory passed as --config returns structured JSON OSError from Python but generic stderr from Rust.",
-        "disposition": "Existing unaccepted cli.config.directory_path red case; retain it as a separate next implementation slice after consumed-value verification.",
+        "disposition": "Resolved for the four live directory cases across JSON, Full, compact, and relative parent path behavior. Canonical symlink resolution is covered by a Unix focused test.",
         "scope": "cli.config.directory_path"
       },
       {
@@ -2369,8 +2475,14 @@
       {
         "priority": 5,
         "finding": "Astra observed Python-valid NaN, 1e999, and lone-surrogate values in ignored fields being rejected by the candidate.",
-        "disposition": "Resolved for the five accepted ignored_values cases; current source also has a consumed_special_values slice pending independent verification. Do not broaden claims beyond those cases.",
+        "disposition": "Resolved for the five accepted ignored_values cases; independent current-tree comparison passed 5/5. Do not broaden claims beyond those cases.",
         "scope": "cli.config.ignored_values"
+      },
+      {
+        "priority": 6,
+        "finding": "Directory config errors differ across output modes; Python uses JSON response output for JSON and exact stderr message for Full/compact.",
+        "disposition": "Resolved for four live cases including `.` and `child/..`; Unix symlink canonicalization is covered by a focused Rust test and pinned oracle probe.",
+        "scope": "cli.config.directory_path"
       }
     ]
   }

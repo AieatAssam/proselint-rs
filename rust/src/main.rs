@@ -378,7 +378,55 @@ fn parse_hex_quad(raw: &[char], index: &mut usize) -> Option<u16> {
     Some(value)
 }
 
-fn project_config_fields(source: &str) -> Option<String> {
+struct ProjectedConfig {
+    json: String,
+    max_errors_is_invalid: bool,
+    checks_error_type: Option<&'static str>,
+}
+
+struct CheckEntry {
+    key: String,
+    key_json: String,
+    value: usize,
+}
+
+enum CheckNodeKind {
+    Object(Vec<CheckEntry>),
+    Scalar {
+        start: usize,
+        end: usize,
+        value_type: CheckValueType,
+    },
+}
+
+#[derive(Clone, Copy)]
+enum CheckValueType {
+    Boolean,
+    Other(&'static str),
+}
+
+struct CheckNode {
+    kind: CheckNodeKind,
+    flatten_error: Option<&'static str>,
+}
+
+#[derive(Clone, Copy)]
+enum CheckObjectState {
+    KeyOrEnd,
+    Key,
+    Colon,
+    Value,
+    Child,
+    CommaOrEnd,
+}
+
+struct CheckObjectFrame {
+    entries: Vec<CheckEntry>,
+    pending_key: Option<(String, String)>,
+    state: CheckObjectState,
+}
+
+fn project_config_fields(source: &str) -> Option<ProjectedConfig> {
     let mut scanner = JsonScanner::new(source);
     scanner.space();
     if !scanner.take('{') {
@@ -386,6 +434,9 @@ fn project_config_fields(source: &str) -> Option<String> {
     }
 
     let mut fields = [None; 3];
+    let mut max_errors_is_invalid = false;
+    let mut checks_error_type = None;
+    let mut checks_json = None;
     scanner.space();
     while !scanner.take('}') {
         let key_start = scanner.offset;
@@ -406,6 +457,30 @@ fn project_config_fields(source: &str) -> Option<String> {
         scanner.skip_value().ok()?;
         if let Some(field_index) = field_index {
             fields[field_index] = Some((value_start, scanner.offset));
+            let raw_value = &scanner.chars[value_start..scanner.offset];
+            match field_index {
+                0 => {
+                    max_errors_is_invalid = contains_nonfinite_number(raw_value)
+                        || contains_lone_surrogate_escape(raw_value);
+                }
+                1 => {
+                    if contains_nonfinite_number(raw_value)
+                        || contains_lone_surrogate_in_json(raw_value)
+                    {
+                        let normalized = normalize_checks_value(raw_value)?;
+                        checks_error_type = normalized.1;
+                        checks_json = Some(if checks_error_type.is_some() {
+                            "{}".to_owned()
+                        } else {
+                            normalized.0
+                        });
+                    } else {
+                        checks_error_type = None;
+                        checks_json = None;
+                    }
+                }
+                _ => {}
+            }
         }
         scanner.space();
         if scanner.take('}') {
@@ -418,9 +493,10 @@ fn project_config_fields(source: &str) -> Option<String> {
     }
 
     let mut projected = String::from("{");
-    for (name, span) in ["max_errors", "checks", "per_file_checks"]
+    for (index, (name, span)) in ["max_errors", "checks", "per_file_checks"]
         .into_iter()
         .zip(fields)
+        .enumerate()
     {
         if let Some((start, end)) = span {
             if projected.len() > 1 {
@@ -429,11 +505,322 @@ fn project_config_fields(source: &str) -> Option<String> {
             projected.push('"');
             projected.push_str(name);
             projected.push_str("\":");
-            projected.extend(scanner.chars[start..end].iter().copied());
+            if index == 0 && max_errors_is_invalid {
+                projected.push_str("null");
+            } else if index == 1 {
+                if let Some(checks) = &checks_json {
+                    projected.push_str(checks);
+                } else {
+                    projected.extend(scanner.chars[start..end].iter().copied());
+                }
+            } else {
+                projected.extend(scanner.chars[start..end].iter().copied());
+            }
         }
     }
     projected.push('}');
-    Some(projected)
+    Some(ProjectedConfig {
+        json: projected,
+        max_errors_is_invalid,
+        checks_error_type,
+    })
+}
+
+fn normalize_checks_value(raw: &[char]) -> Option<(String, Option<&'static str>)> {
+    let mut scanner = JsonScanner {
+        chars: raw.to_vec(),
+        offset: 0,
+    };
+    let mut frames = Vec::<CheckObjectFrame>::new();
+    let mut nodes = Vec::<CheckNode>::new();
+    let mut completed = None;
+    let root = loop {
+        if let Some(value) = completed.take() {
+            if let Some(frame) = frames.last_mut() {
+                let (key, key_json) = frame.pending_key.take()?;
+                if let Some(entry) = frame.entries.iter_mut().find(|entry| entry.key == key) {
+                    entry.value = value;
+                    entry.key_json = key_json;
+                } else {
+                    frame.entries.push(CheckEntry {
+                        key,
+                        key_json,
+                        value,
+                    });
+                }
+                frame.state = CheckObjectState::CommaOrEnd;
+                continue;
+            }
+            break value;
+        }
+
+        if frames.is_empty() {
+            scanner.space();
+            if scanner.take('{') {
+                frames.push(CheckObjectFrame {
+                    entries: Vec::new(),
+                    pending_key: None,
+                    state: CheckObjectState::KeyOrEnd,
+                });
+                continue;
+            }
+            let start = scanner.offset;
+            scanner.skip_value().ok()?;
+            let value_type = check_scalar_type(&scanner.chars[start..scanner.offset]);
+            let id = nodes.len();
+            nodes.push(CheckNode {
+                kind: CheckNodeKind::Scalar {
+                    start,
+                    end: scanner.offset,
+                    value_type,
+                },
+                flatten_error: match value_type {
+                    CheckValueType::Boolean => None,
+                    CheckValueType::Other(name) => Some(name),
+                },
+            });
+            completed = Some(id);
+            continue;
+        }
+
+        let frame = frames.last_mut()?;
+        scanner.space();
+        match frame.state {
+            CheckObjectState::KeyOrEnd if scanner.take('}') => {
+                let frame = frames.pop()?;
+                let flatten_error = frame
+                    .entries
+                    .iter()
+                    .find_map(|entry| nodes[entry.value].flatten_error);
+                let id = nodes.len();
+                nodes.push(CheckNode {
+                    kind: CheckNodeKind::Object(frame.entries),
+                    flatten_error,
+                });
+                completed = Some(id);
+            }
+            CheckObjectState::KeyOrEnd | CheckObjectState::Key => {
+                let key_start = scanner.offset;
+                scanner.string().ok()?;
+                let key_end = scanner.offset;
+                let raw_key = &scanner.chars[key_start..key_end];
+                let decoded = config_field_name(raw_key);
+                let key = decoded
+                    .clone()
+                    .unwrap_or_else(|| raw_key.iter().collect::<String>());
+                let key_json = decoded
+                    .as_ref()
+                    .and_then(|key| serde_json::to_string(key).ok())
+                    .unwrap_or_else(|| raw_key.iter().collect());
+                frame.pending_key = Some((key, key_json));
+                frame.state = CheckObjectState::Colon;
+            }
+            CheckObjectState::Colon => {
+                if !scanner.take(':') {
+                    return None;
+                }
+                frame.state = CheckObjectState::Value;
+            }
+            CheckObjectState::Value => {
+                if scanner.take('{') {
+                    frame.state = CheckObjectState::Child;
+                    frames.push(CheckObjectFrame {
+                        entries: Vec::new(),
+                        pending_key: None,
+                        state: CheckObjectState::KeyOrEnd,
+                    });
+                } else {
+                    let start = scanner.offset;
+                    scanner.skip_value().ok()?;
+                    let value_type = check_scalar_type(&scanner.chars[start..scanner.offset]);
+                    let flatten_error = match value_type {
+                        CheckValueType::Boolean => None,
+                        CheckValueType::Other(name) => Some(name),
+                    };
+                    let id = nodes.len();
+                    nodes.push(CheckNode {
+                        kind: CheckNodeKind::Scalar {
+                            start,
+                            end: scanner.offset,
+                            value_type,
+                        },
+                        flatten_error,
+                    });
+                    completed = Some(id);
+                }
+            }
+            CheckObjectState::Child => return None,
+            CheckObjectState::CommaOrEnd if scanner.take('}') => {
+                let frame = frames.pop()?;
+                let flatten_error = frame
+                    .entries
+                    .iter()
+                    .find_map(|entry| nodes[entry.value].flatten_error);
+                let id = nodes.len();
+                nodes.push(CheckNode {
+                    kind: CheckNodeKind::Object(frame.entries),
+                    flatten_error,
+                });
+                completed = Some(id);
+            }
+            CheckObjectState::CommaOrEnd if scanner.take(',') => {
+                frame.state = CheckObjectState::Key;
+            }
+            CheckObjectState::CommaOrEnd => return None,
+        }
+    };
+
+    let root_node = &nodes[root];
+    let root_error = match root_node.kind {
+        CheckNodeKind::Object(_) => root_node.flatten_error,
+        CheckNodeKind::Scalar {
+            value_type: CheckValueType::Boolean,
+            ..
+        } => Some("bool"),
+        CheckNodeKind::Scalar {
+            value_type: CheckValueType::Other(name),
+            ..
+        } => Some(name),
+    };
+    let mut json = String::new();
+    enum EmitPart {
+        Node(usize),
+        Text(&'static str),
+        Owned(String),
+    }
+    let mut pending = vec![EmitPart::Node(root)];
+    while let Some(part) = pending.pop() {
+        match part {
+            EmitPart::Text(value) => json.push_str(value),
+            EmitPart::Owned(value) => json.push_str(&value),
+            EmitPart::Node(id) => match &nodes[id].kind {
+                CheckNodeKind::Object(entries) => {
+                    json.push('{');
+                    pending.push(EmitPart::Text("}"));
+                    for (index, entry) in entries.iter().enumerate().rev() {
+                        pending.push(EmitPart::Node(entry.value));
+                        pending.push(EmitPart::Text(":"));
+                        pending.push(EmitPart::Owned(entry.key_json.clone()));
+                        if index > 0 {
+                            pending.push(EmitPart::Text(","));
+                        }
+                    }
+                }
+                CheckNodeKind::Scalar { start, end, .. } => {
+                    json.extend(scanner.chars[*start..*end].iter().copied());
+                }
+            },
+        }
+    }
+    Some((json, root_error))
+}
+
+fn check_scalar_type(raw: &[char]) -> CheckValueType {
+    let token: String = raw.iter().collect();
+    match token.as_str() {
+        "true" | "false" => CheckValueType::Boolean,
+        "null" => CheckValueType::Other("NoneType"),
+        "NaN" | "Infinity" | "-Infinity" => CheckValueType::Other("float"),
+        _ if token.starts_with('"') => CheckValueType::Other("str"),
+        _ if token.starts_with('[') => CheckValueType::Other("list"),
+        _ if token.contains('.') || token.contains('e') || token.contains('E') => {
+            CheckValueType::Other("float")
+        }
+        _ => CheckValueType::Other("int"),
+    }
+}
+
+fn contains_lone_surrogate_in_json(raw: &[char]) -> bool {
+    let mut scanner = JsonScanner {
+        chars: raw.to_vec(),
+        offset: 0,
+    };
+    while scanner.offset < scanner.chars.len() {
+        if scanner.peek() == Some('"') {
+            let start = scanner.offset;
+            if scanner.string().is_err() {
+                return false;
+            }
+            if contains_lone_surrogate_escape(&scanner.chars[start..scanner.offset]) {
+                return true;
+            }
+        } else {
+            scanner.offset += 1;
+        }
+    }
+    false
+}
+
+fn contains_nonfinite_number(raw: &[char]) -> bool {
+    let mut scanner = JsonScanner {
+        chars: raw.to_vec(),
+        offset: 0,
+    };
+    while scanner.offset < scanner.chars.len() {
+        if scanner.peek() == Some('"') {
+            if scanner.string().is_err() {
+                return false;
+            }
+            continue;
+        }
+        let start = scanner.offset;
+        while scanner.peek().is_some_and(|ch| {
+            !matches!(
+                ch,
+                ' ' | '\t' | '\n' | '\r' | ',' | ':' | '[' | ']' | '{' | '}'
+            )
+        }) {
+            scanner.offset += 1;
+        }
+        if scanner.offset == start {
+            scanner.offset += 1;
+            continue;
+        }
+        let token: String = scanner.chars[start..scanner.offset].iter().collect();
+        if matches!(token.as_str(), "NaN" | "Infinity" | "-Infinity")
+            || ((token.contains('.') || token.contains('e') || token.contains('E'))
+                && token.parse::<f64>().is_ok_and(|number| !number.is_finite()))
+        {
+            return true;
+        }
+    }
+    false
+}
+
+fn contains_lone_surrogate_escape(raw: &[char]) -> bool {
+    let mut index = 1;
+    while index + 1 < raw.len() {
+        if raw[index] != '\\' {
+            index += 1;
+            continue;
+        }
+        index += 1;
+        if raw.get(index) != Some(&'u') {
+            index += 1;
+            continue;
+        }
+        index += 1;
+        let Some(high) = parse_hex_quad(raw, &mut index) else {
+            return false;
+        };
+        match high {
+            0xd800..=0xdbff => {
+                if raw.get(index) != Some(&'\\') || raw.get(index + 1) != Some(&'u') {
+                    return true;
+                }
+                index += 2;
+                let Some(low) = parse_hex_quad(raw, &mut index) else {
+                    return false;
+                };
+                if !(0xdc00..=0xdfff).contains(&low) {
+                    return true;
+                }
+            }
+            0xdc00..=0xdfff => return true,
+            _ => {}
+        }
+    }
+    false
 }
 
 fn python_json_error_message(source: &str, error: JsonSyntaxError) -> String {
@@ -526,6 +913,26 @@ fn run() -> Result<ExitCode, String> {
         paths,
     } = cli.command;
 
+    if let Ok(metadata) = fs::metadata(&config)
+        && metadata.is_dir()
+        && let Ok(path) = config.canonicalize()
+    {
+        let message = format!(
+            "[Errno Directories not permitted - found directory %s] {}",
+            path.display()
+        );
+        if matches!(output_format, OutputFormat::Json) {
+            println!(
+                "{}",
+                serde_json::json!({"error":{"code":-31999,"data":"OSError","message":message}})
+            );
+            return Ok(ExitCode::from(4));
+        }
+        return Err(format!(
+            "Unrecoverable error encountered while running proselint: {message}"
+        ));
+    }
+
     let config_bytes = match fs::read(&config) {
         Ok(bytes) => bytes,
         Err(error) => {
@@ -589,13 +996,16 @@ fn run() -> Result<ExitCode, String> {
             ));
         }
     };
-    let parse_source = if syntax_error.is_none() {
-        project_config_fields(&config_text).unwrap_or_else(|| config_text.clone())
+    let projected_config = if syntax_error.is_none() {
+        project_config_fields(&config_text)
     } else {
-        config_text.clone()
+        None
     };
+    let parse_source = projected_config
+        .as_ref()
+        .map_or(config_text.as_str(), |config| config.json.as_str());
     let parse_result = (|| {
-        let mut deserializer = serde_json::Deserializer::from_str(&parse_source);
+        let mut deserializer = serde_json::Deserializer::from_str(parse_source);
         deserializer.disable_recursion_limit();
         let value = Value::deserialize(serde_stacker::Deserializer::new(&mut deserializer));
         let value = value?;
@@ -633,6 +1043,20 @@ fn run() -> Result<ExitCode, String> {
     let checks = config_value
         .get("checks")
         .ok_or_else(|| "this capability requires an explicit checks configuration".to_owned())?;
+    if projected_config
+        .as_ref()
+        .is_some_and(|config| config.checks_error_type.is_some())
+    {
+        let type_name = projected_config
+            .as_ref()
+            .and_then(|config| config.checks_error_type)
+            .unwrap_or("object");
+        println!(
+            "{}",
+            serde_json::json!({"error":{"code":-31999,"data":"AttributeError","message":format!("'{type_name}' object has no attribute 'items'")}})
+        );
+        return Ok(ExitCode::from(4));
+    }
     let max_errors = config_value
         .get("max_errors")
         .and_then(Value::as_u64)
@@ -675,6 +1099,19 @@ fn run() -> Result<ExitCode, String> {
             .map_err(|error| format!("Could not read stdin: {error}"))?;
         ("<stdin>".to_owned(), input)
     };
+
+    if projected_config
+        .as_ref()
+        .is_some_and(|config| config.max_errors_is_invalid)
+    {
+        let mut file_results = serde_json::Map::new();
+        file_results.insert(
+            source,
+            serde_json::json!({"error":{"code":-31999,"data":"ValueError","message":"Stop argument for islice() must be None or an integer: 0 <= x <= sys.maxsize."}}),
+        );
+        println!("{}", serde_json::json!({"result":file_results}));
+        return Ok(ExitCode::SUCCESS);
+    }
 
     let mut selected_check = supported_checks(checks);
     if let Some(path) = paths.first()

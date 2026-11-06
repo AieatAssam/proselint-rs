@@ -209,16 +209,32 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         expected_case_ids = {
+            "cli_config_consumed_max_errors_nan",
+            "cli_config_checks_error_precedes_max_errors_error",
+            "cli_config_missing_source_precedes_max_errors_error",
+            "cli_config_duplicate_max_errors_last_value_wins",
+            "cli_config_consumed_max_errors_overflow",
+            "cli_config_consumed_max_errors_surrogate",
+            "cli_config_consumed_checks_nan",
+            "cli_config_consumed_checks_overflow",
+            "cli_config_consumed_checks_array_nan",
+            "cli_config_consumed_checks_nested_array_nan",
+            "cli_config_consumed_checks_lone_surrogate",
+            "cli_config_consumed_checks_duplicate_annotations_last_wins",
             "cli_config_ignored_nested_special_values",
             "cli_config_escaped_checks_key_with_ignored_nan",
             "cli_config_ignored_nan",
             "cli_config_ignored_overflow_float",
             "cli_config_ignored_lone_surrogate",
             "cli_config_directory_json_error",
+            "cli_config_directory_parent_json_error",
+            "cli_config_directory_full_error",
+            "cli_config_directory_compact_error",
             "cli_config_recursion_valid_array_depth150", "cli_config_recursion_valid_object_depth150",
             "cli_config_recursion_valid_alternating_depth150", "cli_config_recursion_malformed_array_depth10000",
             "cli_config_recursion_malformed_object_depth1100", "cli_config_recursion_malformed_alternating_depth1000",
             "cli_config_recursion_stack_overflow_depth66000",
+            "cli_config_recursion_array_unclosed_depth100000",
             "cli_config_recursion_valid_array_depth9996", "cli_config_recursion_array_recursion_depth9997",
             "cli_config_recursion_object_recursion_depth9997", "cli_config_recursion_alternating_recursion_depth9997",
             "empty_stdin_json", "unicode_space_file_path",
@@ -411,7 +427,7 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(
             {capability: sum(case["capability_id"] == capability for case in manifest["cases"])
              for capability in {case["capability_id"] for case in manifest["cases"]}},
-            {'cli.config.directory_path': 1, 'cli.config.ignored_values': 5, 'cli.config.invalid_utf8': 5, 'cli.config.malformed_json': 22, 'cli.config.recursion_depth': 11, 'cli.config.per_file_checks': 4, 'cli.coordinates': 6, 'cli.json_no_findings': 8, 'harness.oracle_smoke': 2, 'rule.annotations.misc': 10, 'rule.cliches.hell': 7, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.dates_times.am_pm.spacing': 8, 'rule.hedging': 13, 'rule.industrial_language.airlinese': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.industrial_language.jargon': 10, 'rule.misc.apologizing': 7, 'rule.misc.back_formations': 8, 'rule.misc.but': 8, 'rule.misc.capitalization.days': 10, 'rule.misc.capitalization.seasons': 10, 'rule.misc.capitalization.terms': 10, 'rule.misc.currency': 12, 'rule.misc.debased': 13, 'rule.misc.false_plurals.kudos': 7, 'rule.misc.false_plurals.misc': 9, 'rule.misc.greylist': 9, 'rule.misc.illogic.coin': 7, 'rule.misc.illogic.collusion': 7, 'rule.misc.inferior_superior': 12, 'rule.misc.institution_name': 8, 'rule.misc.latin': 10, 'rule.misc.many_a': 10, 'rule.misc.metadiscourse': 10, 'rule.misc.pretension': 9, 'rule.misc.professions': 8, 'rule.misc.suddenly': 7, 'rule.misc.whence': 6, 'rule.psychology.lie_detector': 12, 'rule.psychology.mental_telepathy': 6, 'rule.redundancy.misc.wallace': 10, 'rule.typography.symbols.copyright': 6, 'rule.typography.symbols.ellipsis': 6, 'rule.typography.symbols.multiplication': 7, 'rule.typography.symbols.sentence_spacing': 7, 'rule.typography.symbols.trademark': 7},
+            {'cli.config.consumed_special_values': 12, 'cli.config.directory_path': 4, 'cli.config.ignored_values': 5, 'cli.config.recursion_depth': 12, 'harness.oracle_smoke': 2, 'cli.json_no_findings': 8, 'rule.annotations.misc': 10, 'cli.coordinates': 6, 'rule.cliches.hell': 7, 'rule.misc.apologizing': 7, 'rule.misc.whence': 6, 'rule.misc.false_plurals.kudos': 7, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.coin': 7, 'rule.misc.illogic.collusion': 7, 'rule.misc.back_formations': 8, 'rule.misc.institution_name': 8, 'rule.misc.professions': 8, 'rule.misc.false_plurals.misc': 9, 'rule.typography.symbols.ellipsis': 6, 'rule.typography.symbols.copyright': 6, 'rule.typography.symbols.sentence_spacing': 7, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.suddenly': 7, 'rule.misc.but': 8, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.dates_times.am_pm.spacing': 8, 'rule.misc.debased': 13, 'rule.misc.currency': 12, 'rule.misc.inferior_superior': 12, 'rule.misc.greylist': 9, 'rule.industrial_language.bureaucratese': 11, 'rule.hedging': 13, 'rule.industrial_language.jargon': 10, 'rule.industrial_language.airlinese': 12, 'rule.misc.many_a': 10, 'rule.misc.metadiscourse': 10, 'rule.misc.pretension': 9, 'rule.misc.latin': 10, 'rule.misc.capitalization.seasons': 10, 'rule.misc.capitalization.terms': 10, 'rule.psychology.lie_detector': 12, 'rule.redundancy.misc.wallace': 10, 'cli.config.per_file_checks': 4, 'cli.config.malformed_json': 22, 'cli.config.invalid_utf8': 5, 'rule.misc.capitalization.days': 10},
         )
 
     def test_manifest_rejects_duplicate_id_and_bad_base64(self) -> None:
@@ -423,7 +439,8 @@ class ComparatorTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "duplicate case id"):
                 compare.load_manifest(path)
             invalid = json.loads(json.dumps(valid))
-            invalid["cases"][0]["stdin_base64"] = "!"
+            stdin_case = next(case for case in invalid["cases"] if case["input_mode"] == "stdin")
+            stdin_case["stdin_base64"] = "!"
             path.write_text(json.dumps(invalid), encoding="utf-8")
             with self.assertRaisesRegex(ValueError, "stdin_base64"):
                 compare.load_manifest(path)

@@ -157,6 +157,13 @@ fn deep_malformed_array_returns_structured_python_recursion_error() {
 }
 
 #[test]
+fn one_hundred_thousand_unclosed_array_brackets_return_python_recursion_error() {
+    let mut config = b"{\"checks\":{},\"x\":".to_vec();
+    config.extend(std::iter::repeat_n(b'[', 100_000));
+    assert_python_recursion_error(&config, "array");
+}
+
+#[test]
 fn sixty_six_thousand_level_input_returns_python_recursion_error_without_aborting_test_runner() {
     let mut config = b"{\"checks\":{},\"x\":".to_vec();
     config.extend(std::iter::repeat_n(b'[', 66_000));

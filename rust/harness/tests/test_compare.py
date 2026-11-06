@@ -15,7 +15,7 @@ import compare
 
 
 class ComparatorTests(unittest.TestCase):
-    def test_source_fingerprint_ignores_docs_and_history_but_tracks_inputs(self) -> None:
+    def test_source_fingerprint_ignores_docs_and_status_but_tracks_inputs(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             (root / "src").mkdir()
@@ -38,6 +38,7 @@ class ComparatorTests(unittest.TestCase):
                 docs.write_text("updated progress", encoding="utf-8")
                 migration.write_text("updated protocol", encoding="utf-8")
                 history.write_text("{}\n{}\n", encoding="utf-8")
+                status.write_text('{"accepted": ["new"]}', encoding="utf-8")
                 self.assertEqual(compare.source_fingerprint(), initial)
                 source.write_text("fn main() { changed() }", encoding="utf-8")
                 self.assertNotEqual(compare.source_fingerprint(), initial)
@@ -45,8 +46,7 @@ class ComparatorTests(unittest.TestCase):
                 manifest.write_text('{"cases": []}', encoding="utf-8")
                 self.assertNotEqual(compare.source_fingerprint(), changed_source)
                 changed_manifest = compare.source_fingerprint()
-                status.write_text('{"accepted": []}', encoding="utf-8")
-                self.assertNotEqual(compare.source_fingerprint(), changed_manifest)
+                self.assertNotEqual(changed_manifest, initial)
 
     def test_working_directory_must_be_relative_and_contained(self) -> None:
         case = json.loads(json.dumps(compare.load_manifest()["cases"][0]))

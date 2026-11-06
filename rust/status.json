@@ -190,6 +190,10 @@
     {
       "id": "cli.output_format.full",
       "status": "recorded"
+    },
+    {
+      "id": "cli.config.cwd_discovery",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -237,7 +241,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "Specify and RED-test config file discovery using pinned explicit-path, cwd/ancestor, and XDG precedence; keep bundled default checks separate."
+    "next_handoff": "Run cumulative gate with cwd discovery included, then specify ancestor proselint.json search with an explicit working-directory fixture in the harness."
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
@@ -252,10 +256,11 @@
     "Most of the 124 registered rules, default configuration, combined-rule configurations, and Unicode folding beyond tested ASCII remain unverified",
     "Most of the 124 registered rules, default configuration, and combined-rule behavior remain unverified",
     "Most registered rules, default configuration, combined-rule behavior, and Unicode case folding beyond tested ASCII variants remain unverified",
-    "Consumed special-value behavior is verified only for the 12 listed cases; differently escaped surrogate object-key equality and other invalid setting types remain unverified. Directory config paths still lack structured OSError output. Malformed-depth behavior outside the accepted 12 cases remains unverified.",
-    "Astra live review identified a historical SIGABRT on 100000 unclosed JSON array brackets; the current iterative bounded scanner appears to mitigate it, but the exact reviewed input is not yet a permanent verified regression.",
+    "Consumed special-value behavior is verified for the 12 listed cases; differently escaped surrogate object-key equality and other invalid setting types remain unverified. Directory config errors match the accepted JSON, Full, and compact cases. Malformed-depth behavior outside the accepted cases remains unverified.",
+    "Astra's 100000-unclosed-array SIGABRT reproducer is now a permanent regression and independently matches the pinned Python RecursionError.",
     "Rust Check currently requires --config and --output-format, while pinned Python supplies defaults and discovers configuration paths; default invocation/config discovery and other CLI subcommands remain unimplemented or unverified.",
-    "Compact output, file-path/multi-file Full rendering, and Full-mode error formatting remain unverified; configuration discovery and built-in default rules are also separate open CLI capabilities."
+    "Compact output, file-path/multi-file Full rendering, and Full-mode error formatting remain unverified; configuration discovery and built-in default rules are also separate open CLI capabilities.",
+    "Config discovery covers cwd proselint.json only; ancestor config files, XDG/HOME fallback, no-config-found bundled DEFAULT, and malformed winning discovered files remain unverified."
   ],
   "capability_states": [
     {
@@ -2456,20 +2461,62 @@
         "report": "rust/artifacts/strict-gate-full-output-20261106.json",
         "source_fingerprint": "1a17920e7f6d6fd4bcd116196c605c1401fa74f1b4964449b79810f0fbc513da"
       }
+    },
+    {
+      "id": "cli.config.cwd_discovery",
+      "status": "recorded",
+      "case_ids": [
+        "cli_config_cwd_discovers_finding",
+        "cli_config_cwd_discovers_empty_checks",
+        "cli_config_explicit_precedes_cwd_discovery"
+      ],
+      "upstream_spec": "When --config is omitted, pinned Python checks the current working directory for proselint.json; an explicit --config path takes precedence over that discovered file. The discovered file’s checks and JSON diagnostics must match the explicit-file loading behavior.",
+      "red": {
+        "behavioral_mismatches": 2,
+        "total_cases": 3,
+        "focused_rust_test_failures": 2,
+        "exit_code": 1,
+        "evidence": "rust/artifacts/20261106T050834677106Z-cwd-discovery-live.json"
+      },
+      "green": {
+        "focused_rust_tests_passed": 3,
+        "live_cases_passed": 3,
+        "exit_code": 0,
+        "report": "rust/artifacts/20261106T-cwd-discovery-live.json",
+        "prior_accepted_gate": "rust/artifacts/20261106T-cwd-discovery-gate.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 3,
+        "full_locked_build_and_tests": "locked fmt/clippy/test/build under Cargo 1.99.1",
+        "report": "rust/artifacts/independent-cwd-discovery-verification-20261106.json",
+        "source_fingerprint": "8dfa6eaec92186a3dcbeeaef00921072f723645f678727398aeb8b275e8c4728",
+        "harness_tests_passed": 23,
+        "comparator_discriminators_passed": 23
+      },
+      "limitations": [
+        "Only current-working-directory proselint.json discovery and explicit-path precedence are covered. Ancestor search, XDG_CONFIG_HOME, HOME fallback and no-config-found bundled DEFAULT are separate capabilities."
+      ],
+      "cumulative_live_parity": {
+        "status": "PASS",
+        "passed_cases": 418,
+        "manifest_cases": 424,
+        "report": "rust/artifacts/strict-gate-cwd-discovery-20261106.json"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
     "report": "rust/artifacts/strict-gate-full-output-20261106.json",
-    "passed_cases": 415,
-    "manifest_cases": 421,
+    "passed_cases": 418,
+    "manifest_cases": 424,
     "excluded_manifest_cases": {
       "cli.config.per_file_checks": 4,
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "source_fingerprint": "1a17920e7f6d6fd4bcd116196c605c1401fa74f1b4964449b79810f0fbc513da",
-    "capability_count": 47
+    "source_fingerprint": "3ea728327f4b12b0fefbc9ad0f500b98289b26d27733f88d10e210783e9f88a3",
+    "capability_count": 48
   },
   "rust_dependencies": {
     "status": "current",
@@ -2490,7 +2537,7 @@
       "rust_version_constraint": "1.99"
     }
   },
-  "next_capability_handoff": "Probe and RED-test config discovery: explicit --config, cwd/ancestor proselint.json, XDG_CONFIG_HOME/proselint/config.json, then HOME/.config fallback if XDG unset/empty. Use different configs to prove first-file precedence, explicit-path precedence, and malformed winning config behavior. Defer no-config-found DEFAULT checks and other CLI subcommands.",
+  "next_capability_handoff": "Probe and RED-test ancestor config discovery: run from a nested working directory with proselint.json in its parent; nearest ancestor wins, explicit --config overrides it, and a malformed winning ancestor does not fall through. Add narrow harness working-directory fixture support with negative schema tests, then implement and independently verify. Leave XDG/HOME/default fallback for later slices.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

@@ -2,6 +2,114 @@
   "schema_version": 1,
   "cases": [
     {
+      "capability_id": "cli.config.cwd_discovery",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; with no explicit --config, load_from discovers cwd proselint.json before using DEFAULT. The discovered config enables only misc.apologizing and the pinned CLI emits one diagnostic.",
+      "input_mode": "stdin",
+      "stdin_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg==",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cwd_proselint_json",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "id": "cli_config_cwd_discovers_finding",
+      "files": [
+        {
+          "path": "proselint.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="
+        }
+      ],
+      "unused_files": [
+        "proselint.json"
+      ],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "capability_id": "cli.config.cwd_discovery",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; with no explicit --config, load_from discovers cwd proselint.json before using DEFAULT. An empty checks map disables diagnostics.",
+      "input_mode": "stdin",
+      "stdin_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg==",
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cwd_proselint_json",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "id": "cli_config_cwd_discovers_empty_checks",
+      "files": [
+        {
+          "path": "proselint.json",
+          "content_base64": "eyJjaGVja3MiOnt9fQ=="
+        }
+      ],
+      "unused_files": [
+        "proselint.json"
+      ],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "capability_id": "cli.config.cwd_discovery",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; explicit --config is searched before cwd proselint.json, so explicit empty checks suppress the finding enabled by cwd config.",
+      "input_mode": "stdin",
+      "stdin_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg==",
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_over_cwd",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "id": "cli_config_explicit_precedes_cwd_discovery",
+      "files": [
+        {
+          "path": "proselint.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="
+        },
+        {
+          "path": "explicit.json",
+          "content_base64": "eyJjaGVja3MiOnt9fQ=="
+        }
+      ],
+      "unused_files": [
+        "proselint.json"
+      ],
+      "argv": [
+        "check",
+        "--output-format",
+        "json",
+        "--config",
+        "{file:explicit.json}"
+      ]
+    },
+    {
       "capability_id": "cli.output_format.full",
       "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c uses full output; config is explicit to isolate output-format behavior.",
       "input_mode": "stdin",

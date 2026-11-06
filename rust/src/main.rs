@@ -890,7 +890,7 @@ struct Cli {
 enum Command {
     Check {
         #[arg(long)]
-        config: PathBuf,
+        config: Option<PathBuf>,
         #[arg(
             long = "output-format",
             short = 'o',
@@ -917,6 +917,8 @@ fn run() -> Result<ExitCode, String> {
         output_format,
         paths,
     } = cli.command;
+    // shortcut: only discover the cwd config, upgrade when ancestor and user config search is needed
+    let config = config.unwrap_or_else(|| PathBuf::from("proselint.json"));
 
     if let Ok(metadata) = fs::metadata(&config)
         && metadata.is_dir()

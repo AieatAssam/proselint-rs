@@ -17986,6 +17986,346 @@
         "--output-format",
         "json"
       ]
+    },
+    {
+      "id": "malapropisms_all_phrases",
+      "capability_id": "rule.malapropisms",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/malapropisms.py registers default-enabled Existence with Fast case-insensitive WORDS_IN_TEXT matching, no exceptions, zero offset/PPM, quote suppression, and message \"'{}' is a malapropism.\" Phrases: the infinitesimal universe, a serial experience, attack my voracity. Exercises all registered phrases and exact messages, null replacements, spans, and ordering.",
+      "input_mode": "stdin",
+      "stdin_base64": "dGhlIGluZmluaXRlc2ltYWwgdW5pdmVyc2U7IGEgc2VyaWFsIGV4cGVyaWVuY2U7IGF0dGFjayBteSB2b3JhY2l0eQ==",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "malapropisms_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "malapropisms config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWFsYXByb3Bpc21zIjp0cnVlfX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malapropisms config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "malapropisms_mixed_case_repetition",
+      "capability_id": "rule.malapropisms",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/malapropisms.py registers default-enabled Existence with Fast case-insensitive WORDS_IN_TEXT matching, no exceptions, zero offset/PPM, quote suppression, and message \"'{}' is a malapropism.\" Phrases: the infinitesimal universe, a serial experience, attack my voracity. Mixed case and repeated occurrence behavior.",
+      "input_mode": "stdin",
+      "stdin_base64": "VEhFIElORklOSVRFU0lNQUwgVU5JVkVSU0UgYW5kIGEgc2VyaWFsIGV4cGVyaWVuY2U7IGEgc2VyaWFsIGV4cGVyaWVuY2U=",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "malapropisms_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "malapropisms config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWFsYXByb3Bpc21zIjp0cnVlfX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malapropisms config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "malapropisms_clean_and_boundaries",
+      "capability_id": "rule.malapropisms",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/malapropisms.py registers default-enabled Existence with Fast case-insensitive WORDS_IN_TEXT matching, no exceptions, zero offset/PPM, quote suppression, and message \"'{}' is a malapropism.\" Phrases: the infinitesimal universe, a serial experience, attack my voracity. Missing words, embedded boundaries, hyphen, and repeated internal whitespace remain clean.",
+      "input_mode": "stdin",
+      "stdin_base64": "aW5maW5pdGVzaW1hbCB1bml2ZXJzZTsgeGF0dGFjayBteSB2b3JhY2l0eTsgYXR0YWNrIG15IHZvcmFjaXR5eDsgYXR0YWNrIG15LXZvcmFjaXR5OyBhdHRhY2sgbXkgIHZvcmFjaXR5",
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "malapropisms_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "malapropisms config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWFsYXByb3Bpc21zIjp0cnVlfX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malapropisms config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "malapropisms_raw_after_activation",
+      "capability_id": "rule.malapropisms",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/malapropisms.py registers default-enabled Existence with Fast case-insensitive WORDS_IN_TEXT matching, no exceptions, zero offset/PPM, quote suppression, and message \"'{}' is a malapropism.\" Phrases: the infinitesimal universe, a serial experience, attack my voracity. The later bounded phrase activates the pattern and FastSet raw iteration includes the earlier embedded phrase.",
+      "input_mode": "stdin",
+      "stdin_base64": "eHRoZSBpbmZpbml0ZXNpbWFsIHVuaXZlcnNlLCB0aGUgaW5maW5pdGVzaW1hbCB1bml2ZXJzZQ==",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "malapropisms_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "malapropisms config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWFsYXByb3Bpc21zIjp0cnVlfX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malapropisms config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "malapropisms_quote_suppression",
+      "capability_id": "rule.malapropisms",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/malapropisms.py registers default-enabled Existence with Fast case-insensitive WORDS_IN_TEXT matching, no exceptions, zero offset/PPM, quote suppression, and message \"'{}' is a malapropism.\" Phrases: the infinitesimal universe, a serial experience, attack my voracity. Quoted phrase is suppressed while the unquoted phrase remains.",
+      "input_mode": "stdin",
+      "stdin_base64": "InRoZSBpbmZpbml0ZXNpbWFsIHVuaXZlcnNlIiBhIHNlcmlhbCBleHBlcmllbmNl",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "malapropisms_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "malapropisms config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWFsYXByb3Bpc21zIjp0cnVlfX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malapropisms config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "malapropisms_unicode_positions",
+      "capability_id": "rule.malapropisms",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/malapropisms.py registers default-enabled Existence with Fast case-insensitive WORDS_IN_TEXT matching, no exceptions, zero offset/PPM, quote suppression, and message \"'{}' is a malapropism.\" Phrases: the infinitesimal universe, a serial experience, attack my voracity. Emoji/non-ASCII prefixes and a second line verify code-point positions.",
+      "input_mode": "stdin",
+      "stdin_base64": "8J+ZgiB0aGUgaW5maW5pdGVzaW1hbCB1bml2ZXJzZQrDiSBhIHNlcmlhbCBleHBlcmllbmNl",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "malapropisms_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "malapropisms config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWFsYXByb3Bpc21zIjp0cnVlfX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malapropisms config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "malapropisms_max_errors_one",
+      "capability_id": "rule.malapropisms",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/malapropisms.py registers default-enabled Existence with Fast case-insensitive WORDS_IN_TEXT matching, no exceptions, zero offset/PPM, quote suppression, and message \"'{}' is a malapropism.\" Phrases: the infinitesimal universe, a serial experience, attack my voracity. The first activated pattern is retained under max_errors=1.",
+      "input_mode": "stdin",
+      "stdin_base64": "YXR0YWNrIG15IHZvcmFjaXR5OyB0aGUgaW5maW5pdGVzaW1hbCB1bml2ZXJzZQ==",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "malapropisms_only_max_errors_one",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "malapropisms config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWFsYXByb3Bpc21zIjp0cnVlfX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malapropisms config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "malapropisms_cross_pattern_activation_order",
+      "capability_id": "rule.malapropisms",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/malapropisms.py registers default-enabled Existence with Fast case-insensitive WORDS_IN_TEXT matching, no exceptions, zero offset/PPM, quote suppression, and message \"'{}' is a malapropism.\" Phrases: the infinitesimal universe, a serial experience, attack my voracity. The bounded attack pattern activates before the later bounded infinitesimal phrase; max_errors truncation must follow activation order rather than the earlier embedded raw phrase.",
+      "input_mode": "stdin",
+      "stdin_base64": "eHRoZSBpbmZpbml0ZXNpbWFsIHVuaXZlcnNlIGF0dGFjayBteSB2b3JhY2l0eSB0aGUgaW5maW5pdGVzaW1hbCB1bml2ZXJzZQ==",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "malapropisms_only_max_errors_one",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "malapropisms config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWFsYXByb3Bpc21zIjp0cnVlfX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malapropisms config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "malapropisms_quoted_activation",
+      "capability_id": "rule.malapropisms",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/malapropisms.py registers default-enabled Existence with Fast case-insensitive WORDS_IN_TEXT matching, no exceptions, zero offset/PPM, quote suppression, and message \"'{}' is a malapropism.\" Phrases: the infinitesimal universe, a serial experience, attack my voracity. Quoted infinitesimal phrase activates the pattern; after quote suppression, the later embedded raw occurrence is returned ahead of the intervening attack finding under max_errors=1.",
+      "input_mode": "stdin",
+      "stdin_base64": "InRoZSBpbmZpbml0ZXNpbWFsIHVuaXZlcnNlIiBhdHRhY2sgbXkgdm9yYWNpdHkgeHRoZSBpbmZpbml0ZXNpbWFsIHVuaXZlcnNl",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "malapropisms_only_max_errors_one",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "malapropisms config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWFsYXByb3Bpc21zIjp0cnVlfX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malapropisms config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "malapropisms_long_s_surface",
+      "capability_id": "rule.malapropisms",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/malapropisms.py registers `a serial experience` as an Existence item with Fast case-insensitive WORDS_IN_TEXT matching. RE2 case folding matches the long-s surface while the diagnostic message preserves its original spelling and replacements remains null.",
+      "input_mode": "stdin",
+      "stdin_base64": "YSDFv2VyaWFsIGV4cGVyaWVuY2U=",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "malapropisms_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "malapropisms config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWFsYXByb3Bpc21zIjp0cnVlfX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:malapropisms config.json}",
+        "--output-format",
+        "json"
+      ]
     }
   ]
 }

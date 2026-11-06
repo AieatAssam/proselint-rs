@@ -242,6 +242,10 @@
     {
       "id": "rule.spelling.ve_of",
       "status": "recorded"
+    },
+    {
+      "id": "rule.malapropisms",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -289,11 +293,11 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "Specify the next smallest default-enabled rule, malapropisms, against the pinned oracle; add meaningful RED tests and exact live cases, implement, independently verify, and run the cumulative gate."
+    "next_handoff": "Specify the next small PreferredFormsSimple rule, spelling.in_un, against the pinned oracle; add meaningful RED tests and exact live cases, implement, independently verify, and run the cumulative gate."
   },
   "unresolved": [
     "The no-config-found bundled DEFAULT, every default-enabled rule interaction, and combined enabled-rule configurations remain unverified; selected-rule passes do not establish default behavior.",
-    "59 unique rule paths remain unimplemented or unverified.",
+    "58 unique rule paths remain unimplemented or unverified.",
     "Other CLI behavior remains unverified, including remaining subcommands, missing nonempty-XDG config, HOME-unset resolution, directory user candidates, file/directory traversal and decoding edges, multi-file rendering, and Compact output.",
     "Unicode case folding and quote-pairing combinations beyond explicitly tested cases remain unverified.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
@@ -3194,19 +3198,73 @@
       "limitations": [
         "No dedicated Rust integration-test target covers ve_of; the eleven end-to-end live cases and full locked Cargo suite passed."
       ]
+    },
+    {
+      "id": "rule.malapropisms",
+      "status": "recorded",
+      "case_ids": [
+        "malapropisms_all_phrases",
+        "malapropisms_mixed_case_repetition",
+        "malapropisms_clean_and_boundaries",
+        "malapropisms_raw_after_activation",
+        "malapropisms_quote_suppression",
+        "malapropisms_unicode_positions",
+        "malapropisms_max_errors_one",
+        "malapropisms_cross_pattern_activation_order",
+        "malapropisms_quoted_activation",
+        "malapropisms_long_s_surface"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_spec": "Pinned default-enabled Existence check at check_path malapropisms with three phrases: the infinitesimal universe, a serial experience, attack my voracity. Fast case-insensitive WORDS_IN_TEXT matching, no exceptions, quote suppression, offset/PPM0, and message `'{}' is a malapropism.` Use FastSet to activate bounded patterns then emit raw occurrences per active pattern; quote filtering occurs before max_errors truncation, retained diagnostics are finally position-sorted. Messages preserve matched case/surface and replacements are null.",
+      "red": {
+        "report_status": "MISMATCH",
+        "mismatches": 9,
+        "reason": "All nine initial frozen cases reached the CLI; Rust returned unsupported-path exit 4.",
+        "evidence": "rust/artifacts/malapropisms-rust-red-20261106.json",
+        "source_fingerprint_before": "1f2a1852140dbd4e683d56b1ac474c14c35d42d77ad0c2a8cae6f38a4979536c"
+      },
+      "green": {
+        "live_cases_passed": 10,
+        "report": "rust/artifacts/malapropisms-extended-green-20261106.json",
+        "build_attestation": "rust/artifacts/20261106T123648583837Z-build.attestation.json",
+        "source_fingerprint": "7bd0d385b21b7493501d7802fc39c7f6a7688b4f05572f9baefc44f0d7db19ab",
+        "locked_fmt_clippy_tests_build": "passed"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 10,
+        "focused_live_report": "rust/artifacts/independent-malapropisms-20261106/malapropisms-live-10.json",
+        "full_cargo_tests": "469 passed across 58 test binaries, 0 failed",
+        "harness_tests_passed": 35,
+        "comparator_discriminators_passed": 23,
+        "oracle_self_check_passed": 2,
+        "baseline_integrity": "verified before and after",
+        "evidence": "rust/artifacts/independent-malapropisms-20261106/verification-evidence.json",
+        "source_fingerprint": "7bd0d385b21b7493501d7802fc39c7f6a7688b4f05572f9baefc44f0d7db19ab",
+        "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "agent_model": "gpt-6-luna",
+        "agent_reasoning_effort": "low requested",
+        "agent_runtime_metadata": "unavailable"
+      },
+      "limitations": [
+        "No dedicated Rust integration-test target covers malapropisms; the ten end-to-end live cases and full locked Cargo suite passed. Independent Cargo tests rebuilt the debug candidate after the target live comparison; the live report records the attested binary actually tested."
+      ]
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-ve-of-20261106.json",
-    "passed_cases": 537,
-    "manifest_cases": 543,
+    "report": "rust/artifacts/strict-gate-malapropisms-20261106.json",
+    "passed_cases": 547,
+    "manifest_cases": 553,
     "excluded_manifest_cases": {
       "cli.config.per_file_checks": 4,
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "capability_count": 60
+    "capability_count": 61,
+    "source_fingerprint": "4ff9affaae4d6438d30d5a1201d3d0079c575ae781f6dbb0d4f47f17bc9a8f87",
+    "run_id": "20261106T124741544169Z-9ff7fe5e",
+    "finished_at_utc": "2026-11-06T12:50:06.228925+00:00"
   },
   "rust_dependencies": {
     "status": "current",
@@ -3229,7 +3287,7 @@
       "rust_version_constraint": "1.99"
     }
   },
-  "next_capability_handoff": "Specify malapropisms against the pinned oracle; demonstrate meaningful RED, then implement, live-compare, independently verify, and run the cumulative gate.",
+  "next_capability_handoff": "Specify spelling.in_un against the pinned oracle; demonstrate meaningful RED, then implement, live-compare, independently verify, and run the cumulative gate.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

@@ -1,4 +1,5 @@
 import importlib.util
+import json
 import sys
 import tempfile
 import unittest
@@ -45,6 +46,7 @@ class BenchmarkTests(unittest.TestCase):
 
     def test_real_workload_manifest_and_fixture_hashes_are_valid(self):
         manifest = benchmark.load_workloads()
+        self.assertEqual(manifest["profile_id"], "misc_suddenly")
         self.assertEqual(len(manifest["workloads"]), 3)
         self.assertEqual(
             {workload["kind"] for workload in manifest["workloads"]},
@@ -54,6 +56,26 @@ class BenchmarkTests(unittest.TestCase):
                 "deterministic_dense_adversarial_generated",
             },
         )
+
+    def test_combined_profile_requires_liveable_positive_examples_for_each_rule(self):
+        manifest = benchmark.load_workloads(benchmark.COMBINED_WORKLOADS)
+        self.assertEqual(manifest["capability_id"], "cli.combined_checks")
+        self.assertEqual(manifest["selected_check_paths"], ["misc.suddenly", "psychology.p_equals_zero"])
+        self.assertTrue(all(set(w["positive_examples"]) == set(manifest["selected_check_paths"]) for w in manifest["workloads"]))
+        for workload in manifest["workloads"]:
+            text = benchmark.workload_bytes(workload, manifest).decode("utf-8")
+            self.assertTrue(all(example in text for example in workload["positive_examples"].values()))
+
+        with tempfile.TemporaryDirectory() as temp:
+            copy = Path(temp) / "combined_workloads.json"
+            invalid = dict(manifest)
+            invalid["selected_check_paths"] = ["misc.suddenly"]
+            copy.write_text(json.dumps(invalid), encoding="utf-8")
+            for workload in manifest["workloads"]:
+                (Path(temp) / workload["path"]).write_bytes(benchmark.workload_bytes(workload, manifest))
+            (Path(temp) / manifest["config_file"]).write_bytes((benchmark.WORKLOADS.parent / manifest["config_file"]).read_bytes())
+            with self.assertRaisesRegex(ValueError, "capability or selected checks"):
+                benchmark.load_workloads(copy)
 
     def test_workload_hash_mismatch_is_rejected(self):
         with tempfile.TemporaryDirectory() as temp:

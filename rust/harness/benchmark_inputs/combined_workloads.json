@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "profile_id": "combined_suddenly_p_equals_zero",
+  "capability_id": "cli.combined_checks",
+  "selected_check_paths": [
+    "misc.suddenly",
+    "psychology.p_equals_zero"
+  ],
+  "output_format": "json",
+  "config_file": "combined_selected_config.json",
+  "config_sha256": "a19426cddea6a08084a6987232a8b635eff58c82da6c17c838daa4203878f4b6",
+  "config": {
+    "max_errors": 1000,
+    "checks": {
+      "psychology": {
+        "p_equals_zero": true
+      },
+      "misc": {
+        "suddenly": true
+      }
+    }
+  },
+  "sample_pairs": 25,
+  "warmup_pairs": 3,
+  "in_memory_repetitions": 100,
+  "in_memory_pairs": 25,
+  "workloads": [
+    {
+      "id": "combined_small",
+      "label": "Small authored positive example",
+      "kind": "deterministic_authored_positive",
+      "path": "combined_small.txt",
+      "attribution": "Project-authored deterministic benchmark fixture; no third-party text.",
+      "source_revision": null,
+      "source_path": null,
+      "license": "Project test fixture",
+      "generator": null,
+      "sha256": "50e73cf2080050cac88f67b97e7441b62281b95a8c842995d80ca32ab073e899",
+      "bytes": 82,
+      "expected_diagnostics_per_iteration": 2,
+      "positive_examples": {
+        "misc.suddenly": "Suddenly,",
+        "psychology.p_equals_zero": "p = 0.00"
+      }
+    },
+    {
+      "id": "combined_ordinary_generated",
+      "label": "Ordinary prose with sparse positive examples",
+      "kind": "deterministic_ordinary_generated",
+      "path": "combined_ordinary_generated.txt",
+      "attribution": "Project-authored deterministic benchmark fixture; no third-party text.",
+      "source_revision": null,
+      "source_path": null,
+      "license": "Project test fixture",
+      "generator": "64 numbered ordinary-prose blocks; each contains one occurrence of each selected rule.",
+      "sha256": "9769ed177eaf82360def0740a1d9fa1855ce03a7ba993ba57532c392e96615a5",
+      "bytes": 9280,
+      "expected_diagnostics_per_iteration": 128,
+      "positive_examples": {
+        "misc.suddenly": "Suddenly,",
+        "psychology.p_equals_zero": "p = 0.00"
+      }
+    },
+    {
+      "id": "combined_dense_generated",
+      "label": "Dense generated two-rule trigger stream",
+      "kind": "deterministic_dense_adversarial_generated",
+      "path": "combined_dense_generated.txt",
+      "attribution": "Project-authored deterministic benchmark fixture; no third-party text.",
+      "source_revision": null,
+      "source_path": null,
+      "license": "Project test fixture",
+      "generator": "256 numbered lines; each contains one occurrence of each selected rule.",
+      "sha256": "3153a44dc5f14269f34443af2564808a42c7a894d4455972c7b95b820e7f00c1",
+      "bytes": 6400,
+      "expected_diagnostics_per_iteration": 512,
+      "positive_examples": {
+        "misc.suddenly": "Suddenly,",
+        "psychology.p_equals_zero": "p = 0.00"
+      }
+    }
+  ],
+  "baseline": {
+    "package_version": "0.16.0",
+    "revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
+  },
+  "profile_note": "Explicit selected config only; no bundled defaults or other checks enabled."
+}

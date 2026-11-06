@@ -31,3 +31,17 @@ The run occurred on 2026-11-05 from 10:08:33 to 10:25:01 UTC on Linux x86_64 (`7
 Peak memory was not measured. The report marks RSS unavailable because the run did not use a per-process sampler.
 
 These numbers apply to this machine, configuration, rule, inputs, and measurement method. They should not be generalized to other rules, default configurations, full documents at other sizes, or overall application performance. Timing varies with host load; use the raw samples and spread alongside the medians.
+
+## Combined selected-rule profile
+
+This separate profile measures the explicit combination `misc.suddenly` and `psychology.p_equals_zero`. It uses a three-workload project-authored fixture set; every input contains positive examples for both rules. It does not enable the bundled default configuration. All three inputs passed exact live CLI comparison against the pinned Python executable before timing, and output/status parity was checked on every warmup and measured sample.
+
+| Workload | Input / findings | Python CLI median | Rust CLI median | Python / Rust | Python IQR | Rust IQR |
+|---|---:|---:|---:|---:|---:|---:|
+| Small authored positive example | 82 B / 2 | 214.615 ms | 4.152 ms | 51.7× | 32.250 ms | 0.704 ms |
+| Ordinary generated prose | 9,280 B / 128 | 243.326 ms | 6.404 ms | 38.0× | 15.554 ms | 0.640 ms |
+| Dense generated trigger stream | 6,400 B / 512 | 273.034 ms | 12.736 ms | 21.4× | 20.665 ms | 1.886 ms |
+
+The report contains all 25 paired samples per workload, alternating which CLI runs first. One warmup pair per workload is excluded. The measured region runs each CLI from process spawn through exit, including startup, file/config reading, checking, JSON serialization, and output capture. The complete report is [`../artifacts/combined-benchmark-full-20261106.json`](../artifacts/combined-benchmark-full-20261106.json) (SHA-256 `f5f20bc192b5962afecae69340f0927b5e828a938bf3e6d3177fc7a6139270c3`); the separate parity-only preflight is [`../artifacts/combined-benchmark-parity-only-20261106.json`](../artifacts/combined-benchmark-parity-only-20261106.json) (SHA-256 `eb3d6c973d03d8488f139d65ecfae5999c31768d96b6a446c31eb195a0fbf5f0`). Workload hashes, sizes, expected findings, generator descriptions, selected config, and positive examples are in [`../harness/benchmark_inputs/combined_workloads.json`](../harness/benchmark_inputs/combined_workloads.json).
+
+The timed run completed in about 27 seconds on 2026-11-06 (UTC) on the same four-CPU Linux x86_64 host described above. The pinned baseline is Proselint 0.16.0, Python 3.12.3, revision `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`; the candidate is a locked release build with rustc and Cargo 1.99.1. RSS was unavailable. This profile measures only fresh-process CLI behavior; the in-memory table above applies only to the isolated `misc.suddenly` rule. The speed ratios describe these inputs on this host and do not establish whole-application speed.

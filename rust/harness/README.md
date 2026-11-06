@@ -8,6 +8,6 @@ The comparator has negative self-tests that deliberately introduce output, statu
 
 ## Performance comparison
 
-[`benchmark.py`](benchmark.py) first checks exact parity for each measured input. It then compares the pinned Python CLI and release Rust CLI using paired, alternating fresh-process samples. A separate repeated in-memory scan measures the selected rule with process startup and input loading excluded from the internal timing. Inputs, attribution, hashes, commands, raw samples, summaries, environment details, and parity evidence are recorded in each report.
+[`benchmark.py`](benchmark.py) supports an isolated `misc.suddenly` profile and a combined `misc.suddenly` + `psychology.p_equals_zero` profile. It checks exact parity for every measured input before collecting paired, alternating fresh-process CLI samples. The isolated profile also includes repeated in-memory scans; combined-profile results are CLI-only. Inputs, attribution, hashes, commands, raw samples, summaries, environment details, and parity evidence are recorded in each report.
 
-The benchmark reports only workload-specific results for the accepted `misc.suddenly` capability. It does not imply a whole-program or universal speedup. See [`../docs/BENCHMARKS.md`](../docs/BENCHMARKS.md).
+The benchmark reports only workload-specific results for its selected checks. Neither profile implies a whole-program or universal speedup. See [`../docs/BENCHMARKS.md`](../docs/BENCHMARKS.md).

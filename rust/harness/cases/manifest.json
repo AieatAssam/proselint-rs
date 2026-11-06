@@ -19822,6 +19822,369 @@
         "--output-format",
         "json"
       ]
+    },
+    {
+      "id": "nordquist_ordinary_mappings",
+      "capability_id": "rule.redundancy.misc.nordquist",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.nordquist in proselint/checks/redundancy/misc.py; PreferredFormsSimple entries `absolutely essential`→`essential`, `absolutely necessary`→`necessary`, `a\\.m\\. in the morning`→`a\\.m\\.`, `p\\.m\\. at night`→`p\\.m\\.`; Fast case-insensitive matching, WORDS_IN_TEXT padding, default enabled, quote suppression; escaped-dot matches yield null replacement because the lowercased surface lookup does not equal escaped mapping keys. Selected config enables only this check with max_errors=1000. Case purpose: mappings.",
+      "input_mode": "stdin",
+      "stdin_base64": "YWJzb2x1dGVseSBuZWNlc3Nhcnk7IGFic29sdXRlbHkgZXNzZW50aWFs",
+      "files": [
+        {
+          "path": "nordquist config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7Im5vcmRxdWlzdCI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:nordquist config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_misc_nordquist_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "nordquist_escaped_dot_matches_and_none_replacements",
+      "capability_id": "rule.redundancy.misc.nordquist",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.nordquist in proselint/checks/redundancy/misc.py; PreferredFormsSimple entries `absolutely essential`→`essential`, `absolutely necessary`→`necessary`, `a\\.m\\. in the morning`→`a\\.m\\.`, `p\\.m\\. at night`→`p\\.m\\.`; Fast case-insensitive matching, WORDS_IN_TEXT padding, default enabled, quote suppression; escaped-dot matches yield null replacement because the lowercased surface lookup does not equal escaped mapping keys. Selected config enables only this check with max_errors=1000. Case purpose: escaped period regex matches and missing literal-key lookup.",
+      "input_mode": "stdin",
+      "stdin_base64": "YS5tLiBpbiB0aGUgbW9ybmluZzsgcC5tLiBhdCBuaWdodA==",
+      "files": [
+        {
+          "path": "nordquist config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7Im5vcmRxdWlzdCI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:nordquist config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_misc_nordquist_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "nordquist_escaped_dot_alternates_clean",
+      "capability_id": "rule.redundancy.misc.nordquist",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.nordquist in proselint/checks/redundancy/misc.py; PreferredFormsSimple entries `absolutely essential`→`essential`, `absolutely necessary`→`necessary`, `a\\.m\\. in the morning`→`a\\.m\\.`, `p\\.m\\. at night`→`p\\.m\\.`; Fast case-insensitive matching, WORDS_IN_TEXT padding, default enabled, quote suppression; escaped-dot matches yield null replacement because the lowercased surface lookup does not equal escaped mapping keys. Selected config enables only this check with max_errors=1000. Case purpose: escaped-dot alternate characters clean.",
+      "input_mode": "stdin",
+      "stdin_base64": "YVhtWCBpbiB0aGUgbW9ybmluZzsgcFhtWCBhdCBuaWdodA==",
+      "files": [
+        {
+          "path": "nordquist config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7Im5vcmRxdWlzdCI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:nordquist config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_misc_nordquist_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "nordquist_case_insensitive_surface",
+      "capability_id": "rule.redundancy.misc.nordquist",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.nordquist in proselint/checks/redundancy/misc.py; PreferredFormsSimple entries `absolutely essential`→`essential`, `absolutely necessary`→`necessary`, `a\\.m\\. in the morning`→`a\\.m\\.`, `p\\.m\\. at night`→`p\\.m\\.`; Fast case-insensitive matching, WORDS_IN_TEXT padding, default enabled, quote suppression; escaped-dot matches yield null replacement because the lowercased surface lookup does not equal escaped mapping keys. Selected config enables only this check with max_errors=1000. Case purpose: case insensitive with original surface in message.",
+      "input_mode": "stdin",
+      "stdin_base64": "QWJzb2x1dGVseSBOZWNlc3Nhcnk7IEFCU09MVVRFTFkgRVNTRU5USUFM",
+      "files": [
+        {
+          "path": "nordquist config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7Im5vcmRxdWlzdCI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:nordquist config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_misc_nordquist_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "nordquist_word_boundaries",
+      "capability_id": "rule.redundancy.misc.nordquist",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.nordquist in proselint/checks/redundancy/misc.py; PreferredFormsSimple entries `absolutely essential`→`essential`, `absolutely necessary`→`necessary`, `a\\.m\\. in the morning`→`a\\.m\\.`, `p\\.m\\. at night`→`p\\.m\\.`; Fast case-insensitive matching, WORDS_IN_TEXT padding, default enabled, quote suppression; escaped-dot matches yield null replacement because the lowercased surface lookup does not equal escaped mapping keys. Selected config enables only this check with max_errors=1000. Case purpose: word-boundary behavior.",
+      "input_mode": "stdin",
+      "stdin_base64": "eHNvbHV0ZWx5IG5lY2Vzc2FyeTsgYWJzb2x1dGVseSBuZWNlc3Nhcnl4OyBhYnNvbHV0ZWx5IG5lY2Vzc2FyeSE=",
+      "files": [
+        {
+          "path": "nordquist config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7Im5vcmRxdWlzdCI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:nordquist config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_misc_nordquist_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "nordquist_quote_suppression",
+      "capability_id": "rule.redundancy.misc.nordquist",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.nordquist in proselint/checks/redundancy/misc.py; PreferredFormsSimple entries `absolutely essential`→`essential`, `absolutely necessary`→`necessary`, `a\\.m\\. in the morning`→`a\\.m\\.`, `p\\.m\\. at night`→`p\\.m\\.`; Fast case-insensitive matching, WORDS_IN_TEXT padding, default enabled, quote suppression; escaped-dot matches yield null replacement because the lowercased surface lookup does not equal escaped mapping keys. Selected config enables only this check with max_errors=1. Case purpose: quoted match is suppressed.",
+      "input_mode": "stdin",
+      "stdin_base64": "ImFic29sdXRlbHkgbmVjZXNzYXJ5IiBhbmQgYWJzb2x1dGVseSBlc3NlbnRpYWw=",
+      "files": [
+        {
+          "path": "nordquist config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7Im5vcmRxdWlzdCI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:nordquist config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_misc_nordquist_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "nordquist_unicode_ascii_boundary",
+      "capability_id": "rule.redundancy.misc.nordquist",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.nordquist in proselint/checks/redundancy/misc.py; PreferredFormsSimple entries `absolutely essential`→`essential`, `absolutely necessary`→`necessary`, `a\\.m\\. in the morning`→`a\\.m\\.`, `p\\.m\\. at night`→`p\\.m\\.`; Fast case-insensitive matching, WORDS_IN_TEXT padding, default enabled, quote suppression; escaped-dot matches yield null replacement because the lowercased surface lookup does not equal escaped mapping keys. Selected config enables only this check with max_errors=1000. Case purpose: Unicode coordinate plus ASCII word boundary.",
+      "input_mode": "stdin",
+      "stdin_base64": "w6kgYWJzb2x1dGVseSBuZWNlc3Nhcnk=",
+      "files": [
+        {
+          "path": "nordquist config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7Im5vcmRxdWlzdCI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:nordquist config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_misc_nordquist_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "nordquist_raw_occurrences_after_activation",
+      "capability_id": "rule.redundancy.misc.nordquist",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.nordquist in proselint/checks/redundancy/misc.py; PreferredFormsSimple entries `absolutely essential`→`essential`, `absolutely necessary`→`necessary`, `a\\.m\\. in the morning`→`a\\.m\\.`, `p\\.m\\. at night`→`p\\.m\\.`; Fast case-insensitive matching, WORDS_IN_TEXT padding, default enabled, quote suppression; escaped-dot matches yield null replacement because the lowercased surface lookup does not equal escaped mapping keys. Selected config enables only this check with max_errors=1000. Case purpose: raw occurrences retained after activating matcher.",
+      "input_mode": "stdin",
+      "stdin_base64": "YWJzb2x1dGVseSBuZWNlc3Nhcnk7IGFic29sdXRlbHkgZXNzZW50aWFsOyBhYnNvbHV0ZWx5IG5lY2Vzc2FyeQ==",
+      "files": [
+        {
+          "path": "nordquist config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7Im5vcmRxdWlzdCI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:nordquist config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_misc_nordquist_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "nordquist_max_errors_one",
+      "capability_id": "rule.redundancy.misc.nordquist",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.nordquist in proselint/checks/redundancy/misc.py; PreferredFormsSimple entries `absolutely essential`→`essential`, `absolutely necessary`→`necessary`, `a\\.m\\. in the morning`→`a\\.m\\.`, `p\\.m\\. at night`→`p\\.m\\.`; Fast case-insensitive matching, WORDS_IN_TEXT padding, default enabled, quote suppression; escaped-dot matches yield null replacement because the lowercased surface lookup does not equal escaped mapping keys. Selected config enables only this check with max_errors=1. Case purpose: max_errors=1.",
+      "input_mode": "stdin",
+      "stdin_base64": "YWJzb2x1dGVseSBuZWNlc3Nhcnk7IGFic29sdXRlbHkgZXNzZW50aWFsOyBhYnNvbHV0ZWx5IG5lY2Vzc2FyeQ==",
+      "files": [
+        {
+          "path": "nordquist config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7Im5vcmRxdWlzdCI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:nordquist config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_misc_nordquist_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "nordquist_max_errors_two_matcher_order",
+      "capability_id": "rule.redundancy.misc.nordquist",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.nordquist in proselint/checks/redundancy/misc.py; PreferredFormsSimple entries `absolutely essential`→`essential`, `absolutely necessary`→`necessary`, `a\\.m\\. in the morning`→`a\\.m\\.`, `p\\.m\\. at night`→`p\\.m\\.`; Fast case-insensitive matching, WORDS_IN_TEXT padding, default enabled, quote suppression; escaped-dot matches yield null replacement because the lowercased surface lookup does not equal escaped mapping keys. Selected config enables only this check with max_errors=2. Case purpose: max_errors=2 keeps matcher-order selection before positional sort.",
+      "input_mode": "stdin",
+      "stdin_base64": "YWJzb2x1dGVseSBuZWNlc3Nhcnk7IGFic29sdXRlbHkgZXNzZW50aWFsOyBhYnNvbHV0ZWx5IG5lY2Vzc2FyeQ==",
+      "files": [
+        {
+          "path": "nordquist config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoyLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7Im5vcmRxdWlzdCI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:nordquist config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_misc_nordquist_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "nordquist_max_errors_three",
+      "capability_id": "rule.redundancy.misc.nordquist",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path redundancy.misc.nordquist in proselint/checks/redundancy/misc.py; PreferredFormsSimple entries `absolutely essential`→`essential`, `absolutely necessary`→`necessary`, `a\\.m\\. in the morning`→`a\\.m\\.`, `p\\.m\\. at night`→`p\\.m\\.`; Fast case-insensitive matching, WORDS_IN_TEXT padding, default enabled, quote suppression; escaped-dot matches yield null replacement because the lowercased surface lookup does not equal escaped mapping keys. Selected config enables only this check with max_errors=3. Case purpose: max_errors=3.",
+      "input_mode": "stdin",
+      "stdin_base64": "YWJzb2x1dGVseSBuZWNlc3Nhcnk7IGFic29sdXRlbHkgZXNzZW50aWFsOyBhYnNvbHV0ZWx5IG5lY2Vzc2FyeQ==",
+      "files": [
+        {
+          "path": "nordquist config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjozLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7Im5vcmRxdWlzdCI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:nordquist config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_misc_nordquist_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

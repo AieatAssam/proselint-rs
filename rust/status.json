@@ -309,7 +309,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "Begin rule.redundancy.misc.nordquist using four pinned mappings; preserve literal escaped-dot matching and backslashes in replacement values, test exact lookup and max_errors ordering."
+    "next_handoff": "Luna builder owns rust/src/lib.rs and rust/src/main.rs for rule.redundancy.misc.nordquist; implement four mappings and preserve RE2 activation order, literal escaped-dot matching, None replacement behavior for dotted keys, quote filtering, and max_errors-before-sort."
   },
   "unresolved": [
     "The no-config-found bundled DEFAULT, every default-enabled rule interaction, and combined enabled-rule configurations remain unverified; selected-rule passes do not establish default behavior.",
@@ -3515,6 +3515,36 @@
         "source_fingerprint": "a797fada007b078ea9de845f18948959d3121cbf2d96c64942a23ed26af29570",
         "run_id": "20261106T151833462708Z-90e9c11a"
       }
+    },
+    {
+      "id": "rule.redundancy.misc.nordquist",
+      "status": "in_progress",
+      "case_ids": [
+        "nordquist_ordinary_mappings",
+        "nordquist_escaped_dot_matches_and_none_replacements",
+        "nordquist_escaped_dot_alternates_clean",
+        "nordquist_case_insensitive_surface",
+        "nordquist_word_boundaries",
+        "nordquist_quote_suppression",
+        "nordquist_unicode_ascii_boundary",
+        "nordquist_raw_occurrences_after_activation",
+        "nordquist_max_errors_one",
+        "nordquist_max_errors_two_matcher_order",
+        "nordquist_max_errors_three"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_spec": "Pinned default-enabled PreferredFormsSimple with four Fast case-insensitive WORDS_IN_TEXT patterns, allow_quotes=false, ppm0, offset0, exact message `Redundancy. Use '{}' instead of '{}'.`. The dotted patterns are escaped regex keys, but PreferredFormsSimple looks up the literal matched text in its original key map; both dotted matches therefore produce message `None` and JSON-null replacements. FastSet activation/order and raw occurrences are observable; max_errors truncation precedes final position sorting.",
+      "red": {
+        "report_status": "MISMATCH",
+        "mismatches": 11,
+        "reason": "All pinned-oracle outcomes were valid; the Rust CLI returned unsupported selected-check errors for every case.",
+        "evidence": "rust/artifacts/strict-gate-nordquist-red-20261106.json",
+        "source_fingerprint": "b8cc074f30f5c3f044401a7f65cc1d116a52ac08db5245be7748405b48980874",
+        "build_attestation": "rust/artifacts/20261106T152950500647Z-build.attestation.json"
+      },
+      "limitations": [
+        "Implementation, focused live green, independent verification, and updated cumulative gate remain pending."
+      ]
     }
   ],
   "last_strict_gate": {

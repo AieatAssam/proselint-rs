@@ -6,7 +6,7 @@
 - The rule inventory contains 124 registered entries across 106 unique paths (110 enabled by default and 14 disabled by default).
 - The Rust port has 42 accepted capabilities and 379 accepted compatibility cases. The latest cumulative live gate passed all 379 accepted cases with zero mismatches; see [`../artifacts/strict-gate-capitalization-days-20261106.json`](../artifacts/strict-gate-capitalization-days-20261106.json). The days capability was independently verified at a frozen fingerprint in [`../artifacts/independent-days-focused-live.json`](../artifacts/independent-days-focused-live.json).
 - The current manifest contains 385 cases: 379 accepted-scope cases, four passing per-file configuration cases that are not yet accepted as a capability, and two harness smoke cases outside production comparison. The per-file comparison is recorded at [`../artifacts/independent-review-fixes/per-file-targeted-348.json`](../artifacts/independent-review-fixes/per-file-targeted-348.json).
-- Accepted coverage includes two bounded CLI contracts and selected rules in annotations, cliches, misc, psychology, and typography. The inventory remains the source of truth for exact coverage.
+- Accepted coverage includes four bounded CLI capabilities and selected rules in annotations, cliches, misc, psychology, and typography. The inventory remains the source of truth for exact coverage.
 - This is a partial port. Most registered checks, broad default configuration behavior, and full CLI compatibility have not been accepted. Passing selected-rule configurations does not establish full parity.
 - See [`BENCHMARKS.md`](BENCHMARKS.md) for measured performance on one accepted rule. Those results apply only to the specified workloads and measurement modes.
 

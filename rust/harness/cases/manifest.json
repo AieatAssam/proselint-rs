@@ -14165,6 +14165,286 @@
         "json"
       ],
       "working_directory": "nested/deeper"
+    },
+    {
+      "id": "cli_user_discovery_xdg_path",
+      "capability_id": "cli.config.user_discovery",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; user config path and precedence behavior.",
+      "input_mode": "stdin",
+      "stdin_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg==",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {},
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "working_directory": ".",
+      "home_files": [
+        {
+          "path": "xdg/proselint/config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjogMTAwMCwgImNoZWNrcyI6IHsibWlzYyI6IHsiYXBvbG9naXppbmciOiB0cnVlfX19"
+        },
+        {
+          "path": ".config/proselint/config.json",
+          "content_base64": "eyJjaGVja3MiOiB7fX0="
+        }
+      ]
+    },
+    {
+      "id": "cli_user_discovery_home_fallback_unset",
+      "capability_id": "cli.config.user_discovery",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; user config path and precedence behavior.",
+      "input_mode": "stdin",
+      "stdin_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg==",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "XDG_CONFIG_HOME": null
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "working_directory": ".",
+      "home_files": [
+        {
+          "path": ".config/proselint/config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjogMTAwMCwgImNoZWNrcyI6IHsibWlzYyI6IHsiYXBvbG9naXppbmciOiB0cnVlfX19"
+        }
+      ]
+    },
+    {
+      "id": "cli_user_discovery_home_fallback_empty",
+      "capability_id": "cli.config.user_discovery",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; user config path and precedence behavior.",
+      "input_mode": "stdin",
+      "stdin_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg==",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "XDG_CONFIG_HOME": ""
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "working_directory": ".",
+      "home_files": [
+        {
+          "path": ".config/proselint/config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjogMTAwMCwgImNoZWNrcyI6IHsibWlzYyI6IHsiYXBvbG9naXppbmciOiB0cnVlfX19"
+        }
+      ]
+    },
+    {
+      "id": "cli_user_discovery_cwd_precedes_user",
+      "capability_id": "cli.config.user_discovery",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; user config path and precedence behavior.",
+      "input_mode": "stdin",
+      "stdin_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg==",
+      "files": [
+        {
+          "path": "proselint.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjogMTAwMCwgImNoZWNrcyI6IHsibWlzYyI6IHsiYXBvbG9naXppbmciOiB0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {},
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "working_directory": ".",
+      "home_files": [
+        {
+          "path": "xdg/proselint/config.json",
+          "content_base64": "eyJjaGVja3MiOiB7fX0="
+        }
+      ],
+      "unused_files": [
+        "proselint.json"
+      ]
+    },
+    {
+      "id": "cli_user_discovery_ancestor_precedes_user",
+      "capability_id": "cli.config.user_discovery",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; user config path and precedence behavior.",
+      "input_mode": "stdin",
+      "stdin_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg==",
+      "files": [
+        {
+          "path": "proselint.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjogMTAwMCwgImNoZWNrcyI6IHsibWlzYyI6IHsiYXBvbG9naXppbmciOiB0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {},
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "working_directory": "nested/deeper",
+      "home_files": [
+        {
+          "path": "xdg/proselint/config.json",
+          "content_base64": "eyJjaGVja3MiOiB7fX0="
+        }
+      ],
+      "unused_files": [
+        "proselint.json"
+      ]
+    },
+    {
+      "id": "cli_user_discovery_malformed_first_user_errors",
+      "capability_id": "cli.config.user_discovery",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; user config path and precedence behavior.",
+      "input_mode": "stdin",
+      "stdin_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg==",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {},
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "working_directory": ".",
+      "home_files": [
+        {
+          "path": "xdg/proselint/config.json",
+          "content_base64": "ew=="
+        },
+        {
+          "path": ".config/proselint/config.json",
+          "content_base64": "eyJjaGVja3MiOiB7fX0="
+        }
+      ]
+    },
+    {
+      "id": "cli_user_discovery_explicit_overrides_user",
+      "capability_id": "cli.config.user_discovery",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; user config path and precedence behavior.",
+      "input_mode": "stdin",
+      "stdin_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg==",
+      "files": [
+        {
+          "path": "explicit.json",
+          "content_base64": "eyJjaGVja3MiOiB7fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "explicit.json",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {},
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "working_directory": ".",
+      "home_files": [
+        {
+          "path": "xdg/proselint/config.json",
+          "content_base64": "ew=="
+        }
+      ],
+      "unused_files": []
+    },
+    {
+      "id": "cli_user_discovery_xdg_relative_path",
+      "capability_id": "cli.config.user_discovery",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; XDG_CONFIG_HOME accepts relative paths resolved from cwd.",
+      "input_mode": "stdin",
+      "stdin_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg==",
+      "files": [
+        {
+          "path": "xdg/proselint/config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjogMTAwMCwgImNoZWNrcyI6IHsibWlzYyI6IHsiYXBvbG9naXppbmciOiB0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "XDG_CONFIG_HOME": "xdg"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "working_directory": ".",
+      "unused_files": [
+        "xdg/proselint/config.json"
+      ]
     }
   ]
 }

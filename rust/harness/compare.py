@@ -17,7 +17,6 @@ import sys
 import tempfile
 import time
 import uuid
-import os
 from pathlib import Path
 from typing import Any, Sequence
 
@@ -107,6 +106,21 @@ def validate_case(case: Any) -> None:
         raise ValueError(f"{case['id']}: timeout_seconds must be positive")
     if not isinstance(case["environment"], dict) or not isinstance(case["comparison"], dict):
         raise ValueError(f"{case['id']}: environment and comparison must be objects")
+    if any(not isinstance(key, str) or (value is not None and not isinstance(value, str)) or (value is None and key != "XDG_CONFIG_HOME") for key, value in case["environment"].items()):
+        raise ValueError(f"{case['id']}: environment values must be strings; only XDG_CONFIG_HOME may be unset")
+    home_files = case.get("home_files", [])
+    if not isinstance(home_files, list):
+        raise ValueError(f"{case['id']}: home_files must be an array")
+    for item in home_files:
+        if not isinstance(item, dict) or not isinstance(item.get("path"), str) or not isinstance(item.get("content_base64"), str):
+            raise ValueError(f"{case['id']}: each home file needs path and content_base64")
+        rel = Path(item["path"])
+        if rel.is_absolute() or ".." in rel.parts:
+            raise ValueError(f"{case['id']}: home file paths must stay inside HOME")
+        try:
+            base64.b64decode(item["content_base64"], validate=True)
+        except ValueError as exc:
+            raise ValueError(f"{case['id']}: invalid home file base64 for {item['path']}") from exc
     for key, allowed in VALID_COMPARISON.items():
         if not isinstance(case["comparison"].get(key), str) or case["comparison"][key] not in allowed:
             raise ValueError(f"{case['id']}: comparison.{key} must be one of {sorted(allowed)}")
@@ -352,7 +366,7 @@ def outcome(exit_code: int | None) -> str:
     return "cli_error"
 
 
-def fresh_env(home: Path, extra: dict[str, str]) -> dict[str, str]:
+def fresh_env(home: Path, extra: dict[str, Any]) -> dict[str, str]:
     env = {
         "PATH": os.environ.get("PATH", ""),
         "HOME": str(home),
@@ -367,7 +381,12 @@ def fresh_env(home: Path, extra: dict[str, str]) -> dict[str, str]:
     for key in ("PYTHONPATH", "PYTHONHOME", "PROSELINT_CONFIG"):
         env.pop(key, None)
     for key, value in extra.items():
-        if key not in {"HOME", "XDG_CONFIG_HOME", "PYTHONPATH", "PYTHONHOME"}:
+        if key == "XDG_CONFIG_HOME":
+            if value is None:
+                env.pop(key, None)
+            else:
+                env[key] = value
+        elif key not in {"HOME", "PYTHONPATH", "PYTHONHOME"}:
             env[key] = value
     return env
 
@@ -375,6 +394,13 @@ def fresh_env(home: Path, extra: dict[str, str]) -> dict[str, str]:
 def materialize_files(case: dict[str, Any], workspace: Path) -> None:
     for item in case["files"]:
         target = workspace / item["path"]
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(base64.b64decode(item["content_base64"], validate=True))
+
+
+def materialize_home_files(case: dict[str, Any], home: Path) -> None:
+    for item in case.get("home_files", []):
+        target = home / item["path"]
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes(base64.b64decode(item["content_base64"], validate=True))
 
@@ -417,6 +443,7 @@ def run_case(
             home = case_dir / role / "home"
             for subdir in ("xdg", "cache", "tmp"):
                 (home / subdir).mkdir(parents=True, exist_ok=True)
+            materialize_home_files(case, home)
             argv = executable + args
             env = fresh_env(home, case["environment"])
             commands.append(argv)

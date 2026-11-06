@@ -29,6 +29,28 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(result["status"], "PASS", result)
         self.assertTrue(all(Path(run["cwd"]).parts[-2:] == ("nested", "deeper") for run in result["executions"]))
 
+    def test_home_fixtures_and_xdg_unset_are_isolated(self) -> None:
+        case = {"id":"home_probe", "capability_id":"test", "provenance":"test", "input_mode":"stdin", "stdin_base64":"", "files":[], "home_files":[{"path":".config/proselint/config.json", "content_base64":"e30="}], "argv":["--output-format","json"], "output_format":"json", "expected_oracle_outcome":"clean", "timeout_seconds":2, "environment":{"XDG_CONFIG_HOME":None}, "workspace_mutates":False, "comparison":{"stdout":"json","stderr":"bytes","exit_status":"exact"}}
+        compare.validate_case(case)
+        self.assertNotIn("XDG_CONFIG_HOME", compare.fresh_env(Path("/isolated"), case["environment"]))
+        for item in (dict(case["home_files"][0], path="../outside"), dict(case["home_files"][0], content_base64="not-base64")):
+            invalid = json.loads(json.dumps(case))
+            invalid["home_files"] = [item]
+            with self.assertRaises(ValueError):
+                compare.validate_case(invalid)
+        invalid = json.loads(json.dumps(case))
+        invalid["environment"] = {"PATH": None}
+        with self.assertRaisesRegex(ValueError, "only XDG_CONFIG_HOME may be unset"):
+            compare.validate_case(invalid)
+
+    def test_home_fixtures_are_materialized_inside_each_role_home(self) -> None:
+        case = {"id":"home_probe", "capability_id":"test", "provenance":"test", "input_mode":"stdin", "stdin_base64":"", "files":[], "home_files":[{"path":"fixture.txt", "content_base64":"dGVzdA=="}], "argv":[], "output_format":"json", "expected_oracle_outcome":"clean", "timeout_seconds":2, "environment":{}, "workspace_mutates":False, "comparison":{"stdout":"json","stderr":"bytes","exit_status":"exact"}}
+        probe = [sys.executable, "-c", "import os,json,pathlib;print(json.dumps({'result':{'<stdin>':{'diagnostics':[]}}}));print(pathlib.Path(os.environ['HOME'],'fixture.txt').read_text(),file=__import__('sys').stderr)"]
+        with tempfile.TemporaryDirectory() as directory:
+            result = compare.run_case(case, probe, probe, Path(directory), None)
+        self.assertEqual(result["status"], "PASS", result)
+        self.assertTrue(all(run["stderr_sha256"] == compare.sha256_bytes(b"test\n") for run in result["executions"]))
+
     def test_files_must_be_consumed_or_explicitly_unused_and_format_must_match(self) -> None:
         original = next(case for case in compare.load_manifest()["cases"] if case["id"] == "cli_config_consumed_checks_array_nan")
         fixture_path = original["files"][0]["path"]
@@ -241,6 +263,9 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         expected_case_ids = {
+            "cli_user_discovery_xdg_path", "cli_user_discovery_home_fallback_unset", "cli_user_discovery_home_fallback_empty",
+            "cli_user_discovery_cwd_precedes_user", "cli_user_discovery_ancestor_precedes_user",
+            "cli_user_discovery_malformed_first_user_errors", "cli_user_discovery_explicit_overrides_user", "cli_user_discovery_xdg_relative_path",
             "cli_config_cwd_discovers_finding",
             "cli_config_cwd_discovers_empty_checks",
             "cli_config_explicit_precedes_cwd_discovery",
@@ -470,7 +495,7 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(
             {capability: sum(case["capability_id"] == capability for case in manifest["cases"])
              for capability in {case["capability_id"] for case in manifest["cases"]}},
-            {'rule.misc.debased': 13, 'rule.misc.capitalization.days': 10, 'rule.cliches.hell': 7, 'harness.oracle_smoke': 2, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.misc.latin': 10, 'rule.misc.back_formations': 8, 'rule.misc.capitalization.terms': 10, 'rule.industrial_language.airlinese': 12, 'cli.json_no_findings': 8, 'rule.misc.greylist': 9, 'rule.misc.many_a': 10, 'cli.output_format.full': 3, 'cli.config.ignored_values': 5, 'rule.misc.professions': 8, 'cli.config.cwd_discovery': 3, 'cli.config.ancestor_discovery': 5, 'rule.misc.illogic.coin': 7, 'rule.hedging': 13, 'cli.config.invalid_utf8': 5, 'rule.misc.whence': 6, 'rule.annotations.misc': 10, 'rule.typography.symbols.sentence_spacing': 7, 'cli.config.consumed_special_values': 12, 'cli.config.malformed_json': 22, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.copyright': 6, 'rule.misc.pretension': 9, 'cli.config.recursion_depth': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.misc.institution_name': 8, 'rule.misc.currency': 12, 'rule.misc.suddenly': 7, 'cli.coordinates': 6, 'rule.misc.but': 8, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.collusion': 7, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.capitalization.seasons': 10, 'cli.config.directory_path': 4, 'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 10, 'rule.misc.inferior_superior': 12, 'rule.misc.false_plurals.misc': 9, 'cli.config.per_file_checks': 4, 'rule.redundancy.misc.wallace': 10, 'rule.dates_times.am_pm.spacing': 8, 'rule.typography.symbols.ellipsis': 6, 'rule.psychology.lie_detector': 12, 'rule.industrial_language.jargon': 10},
+            {'rule.misc.debased': 13, 'rule.misc.capitalization.days': 10, 'rule.cliches.hell': 7, 'harness.oracle_smoke': 2, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.misc.latin': 10, 'rule.misc.back_formations': 8, 'rule.misc.capitalization.terms': 10, 'rule.industrial_language.airlinese': 12, 'cli.json_no_findings': 8, 'rule.misc.greylist': 9, 'rule.misc.many_a': 10, 'cli.output_format.full': 3, 'cli.config.ignored_values': 5, 'rule.misc.professions': 8, 'cli.config.cwd_discovery': 3, 'cli.config.ancestor_discovery': 5, 'rule.misc.illogic.coin': 7, 'rule.hedging': 13, 'cli.config.invalid_utf8': 5, 'rule.misc.whence': 6, 'rule.annotations.misc': 10, 'rule.typography.symbols.sentence_spacing': 7, 'cli.config.consumed_special_values': 12, 'cli.config.malformed_json': 22, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.copyright': 6, 'rule.misc.pretension': 9, 'cli.config.recursion_depth': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.misc.institution_name': 8, 'rule.misc.currency': 12, 'rule.misc.suddenly': 7, 'cli.coordinates': 6, 'rule.misc.but': 8, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.collusion': 7, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.capitalization.seasons': 10, 'cli.config.directory_path': 4, 'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 10, 'rule.misc.inferior_superior': 12, 'rule.misc.false_plurals.misc': 9, 'cli.config.per_file_checks': 4, 'rule.redundancy.misc.wallace': 10, 'rule.dates_times.am_pm.spacing': 8, 'rule.typography.symbols.ellipsis': 6, 'rule.psychology.lie_detector': 12, 'rule.industrial_language.jargon': 10, 'cli.config.user_discovery': 8},
         )
 
     def test_manifest_rejects_duplicate_id_and_bad_base64(self) -> None:

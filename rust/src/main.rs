@@ -922,9 +922,23 @@ fn run() -> Result<ExitCode, String> {
         None => {
             let cwd = std::env::current_dir()
                 .map_err(|error| format!("Unable to determine current directory: {error}"))?;
-            std::iter::successors(Some(cwd.as_path()), |path| path.parent())
+            let project_config = std::iter::successors(Some(cwd.as_path()), |path| path.parent())
                 .map(|directory| directory.join("proselint.json"))
-                .find(|candidate| candidate.is_file())
+                .find(|candidate| candidate.is_file());
+            let user_config = if project_config.is_none() {
+                std::env::var_os("XDG_CONFIG_HOME")
+                    .filter(|path| !path.is_empty())
+                    .map(|path| PathBuf::from(path).join("proselint/config.json"))
+                    .or_else(|| {
+                        std::env::var_os("HOME")
+                            .map(|home| PathBuf::from(home).join(".config/proselint/config.json"))
+                    })
+                    .filter(|candidate| candidate.is_file())
+            } else {
+                None
+            };
+            project_config
+                .or(user_config)
                 .unwrap_or_else(|| PathBuf::from("proselint.json"))
         }
     };

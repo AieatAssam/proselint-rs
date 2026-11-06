@@ -14,7 +14,7 @@ import compare
 
 class ComparatorTests(unittest.TestCase):
     def test_files_must_be_consumed_or_explicitly_unused_and_format_must_match(self) -> None:
-        original = compare.load_manifest()["cases"][1]
+        original = next(case for case in compare.load_manifest()["cases"] if case["id"] == "cli_config_consumed_checks_array_nan")
         fixture_path = original["files"][0]["path"]
 
         unreferenced = json.loads(json.dumps(original))
@@ -33,7 +33,7 @@ class ComparatorTests(unittest.TestCase):
 
         mismatched_format = json.loads(json.dumps(original))
         mismatched_format["output_format"] = "full"
-        with self.assertRaisesRegex(ValueError, "must match one --output-format"):
+        with self.assertRaisesRegex(ValueError, "must match at most one --output-format"):
             compare.validate_case(mismatched_format)
 
         mismatched_policy = json.loads(json.dumps(original))
@@ -43,8 +43,24 @@ class ComparatorTests(unittest.TestCase):
 
         missing_format_arg = json.loads(json.dumps(original))
         missing_format_arg["argv"] = [arg for arg in missing_format_arg["argv"] if arg not in {"--output-format", "json"}]
-        with self.assertRaisesRegex(ValueError, "one --output-format"):
+        with self.assertRaisesRegex(ValueError, "only full is the default"):
             compare.validate_case(missing_format_arg)
+
+        default_full = json.loads(json.dumps(original))
+        default_full["output_format"] = "full"
+        default_full["argv"] = [arg for arg in default_full["argv"] if arg not in {"--output-format", "json"}]
+        default_full["comparison"]["stdout"] = "bytes"
+        compare.validate_case(default_full)
+
+        missing_compact_arg = json.loads(json.dumps(default_full))
+        missing_compact_arg["output_format"] = "compact"
+        with self.assertRaisesRegex(ValueError, "only full is the default"):
+            compare.validate_case(missing_compact_arg)
+
+        duplicate_format_arg = json.loads(json.dumps(original))
+        duplicate_format_arg["argv"].extend(["--output-format", "json"])
+        with self.assertRaisesRegex(ValueError, "at most one --output-format"):
+            compare.validate_case(duplicate_format_arg)
 
     def test_reference_argv_rejects_unlocked_prefix_arguments(self) -> None:
         locked = ["/pinned/reference/proselint"]
@@ -209,6 +225,9 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         expected_case_ids = {
+            "cli_output_format_full_clean",
+            "cli_output_format_full_default_apologizing_finding",
+            "cli_output_format_full_explicit_apologizing_finding",
             "cli_config_consumed_max_errors_nan",
             "cli_config_checks_error_precedes_max_errors_error",
             "cli_config_missing_source_precedes_max_errors_error",
@@ -427,7 +446,7 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(
             {capability: sum(case["capability_id"] == capability for case in manifest["cases"])
              for capability in {case["capability_id"] for case in manifest["cases"]}},
-            {'cli.config.consumed_special_values': 12, 'cli.config.directory_path': 4, 'cli.config.ignored_values': 5, 'cli.config.recursion_depth': 12, 'harness.oracle_smoke': 2, 'cli.json_no_findings': 8, 'rule.annotations.misc': 10, 'cli.coordinates': 6, 'rule.cliches.hell': 7, 'rule.misc.apologizing': 7, 'rule.misc.whence': 6, 'rule.misc.false_plurals.kudos': 7, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.coin': 7, 'rule.misc.illogic.collusion': 7, 'rule.misc.back_formations': 8, 'rule.misc.institution_name': 8, 'rule.misc.professions': 8, 'rule.misc.false_plurals.misc': 9, 'rule.typography.symbols.ellipsis': 6, 'rule.typography.symbols.copyright': 6, 'rule.typography.symbols.sentence_spacing': 7, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.suddenly': 7, 'rule.misc.but': 8, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.dates_times.am_pm.spacing': 8, 'rule.misc.debased': 13, 'rule.misc.currency': 12, 'rule.misc.inferior_superior': 12, 'rule.misc.greylist': 9, 'rule.industrial_language.bureaucratese': 11, 'rule.hedging': 13, 'rule.industrial_language.jargon': 10, 'rule.industrial_language.airlinese': 12, 'rule.misc.many_a': 10, 'rule.misc.metadiscourse': 10, 'rule.misc.pretension': 9, 'rule.misc.latin': 10, 'rule.misc.capitalization.seasons': 10, 'rule.misc.capitalization.terms': 10, 'rule.psychology.lie_detector': 12, 'rule.redundancy.misc.wallace': 10, 'cli.config.per_file_checks': 4, 'cli.config.malformed_json': 22, 'cli.config.invalid_utf8': 5, 'rule.misc.capitalization.days': 10},
+            {'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 10, 'rule.misc.whence': 6, 'cli.config.invalid_utf8': 5, 'rule.industrial_language.bureaucratese': 11, 'rule.psychology.lie_detector': 12, 'rule.misc.debased': 13, 'cli.config.consumed_special_values': 12, 'rule.dates_times.am_pm.spacing': 8, 'cli.config.recursion_depth': 12, 'cli.config.malformed_json': 22, 'cli.config.per_file_checks': 4, 'rule.misc.illogic.collusion': 7, 'harness.oracle_smoke': 2, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.trademark': 7, 'cli.config.ignored_values': 5, 'rule.typography.symbols.copyright': 6, 'rule.misc.inferior_superior': 12, 'rule.typography.symbols.sentence_spacing': 7, 'rule.hedging': 13, 'rule.misc.latin': 10, 'cli.output_format.full': 3, 'rule.redundancy.misc.wallace': 10, 'rule.misc.false_plurals.misc': 9, 'rule.annotations.misc': 10, 'cli.config.directory_path': 4, 'rule.misc.greylist': 9, 'rule.misc.but': 8, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.misc.capitalization.seasons': 10, 'rule.typography.symbols.ellipsis': 6, 'cli.json_no_findings': 8, 'rule.typography.symbols.multiplication': 7, 'rule.misc.professions': 8, 'cli.coordinates': 6, 'rule.misc.back_formations': 8, 'rule.misc.suddenly': 7, 'rule.industrial_language.jargon': 10, 'rule.misc.capitalization.days': 10, 'rule.misc.currency': 12, 'rule.industrial_language.airlinese': 12, 'rule.misc.institution_name': 8, 'rule.misc.many_a': 10, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.coin': 7, 'rule.cliches.hell': 7, 'rule.misc.pretension': 9, 'rule.misc.capitalization.terms': 10},
         )
 
     def test_manifest_rejects_duplicate_id_and_bad_base64(self) -> None:

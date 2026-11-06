@@ -891,7 +891,12 @@ enum Command {
     Check {
         #[arg(long)]
         config: PathBuf,
-        #[arg(long = "output-format", short = 'o', value_enum)]
+        #[arg(
+            long = "output-format",
+            short = 'o',
+            value_enum,
+            default_value = "full"
+        )]
         output_format: OutputFormat,
         #[arg(value_name = "PATH")]
         paths: Vec<PathBuf>,
@@ -1063,7 +1068,7 @@ fn run() -> Result<ExitCode, String> {
         .and_then(|limit| usize::try_from(limit).ok())
         .unwrap_or(0);
 
-    if !matches!(output_format, OutputFormat::Json) {
+    if matches!(output_format, OutputFormat::Compact) {
         return Err("this capability currently supports JSON output only".to_owned());
     }
     if paths.len() > 1 {
@@ -1200,8 +1205,21 @@ fn run() -> Result<ExitCode, String> {
     } else {
         ExitCode::from(1)
     };
-    let result = json_result(&source, diagnostics);
-    println!("{result}");
+    match output_format {
+        OutputFormat::Json => println!("{}", json_result(&source, diagnostics)),
+        OutputFormat::Full => {
+            for diagnostic in diagnostics {
+                println!(
+                    "{source}:{}:{}: {}: {}",
+                    diagnostic["pos"][0].as_u64().unwrap_or_default(),
+                    diagnostic["pos"][1].as_u64().unwrap_or_default(),
+                    diagnostic["check_path"].as_str().unwrap_or_default(),
+                    diagnostic["message"].as_str().unwrap_or_default(),
+                );
+            }
+        }
+        OutputFormat::Compact => unreachable!(),
+    }
     Ok(exit_code)
 }
 

@@ -2,6 +2,100 @@
   "schema_version": 1,
   "cases": [
     {
+      "capability_id": "cli.output_format.full",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c uses full output; config is explicit to isolate output-format behavior.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnt9fQ=="
+        }
+      ],
+      "output_format": "full",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "id": "cli_output_format_full_clean",
+      "stdin_base64": "aGVsbG8gd29ybGQ=",
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}"
+      ],
+      "expected_oracle_outcome": "clean"
+    },
+    {
+      "capability_id": "cli.output_format.full",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c uses full output; config is explicit to isolate output-format behavior.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="
+        }
+      ],
+      "output_format": "full",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "id": "cli_output_format_full_default_apologizing_finding",
+      "stdin_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg==",
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}"
+      ],
+      "expected_oracle_outcome": "findings",
+      "config_scenario": "misc_apologizing_only"
+    },
+    {
+      "capability_id": "cli.output_format.full",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; explicit --output-format full emits the standard full diagnostic for the selected apologizing check.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="
+        }
+      ],
+      "output_format": "full",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "id": "cli_output_format_full_explicit_apologizing_finding",
+      "stdin_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg==",
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "full"
+      ],
+      "expected_oracle_outcome": "findings",
+      "config_scenario": "misc_apologizing_only"
+    },
+    {
       "id": "cli_config_consumed_checks_duplicate_annotations_last_wins",
       "capability_id": "cli.config.consumed_special_values",
       "provenance": "Pinned live Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; in supported annotations.misc configuration, the duplicate key retains its insertion position and the final true value replaces the earlier NaN, so the CLI returns clean diagnostics.",

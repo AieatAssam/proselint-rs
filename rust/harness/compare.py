@@ -120,8 +120,10 @@ def validate_case(case: Any) -> None:
             format_args.append(case["argv"][index + 1])
         elif arg.startswith("--output-format="):
             format_args.append(arg.partition("=")[2])
-    if len(format_args) != 1 or format_args[0] != output_format:
-        raise ValueError(f"{case['id']}: output_format must match one --output-format argv option")
+    if len(format_args) > 1 or (format_args and format_args[0] != output_format):
+        raise ValueError(f"{case['id']}: output_format must match at most one --output-format argv option")
+    if not format_args and output_format != "full":
+        raise ValueError(f"{case['id']}: only full is the default when --output-format is omitted")
     expected_stdout_policy = "json" if output_format == "json" else "bytes"
     if case["comparison"]["stdout"] != expected_stdout_policy:
         raise ValueError(f"{case['id']}: stdout comparison policy must be {expected_stdout_policy} for {output_format}")

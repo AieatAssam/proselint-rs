@@ -298,6 +298,10 @@
     {
       "id": "spelling.em_im_en_in",
       "status": "recorded"
+    },
+    {
+      "id": "spelling.athletes",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -339,12 +343,12 @@
     "independent_evidence": "rust/artifacts/independent-review-fixes/final-gate-348.json"
   },
   "active_ownership": {
-    "current": "The latest strict live gate passes 671/671 cases across 74 capabilities. spelling.em_im_en_in has passed focused and independent live parity and is recorded. spelling.athletes has a 29/29 candidate RED; its implementation worker owns only rust/src/rules/spelling_athletes.rs and rust/tests/spelling_athletes.rs. Coordinator owns shared dispatch and the next cumulative gate.",
+    "current": "The latest strict live gate passes 700/700 cases across 75 capabilities. spelling.athletes passed focused and independent live verification and is recorded. Shared flat dotted config-key selection, registry routing, and ordering are covered by the gate. No production worker is active.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
     "The no-config-found bundled DEFAULT, every default-enabled rule interaction, and combined enabled-rule configurations remain unverified; selected-rule passes do not establish default behavior.",
-    "45 unique rule paths remain unimplemented or unverified.",
+    "44 unique rule paths remain unimplemented or unverified.",
     "Other CLI behavior remains unverified, including remaining subcommands, missing nonempty-XDG config, HOME-unset resolution, directory user candidates, file/directory traversal and decoding edges, multi-file rendering, and Compact output.",
     "Unicode case folding and quote-pairing combinations beyond explicitly tested cases remain unverified.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
@@ -4253,7 +4257,7 @@
     },
     {
       "id": "spelling.athletes",
-      "status": "candidate_red_recorded_implementation_pending",
+      "status": "recorded",
       "case_ids": [
         "spelling_athletes_form_01",
         "spelling_athletes_form_02",
@@ -4314,35 +4318,75 @@
       "agent_reasoning_effort": "low requested",
       "agent_runtime_metadata": "unavailable",
       "stage_durations_seconds": {
-        "oracle_case_capture_not_recorded": null,
-        "red_live": 10.620172
+        "red_live": 10.620172,
+        "focused_rust_tests": 0.12,
+        "focused_green_live": 14.552163,
+        "independent_live": 13.869884,
+        "cumulative_gate": 204.311448
       },
       "stage_case_counts": {
-        "oracle_live_cases": 29,
-        "red_live": 29
+        "red_live": 29,
+        "focused_green_live": 29,
+        "independent_live": 29,
+        "cumulative_gate": 700
       },
-      "implementation": "assigned to isolated rule module/test owner; shared routing remains coordinator-owned"
+      "implementation": "Native Rust module with 17 pinned PreferredFormsSimple mappings, earliest-activation FastSet ordering, default quote suppression, and codepoint spans; routed through the library and selected-check CLI.",
+      "green": {
+        "status": "PASS",
+        "live_cases_passed": 29,
+        "focused_live_report": "rust/artifacts/focused-spelling-athletes-final2-20261106.json",
+        "build_attestation": "rust/artifacts/20261106T210530412511Z-build.attestation.json",
+        "source_fingerprint": "b2cfa57b4e9e8ce4a6d3caee401af6e75283a89bcfd1292af28e671278531f65",
+        "candidate_sha256": "5e40fa722a8567cc9a036b499d3b674274df7609dadde7fb688485a2609983e1",
+        "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
+        "locked_format_clippy_test_build": "PASS",
+        "focused_rust_test_count": 5,
+        "focused_rust_test_duration_seconds": 0.12,
+        "duration_seconds": 14.552163
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 29,
+        "focused_live_report": "rust/artifacts/independent-spelling-athletes-live-20261106.json",
+        "duration_seconds": 13.869884,
+        "source_fingerprint": "b2cfa57b4e9e8ce4a6d3caee401af6e75283a89bcfd1292af28e671278531f65",
+        "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "oracle_integrity": "verified before and after",
+        "candidate_sha256": "5e40fa722a8567cc9a036b499d3b674274df7609dadde7fb688485a2609983e1",
+        "agent_model": "gpt-6-luna",
+        "agent_reasoning_effort": "low requested",
+        "agent_runtime_metadata": "unavailable"
+      },
+      "implementation_source_sha256": "668b2948213a116840c155e20f409ad3012836ffff794e6f624ac1c7cc5b8a99",
+      "test_source_sha256": "97f852385d5288865c0867968842ac48a24d492d076de4436410decf3acd826c",
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-spelling-athletes-20261106.json",
+        "passed_cases": 700,
+        "capability_count": 75,
+        "duration_seconds": 204.311448,
+        "source_fingerprint": "b2cfa57b4e9e8ce4a6d3caee401af6e75283a89bcfd1292af28e671278531f65"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-em-im-en-in-20261106.json",
-    "passed_cases": 671,
+    "report": "rust/artifacts/strict-gate-spelling-athletes-20261106.json",
+    "passed_cases": 700,
     "manifest_cases": 706,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
-      "cli.config.per_file_checks": 4,
-      "spelling.athletes": 29
+      "cli.config.per_file_checks": 4
     },
     "exit_code": 0,
-    "capability_count": 74,
-    "source_fingerprint": "3ad762fa22192bae60d35a66e90efe400ca0996137e37efdce63f7b6a8df7cea",
-    "run_id": "20261106T204711083725Z-982671bd",
-    "started_at_utc": "2026-11-06T20:47:11.083691+00:00",
-    "finished_at_utc": "2026-11-06T20:50:28.142746+00:00",
-    "candidate_attestation": "rust/artifacts/20261106T204702526166Z-build.attestation.json",
-    "candidate_sha256": "e6d097e17d7589f1e91312e294a9abff31a3d35f1d100a1e03432491a6dcccb2",
-    "duration_seconds": 197.059055
+    "capability_count": 75,
+    "source_fingerprint": "b2cfa57b4e9e8ce4a6d3caee401af6e75283a89bcfd1292af28e671278531f65",
+    "run_id": "20261106T210837383876Z-c9f8db2e",
+    "started_at_utc": "2026-11-06T21:08:37.383801+00:00",
+    "finished_at_utc": "2026-11-06T21:12:01.695249+00:00",
+    "candidate_attestation": "rust/artifacts/20261106T210829028459Z-build.attestation.json",
+    "candidate_sha256": "5e40fa722a8567cc9a036b499d3b674274df7609dadde7fb688485a2609983e1",
+    "duration_seconds": 204.311448
   },
   "rust_dependencies": {
     "status": "current",
@@ -4366,7 +4410,7 @@
       "checked_after_gate": "2026-11-06T17:09:30Z"
     }
   },
-  "next_capability_handoff": "Finish spelling.athletes in its isolated rule module/test files using the 29 pinned live cases and recorded candidate RED. Coordinator owns shared CLI dispatch; after implementation, run focused live parity, independent verification, then the required cumulative gate.",
+  "next_capability_handoff": "Continue from the next unimplemented paths in rust/inventory.json. Preserve per-capability live RED/GREEN and independent verification; keep shared registry/config/CLI integration coordinator-owned, and batch the next cumulative gate at the documented checkpoint.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

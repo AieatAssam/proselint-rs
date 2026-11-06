@@ -1,5 +1,10 @@
 # Python and Rust benchmark
 
+## Candidate freshness
+
+These are reproducible historical comparisons against pinned Python Proselint 0.16.0, not measurements of the current Rust tree or the full rewrite. The isolated-rule report used Rust source fingerprint `f0aa5422…`; the combined selected-rule report used `e4072d0c…`. The current parity-gated candidate has fingerprint `4ff9affaa…` (malapropisms gate, 2026-11-06). Because production source changed after both timing runs, their speed ratios must not be presented as current-candidate performance. Rerun the parity precheck and benchmark against the final frozen source after implementation is complete.
+
+
 ## Result
 
 This comparison measures the accepted `misc.suddenly` rule with an isolated configuration. It does not measure the whole Proselint program or the Rust port as a whole. The port currently has selected compatibility coverage; most of the 124 registered rule entries are not implemented.

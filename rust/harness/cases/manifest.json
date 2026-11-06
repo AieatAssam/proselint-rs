@@ -18326,6 +18326,346 @@
         "--output-format",
         "json"
       ]
+    },
+    {
+      "id": "spelling_in_un_all_mappings",
+      "capability_id": "rule.spelling.in_un",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/in_un.py registers PreferredFormsSimple with four mappings (unadvisable→inadvisable, unalienable→inalienable, unexpressive→inexpressive, unfeasible→infeasible), Fast case-insensitive WORDS_IN_TEXT matching, zero offsets, quote suppression, and message \"in- vs. un-. '{}' is the preferred spelling.\" All four upstream preferred-form mappings.",
+      "input_mode": "stdin",
+      "stdin_base64": "dW5hZHZpc2FibGUgdW5hbGllbmFibGUgdW5leHByZXNzaXZlIHVuZmVhc2libGU=",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_in_un_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "in un config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsiaW5fdW4iOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:in un config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_in_un_case_and_repetition",
+      "capability_id": "rule.spelling.in_un",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/in_un.py registers PreferredFormsSimple with four mappings (unadvisable→inadvisable, unalienable→inalienable, unexpressive→inexpressive, unfeasible→infeasible), Fast case-insensitive WORDS_IN_TEXT matching, zero offsets, quote suppression, and message \"in- vs. un-. '{}' is the preferred spelling.\" Case-insensitive matching, original match surface, and repeated occurrences.",
+      "input_mode": "stdin",
+      "stdin_base64": "VU5BRFZJU0FCTEUgdW5mZWFzaWJsZSB1bmZlYXNpYmxl",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_in_un_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "in un config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsiaW5fdW4iOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:in un config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_in_un_clean_boundaries",
+      "capability_id": "rule.spelling.in_un",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/in_un.py registers PreferredFormsSimple with four mappings (unadvisable→inadvisable, unalienable→inalienable, unexpressive→inexpressive, unfeasible→infeasible), Fast case-insensitive WORDS_IN_TEXT matching, zero offsets, quote suppression, and message \"in- vs. un-. '{}' is the preferred spelling.\" Embedded-only forms do not activate; a bounded form still reports.",
+      "input_mode": "stdin",
+      "stdin_base64": "eHVuYWR2aXNhYmxlIHVuZmVhc2libGV4IHVuZmVhc2libGU=",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_in_un_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "in un config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsiaW5fdW4iOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:in un config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_in_un_raw_after_activation",
+      "capability_id": "rule.spelling.in_un",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/in_un.py registers PreferredFormsSimple with four mappings (unadvisable→inadvisable, unalienable→inalienable, unexpressive→inexpressive, unfeasible→infeasible), Fast case-insensitive WORDS_IN_TEXT matching, zero offsets, quote suppression, and message \"in- vs. un-. '{}' is the preferred spelling.\" Once a bounded occurrence activates a pattern, raw iteration includes embedded occurrences.",
+      "input_mode": "stdin",
+      "stdin_base64": "dW5hZHZpc2FibGUgeHVuYWR2aXNhYmxl",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_in_un_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "in un config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsiaW5fdW4iOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:in un config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_in_un_quote_suppression",
+      "capability_id": "rule.spelling.in_un",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/in_un.py registers PreferredFormsSimple with four mappings (unadvisable→inadvisable, unalienable→inalienable, unexpressive→inexpressive, unfeasible→infeasible), Fast case-insensitive WORDS_IN_TEXT matching, zero offsets, quote suppression, and message \"in- vs. un-. '{}' is the preferred spelling.\" Quoted findings are suppressed while the unquoted form remains.",
+      "input_mode": "stdin",
+      "stdin_base64": "InVuYWR2aXNhYmxlIiB1bmZlYXNpYmxl",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_in_un_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "in un config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsiaW5fdW4iOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:in un config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_in_un_unicode_positions",
+      "capability_id": "rule.spelling.in_un",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/in_un.py registers PreferredFormsSimple with four mappings (unadvisable→inadvisable, unalienable→inalienable, unexpressive→inexpressive, unfeasible→infeasible), Fast case-insensitive WORDS_IN_TEXT matching, zero offsets, quote suppression, and message \"in- vs. un-. '{}' is the preferred spelling.\" Emoji and non-ASCII text verify code-point spans and line/column positions.",
+      "input_mode": "stdin",
+      "stdin_base64": "8J+YgCBjYWbDqSB1bmZlYXNpYmxlCm5hw692ZSB1bmV4cHJlc3NpdmU=",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_in_un_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "in un config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsiaW5fdW4iOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:in un config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_in_un_max_errors_one",
+      "capability_id": "rule.spelling.in_un",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/in_un.py registers PreferredFormsSimple with four mappings (unadvisable→inadvisable, unalienable→inalienable, unexpressive→inexpressive, unfeasible→infeasible), Fast case-insensitive WORDS_IN_TEXT matching, zero offsets, quote suppression, and message \"in- vs. un-. '{}' is the preferred spelling.\" One diagnostic is retained before final position sorting.",
+      "input_mode": "stdin",
+      "stdin_base64": "dW5mZWFzaWJsZSB1bmFkdmlzYWJsZQ==",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_in_un_only_max_errors_one",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "in un config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsic3BlbGxpbmciOnsiaW5fdW4iOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:in un config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_in_un_activation_order",
+      "capability_id": "rule.spelling.in_un",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/in_un.py registers PreferredFormsSimple with four mappings (unadvisable→inadvisable, unalienable→inalienable, unexpressive→inexpressive, unfeasible→infeasible), Fast case-insensitive WORDS_IN_TEXT matching, zero offsets, quote suppression, and message \"in- vs. un-. '{}' is the preferred spelling.\" Embedded first form alone does not activate; live oracle establishes which active pattern survives truncation.",
+      "input_mode": "stdin",
+      "stdin_base64": "eHVuYWR2aXNhYmxlIHVuZmVhc2libGUgdW5hZHZpc2FibGU=",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_in_un_only_max_errors_one",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "in un config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsic3BlbGxpbmciOnsiaW5fdW4iOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:in un config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_in_un_long_s_lookup",
+      "capability_id": "rule.spelling.in_un",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/in_un.py registers PreferredFormsSimple with four mappings (unadvisable→inadvisable, unalienable→inalienable, unexpressive→inexpressive, unfeasible→infeasible), Fast case-insensitive WORDS_IN_TEXT matching, zero offsets, quote suppression, and message \"in- vs. un-. '{}' is the preferred spelling.\" Long-s case-insensitive match checks exact lowercase dictionary lookup and null replacement behavior.",
+      "input_mode": "stdin",
+      "stdin_base64": "dW5leHByZcW/xb9pdmUgdW5mZWHFv2libGU=",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_in_un_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "in un config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsic3BlbGxpbmciOnsiaW5fdW4iOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:in un config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "spelling_in_un_quoted_activation_limit",
+      "capability_id": "rule.spelling.in_un",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/in_un.py registers PreferredFormsSimple with four mappings (unadvisable→inadvisable, unalienable→inalienable, unexpressive→inexpressive, unfeasible→infeasible), Fast case-insensitive WORDS_IN_TEXT matching, zero offsets, quote suppression, and message \"in- vs. un-. '{}' is the preferred spelling.\" Quoted activation, suppression, embedded raw occurrences, and max_errors ordering interact.",
+      "input_mode": "stdin",
+      "stdin_base64": "InVuYWR2aXNhYmxlIiB1bmZlYXNpYmxlIHh1bmFkdmlzYWJsZQ==",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "spelling_in_un_only_max_errors_one",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "in un config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsic3BlbGxpbmciOnsiaW5fdW4iOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:in un config.json}",
+        "--output-format",
+        "json"
+      ]
     }
   ]
 }

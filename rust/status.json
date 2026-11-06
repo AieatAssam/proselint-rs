@@ -293,7 +293,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "Specify the next small PreferredFormsSimple rule, spelling.in_un, against the pinned oracle; add meaningful RED tests and exact live cases, implement, independently verify, and run the cumulative gate."
+    "next_handoff": "Luna implementer owns rust/src/lib.rs and rust/src/main.rs for spelling.in_un; coordinator owns rust/status.json, rust/status-history.jsonl, and rust/docs/**."
   },
   "unresolved": [
     "The no-config-found bundled DEFAULT, every default-enabled rule interaction, and combined enabled-rule configurations remain unverified; selected-rule passes do not establish default behavior.",
@@ -3249,6 +3249,35 @@
       "limitations": [
         "No dedicated Rust integration-test target covers malapropisms; the ten end-to-end live cases and full locked Cargo suite passed. Independent Cargo tests rebuilt the debug candidate after the target live comparison; the live report records the attested binary actually tested."
       ]
+    },
+    {
+      "id": "rule.spelling.in_un",
+      "status": "in_progress",
+      "case_ids": [
+        "spelling_in_un_all_mappings",
+        "spelling_in_un_case_and_repetition",
+        "spelling_in_un_clean_boundaries",
+        "spelling_in_un_raw_after_activation",
+        "spelling_in_un_quote_suppression",
+        "spelling_in_un_unicode_positions",
+        "spelling_in_un_max_errors_one",
+        "spelling_in_un_activation_order",
+        "spelling_in_un_long_s_lookup",
+        "spelling_in_un_quoted_activation_limit"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_spec": "Pinned default-enabled PreferredFormsSimple check with unadvisable→inadvisable, unalienable→inalienable, unexpressive→inexpressive, unfeasible→infeasible. Fast case-insensitive WORDS_IN_TEXT matching, allow_quotes=false, offset 0; message \"in- vs. un-. '{}' is the preferred spelling.\" Exact lowercase lookup means long-s surfaces can yield message None and replacements null. FastSet activation order, raw occurrence emission, quote suppression before max_errors, and final positional sorting are observable.",
+      "red": {
+        "report_status": "MISMATCH",
+        "mismatches": 10,
+        "reason": "All ten frozen cases reached the pinned oracle and candidate; the candidate returned unsupported-path errors.",
+        "evidence": "rust/artifacts/spelling-in-un-rust-red-live-20261106b.json",
+        "source_fingerprint": "8cc7c679eee3d9bac847fd8c31d8794920c2e0ced97e2aacd0276f6e9c384570",
+        "build_attestation": "rust/artifacts/20261106T125359605704Z-build.attestation.json"
+      },
+      "limitations": [
+        "RED is not acceptance evidence; implementation, focused live green, independent verification, and cumulative gate remain required."
+      ]
     }
   ],
   "last_strict_gate": {
@@ -3287,7 +3316,7 @@
       "rust_version_constraint": "1.99"
     }
   },
-  "next_capability_handoff": "Specify spelling.in_un against the pinned oracle; demonstrate meaningful RED, then implement, live-compare, independently verify, and run the cumulative gate.",
+  "next_capability_handoff": "Implement spelling.in_un from the frozen ten-case RED using existing PreferredFormsSimple semantics; preserve FastSet activation order, quote/max_errors order, and exact long-s lookup behavior, then independently verify and run the cumulative live gate.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

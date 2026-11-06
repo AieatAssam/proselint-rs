@@ -13964,6 +13964,207 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "capability_id": "cli.config.ancestor_discovery",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; ancestor config discovery behavior.",
+      "input_mode": "stdin",
+      "stdin_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg==",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cwd_proselint_json",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "id": "cli_config_nested_cwd_discovers_ancestor",
+      "files": [
+        {
+          "path": "proselint.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="
+        }
+      ],
+      "unused_files": [
+        "proselint.json"
+      ],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "working_directory": "nested/deeper"
+    },
+    {
+      "capability_id": "cli.config.ancestor_discovery",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; ancestor config discovery behavior.",
+      "input_mode": "stdin",
+      "stdin_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg==",
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cwd_proselint_json",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "id": "cli_config_nearest_ancestor_wins",
+      "files": [
+        {
+          "path": "proselint.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="
+        },
+        {
+          "path": "nested/proselint.json",
+          "content_base64": "eyJjaGVja3MiOnt9fQ=="
+        }
+      ],
+      "unused_files": [
+        "proselint.json",
+        "nested/proselint.json"
+      ],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "working_directory": "nested/deeper"
+    },
+    {
+      "capability_id": "cli.config.ancestor_discovery",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; ancestor config discovery behavior.",
+      "input_mode": "stdin",
+      "stdin_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg==",
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cwd_proselint_json",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "id": "cli_config_explicit_overrides_ancestors",
+      "files": [
+        {
+          "path": "proselint.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="
+        },
+        {
+          "path": "nested/proselint.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="
+        },
+        {
+          "path": "nested/deeper/explicit.json",
+          "content_base64": "eyJjaGVja3MiOnt9fQ=="
+        }
+      ],
+      "unused_files": [
+        "proselint.json",
+        "nested/proselint.json"
+      ],
+      "argv": [
+        "check",
+        "--output-format",
+        "json",
+        "--config",
+        "explicit.json"
+      ],
+      "working_directory": "nested/deeper"
+    },
+    {
+      "capability_id": "cli.config.ancestor_discovery",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; ancestor config discovery behavior.",
+      "input_mode": "stdin",
+      "stdin_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg==",
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cwd_proselint_json",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "id": "cli_config_malformed_nearest_ancestor_errors",
+      "files": [
+        {
+          "path": "proselint.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="
+        },
+        {
+          "path": "nested/proselint.json",
+          "content_base64": "ew=="
+        }
+      ],
+      "unused_files": [
+        "proselint.json",
+        "nested/proselint.json"
+      ],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "working_directory": "nested/deeper"
+    },
+    {
+      "capability_id": "cli.config.ancestor_discovery",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; discovery selects the first ancestor proselint.json that is a file, skipping a directory with that name.",
+      "input_mode": "stdin",
+      "stdin_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg==",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cwd_proselint_json",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "id": "cli_config_directory_nearest_skips_to_ancestor",
+      "files": [
+        {
+          "path": "proselint.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="
+        },
+        {
+          "path": "nested/proselint.json/marker",
+          "content_base64": "eA=="
+        }
+      ],
+      "unused_files": [
+        "proselint.json",
+        "nested/proselint.json/marker"
+      ],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "working_directory": "nested/deeper"
     }
   ]
 }

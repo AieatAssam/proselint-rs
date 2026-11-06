@@ -917,8 +917,17 @@ fn run() -> Result<ExitCode, String> {
         output_format,
         paths,
     } = cli.command;
-    // shortcut: only discover the cwd config, upgrade when ancestor and user config search is needed
-    let config = config.unwrap_or_else(|| PathBuf::from("proselint.json"));
+    let config = match config {
+        Some(config) => config,
+        None => {
+            let cwd = std::env::current_dir()
+                .map_err(|error| format!("Unable to determine current directory: {error}"))?;
+            std::iter::successors(Some(cwd.as_path()), |path| path.parent())
+                .map(|directory| directory.join("proselint.json"))
+                .find(|candidate| candidate.is_file())
+                .unwrap_or_else(|| PathBuf::from("proselint.json"))
+        }
+    };
 
     if let Ok(metadata) = fs::metadata(&config)
         && metadata.is_dir()

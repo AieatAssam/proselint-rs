@@ -194,6 +194,10 @@
     {
       "id": "cli.config.cwd_discovery",
       "status": "recorded"
+    },
+    {
+      "id": "cli.config.ancestor_discovery",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -258,9 +262,9 @@
     "Most registered rules, default configuration, combined-rule behavior, and Unicode case folding beyond tested ASCII variants remain unverified",
     "Consumed special-value behavior is verified for the 12 listed cases; differently escaped surrogate object-key equality and other invalid setting types remain unverified. Directory config errors match the accepted JSON, Full, and compact cases. Malformed-depth behavior outside the accepted cases remains unverified.",
     "Astra's 100000-unclosed-array SIGABRT reproducer is now a permanent regression and independently matches the pinned Python RecursionError.",
-    "Rust Check currently requires --config and --output-format, while pinned Python supplies defaults and discovers configuration paths; default invocation/config discovery and other CLI subcommands remain unimplemented or unverified.",
-    "Compact output, file-path/multi-file Full rendering, and Full-mode error formatting remain unverified; configuration discovery and built-in default rules are also separate open CLI capabilities.",
-    "Config discovery covers cwd proselint.json only; ancestor config files, XDG/HOME fallback, no-config-found bundled DEFAULT, and malformed winning discovered files remain unverified."
+    "Rust Check defaults output to Full and discovers cwd/ancestor proselint.json files, but XDG/HOME discovery, no-config-found bundled DEFAULT, and other CLI subcommands remain unimplemented or unverified.",
+    "Compact output, file-path/multi-file Full rendering, and Full-mode error formatting remain unverified; XDG/HOME discovery and bundled default-rule behavior remain separate open CLI capabilities.",
+    "Config discovery covers cwd and ancestor proselint.json files nearest-first, including explicit precedence and malformed-winner behavior. XDG/HOME fallback, no-config-found bundled DEFAULT, and malformed XDG/HOME winners remain unverified."
   ],
   "capability_states": [
     {
@@ -2503,20 +2507,63 @@
         "manifest_cases": 424,
         "report": "rust/artifacts/strict-gate-cwd-discovery-20261106.json"
       }
+    },
+    {
+      "id": "cli.config.ancestor_discovery",
+      "status": "recorded",
+      "case_ids": [
+        "cli_config_nested_cwd_discovers_ancestor",
+        "cli_config_nearest_ancestor_wins",
+        "cli_config_explicit_overrides_ancestors",
+        "cli_config_malformed_nearest_ancestor_errors",
+        "cli_config_directory_nearest_skips_to_ancestor"
+      ],
+      "upstream_spec": "Without --config, search cwd/proselint.json and each ancestor through the filesystem root nearest-first, selecting the first file. Explicit --config has precedence. A malformed winning file errors rather than falling through; a directory named proselint.json is skipped.",
+      "red": {
+        "behavioral_mismatches": 4,
+        "total_cases": 5,
+        "exit_code": 1,
+        "evidence": "rust/artifacts/20261106T053143732089Z-ancestor-184f06b6/report.json"
+      },
+      "green": {
+        "focused_rust_tests_passed": 5,
+        "live_cases_passed": 5,
+        "report": "rust/artifacts/20261106T-ancestor-final-live.json",
+        "build_attestation": "rust/artifacts/20261106T053600006731Z-build.attestation.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 5,
+        "rust_tests_passed": 417,
+        "harness_tests_passed": 25,
+        "comparator_discriminators_passed": 23,
+        "report": "rust/artifacts/independent-ancestor-discovery-20261106/ancestor-discovery-live.json",
+        "build_attestation": "rust/artifacts/independent-ancestor-discovery-20261106/build.attestation.json",
+        "source_fingerprint": "af50251f3facb56c335b755c8ac43248678976587c24efa81fe570cc3bf286df"
+      },
+      "limitations": [
+        "This capability covers cwd and ancestor files only. XDG/HOME config fallback, no-config-found bundled DEFAULT, malformed user-config behavior and non-Linux path semantics remain separate."
+      ],
+      "cumulative_live_parity": {
+        "status": "PASS",
+        "passed_cases": 423,
+        "manifest_cases": 429,
+        "report": "rust/artifacts/strict-gate-ancestor-discovery-20261106.json"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-full-output-20261106.json",
-    "passed_cases": 418,
-    "manifest_cases": 424,
+    "report": "rust/artifacts/strict-gate-ancestor-discovery-20261106.json",
+    "passed_cases": 423,
+    "manifest_cases": 429,
     "excluded_manifest_cases": {
       "cli.config.per_file_checks": 4,
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "source_fingerprint": "3ea728327f4b12b0fefbc9ad0f500b98289b26d27733f88d10e210783e9f88a3",
-    "capability_count": 48
+    "source_fingerprint": "c0771b36ba3342627037c4da5dfdbbe729fd05f8dd59c233c02f2a9f44074439",
+    "capability_count": 49
   },
   "rust_dependencies": {
     "status": "current",
@@ -2537,7 +2584,7 @@
       "rust_version_constraint": "1.99"
     }
   },
-  "next_capability_handoff": "Probe and RED-test ancestor config discovery: run from a nested working directory with proselint.json in its parent; nearest ancestor wins, explicit --config overrides it, and a malformed winning ancestor does not fall through. Add narrow harness working-directory fixture support with negative schema tests, then implement and independently verify. Leave XDG/HOME/default fallback for later slices.",
+  "next_capability_handoff": "Specify and RED-test XDG_CONFIG_HOME/proselint/config.json discovery, then HOME/.config/proselint/config.json when XDG_CONFIG_HOME is unset or empty. Verify precedence after cwd/ancestor configs and ensure malformed first-existing files do not fall through. Keep no-config-found bundled DEFAULT as a separate capability.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

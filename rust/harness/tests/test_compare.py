@@ -13,6 +13,22 @@ import compare
 
 
 class ComparatorTests(unittest.TestCase):
+    def test_working_directory_must_be_relative_and_contained(self) -> None:
+        case = json.loads(json.dumps(compare.load_manifest()["cases"][0]))
+        for path in ("../outside", "/tmp/outside", "nested/../../outside"):
+            with self.subTest(path=path):
+                case["working_directory"] = path
+                with self.assertRaisesRegex(ValueError, "working_directory must stay inside workspace"):
+                    compare.validate_case(case)
+
+    def test_working_directory_is_materialized_for_both_processes(self) -> None:
+        case = {"id":"cwd_probe", "capability_id":"test", "provenance":"test", "input_mode":"stdin", "stdin_base64":"", "files":[], "argv":[], "output_format":"json", "expected_oracle_outcome":"clean", "timeout_seconds":2, "environment":{}, "workspace_mutates":False, "working_directory":"nested/deeper", "comparison":{"stdout":"json","stderr":"bytes","exit_status":"exact"}}
+        probe = [sys.executable, "-c", "import os,json;print(json.dumps({'result':{'<stdin>':{'diagnostics':[]}}}));print(os.getcwd(), file=__import__('sys').stderr)"]
+        with tempfile.TemporaryDirectory() as directory:
+            result = compare.run_case(case, probe, probe, Path(directory), None)
+        self.assertEqual(result["status"], "PASS", result)
+        self.assertTrue(all(Path(run["cwd"]).parts[-2:] == ("nested", "deeper") for run in result["executions"]))
+
     def test_files_must_be_consumed_or_explicitly_unused_and_format_must_match(self) -> None:
         original = next(case for case in compare.load_manifest()["cases"] if case["id"] == "cli_config_consumed_checks_array_nan")
         fixture_path = original["files"][0]["path"]
@@ -228,6 +244,11 @@ class ComparatorTests(unittest.TestCase):
             "cli_config_cwd_discovers_finding",
             "cli_config_cwd_discovers_empty_checks",
             "cli_config_explicit_precedes_cwd_discovery",
+            "cli_config_nested_cwd_discovers_ancestor",
+            "cli_config_nearest_ancestor_wins",
+            "cli_config_explicit_overrides_ancestors",
+            "cli_config_malformed_nearest_ancestor_errors",
+            "cli_config_directory_nearest_skips_to_ancestor",
             "cli_output_format_full_clean",
             "cli_output_format_full_default_apologizing_finding",
             "cli_output_format_full_explicit_apologizing_finding",
@@ -449,7 +470,7 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(
             {capability: sum(case["capability_id"] == capability for case in manifest["cases"])
              for capability in {case["capability_id"] for case in manifest["cases"]}},
-            {'rule.misc.debased': 13, 'rule.misc.capitalization.days': 10, 'rule.cliches.hell': 7, 'harness.oracle_smoke': 2, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.misc.latin': 10, 'rule.misc.back_formations': 8, 'rule.misc.capitalization.terms': 10, 'rule.industrial_language.airlinese': 12, 'cli.json_no_findings': 8, 'rule.misc.greylist': 9, 'rule.misc.many_a': 10, 'cli.output_format.full': 3, 'cli.config.ignored_values': 5, 'rule.misc.professions': 8, 'cli.config.cwd_discovery': 3, 'rule.misc.illogic.coin': 7, 'rule.hedging': 13, 'cli.config.invalid_utf8': 5, 'rule.misc.whence': 6, 'rule.annotations.misc': 10, 'rule.typography.symbols.sentence_spacing': 7, 'cli.config.consumed_special_values': 12, 'cli.config.malformed_json': 22, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.copyright': 6, 'rule.misc.pretension': 9, 'cli.config.recursion_depth': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.misc.institution_name': 8, 'rule.misc.currency': 12, 'rule.misc.suddenly': 7, 'cli.coordinates': 6, 'rule.misc.but': 8, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.collusion': 7, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.capitalization.seasons': 10, 'cli.config.directory_path': 4, 'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 10, 'rule.misc.inferior_superior': 12, 'rule.misc.false_plurals.misc': 9, 'cli.config.per_file_checks': 4, 'rule.redundancy.misc.wallace': 10, 'rule.dates_times.am_pm.spacing': 8, 'rule.typography.symbols.ellipsis': 6, 'rule.psychology.lie_detector': 12, 'rule.industrial_language.jargon': 10},
+            {'rule.misc.debased': 13, 'rule.misc.capitalization.days': 10, 'rule.cliches.hell': 7, 'harness.oracle_smoke': 2, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.misc.latin': 10, 'rule.misc.back_formations': 8, 'rule.misc.capitalization.terms': 10, 'rule.industrial_language.airlinese': 12, 'cli.json_no_findings': 8, 'rule.misc.greylist': 9, 'rule.misc.many_a': 10, 'cli.output_format.full': 3, 'cli.config.ignored_values': 5, 'rule.misc.professions': 8, 'cli.config.cwd_discovery': 3, 'cli.config.ancestor_discovery': 5, 'rule.misc.illogic.coin': 7, 'rule.hedging': 13, 'cli.config.invalid_utf8': 5, 'rule.misc.whence': 6, 'rule.annotations.misc': 10, 'rule.typography.symbols.sentence_spacing': 7, 'cli.config.consumed_special_values': 12, 'cli.config.malformed_json': 22, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.copyright': 6, 'rule.misc.pretension': 9, 'cli.config.recursion_depth': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.misc.institution_name': 8, 'rule.misc.currency': 12, 'rule.misc.suddenly': 7, 'cli.coordinates': 6, 'rule.misc.but': 8, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.collusion': 7, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.capitalization.seasons': 10, 'cli.config.directory_path': 4, 'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 10, 'rule.misc.inferior_superior': 12, 'rule.misc.false_plurals.misc': 9, 'cli.config.per_file_checks': 4, 'rule.redundancy.misc.wallace': 10, 'rule.dates_times.am_pm.spacing': 8, 'rule.typography.symbols.ellipsis': 6, 'rule.psychology.lie_detector': 12, 'rule.industrial_language.jargon': 10},
         )
 
     def test_manifest_rejects_duplicate_id_and_bad_base64(self) -> None:

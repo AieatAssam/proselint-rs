@@ -93,6 +93,9 @@ def validate_case(case: Any) -> None:
         raise ValueError(f"{case['id']}: files must be an array")
     if not isinstance(case["workspace_mutates"], bool):
         raise ValueError(f"{case['id']}: workspace_mutates must be boolean")
+    working_directory = case.get("working_directory", ".")
+    if not isinstance(working_directory, str) or not working_directory or Path(working_directory).is_absolute() or ".." in Path(working_directory).parts:
+        raise ValueError(f"{case['id']}: working_directory must stay inside workspace")
     if case["input_mode"] == "stdin":
         if not isinstance(case.get("stdin_base64"), str):
             raise ValueError(f"{case['id']}: stdin cases need stdin_base64")
@@ -150,7 +153,8 @@ def validate_case(case: Any) -> None:
     consumed = set()
     for path in file_paths:
         marker = "{file:" + path + "}"
-        if any(marker in arg or arg == path or arg.endswith("=" + path) for arg in case["argv"]):
+        cwd_path = os.path.relpath(path, working_directory)
+        if any(marker in arg or arg == path or arg.endswith("=" + path) or arg == cwd_path for arg in case["argv"]):
             consumed.add(path)
     unclassified = file_paths - consumed - set(unused_files)
     if unclassified:
@@ -408,13 +412,15 @@ def run_case(
             role_workspace = temp_base / role if case["workspace_mutates"] else temp_base / "shared"
             if not role_workspace.exists():
                 shutil.copytree(layout, role_workspace)
+            working_directory = role_workspace / case.get("working_directory", ".")
+            working_directory.mkdir(parents=True, exist_ok=True)
             home = case_dir / role / "home"
             for subdir in ("xdg", "cache", "tmp"):
                 (home / subdir).mkdir(parents=True, exist_ok=True)
             argv = executable + args
             env = fresh_env(home, case["environment"])
             commands.append(argv)
-            run = run_command(argv, cwd=role_workspace, env=env, stdin=stdin, timeout=case["timeout_seconds"], role=role)
+            run = run_command(argv, cwd=working_directory, env=env, stdin=stdin, timeout=case["timeout_seconds"], role=role)
             run["workspace"] = str(role_workspace)
             executions.append(run)
         workspace_paths = tuple(Path(run["workspace"]) for run in executions)

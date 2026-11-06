@@ -1,6 +1,6 @@
 //! Native Rust implementation of Proselint.
 
-use regex::Regex;
+use regex::{Regex, RegexBuilder};
 use serde_json::{Map, Value, json};
 use std::path::Path;
 use std::sync::LazyLock;
@@ -170,6 +170,51 @@ const WALLACE_MESSAGE: &str = "Redundancy. Use '{}' instead of '{}'.";
 const INSTITUTION_NAME_PATTERN: &str = "Virginia Polytechnic and State University";
 const INSTITUTION_NAME_REPLACEMENT: &str = "Virginia Polytechnic Institute and State University";
 const PROFESSIONS: [(&str, &str); 2] = [("shoe repair guy", "cobbler"), ("geometrist", "geometer")];
+const COMPOSITION_SIMPLE_FORMS: [(&str, &str); 20] = [
+    ("not honest", "dishonest"),
+    ("not important", "unimportant"),
+    ("did not remember", "forgot"),
+    ("did not pay attention to", "ignored"),
+    ("did not have much confidence in", "distrusted"),
+    ("the question as to whether", "whether"),
+    ("there is no doubt but that", "no doubt"),
+    ("used for fuel purposes", "used for fuel"),
+    ("he is a man who", "he"),
+    ("in a hasty manner", "hastily"),
+    ("this is a subject that", "this subject"),
+    ("a strange one", "strange."),
+    ("the reason why is that", "because"),
+    ("owing to the fact that", "because / since"),
+    ("in spite of the fact that", "although / though"),
+    (
+        "call your attention to the fact that",
+        "remind you / notify you",
+    ),
+    ("was unaware of the fact", "did not know / was unaware"),
+    ("did not succeed", "failed"),
+    ("not succeed", "fail"),
+    ("the fact that i had arrived", "my arrival"),
+];
+const COMPOSITION_REGEX_FORMS: [(&str, &str); 3] = [
+    (
+        r"(?-u:\b)did not pay (any )?attention to(?-u:\b)",
+        "ignored",
+    ),
+    (
+        r"(?-u:\b)did not have (much )?(confidence|faith) in(?-u:\b)",
+        "distrusted",
+    ),
+    (r"(?-u:\b)(had )?not succeeded(?-u:\b)", "failed"),
+];
+static COMPOSITION_REGEXES: LazyLock<[Regex; 3]> = LazyLock::new(|| {
+    std::array::from_fn(|index| {
+        RegexBuilder::new(COMPOSITION_REGEX_FORMS[index].0)
+            .case_insensitive(true)
+            .unicode(true)
+            .build()
+            .expect("valid composition preferred-form pattern")
+    })
+});
 const ANCE_ENCE_FORMS: [(&str, &str); 3] = [
     ("appearence", "appearance"),
     ("occurrance", "occurrence"),
@@ -2394,6 +2439,85 @@ pub fn spelling_ance_ence_diagnostics(text: &str) -> Vec<Value> {
         .into_iter()
         .map(|(_, diagnostic)| diagnostic)
         .collect()
+}
+
+/// Return composition findings in upstream registration and matcher order.
+pub fn composition_diagnostics_in_matcher_order(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut diagnostics = Vec::new();
+
+    let mut simple_matches = Vec::new();
+    for (pattern_index, (pattern, replacement)) in COMPOSITION_SIMPLE_FORMS.iter().enumerate() {
+        let matches = unicode_case_match_ends(&padded, pattern);
+        if let Some((start, end)) = matches
+            .iter()
+            .filter(|(start, end)| {
+                !is_ascii_word_before(&padded, *start) && !is_ascii_word_at(&padded, *end)
+            })
+            .min_by_key(|(start, end)| (*end, std::cmp::Reverse(*start)))
+        {
+            simple_matches.push((*end, *start, pattern_index, *replacement, matches));
+        }
+    }
+    simple_matches.sort_by_key(|(end, start, pattern_index, ..)| {
+        (*end, std::cmp::Reverse(*start), *pattern_index)
+    });
+
+    for (_, _, _, replacement, matches) in simple_matches {
+        let mut previous_end = 0;
+        for (start, end) in matches {
+            if start < previous_end {
+                continue;
+            }
+            previous_end = end;
+            let matched = &padded[start..end];
+            let preferred = preferred_lookup(matched.trim(), replacement);
+            let span_start = padded[..start].chars().count();
+            let span_end = span_start + matched.chars().count();
+            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+            if quote_index % 2 == 1 {
+                continue;
+            }
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            diagnostics.push(json!({
+                "check_path": "misc.composition",
+                "message": format!("Try '{}' instead of '{}'.", preferred.unwrap_or("None"), matched.trim()),
+                "span": [span_start, span_end],
+                "pos": [line, column],
+                "replacements": preferred,
+            }));
+        }
+    }
+
+    for ((_, replacement), regex) in COMPOSITION_REGEX_FORMS
+        .iter()
+        .zip(COMPOSITION_REGEXES.iter())
+    {
+        for matched in regex.find_iter(&padded) {
+            let span_start = padded[..matched.start()].chars().count();
+            let span_end = span_start + padded[matched.start()..matched.end()].chars().count();
+            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+            if quote_index % 2 == 1 {
+                continue;
+            }
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            diagnostics.push(json!({
+                "check_path": "misc.composition",
+                "message": format!("Try '{replacement}' instead of '{}'.", matched.as_str().trim()),
+                "span": [span_start, span_end],
+                "pos": [line, column],
+                "replacements": replacement,
+            }));
+        }
+    }
+
+    diagnostics
 }
 
 /// Match Python's `splitlines(keepends=True)` line boundaries and the

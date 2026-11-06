@@ -218,6 +218,10 @@
     {
       "id": "spelling.ance_ence",
       "status": "recorded"
+    },
+    {
+      "id": "rule.misc.composition",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -265,11 +269,11 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "Specify and demonstrate meaningful RED for misc.composition; preserve its two same-path registrations, duplicate findings, max_errors behavior, and source-order ties before implementing."
+    "next_handoff": "Specify the real CLI capability cli.combined_checks against the pinned oracle; cover registry order, max_errors truncation before final stable position sorting, duplicates, and equal-position ties. Run the parity-proved combined profile benchmark only after that capability is independently verified."
   },
   "unresolved": [
     "The no-config-found bundled DEFAULT, every default-enabled rule interaction, and combined enabled-rule configurations remain unverified; selected-rule passes do not establish default behavior.",
-    "64 unique rule paths remain unimplemented or unverified.",
+    "63 unique rule paths remain unimplemented or unverified.",
     "Other CLI behavior remains unverified, including remaining subcommands, missing nonempty-XDG config, HOME-unset resolution, directory user candidates, file/directory traversal and decoding edges, multi-file rendering, and Compact output.",
     "Unicode case folding and quote-pairing combinations beyond explicitly tested cases remain unverified.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
@@ -2818,19 +2822,120 @@
         "manifest_cases": 468,
         "report": "rust/artifacts/strict-gate-ance-ence-20261106.json"
       }
+    },
+    {
+      "id": "rule.misc.composition",
+      "status": "recorded",
+      "case_ids": [
+        "composition_all_simple_forms",
+        "composition_regex_captures_and_variants",
+        "composition_duplicate_simple_regex_overlap",
+        "composition_nested_matches_unlimited",
+        "composition_nested_matches_max_errors_one",
+        "composition_case_insensitive_surface",
+        "composition_boundaries_and_correct_forms_clean",
+        "composition_quote_suppression_with_outside_matches",
+        "composition_source_order_and_tied_duplicates",
+        "composition_unicode_codepoint_positions",
+        "composition_selected_only_config",
+        "composition_matcher_order_not_important_first_limit_1",
+        "composition_matcher_order_not_important_first_limit_2",
+        "composition_matcher_order_not_important_first_unlimited",
+        "composition_matcher_order_not_honest_repeated_limit_1",
+        "composition_matcher_order_not_honest_repeated_limit_2",
+        "composition_matcher_order_not_honest_repeated_unlimited",
+        "composition_matcher_order_not_succeed_then_did_not_limit_1",
+        "composition_matcher_order_not_succeed_then_did_not_limit_2",
+        "composition_matcher_order_not_succeed_then_did_not_unlimited",
+        "composition_matcher_order_did_not_succeed_then_not_limit_1",
+        "composition_matcher_order_did_not_succeed_then_not_limit_2",
+        "composition_matcher_order_did_not_succeed_then_not_unlimited",
+        "composition_matcher_order_quoted_activation_limit_1",
+        "composition_matcher_order_quoted_activation_limit_2",
+        "composition_matcher_order_quoted_activation_unlimited",
+        "composition_matcher_order_raw_xnot_activation_limit_1",
+        "composition_matcher_order_raw_xnot_activation_limit_2",
+        "composition_matcher_order_raw_xnot_activation_unlimited",
+        "composition_matcher_order_regex_overlap_before_other_simple_limit_1",
+        "composition_matcher_order_regex_overlap_before_other_simple_limit_2",
+        "composition_matcher_order_regex_overlap_before_other_simple_unlimited",
+        "composition_unicode_boundary_non_ascii_prefix",
+        "composition_unicode_boundary_non_ascii_suffix",
+        "composition_unicode_boundary_combining_mark",
+        "composition_unicode_casefold_long_s",
+        "composition_regex_long_s_uses_registered_replacement",
+        "composition_regex_ascii_word_boundaries_adjacent_to_unicode_letters"
+      ],
+      "registered_entries_exercised": 2,
+      "upstream_spec": "Pinned checks/misc/composition.py registers PreferredFormsSimple (20 literal entries) then PreferredForms (three case-insensitive regex entries) at the same `misc.composition` path. Both use Fast and WORDS_IN_TEXT padding with quote suppression and zero offset. Preserve RE2 FastSet matcher order for the simple set, then regex registration order; filter quoted findings before applying max_errors, and stable-sort the selected diagnostics by source position while retaining duplicate ties. Simple preferred replacement lookup can yield None when RE2 casefold matches a surface whose Python lower() value is not a dictionary key; regex replacements use their configured values.",
+      "red": {
+        "initial_focused_tests_failed": 11,
+        "initial_test_count": 11,
+        "exit_code": 101,
+        "reason": "All tests compiled and reached the CLI; the selected path was unsupported and returned exit 4.",
+        "evidence": "rust/artifacts/composition-rust-red-20261106.json",
+        "oracle_self_comparison": "rust/artifacts/composition-oracle-self-20261106.json",
+        "expanded_regression_mismatches": [
+          {
+            "passed": 20,
+            "total": 21,
+            "mismatch": "Simple preferred-form long-s lookup returned a replacement instead of Python None.",
+            "evidence": "rust/artifacts/composition-matcher-order-focused-20261106.json"
+          },
+          {
+            "passed": 21,
+            "total": 22,
+            "mismatch": "Regex long-s casefold did not match the pinned RE2 result.",
+            "evidence": "rust/artifacts/composition-regex-long-s-oracle-self-20261106.json"
+          }
+        ]
+      },
+      "green": {
+        "focused_rust_tests_passed": 23,
+        "live_cases_passed": 38,
+        "report": "rust/artifacts/composition-live-green-20261106.json",
+        "build_attestation": "rust/artifacts/20261106T090230857367Z-build.attestation.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 38,
+        "focused_rust_tests_passed": 23,
+        "locked_build_and_tests": "passed",
+        "harness_tests_passed": 28,
+        "comparator_discriminators_passed": 23,
+        "baseline_integrity": "verified",
+        "live_report": "rust/artifacts/independent-composition-20261106/composition-live.json",
+        "cumulative_prior_report": "rust/artifacts/independent-composition-20261106/cumulative-gate.json",
+        "build_attestation": "rust/artifacts/20261106T090430560825Z-build.attestation.json",
+        "source_fingerprint": "e1bc17cadaade4563349926e21cf97070890041f52da7e0ae9a9fefc914e80c5",
+        "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "agent_configured_model": "gpt-6-luna",
+        "agent_configured_reasoning_effort": "low",
+        "agent_runtime_metadata": "unavailable"
+      },
+      "limitations": [
+        "Only the 20 simple mappings, three regex forms, and the recorded 38-case behavior are accepted; other rules remain separate capabilities.",
+        "Combined-rule and bundled default configuration behavior remains unverified."
+      ],
+      "cumulative_live_parity": {
+        "status": "PASS",
+        "passed_cases": 500,
+        "manifest_cases": 506,
+        "report": "rust/artifacts/strict-gate-composition-20261106.json"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-ance-ence-20261106.json",
-    "passed_cases": 462,
-    "manifest_cases": 468,
+    "report": "rust/artifacts/strict-gate-composition-20261106.json",
+    "passed_cases": 500,
+    "manifest_cases": 506,
     "excluded_manifest_cases": {
       "cli.config.per_file_checks": 4,
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "capability_count": 54
+    "capability_count": 55
   },
   "rust_dependencies": {
     "status": "current",
@@ -2852,7 +2957,7 @@
       "rust_version_constraint": "1.99"
     }
   },
-  "next_capability_handoff": "Next: specify misc.composition against the pinned oracle, including the simple/regex overlap and max_errors=1 suffix-match behavior, then RED, implement, live-compare, independently verify, and run the cumulative gate.",
+  "next_capability_handoff": "Next: specify cli.combined_checks with already accepted selected rules and demonstrate meaningful RED, then implement, live-compare, independently verify, and run the cumulative gate. Afterward generalize the benchmark to an explicit combined accepted-rule profile.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

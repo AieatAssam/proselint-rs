@@ -506,6 +506,38 @@ class ComparatorTests(unittest.TestCase):
             "spelling_ance_ence_quote_suppression", "spelling_ance_ence_repeats_pattern_order",
             "spelling_ance_ence_unicode_codepoint_prefix", "spelling_ance_ence_selected_config",
             "spelling_ance_ence_max_errors_pattern_order", "spelling_ance_ence_boundary_then_embedded_substring",
+            "composition_all_simple_forms", "composition_regex_captures_and_variants",
+            "composition_duplicate_simple_regex_overlap", "composition_nested_matches_unlimited",
+            "composition_nested_matches_max_errors_one", "composition_case_insensitive_surface",
+            "composition_boundaries_and_correct_forms_clean", "composition_quote_suppression_with_outside_matches",
+            "composition_source_order_and_tied_duplicates", "composition_unicode_codepoint_positions",
+            "composition_selected_only_config",
+            "composition_regex_long_s_uses_registered_replacement", "composition_regex_ascii_word_boundaries_adjacent_to_unicode_letters",
+            "composition_matcher_order_not_important_first_limit_1",
+            "composition_matcher_order_not_important_first_limit_2",
+            "composition_matcher_order_not_important_first_unlimited",
+            "composition_matcher_order_not_honest_repeated_limit_1",
+            "composition_matcher_order_not_honest_repeated_limit_2",
+            "composition_matcher_order_not_honest_repeated_unlimited",
+            "composition_matcher_order_not_succeed_then_did_not_limit_1",
+            "composition_matcher_order_not_succeed_then_did_not_limit_2",
+            "composition_matcher_order_not_succeed_then_did_not_unlimited",
+            "composition_matcher_order_did_not_succeed_then_not_limit_1",
+            "composition_matcher_order_did_not_succeed_then_not_limit_2",
+            "composition_matcher_order_did_not_succeed_then_not_unlimited",
+            "composition_matcher_order_quoted_activation_limit_1",
+            "composition_matcher_order_quoted_activation_limit_2",
+            "composition_matcher_order_quoted_activation_unlimited",
+            "composition_matcher_order_raw_xnot_activation_limit_1",
+            "composition_matcher_order_raw_xnot_activation_limit_2",
+            "composition_matcher_order_raw_xnot_activation_unlimited",
+            "composition_matcher_order_regex_overlap_before_other_simple_limit_1",
+            "composition_matcher_order_regex_overlap_before_other_simple_limit_2",
+            "composition_matcher_order_regex_overlap_before_other_simple_unlimited",
+            "composition_unicode_boundary_non_ascii_prefix",
+            "composition_unicode_boundary_non_ascii_suffix",
+            "composition_unicode_boundary_combining_mark",
+            "composition_unicode_casefold_long_s",
         }
         self.assertEqual({item["id"] for item in manifest["cases"]}, expected_case_ids)
         self.assertEqual(len(manifest["cases"]), len(expected_case_ids))
@@ -513,7 +545,7 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(
             {capability: sum(case["capability_id"] == capability for case in manifest["cases"])
              for capability in {case["capability_id"] for case in manifest["cases"]}},
-            {'rule.misc.debased': 13, 'rule.misc.capitalization.days': 10, 'rule.cliches.hell': 7, 'harness.oracle_smoke': 2, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.misc.latin': 10, 'rule.misc.back_formations': 8, 'rule.misc.capitalization.terms': 10, 'rule.industrial_language.airlinese': 12, 'cli.json_no_findings': 8, 'rule.misc.phrasal_adjectives.ly': 7, 'rule.misc.greylist': 9, 'rule.misc.many_a': 10, 'cli.output_format.full': 3, 'cli.config.ignored_values': 5, 'rule.misc.professions': 8, 'cli.config.cwd_discovery': 3, 'cli.config.ancestor_discovery': 5, 'rule.misc.illogic.coin': 7, 'rule.hedging': 13, 'cli.config.invalid_utf8': 5, 'rule.misc.whence': 6, 'rule.annotations.misc': 10, 'rule.typography.symbols.sentence_spacing': 7, 'cli.config.consumed_special_values': 12, 'cli.config.malformed_json': 22, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.copyright': 6, 'rule.misc.pretension': 9, 'cli.config.recursion_depth': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.misc.institution_name': 8, 'rule.misc.currency': 12, 'rule.misc.suddenly': 7, 'cli.coordinates': 6, 'rule.misc.but': 8, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.collusion': 7, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.capitalization.seasons': 10, 'cli.config.directory_path': 4, 'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 10, 'rule.misc.inferior_superior': 12, 'rule.misc.false_plurals.misc': 9, 'cli.config.per_file_checks': 4, 'rule.redundancy.misc.wallace': 10, 'rule.dates_times.am_pm.spacing': 8, 'rule.typography.symbols.ellipsis': 6, 'rule.psychology.lie_detector': 12, 'rule.industrial_language.jargon': 10, 'cli.config.user_discovery': 8, 'rule.misc.capitalization.months': 6, 'rule.psychology.p_equals_zero': 8, 'spelling.ance_ence': 10},
+            {'rule.misc.debased': 13, 'rule.misc.capitalization.days': 10, 'rule.cliches.hell': 7, 'harness.oracle_smoke': 2, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.misc.latin': 10, 'rule.misc.back_formations': 8, 'rule.misc.capitalization.terms': 10, 'rule.industrial_language.airlinese': 12, 'cli.json_no_findings': 8, 'rule.misc.phrasal_adjectives.ly': 7, 'rule.misc.greylist': 9, 'rule.misc.many_a': 10, 'cli.output_format.full': 3, 'cli.config.ignored_values': 5, 'rule.misc.professions': 8, 'cli.config.cwd_discovery': 3, 'cli.config.ancestor_discovery': 5, 'rule.misc.illogic.coin': 7, 'rule.hedging': 13, 'cli.config.invalid_utf8': 5, 'rule.misc.whence': 6, 'rule.annotations.misc': 10, 'rule.typography.symbols.sentence_spacing': 7, 'cli.config.consumed_special_values': 12, 'cli.config.malformed_json': 22, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.copyright': 6, 'rule.misc.pretension': 9, 'cli.config.recursion_depth': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.misc.institution_name': 8, 'rule.misc.currency': 12, 'rule.misc.suddenly': 7, 'cli.coordinates': 6, 'rule.misc.but': 8, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.collusion': 7, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.capitalization.seasons': 10, 'cli.config.directory_path': 4, 'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 10, 'rule.misc.inferior_superior': 12, 'rule.misc.false_plurals.misc': 9, 'cli.config.per_file_checks': 4, 'rule.redundancy.misc.wallace': 10, 'rule.dates_times.am_pm.spacing': 8, 'rule.typography.symbols.ellipsis': 6, 'rule.psychology.lie_detector': 12, 'rule.industrial_language.jargon': 10, 'cli.config.user_discovery': 8, 'rule.misc.capitalization.months': 6, 'rule.psychology.p_equals_zero': 8, 'spelling.ance_ence': 10, 'rule.misc.composition': 38},
         )
 
     def test_phrasal_adjective_cases_select_only_the_registered_check(self) -> None:

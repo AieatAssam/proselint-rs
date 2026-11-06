@@ -15475,6 +15475,1262 @@
         }
       ],
       "config_scenario": "explicit_selected_rule"
+    },
+    {
+      "id": "composition_all_simple_forms",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/composition.py registers PreferredFormsSimple then PreferredForms at misc.composition, both Fast case-insensitive, WORDS_IN_TEXT padding, allow_quotes=false, offset (0, 0), message \"Try '{}' instead of '{}'.\" Expected behavior confirmed by the pinned executable.",
+      "input_mode": "stdin",
+      "stdin_base64": "bm90IGhvbmVzdDsgbm90IGltcG9ydGFudDsgZGlkIG5vdCByZW1lbWJlcjsgZGlkIG5vdCBwYXkgYXR0ZW50aW9uIHRvOyBkaWQgbm90IGhhdmUgbXVjaCBjb25maWRlbmNlIGluOyB0aGUgcXVlc3Rpb24gYXMgdG8gd2hldGhlcjsgdGhlcmUgaXMgbm8gZG91YnQgYnV0IHRoYXQ7IHVzZWQgZm9yIGZ1ZWwgcHVycG9zZXM7IGhlIGlzIGEgbWFuIHdobzsgaW4gYSBoYXN0eSBtYW5uZXI7IHRoaXMgaXMgYSBzdWJqZWN0IHRoYXQ7IGEgc3RyYW5nZSBvbmU7IHRoZSByZWFzb24gd2h5IGlzIHRoYXQ7IG93aW5nIHRvIHRoZSBmYWN0IHRoYXQ7IGluIHNwaXRlIG9mIHRoZSBmYWN0IHRoYXQ7IGNhbGwgeW91ciBhdHRlbnRpb24gdG8gdGhlIGZhY3QgdGhhdDsgd2FzIHVuYXdhcmUgb2YgdGhlIGZhY3Q7IGRpZCBub3Qgc3VjY2VlZDsgbm90IHN1Y2NlZWQ7IHRoZSBmYWN0IHRoYXQgaSBoYWQgYXJyaXZlZC4=",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_regex_captures_and_variants",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/composition.py registers PreferredFormsSimple then PreferredForms at misc.composition, both Fast case-insensitive, WORDS_IN_TEXT padding, allow_quotes=false, offset (0, 0), message \"Try '{}' instead of '{}'.\" Expected behavior confirmed by the pinned executable.",
+      "input_mode": "stdin",
+      "stdin_base64": "U2hlIGRpZCBub3QgcGF5IGFueSBhdHRlbnRpb24gdG8gaXQuIFRoZXkgZGlkIG5vdCBoYXZlIGZhaXRoIGluIHVzLiBXZSBoYWQgbm90IHN1Y2NlZWRlZC4=",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_duplicate_simple_regex_overlap",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/composition.py registers PreferredFormsSimple then PreferredForms at misc.composition, both Fast case-insensitive, WORDS_IN_TEXT padding, allow_quotes=false, offset (0, 0), message \"Try '{}' instead of '{}'.\" Expected behavior confirmed by the pinned executable.",
+      "input_mode": "stdin",
+      "stdin_base64": "SGUgZGlkIG5vdCBwYXkgYXR0ZW50aW9uIHRvIGhlci4=",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_nested_matches_unlimited",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/composition.py registers PreferredFormsSimple then PreferredForms at misc.composition, both Fast case-insensitive, WORDS_IN_TEXT padding, allow_quotes=false, offset (0, 0), message \"Try '{}' instead of '{}'.\" Expected behavior confirmed by the pinned executable.",
+      "input_mode": "stdin",
+      "stdin_base64": "ZGlkIG5vdCBzdWNjZWVk",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_nested_matches_max_errors_one",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/composition.py registers PreferredFormsSimple then PreferredForms at misc.composition, both Fast case-insensitive, WORDS_IN_TEXT padding, allow_quotes=false, offset (0, 0), message \"Try '{}' instead of '{}'.\" Expected behavior confirmed by the pinned executable.",
+      "input_mode": "stdin",
+      "stdin_base64": "ZGlkIG5vdCBzdWNjZWVk",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_case_insensitive_surface",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/composition.py registers PreferredFormsSimple then PreferredForms at misc.composition, both Fast case-insensitive, WORDS_IN_TEXT padding, allow_quotes=false, offset (0, 0), message \"Try '{}' instead of '{}'.\" Expected behavior confirmed by the pinned executable.",
+      "input_mode": "stdin",
+      "stdin_base64": "Tk9UIEhPTkVTVC4gVGhleSBESUQgTk9UIFBBWSBBTlkgQVRURU5USU9OIFRPIGl0Lg==",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_boundaries_and_correct_forms_clean",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/composition.py registers PreferredFormsSimple then PreferredForms at misc.composition, both Fast case-insensitive, WORDS_IN_TEXT padding, allow_quotes=false, offset (0, 0), message \"Try '{}' instead of '{}'.\" Expected behavior confirmed by the pinned executable.",
+      "input_mode": "stdin",
+      "stdin_base64": "ZGlzaG9uZXN0IGRpc2hvbmVzdG5lc3Mgbm90IGhvbmVzdHk7IHhub3QgaG9uZXN0IG5vdCBob25lc3Rpc2guIEhlIGlzIGhvbmVzdC4=",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_quote_suppression_with_outside_matches",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/composition.py registers PreferredFormsSimple then PreferredForms at misc.composition, both Fast case-insensitive, WORDS_IN_TEXT padding, allow_quotes=false, offset (0, 0), message \"Try '{}' instead of '{}'.\" Expected behavior confirmed by the pinned executable.",
+      "input_mode": "stdin",
+      "stdin_base64": "Im5vdCBob25lc3QiIGFuZCBub3QgaG9uZXN0OyAiZGlkIG5vdCBwYXkgYW55IGF0dGVudGlvbiB0byIgdGhlbiBkaWQgbm90IHBheSBhdHRlbnRpb24gdG8u",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_source_order_and_tied_duplicates",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/composition.py registers PreferredFormsSimple then PreferredForms at misc.composition, both Fast case-insensitive, WORDS_IN_TEXT padding, allow_quotes=false, offset (0, 0), message \"Try '{}' instead of '{}'.\" Expected behavior confirmed by the pinned executable.",
+      "input_mode": "stdin",
+      "stdin_base64": "bm90IGhvbmVzdDsgZGlkIG5vdCBwYXkgYXR0ZW50aW9uIHRvIGhlcjsgbm90IGltcG9ydGFudC4=",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_unicode_codepoint_positions",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/composition.py registers PreferredFormsSimple then PreferredForms at misc.composition, both Fast case-insensitive, WORDS_IN_TEXT padding, allow_quotes=false, offset (0, 0), message \"Try '{}' instead of '{}'.\" Expected behavior confirmed by the pinned executable.",
+      "input_mode": "stdin",
+      "stdin_base64": "8J+YgCBjYWbDqSDigJQgbm90IGhvbmVzdDsgZGlkIG5vdCBwYXkgYW55IGF0dGVudGlvbiB0byBtZS4=",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_selected_only_config",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/composition.py registers PreferredFormsSimple then PreferredForms at misc.composition, both Fast case-insensitive, WORDS_IN_TEXT padding, allow_quotes=false, offset (0, 0), message \"Try '{}' instead of '{}'.\" Expected behavior confirmed by the pinned executable.",
+      "input_mode": "stdin",
+      "stdin_base64": "U3VkZGVubHksIG5vdCBob25lc3QuIFRoZSBxdWVzdGlvbiBhcyB0byB3aGV0aGVyIHRoZSBwbGFuIHdvcmtzLg==",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_matcher_order_not_important_first_limit_1",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c; check misc.composition FastSet registration order and max_errors applied before stable source-position sorting; live oracle comparison required.",
+      "input_mode": "stdin",
+      "stdin_base64": "bm90IGltcG9ydGFudDsgbm90IGhvbmVzdA==",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_matcher_order_not_important_first_limit_2",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c; check misc.composition FastSet registration order and max_errors applied before stable source-position sorting; live oracle comparison required.",
+      "input_mode": "stdin",
+      "stdin_base64": "bm90IGltcG9ydGFudDsgbm90IGhvbmVzdA==",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoyLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_matcher_order_not_important_first_unlimited",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c; check misc.composition FastSet registration order and max_errors applied before stable source-position sorting; live oracle comparison required.",
+      "input_mode": "stdin",
+      "stdin_base64": "bm90IGltcG9ydGFudDsgbm90IGhvbmVzdA==",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_matcher_order_not_honest_repeated_limit_1",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c; check misc.composition FastSet registration order and max_errors applied before stable source-position sorting; live oracle comparison required.",
+      "input_mode": "stdin",
+      "stdin_base64": "bm90IGhvbmVzdDsgbm90IGltcG9ydGFudDsgbm90IGhvbmVzdA==",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_matcher_order_not_honest_repeated_limit_2",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c; check misc.composition FastSet registration order and max_errors applied before stable source-position sorting; live oracle comparison required.",
+      "input_mode": "stdin",
+      "stdin_base64": "bm90IGhvbmVzdDsgbm90IGltcG9ydGFudDsgbm90IGhvbmVzdA==",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoyLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_matcher_order_not_honest_repeated_unlimited",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c; check misc.composition FastSet registration order and max_errors applied before stable source-position sorting; live oracle comparison required.",
+      "input_mode": "stdin",
+      "stdin_base64": "bm90IGhvbmVzdDsgbm90IGltcG9ydGFudDsgbm90IGhvbmVzdA==",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_matcher_order_not_succeed_then_did_not_limit_1",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c; check misc.composition FastSet registration order and max_errors applied before stable source-position sorting; live oracle comparison required.",
+      "input_mode": "stdin",
+      "stdin_base64": "bm90IHN1Y2NlZWQ7IGRpZCBub3Qgc3VjY2VlZA==",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_matcher_order_not_succeed_then_did_not_limit_2",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c; check misc.composition FastSet registration order and max_errors applied before stable source-position sorting; live oracle comparison required.",
+      "input_mode": "stdin",
+      "stdin_base64": "bm90IHN1Y2NlZWQ7IGRpZCBub3Qgc3VjY2VlZA==",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoyLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_matcher_order_not_succeed_then_did_not_unlimited",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c; check misc.composition FastSet registration order and max_errors applied before stable source-position sorting; live oracle comparison required.",
+      "input_mode": "stdin",
+      "stdin_base64": "bm90IHN1Y2NlZWQ7IGRpZCBub3Qgc3VjY2VlZA==",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_matcher_order_did_not_succeed_then_not_limit_1",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c; check misc.composition FastSet registration order and max_errors applied before stable source-position sorting; live oracle comparison required.",
+      "input_mode": "stdin",
+      "stdin_base64": "ZGlkIG5vdCBzdWNjZWVkOyBub3Qgc3VjY2VlZA==",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_matcher_order_did_not_succeed_then_not_limit_2",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c; check misc.composition FastSet registration order and max_errors applied before stable source-position sorting; live oracle comparison required.",
+      "input_mode": "stdin",
+      "stdin_base64": "ZGlkIG5vdCBzdWNjZWVkOyBub3Qgc3VjY2VlZA==",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoyLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_matcher_order_did_not_succeed_then_not_unlimited",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c; check misc.composition FastSet registration order and max_errors applied before stable source-position sorting; live oracle comparison required.",
+      "input_mode": "stdin",
+      "stdin_base64": "ZGlkIG5vdCBzdWNjZWVkOyBub3Qgc3VjY2VlZA==",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_matcher_order_quoted_activation_limit_1",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c; check misc.composition FastSet registration order and max_errors applied before stable source-position sorting; live oracle comparison required.",
+      "input_mode": "stdin",
+      "stdin_base64": "Im5vdCBob25lc3QiOyBub3QgaW1wb3J0YW50OyBub3QgaG9uZXN0",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_matcher_order_quoted_activation_limit_2",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c; check misc.composition FastSet registration order and max_errors applied before stable source-position sorting; live oracle comparison required.",
+      "input_mode": "stdin",
+      "stdin_base64": "Im5vdCBob25lc3QiOyBub3QgaW1wb3J0YW50OyBub3QgaG9uZXN0",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoyLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_matcher_order_quoted_activation_unlimited",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c; check misc.composition FastSet registration order and max_errors applied before stable source-position sorting; live oracle comparison required.",
+      "input_mode": "stdin",
+      "stdin_base64": "Im5vdCBob25lc3QiOyBub3QgaW1wb3J0YW50OyBub3QgaG9uZXN0",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_matcher_order_raw_xnot_activation_limit_1",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c; check misc.composition FastSet registration order and max_errors applied before stable source-position sorting; live oracle comparison required.",
+      "input_mode": "stdin",
+      "stdin_base64": "eG5vdCBob25lc3Q7IG5vdCBpbXBvcnRhbnQ7IG5vdCBob25lc3Q=",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_matcher_order_raw_xnot_activation_limit_2",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c; check misc.composition FastSet registration order and max_errors applied before stable source-position sorting; live oracle comparison required.",
+      "input_mode": "stdin",
+      "stdin_base64": "eG5vdCBob25lc3Q7IG5vdCBpbXBvcnRhbnQ7IG5vdCBob25lc3Q=",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoyLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_matcher_order_raw_xnot_activation_unlimited",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c; check misc.composition FastSet registration order and max_errors applied before stable source-position sorting; live oracle comparison required.",
+      "input_mode": "stdin",
+      "stdin_base64": "eG5vdCBob25lc3Q7IG5vdCBpbXBvcnRhbnQ7IG5vdCBob25lc3Q=",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_matcher_order_regex_overlap_before_other_simple_limit_1",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c; check misc.composition FastSet registration order and max_errors applied before stable source-position sorting; live oracle comparison required.",
+      "input_mode": "stdin",
+      "stdin_base64": "ZGlkIG5vdCBwYXkgYXR0ZW50aW9uIHRvIGhlcjsgbm90IGltcG9ydGFudA==",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_matcher_order_regex_overlap_before_other_simple_limit_2",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c; check misc.composition FastSet registration order and max_errors applied before stable source-position sorting; live oracle comparison required.",
+      "input_mode": "stdin",
+      "stdin_base64": "ZGlkIG5vdCBwYXkgYXR0ZW50aW9uIHRvIGhlcjsgbm90IGltcG9ydGFudA==",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoyLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_matcher_order_regex_overlap_before_other_simple_unlimited",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c; check misc.composition FastSet registration order and max_errors applied before stable source-position sorting; live oracle comparison required.",
+      "input_mode": "stdin",
+      "stdin_base64": "ZGlkIG5vdCBwYXkgYXR0ZW50aW9uIHRvIGhlcjsgbm90IGltcG9ydGFudA==",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_unicode_boundary_non_ascii_prefix",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c; check misc.composition FastSet registration order and max_errors applied before stable source-position sorting; live oracle comparison required.",
+      "input_mode": "stdin",
+      "stdin_base64": "w6lub3QgaG9uZXN0",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_unicode_boundary_non_ascii_suffix",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c; check misc.composition FastSet registration order and max_errors applied before stable source-position sorting; live oracle comparison required.",
+      "input_mode": "stdin",
+      "stdin_base64": "bm90IGhvbmVzdMOp",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_unicode_boundary_combining_mark",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c; check misc.composition FastSet registration order and max_errors applied before stable source-position sorting; live oracle comparison required.",
+      "input_mode": "stdin",
+      "stdin_base64": "bm90IGhvbmVzdMyB",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_unicode_casefold_long_s",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c; check misc.composition FastSet registration order and max_errors applied before stable source-position sorting; live oracle comparison required.",
+      "input_mode": "stdin",
+      "stdin_base64": "bm90IGhvbmXFv3Q=",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_regex_long_s_uses_registered_replacement",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; the PreferredForms regex `(had )?not succeeded` matches long-s case-insensitively and uses its configured replacement directly. Confirmed by direct pinned CLI probe.",
+      "input_mode": "stdin",
+      "stdin_base64": "bm90IMW/dWNjZWVkZWQ=",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "composition_regex_ascii_word_boundaries_adjacent_to_unicode_letters",
+      "capability_id": "rule.misc.composition",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; direct selected-only CLI probe for Unicode letters adjacent to both sides of a PreferredForms regex phrase. Both matches are retained, confirming regex \\b uses RE2 ASCII word boundaries.",
+      "input_mode": "stdin",
+      "stdin_base64": "w6lub3Qgc3VjY2VlZGVkOyBub3Qgc3VjY2VlZGVkw6k=",
+      "files": [
+        {
+          "path": "selected composition config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJjb21wb3NpdGlvbiI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected composition config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "misc_composition_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

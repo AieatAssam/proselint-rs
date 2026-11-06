@@ -322,7 +322,7 @@
     "independent_evidence": "rust/artifacts/independent-review-fixes/final-gate-348.json"
   },
   "active_ownership": {
-    "current": "Parallel isolated spelling module work: spelling.able_ible and spelling.er_or focused GREEN; spelling.able_atable has pinned live RED 8/8 and is in implementation. Coordinator owns shared lib.rs/main.rs integration.",
+    "current": "Isolated spelling.er_or, spelling.able_ible and spelling.able_atable modules are in progress; spelling.em_im_en_in cases are specified and candidate RED is pending. Shared dispatcher integration is prepared but held until module batch is frozen.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -4022,6 +4022,36 @@
         "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
         "oracle_integrity": "verified before and after"
       }
+    },
+    {
+      "id": "spelling.em_im_en_in",
+      "status": "specified_live_cases_pending_red",
+      "case_ids": [
+        "spelling_em_im_en_in_all_mappings",
+        "spelling_em_im_en_in_preferred_and_negative_controls",
+        "spelling_em_im_en_in_mixed_case_repetition",
+        "spelling_em_im_en_in_ascii_boundaries_and_embedded",
+        "spelling_em_im_en_in_quote_behavior",
+        "spelling_em_im_en_in_unicode_positions_casefold",
+        "spelling_em_im_en_in_max_errors_one_order",
+        "spelling_em_im_en_in_max_errors_two_order"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_spec": "49 insertion-ordered PreferredFormsSimple mappings; Fast case-insensitive matching with WORDS_IN_TEXT boundaries; exact message `em-, im-, en-, and in-. '{}' is the preferred spelling.`; replacement is mapped spelling. Pinned live all-mappings input yields 50 findings because raw matches are emitted after pattern activation.",
+      "specification": {
+        "live_cases": 8,
+        "harness_tests_passed": 35,
+        "reporting": "expected outputs from pinned Python Proselint 0.16.0 selected config",
+        "oracle_integrity": "verified before and after",
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "oracle_executable_sha256": "b5f88a67377a8f3c32e1bffc41ca96fd8c111b127427459ffb2184e74c99af77",
+        "installed_package_tree_sha256": "e76c6c6472cd77e21e046bf4853b58a7b6b3fe99ab37fb0a321da42b722c0899",
+        "note": "all 49 dictionary forms produce 50 diagnostics due to one raw overlap after activation"
+      },
+      "implementation": "not started; pinned candidate RED required first",
+      "agent_model": "gpt-6-luna",
+      "agent_reasoning_effort": "low requested",
+      "agent_runtime_metadata": "unavailable"
     }
   ],
   "last_strict_gate": {
@@ -4065,7 +4095,7 @@
       "checked_after_gate": "2026-11-06T17:09:30Z"
     }
   },
-  "next_capability_handoff": "Finish spelling.able_atable isolated module/test, then integrate all three spelling modules through coordinator-owned lib.rs/main.rs and run focused live GREEN plus separate independent verification.",
+  "next_capability_handoff": "After spelling.able_atable module freezes, obtain a fresh attested candidate and run spelling.em_im_en_in live RED, then implement it in an isolated module; integrate all four spelling routes together.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

@@ -654,6 +654,10 @@ class ComparatorTests(unittest.TestCase):
             "spelling_able_atable_case_and_repetition", "spelling_able_atable_ascii_boundaries",
             "spelling_able_atable_quote_behavior", "spelling_able_atable_unicode_spans",
             "spelling_able_atable_max_errors_one", "spelling_able_atable_max_errors_two",
+            "spelling_em_im_en_in_all_mappings", "spelling_em_im_en_in_preferred_and_negative_controls",
+            "spelling_em_im_en_in_mixed_case_repetition", "spelling_em_im_en_in_ascii_boundaries_and_embedded",
+            "spelling_em_im_en_in_quote_behavior", "spelling_em_im_en_in_unicode_positions_casefold",
+            "spelling_em_im_en_in_max_errors_one_order", "spelling_em_im_en_in_max_errors_two_order",
         }
         self.assertEqual({item["id"] for item in manifest["cases"]}, expected_case_ids)
         self.assertEqual(len(manifest["cases"]), len(expected_case_ids))
@@ -661,7 +665,7 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(
             {capability: sum(case["capability_id"] == capability for case in manifest["cases"])
              for capability in {case["capability_id"] for case in manifest["cases"]}},
-            {'rule.misc.debased': 13, 'rule.misc.capitalization.days': 10, 'rule.cliches.hell': 7, 'harness.oracle_smoke': 2, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.dates_times.am_pm.midnight_noon': 10, 'rule.dates_times.dates.decade_apostrophes': 10, 'rule.misc.narcissism': 9, 'rule.misc.latin': 10, 'rule.misc.back_formations': 8, 'rule.misc.capitalization.terms': 10, 'rule.industrial_language.airlinese': 12, 'cli.json_no_findings': 8, 'rule.misc.phrasal_adjectives.ly': 7, 'rule.misc.greylist': 9, 'rule.misc.many_a': 10, 'cli.output_format.full': 3, 'cli.config.ignored_values': 5, 'rule.misc.professions': 8, 'cli.config.cwd_discovery': 3, 'cli.config.ancestor_discovery': 5, 'rule.misc.illogic.coin': 7, 'rule.hedging': 13, 'cli.config.invalid_utf8': 5, 'rule.misc.whence': 6, 'rule.annotations.misc': 10, 'rule.typography.symbols.sentence_spacing': 7, 'cli.config.consumed_special_values': 12, 'cli.config.malformed_json': 22, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.copyright': 6, 'rule.misc.pretension': 9, 'cli.config.recursion_depth': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.misc.institution_name': 8, 'rule.misc.currency': 12, 'rule.misc.suddenly': 7, 'cli.coordinates': 6, 'rule.misc.but': 8, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.collusion': 7, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.capitalization.seasons': 10, 'cli.config.directory_path': 4, 'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 10, 'rule.misc.inferior_superior': 12, 'rule.misc.false_plurals.misc': 9, 'cli.config.per_file_checks': 4, 'rule.redundancy.misc.wallace': 10, 'rule.dates_times.am_pm.spacing': 8, 'rule.typography.symbols.ellipsis': 6, 'rule.psychology.lie_detector': 12, 'rule.industrial_language.jargon': 10, 'cli.config.user_discovery': 8, 'rule.misc.capitalization.months': 6, 'rule.psychology.p_equals_zero': 8, 'spelling.ance_ence': 10, 'rule.misc.composition': 38, 'cli.combined_checks': 3, 'rule.terms.eponymous_adjectives': 4, 'rule.spelling.ally_ly': 10, 'rule.spelling.ely_ly': 9, 'rule.spelling.ve_of': 11, 'rule.malapropisms': 10, 'rule.spelling.in_un': 10, 'rule.mondegreens': 10, 'rule.skunked_terms': 11, 'rule.oxymorons': 16, 'rule.redundancy.misc.nordquist': 11, 'rule.misc.not_guilty': 4, 'spelling.er_or': 8, 'spelling.able_ible': 9, 'spelling.able_atable': 8},
+            {'rule.misc.debased': 13, 'rule.misc.capitalization.days': 10, 'rule.cliches.hell': 7, 'harness.oracle_smoke': 2, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.dates_times.am_pm.midnight_noon': 10, 'rule.dates_times.dates.decade_apostrophes': 10, 'rule.misc.narcissism': 9, 'rule.misc.latin': 10, 'rule.misc.back_formations': 8, 'rule.misc.capitalization.terms': 10, 'rule.industrial_language.airlinese': 12, 'cli.json_no_findings': 8, 'rule.misc.phrasal_adjectives.ly': 7, 'rule.misc.greylist': 9, 'rule.misc.many_a': 10, 'cli.output_format.full': 3, 'cli.config.ignored_values': 5, 'rule.misc.professions': 8, 'cli.config.cwd_discovery': 3, 'cli.config.ancestor_discovery': 5, 'rule.misc.illogic.coin': 7, 'rule.hedging': 13, 'cli.config.invalid_utf8': 5, 'rule.misc.whence': 6, 'rule.annotations.misc': 10, 'rule.typography.symbols.sentence_spacing': 7, 'cli.config.consumed_special_values': 12, 'cli.config.malformed_json': 22, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.copyright': 6, 'rule.misc.pretension': 9, 'cli.config.recursion_depth': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.misc.institution_name': 8, 'rule.misc.currency': 12, 'rule.misc.suddenly': 7, 'cli.coordinates': 6, 'rule.misc.but': 8, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.collusion': 7, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.capitalization.seasons': 10, 'cli.config.directory_path': 4, 'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 10, 'rule.misc.inferior_superior': 12, 'rule.misc.false_plurals.misc': 9, 'cli.config.per_file_checks': 4, 'rule.redundancy.misc.wallace': 10, 'rule.dates_times.am_pm.spacing': 8, 'rule.typography.symbols.ellipsis': 6, 'rule.psychology.lie_detector': 12, 'rule.industrial_language.jargon': 10, 'cli.config.user_discovery': 8, 'rule.misc.capitalization.months': 6, 'rule.psychology.p_equals_zero': 8, 'spelling.ance_ence': 10, 'rule.misc.composition': 38, 'cli.combined_checks': 3, 'rule.terms.eponymous_adjectives': 4, 'rule.spelling.ally_ly': 10, 'rule.spelling.ely_ly': 9, 'rule.spelling.ve_of': 11, 'rule.malapropisms': 10, 'rule.spelling.in_un': 10, 'rule.mondegreens': 10, 'rule.skunked_terms': 11, 'rule.oxymorons': 16, 'rule.redundancy.misc.nordquist': 11, 'rule.misc.not_guilty': 4, 'spelling.er_or': 8, 'spelling.able_ible': 9, 'spelling.able_atable': 8, 'spelling.em_im_en_in': 8},
         )
 
     def test_mondegreens_cases_select_only_registered_check(self) -> None:
@@ -828,6 +832,21 @@ class ComparatorTests(unittest.TestCase):
             self.assertEqual(len(case["files"]), 1)
             config = json.loads(base64.b64decode(case["files"][0]["content_base64"]))
             self.assertEqual(config["checks"], {"spelling": {"able_atable": True}})
+        self.assertEqual([json.loads(base64.b64decode(case["files"][0]["content_base64"]))["max_errors"] for case in cases],
+                         [1000, 1000, 1000, 1000, 1000, 1000, 1, 2])
+
+    def test_em_im_en_in_cases_select_only_registered_check(self) -> None:
+        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "spelling.em_im_en_in"]
+        self.assertEqual({case["id"] for case in cases}, {
+            "spelling_em_im_en_in_all_mappings", "spelling_em_im_en_in_preferred_and_negative_controls",
+            "spelling_em_im_en_in_mixed_case_repetition", "spelling_em_im_en_in_ascii_boundaries_and_embedded",
+            "spelling_em_im_en_in_quote_behavior", "spelling_em_im_en_in_unicode_positions_casefold",
+            "spelling_em_im_en_in_max_errors_one_order", "spelling_em_im_en_in_max_errors_two_order",
+        })
+        for case in cases:
+            self.assertEqual(len(case["files"]), 1)
+            config = json.loads(base64.b64decode(case["files"][0]["content_base64"]))
+            self.assertEqual(config["checks"], {"spelling": {"em_im_en_in": True}})
         self.assertEqual([json.loads(base64.b64decode(case["files"][0]["content_base64"]))["max_errors"] for case in cases],
                          [1000, 1000, 1000, 1000, 1000, 1000, 1, 2])
 

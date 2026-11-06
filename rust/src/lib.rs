@@ -170,6 +170,10 @@ const WALLACE_MESSAGE: &str = "Redundancy. Use '{}' instead of '{}'.";
 const INSTITUTION_NAME_PATTERN: &str = "Virginia Polytechnic and State University";
 const INSTITUTION_NAME_REPLACEMENT: &str = "Virginia Polytechnic Institute and State University";
 const PROFESSIONS: [(&str, &str); 2] = [("shoe repair guy", "cobbler"), ("geometrist", "geometer")];
+const EPONYMOUS_ADJECTIVES: [(&str, &str); 2] = [
+    ("mephistophelian", "Mephistophelean"),
+    ("shakespearian", "Shakespearean"),
+];
 const COMPOSITION_SIMPLE_FORMS: [(&str, &str); 20] = [
     ("not honest", "dishonest"),
     ("not important", "unimportant"),
@@ -2375,6 +2379,54 @@ pub fn professions_diagnostics(text: &str) -> Vec<Value> {
                 json!({
                     "check_path": "misc.professions",
                     "message": format!("'{}' is the name of that job.", preferred.unwrap_or("None")),
+                    "span": [span_start, span_end],
+                    "pos": [line, column],
+                    "replacements": preferred,
+                }),
+            ));
+        }
+    }
+
+    matches.sort_unstable_by_key(|(start, _)| *start);
+    matches
+        .into_iter()
+        .map(|(_, diagnostic)| diagnostic)
+        .collect()
+}
+
+/// Return diagnostics for the pinned `terms.eponymous_adjectives` rule.
+pub fn eponymous_adjectives_diagnostics(text: &str) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+
+    let padded = format!("\n{text}\n");
+    let quote_bounds = paired_quote_bounds(&padded);
+    let line_bounds = splitlines_bounds(&padded);
+    let mut matches = Vec::new();
+
+    for (pattern, replacement) in EPONYMOUS_ADJECTIVES {
+        let pattern_matches = unicode_case_match_ends(&padded, pattern);
+        if !pattern_matches.iter().any(|(start, end)| {
+            !is_ascii_word_before(&padded, *start) && !is_ascii_word_at(&padded, *end)
+        }) {
+            continue;
+        }
+        for (start, end) in pattern_matches {
+            let matched = &padded[start..end];
+            let preferred = preferred_lookup(matched, replacement);
+            let span_start = padded[..start].chars().count();
+            let span_end = span_start + matched.chars().count();
+            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
+            if quote_index % 2 == 1 {
+                continue;
+            }
+            let (line, column) = line_col_of(span_start, &line_bounds);
+            matches.push((
+                span_start,
+                json!({
+                    "check_path": "terms.eponymous_adjectives",
+                    "message": format!("'{}' is the preferred eponymous adjective.", preferred.unwrap_or("None")),
                     "span": [span_start, span_end],
                     "pos": [line, column],
                     "replacements": preferred,

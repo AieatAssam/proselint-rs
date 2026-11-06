@@ -6,16 +6,17 @@ use proselint_rs::{
     capitalization_months_diagnostics, capitalization_seasons_diagnostics,
     capitalization_terms_diagnostics, cliches_hell_diagnostics,
     composition_diagnostics_in_matcher_order, currency_diagnostics, debased_diagnostics,
-    false_plurals_kudos_diagnostics, false_plurals_misc_diagnostics_in_matcher_order, file_uri,
-    greylist_diagnostics, hedging_diagnostics, illogic_coin_diagnostics,
-    illogic_collusion_diagnostics, inferior_superior_diagnostics, institution_name_diagnostics,
-    jargon_diagnostics, json_result, latin_diagnostics, lie_detector_diagnostics,
-    many_a_diagnostics, mental_telepathy_diagnostics, metadiscourse_diagnostics,
-    normalize_file_newlines, p_equals_zero_diagnostics, phrasal_adjectives_ly_diagnostics,
-    pretension_diagnostics, professions_diagnostics, spelling_ance_ence_diagnostics,
-    suddenly_diagnostics, typography_copyright_diagnostics, typography_ellipsis_diagnostics,
-    typography_multiplication_diagnostics, typography_sentence_spacing_diagnostics,
-    typography_trademark_diagnostics, wallace_diagnostics, whence_diagnostics,
+    eponymous_adjectives_diagnostics, false_plurals_kudos_diagnostics,
+    false_plurals_misc_diagnostics_in_matcher_order, file_uri, greylist_diagnostics,
+    hedging_diagnostics, illogic_coin_diagnostics, illogic_collusion_diagnostics,
+    inferior_superior_diagnostics, institution_name_diagnostics, jargon_diagnostics, json_result,
+    latin_diagnostics, lie_detector_diagnostics, many_a_diagnostics, mental_telepathy_diagnostics,
+    metadiscourse_diagnostics, normalize_file_newlines, p_equals_zero_diagnostics,
+    phrasal_adjectives_ly_diagnostics, pretension_diagnostics, professions_diagnostics,
+    spelling_ance_ence_diagnostics, suddenly_diagnostics, typography_copyright_diagnostics,
+    typography_ellipsis_diagnostics, typography_multiplication_diagnostics,
+    typography_sentence_spacing_diagnostics, typography_trademark_diagnostics, wallace_diagnostics,
+    whence_diagnostics,
 };
 use serde::Deserialize;
 use serde_json::Value;
@@ -1165,7 +1166,7 @@ fn run() -> Result<ExitCode, String> {
         });
     }
     let selected_checks = selected_checks.ok_or_else(|| {
-        "this capability supports disabled checks, annotations.misc, cliches.hell, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.many_a, misc.metadiscourse, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, redundancy.misc.wallace, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, or spelling.ance_ence only".to_owned()
+        "this capability supports disabled checks, annotations.misc, cliches.hell, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.many_a, misc.metadiscourse, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, redundancy.misc.wallace, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, spelling.ance_ence, or terms.eponymous_adjectives only".to_owned()
     })?;
 
     let mut diagnostics = Vec::new();
@@ -1215,6 +1216,7 @@ fn run() -> Result<ExitCode, String> {
             SelectedCheck::MiscProfessions => professions_diagnostics(&content),
             SelectedCheck::SpellingAnceEnce => spelling_ance_ence_diagnostics(&content),
             SelectedCheck::MiscComposition => composition_diagnostics_in_matcher_order(&content),
+            SelectedCheck::TermsEponymousAdjectives => eponymous_adjectives_diagnostics(&content),
             SelectedCheck::TypographySymbolsEllipsis => typography_ellipsis_diagnostics(&content),
             SelectedCheck::TypographySymbolsCopyright => typography_copyright_diagnostics(&content),
             SelectedCheck::TypographySymbolsSentenceSpacing => {
@@ -1298,6 +1300,7 @@ enum SelectedCheck {
     PsychologyMentalTelepathy,
     RedundancyMiscWallace,
     SpellingAnceEnce,
+    TermsEponymousAdjectives,
     TypographySymbolsEllipsis,
     TypographySymbolsCopyright,
     TypographySymbolsTrademark,
@@ -1353,6 +1356,7 @@ fn supported_checks(checks: &Value) -> Option<Vec<SelectedCheck>> {
             ["misc", "professions"] => Some(SelectedCheck::MiscProfessions),
             ["spelling", "ance_ence"] => Some(SelectedCheck::SpellingAnceEnce),
             ["misc", "composition"] => Some(SelectedCheck::MiscComposition),
+            ["terms", "eponymous_adjectives"] => Some(SelectedCheck::TermsEponymousAdjectives),
             ["typography", "symbols", "ellipsis"] => Some(SelectedCheck::TypographySymbolsEllipsis),
             ["typography", "symbols", "copyright"] => {
                 Some(SelectedCheck::TypographySymbolsCopyright)
@@ -1484,6 +1488,7 @@ fn selected_check_path(check: SelectedCheck) -> &'static str {
         SelectedCheck::MiscProfessions => "misc.professions",
         SelectedCheck::SpellingAnceEnce => "spelling.ance_ence",
         SelectedCheck::MiscComposition => "misc.composition",
+        SelectedCheck::TermsEponymousAdjectives => "terms.eponymous_adjectives",
         SelectedCheck::TypographySymbolsEllipsis => "typography.symbols.ellipsis",
         SelectedCheck::TypographySymbolsCopyright => "typography.symbols.copyright",
         SelectedCheck::TypographySymbolsSentenceSpacing => "typography.symbols.sentence_spacing",

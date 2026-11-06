@@ -226,6 +226,10 @@
     {
       "id": "cli.combined_checks",
       "status": "recorded"
+    },
+    {
+      "id": "rule.terms.eponymous_adjectives",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -273,11 +277,11 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "Specify `terms.eponymous_adjectives` against the pinned oracle, add meaningful failing focused tests and exact live cases, implement, independently verify, and run the cumulative gate. Keep its two PreferredFormsSimple entries distinct from other rule paths."
+    "next_handoff": "Specify the next small data-backed rule, candidate spelling.ally_ly, against the pinned oracle; add meaningful RED tests and exact live cases, implement, independently verify, and run the cumulative gate."
   },
   "unresolved": [
     "The no-config-found bundled DEFAULT, every default-enabled rule interaction, and combined enabled-rule configurations remain unverified; selected-rule passes do not establish default behavior.",
-    "63 unique rule paths remain unimplemented or unverified.",
+    "62 unique rule paths remain unimplemented or unverified.",
     "Other CLI behavior remains unverified, including remaining subcommands, missing nonempty-XDG config, HOME-unset resolution, directory user candidates, file/directory traversal and decoding edges, multi-file rendering, and Compact output.",
     "Unicode case folding and quote-pairing combinations beyond explicitly tested cases remain unverified.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
@@ -2972,19 +2976,68 @@
       "limitations": [
         "Only explicit combined selected-rule cases are accepted; bundled defaults, unsupported paths, and other multi-rule interactions remain unverified."
       ]
+    },
+    {
+      "id": "rule.terms.eponymous_adjectives",
+      "status": "recorded",
+      "case_ids": [
+        "terms_eponymous_adjectives_simple_forms",
+        "terms_eponymous_adjectives_clean_boundaries",
+        "terms_eponymous_adjectives_unicode_positions",
+        "terms_eponymous_adjectives_max_errors_one"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_spec": "The pinned default-enabled terms.eponymous_adjectives check is PreferredFormsSimple with Fast case-insensitive WORDS_IN_TEXT padding, quote suppression, zero offset and two mappings: mephistophelian -> Mephistophelean and shakespearian -> Shakespearean. The registered message is \u201c'{}' is the preferred eponymous adjective.\u201d Preserve replacement lookup, raw match output after boundary activation, quote filtering, and source coordinates.",
+      "red": {
+        "report_status": "MISMATCH",
+        "mismatches": 4,
+        "reason": "All four selected-rule cases reached the CLI; Rust returned unsupported-path exit 4.",
+        "evidence": "rust/artifacts/eponymous-rust-red-20261106.json",
+        "source_fingerprint_before": "dc7398c660f226a45237e8c72176bebc037ebc1b33a6305665b913f83f3466e7"
+      },
+      "green": {
+        "live_cases_passed": 4,
+        "report": "rust/artifacts/eponymous-live-green-20261106.json",
+        "build_attestation": "rust/artifacts/20261106T102748799529Z-build.attestation.json",
+        "source_fingerprint": "c69b71df0ba14f6e6c73ddf33593b7ee9d8e46ed52ba4729452f9f060b68cb4a",
+        "locked_fmt_clippy_tests_build": "passed"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 4,
+        "harness_tests_passed": 31,
+        "comparator_discriminators_passed": 23,
+        "oracle_self_check_passed": 2,
+        "prior_cumulative_gate": "503/503 PASS across 56 capabilities",
+        "baseline_integrity": "verified before and after",
+        "evidence": "rust/artifacts/independent-eponymous-adjectives-latest-deps-20261106/verification.json",
+        "source_fingerprint": "ec8667142dbbe7c9c461ba6ebbd77983bbcdcdade04716994708f35c6b6b35f5",
+        "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "agent_configured_roles": [
+          "rust_builder (gpt-6-luna, high requested by role)",
+          "parity_verifier (gpt-6-luna, high requested by role)"
+        ],
+        "agent_runtime_metadata": "unavailable",
+        "cumulative_gate": "507/507 PASS across 57 capabilities after dependency update",
+        "build_attestation": "rust/artifacts/20261106T104318011561Z-build.attestation.json",
+        "cargo_lock_sha256": "dbb7e465a3185772057060f434db00cbe64d3e62f833249436c8b3e2de6e947b"
+      },
+      "limitations": [
+        "Only the two mappings and four recorded cases are accepted; other terms rules remain separate capabilities."
+      ]
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-combined-checks-20261106.json",
-    "passed_cases": 503,
-    "manifest_cases": 509,
+    "report": "rust/artifacts/strict-gate-eponymous-adjectives-latest-deps-20261106.json",
+    "passed_cases": 507,
+    "manifest_cases": 513,
     "excluded_manifest_cases": {
       "cli.config.per_file_checks": 4,
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "capability_count": 56
+    "capability_count": 57
   },
   "rust_dependencies": {
     "status": "current",
@@ -2996,7 +3049,8 @@
       "serde": "1.0.229",
       "serde_json": "1.0.154",
       "serde_stacker": "0.1.14",
-      "regex": "1.13.1"
+      "regex": "1.13.1",
+      "cc": "1.11.1"
     },
     "cargo_update_dry_run": "0 packages to update",
     "update_dry_run": {
@@ -3006,7 +3060,7 @@
       "rust_version_constraint": "1.99"
     }
   },
-  "next_capability_handoff": "Specify `terms.eponymous_adjectives` against the pinned oracle; demonstrate meaningful RED, then implement, live-compare, independently verify, and run the cumulative gate.",
+  "next_capability_handoff": "Specify spelling.ally_ly against the pinned oracle; demonstrate meaningful RED, then implement, live-compare, independently verify, and run the cumulative gate.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

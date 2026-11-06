@@ -16830,6 +16830,142 @@
         "--output-format",
         "json"
       ]
+    },
+    {
+      "id": "terms_eponymous_adjectives_simple_forms",
+      "capability_id": "rule.terms.eponymous_adjectives",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/terms/eponymous_adjectives.py registers PreferredFormsSimple with `mephistophelian` -> `Mephistophelean` and `shakespearian` -> `Shakespearean`. Both registered forms, repeated in lowercase and uppercase, use PreferredFormsSimple with case-insensitive Fast matching.",
+      "input_mode": "stdin",
+      "stdin_base64": "bWVwaGlzdG9waGVsaWFuIHNoYWtlc3BlYXJpYW47IE1FUEhJU1RPUEhFTElBTiBTSEFLRVNQRUFSSUFOLg==",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "terms_eponymous_adjectives_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "eponymous config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidGVybXMiOnsiZXBvbnltb3VzX2FkamVjdGl2ZXMiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:eponymous config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "terms_eponymous_adjectives_clean_boundaries",
+      "capability_id": "rule.terms.eponymous_adjectives",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/terms/eponymous_adjectives.py registers PreferredFormsSimple with `mephistophelian` -> `Mephistophelean` and `shakespearian` -> `Shakespearean`. Correct forms remain clean; inflected and embedded strings do not satisfy WORDS_IN_TEXT boundaries.",
+      "input_mode": "stdin",
+      "stdin_base64": "TWVwaGlzdG9waGVsZWFuIFNoYWtlc3BlYXJlYW4gc2hha2VzcGVhcmlhbmlzbSBub3RzaGFrZXNwZWFyaWFuIHhtZXBoaXN0b3BoZWxpYW4u",
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "terms_eponymous_adjectives_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "eponymous config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidGVybXMiOnsiZXBvbnltb3VzX2FkamVjdGl2ZXMiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:eponymous config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "terms_eponymous_adjectives_unicode_positions",
+      "capability_id": "rule.terms.eponymous_adjectives",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/terms/eponymous_adjectives.py registers PreferredFormsSimple with `mephistophelian` -> `Mephistophelean` and `shakespearian` -> `Shakespearean`. Unicode prefix and a second line exercise source coordinates for both preferred forms.",
+      "input_mode": "stdin",
+      "stdin_base64": "8J+ZgiBtZXBoaXN0b3BoZWxpYW4uClNoYWtlc3BlYXJpYW4=",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "terms_eponymous_adjectives_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "eponymous config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidGVybXMiOnsiZXBvbnltb3VzX2FkamVjdGl2ZXMiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:eponymous config.json}",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "terms_eponymous_adjectives_max_errors_one",
+      "capability_id": "rule.terms.eponymous_adjectives",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/terms/eponymous_adjectives.py registers PreferredFormsSimple with `mephistophelian` -> `Mephistophelean` and `shakespearian` -> `Shakespearean`. A selected-rule max_errors=1 case preserves the first generated finding.",
+      "input_mode": "stdin",
+      "stdin_base64": "c2hha2VzcGVhcmlhbjsgbWVwaGlzdG9waGVsaWFu",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "terms_eponymous_adjectives_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [
+        {
+          "path": "eponymous config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsidGVybXMiOnsiZXBvbnltb3VzX2FkamVjdGl2ZXMiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:eponymous config.json}",
+        "--output-format",
+        "json"
+      ]
     }
   ]
 }

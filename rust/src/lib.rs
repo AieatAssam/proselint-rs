@@ -1,13 +1,16 @@
 //! Native Rust implementation of Proselint.
 
+use regex::Regex;
 use serde_json::{Map, Value, json};
 use std::path::Path;
+use std::sync::LazyLock;
 
 const ANNOTATIONS: [&str; 6] = ["FIXME", "FIX ME", "TODO", "todo", "ERASE THIS", "FIX THIS"];
 const CLICHE_HELL_PATTERN: &str = "all hell broke loose";
 const CLICHE_HELL_MESSAGE: &str = "Never use the phrase 'all hell broke loose'.";
 const APOLOGIZING_PATTERN: &str = "More research is needed";
 const APOLOGIZING_MESSAGE: &str = "Excessive apologizing.";
+const PHRASAL_ADJECTIVES_MESSAGE: &str = "No hyphen is necessary in phrasal adjectives with an adverb ending in -ly, unless the -ly adverb is part of a longer phrase.";
 const WHENCE_PATTERN: &str = "from whence";
 const WHENCE_MESSAGE: &str = "The 'from' in 'from whence' is not needed.";
 const SUDDENLY_PATTERN: &str = "Suddenly,";
@@ -192,6 +195,27 @@ pub fn annotation_diagnostics(text: &str) -> Vec<Value> {
     let mut diagnostics = annotation_diagnostics_in_matcher_order(text);
     diagnostics.sort_by_key(|diagnostic| diagnostic["span"][0].as_u64().unwrap_or_default());
     diagnostics
+}
+
+/// Return diagnostics for Fast `misc.phrasal_adjectives.ly` using the pinned
+/// RE2 ASCII whitespace class explicitly.
+pub fn phrasal_adjectives_ly_diagnostics(text: &str) -> Vec<Value> {
+    let padded = format!("\n{text}\n");
+    static PATTERN: LazyLock<Regex> = LazyLock::new(|| {
+        Regex::new(r"(?i)[ \t\n\r\x0c][^ \t\n\r\x0c-]+ly-").expect("constant regex")
+    });
+    let quotes = paired_quote_bounds(&padded);
+    let lines = splitlines_bounds(&padded);
+    PATTERN.find_iter(&padded).filter_map(|m| {
+        let matcher_start = padded[..m.start()].chars().count();
+        let start = matcher_start + 1;
+        let end = matcher_start + m.as_str().chars().count();
+        (quotes.partition_point(|bound| *bound < start) % 2 == 0).then(|| {
+            let (line, column) = line_col_of(start, &lines);
+            (start, json!({"check_path":"misc.phrasal_adjectives.ly", "message":PHRASAL_ADJECTIVES_MESSAGE,
+                "span":[start,end], "pos":[line,column], "replacements":null}))
+        })
+    }).map(|(_, diagnostic)| diagnostic).collect()
 }
 
 /// Return annotation diagnostics in upstream matcher registration order,

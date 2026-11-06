@@ -202,6 +202,10 @@
     {
       "id": "cli.config.user_discovery",
       "status": "recorded"
+    },
+    {
+      "id": "rule.misc.phrasal_adjectives.ly",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -249,7 +253,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "Run cumulative gate with cwd discovery included, then specify ancestor proselint.json search with an explicit working-directory fixture in the harness."
+    "next_handoff": "Select and specify the next unaccepted rule path; do not infer general regex-engine equivalence from the phrasal-adjectives pattern."
   },
   "unresolved": [
     "child-session model and reasoning-effort metadata are not exposed; role files specify Luna/high and Sol/low",
@@ -889,7 +893,7 @@
         "ellipsis_unicode_codepoint_spans",
         "ellipsis_selected_config_interaction"
       ],
-      "upstream_spec": "ExistenceSimple unanchored literal \\.\\.\\.; exact message \"'...' is an approximation, use the ellipsis symbol '…'.\"; nonoverlapping matches; allow_quotes=false suppresses quoted findings.",
+      "upstream_spec": "ExistenceSimple unanchored literal \\.\\.\\.; exact message \"'...' is an approximation, use the ellipsis symbol '\u2026'.\"; nonoverlapping matches; allow_quotes=false suppresses quoted findings.",
       "red": {
         "behavioral_failures": 6,
         "total_tests": 6,
@@ -933,7 +937,7 @@
         "copyright_unicode_codepoint_positions",
         "copyright_selected_config_interaction"
       ],
-      "upstream_spec": "ExistenceSimple unanchored, case-insensitive literal \\(c\\); message `(c) is a goofy alphabetic approximation, use the symbol ©.`; allow_quotes=false suppresses quoted findings.",
+      "upstream_spec": "ExistenceSimple unanchored, case-insensitive literal \\(c\\); message `(c) is a goofy alphabetic approximation, use the symbol \u00a9.`; allow_quotes=false suppresses quoted findings.",
       "red": {
         "behavioral_failures": 6,
         "total_tests": 6,
@@ -1068,7 +1072,7 @@
         "multiplication_unicode_codepoint_positions",
         "multiplication_selected_config_interaction"
       ],
-      "upstream_spec": "ExistenceSimple `\\d+ ?x ?\\d+`: ASCII digits, case-insensitive x, zero or one ASCII space on either side, unanchored. Exact message: `Use the multiplication symbol ×, not the letter x.`",
+      "upstream_spec": "ExistenceSimple `\\d+ ?x ?\\d+`: ASCII digits, case-insensitive x, zero or one ASCII space on either side, unanchored. Exact message: `Use the multiplication symbol \u00d7, not the letter x.`",
       "red": {
         "behavioral_failures": 7,
         "total_tests": 7,
@@ -1404,7 +1408,7 @@
         "inferior_superior_unicode_codepoint_positions",
         "inferior_superior_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.inferior_superior` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `inferior than` → `inferior to`; `superior than` → `superior to`. Default quote suppression; no exceptions or offsets. The replacement fills the message template `'Inferior' and 'superior' are not true comparatives. Use '{}'.`",
+      "upstream_spec": "Pinned `misc.inferior_superior` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `inferior than` \u2192 `inferior to`; `superior than` \u2192 `superior to`. Default quote suppression; no exceptions or offsets. The replacement fills the message template `'Inferior' and 'superior' are not true comparatives. Use '{}'.`",
       "red": {
         "behavioral_failures": 10,
         "total_tests": 10,
@@ -1709,7 +1713,7 @@
         "many_a_unicode_codepoint_positions",
         "many_a_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.many_a` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `are many a` → `is many a`; `have been many a` → `has been many a`; `were many a` → `was many a`. The static message is `'many a' requires a singular verb.`; each mapped replacement is returned. Default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `misc.many_a` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `are many a` \u2192 `is many a`; `have been many a` \u2192 `has been many a`; `were many a` \u2192 `was many a`. The static message is `'many a' requires a singular verb.`; each mapped replacement is returned. Default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 7,
         "total_tests": 7,
@@ -1852,7 +1856,7 @@
         "latin_unicode_codepoint_positions",
         "latin_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.latin` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `ceteris paribus` → `other things being equal`; `inter alia` → `among other things`; `simpliciter` → `in and of itself`; `mutatis mutandis` → `having made the necessary changes`. The message is `Use English. '{}' is the preferred form.` and interpolates the replacement. Default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `misc.latin` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `ceteris paribus` \u2192 `other things being equal`; `inter alia` \u2192 `among other things`; `simpliciter` \u2192 `in and of itself`; `mutatis mutandis` \u2192 `having made the necessary changes`. The message is `Use English. '{}' is the preferred form.` and interpolates the replacement. Default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -1900,7 +1904,7 @@
         "seasons_unicode_codepoint_positions",
         "seasons_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.capitalization.seasons` is case-sensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries. Only `Winter` → `winter` and `Summer` → `summer` are mapped; lowercase, all-uppercase, and mixed-case variants are clean, as are commented-out `Spring` and `Fall`. Message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements returned, default quote suppression.",
+      "upstream_spec": "Pinned `misc.capitalization.seasons` is case-sensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries. Only `Winter` \u2192 `winter` and `Summer` \u2192 `summer` are mapped; lowercase, all-uppercase, and mixed-case variants are clean, as are commented-out `Spring` and `Fall`. Message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements returned, default quote suppression.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -1948,7 +1952,7 @@
         "capitalization_terms_unicode_codepoint_positions",
         "capitalization_terms_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.capitalization.terms` is case-sensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `mother nature` → `Mother Nature`, `Space Age` → `space age`, `stone age` → `Stone Age`, and `the American west` → `the American West`. Message `Incorrect capitalization. '{}' is the preferred form.`; replacements interpolate the mapped form; default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `misc.capitalization.terms` is case-sensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `mother nature` \u2192 `Mother Nature`, `Space Age` \u2192 `space age`, `stone age` \u2192 `Stone Age`, and `the American west` \u2192 `the American West`. Message `Incorrect capitalization. '{}' is the preferred form.`; replacements interpolate the mapped form; default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -1998,7 +2002,7 @@
         "lie_detector_selected_config_interaction",
         "lie_detector_fastset_activation_raw_copy"
       ],
-      "upstream_spec": "Pinned `psychology.lie_detector` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `lie detector test` → `polygraph test` and `lie detector machine` → `polygraph machine`. Message `Polygraph machines measure arousal, not lying per se. Try '{}'.`; mapped phrase is replacement and interpolation; default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `psychology.lie_detector` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `lie detector test` \u2192 `polygraph test` and `lie detector machine` \u2192 `polygraph machine`. Message `Polygraph machines measure arousal, not lying per se. Try '{}'.`; mapped phrase is replacement and interpolation; default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -2053,7 +2057,7 @@
         "wallace_unicode_codepoint_positions",
         "wallace_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `redundancy.misc.wallace` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `rectangular in shape` → `rectangular`, `audible to the ear` → `audible`. Message `Redundancy. Use '{}' instead of '{}'.`; the replacement is interpolated first and the original matched surface second. Default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `redundancy.misc.wallace` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `rectangular in shape` \u2192 `rectangular`, `audible to the ear` \u2192 `audible`. Message `Redundancy. Use '{}' instead of '{}'.`; the replacement is interpolated first and the original matched surface second. Default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -2478,7 +2482,7 @@
         "cli_config_cwd_discovers_empty_checks",
         "cli_config_explicit_precedes_cwd_discovery"
       ],
-      "upstream_spec": "When --config is omitted, pinned Python checks the current working directory for proselint.json; an explicit --config path takes precedence over that discovered file. The discovered file’s checks and JSON diagnostics must match the explicit-file loading behavior.",
+      "upstream_spec": "When --config is omitted, pinned Python checks the current working directory for proselint.json; an explicit --config path takes precedence over that discovered file. The discovered file\u2019s checks and JSON diagnostics must match the explicit-file loading behavior.",
       "red": {
         "behavioral_mismatches": 2,
         "total_cases": 3,
@@ -2599,20 +2603,67 @@
         "manifest_cases": 437,
         "report": "rust/artifacts/strict-gate-user-discovery-20261106.json"
       }
+    },
+    {
+      "id": "rule.misc.phrasal_adjectives.ly",
+      "status": "recorded",
+      "case_ids": [
+        "rule_misc_phrasal_adjectives_ly_positive",
+        "rule_misc_phrasal_adjectives_ly_negative",
+        "rule_misc_phrasal_adjectives_ly_whitespace",
+        "rule_misc_phrasal_adjectives_ly_nbsp",
+        "rule_misc_phrasal_adjectives_ly_unicode",
+        "rule_misc_phrasal_adjectives_ly_quoted",
+        "rule_misc_phrasal_adjectives_ly_config_only"
+      ],
+      "upstream_spec": "Pinned Fast ExistenceSimple rule uses a case-insensitive ASCII-whitespace pattern with offset (1, 0), repeated left-to-right matches, quote suppression, and Python code-point coordinates.",
+      "red": {
+        "behavioral_mismatches": 7,
+        "total_cases": 7,
+        "report": "rust/artifacts/phrasal-adjectives-live-red-20261106.json"
+      },
+      "green": {
+        "focused_rust_tests_passed": 4,
+        "live_cases_passed": 7,
+        "report": "rust/artifacts/phrasal-adjectives-live-green-20261106.json",
+        "build_attestation": "rust/artifacts/20261106T064439910152Z-build.attestation.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 7,
+        "focused_rust_tests_passed": 4,
+        "harness_tests_passed": 28,
+        "comparator_discriminators_passed": 23,
+        "report": "rust/artifacts/independent-phrasal-adjectives-20261106/phrasal-adjectives-live.json",
+        "build_attestation": "rust/artifacts/independent-phrasal-adjectives-20261106/build.attestation.json",
+        "source_fingerprint": "4583e353001f4c45723ee7ac769d87cffbc6ef700924e3439876ddba4db642ad",
+        "agent_model": "gpt-6-luna",
+        "agent_reasoning_effort": "low"
+      },
+      "limitations": [
+        "The verified ASCII whitespace adaptation is specific to this pattern; it does not establish general Rust regex versus Google RE2 compatibility.",
+        "Combined-rule configurations, broader Unicode case folding, and default-config execution remain unverified."
+      ],
+      "cumulative_live_parity": {
+        "status": "PASS",
+        "passed_cases": 438,
+        "manifest_cases": 444,
+        "report": "rust/artifacts/strict-gate-phrasal-adjectives-accepted-20261106.json"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-user-discovery-20261106.json",
-    "passed_cases": 431,
-    "manifest_cases": 437,
+    "report": "rust/artifacts/strict-gate-phrasal-adjectives-accepted-20261106.json",
+    "passed_cases": 438,
+    "manifest_cases": 444,
     "excluded_manifest_cases": {
       "cli.config.per_file_checks": 4,
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "source_fingerprint": "ae37c52e945287d0ab80d690e01cf790873f75786b2ed8289da1c8b5e14ecba6",
-    "capability_count": 50
+    "source_fingerprint": "64456b7e0fe62eb2e6ea7d5ec75e9062221beb5219a4a708b9da32129069eb0f",
+    "capability_count": 51
   },
   "rust_dependencies": {
     "status": "current",
@@ -2623,7 +2674,8 @@
       "clap": "4.6.7",
       "serde": "1.0.229",
       "serde_json": "1.0.154",
-      "serde_stacker": "0.1.14"
+      "serde_stacker": "0.1.14",
+      "regex": "1.13.1"
     },
     "cargo_update_dry_run": "0 packages to update",
     "update_dry_run": {
@@ -2633,7 +2685,7 @@
       "rust_version_constraint": "1.99"
     }
   },
-  "next_capability_handoff": "Probe Fast ExistenceSimple semantics against the pinned oracle before selecting a regex dependency. Start with one unported rule whose pattern exercises whitespace, offset, repeated matches, Unicode spans and quote behavior. Check current Rust regex crate release/semantics against RE2; reject any unproven broad equivalence. Keep bundled DEFAULT config behavior separate until its enabled rules are implemented.",
+  "next_capability_handoff": "Select the next unaccepted rule path from the pinned inventory, specify its upstream semantics, demonstrate meaningful failing tests, then implement and independently verify. No general Rust regex/RE2 equivalence is established. Keep bundled DEFAULT behavior separate.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

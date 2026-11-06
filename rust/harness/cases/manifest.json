@@ -14445,6 +14445,244 @@
       "unused_files": [
         "xdg/proselint/config.json"
       ]
+    },
+    {
+      "id": "rule_misc_phrasal_adjectives_ly_positive",
+      "capability_id": "rule.misc.phrasal_adjectives.ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.phrasal_adjectives.ly in proselint/checks/misc/phrasal_adjectives.py. Check uses ExistenceSimple pattern `\\s[^\\s-]+ly-`, Fast default case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, ppm_threshold=0; message `No hyphen is necessary in phrasal adjectives with an adverb ending in -ly, unless the -ly adverb is part of a longer phrase.` and offset (1,0). Case purpose: Positive lower and ASCII-uppercase examples show default case-insensitive matching.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhpcyBpcyBhIGNhcmVmdWxseS13cml0dGVuIG5vdGU7IFRISVMgSVMgQSBRVUlFVExZLVJFQUQgcmVzdWx0",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJwaHJhc2FsX2FkamVjdGl2ZXMiOnsibHkiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "config_scenario": "phrasal_adjectives_only",
+      "unused_files": []
+    },
+    {
+      "id": "rule_misc_phrasal_adjectives_ly_negative",
+      "capability_id": "rule.misc.phrasal_adjectives.ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.phrasal_adjectives.ly in proselint/checks/misc/phrasal_adjectives.py. Check uses ExistenceSimple pattern `\\s[^\\s-]+ly-`, Fast default case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, ppm_threshold=0; message `No hyphen is necessary in phrasal adjectives with an adverb ending in -ly, unless the -ly adverb is part of a longer phrase.` and offset (1,0). Case purpose: Hyphen requirement and separated adverb are clean.",
+      "input_mode": "stdin",
+      "stdin_base64": "Y2FyZWZ1bGx5IHdyaXR0ZW47IGNhcmVmdWwtbHkgd3JpdHRlbjsgY2FyZWZ1bGx54oCUd3JpdHRlbg==",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJwaHJhc2FsX2FkamVjdGl2ZXMiOnsibHkiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "config_scenario": "phrasal_adjectives_only",
+      "unused_files": []
+    },
+    {
+      "id": "rule_misc_phrasal_adjectives_ly_whitespace",
+      "capability_id": "rule.misc.phrasal_adjectives.ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.phrasal_adjectives.ly in proselint/checks/misc/phrasal_adjectives.py. Check uses ExistenceSimple pattern `\\s[^\\s-]+ly-`, Fast default case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, ppm_threshold=0; message `No hyphen is necessary in phrasal adjectives with an adverb ending in -ly, unless the -ly adverb is part of a longer phrase.` and offset (1,0). Case purpose: Spaces/tabs/newlines follow Python regex whitespace behavior and all matches retain source order.",
+      "input_mode": "stdin",
+      "stdin_base64": "SXQgaXMgY2FyZWZ1bGx5LXdyaXR0ZW4JcXVpZXRseS1yZWFkCnBvb3JseS1saXQ=",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJwaHJhc2FsX2FkamVjdGl2ZXMiOnsibHkiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "config_scenario": "phrasal_adjectives_only",
+      "unused_files": []
+    },
+    {
+      "id": "rule_misc_phrasal_adjectives_ly_nbsp",
+      "capability_id": "rule.misc.phrasal_adjectives.ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.phrasal_adjectives.ly in proselint/checks/misc/phrasal_adjectives.py. Check uses ExistenceSimple pattern `\\s[^\\s-]+ly-`, Fast default case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, ppm_threshold=0; message `No hyphen is necessary in phrasal adjectives with an adverb ending in -ly, unless the -ly adverb is part of a longer phrase.` and offset (1,0). Case purpose: NBSP is Python regex whitespace; both matches are reported.",
+      "input_mode": "stdin",
+      "stdin_base64": "SXQgaXMgY2FyZWZ1bGx5LXdyaXR0ZW7CoHF1aWV0bHktcmVhZA==",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJwaHJhc2FsX2FkamVjdGl2ZXMiOnsibHkiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "config_scenario": "phrasal_adjectives_only",
+      "unused_files": []
+    },
+    {
+      "id": "rule_misc_phrasal_adjectives_ly_unicode",
+      "capability_id": "rule.misc.phrasal_adjectives.ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.phrasal_adjectives.ly in proselint/checks/misc/phrasal_adjectives.py. Check uses ExistenceSimple pattern `\\s[^\\s-]+ly-`, Fast default case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, ppm_threshold=0; message `No hyphen is necessary in phrasal adjectives with an adverb ending in -ly, unless the -ly adverb is part of a longer phrase.` and offset (1,0). Case purpose: Unicode prefix/surrounding text verifies code-point positions and spans.",
+      "input_mode": "stdin",
+      "stdin_base64": "w6kgdGV4dCBjYXJlZnVsbHktd3JpdHRlbiBhbmQg6ZuqIHF1aWV0bHktcmVhZA==",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJwaHJhc2FsX2FkamVjdGl2ZXMiOnsibHkiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "config_scenario": "phrasal_adjectives_only",
+      "unused_files": []
+    },
+    {
+      "id": "rule_misc_phrasal_adjectives_ly_quoted",
+      "capability_id": "rule.misc.phrasal_adjectives.ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.phrasal_adjectives.ly in proselint/checks/misc/phrasal_adjectives.py. Check uses ExistenceSimple pattern `\\s[^\\s-]+ly-`, Fast default case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, ppm_threshold=0; message `No hyphen is necessary in phrasal adjectives with an adverb ending in -ly, unless the -ly adverb is part of a longer phrase.` and offset (1,0). Case purpose: Quoted and unquoted occurrences are both reported by the pinned check.",
+      "input_mode": "stdin",
+      "stdin_base64": "4oCcY2FyZWZ1bGx5LXdyaXR0ZW7igJ0gYW5kIHF1aWV0bHktcmVhZA==",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJwaHJhc2FsX2FkamVjdGl2ZXMiOnsibHkiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "config_scenario": "phrasal_adjectives_only",
+      "unused_files": []
+    },
+    {
+      "id": "rule_misc_phrasal_adjectives_ly_config_only",
+      "capability_id": "rule.misc.phrasal_adjectives.ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.phrasal_adjectives.ly in proselint/checks/misc/phrasal_adjectives.py. Check uses ExistenceSimple pattern `\\s[^\\s-]+ly-`, Fast default case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, ppm_threshold=0; message `No hyphen is necessary in phrasal adjectives with an adverb ending in -ly, unless the -ly adverb is part of a longer phrase.` and offset (1,0). Case purpose: Only this check enabled; unrelated defaults do not report.",
+      "input_mode": "stdin",
+      "stdin_base64": "VE9ETzsgY2FyZWZ1bGx5LXdyaXR0ZW47IHZlcnk=",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsibWlzYyI6eyJwaHJhc2FsX2FkamVjdGl2ZXMiOnsibHkiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "config_scenario": "phrasal_adjectives_only",
+      "unused_files": []
     }
   ]
 }

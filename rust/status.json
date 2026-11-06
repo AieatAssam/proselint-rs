@@ -275,9 +275,9 @@
   },
   "harness": {
     "status": "independently_verified",
-    "source_fingerprint": "1561d69cee2934282e4a0bb3ec3f03e9d0a191868598ed5563b46a03f6fb7350",
+    "source_fingerprint": "eff70100c88b18084fd5e8cb81569957865335d30e8882bd4ee33183d4d03e8a",
     "unit_tests": {
-      "passed": 36,
+      "passed": 37,
       "exit_code": 0,
       "evidence": "python3 -m unittest discover -s rust/harness/tests"
     },
@@ -301,7 +301,7 @@
       "rust/status-history.jsonl",
       "rust/docs/**"
     ],
-    "next_handoff": "mondegreens passed the 567-case cumulative gate. Next: specify skunked_terms, including the pinned Thankfully, boundary behavior."
+    "next_handoff": "Luna implementer owns rust/src/lib.rs and rust/src/main.rs for skunked_terms; coordinator owns rust/status.json, rust/status-history.jsonl, and rust/docs/**."
   },
   "unresolved": [
     "The no-config-found bundled DEFAULT, every default-enabled rule interaction, and combined enabled-rule configurations remain unverified; selected-rule passes do not establish default behavior.",
@@ -3364,6 +3364,36 @@
         "agent_runtime_metadata": "unavailable",
         "cli_supported_check_list_assertion": "passed: mondegreens between misc.composition and redundancy.misc.wallace"
       }
+    },
+    {
+      "id": "rule.skunked_terms",
+      "status": "in_progress",
+      "case_ids": [
+        "skunked_terms_all_ordinary_phrases",
+        "skunked_terms_thankfully_punctuation",
+        "skunked_terms_thankfully_end_clean",
+        "skunked_terms_thankfully_space_clean",
+        "skunked_terms_case_and_repetition",
+        "skunked_terms_boundaries_clean",
+        "skunked_terms_quote_suppression",
+        "skunked_terms_unicode_positions",
+        "skunked_terms_punctuation_context",
+        "skunked_terms_max_errors_one",
+        "skunked_terms_quoted_activation_limit_one"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_spec": "Pinned default-enabled Existence check with eight Fast case-insensitive WORDS_IN_TEXT literals: bona fides, deceptively, decimate, effete, fulsome, hopefully, impassionate, Thankfully,. Exceptions empty, allow_quotes=false, offset 0; exact message `'{matched surface}' is a a skunked term - impossible to use without issue. Find some other way to say it.` and replacements null. The literal `\\bThankfully,\\b` is clean at EOF/before space but matches before a word character; FastSet activation can then expose later raw boundaryless `Thankfully,` occurrences before quote suppression and max_errors.",
+      "red": {
+        "report_status": "MISMATCH",
+        "mismatches": 11,
+        "reason": "All eleven frozen cases reached the pinned oracle and Rust candidate; the oracle returned valid outcomes while Rust returned unsupported-path exit 4.",
+        "evidence": "rust/artifacts/skunked-terms-rust-red-live-20261106.json",
+        "source_fingerprint": "eff70100c88b18084fd5e8cb81569957865335d30e8882bd4ee33183d4d03e8a",
+        "build_attestation": "rust/artifacts/20261106T135741799605Z-build.attestation.json"
+      },
+      "limitations": [
+        "RED is not acceptance evidence; implementation, focused live green, independent verification, and updated cumulative gate remain required."
+      ]
     }
   ],
   "last_strict_gate": {
@@ -3402,7 +3432,7 @@
       "rust_version_constraint": "1.99"
     }
   },
-  "next_capability_handoff": "Specify skunked_terms against the pinned oracle; preserve the literal trailing comma plus WORDS_IN_TEXT edge for Thankfully,; demonstrate meaningful RED, then implement, live-compare, independently verify, and run the cumulative gate.",
+  "next_capability_handoff": "Implement skunked_terms from its eleven frozen RED cases; preserve the literal trailing comma / WORDS_IN_TEXT / raw-match / quote-filter / max_errors behavior, then independently verify and run the cumulative gate.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

@@ -3,6 +3,7 @@
 pub mod rules;
 pub use rules::spelling_able_atable::diagnostics as spelling_able_atable_diagnostics;
 pub use rules::spelling_able_ible::diagnostics as spelling_able_ible_diagnostics;
+pub use rules::spelling_em_im_en_in::diagnostics as spelling_em_im_en_in_diagnostics;
 pub use rules::spelling_er_or::diagnostics as spelling_er_or_diagnostics;
 
 use regex::{Regex, RegexBuilder};
@@ -3525,7 +3526,7 @@ fn preferred_lookup(surface: &str, replacement: &'static str) -> Option<&'static
     (!surface.contains('ſ')).then_some(replacement)
 }
 
-fn paired_quote_bounds(text: &str) -> Vec<usize> {
+pub(crate) fn paired_quote_bounds(text: &str) -> Vec<usize> {
     let chars: Vec<char> = text.chars().collect();
     let mut opening: Option<(char, usize)> = None;
     let mut bounds = Vec::new();

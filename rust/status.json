@@ -294,6 +294,10 @@
     {
       "id": "spelling.able_atable",
       "status": "recorded"
+    },
+    {
+      "id": "spelling.em_im_en_in",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -335,12 +339,12 @@
     "independent_evidence": "rust/artifacts/independent-review-fixes/final-gate-348.json"
   },
   "active_ownership": {
-    "current": "The latest strict live gate passes 663/663 cases across 73 capabilities. spelling.er_or, spelling.able_ible and spelling.able_atable are recorded. spelling.em_im_en_in has 8 pinned cases and a candidate RED of 8/8 mismatches; it is next for isolated implementation. Shared CLI integration remains coordinator-owned.",
+    "current": "The latest strict live gate passes 671/671 cases across 74 capabilities. spelling.em_im_en_in has passed focused and independent live parity and is recorded. spelling.athletes has a 29/29 candidate RED; its implementation worker owns only rust/src/rules/spelling_athletes.rs and rust/tests/spelling_athletes.rs. Coordinator owns shared dispatch and the next cumulative gate.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
     "The no-config-found bundled DEFAULT, every default-enabled rule interaction, and combined enabled-rule configurations remain unverified; selected-rule passes do not establish default behavior.",
-    "49 unique rule paths remain unimplemented or unverified.",
+    "45 unique rule paths remain unimplemented or unverified.",
     "Other CLI behavior remains unverified, including remaining subcommands, missing nonempty-XDG config, HOME-unset resolution, directory user candidates, file/directory traversal and decoding edges, multi-file rendering, and Compact output.",
     "Unicode case folding and quote-pairing combinations beyond explicitly tested cases remain unverified.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
@@ -4155,7 +4159,7 @@
     },
     {
       "id": "spelling.em_im_en_in",
-      "status": "specified_live_cases_pending_red",
+      "status": "recorded",
       "case_ids": [
         "spelling_em_im_en_in_all_mappings",
         "spelling_em_im_en_in_preferred_and_negative_controls",
@@ -4178,31 +4182,167 @@
         "installed_package_tree_sha256": "e76c6c6472cd77e21e046bf4853b58a7b6b3fe99ab37fb0a321da42b722c0899",
         "note": "all 49 dictionary forms produce 50 diagnostics due to one raw overlap after activation"
       },
-      "implementation": "not started; pinned candidate RED required first",
+      "implementation": "Native Rust module with 49 pinned mappings, earliest-activation pattern order, raw match emission, paired-quote suppression, and Unicode code-point spans; registered in the library and selected-check CLI.",
       "agent_model": "gpt-6-luna",
       "agent_reasoning_effort": "low requested",
-      "agent_runtime_metadata": "unavailable"
+      "agent_runtime_metadata": "unavailable",
+      "red": {
+        "focused_live_report": "rust/artifacts/focused-em-im-en-in-red-final3-20261106.json",
+        "live_cases": 8,
+        "mismatches": 8,
+        "candidate_errors": 0,
+        "oracle_errors": 0,
+        "timeouts": 0,
+        "started_at_utc": "2026-11-06T20:07:41.732309+00:00",
+        "finished_at_utc": "2026-11-06T20:07:52.925672+00:00",
+        "duration_seconds": 11.193363,
+        "source_fingerprint": "ea26c47fb4cbe5fe9ea6899ab4dc9dded7f51859a951750d8da5c92bee083622",
+        "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "oracle_integrity": "verified before and after"
+      },
+      "green": {
+        "status": "PASS",
+        "live_cases_passed": 8,
+        "focused_live_report": "rust/artifacts/focused-spelling-em-im-en-in-final-20261106.json",
+        "build_attestation": "rust/artifacts/20261106T204123995955Z-build.attestation.json",
+        "source_fingerprint": "3ad762fa22192bae60d35a66e90efe400ca0996137e37efdce63f7b6a8df7cea",
+        "candidate_sha256": "e6d097e17d7589f1e91312e294a9abff31a3d35f1d100a1e03432491a6dcccb2",
+        "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
+        "locked_format_clippy_test_build": "PASS",
+        "cargo_test_passed": 525,
+        "cargo_test_binaries": 68,
+        "focused_rust_test_count": 6,
+        "focused_rust_test_duration_seconds": 0.4,
+        "duration_seconds": 8.32493
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 8,
+        "focused_live_report": "rust/artifacts/independent-spelling-em-im-en-in-20261106.json",
+        "duration_seconds": 10.679394,
+        "source_fingerprint": "3ad762fa22192bae60d35a66e90efe400ca0996137e37efdce63f7b6a8df7cea",
+        "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "oracle_integrity": "verified before and after",
+        "candidate_sha256": "e6d097e17d7589f1e91312e294a9abff31a3d35f1d100a1e03432491a6dcccb2",
+        "focused_rust_tests_passed": 6,
+        "agent_model": "gpt-6-luna",
+        "agent_reasoning_effort": "low requested",
+        "agent_runtime_metadata": "unavailable"
+      },
+      "stage_durations_seconds": {
+        "red_live": 11.193363,
+        "focused_rust_tests": 0.4,
+        "focused_green_live": 8.32493,
+        "independent_live": 10.679394,
+        "cumulative_gate": 197.059055
+      },
+      "stage_case_counts": {
+        "red_live": 8,
+        "focused_green_live": 8,
+        "independent_live": 8,
+        "cumulative_gate": 671
+      },
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-em-im-en-in-20261106.json",
+        "passed_cases": 671,
+        "capability_count": 74,
+        "duration_seconds": 197.059055,
+        "source_fingerprint": "3ad762fa22192bae60d35a66e90efe400ca0996137e37efdce63f7b6a8df7cea"
+      }
+    },
+    {
+      "id": "spelling.athletes",
+      "status": "candidate_red_recorded_implementation_pending",
+      "case_ids": [
+        "spelling_athletes_form_01",
+        "spelling_athletes_form_02",
+        "spelling_athletes_form_03",
+        "spelling_athletes_form_04",
+        "spelling_athletes_form_05",
+        "spelling_athletes_form_06",
+        "spelling_athletes_form_07",
+        "spelling_athletes_form_08",
+        "spelling_athletes_form_09",
+        "spelling_athletes_form_10",
+        "spelling_athletes_form_11",
+        "spelling_athletes_form_12",
+        "spelling_athletes_form_13",
+        "spelling_athletes_form_14",
+        "spelling_athletes_form_15",
+        "spelling_athletes_form_16",
+        "spelling_athletes_form_17",
+        "spelling_athletes_negative_correct_forms",
+        "spelling_athletes_case_insensitive_repetition",
+        "spelling_athletes_ascii_prefix_suffix_boundaries",
+        "spelling_athletes_punctuation_boundaries",
+        "spelling_athletes_unicode_left_boundary",
+        "spelling_athletes_unicode_right_boundary",
+        "spelling_athletes_quoted_suppression",
+        "spelling_athletes_j_escaped_source_entry",
+        "spelling_athletes_j_regex_wildcard_negative",
+        "spelling_athletes_j_correct_form_negative",
+        "spelling_athletes_order_all_forms",
+        "spelling_athletes_max_errors_truncates"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_spec": "17 PreferredFormsSimple mappings using case-insensitive FastSet matching with WORDS_IN_TEXT boundaries and default quote suppression. The raw escaped source key `j\\.j\\. reddick` matches as a null replacement with message `None`; plain J.J. Redick and jXjX reddick are clean.",
+      "specification": {
+        "live_cases": 29,
+        "mapping_forms": 17,
+        "oracle_integrity": "verified before and after",
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "evidence": "rust/artifacts/spelling-athletes-oracle-20261106.json"
+      },
+      "red": {
+        "status": "MISMATCH",
+        "focused_live_report": "rust/artifacts/focused-spelling-athletes-red-final-20261106.json",
+        "live_cases": 29,
+        "mismatches": 29,
+        "candidate_errors": 0,
+        "oracle_errors": 0,
+        "timeouts": 0,
+        "started_at_utc": "2026-11-06T20:45:40.746103+00:00",
+        "finished_at_utc": "2026-11-06T20:45:51.366275+00:00",
+        "duration_seconds": 10.620172,
+        "source_fingerprint": "3ad762fa22192bae60d35a66e90efe400ca0996137e37efdce63f7b6a8df7cea",
+        "candidate_sha256": "e6d097e17d7589f1e91312e294a9abff31a3d35f1d100a1e03432491a6dcccb2",
+        "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "oracle_integrity": "verified before and after"
+      },
+      "agent_model": "gpt-6-luna",
+      "agent_reasoning_effort": "low requested",
+      "agent_runtime_metadata": "unavailable",
+      "stage_durations_seconds": {
+        "oracle_case_capture_not_recorded": null,
+        "red_live": 10.620172
+      },
+      "stage_case_counts": {
+        "oracle_live_cases": 29,
+        "red_live": 29
+      },
+      "implementation": "assigned to isolated rule module/test owner; shared routing remains coordinator-owned"
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-spelling-family-20261106.json",
-    "passed_cases": 663,
-    "manifest_cases": 677,
+    "report": "rust/artifacts/strict-gate-em-im-en-in-20261106.json",
+    "passed_cases": 671,
+    "manifest_cases": 706,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
       "cli.config.per_file_checks": 4,
-      "spelling.em_im_en_in": 8
+      "spelling.athletes": 29
     },
     "exit_code": 0,
-    "capability_count": 73,
-    "source_fingerprint": "ea26c47fb4cbe5fe9ea6899ab4dc9dded7f51859a951750d8da5c92bee083622",
-    "run_id": "20261106T201217898460Z-a42b5d62",
-    "started_at_utc": "2026-11-06T20:12:17.898422+00:00",
-    "finished_at_utc": "2026-11-06T20:15:52.330245+00:00",
-    "candidate_attestation": "rust/artifacts/20261106T201206187128Z-build.attestation.json",
-    "candidate_sha256": "1c2569e3629e643603d349e7cf9dd1540730dacb5210bae5b3c652438f7d487c",
-    "duration_seconds": 214.431823
+    "capability_count": 74,
+    "source_fingerprint": "3ad762fa22192bae60d35a66e90efe400ca0996137e37efdce63f7b6a8df7cea",
+    "run_id": "20261106T204711083725Z-982671bd",
+    "started_at_utc": "2026-11-06T20:47:11.083691+00:00",
+    "finished_at_utc": "2026-11-06T20:50:28.142746+00:00",
+    "candidate_attestation": "rust/artifacts/20261106T204702526166Z-build.attestation.json",
+    "candidate_sha256": "e6d097e17d7589f1e91312e294a9abff31a3d35f1d100a1e03432491a6dcccb2",
+    "duration_seconds": 197.059055
   },
   "rust_dependencies": {
     "status": "current",
@@ -4226,7 +4366,7 @@
       "checked_after_gate": "2026-11-06T17:09:30Z"
     }
   },
-  "next_capability_handoff": "Implement spelling.em_im_en_in in a disjoint Rust rule module after its 8/8 candidate RED; keep shared lib/CLI/registry integration with the coordinator. Three spelling capabilities have focused and independent live passes and are included in the 663-case strict gate.",
+  "next_capability_handoff": "Finish spelling.athletes in its isolated rule module/test files using the 29 pinned live cases and recorded candidate RED. Coordinator owns shared CLI dispatch; after implementation, run focused live parity, independent verification, then the required cumulative gate.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

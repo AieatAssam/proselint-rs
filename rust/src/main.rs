@@ -17,9 +17,9 @@ use proselint_rs::{
     oxymorons_diagnostics, p_equals_zero_diagnostics, phrasal_adjectives_ly_diagnostics,
     pretension_diagnostics, professions_diagnostics, skunked_terms_diagnostics,
     spelling_able_atable_diagnostics, spelling_able_ible_diagnostics, spelling_ally_ly_diagnostics,
-    spelling_ance_ence_diagnostics, spelling_ely_ly_diagnostics, spelling_er_or_diagnostics,
-    spelling_in_un_diagnostics, spelling_ve_of_diagnostics, suddenly_diagnostics,
-    typography_copyright_diagnostics, typography_ellipsis_diagnostics,
+    spelling_ance_ence_diagnostics, spelling_ely_ly_diagnostics, spelling_em_im_en_in_diagnostics,
+    spelling_er_or_diagnostics, spelling_in_un_diagnostics, spelling_ve_of_diagnostics,
+    suddenly_diagnostics, typography_copyright_diagnostics, typography_ellipsis_diagnostics,
     typography_multiplication_diagnostics, typography_sentence_spacing_diagnostics,
     typography_trademark_diagnostics, wallace_diagnostics, whence_diagnostics,
 };
@@ -1171,7 +1171,7 @@ fn run() -> Result<ExitCode, String> {
         });
     }
     let selected_checks = selected_checks.ok_or_else(|| {
-        "this capability supports disabled checks, annotations.misc, cliches.hell, malapropisms, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.many_a, misc.metadiscourse, misc.narcissism, misc.not_guilty, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, mondegreens, oxymorons, redundancy.misc.wallace, redundancy.misc.nordquist, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, dates_times.am_pm.midnight_noon, dates_times.dates.decade_apostrophes, spelling.able_atable, spelling.able_ible, spelling.ally_ly, spelling.ance_ence, spelling.ely_ly, spelling.er_or, spelling.in_un, spelling.ve_of, skunked_terms, or terms.eponymous_adjectives only".to_owned()
+        "this capability supports disabled checks, annotations.misc, cliches.hell, malapropisms, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.many_a, misc.metadiscourse, misc.narcissism, misc.not_guilty, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, mondegreens, oxymorons, redundancy.misc.wallace, redundancy.misc.nordquist, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, dates_times.am_pm.midnight_noon, dates_times.dates.decade_apostrophes, spelling.able_atable, spelling.able_ible, spelling.ally_ly, spelling.ance_ence, spelling.ely_ly, spelling.er_or, spelling.em_im_en_in, spelling.in_un, spelling.ve_of, skunked_terms, or terms.eponymous_adjectives only".to_owned()
     })?;
 
     let mut diagnostics = Vec::new();
@@ -1234,6 +1234,7 @@ fn run() -> Result<ExitCode, String> {
             SelectedCheck::SpellingAnceEnce => spelling_ance_ence_diagnostics(&content),
             SelectedCheck::SpellingElyLy => spelling_ely_ly_diagnostics(&content),
             SelectedCheck::SpellingErOr => spelling_er_or_diagnostics(&content),
+            SelectedCheck::SpellingEmImEnIn => spelling_em_im_en_in_diagnostics(&content),
             SelectedCheck::SpellingInUn => spelling_in_un_diagnostics(&content),
             SelectedCheck::SpellingVeOf => spelling_ve_of_diagnostics(&content),
             SelectedCheck::Mondegreens => mondegreens_diagnostics(&content),
@@ -1335,6 +1336,7 @@ enum SelectedCheck {
     SpellingAnceEnce,
     SpellingElyLy,
     SpellingErOr,
+    SpellingEmImEnIn,
     SpellingInUn,
     SpellingVeOf,
     Mondegreens,
@@ -1410,6 +1412,7 @@ fn supported_checks(checks: &Value) -> Option<Vec<SelectedCheck>> {
             ["spelling", "ance_ence"] => Some(SelectedCheck::SpellingAnceEnce),
             ["spelling", "ely_ly"] => Some(SelectedCheck::SpellingElyLy),
             ["spelling", "er_or"] => Some(SelectedCheck::SpellingErOr),
+            ["spelling", "em_im_en_in"] => Some(SelectedCheck::SpellingEmImEnIn),
             ["spelling", "in_un"] => Some(SelectedCheck::SpellingInUn),
             ["spelling", "ve_of"] => Some(SelectedCheck::SpellingVeOf),
             ["mondegreens"] => Some(SelectedCheck::Mondegreens),
@@ -1558,6 +1561,7 @@ fn selected_check_path(check: SelectedCheck) -> &'static str {
         SelectedCheck::SpellingAnceEnce => "spelling.ance_ence",
         SelectedCheck::SpellingElyLy => "spelling.ely_ly",
         SelectedCheck::SpellingErOr => "spelling.er_or",
+        SelectedCheck::SpellingEmImEnIn => "spelling.em_im_en_in",
         SelectedCheck::SpellingInUn => "spelling.in_un",
         SelectedCheck::SpellingVeOf => "spelling.ve_of",
         SelectedCheck::Mondegreens => "mondegreens",

@@ -311,6 +311,17 @@ def validate_benchmark_report(report: dict[str, Any]) -> None:
         raise ValueError("benchmark parity record is malformed")
     if not isinstance(report["fresh_process"], list) or not isinstance(report["in_memory"], list):
         raise ValueError("benchmark timing fields must be arrays")
+    stages = report.get("stages")
+    if stages is not None and not isinstance(stages, list):
+        raise ValueError("benchmark stages must be an array when present")
+    for stage in stages or []:
+        if not isinstance(stage, dict) or not isinstance(stage.get("name"), str) or type(stage.get("duration_ns")) is not int or stage["duration_ns"] < 0:
+            raise ValueError("benchmark stages need a name and non-negative duration")
+        count_key = "case_count" if stage["name"] == "parity_preflight" else "workload_count"
+        if type(stage.get(count_key)) is not int or stage[count_key] < 0:
+            raise ValueError(f"{stage['name']} stage needs a non-negative {count_key}")
+        if ({"case_count", "workload_count"} - {count_key}) & stage.keys():
+            raise ValueError(f"{stage['name']} stage uses the wrong count field")
     if report["status"] == "PARITY_PASS":
         if report["parity"]["status"] != "PASS" or report["fresh_process"] or report["in_memory"] or report["performance_claim"] != "none":
             raise ValueError("parity-only report must contain no timing results or performance claim")
@@ -344,7 +355,7 @@ def blocked_report(reason: str, *, fingerprint: str, run_id: str, started: str, 
         "baseline": {"integrity": "not_verified"}, "candidate": None,
         "environment": {"python": sys.version, "platform": platform.platform(), "timeout_process_cleanup": PROCESS_TREE_CLEANUP}, "capability_id": capability_id,
         "workload_ids": [], "counts": {**{s: 0 for s in STATUSES}, "BLOCKED": 1},
-        "parity": {"status": "not_run", "report": None}, "fresh_process": [], "in_memory": [],
+        "parity": {"status": "not_run", "report": None}, "stages": [], "fresh_process": [], "in_memory": [],
         "rss": {"status": "unavailable", "method": None, "reason": "no benchmark process was measured"},
         "raw_artifacts_dir": str(raw_dir), "errors": [{"kind": "BLOCKED", "message": reason}], "performance_claim": "none",
     }
@@ -616,7 +627,22 @@ def run(report_path: Path, *, release_attestation: Path | None, sample_pairs: in
     capability_id, workload_path = PROFILES[profile_id]
     fingerprint = "unavailable"
     report = blocked_report("benchmark setup not complete", fingerprint=fingerprint, run_id=run_id, started=started, raw_dir=raw_dir, capability_id=capability_id)
+    active_stage: tuple[str, int, int] | None = None
+
+    def begin_stage(name: str, case_count: int) -> None:
+        nonlocal active_stage
+        active_stage = (name, time.perf_counter_ns(), case_count)
+
+    def finish_stage() -> None:
+        nonlocal active_stage
+        if active_stage is not None:
+            name, stage_started, case_count = active_stage
+            count_key = "case_count" if name == "parity_preflight" else "workload_count"
+            report["stages"].append({"name": name, "duration_ns": time.perf_counter_ns() - stage_started, count_key: case_count})
+            active_stage = None
+
     try:
+        begin_stage("setup_and_build", 0)
         fingerprint = supervised_fingerprint(deadline)
         report["source_fingerprint"] = fingerprint
         if sample_pairs < 25 or warmup_pairs < 1 or in_memory_repetitions < 1 or in_memory_pairs < 25:
@@ -633,6 +659,8 @@ def run(report_path: Path, *, release_attestation: Path | None, sample_pairs: in
             attestation_path = release_attestation
         validate_release_attestation(attestation)
         compare.read_candidate_attestation(attestation_path, candidate, fingerprint)
+        finish_stage()
+        begin_stage("parity_preflight", len(workload_manifest["workloads"]))
         parity_timeout = parity_case_timeout(remaining_seconds(deadline), len(workload_manifest["workloads"]))
         parity_manifest = make_parity_manifest(workload_manifest, raw_dir / "benchmark-parity-cases.json", parity_timeout)
         parity_path = raw_dir / "benchmark-parity-report.json"
@@ -645,6 +673,8 @@ def run(report_path: Path, *, release_attestation: Path | None, sample_pairs: in
             "case_manifest_path": str(parity_manifest),
         }, deadline)
         parity = json.loads(parity_path.read_text(encoding="utf-8"))
+        remaining_seconds(deadline)
+        finish_stage()
         report.update({
             "baseline": baseline,
             "candidate": {"argv": candidate, "kind": "rust_build_attested_release", "binary_sha256": sha256_file(Path(candidate[0])), "build_attestation": str(attestation_path.resolve()), "build_attestation_sha256": sha256_file(attestation_path), "source_fingerprint": attestation["source_fingerprint"], "cargo_lock_sha256": attestation["cargo_lock_sha256"], "toolchain": attestation.get("toolchain"), "build_commands": attestation.get("build_commands"), "helper_binary_path": str(RUST_HELPER.resolve()), "helper_binary_sha256": sha256_file(RUST_HELPER)},
@@ -664,14 +694,18 @@ def run(report_path: Path, *, release_attestation: Path | None, sample_pairs: in
             report["errors"] = []
             report["performance_claim"] = "none"
         else:
+            begin_stage("fresh_process_benchmark", len(workload_manifest["workloads"]))
             for workload in workload_manifest["workloads"]:
                 report["fresh_process"].append(timed_cli_workload(workload, workload_manifest, reference, candidate, raw_dir, sample_pairs, warmup_pairs, deadline))
+            finish_stage()
             if workload_manifest["profile_id"] == "misc_suddenly":
                 python_exe = Path(reference[0]).resolve().parent / "python"
                 if not python_exe.is_file() or not RUST_HELPER.is_file():
                     raise RuntimeError("pinned Python or locked release Rust in-memory helper is unavailable")
+                begin_stage("in_memory_benchmark", len(workload_manifest["workloads"]))
                 for workload in workload_manifest["workloads"]:
                     report["in_memory"].append(in_memory_workload(workload, workload_manifest, in_memory_repetitions, in_memory_pairs, warmup_pairs, raw_dir, python_exe, deadline))
+                finish_stage()
                 report["measurement_scope"] = "fresh_process_cli_and_in_memory_isolated_rule"
             else:
                 report["measurement_scope"] = "fresh_process_cli_combined_selected_rules_only"
@@ -691,6 +725,7 @@ def run(report_path: Path, *, release_attestation: Path | None, sample_pairs: in
         report["finished_at_utc"] = dt.datetime.now(dt.timezone.utc).isoformat()
         validate_benchmark_report(report)
     except (OSError, RuntimeError, ValueError, KeyError, TypeError, subprocess.SubprocessError) as exc:
+        finish_stage()
         report["status"] = "BLOCKED"
         report["run_level_blocker"] = True
         report["errors"] = [{"kind": type(exc).__name__, "message": str(exc)}]

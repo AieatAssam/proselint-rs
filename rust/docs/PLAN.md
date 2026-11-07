@@ -4,6 +4,8 @@ The migration advances capability by capability against the pinned Python baseli
 
 The goal is compatibility across the inventoried checks and required CLI behavior. Until every required capability passes the cumulative live gate, this project is a partial port. Current coverage and open areas are listed in [`PROGRESS.md`](PROGRESS.md); behavioral details are tracked in [`COMPATIBILITY.md`](COMPATIBILITY.md).
 
+Execution cadence and evidence-reuse rules are maintained in [`MIGRATION.md`](../MIGRATION.md): focused live parity and independent verification are required for every capability; run the cumulative gate every 5–10 accepted capabilities, after shared matching/config/CLI/output changes, and before release. Parallelize only disjoint rule modules; keep shared infrastructure single-owner. This is an internal migration plan; product-facing Rust documentation should describe usage and behavior, not oracle, gate, agent, or rewrite procedures.
+
 ## Implementation roadmap
 
 The pinned inventory contains 106 unique check paths. Eighty-two rule paths are accepted and 24 remain unimplemented; fifteen bounded CLI capabilities are also recorded. The latest strict cumulative gate passes 893/893 implementation cases across 97 capabilities from 895 manifest entries; only two harness smoke cases are excluded. See [`../artifacts/strict-gate-diacriticals-20261107.json`](../artifacts/strict-gate-diacriticals-20261107.json). Earlier capability evidence remains indexed in [`../status.json`](../status.json) and [`../status-history.jsonl`](../status-history.jsonl). Preserve duplicate registrations as separate checks. The eight Astra low-`max_errors` ordering findings are fixed and independently verified.

@@ -13,6 +13,7 @@ import re
 import shutil
 import subprocess
 import sys
+import time
 import uuid
 from pathlib import Path
 from typing import Any
@@ -22,6 +23,15 @@ from setup_oracle import ROOT, RUST_ROOT, oracle_integrity
 
 
 STATUSES = ["PASS", "MISMATCH", "NOT_IMPLEMENTED", "ORACLE_ERROR", "CANDIDATE_ERROR", "TIMEOUT", "BLOCKED"]
+
+
+def add_gate_execution(report: dict[str, Any], duration_seconds: float, stages: dict[str, dict[str, Any]], capability_count: int, case_count: int) -> None:
+    report["gate_execution"] = {
+        "duration_seconds": round(duration_seconds, 6),
+        "stages": stages,
+        "accepted_capability_count": capability_count,
+        "live_case_count": case_count,
+    }
 
 
 def sha256_file(path: Path) -> str:
@@ -178,12 +188,40 @@ def main() -> int:
     args = parser.parse_args()
     if not args.live:
         parser.error("gate requires --live")
+    started = time.monotonic()
+    stages: dict[str, dict[str, Any]] = {}
+    selected_capabilities = 0
+    selected_cases = 0
+
+    def begin_stage() -> float:
+        return time.monotonic()
+
+    def finish_stage(name: str, stage_started: float, **counts: int) -> None:
+        stages[name] = {"duration_seconds": round(time.monotonic() - stage_started, 6), **counts}
+
+    def record_execution() -> None:
+        if not args.report.is_file():
+            return
+        report = json.loads(args.report.read_text(encoding="utf-8"))
+        add_gate_execution(report, time.monotonic() - started, stages, selected_capabilities, selected_cases)
+        args.report.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
     try:
-        oracle_integrity()
-        checks = run_self_tests()
+        stage_started = begin_stage()
+        try:
+            oracle_integrity()
+        finally:
+            finish_stage("oracle_integrity", stage_started)
+        stage_started = begin_stage()
+        checks = []
+        try:
+            checks = run_self_tests()
+        finally:
+            finish_stage("comparator_self_tests", stage_started, check_count=len(checks))
         if not checks or not all(item["passed"] for item in checks):
             raise RuntimeError("comparator self-tests did not all pass")
         capabilities = accepted_capabilities()
+        selected_capabilities = len(capabilities)
         if not capabilities:
             raise RuntimeError("zero production capabilities are independently verified; strict gate has no required cases")
         manifest = load_manifest()
@@ -191,10 +229,22 @@ def main() -> int:
         missing = sorted(capabilities - present)
         if missing:
             raise RuntimeError(f"accepted capabilities have no live cases: {missing}")
-        candidate, attestation = build_and_attest(args.candidate_argv_json)
-        return run_live(None, args.report, json.dumps(candidate), args.reference_argv_json, attestation, required_capabilities=capabilities)
+        selected_cases = sum(case["capability_id"] in capabilities for case in manifest["cases"])
+        stage_started = begin_stage()
+        try:
+            candidate, attestation = build_and_attest(args.candidate_argv_json)
+        finally:
+            finish_stage("rust_checks_and_build", stage_started)
+        stage_started = begin_stage()
+        try:
+            result = run_live(None, args.report, json.dumps(candidate), args.reference_argv_json, attestation, required_capabilities=capabilities)
+        finally:
+            finish_stage("cumulative_live_comparison", stage_started, capability_count=selected_capabilities, case_count=selected_cases)
+        record_execution()
+        return result
     except (OSError, RuntimeError, ValueError, subprocess.SubprocessError) as exc:
         write_blocked_report(args.report, str(exc))
+        record_execution()
         print(f"BLOCKED: {exc}", file=sys.stderr)
         return 2
 

@@ -156,6 +156,31 @@ class BenchmarkTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             benchmark.validate_benchmark_report(report)
 
+    def test_benchmark_report_records_nonnegative_stage_duration_and_case_count(self):
+        with tempfile.TemporaryDirectory() as temp:
+            report = benchmark.blocked_report(
+                "test", fingerprint="f" * 64, run_id="test", started="now", raw_dir=Path(temp)
+            )
+        report["stages"] = [
+            {"name": "parity_preflight", "duration_ns": 12, "case_count": 3},
+            {"name": "fresh_process_benchmark", "duration_ns": 20, "workload_count": 3},
+        ]
+        benchmark.validate_benchmark_report(report)
+        report["stages"][0]["case_count"] = -1
+        with self.assertRaises(ValueError):
+            benchmark.validate_benchmark_report(report)
+        report["stages"][0] = {"name": "parity_preflight", "duration_ns": 12, "workload_count": 3}
+        with self.assertRaisesRegex(ValueError, "case_count"):
+            benchmark.validate_benchmark_report(report)
+
+    def test_legacy_schema_v1_report_without_stages_remains_valid(self):
+        with tempfile.TemporaryDirectory() as temp:
+            report = benchmark.blocked_report(
+                "test", fingerprint="f" * 64, run_id="test", started="now", raw_dir=Path(temp)
+            )
+        del report["stages"]
+        benchmark.validate_benchmark_report(report)
+
     def test_expired_overall_deadline_stops_benchmark_work(self):
         with self.assertRaises(benchmark.subprocess.TimeoutExpired):
             benchmark.remaining_seconds(benchmark.time.monotonic() - 1)
@@ -232,7 +257,7 @@ class BenchmarkTests(unittest.TestCase):
                 mock.patch.object(benchmark, "supervised_live_compare", side_effect=write_parity_report),
                 mock.patch.object(benchmark, "sha256_file", return_value="a" * 64),
                 mock.patch.object(benchmark, "timed_cli_workload", side_effect=expire_during_timing) as timed,
-                mock.patch.object(benchmark.time, "monotonic", side_effect=[0.0, 0.0, 1.0, 11.0]),
+                mock.patch.object(benchmark.time, "monotonic", side_effect=[0.0, 0.0, 1.0, 1.0, 11.0]),
             ):
                 exit_code = benchmark.run(
                     report_path,

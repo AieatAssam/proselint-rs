@@ -909,6 +909,17 @@ struct Cli {
 
 #[derive(Debug, Subcommand)]
 enum Command {
+    Version {
+        #[arg(long)]
+        config: Option<PathBuf>,
+        #[arg(
+            long = "output-format",
+            short = 'o',
+            value_enum,
+            default_value = "full"
+        )]
+        output_format: OutputFormat,
+    },
     Check {
         #[arg(long)]
         config: Option<PathBuf>,
@@ -1118,13 +1129,21 @@ fn python_json_dump(value: &Value) -> Result<String, String> {
 }
 
 fn run() -> Result<ExitCode, String> {
-    let command = Cli::parse().command;
-    let (config, output_format, paths) = match command {
+    let mut args = std::env::args_os().collect::<Vec<_>>();
+    if args.len() == 2 && args[1] == "--version" {
+        args[1] = "version".into();
+    }
+    let command = Cli::parse_from(args).command;
+    let (config, output_format, paths, show_version) = match command {
+        Command::Version {
+            config,
+            output_format,
+        } => (config, output_format, Vec::new(), true),
         Command::Check {
             config,
             output_format,
             paths,
-        } => (config, output_format, paths),
+        } => (config, output_format, paths, false),
         Command::DumpConfig { config, default } => return dump_config(config, default),
     };
     let (config, config_is_default) = match config {
@@ -1288,6 +1307,10 @@ fn run() -> Result<ExitCode, String> {
             "Configuration file '{}' must contain a JSON object",
             config.display()
         ));
+    }
+    if show_version {
+        println!("Proselint 0.16.0");
+        return Ok(ExitCode::SUCCESS);
     }
     let checks = config_value
         .get("checks")

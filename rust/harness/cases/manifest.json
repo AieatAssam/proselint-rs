@@ -30177,8 +30177,7 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
-    }
-,
+    },
     {
       "id": "cliches_write_good_regex_optional_final_e",
       "capability_id": "rule.cliches.misc.write_good",
@@ -30211,6 +30210,126 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "cli_dump_config_default",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; command_line.py dump-config --default serializes config.DEFAULT with sorted keys and four-space indentation. Query of the pinned executable produced exact stdout; no config file is present in the isolated workspace.",
+      "files": [],
+      "argv": [
+        "dump-config",
+        "--default"
+      ],
+      "capability_id": "cli.dump_config_default",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "working_directory": "."
+    },
+    {
+      "id": "cli_dump_config_default_ignores_explicit_config",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; a valid explicit config is loaded by the CLI, but dump-config --default emits bundled DEFAULT rather than that user configuration. Pinned executable output is byte-identical to cli_dump_config_default.",
+      "files": [
+        {
+          "path": "explicit.json",
+          "content_base64": "eyJjaGVja3MiOnt9fQ=="
+        }
+      ],
+      "argv": [
+        "dump-config",
+        "--config",
+        "explicit.json",
+        "--default"
+      ],
+      "unused_files": [],
+      "capability_id": "cli.dump_config_default",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "working_directory": "."
+    },
+    {
+      "id": "cli_dump_config_explicit_flattened",
+      "capability_id": "cli.dump_config_default",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; command_line.py dump-config serializes load_from(explicit_config), whose config loader flattens nested check maps and merges global checks into each per-file override. The exact nested input and normalized output were queried from the pinned executable.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "explicit.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMiwiY2hlY2tzIjp7Im1pc2MiOnsiYXBvbG9naXppbmciOnRydWUsIm1hbnlfYSI6ZmFsc2V9LCJjbGljaGVzIjpmYWxzZX0sInBlcl9maWxlX2NoZWNrcyI6eyJkcmFmdC5tZCI6eyJ0eXBvZ3JhcGh5Ijp7InN5bWJvbHMiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "dump-config",
+        "--config",
+        "explicit.json"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "working_directory": "."
+    },
+    {
+      "id": "cli_dump_config_unicode_ensure_ascii",
+      "capability_id": "cli.dump_config_default",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; command_line.py serializes dump-config with json.dumps(sort_keys=True, indent=4), whose default ensure_ascii=True escapes non-ASCII check keys and the non-ASCII per-file glob. Exact 319-byte stdout captured from the pinned executable and compared byte-for-byte.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "explicit.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjo3LCJjaGVja3MiOnsiY2Fmw6kiOnsi6ZuqIjp0cnVlLCJuYcOvdmUiOmZhbHNlfX0sInBlcl9maWxlX2NoZWNrcyI6eyJyw6lzdW3DqS0qLm1kIjp7Im3DuGRlIjp7ImZhw6dhZGUiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "dump-config",
+        "--config",
+        "explicit.json"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "working_directory": "."
     }
   ]
 }

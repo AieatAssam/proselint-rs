@@ -34,12 +34,14 @@ use proselint_rs::{
     typography_spacing_diagnostics, typography_trademark_diagnostics, wallace_diagnostics,
     weasel_words_very_diagnostics, whence_diagnostics,
 };
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::fs;
 use std::io::{self, Read};
 use std::path::PathBuf;
 use std::process::ExitCode;
+
+mod default_config;
 
 #[derive(Debug)]
 struct JsonSyntaxError {
@@ -920,6 +922,12 @@ enum Command {
         #[arg(value_name = "PATH")]
         paths: Vec<PathBuf>,
     },
+    DumpConfig {
+        #[arg(long)]
+        config: Option<PathBuf>,
+        #[arg(long)]
+        default: bool,
+    },
 }
 
 #[derive(Clone, Copy, Debug, ValueEnum)]
@@ -929,13 +937,172 @@ enum OutputFormat {
     Compact,
 }
 
+fn dump_config(config: Option<PathBuf>, default: bool) -> Result<ExitCode, String> {
+    let config_path = match config {
+        Some(path) => Some(path),
+        None => {
+            let cwd = std::env::current_dir()
+                .map_err(|error| format!("Unable to determine current directory: {error}"))?;
+            let project = std::iter::successors(Some(cwd.as_path()), |path| path.parent())
+                .map(|directory| directory.join("proselint.json"))
+                .find(|candidate| candidate.is_file());
+            if project.is_some() {
+                project
+            } else {
+                std::env::var_os("XDG_CONFIG_HOME")
+                    .filter(|path| !path.is_empty())
+                    .map(|path| PathBuf::from(path).join("proselint/config.json"))
+                    .or_else(|| {
+                        std::env::var_os("HOME")
+                            .map(|home| PathBuf::from(home).join(".config/proselint/config.json"))
+                    })
+                    .filter(|candidate| candidate.is_file())
+            }
+        }
+    };
+
+    let loaded = match config_path {
+        Some(path) => {
+            let source = fs::read_to_string(&path).map_err(|error| {
+                format!(
+                    "Configuration file '{}' could not be read: {error}",
+                    path.display()
+                )
+            })?;
+            Some(serde_json::from_str::<Value>(&source).map_err(|error| {
+                format!(
+                    "Configuration file '{}' is not valid JSON: {error}",
+                    path.display()
+                )
+            })?)
+        }
+        None => None,
+    };
+
+    if default || loaded.is_none() {
+        print!("{}", default_config::DEFAULT_CONFIG_JSON);
+    } else if let Some(value) = loaded {
+        print!("{}", python_json_dump(&normalized_config(&value)?)?);
+    }
+    Ok(ExitCode::SUCCESS)
+}
+
+fn normalized_config(value: &Value) -> Result<Value, String> {
+    let Some(root) = value.as_object() else {
+        return Err("Configuration must contain a JSON object".to_owned());
+    };
+    let mut checks = serde_json::Map::new();
+    if let Some(value) = root.get("checks") {
+        flatten_dump_checks(value, "", &mut checks)?;
+    }
+    let mut per_file_checks = serde_json::Map::new();
+    if let Some(entries) = root.get("per_file_checks").and_then(Value::as_object) {
+        for (name, value) in entries {
+            let mut overrides = serde_json::Map::new();
+            flatten_dump_checks(value, "", &mut overrides)?;
+            let mut merged = checks.clone();
+            merged.extend(overrides);
+            per_file_checks.insert(name.clone(), Value::Object(merged));
+        }
+    }
+    let mut result = serde_json::Map::new();
+    result.insert(
+        "max_errors".to_owned(),
+        root.get("max_errors").cloned().unwrap_or(Value::from(0)),
+    );
+    result.insert("checks".to_owned(), Value::Object(checks));
+    result.insert("per_file_checks".to_owned(), Value::Object(per_file_checks));
+    Ok(Value::Object(result))
+}
+
+fn flatten_dump_checks(
+    value: &Value,
+    prefix: &str,
+    checks: &mut serde_json::Map<String, Value>,
+) -> Result<(), String> {
+    match value {
+        Value::Object(entries) => {
+            for (key, value) in entries {
+                let path = if prefix.is_empty() {
+                    key.clone()
+                } else {
+                    format!("{prefix}.{key}")
+                };
+                flatten_dump_checks(value, &path, checks)?;
+            }
+        }
+        Value::Bool(_) => {
+            checks.insert(prefix.to_owned(), value.clone());
+        }
+        _ => return Err("Check configuration values must be objects or booleans".to_owned()),
+    }
+    Ok(())
+}
+
+fn python_json_dump(value: &Value) -> Result<String, String> {
+    fn sorted(value: Value) -> Value {
+        match value {
+            Value::Array(values) => Value::Array(values.into_iter().map(sorted).collect()),
+            Value::Object(values) => {
+                let mut entries: Vec<_> = values.into_iter().collect();
+                entries.sort_by(|left, right| left.0.cmp(&right.0));
+                let mut result = serde_json::Map::new();
+                for (key, value) in entries {
+                    result.insert(key, sorted(value));
+                }
+                Value::Object(result)
+            }
+            value => value,
+        }
+    }
+
+    fn escape_non_ascii_json(source: &str) -> String {
+        let mut result = String::with_capacity(source.len());
+        let (mut in_string, mut escaped) = (false, false);
+        for character in source.chars() {
+            if in_string && !escaped && character != '"' && !character.is_ascii() {
+                let mut units = [0u16; 2];
+                for unit in character.encode_utf16(&mut units).iter() {
+                    use std::fmt::Write as _;
+                    write!(result, "\\u{unit:04x}").expect("writing to a String cannot fail");
+                }
+                continue;
+            }
+            result.push(character);
+            if in_string && !escaped && character == '"' {
+                in_string = false;
+            } else if in_string && !escaped && character == '\\' {
+                escaped = true;
+            } else if escaped {
+                escaped = false;
+            } else if character == '"' {
+                in_string = true;
+            }
+        }
+        result
+    }
+
+    let mut bytes = Vec::new();
+    let formatter = serde_json::ser::PrettyFormatter::with_indent(b"    ");
+    let mut serializer = serde_json::Serializer::with_formatter(&mut bytes, formatter);
+    sorted(value.clone())
+        .serialize(&mut serializer)
+        .map_err(|error| format!("Could not serialize configuration: {error}"))?;
+    let text = String::from_utf8(bytes)
+        .map_err(|error| format!("Serialized configuration was not UTF-8: {error}"))?;
+    Ok(format!("{}\n", escape_non_ascii_json(&text)))
+}
+
 fn run() -> Result<ExitCode, String> {
-    let cli = Cli::parse();
-    let Command::Check {
-        config,
-        output_format,
-        paths,
-    } = cli.command;
+    let command = Cli::parse().command;
+    let (config, output_format, paths) = match command {
+        Command::Check {
+            config,
+            output_format,
+            paths,
+        } => (config, output_format, paths),
+        Command::DumpConfig { config, default } => return dump_config(config, default),
+    };
     let config = match config {
         Some(config) => config,
         None => {

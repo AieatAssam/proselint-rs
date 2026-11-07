@@ -15,6 +15,7 @@ pub use rules::spelling_able_ible::diagnostics as spelling_able_ible_diagnostics
 pub use rules::spelling_athletes::diagnostics as spelling_athletes_diagnostics;
 pub use rules::spelling_em_im_en_in::diagnostics as spelling_em_im_en_in_diagnostics;
 pub use rules::spelling_er_or::diagnostics as spelling_er_or_diagnostics;
+pub use rules::typography_curly_quotes::diagnostics as typography_curly_quotes_diagnostics;
 
 use regex::{Regex, RegexBuilder};
 use serde_json::{Map, Value, json};

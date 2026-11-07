@@ -1,0 +1,97 @@
+{
+  "audit": {
+    "boundary_case": "pinned Python and Rust both report span [14,17], pos [1,14] for the match across adjacent quoted phrases",
+    "comparator_tests": "expected-ID and count sets append curly_quotes cases; no prior expectations deleted or normalized",
+    "fingerprint_before_and_after": "cd4ca4e888de9398d9f831f609eb02dab0b215e6867604f369cd7f508efbe33a",
+    "fingerprint_in_both_live_reports": "cd4ca4e888de9398d9f831f609eb02dab0b215e6867604f369cd7f508efbe33a",
+    "manifest_expectations": "all pre-existing IDs/outcomes preserved; exactly nine curly_quotes IDs added",
+    "oracle_integrity_after": "verified",
+    "oracle_integrity_before": "verified",
+    "runtime_dispatch": "assigned parity_verifier role; no separate model dispatch metadata available in execution output",
+    "runtime_fallback": "no Python invocation or reference lookup present in Rust source; Python-worded helper names only format compatible error messages"
+  },
+  "baseline": {
+    "executable_sha256": "b5f88a67377a8f3c32e1bffc41ca96fd8c111b127427459ffb2184e74c99af77",
+    "integrity": "verified",
+    "revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+    "source_tree_sha256": "73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831"
+  },
+  "candidate": {
+    "binary_sha256": "1850a7f6efef3d9f955bff05641e9387b9d77c2ac9845157a7389ed3b7d7f246",
+    "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
+    "source_fingerprint": "cd4ca4e888de9398d9f831f609eb02dab0b215e6867604f369cd7f508efbe33a",
+    "toolchain": "1.99.1"
+  },
+  "checks": {
+    "comparator_negative_self_tests": {
+      "passed": 23,
+      "total": 23
+    },
+    "cumulative_live": {
+      "capabilities": 85,
+      "cases": 767,
+      "counts": {
+        "BLOCKED": 0,
+        "CANDIDATE_ERROR": 0,
+        "MISMATCH": 0,
+        "NOT_IMPLEMENTED": 0,
+        "ORACLE_ERROR": 0,
+        "PASS": 767,
+        "TIMEOUT": 0
+      },
+      "duration_seconds": 227.65456480020657,
+      "report": "/home/dev/proselint-rs/rust/artifacts/independent-curly-quotes-20261107/cumulative-live.json",
+      "status": "PASS"
+    },
+    "focused_live": {
+      "cases": 9,
+      "counts": {
+        "BLOCKED": 0,
+        "CANDIDATE_ERROR": 0,
+        "MISMATCH": 0,
+        "NOT_IMPLEMENTED": 0,
+        "ORACLE_ERROR": 0,
+        "PASS": 9,
+        "TIMEOUT": 0
+      },
+      "duration_seconds": 9.38008342590183,
+      "report": "/home/dev/proselint-rs/rust/artifacts/independent-curly-quotes-20261107/focused-live.json",
+      "status": "PASS"
+    },
+    "harness_unittest": {
+      "duration_seconds": 12.537079478148371,
+      "exit_code": 0,
+      "reported_tests": 57
+    },
+    "rust_build_locked": {
+      "duration_seconds": 0.18575300183147192,
+      "exit_code": 0
+    },
+    "rust_cargo_test_locked": {
+      "duration_seconds": 8.339336216915399,
+      "exit_code": 0,
+      "failed": 0,
+      "passed": 571,
+      "test_binaries": 77
+    },
+    "rust_clippy_all_targets_warnings_denied": {
+      "duration_seconds": 6.553213416133076,
+      "exit_code": 0
+    },
+    "rust_fmt": {
+      "duration_seconds": 0.7445896822027862,
+      "exit_code": 0
+    }
+  },
+  "evidence_directory": "/home/dev/proselint-rs/rust/artifacts/independent-curly-quotes-20261107",
+  "result": "PASS",
+  "scope": "Independent verification of rule.typography.symbols.curly_quotes and cumulative accepted-capability gate",
+  "source_sha256": {
+    "rust/harness/cases/manifest.json": "fba89cb6f6f5e1c53aa8aa7cf68179fa06d23c11cf9c03e088c546b439e86c01",
+    "rust/harness/tests/test_compare.py": "7a256474cca2f0e50f4a4a7616fe753cbb2da52c74a640715608ac6e4d08ade1",
+    "rust/src/lib.rs": "3333653f941c3fd67ad97bf2497c1306a32c517ec204854f97a2d7fede9de760",
+    "rust/src/main.rs": "46d3e7497ceb5f9a4227647e39f8862a6592abbc66fab5083d600fca81467be9",
+    "rust/src/rules/mod.rs": "4d90b970bf019650e3842a26cafe9de8c579fd20aa0a225cadcf24135b63adbf",
+    "rust/src/rules/typography_curly_quotes.rs": "c74a2e59f88dc27c4f188ee30aeb9cf9bf84b9afdc73249a0f3f942d7b952132"
+  }
+}

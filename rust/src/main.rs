@@ -23,9 +23,10 @@ use proselint_rs::{
     spelling_ally_ly_diagnostics, spelling_ance_ence_diagnostics, spelling_athletes_diagnostics,
     spelling_ely_ly_diagnostics, spelling_em_im_en_in_diagnostics, spelling_er_or_diagnostics,
     spelling_in_un_diagnostics, spelling_ve_of_diagnostics, suddenly_diagnostics,
-    typography_copyright_diagnostics, typography_ellipsis_diagnostics,
-    typography_multiplication_diagnostics, typography_sentence_spacing_diagnostics,
-    typography_trademark_diagnostics, wallace_diagnostics, whence_diagnostics,
+    typography_copyright_diagnostics, typography_curly_quotes_diagnostics,
+    typography_ellipsis_diagnostics, typography_multiplication_diagnostics,
+    typography_sentence_spacing_diagnostics, typography_trademark_diagnostics, wallace_diagnostics,
+    whence_diagnostics,
 };
 use serde::Deserialize;
 use serde_json::Value;
@@ -1175,7 +1176,7 @@ fn run() -> Result<ExitCode, String> {
         });
     }
     let selected_checks = selected_checks.ok_or_else(|| {
-        "this capability supports disabled checks, annotations.misc, archaism, cliches.hell, malapropisms, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.many_a, misc.metadiscourse, misc.narcissism, misc.not_guilty, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, misc.scare_quotes, mondegreens, oxymorons, redundancy.misc.wallace, redundancy.misc.nordquist, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, typography.punctuation.misplaced, typography.punctuation.exclamation, typography.punctuation.hyperbole, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, dates_times.am_pm.midnight_noon, dates_times.dates.decade_apostrophes, dates_times.dates.month_of_year, spelling.able_atable, spelling.able_ible, spelling.ally_ly, spelling.ance_ence, spelling.athletes, spelling.ely_ly, spelling.em_im_en_in, spelling.er_or, spelling.in_un, spelling.ve_of, skunked_terms, social_awareness.nword, or terms.eponymous_adjectives only".to_owned()
+        "this capability supports disabled checks, annotations.misc, archaism, cliches.hell, malapropisms, misc.apologizing, misc.but, misc.whence, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.illogic.coin, misc.illogic.collusion, misc.back_formations, misc.many_a, misc.metadiscourse, misc.narcissism, misc.not_guilty, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, misc.scare_quotes, mondegreens, oxymorons, redundancy.misc.wallace, redundancy.misc.nordquist, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, typography.symbols.curly_quotes, typography.punctuation.misplaced, typography.punctuation.exclamation, typography.punctuation.hyperbole, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, dates_times.am_pm.midnight_noon, dates_times.dates.decade_apostrophes, dates_times.dates.month_of_year, spelling.able_atable, spelling.able_ible, spelling.ally_ly, spelling.ance_ence, spelling.athletes, spelling.ely_ly, spelling.em_im_en_in, spelling.er_or, spelling.in_un, spelling.ve_of, skunked_terms, social_awareness.nword, or terms.eponymous_adjectives only".to_owned()
     })?;
 
     let mut diagnostics = Vec::new();
@@ -1187,6 +1188,9 @@ fn run() -> Result<ExitCode, String> {
             SelectedCheck::Malapropisms => malapropisms_diagnostics(&content),
             SelectedCheck::SkunkedTerms => skunked_terms_diagnostics(&content),
             SelectedCheck::SocialAwarenessNword => social_nword_diagnostics(&content),
+            SelectedCheck::TypographySymbolsCurlyQuotes => {
+                typography_curly_quotes_diagnostics(&content)
+            }
             SelectedCheck::MiscApologizing => apologizing_diagnostics(&content),
             SelectedCheck::MiscPhrasalAdjectivesLy => phrasal_adjectives_ly_diagnostics(&content),
             SelectedCheck::MiscBut => but_diagnostics(&content),
@@ -1377,6 +1381,7 @@ enum SelectedCheck {
     TypographySymbolsTrademark,
     TypographySymbolsSentenceSpacing,
     TypographySymbolsMultiplication,
+    TypographySymbolsCurlyQuotes,
 }
 
 fn supported_checks(checks: &Value) -> Option<Vec<SelectedCheck>> {
@@ -1483,6 +1488,9 @@ fn supported_checks(checks: &Value) -> Option<Vec<SelectedCheck>> {
             }
             ["typography", "symbols", "multiplication"] => {
                 Some(SelectedCheck::TypographySymbolsMultiplication)
+            }
+            ["typography", "symbols", "curly_quotes"] => {
+                Some(SelectedCheck::TypographySymbolsCurlyQuotes)
             }
             _ => None,
         }
@@ -1635,6 +1643,7 @@ fn selected_check_path(check: SelectedCheck) -> &'static str {
         SelectedCheck::TypographySymbolsSentenceSpacing => "typography.symbols.sentence_spacing",
         SelectedCheck::TypographySymbolsTrademark => "typography.symbols.trademark",
         SelectedCheck::TypographySymbolsMultiplication => "typography.symbols.multiplication",
+        SelectedCheck::TypographySymbolsCurlyQuotes => "typography.symbols.curly_quotes",
     }
 }
 

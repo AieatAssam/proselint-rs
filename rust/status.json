@@ -338,6 +338,10 @@
     {
       "id": "rule.social_awareness.nword",
       "status": "recorded"
+    },
+    {
+      "id": "rule.typography.symbols.curly_quotes",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -5165,27 +5169,127 @@
         "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136"
       },
       "focused_rust_test_log": "rust/artifacts/focused-cargo-social-nword-20261107.log"
+    },
+    {
+      "id": "rule.typography.symbols.curly_quotes",
+      "status": "recorded",
+      "case_ids": [
+        "curly_quotes_ascii_word_positive",
+        "curly_quotes_ascii_digits_and_space",
+        "curly_quotes_multiline_whitespace",
+        "curly_quotes_punctuation_near_miss",
+        "curly_quotes_empty_near_miss",
+        "curly_quotes_allow_quotes_true",
+        "curly_quotes_unicode_positions_and_content",
+        "curly_quotes_max_errors_one",
+        "curly_quotes_adjacent_quote_boundary_match"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_spec": "ExistenceSimple(pattern=r\"\\\"[\\w\\s\\d]+\\\"\"), Fast/RE2 ASCII word class and whitespace/digit matching, case-insensitive, allow_quotes=true, no exceptions, fixed message, exact Unicode codepoint spans and positions.",
+      "specification": {
+        "live_cases": 9,
+        "forms_or_patterns": 1,
+        "oracle_integrity": "verified before and after",
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "evidence": "rust/harness/cases/manifest.json"
+      },
+      "red": {
+        "status": "MISMATCH",
+        "focused_live_report": "rust/artifacts/curly-quotes-rust-red-20261107-final.json",
+        "live_cases": 8,
+        "mismatches": 8,
+        "duration_seconds": 9.540107,
+        "candidate_errors": 0,
+        "oracle_errors": 0,
+        "timeouts": 0,
+        "oracle_integrity": "verified"
+      },
+      "agent_model": "gpt-6-luna",
+      "agent_reasoning_effort": "named parity_verifier role used fixed high effort; requested light effort could not be applied",
+      "agent_runtime_metadata": "unavailable",
+      "stage_durations_seconds": {
+        "red_live": 9.540107,
+        "focused_rust_tests_green": 43.4,
+        "focused_green_live": 8.977188,
+        "independent_live": 9.373422,
+        "cumulative_gate": 227.386848,
+        "harness_tests": 12.537079478148371,
+        "comparator_self_tests": null,
+        "full_rust_tests": 8.339336216915399,
+        "rust_fmt": 0.7445896822027862,
+        "rust_clippy": 6.553213416133076,
+        "locked_build": 0.18575300183147192
+      },
+      "stage_case_counts": {
+        "red_live": 8,
+        "focused_rust_tests_green": 5,
+        "focused_green_live": 9,
+        "independent_live": 9,
+        "cumulative_gate": 767,
+        "cumulative_capabilities": 85,
+        "full_rust_tests": 571,
+        "harness_tests": 57,
+        "comparator_self_tests": 23
+      },
+      "implementation": "Added a native pinned-pattern matcher for straight quoted ASCII word/digit/whitespace sequences; preserves allow_quotes behavior and codepoint coordinates, including a cross-boundary match between adjacent quoted phrases.",
+      "green": {
+        "status": "PASS",
+        "live_cases_passed": 9,
+        "focused_live_report": "rust/artifacts/curly-quotes-green-focused-20261107.json",
+        "build_attestation": "rust/artifacts/independent-curly-quotes-20261107/candidate-attestation.json",
+        "source_fingerprint": "cd4ca4e888de9398d9f831f609eb02dab0b215e6867604f369cd7f508efbe33a",
+        "candidate_sha256": "1850a7f6efef3d9f955bff05641e9387b9d77c2ac9845157a7389ed3b7d7f246",
+        "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
+        "locked_format_clippy_test_build": "PASS; full Rust suite 571 passed",
+        "duration_seconds": 8.977188
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 9,
+        "report": "rust/artifacts/independent-curly-quotes-20261107/independent-verification.json",
+        "duration_seconds": 9.373422,
+        "source_fingerprint": "cd4ca4e888de9398d9f831f609eb02dab0b215e6867604f369cd7f508efbe33a",
+        "oracle_integrity": "verified before and after",
+        "agent_model": "gpt-6-luna",
+        "agent_effort": "high fixed by named role",
+        "agent_runtime_metadata": "unavailable"
+      },
+      "implementation_source_sha256": "c74a2e59f88dc27c4f188ee30aeb9cf9bf84b9afdc73249a0f3f942d7b952132",
+      "test_source_sha256": "c74a2e59f88dc27c4f188ee30aeb9cf9bf84b9afdc73249a0f3f942d7b952132",
+      "harness_test_source_sha256": "7a256474cca2f0e50f4a4a7616fe753cbb2da52c74a640715608ac6e4d08ade1",
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/independent-curly-quotes-20261107/cumulative-live.json",
+        "passed_cases": 767,
+        "capability_count": 85,
+        "duration_seconds": 227.386848,
+        "source_fingerprint": "cd4ca4e888de9398d9f831f609eb02dab0b215e6867604f369cd7f508efbe33a",
+        "candidate_sha256": "1850a7f6efef3d9f955bff05641e9387b9d77c2ac9845157a7389ed3b7d7f246",
+        "candidate_attestation": "rust/artifacts/independent-curly-quotes-20261107/candidate-attestation.json",
+        "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136"
+      },
+      "focused_rust_test_log": "rust/artifacts/independent-curly-quotes-20261107/verification-metadata.json"
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-social-awareness-nword-20261107.json",
-    "passed_cases": 758,
-    "manifest_cases": 764,
+    "report": "rust/artifacts/independent-curly-quotes-20261107/cumulative-live.json",
+    "passed_cases": 767,
+    "manifest_cases": 773,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
       "cli.config.per_file_checks": 4
     },
     "exit_code": 0,
-    "capability_count": 84,
-    "source_fingerprint": "546f0b68e3076502ba63b2d62622cc8b15d8224759d663debdeeae98a8340e3a",
-    "run_id": "20261107T002554844279Z-88ccab9d",
-    "started_at_utc": "2026-11-07T00:25:54.844243+00:00",
-    "finished_at_utc": "2026-11-07T00:29:46.610366+00:00",
-    "candidate_attestation": "rust/artifacts/20261107T002328148582Z-build.attestation.json",
-    "candidate_sha256": "2fb2cf702665f1b62753b46418c5109bd1261c70ad531679284a2393adff9c22",
+    "capability_count": 85,
+    "source_fingerprint": "cd4ca4e888de9398d9f831f609eb02dab0b215e6867604f369cd7f508efbe33a",
+    "run_id": "20261107T010155885667Z-bbaf9602",
+    "started_at_utc": "2026-11-07T01:01:55.885633+00:00",
+    "finished_at_utc": "2026-11-07T01:05:43.272481+00:00",
+    "candidate_attestation": "rust/artifacts/independent-curly-quotes-20261107/candidate-attestation.json",
+    "candidate_sha256": "1850a7f6efef3d9f955bff05641e9387b9d77c2ac9845157a7389ed3b7d7f246",
     "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
-    "duration_seconds": 231.766123
+    "duration_seconds": 227.386848
   },
   "rust_dependencies": {
     "status": "current",

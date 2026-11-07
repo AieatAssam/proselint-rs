@@ -25336,6 +25336,303 @@
         "--config",
         "{file:config.json}"
       ]
+    },
+    {
+      "id": "curly_quotes_ascii_word_positive",
+      "capability_id": "rule.typography.symbols.curly_quotes",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers ExistenceSimple(pattern=r\"\\\"[\\w\\s\\d]+\\\"\") at typography.symbols.curly_quotes with message `Use curly quotes \u201c\u201d, not straight quotes \"\".`; inventory records Fast, case-insensitive, allow_quotes=true, ppm_threshold=0, no exceptions, default_enabled=false. Selected config enables only typography.symbols.curly_quotes. One ASCII word in straight quotes produces a finding.",
+      "input_mode": "stdin",
+      "stdin_base64": "ImhlbGxvIg==",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7ImN1cmx5X3F1b3RlcyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_curly_quotes_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "curly_quotes_ascii_digits_and_space",
+      "capability_id": "rule.typography.symbols.curly_quotes",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers ExistenceSimple(pattern=r\"\\\"[\\w\\s\\d]+\\\"\") at typography.symbols.curly_quotes with message `Use curly quotes \u201c\u201d, not straight quotes \"\".`; inventory records Fast, case-insensitive, allow_quotes=true, ppm_threshold=0, no exceptions, default_enabled=false. Selected config enables only typography.symbols.curly_quotes. ASCII word characters, digits, and spaces are included by the character class.",
+      "input_mode": "stdin",
+      "stdin_base64": "IlJvb20gNDIi",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7ImN1cmx5X3F1b3RlcyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_curly_quotes_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "curly_quotes_multiline_whitespace",
+      "capability_id": "rule.typography.symbols.curly_quotes",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers ExistenceSimple(pattern=r\"\\\"[\\w\\s\\d]+\\\"\") at typography.symbols.curly_quotes with message `Use curly quotes \u201c\u201d, not straight quotes \"\".`; inventory records Fast, case-insensitive, allow_quotes=true, ppm_threshold=0, no exceptions, default_enabled=false. Selected config enables only typography.symbols.curly_quotes. The Fast regex `\\s` spans a newline inside the quoted text.",
+      "input_mode": "stdin",
+      "stdin_base64": "ImxpbmUKYnJlYWsi",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7ImN1cmx5X3F1b3RlcyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_curly_quotes_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "curly_quotes_punctuation_near_miss",
+      "capability_id": "rule.typography.symbols.curly_quotes",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers ExistenceSimple(pattern=r\"\\\"[\\w\\s\\d]+\\\"\") at typography.symbols.curly_quotes with message `Use curly quotes \u201c\u201d, not straight quotes \"\".`; inventory records Fast, case-insensitive, allow_quotes=true, ppm_threshold=0, no exceptions, default_enabled=false. Selected config enables only typography.symbols.curly_quotes. Punctuation inside the quotes is outside the allowed character class.",
+      "input_mode": "stdin",
+      "stdin_base64": "ImhlbGxvISI=",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7ImN1cmx5X3F1b3RlcyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_curly_quotes_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "curly_quotes_empty_near_miss",
+      "capability_id": "rule.typography.symbols.curly_quotes",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers ExistenceSimple(pattern=r\"\\\"[\\w\\s\\d]+\\\"\") at typography.symbols.curly_quotes with message `Use curly quotes \u201c\u201d, not straight quotes \"\".`; inventory records Fast, case-insensitive, allow_quotes=true, ppm_threshold=0, no exceptions, default_enabled=false. Selected config enables only typography.symbols.curly_quotes. The plus quantifier requires at least one character.",
+      "input_mode": "stdin",
+      "stdin_base64": "IiI=",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7ImN1cmx5X3F1b3RlcyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_curly_quotes_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "curly_quotes_allow_quotes_true",
+      "capability_id": "rule.typography.symbols.curly_quotes",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers ExistenceSimple(pattern=r\"\\\"[\\w\\s\\d]+\\\"\") at typography.symbols.curly_quotes with message `Use curly quotes \u201c\u201d, not straight quotes \"\".`; inventory records Fast, case-insensitive, allow_quotes=true, ppm_threshold=0, no exceptions, default_enabled=false. Selected config enables only typography.symbols.curly_quotes. The check definition sets allow_quotes=True, so a matching quoted phrase remains reportable.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlICJxdW90ZWQgcGhyYXNlIiBzdGF5cyBlbGlnaWJsZS4=",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7ImN1cmx5X3F1b3RlcyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_curly_quotes_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "curly_quotes_unicode_positions_and_content",
+      "capability_id": "rule.typography.symbols.curly_quotes",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers ExistenceSimple(pattern=r\"\\\"[\\w\\s\\d]+\\\"\") at typography.symbols.curly_quotes with message `Use curly quotes \u201c\u201d, not straight quotes \"\".`; inventory records Fast, case-insensitive, allow_quotes=true, ppm_threshold=0, no exceptions, default_enabled=false. Selected config enables only typography.symbols.curly_quotes. A multibyte Unicode prefix verifies code-point coordinates; matched text remains the exact ASCII quoted token supported by Fast RE2 `\\w`.",
+      "input_mode": "stdin",
+      "stdin_base64": "w6kgImNhZmUgNDIi",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7ImN1cmx5X3F1b3RlcyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_curly_quotes_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "curly_quotes_max_errors_one",
+      "capability_id": "rule.typography.symbols.curly_quotes",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers ExistenceSimple(pattern=r\"\\\"[\\w\\s\\d]+\\\"\") at typography.symbols.curly_quotes with message `Use curly quotes \u201c\u201d, not straight quotes \"\".`; inventory records Fast, case-insensitive, allow_quotes=true, ppm_threshold=0, no exceptions, default_enabled=false. Selected config enables only typography.symbols.curly_quotes. max_errors=1 retains only the first matching diagnostic.",
+      "input_mode": "stdin",
+      "stdin_base64": "ImZpcnN0IiB0aGVuICJzZWNvbmQi",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7ImN1cmx5X3F1b3RlcyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_curly_quotes_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "curly_quotes_adjacent_quote_boundary_match",
+      "capability_id": "rule.typography.symbols.curly_quotes",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/typography/symbols.py registers Fast ExistenceSimple(pattern=r\"\\\"[\\w\\s\\d]+\\\"\") at typography.symbols.curly_quotes with allow_quotes=true. Selected config enables only this check. Case purpose: test whether the RE2 search starts at the closing quote of a punctuation-containing quoted phrase and ends at the following opening quote, matching the intervening space.",
+      "input_mode": "stdin",
+      "stdin_base64": "ImhlbGxvLCB3b3JsZCIgIiI=",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7ImN1cmx5X3F1b3RlcyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "typography_symbols_curly_quotes_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

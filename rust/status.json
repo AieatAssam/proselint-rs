@@ -402,6 +402,10 @@
     {
       "id": "cli.config.no_config_default",
       "status": "recorded"
+    },
+    {
+      "id": "cli.config.missing_explicit_text_error",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -426,13 +430,13 @@
   },
   "harness": {
     "status": "verified after metadata fingerprint changes; Markdown/ledger exclusion is covered by a discrimination test",
-    "source_fingerprint": "581ee5b0cb18a04d3f997f9ddf21f0a2e8fc12d1ffe7b7f7c7a019ded52d9518",
+    "source_fingerprint": "0df38996d4f2d816a43e9d70e54c6e20b85af025ec48e9a2348bfee51cc12563",
     "unit_tests": {
-      "passed": 73,
+      "passed": 74,
       "exit_code": 0,
-      "duration_seconds": 61.082,
+      "duration_seconds": 78.74,
       "command": "python3 -m unittest discover -s rust/harness/tests -p 'test_*.py'",
-      "evidence": "full unit suite after cli.config.no_config_default cases"
+      "evidence": "full unit suite after missing explicit config error cases"
     },
     "comparator_discriminators": {
       "passed": 23,
@@ -460,7 +464,7 @@
     }
   },
   "active_ownership": {
-    "current": "No active writers. Latest strict gate passes 918/918 cases across 100 capabilities; 23 rule paths remain unimplemented pending data provenance.",
+    "current": "No active writers. Latest strict gate passes 920/920 cases across 101 capabilities; 23 rule paths remain unimplemented pending data provenance.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -7028,31 +7032,101 @@
         "report": "rust/artifacts/strict-gate-no-config-default-20261107.json",
         "source_fingerprint": "581ee5b0cb18a04d3f997f9ddf21f0a2e8fc12d1ffe7b7f7c7a019ded52d9518"
       }
+    },
+    {
+      "id": "cli.config.missing_explicit_text_error",
+      "status": "independently_verified",
+      "case_ids": [
+        "cli_config_missing_explicit_text_error_full",
+        "cli_config_missing_explicit_text_error_compact"
+      ],
+      "upstream_source": "proselint/command_line.py:114-126; proselint/log.py:84-97",
+      "upstream_spec": "A missing explicit --config path is caught as FileNotFoundError and normalized to `Configuration file 'missing config.json' could not be read.`. In Full and Compact formats, the CLI writes the standard Unrecoverable error prefix to stderr, leaves stdout empty, and exits 4; it does not append OS-specific errno text.",
+      "specification": {
+        "live_cases": 2,
+        "path_with_spaces": true,
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "comparison": "exact stdout/stderr bytes and exit status"
+      },
+      "red": {
+        "status": "behavioral_failure",
+        "focused_rust_tests_failed": 2,
+        "live_mismatches": 2,
+        "mismatch_field": "stderr",
+        "report": "rust/artifacts/missing-explicit-config-red-live-attested.json",
+        "source_fingerprint": "fb4daef2ba32e7c78eb8b1b0d631eaf49ac30a53be68016d4ace18859e41a7c9"
+      },
+      "green": {
+        "status": "PASS",
+        "focused_rust_tests_passed": 2,
+        "live_cases_passed": 2,
+        "report": "rust/artifacts/missing-explicit-config-green-live.json",
+        "candidate_attestation": "rust/artifacts/20261107T142332883309Z-build.attestation.json",
+        "source_fingerprint": "0df38996d4f2d816a43e9d70e54c6e20b85af025ec48e9a2348bfee51cc12563"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "focused_rust_tests_passed": 2,
+        "comparator_self_tests_passed": 23,
+        "live_cases_passed": 2,
+        "report": "rust/artifacts/independent-missing-config-text-20261107/live-comparison.json",
+        "candidate_attestation": "rust/artifacts/independent-missing-config-text-20261107/build-attestation.json",
+        "source_fingerprint": "0df38996d4f2d816a43e9d70e54c6e20b85af025ec48e9a2348bfee51cc12563",
+        "runtime_model_metadata": "unavailable"
+      },
+      "stage_durations_seconds": {
+        "red_live": 7.776308,
+        "owner_live": 7.431031,
+        "independent_live": 7.354411
+      },
+      "stage_case_counts": {
+        "red_cases": 2,
+        "red_mismatches": 2,
+        "focused_rust_tests_failed": 2,
+        "focused_rust_tests_passed": 2,
+        "owner_live_cases": 2,
+        "independent_live_cases": 2
+      },
+      "cumulative_gate": {
+        "status": "PASS",
+        "capability_count": 101,
+        "passed_cases": 920,
+        "manifest_cases": 922,
+        "duration_seconds": 379.916176,
+        "report": "rust/artifacts/strict-gate-missing-explicit-config-20261107.json"
+      },
+      "cumulative_live_parity": {
+        "status": "PASS",
+        "passed_cases": 920,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-missing-explicit-config-20261107.json",
+        "source_fingerprint": "0df38996d4f2d816a43e9d70e54c6e20b85af025ec48e9a2348bfee51cc12563"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-no-config-default-20261107.json",
-    "passed_cases": 918,
-    "manifest_cases": 920,
+    "report": "rust/artifacts/strict-gate-missing-explicit-config-20261107.json",
+    "passed_cases": 920,
+    "manifest_cases": 922,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "capability_count": 100,
-    "source_fingerprint": "581ee5b0cb18a04d3f997f9ddf21f0a2e8fc12d1ffe7b7f7c7a019ded52d9518",
-    "run_id": "20261107T140012387722Z-3dc0d3b0",
-    "started_at_utc": "2026-11-07T14:00:12.387692+00:00",
-    "finished_at_utc": "2026-11-07T14:05:25.043282+00:00",
-    "candidate_attestation": "rust/artifacts/20261107T135931994109Z-build.attestation.json",
-    "candidate_sha256": "3ca686c1fb97e6102b31566c86b34b51d5f2825673164bf5627fc7e165e87cea",
+    "capability_count": 101,
+    "source_fingerprint": "0df38996d4f2d816a43e9d70e54c6e20b85af025ec48e9a2348bfee51cc12563",
+    "run_id": "20261107T142831433265Z-31d9da06",
+    "started_at_utc": "2026-11-07T14:28:31.433233+00:00",
+    "finished_at_utc": "2026-11-07T14:33:43.550542+00:00",
+    "candidate_attestation": "rust/artifacts/20261107T142728745406Z-build.attestation.json",
+    "candidate_sha256": "ba547e251063816955c9b599985316602d1a31d215c33e5db224163c02a1d06d",
     "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d052b3136",
-    "duration_seconds": 355.91047,
+    "duration_seconds": 379.916176,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.141301,
-      "cumulative_live_comparison": 312.909427,
-      "oracle_integrity": 2.065676,
-      "rust_checks_and_build": 40.453046
+      "comparator_self_tests": 0.280773,
+      "cumulative_live_comparison": 312.364464,
+      "oracle_integrity": 3.18225,
+      "rust_checks_and_build": 62.859489
     },
     "comparator_self_tests": 23
   },
@@ -7080,7 +7154,7 @@
     },
     "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-20261107-1327.txt"
   },
-  "next_capability_handoff": "cli.config.no_config_default is recorded after 3/3 focused and independent live cases and the 918/918 cumulative gate. Continue with remaining CLI error/output gaps; full DEFAULT parity still depends on implementing the 23 unimplemented paths.",
+  "next_capability_handoff": "cli.config.missing_explicit_text_error is recorded after 2/2 focused and independent live cases and the 920/920 cumulative gate. Continue with remaining CLI version/help and user-config error paths; Python runtime metadata in version JSON needs an explicit truthful contract.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

@@ -30465,6 +30465,60 @@
       "id": "cli_config_no_config_default_disabled_curly_quotes_clean",
       "stdin_base64": "VGhlIHBocmFzZSAid29yZCIgaXMgcXVvdGVkLg==",
       "expected_oracle_outcome": "clean"
+    },
+    {
+      "capability_id": "cli.config.missing_explicit_text_error",
+      "provenance": "Pinned live Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; explicit --config names a missing path containing a space. The pinned CLI returns status 4, empty stdout, and the same exact stderr in default full and compact modes.",
+      "input_mode": "stdin",
+      "output_format": "full",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_missing_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [],
+      "argv": [
+        "check",
+        "--config",
+        "missing config.json"
+      ],
+      "id": "cli_config_missing_explicit_text_error_full",
+      "stdin_base64": "",
+      "expected_oracle_outcome": "cli_error"
+    },
+    {
+      "capability_id": "cli.config.missing_explicit_text_error",
+      "provenance": "Pinned live Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; explicit --config names a missing path containing a space. The pinned CLI returns status 4, empty stdout, and the same exact stderr in default full and compact modes.",
+      "input_mode": "stdin",
+      "output_format": "compact",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_missing_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [],
+      "argv": [
+        "check",
+        "--config",
+        "missing config.json",
+        "--output-format",
+        "compact"
+      ],
+      "id": "cli_config_missing_explicit_text_error_compact",
+      "stdin_base64": "",
+      "expected_oracle_outcome": "cli_error"
     }
   ]
 }

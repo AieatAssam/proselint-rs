@@ -1184,14 +1184,17 @@ fn run() -> Result<ExitCode, String> {
                     "Configuration file '{}' could not be read.",
                     config.display()
                 );
-                if error.kind() == io::ErrorKind::NotFound
-                    && matches!(output_format, OutputFormat::Json)
-                {
-                    println!(
-                        "{}",
-                        serde_json::json!({"error":{"code":-31998,"message":message}})
-                    );
-                    return Ok(ExitCode::from(4));
+                if error.kind() == io::ErrorKind::NotFound {
+                    if matches!(output_format, OutputFormat::Json) {
+                        println!(
+                            "{}",
+                            serde_json::json!({"error":{"code":-31998,"message":message}})
+                        );
+                        return Ok(ExitCode::from(4));
+                    }
+                    return Err(format!(
+                        "Unrecoverable error encountered while running proselint: {message}"
+                    ));
                 }
                 return Err(format!("{message}: {error}"));
             }

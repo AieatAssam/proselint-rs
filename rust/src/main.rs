@@ -969,6 +969,30 @@ fn dump_config(config: Option<PathBuf>, default: bool) -> Result<ExitCode, Strin
                     path.display()
                 )
             })?;
+            let normalized = source.replace("\r\n", "\n").replace('\r', "\n");
+            let scan_result = if source.starts_with('\u{feff}') {
+                Err(JsonScanError::Syntax(JsonSyntaxError {
+                    reason: "Unexpected UTF-8 BOM (decode using utf-8-sig)",
+                    offset: 0,
+                }))
+            } else {
+                JsonScanner::new(&normalized).scan()
+            };
+            match scan_result {
+                Ok(Some(error)) | Err(JsonScanError::Syntax(error)) => {
+                    return Err(format!(
+                        "Unrecoverable error encountered while running proselint: {}",
+                        python_json_error_message(&normalized, error)
+                    ));
+                }
+                Err(JsonScanError::Recursion(kind)) => {
+                    return Err(format!(
+                        "Unrecoverable error encountered while running proselint: {}",
+                        recursion_error_message(kind)
+                    ));
+                }
+                Ok(None) => {}
+            }
             Some(serde_json::from_str::<Value>(&source).map_err(|error| {
                 format!(
                     "Configuration file '{}' is not valid JSON: {error}",

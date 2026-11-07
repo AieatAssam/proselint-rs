@@ -30330,6 +30330,69 @@
         "exit_status": "exact"
       },
       "working_directory": "."
+    },
+    {
+      "id": "cli_dump_config_invalid_json",
+      "capability_id": "cli.dump_config_default",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; explicit config contains only `{`. load_from raises JSONDecodeError before dump-config output, producing exact stderr and exit status 4.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "explicit.json",
+          "content_base64": "ew=="
+        }
+      ],
+      "argv": [
+        "dump-config",
+        "--config",
+        "explicit.json"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "working_directory": "."
+    },
+    {
+      "id": "cli_dump_config_invalid_json_with_default",
+      "capability_id": "cli.dump_config_default",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; dump-config loads the explicit config before checking --default, so the malformed `{` produces the same JSONDecodeError as without --default.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "explicit.json",
+          "content_base64": "ew=="
+        }
+      ],
+      "argv": [
+        "dump-config",
+        "--config",
+        "explicit.json",
+        "--default"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "working_directory": "."
     }
   ]
 }

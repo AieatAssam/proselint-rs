@@ -155,3 +155,25 @@ fn dump_config_escapes_non_ascii_check_keys_and_per_file_pattern() {
 "#
     );
 }
+
+fn assert_malformed_config_error(args: &[&str]) {
+    let workspace = Workspace::new();
+    fs::write(workspace.0.join("explicit.json"), "{").unwrap();
+    let output = workspace.run(args);
+    assert_eq!(output.status.code(), Some(4), "stderr: {:?}", output.stderr);
+    assert!(output.stdout.is_empty(), "stdout: {:?}", output.stdout);
+    assert_eq!(
+        output.stderr,
+        b"Unrecoverable error encountered while running proselint: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)\n"
+    );
+}
+
+#[test]
+fn dump_config_invalid_explicit_json_returns_python_error() {
+    assert_malformed_config_error(&["dump-config", "--config", "explicit.json"]);
+}
+
+#[test]
+fn dump_config_default_still_loads_and_rejects_invalid_explicit_json() {
+    assert_malformed_config_error(&["dump-config", "--config", "explicit.json", "--default"]);
+}

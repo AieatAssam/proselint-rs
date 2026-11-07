@@ -1253,13 +1253,15 @@ class ComparatorTests(unittest.TestCase):
         expected_case_ids.update({"waxed_all_64_form_modifier_pairs", "waxed_correct_adjectives_clean", "waxed_raw_activation_and_case_boundaries", "waxed_quote_suppression", "waxed_max_errors_one", "waxed_pattern_group_truncation", "waxed_unicode_coordinates", "bottleneck_all_seven_phrases", "bottleneck_clean_and_near_boundary", "bottleneck_case_duplicates_and_overlap", "bottleneck_quote_suppression", "bottleneck_max_errors_one", "bottleneck_max_errors_interleaved_pattern_order", "bottleneck_pattern_group_truncation", "bottleneck_unicode_coordinates"})
         expected_case_ids.update({"mixed_misc_all_five_items_and_regex_alternatives", "mixed_misc_correct_forms_and_near_misses", "mixed_misc_case_and_duplicate_occurrences", "mixed_misc_quote_suppression", "mixed_misc_unicode_coordinates", "mixed_misc_max_errors_interleaved_pattern_groups"})
         expected_case_ids.update({"ras_syndrome_all_twenty_mappings", "ras_syndrome_correct_forms_clean", "ras_syndrome_case_and_duplicate_occurrences", "ras_syndrome_mixed_case_source_key_lookup", "ras_syndrome_quote_suppression", "ras_syndrome_unicode_coordinates", "ras_syndrome_interleaved_pattern_group_limit_two", "ras_syndrome_plural_overlap_when_only_plural_activates"})
+        expected_case_ids.update({"illogic_all_nine_patterns_parent_only", "illogic_clean_and_near_miss_boundaries", "illogic_quote_suppression", "illogic_unicode_coordinates", "illogic_interleaved_pattern_group_limit_two", "illogic_parent_and_children_duplicate_path_coexistence"})
+        expected_case_ids.update({"tense_present_all_active_patterns_and_both_unicode_dashes", "tense_present_clean_and_near_miss_boundaries", "tense_present_quote_suppression", "tense_present_unicode_coordinates", "tense_present_interleaved_pattern_group_limit_two", "tense_present_dash_forms_unicode_escape_edges"})
         self.assertEqual({item["id"] for item in manifest["cases"]}, expected_case_ids)
         self.assertEqual(len(manifest["cases"]), len(expected_case_ids))
 
         self.assertEqual(
             {capability: sum(case["capability_id"] == capability for case in manifest["cases"])
              for capability in {case["capability_id"] for case in manifest["cases"]}},
-            {'rule.misc.debased': 13, 'rule.misc.capitalization.days': 10, 'rule.cliches.hell': 7, 'harness.oracle_smoke': 2, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.dates_times.am_pm.midnight_noon': 10, 'rule.dates_times.dates.decade_apostrophes': 10, 'rule.misc.narcissism': 9, 'rule.misc.latin': 10, 'rule.misc.back_formations': 8, 'rule.misc.capitalization.terms': 10, 'rule.industrial_language.airlinese': 12, 'cli.json_no_findings': 8, 'rule.misc.phrasal_adjectives.ly': 7, 'rule.misc.greylist': 9, 'rule.misc.many_a': 10, 'cli.output_format.full': 3, 'cli.config.ignored_values': 5, 'rule.misc.professions': 8, 'cli.config.cwd_discovery': 3, 'cli.config.ancestor_discovery': 5, 'rule.misc.illogic.coin': 7, 'rule.hedging': 14, 'cli.config.invalid_utf8': 5, 'rule.misc.whence': 6, 'rule.annotations.misc': 10, 'rule.typography.symbols.sentence_spacing': 7, 'cli.config.consumed_special_values': 12, 'cli.config.malformed_json': 22, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.copyright': 6, 'rule.misc.pretension': 9, 'cli.config.recursion_depth': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.misc.institution_name': 8, 'rule.misc.currency': 12, 'rule.misc.suddenly': 7, 'cli.coordinates': 6, 'rule.misc.but': 8, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.collusion': 7, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.capitalization.seasons': 10, 'cli.config.directory_path': 4, 'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 10, 'rule.misc.inferior_superior': 12, 'rule.misc.false_plurals.misc': 9, 'cli.config.per_file_checks': 4, 'rule.redundancy.misc.wallace': 10, 'rule.dates_times.am_pm.spacing': 8, 'rule.typography.symbols.ellipsis': 6, 'rule.psychology.lie_detector': 12, 'rule.industrial_language.jargon': 11, 'cli.config.user_discovery': 8, 'rule.misc.capitalization.months': 6, 'rule.psychology.p_equals_zero': 8, 'spelling.ance_ence': 10, 'rule.misc.composition': 38, 'cli.combined_checks': 3, 'rule.terms.eponymous_adjectives': 4, 'rule.spelling.ally_ly': 10, 'rule.spelling.ely_ly': 9, 'rule.spelling.ve_of': 11, 'rule.malapropisms': 10, 'rule.spelling.in_un': 10, 'rule.mondegreens': 10, 'rule.skunked_terms': 11, 'rule.oxymorons': 16, 'rule.redundancy.misc.nordquist': 11, 'rule.misc.not_guilty': 4, 'spelling.er_or': 8, 'spelling.able_ible': 9, 'spelling.able_atable': 8, 'spelling.em_im_en_in': 8, 'spelling.athletes': 29, 'rule.archaism': 13, 'rule.dates_times.dates.month_year_comma': 8, 'rule.dates_times.dates.dash_and_from': 13, 'rule.dates_times.dates.month_of_year': 3, 'rule.misc.scare_quotes': 3, 'rule.typography.punctuation.hyperbole': 3, 'rule.typography.punctuation.misplaced': 3, 'rule.typography.punctuation.exclamation': 4, 'rule.social_awareness.nword': 8, 'rule.typography.symbols.curly_quotes': 9, 'rule.weasel_words.very': 14, 'rule.misc.waxed': 7, 'rule.mixed_metaphors.bottleneck': 8, 'rule.mixed_metaphors.misc': 6, 'rule.redundancy.ras_syndrome': 8},
+            {'rule.misc.debased': 13, 'rule.misc.capitalization.days': 10, 'rule.cliches.hell': 7, 'harness.oracle_smoke': 2, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.dates_times.am_pm.midnight_noon': 10, 'rule.dates_times.dates.decade_apostrophes': 10, 'rule.misc.narcissism': 9, 'rule.misc.latin': 10, 'rule.misc.back_formations': 8, 'rule.misc.capitalization.terms': 10, 'rule.industrial_language.airlinese': 12, 'cli.json_no_findings': 8, 'rule.misc.phrasal_adjectives.ly': 7, 'rule.misc.greylist': 9, 'rule.misc.many_a': 10, 'cli.output_format.full': 3, 'cli.config.ignored_values': 5, 'rule.misc.professions': 8, 'cli.config.cwd_discovery': 3, 'cli.config.ancestor_discovery': 5, 'rule.misc.illogic.coin': 7, 'rule.hedging': 14, 'cli.config.invalid_utf8': 5, 'rule.misc.whence': 6, 'rule.annotations.misc': 10, 'rule.typography.symbols.sentence_spacing': 7, 'cli.config.consumed_special_values': 12, 'cli.config.malformed_json': 22, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.copyright': 6, 'rule.misc.pretension': 9, 'cli.config.recursion_depth': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.misc.institution_name': 8, 'rule.misc.currency': 12, 'rule.misc.suddenly': 7, 'cli.coordinates': 6, 'rule.misc.but': 8, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.collusion': 7, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.capitalization.seasons': 10, 'cli.config.directory_path': 4, 'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 10, 'rule.misc.inferior_superior': 12, 'rule.misc.false_plurals.misc': 9, 'cli.config.per_file_checks': 4, 'rule.redundancy.misc.wallace': 10, 'rule.dates_times.am_pm.spacing': 8, 'rule.typography.symbols.ellipsis': 6, 'rule.psychology.lie_detector': 12, 'rule.industrial_language.jargon': 11, 'cli.config.user_discovery': 8, 'rule.misc.capitalization.months': 6, 'rule.psychology.p_equals_zero': 8, 'spelling.ance_ence': 10, 'rule.misc.composition': 38, 'cli.combined_checks': 3, 'rule.terms.eponymous_adjectives': 4, 'rule.spelling.ally_ly': 10, 'rule.spelling.ely_ly': 9, 'rule.spelling.ve_of': 11, 'rule.malapropisms': 10, 'rule.spelling.in_un': 10, 'rule.mondegreens': 10, 'rule.skunked_terms': 11, 'rule.oxymorons': 16, 'rule.redundancy.misc.nordquist': 11, 'rule.misc.not_guilty': 4, 'spelling.er_or': 8, 'spelling.able_ible': 9, 'spelling.able_atable': 8, 'spelling.em_im_en_in': 8, 'spelling.athletes': 29, 'rule.archaism': 13, 'rule.dates_times.dates.month_year_comma': 8, 'rule.dates_times.dates.dash_and_from': 13, 'rule.dates_times.dates.month_of_year': 3, 'rule.misc.scare_quotes': 3, 'rule.typography.punctuation.hyperbole': 3, 'rule.typography.punctuation.misplaced': 3, 'rule.typography.punctuation.exclamation': 4, 'rule.social_awareness.nword': 8, 'rule.typography.symbols.curly_quotes': 9, 'rule.weasel_words.very': 14, 'rule.misc.waxed': 7, 'rule.mixed_metaphors.bottleneck': 8, 'rule.mixed_metaphors.misc': 6, 'rule.redundancy.ras_syndrome': 8, 'rule.misc.illogic': 6, 'rule.misc.tense_present': 6},
         )
 
         archaism = [case for case in manifest["cases"] if case["capability_id"] == "rule.archaism"]
@@ -1681,6 +1683,42 @@ class ComparatorTests(unittest.TestCase):
         report["counts"]["BLOCKED"] = 0
         with self.assertRaisesRegex(ValueError, "counts disagree"):
             compare.validate_report(report)
+
+    def test_illogic_and_tense_present_live_case_contracts(self) -> None:
+        cases = {case["id"]: case for case in compare.load_manifest()["cases"]}
+        illogic = {
+            "illogic_all_nine_patterns_parent_only", "illogic_clean_and_near_miss_boundaries",
+            "illogic_quote_suppression", "illogic_unicode_coordinates",
+            "illogic_interleaved_pattern_group_limit_two",
+            "illogic_parent_and_children_duplicate_path_coexistence",
+        }
+        tense = {
+            "tense_present_all_active_patterns_and_both_unicode_dashes",
+            "tense_present_clean_and_near_miss_boundaries", "tense_present_quote_suppression",
+            "tense_present_unicode_coordinates", "tense_present_interleaved_pattern_group_limit_two",
+            "tense_present_dash_forms_unicode_escape_edges",
+        }
+        self.assertTrue(illogic.issubset(cases))
+        self.assertTrue(tense.issubset(cases))
+        self.assertEqual({cases[item]["capability_id"] for item in illogic}, {"rule.misc.illogic"})
+        self.assertEqual({cases[item]["capability_id"] for item in tense}, {"rule.misc.tense_present"})
+        for case_id in illogic | tense:
+            with self.subTest(case=case_id):
+                case = cases[case_id]
+                self.assertEqual(case["argv"], ["check", "--config", "{file:config.json}", "--output-format", "json"])
+                config = json.loads(base64.b64decode(case["files"][0]["content_base64"]))
+                self.assertEqual(case["expected_oracle_outcome"], "findings" if case_id not in {
+                    "illogic_clean_and_near_miss_boundaries", "illogic_quote_suppression",
+                    "tense_present_clean_and_near_miss_boundaries", "tense_present_quote_suppression",
+                } else "clean")
+                self.assertEqual(config["max_errors"], 2 if "interleaved" in case_id else 1000)
+        combined = json.loads(base64.b64decode(cases["illogic_parent_and_children_duplicate_path_coexistence"]["files"][0]["content_base64"]))
+        self.assertEqual(combined["checks"], {"misc": {"illogic": True, "illogic.coin": True, "illogic.collusion": True}})
+        self.assertEqual(cases["illogic_all_nine_patterns_parent_only"]["config_scenario"], "only_misc.illogic")
+        tense_inputs = " ".join(base64.b64decode(cases[item]["stdin_base64"]).decode("utf-8") for item in (
+            "tense_present_all_active_patterns_and_both_unicode_dashes", "tense_present_dash_forms_unicode_escape_edges"))
+        self.assertIn("—", tense_inputs)
+        self.assertIn("–", tense_inputs)
 
     @staticmethod
     def _valid_report() -> dict[str, object]:

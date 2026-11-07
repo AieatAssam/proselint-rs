@@ -362,6 +362,14 @@
     {
       "id": "rule.redundancy.ras_syndrome",
       "status": "recorded"
+    },
+    {
+      "id": "rule.misc.illogic",
+      "status": "recorded"
+    },
+    {
+      "id": "rule.misc.tense_present",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -416,12 +424,12 @@
     }
   },
   "active_ownership": {
-    "current": "mixed_metaphors.misc and redundancy.ras_syndrome are accepted after focused and independent verification; the shared CLI cumulative gate passed 812/812 across 90 capabilities.",
+    "current": "misc.illogic and misc.tense_present are recorded after focused/independent verification and the 824/824 cumulative gate across 92 capabilities.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
     "The no-config-found bundled DEFAULT, every default-enabled rule interaction, and combined enabled-rule configurations remain unverified; selected-rule passes do not establish default behavior.",
-    "33 unique rule paths remain unimplemented.",
+    "27 unique rule paths remain unimplemented.",
     "Other CLI behavior remains unverified, including remaining subcommands, missing nonempty-XDG config, HOME-unset resolution, directory user candidates, file/directory traversal and decoding edges, multi-file rendering, and Compact output.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
     "Directory/non-UTF-8 path error formatting on non-Linux platforms remains unverified.",
@@ -1048,7 +1056,7 @@
         "ellipsis_unicode_codepoint_spans",
         "ellipsis_selected_config_interaction"
       ],
-      "upstream_spec": "ExistenceSimple unanchored literal \\.\\.\\.; exact message \"'...' is an approximation, use the ellipsis symbol '…'.\"; nonoverlapping matches; allow_quotes=false suppresses quoted findings.",
+      "upstream_spec": "ExistenceSimple unanchored literal \\.\\.\\.; exact message \"'...' is an approximation, use the ellipsis symbol '\u2026'.\"; nonoverlapping matches; allow_quotes=false suppresses quoted findings.",
       "red": {
         "behavioral_failures": 6,
         "total_tests": 6,
@@ -1092,7 +1100,7 @@
         "copyright_unicode_codepoint_positions",
         "copyright_selected_config_interaction"
       ],
-      "upstream_spec": "ExistenceSimple unanchored, case-insensitive literal \\(c\\); message `(c) is a goofy alphabetic approximation, use the symbol ©.`; allow_quotes=false suppresses quoted findings.",
+      "upstream_spec": "ExistenceSimple unanchored, case-insensitive literal \\(c\\); message `(c) is a goofy alphabetic approximation, use the symbol \u00a9.`; allow_quotes=false suppresses quoted findings.",
       "red": {
         "behavioral_failures": 6,
         "total_tests": 6,
@@ -1227,7 +1235,7 @@
         "multiplication_unicode_codepoint_positions",
         "multiplication_selected_config_interaction"
       ],
-      "upstream_spec": "ExistenceSimple `\\d+ ?x ?\\d+`: ASCII digits, case-insensitive x, zero or one ASCII space on either side, unanchored. Exact message: `Use the multiplication symbol ×, not the letter x.`",
+      "upstream_spec": "ExistenceSimple `\\d+ ?x ?\\d+`: ASCII digits, case-insensitive x, zero or one ASCII space on either side, unanchored. Exact message: `Use the multiplication symbol \u00d7, not the letter x.`",
       "red": {
         "behavioral_failures": 7,
         "total_tests": 7,
@@ -1563,7 +1571,7 @@
         "inferior_superior_unicode_codepoint_positions",
         "inferior_superior_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.inferior_superior` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `inferior than` → `inferior to`; `superior than` → `superior to`. Default quote suppression; no exceptions or offsets. The replacement fills the message template `'Inferior' and 'superior' are not true comparatives. Use '{}'.`",
+      "upstream_spec": "Pinned `misc.inferior_superior` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `inferior than` \u2192 `inferior to`; `superior than` \u2192 `superior to`. Default quote suppression; no exceptions or offsets. The replacement fills the message template `'Inferior' and 'superior' are not true comparatives. Use '{}'.`",
       "red": {
         "behavioral_failures": 10,
         "total_tests": 10,
@@ -1868,7 +1876,7 @@
         "many_a_unicode_codepoint_positions",
         "many_a_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.many_a` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `are many a` → `is many a`; `have been many a` → `has been many a`; `were many a` → `was many a`. The static message is `'many a' requires a singular verb.`; each mapped replacement is returned. Default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `misc.many_a` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `are many a` \u2192 `is many a`; `have been many a` \u2192 `has been many a`; `were many a` \u2192 `was many a`. The static message is `'many a' requires a singular verb.`; each mapped replacement is returned. Default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 7,
         "total_tests": 7,
@@ -2011,7 +2019,7 @@
         "latin_unicode_codepoint_positions",
         "latin_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.latin` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `ceteris paribus` → `other things being equal`; `inter alia` → `among other things`; `simpliciter` → `in and of itself`; `mutatis mutandis` → `having made the necessary changes`. The message is `Use English. '{}' is the preferred form.` and interpolates the replacement. Default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `misc.latin` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `ceteris paribus` \u2192 `other things being equal`; `inter alia` \u2192 `among other things`; `simpliciter` \u2192 `in and of itself`; `mutatis mutandis` \u2192 `having made the necessary changes`. The message is `Use English. '{}' is the preferred form.` and interpolates the replacement. Default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -2059,7 +2067,7 @@
         "seasons_unicode_codepoint_positions",
         "seasons_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.capitalization.seasons` is case-sensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries. Only `Winter` → `winter` and `Summer` → `summer` are mapped; lowercase, all-uppercase, and mixed-case variants are clean, as are commented-out `Spring` and `Fall`. Message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements returned, default quote suppression.",
+      "upstream_spec": "Pinned `misc.capitalization.seasons` is case-sensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries. Only `Winter` \u2192 `winter` and `Summer` \u2192 `summer` are mapped; lowercase, all-uppercase, and mixed-case variants are clean, as are commented-out `Spring` and `Fall`. Message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements returned, default quote suppression.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -2107,7 +2115,7 @@
         "capitalization_terms_unicode_codepoint_positions",
         "capitalization_terms_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.capitalization.terms` is case-sensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `mother nature` → `Mother Nature`, `Space Age` → `space age`, `stone age` → `Stone Age`, and `the American west` → `the American West`. Message `Incorrect capitalization. '{}' is the preferred form.`; replacements interpolate the mapped form; default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `misc.capitalization.terms` is case-sensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `mother nature` \u2192 `Mother Nature`, `Space Age` \u2192 `space age`, `stone age` \u2192 `Stone Age`, and `the American west` \u2192 `the American West`. Message `Incorrect capitalization. '{}' is the preferred form.`; replacements interpolate the mapped form; default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -2157,7 +2165,7 @@
         "lie_detector_selected_config_interaction",
         "lie_detector_fastset_activation_raw_copy"
       ],
-      "upstream_spec": "Pinned `psychology.lie_detector` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `lie detector test` → `polygraph test` and `lie detector machine` → `polygraph machine`. Message `Polygraph machines measure arousal, not lying per se. Try '{}'.`; mapped phrase is replacement and interpolation; default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `psychology.lie_detector` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `lie detector test` \u2192 `polygraph test` and `lie detector machine` \u2192 `polygraph machine`. Message `Polygraph machines measure arousal, not lying per se. Try '{}'.`; mapped phrase is replacement and interpolation; default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -2212,7 +2220,7 @@
         "wallace_unicode_codepoint_positions",
         "wallace_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `redundancy.misc.wallace` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `rectangular in shape` → `rectangular`, `audible to the ear` → `audible`. Message `Redundancy. Use '{}' instead of '{}'.`; the replacement is interpolated first and the original matched surface second. Default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `redundancy.misc.wallace` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `rectangular in shape` \u2192 `rectangular`, `audible to the ear` \u2192 `audible`. Message `Redundancy. Use '{}' instead of '{}'.`; the replacement is interpolated first and the original matched surface second. Default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -2637,7 +2645,7 @@
         "cli_config_cwd_discovers_empty_checks",
         "cli_config_explicit_precedes_cwd_discovery"
       ],
-      "upstream_spec": "When --config is omitted, pinned Python checks the current working directory for proselint.json; an explicit --config path takes precedence over that discovered file. The discovered file’s checks and JSON diagnostics must match the explicit-file loading behavior.",
+      "upstream_spec": "When --config is omitted, pinned Python checks the current working directory for proselint.json; an explicit --config path takes precedence over that discovered file. The discovered file\u2019s checks and JSON diagnostics must match the explicit-file loading behavior.",
       "red": {
         "behavioral_mismatches": 2,
         "total_cases": 3,
@@ -3127,7 +3135,7 @@
         "terms_eponymous_adjectives_max_errors_one"
       ],
       "registered_entries_exercised": 1,
-      "upstream_spec": "The pinned default-enabled terms.eponymous_adjectives check is PreferredFormsSimple with Fast case-insensitive WORDS_IN_TEXT padding, quote suppression, zero offset and two mappings: mephistophelian -> Mephistophelean and shakespearian -> Shakespearean. The registered message is “'{}' is the preferred eponymous adjective.” Preserve replacement lookup, raw match output after boundary activation, quote filtering, and source coordinates.",
+      "upstream_spec": "The pinned default-enabled terms.eponymous_adjectives check is PreferredFormsSimple with Fast case-insensitive WORDS_IN_TEXT padding, quote suppression, zero offset and two mappings: mephistophelian -> Mephistophelean and shakespearian -> Shakespearean. The registered message is \u201c'{}' is the preferred eponymous adjective.\u201d Preserve replacement lookup, raw match output after boundary activation, quote filtering, and source coordinates.",
       "red": {
         "report_status": "MISMATCH",
         "mismatches": 4,
@@ -3189,7 +3197,7 @@
         "ordering_report": "rust/artifacts/ally-ly-order-red-20261106.json",
         "ordering_result": "Seven original cases passed; max_errors=1 selected the earlier raw embedded academicly instead of optimisticly, whose bounded match activated first.",
         "lookup_report": "rust/artifacts/ally-ly-sol-edge-probes-live-20261106.json",
-        "lookup_result": "Pinned Python returned message replacement None and replacements null for long-s matches baſicly / optimiſticly; pre-fix Rust returned basically. Quoted activation probe passed.",
+        "lookup_result": "Pinned Python returned message replacement None and replacements null for long-s matches ba\u017ficly / optimi\u017fticly; pre-fix Rust returned basically. Quoted activation probe passed.",
         "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
       },
       "green": {
@@ -3235,7 +3243,7 @@
         "spelling_ely_ly_quoted_activation"
       ],
       "registered_entries_exercised": 1,
-      "upstream_spec": "Pinned default-enabled PreferredFormsSimple rule at spelling.ely_ly: completly→completely, immediatly→immediately, unfortunatly→unfortunately. Uses Fast case-insensitive matching, WORDS_IN_TEXT boundaries, quote suppression, zero offset and PPM, with message -ely vs. -ly. Preserve activation-order emission, raw occurrences after activation, max_errors truncation, Unicode positions, and exact preferred lookup.",
+      "upstream_spec": "Pinned default-enabled PreferredFormsSimple rule at spelling.ely_ly: completly\u2192completely, immediatly\u2192immediately, unfortunatly\u2192unfortunately. Uses Fast case-insensitive matching, WORDS_IN_TEXT boundaries, quote suppression, zero offset and PPM, with message -ely vs. -ly. Preserve activation-order emission, raw occurrences after activation, max_errors truncation, Unicode positions, and exact preferred lookup.",
       "red": {
         "report_status": "MISMATCH",
         "mismatches": 9,
@@ -3288,7 +3296,7 @@
         "spelling_ve_of_long_s_no_activation"
       ],
       "registered_entries_exercised": 1,
-      "upstream_spec": "Pinned default-enabled PreferredFormsSimple rule spelling.ve_of with could of→could've, should of→should've, would of→would've; Fast case-insensitive WORDS_IN_TEXT matching, quote suppression, offset/PPM0. Activation requires ASCII word transitions at both match edges. A lone long-s should of is not activated; after normal should of activates the pattern, raw matching includes the later long-s surface and Python lower-key lookup returns None/null.",
+      "upstream_spec": "Pinned default-enabled PreferredFormsSimple rule spelling.ve_of with could of\u2192could've, should of\u2192should've, would of\u2192would've; Fast case-insensitive WORDS_IN_TEXT matching, quote suppression, offset/PPM0. Activation requires ASCII word transitions at both match edges. A lone long-s should of is not activated; after normal should of activates the pattern, raw matching includes the later long-s surface and Python lower-key lookup returns None/null.",
       "red": {
         "report_status": "MISMATCH",
         "mismatches": 11,
@@ -3390,7 +3398,7 @@
         "spelling_in_un_quoted_activation_limit"
       ],
       "registered_entries_exercised": 1,
-      "upstream_spec": "Pinned default-enabled PreferredFormsSimple check with unadvisable→inadvisable, unalienable→inalienable, unexpressive→inexpressive, unfeasible→infeasible. Fast case-insensitive WORDS_IN_TEXT matching, allow_quotes=false, offset 0; message \"in- vs. un-. '{}' is the preferred spelling.\" Exact lowercase lookup means long-s surfaces can yield message None and replacements null. FastSet activation order, raw occurrence emission, quote suppression before max_errors, and final positional sorting are observable.",
+      "upstream_spec": "Pinned default-enabled PreferredFormsSimple check with unadvisable\u2192inadvisable, unalienable\u2192inalienable, unexpressive\u2192inexpressive, unfeasible\u2192infeasible. Fast case-insensitive WORDS_IN_TEXT matching, allow_quotes=false, offset 0; message \"in- vs. un-. '{}' is the preferred spelling.\" Exact lowercase lookup means long-s surfaces can yield message None and replacements null. FastSet activation order, raw occurrence emission, quote suppression before max_errors, and final positional sorting are observable.",
       "red": {
         "report_status": "MISMATCH",
         "mismatches": 10,
@@ -3984,7 +3992,7 @@
         "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
         "oracle_integrity": "verified before and after",
         "candidate_sha256": "048ae012c010914b544d0140191592c8574632b1c3eec6cc79fba7f7c09a107d",
-        "cumulative_gate": "deferred; next 5–10-capability checkpoint",
+        "cumulative_gate": "deferred; next 5\u201310-capability checkpoint",
         "stage_durations_seconds": {
           "locked_build": 0.1788,
           "fmt_check": 0.605222,
@@ -4107,7 +4115,7 @@
       "additional_case_specification": {
         "case_id": "spelling_able_ible_unicode_casefolds",
         "case_count": 1,
-        "oracle_result": "combined input produced three findings: spans [1,9] and [10,18] with null replacement, then visible at [19,26]; ſensable and Cyrillic vіsable remain clean when isolated.",
+        "oracle_result": "combined input produced three findings: spans [1,9] and [10,18] with null replacement, then visible at [19,26]; \u017fensable and Cyrillic v\u0456sable remain clean when isolated.",
         "oracle_integrity": "verified before and after",
         "evidence": "rust/artifacts/able_ible_red_20261106/pinned_semantics_live_probe.json; independently reconfirmed through the pinned absolute CLI during this session."
       },
@@ -5510,7 +5518,7 @@
     },
     {
       "id": "rule.misc.waxed",
-      "upstream_source": "proselint/checks/misc/waxed.py; Fowler’s Modern English Usage attribution; source snapshot BSD-3-Clause",
+      "upstream_source": "proselint/checks/misc/waxed.py; Fowler\u2019s Modern English Usage attribution; source snapshot BSD-3-Clause",
       "source_sha256": "1422bcf67cf0ea1975f625deb546382f7c76ba60bb043634951c64618f059420",
       "case_ids": [
         "waxed_all_64_form_modifier_pairs",
@@ -5888,34 +5896,248 @@
         "oracle_integrity": "verified",
         "comparator_self_tests": 23
       }
+    },
+    {
+      "id": "rule.misc.illogic",
+      "status": "recorded",
+      "case_ids": [
+        "illogic_all_nine_patterns_parent_only",
+        "illogic_clean_and_near_miss_boundaries",
+        "illogic_quote_suppression",
+        "illogic_unicode_coordinates",
+        "illogic_interleaved_pattern_group_limit_two",
+        "illogic_parent_and_children_duplicate_path_coexistence"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_source": "proselint/checks/misc/illogic.py; Garner attribution retained; source snapshot BSD-3-Clause",
+      "upstream_spec": "Default-enabled Fast Existence with nine case-insensitive patterns and WORDS_IN_TEXT activation; activated groups emit raw occurrences in first-activation order, quote suppression, codepoint coordinates, exact matched-case message, and parent/child path coexistence.",
+      "specification": {
+        "live_cases": 6,
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "oracle_source_sha256": "73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831",
+        "oracle_integrity": "verified before and after",
+        "fixture_source": "pinned oracle CLI; old manifest prefix semantically unchanged",
+        "source_fingerprint": "9cdab0244cdb7efcb6ec81e5e1d6319600c2f8c53428518fe0fb90bd4000387f"
+      },
+      "implementation": "rust/src/rules/misc_illogic.rs",
+      "red": {
+        "status": "BEHAVIORAL_FAILURE",
+        "details": {
+          "failing_rust_tests": 5,
+          "cause": "CLI rejected selected path as unsupported before routing; assertions reached CLI and observed exit 4 against expected clean/findings outcomes",
+          "duration_seconds": null,
+          "duration_note": "Builder handoff did not persist wall-clock timing."
+        }
+      },
+      "green": {
+        "status": "PASS",
+        "focused_rust_tests": 5,
+        "focused_live_cases": 6,
+        "focused_live_report": "rust/artifacts/live-illogic-final-fingerprint-20261107.json",
+        "focused_live_duration_seconds": 8.608,
+        "source_fingerprint": "9cdab0244cdb7efcb6ec81e5e1d6319600c2f8c53428518fe0fb90bd4000387f",
+        "candidate_sha256": "b51493e98822a8a10753c3f32698ee4c6467808f8fb5c589aade342fb6dc40a1",
+        "locked_build_attestation": "rust/artifacts/20261107T053252344342Z-build.attestation.json",
+        "cumulative_gate": "rust/artifacts/strict-gate-illogic-tense-20261107.json",
+        "duration_seconds": 8.488948
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 6,
+        "report": "rust/artifacts/independent-illogic-tense-final-20261107/rule-misc-illogic.live-report.json",
+        "duration_seconds": 8.469,
+        "oracle_integrity": "verified before and after",
+        "agent_model": "gpt-6-luna (parity_verifier role)",
+        "agent_effort": "high; low was requested but role fixed high",
+        "agent_runtime_metadata": "unavailable"
+      },
+      "agent_model": "gpt-6-luna",
+      "agent_reasoning_effort": "Low requested; parity_verifier role configured high; runtime metadata unavailable. No low-effort claim.",
+      "source_fingerprint": "9cdab0244cdb7efcb6ec81e5e1d6319600c2f8c53428518fe0fb90bd4000387f",
+      "candidate_sha256": "b51493e98822a8a10753c3f32698ee4c6467808f8fb5c589aade342fb6dc40a1",
+      "candidate_attestation": "rust/artifacts/20261107T053252344342Z-build.attestation.json",
+      "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d052b3136",
+      "stage_durations_seconds": {
+        "red_unsupported_route": null,
+        "focused_rust_tests_wall": 0.756,
+        "owner_live": 8.488948,
+        "independent_live": 8.469,
+        "comparator_self_tests": 0.6,
+        "cumulative_gate": 243.578882,
+        "locked_build_attestation": null,
+        "harness_unit_suite": 41.099,
+        "locked_format": 0.808,
+        "locked_clippy": 0.252,
+        "locked_cargo_tests": 9.666,
+        "locked_build": 0.226
+      },
+      "stage_case_counts": {
+        "red_failing_rust_tests": 5,
+        "focused_rust_tests_passed": 5,
+        "owner_live_passed": 6,
+        "independent_live_passed": 6,
+        "comparator_self_tests_passed": 23,
+        "cumulative_gate_passed": 824,
+        "harness_tests_passed": 65,
+        "cumulative_gate_capabilities": 92
+      },
+      "comparator_self_test_status": "PASS",
+      "pre_gate_status": "PASS",
+      "implementation_source_sha256": "390de33149f44c6379cdd9557a5f28e54e1071c8c26213b592852bd88df63143",
+      "test_source_sha256": "b532316688c7ed56e0c4ed4eb8dbe992fe1c49d89f0f15e5e495034aa4767c8d",
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-illogic-tense-20261107.json",
+        "started_at_utc": "2026-11-07T05:33:03.728505+00:00",
+        "finished_at_utc": "2026-11-07T05:37:07.307387+00:00",
+        "duration_seconds": 243.578882,
+        "passed_cases": 824,
+        "manifest_cases": 830,
+        "capabilities": 92,
+        "source_fingerprint": "9cdab0244cdb7efcb6ec81e5e1d6319600c2f8c53428518fe0fb90bd4000387f",
+        "candidate_sha256": "b51493e98822a8a10753c3f32698ee4c6467808f8fb5c589aade342fb6dc40a1",
+        "oracle_integrity": "verified",
+        "comparator_self_tests": 23
+      },
+      "source_sha256": "390de33149f44c6379cdd9557a5f28e54e1071c8c26213b592852bd88df63143"
+    },
+    {
+      "id": "rule.misc.tense_present",
+      "status": "recorded",
+      "case_ids": [
+        "tense_present_all_active_patterns_and_both_unicode_dashes",
+        "tense_present_clean_and_near_miss_boundaries",
+        "tense_present_quote_suppression",
+        "tense_present_unicode_coordinates",
+        "tense_present_interleaved_pattern_group_limit_two",
+        "tense_present_dash_forms_unicode_escape_edges"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_source": "proselint/checks/misc/tense_present.py; DFW Tense Present attribution retained; source snapshot BSD-3-Clause",
+      "upstream_spec": "Default-enabled Fast Existence with ten active case-insensitive patterns; preserve ASCII RE2 classes, escaped em/en dashes, activation on WORDS_IN_TEXT-padded input, raw occurrence reporting on source text, quote suppression, codepoint coordinates, registration group order, and truncation semantics.",
+      "specification": {
+        "live_cases": 6,
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "oracle_source_sha256": "73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831",
+        "oracle_integrity": "verified before and after",
+        "fixture_source": "pinned oracle CLI; old manifest prefix semantically unchanged",
+        "source_fingerprint": "9cdab0244cdb7efcb6ec81e5e1d6319600c2f8c53428518fe0fb90bd4000387f"
+      },
+      "implementation": "rust/src/rules/misc_tense_present.rs",
+      "red": {
+        "status": "BEHAVIORAL_FAILURE",
+        "details": {
+          "failing_rust_tests": 5,
+          "cause": "CLI rejected selected path as unsupported before routing; assertions reached CLI and observed exit 4 against expected clean/findings outcomes",
+          "duration_seconds": null,
+          "duration_note": "Builder handoff did not persist wall-clock timing."
+        }
+      },
+      "green": {
+        "status": "PASS",
+        "focused_rust_tests": 5,
+        "focused_live_cases": 6,
+        "focused_live_report": "rust/artifacts/live-tense-present-final-fingerprint-20261107.json",
+        "focused_live_duration_seconds": 8.937,
+        "source_fingerprint": "9cdab0244cdb7efcb6ec81e5e1d6319600c2f8c53428518fe0fb90bd4000387f",
+        "candidate_sha256": "b51493e98822a8a10753c3f32698ee4c6467808f8fb5c589aade342fb6dc40a1",
+        "locked_build_attestation": "rust/artifacts/20261107T053252344342Z-build.attestation.json",
+        "cumulative_gate": "rust/artifacts/strict-gate-illogic-tense-20261107.json",
+        "duration_seconds": 8.891599
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 6,
+        "report": "rust/artifacts/independent-illogic-tense-final-20261107/rule-misc-tense_present.live-report.json",
+        "duration_seconds": 8.527,
+        "oracle_integrity": "verified before and after",
+        "agent_model": "gpt-6-luna (parity_verifier role)",
+        "agent_effort": "high; low was requested but role fixed high",
+        "agent_runtime_metadata": "unavailable"
+      },
+      "agent_model": "gpt-6-luna",
+      "agent_reasoning_effort": "Low requested; parity_verifier role configured high; runtime metadata unavailable. No low-effort claim.",
+      "source_fingerprint": "9cdab0244cdb7efcb6ec81e5e1d6319600c2f8c53428518fe0fb90bd4000387f",
+      "candidate_sha256": "b51493e98822a8a10753c3f32698ee4c6467808f8fb5c589aade342fb6dc40a1",
+      "candidate_attestation": "rust/artifacts/20261107T053252344342Z-build.attestation.json",
+      "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d052b3136",
+      "stage_durations_seconds": {
+        "red_unsupported_route": null,
+        "focused_rust_tests_wall": 0.756,
+        "owner_live": 8.891599,
+        "independent_live": 8.527,
+        "comparator_self_tests": 0.6,
+        "cumulative_gate": 243.578882,
+        "locked_build_attestation": null,
+        "harness_unit_suite": 41.099,
+        "locked_format": 0.808,
+        "locked_clippy": 0.252,
+        "locked_cargo_tests": 9.666,
+        "locked_build": 0.226
+      },
+      "stage_case_counts": {
+        "red_failing_rust_tests": 5,
+        "focused_rust_tests_passed": 5,
+        "owner_live_passed": 6,
+        "independent_live_passed": 6,
+        "comparator_self_tests_passed": 23,
+        "cumulative_gate_passed": 824,
+        "harness_tests_passed": 65,
+        "cumulative_gate_capabilities": 92
+      },
+      "comparator_self_test_status": "PASS",
+      "pre_gate_status": "PASS",
+      "implementation_source_sha256": "d6bd93a34712935437a20d25ec86e9642e11671d35b880f04010322385fb374a",
+      "test_source_sha256": "a5b757e676b8a73e92e38f058aa801832e4f5f7e4a33a26e494830698e407ec4",
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-illogic-tense-20261107.json",
+        "started_at_utc": "2026-11-07T05:33:03.728505+00:00",
+        "finished_at_utc": "2026-11-07T05:37:07.307387+00:00",
+        "duration_seconds": 243.578882,
+        "passed_cases": 824,
+        "manifest_cases": 830,
+        "capabilities": 92,
+        "source_fingerprint": "9cdab0244cdb7efcb6ec81e5e1d6319600c2f8c53428518fe0fb90bd4000387f",
+        "candidate_sha256": "b51493e98822a8a10753c3f32698ee4c6467808f8fb5c589aade342fb6dc40a1",
+        "oracle_integrity": "verified",
+        "comparator_self_tests": 23
+      },
+      "source_sha256": "d6bd93a34712935437a20d25ec86e9642e11671d35b880f04010322385fb374a"
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-mixed-misc-ras-20261107.json",
-    "passed_cases": 812,
-    "manifest_cases": 818,
+    "report": "rust/artifacts/strict-gate-illogic-tense-20261107.json",
+    "passed_cases": 824,
+    "manifest_cases": 830,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
       "cli.config.per_file_checks": 4
     },
     "exit_code": 0,
-    "capability_count": 90,
-    "source_fingerprint": "2a93e0fd9ae34bdcc544289fa02ea48cb349a8a643ca10a248932d59305aa5ec",
-    "run_id": "20261107T044231150905Z-21d465ca",
-    "started_at_utc": "2026-11-07T04:42:31.150875+00:00",
-    "finished_at_utc": "2026-11-07T04:46:40.097114+00:00",
-    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261107T044218920964Z-build.attestation.json",
-    "candidate_sha256": "1785d28897ec2a758873587424abff4656a33cb29d43ebb0d086185609d27ea2",
-    "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
-    "duration_seconds": 248.946239,
-    "scope_note": "Shared CLI route checkpoint includes mixed_metaphors.misc and redundancy.ras_syndrome plus the previously accepted scope; two harness smoke and four per-file-config cases excluded."
+    "capability_count": 92,
+    "source_fingerprint": "9cdab0244cdb7efcb6ec81e5e1d6319600c2f8c53428518fe0fb90bd4000387f",
+    "run_id": "20261107T053303728535Z-10e714c3",
+    "started_at_utc": "2026-11-07T05:33:03.728505+00:00",
+    "finished_at_utc": "2026-11-07T05:37:07.307387+00:00",
+    "candidate_attestation": "rust/artifacts/20261107T053252344342Z-build.attestation.json",
+    "candidate_sha256": "b51493e98822a8a10753c3f32698ee4c6467808f8fb5c589aade342fb6dc40a1",
+    "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d052b3136",
+    "duration_seconds": 243.578882,
+    "scope_note": "Shared CLI route checkpoint includes misc.illogic and misc.tense_present; excludes two harness smoke and four per-file-config cases.",
+    "build_stage_durations_seconds": {
+      "fmt_check": 0.808,
+      "clippy": 0.252,
+      "cargo_test": 9.666,
+      "cargo_build": 0.226
+    }
   },
   "rust_dependencies": {
     "status": "current",
     "toolchain": "1.99.1",
     "registry": "crates.io",
-    "latest_checked": "2026-11-07T02:59:56Z",
+    "latest_checked": "2026-11-07T05:37:51Z",
     "locked_versions": {
       "clap": "4.6.7",
       "serde": "1.0.229",
@@ -5930,11 +6152,11 @@
       "packages_to_update": 0,
       "command": "rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo update --dry-run --manifest-path rust/Cargo.toml",
       "rust_version_constraint": "1.99",
-      "checked_after_gate": "2026-11-07T02:59:56Z",
-      "evidence": "rust/artifacts/rust-dependency-dry-run-postfix-20261107.txt"
+      "checked_after_gate": "2026-11-07T05:37:51Z",
+      "evidence": "rust/artifacts/rust-dependency-dry-run-latest-20261107.txt"
     }
   },
-  "next_capability_handoff": "Continue from the remaining unimplemented inventory. Keep rule modules isolated, require focused live and independent verification for every capability, and run the next cumulative gate after 5–10 accepted capabilities unless shared behavior changes.",
+  "next_capability_handoff": "Continue from the remaining unimplemented inventory. Keep rule modules isolated, require focused live and independent verification for every capability, and run the next cumulative gate after 5\u201310 accepted capabilities unless shared behavior changes.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",
@@ -6022,6 +6244,15 @@
       "configured_effort": "low",
       "runtime_dispatch_metadata": "unavailable",
       "evidence": "rust/artifacts/independent-mixed-misc-ras-luna-low-20261107/verification.json"
+    },
+    "latest_independent_verifier": {
+      "role": "parity_verifier",
+      "configured_model": "gpt-6-luna",
+      "configured_effort": "high",
+      "runtime_dispatch_metadata": "unavailable",
+      "requested_effort": "low",
+      "low_effort_effective": false,
+      "evidence": "rust/artifacts/independent-illogic-tense-final-20261107/verification.md"
     }
   }
 }

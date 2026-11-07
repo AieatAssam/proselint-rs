@@ -2,6 +2,8 @@ pub mod archaism;
 pub mod dash_and_from;
 pub mod exclamation;
 pub mod hyperbole;
+pub mod misc_illogic;
+pub mod misc_tense_present;
 pub mod misc_waxed;
 pub mod misplaced;
 pub mod mixed_metaphors_bottleneck;

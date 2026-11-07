@@ -328,6 +328,161 @@ class ComparatorTests(unittest.TestCase):
                     output = json.loads(Path(result["executions"][0]["stdout_path"]).read_text(encoding="utf-8"))
                     self.assertEqual(output["result"]["<stdin>"]["diagnostics"], expected_diagnostics)
 
+    def test_mixed_metaphors_misc_cases_match_pinned_oracle(self) -> None:
+        cases = {case["id"]: case for case in compare.load_manifest()["cases"]}
+        cases_expected = {
+            "mixed_misc_all_five_items_and_regex_alternatives": (
+                "cream rises to the crop; button your seatbelts; a minute to decompose; sharpest marble in the shed; sharpest marble in the box; not rocket surgery.",
+                1000,
+                [
+                    ("cream rises to the top", [1, 24]),
+                    ("fasten your seatbelts", [26, 47]),
+                    ("a minute to decompress", [49, 70]),
+                    (None, [72, 99]),
+                    (None, [101, 127]),
+                    ("not rocket science", [129, 147]),
+                ],
+            ),
+            "mixed_misc_correct_forms_and_near_misses": (
+                "cream rises to the top; fasten your seatbelts; a minute to decompress; sharpest tool in the shed; sharpest marble in the barn; not rocket science; not rocket surgeon; rocket surgery.",
+                1000,
+                [],
+            ),
+            "mixed_misc_case_and_duplicate_occurrences": (
+                "CREAM rises to the crop; not rocket surgery; NOT ROCKET SURGERY; a minute to decompose.",
+                1000,
+                [
+                    ("cream rises to the top", [1, 24]),
+                    ("not rocket science", [26, 44]),
+                    ("not rocket science", [46, 64]),
+                    ("a minute to decompress", [66, 87]),
+                ],
+            ),
+            "mixed_misc_quote_suppression": (
+                'They wrote "not rocket surgery" and \'cream rises to the crop\'.',
+                1000,
+                [],
+            ),
+            "mixed_misc_unicode_coordinates": (
+                "é😀 cream rises to the crop.",
+                1000,
+                [("cream rises to the top", [4, 27])],
+            ),
+            "mixed_misc_max_errors_interleaved_pattern_groups": (
+                "not rocket surgery; cream rises to the crop; not rocket surgery",
+                2,
+                [("not rocket science", [1, 19]), ("not rocket science", [46, 64])],
+            ),
+        }
+        self.assertEqual(
+            {case_id for case_id, case in cases.items() if case["capability_id"] == "rule.mixed_metaphors.misc"},
+            set(cases_expected),
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            reference = compare.default_reference_argv()
+            for case_id, (input_text, limit, expected) in cases_expected.items():
+                with self.subTest(case=case_id):
+                    case = cases[case_id]
+                    self.assertEqual(base64.b64decode(case["stdin_base64"]).decode(), input_text)
+                    config = json.loads(base64.b64decode(case["files"][0]["content_base64"]))
+                    self.assertEqual(config["max_errors"], limit)
+                    result = compare.run_case(case, reference, reference, Path(directory), None)
+                    self.assertEqual(result["status"], "PASS", result)
+                    output = json.loads(Path(result["executions"][0]["stdout_path"]).read_text(encoding="utf-8"))
+                    actual = output["result"]["<stdin>"]["diagnostics"]
+                    expected_diagnostics = [
+                        {
+                            "check_path": "mixed_metaphors.misc",
+                            "message": "Mixed metaphor. Try 'None'." if replacement is None else f"Mixed metaphor. Try '{replacement}'.",
+                            "pos": [1, span[0]],
+                            "replacements": replacement,
+                            "span": span,
+                        }
+                        for replacement, span in expected
+                    ]
+                    self.assertEqual(actual, expected_diagnostics)
+
+    def test_ras_syndrome_cases_match_pinned_oracle(self) -> None:
+        cases = {case["id"]: case for case in compare.load_manifest()["cases"]}
+        all_twenty = "abm missile; act test; abm missiles; abs braking system; atm machine; cd disc; cpi Index; gps system; gui interface; hiv virus; isbn number; lcd display; pdf format; pin number; ras syndrome; rip in peace; please RSVP; salT talks; sat test; upc codes."
+        outcomes = {
+            "ras_syndrome_all_twenty_mappings": (
+                all_twenty, 1000,
+                [
+                    ("abm missile", "ABM", [1, 12]),
+                    ("act test", "ACT", [14, 22]),
+                    ("abm missile", "ABM", [24, 35]),
+                    ("abm missiles", "ABMs", [24, 36]),
+                    ("abs braking system", "ABS", [38, 56]),
+                    ("atm machine", "ATM", [58, 69]),
+                    ("cd disc", "CD", [71, 78]),
+                    ("cpi Index", None, [80, 89]),
+                    ("gps system", "GPS", [91, 101]),
+                    ("gui interface", "GUI", [103, 116]),
+                    ("hiv virus", "HIV", [118, 127]),
+                    ("isbn number", "ISBN", [129, 140]),
+                    ("lcd display", "LCD", [142, 153]),
+                    ("pdf format", "PDF", [155, 165]),
+                    ("pin number", "PIN", [167, 177]),
+                    ("ras syndrome", "RAS", [179, 191]),
+                    ("rip in peace", "RIP", [193, 205]),
+                    ("please RSVP", None, [207, 218]),
+                    ("salT talks", None, [220, 230]),
+                    ("sat test", "SAT", [232, 240]),
+                    ("upc codes", "UPC", [242, 251]),
+                ],
+            ),
+            "ras_syndrome_correct_forms_clean": (
+                "ABM; ACT; ABMs; ABS; ATM; CD; CPI; GPS; GUI; HIV; ISBN; LCD; PDF; PIN; RAS; RIP; RSVP; SALT; SAT; UPC.",
+                1000, [],
+            ),
+            "ras_syndrome_case_and_duplicate_occurrences": (
+                "ABM missile; abm missile; PIN number; pin NUMBER.", 1000,
+                [("ABM missile", "ABM", [1, 12]), ("abm missile", "ABM", [14, 25]), ("PIN number", "PIN", [27, 37]), ("pin NUMBER", "PIN", [39, 49])],
+            ),
+            "ras_syndrome_mixed_case_source_key_lookup": (
+                "cpi Index; please RSVP; salT talks; CPI INDEX; PLEASE RSVP; SALT TALKS.", 1000,
+                [("cpi Index", None, [1, 10]), ("please RSVP", None, [12, 23]), ("salT talks", None, [25, 35]), ("CPI INDEX", None, [37, 46]), ("PLEASE RSVP", None, [48, 59]), ("SALT TALKS", None, [61, 71])],
+            ),
+            "ras_syndrome_quote_suppression": ('He said "pin number" and \'abm missile\'.', 1000, []),
+            "ras_syndrome_unicode_coordinates": ("é😀 pin number.", 1000, [("pin number", "PIN", [4, 14])]),
+            "ras_syndrome_interleaved_pattern_group_limit_two": (
+                "pin number; atm machine; PIN NUMBER", 2,
+                [("pin number", "PIN", [1, 11]), ("PIN NUMBER", "PIN", [26, 36])],
+            ),
+            "ras_syndrome_plural_overlap_when_only_plural_activates": (
+                "abm missiles", 1000, [("abm missiles", "ABMs", [1, 13])],
+            ),
+        }
+        expected_ids = set(outcomes)
+        self.assertEqual(
+            {case_id for case_id, case in cases.items() if case["capability_id"] == "rule.redundancy.ras_syndrome"},
+            expected_ids,
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            reference = compare.default_reference_argv()
+            for case_id, (input_text, limit, expected) in outcomes.items():
+                with self.subTest(case=case_id):
+                    case = cases[case_id]
+                    self.assertEqual(base64.b64decode(case["stdin_base64"]).decode(), input_text)
+                    config = json.loads(base64.b64decode(case["files"][0]["content_base64"]))
+                    self.assertEqual(config["max_errors"], limit)
+                    result = compare.run_case(case, reference, reference, Path(directory), None)
+                    self.assertEqual(result["status"], "PASS", result)
+                    output = json.loads(Path(result["executions"][0]["stdout_path"]).read_text(encoding="utf-8"))
+                    actual = output["result"]["<stdin>"]["diagnostics"]
+                    expected_diagnostics = [
+                        {
+                            "check_path": "redundancy.ras_syndrome",
+                            "message": f"RAS syndrome. Use '{replacement if replacement is not None else 'None'}' instead of '{surface}'.",
+                            "pos": [1, span[0]],
+                            "replacements": replacement,
+                            "span": span,
+                        }
+                        for surface, replacement, span in expected
+                    ]
+                    self.assertEqual(actual, expected_diagnostics)
+
     def test_source_fingerprint_ignores_docs_and_status_but_tracks_inputs(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -1096,13 +1251,15 @@ class ComparatorTests(unittest.TestCase):
         expected_case_ids.update({"weasel_very_positive_ordinary_case", "weasel_very_well_exclusions", "weasel_very_tabs_and_newlines", "weasel_very_unicode_letter_boundary", "weasel_very_quote_suppression", "weasel_very_max_errors_one", "weasel_very_combining_mark_and_ascii_boundaries", "weasel_very_multiline_position", "weasel_very_u1c89_leading", "weasel_very_u1c89_trailing", "weasel_very_u0345_leading", "weasel_very_u0345_trailing", "weasel_very_u05b0_leading", "weasel_very_u05b0_trailing"})
         expected_case_ids.update({"jargon_interleave_limit_two", "hedging_interleave_limit_two"})
         expected_case_ids.update({"waxed_all_64_form_modifier_pairs", "waxed_correct_adjectives_clean", "waxed_raw_activation_and_case_boundaries", "waxed_quote_suppression", "waxed_max_errors_one", "waxed_pattern_group_truncation", "waxed_unicode_coordinates", "bottleneck_all_seven_phrases", "bottleneck_clean_and_near_boundary", "bottleneck_case_duplicates_and_overlap", "bottleneck_quote_suppression", "bottleneck_max_errors_one", "bottleneck_max_errors_interleaved_pattern_order", "bottleneck_pattern_group_truncation", "bottleneck_unicode_coordinates"})
+        expected_case_ids.update({"mixed_misc_all_five_items_and_regex_alternatives", "mixed_misc_correct_forms_and_near_misses", "mixed_misc_case_and_duplicate_occurrences", "mixed_misc_quote_suppression", "mixed_misc_unicode_coordinates", "mixed_misc_max_errors_interleaved_pattern_groups"})
+        expected_case_ids.update({"ras_syndrome_all_twenty_mappings", "ras_syndrome_correct_forms_clean", "ras_syndrome_case_and_duplicate_occurrences", "ras_syndrome_mixed_case_source_key_lookup", "ras_syndrome_quote_suppression", "ras_syndrome_unicode_coordinates", "ras_syndrome_interleaved_pattern_group_limit_two", "ras_syndrome_plural_overlap_when_only_plural_activates"})
         self.assertEqual({item["id"] for item in manifest["cases"]}, expected_case_ids)
         self.assertEqual(len(manifest["cases"]), len(expected_case_ids))
 
         self.assertEqual(
             {capability: sum(case["capability_id"] == capability for case in manifest["cases"])
              for capability in {case["capability_id"] for case in manifest["cases"]}},
-            {'rule.misc.debased': 13, 'rule.misc.capitalization.days': 10, 'rule.cliches.hell': 7, 'harness.oracle_smoke': 2, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.dates_times.am_pm.midnight_noon': 10, 'rule.dates_times.dates.decade_apostrophes': 10, 'rule.misc.narcissism': 9, 'rule.misc.latin': 10, 'rule.misc.back_formations': 8, 'rule.misc.capitalization.terms': 10, 'rule.industrial_language.airlinese': 12, 'cli.json_no_findings': 8, 'rule.misc.phrasal_adjectives.ly': 7, 'rule.misc.greylist': 9, 'rule.misc.many_a': 10, 'cli.output_format.full': 3, 'cli.config.ignored_values': 5, 'rule.misc.professions': 8, 'cli.config.cwd_discovery': 3, 'cli.config.ancestor_discovery': 5, 'rule.misc.illogic.coin': 7, 'rule.hedging': 14, 'cli.config.invalid_utf8': 5, 'rule.misc.whence': 6, 'rule.annotations.misc': 10, 'rule.typography.symbols.sentence_spacing': 7, 'cli.config.consumed_special_values': 12, 'cli.config.malformed_json': 22, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.copyright': 6, 'rule.misc.pretension': 9, 'cli.config.recursion_depth': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.misc.institution_name': 8, 'rule.misc.currency': 12, 'rule.misc.suddenly': 7, 'cli.coordinates': 6, 'rule.misc.but': 8, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.collusion': 7, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.capitalization.seasons': 10, 'cli.config.directory_path': 4, 'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 10, 'rule.misc.inferior_superior': 12, 'rule.misc.false_plurals.misc': 9, 'cli.config.per_file_checks': 4, 'rule.redundancy.misc.wallace': 10, 'rule.dates_times.am_pm.spacing': 8, 'rule.typography.symbols.ellipsis': 6, 'rule.psychology.lie_detector': 12, 'rule.industrial_language.jargon': 11, 'cli.config.user_discovery': 8, 'rule.misc.capitalization.months': 6, 'rule.psychology.p_equals_zero': 8, 'spelling.ance_ence': 10, 'rule.misc.composition': 38, 'cli.combined_checks': 3, 'rule.terms.eponymous_adjectives': 4, 'rule.spelling.ally_ly': 10, 'rule.spelling.ely_ly': 9, 'rule.spelling.ve_of': 11, 'rule.malapropisms': 10, 'rule.spelling.in_un': 10, 'rule.mondegreens': 10, 'rule.skunked_terms': 11, 'rule.oxymorons': 16, 'rule.redundancy.misc.nordquist': 11, 'rule.misc.not_guilty': 4, 'spelling.er_or': 8, 'spelling.able_ible': 9, 'spelling.able_atable': 8, 'spelling.em_im_en_in': 8, 'spelling.athletes': 29, 'rule.archaism': 13, 'rule.dates_times.dates.month_year_comma': 8, 'rule.dates_times.dates.dash_and_from': 13, 'rule.dates_times.dates.month_of_year': 3, 'rule.misc.scare_quotes': 3, 'rule.typography.punctuation.hyperbole': 3, 'rule.typography.punctuation.misplaced': 3, 'rule.typography.punctuation.exclamation': 4, 'rule.social_awareness.nword': 8, 'rule.typography.symbols.curly_quotes': 9, 'rule.weasel_words.very': 14, 'rule.misc.waxed': 7, 'rule.mixed_metaphors.bottleneck': 8},
+            {'rule.misc.debased': 13, 'rule.misc.capitalization.days': 10, 'rule.cliches.hell': 7, 'harness.oracle_smoke': 2, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.dates_times.am_pm.midnight_noon': 10, 'rule.dates_times.dates.decade_apostrophes': 10, 'rule.misc.narcissism': 9, 'rule.misc.latin': 10, 'rule.misc.back_formations': 8, 'rule.misc.capitalization.terms': 10, 'rule.industrial_language.airlinese': 12, 'cli.json_no_findings': 8, 'rule.misc.phrasal_adjectives.ly': 7, 'rule.misc.greylist': 9, 'rule.misc.many_a': 10, 'cli.output_format.full': 3, 'cli.config.ignored_values': 5, 'rule.misc.professions': 8, 'cli.config.cwd_discovery': 3, 'cli.config.ancestor_discovery': 5, 'rule.misc.illogic.coin': 7, 'rule.hedging': 14, 'cli.config.invalid_utf8': 5, 'rule.misc.whence': 6, 'rule.annotations.misc': 10, 'rule.typography.symbols.sentence_spacing': 7, 'cli.config.consumed_special_values': 12, 'cli.config.malformed_json': 22, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.copyright': 6, 'rule.misc.pretension': 9, 'cli.config.recursion_depth': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.misc.institution_name': 8, 'rule.misc.currency': 12, 'rule.misc.suddenly': 7, 'cli.coordinates': 6, 'rule.misc.but': 8, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.collusion': 7, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.capitalization.seasons': 10, 'cli.config.directory_path': 4, 'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 10, 'rule.misc.inferior_superior': 12, 'rule.misc.false_plurals.misc': 9, 'cli.config.per_file_checks': 4, 'rule.redundancy.misc.wallace': 10, 'rule.dates_times.am_pm.spacing': 8, 'rule.typography.symbols.ellipsis': 6, 'rule.psychology.lie_detector': 12, 'rule.industrial_language.jargon': 11, 'cli.config.user_discovery': 8, 'rule.misc.capitalization.months': 6, 'rule.psychology.p_equals_zero': 8, 'spelling.ance_ence': 10, 'rule.misc.composition': 38, 'cli.combined_checks': 3, 'rule.terms.eponymous_adjectives': 4, 'rule.spelling.ally_ly': 10, 'rule.spelling.ely_ly': 9, 'rule.spelling.ve_of': 11, 'rule.malapropisms': 10, 'rule.spelling.in_un': 10, 'rule.mondegreens': 10, 'rule.skunked_terms': 11, 'rule.oxymorons': 16, 'rule.redundancy.misc.nordquist': 11, 'rule.misc.not_guilty': 4, 'spelling.er_or': 8, 'spelling.able_ible': 9, 'spelling.able_atable': 8, 'spelling.em_im_en_in': 8, 'spelling.athletes': 29, 'rule.archaism': 13, 'rule.dates_times.dates.month_year_comma': 8, 'rule.dates_times.dates.dash_and_from': 13, 'rule.dates_times.dates.month_of_year': 3, 'rule.misc.scare_quotes': 3, 'rule.typography.punctuation.hyperbole': 3, 'rule.typography.punctuation.misplaced': 3, 'rule.typography.punctuation.exclamation': 4, 'rule.social_awareness.nword': 8, 'rule.typography.symbols.curly_quotes': 9, 'rule.weasel_words.very': 14, 'rule.misc.waxed': 7, 'rule.mixed_metaphors.bottleneck': 8, 'rule.mixed_metaphors.misc': 6, 'rule.redundancy.ras_syndrome': 8},
         )
 
         archaism = [case for case in manifest["cases"] if case["capability_id"] == "rule.archaism"]

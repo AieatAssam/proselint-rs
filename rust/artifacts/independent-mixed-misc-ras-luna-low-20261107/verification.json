@@ -1,0 +1,105 @@
+{
+  "baseline": {
+    "integrity_before_and_after": "verified for both live comparison runs",
+    "package": "proselint 0.16.0",
+    "python_version": "3.12.3",
+    "reference_executable_sha256": "b5f88a67377a8f3c32e1bffc41ca96fd8c111b127427459ffb2184e74c99af77",
+    "revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+    "source_tree_sha256": "73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831"
+  },
+  "candidate": {
+    "attestation_path": "/home/dev/proselint-rs/rust/artifacts/20261107T042859812178Z-build.attestation.json",
+    "attestation_sha256": "e5cd2f80edfabdb26694808a6ad2127e91269d1a126153d3fd149d30b4b4b201",
+    "attested_cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
+    "attested_source_fingerprint": "2a93e0fd9ae34bdcc544289fa02ea48cb349a8a643ca10a248932d59305aa5ec",
+    "binary_path": "/home/dev/proselint-rs/rust/target/debug/proselint",
+    "binary_sha256": "1785d28897ec2a758873587424abff4656a33cb29d43ebb0d086185609d27ea2",
+    "toolchain": "1.99.1"
+  },
+  "commands": [
+    "python3 rust/harness/compare.py --capability rule.mixed_metaphors.misc --live --report rust/artifacts/independent-mixed-misc-ras-luna-low-20261107/mixed-misc.json --candidate-argv-json [\"/home/dev/proselint-rs/rust/target/debug/proselint\"] --candidate-attestation rust/artifacts/20261107T042859812178Z-build.attestation.json",
+    "python3 rust/harness/compare.py --capability rule.redundancy.ras_syndrome --live --report rust/artifacts/independent-mixed-misc-ras-luna-low-20261107/ras-syndrome.json --candidate-argv-json [\"/home/dev/proselint-rs/rust/target/debug/proselint\"] --candidate-attestation rust/artifacts/20261107T042859812178Z-build.attestation.json"
+  ],
+  "comparator_self_test": {
+    "command": "python3 rust/harness/compare.py --self-test",
+    "passed": 23,
+    "status": "PASS",
+    "total": 23
+  },
+  "configured_agent_role": "rust_builder",
+  "configured_effort": "low",
+  "configured_model": "gpt-6-luna",
+  "focused_live": {
+    "mixed_metaphors.misc": {
+      "candidate_errors": 0,
+      "case_count": 6,
+      "case_ids": [
+        "mixed_misc_all_five_items_and_regex_alternatives",
+        "mixed_misc_correct_forms_and_near_misses",
+        "mixed_misc_case_and_duplicate_occurrences",
+        "mixed_misc_quote_suppression",
+        "mixed_misc_unicode_coordinates",
+        "mixed_misc_max_errors_interleaved_pattern_groups"
+      ],
+      "elapsed_seconds": 11.78535,
+      "mismatches": 0,
+      "oracle_errors": 0,
+      "oracle_integrity": "verified",
+      "oracle_integrity_before_and_after": "verified; comparator checked before and after each run",
+      "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+      "oracle_source_sha256": "73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831",
+      "passed": 6,
+      "report": "rust/artifacts/independent-mixed-misc-ras-luna-low-20261107/mixed-misc.json",
+      "status": "PASS",
+      "timeouts": 0
+    },
+    "redundancy.ras_syndrome": {
+      "candidate_errors": 0,
+      "case_count": 8,
+      "case_ids": [
+        "ras_syndrome_all_twenty_mappings",
+        "ras_syndrome_correct_forms_clean",
+        "ras_syndrome_case_and_duplicate_occurrences",
+        "ras_syndrome_mixed_case_source_key_lookup",
+        "ras_syndrome_quote_suppression",
+        "ras_syndrome_unicode_coordinates",
+        "ras_syndrome_interleaved_pattern_group_limit_two",
+        "ras_syndrome_plural_overlap_when_only_plural_activates"
+      ],
+      "elapsed_seconds": 12.613947,
+      "mismatches": 0,
+      "oracle_errors": 0,
+      "oracle_integrity": "verified",
+      "oracle_integrity_before_and_after": "verified; comparator checked before and after each run",
+      "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+      "oracle_source_sha256": "73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831",
+      "passed": 8,
+      "report": "rust/artifacts/independent-mixed-misc-ras-luna-low-20261107/ras-syndrome.json",
+      "status": "PASS",
+      "timeouts": 0
+    }
+  },
+  "mismatch_count": 0,
+  "notes": "Independent review only; no source, fixture, expectation, or harness changes were made. Additional adversarial probes were skipped because the calibrated manifest cases cover the specified edge behavior.",
+  "reviewed_rust_sources": [
+    "rust/src/rules/mixed_metaphors_misc.rs",
+    "rust/src/rules/redundancy_ras_syndrome.rs",
+    "rust/src/main.rs"
+  ],
+  "reviewed_upstream_sources": [
+    "proselint/checks/mixed_metaphors.py",
+    "proselint/checks/redundancy/ras_syndrome.py"
+  ],
+  "runtime_model_metadata": "not exposed; role configuration is recorded but effective runtime dispatch cannot be independently confirmed",
+  "schema_version": 1,
+  "source_fingerprint_before_and_after": {
+    "after": "2a93e0fd9ae34bdcc544289fa02ea48cb349a8a643ca10a248932d59305aa5ec",
+    "attestation": "2a93e0fd9ae34bdcc544289fa02ea48cb349a8a643ca10a248932d59305aa5ec",
+    "before": "2a93e0fd9ae34bdcc544289fa02ea48cb349a8a643ca10a248932d59305aa5ec"
+  },
+  "status": "PASS",
+  "verification_scope": [
+    "mixed_metaphors.misc",
+    "redundancy.ras_syndrome"
+  ]
+}

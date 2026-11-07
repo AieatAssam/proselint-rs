@@ -354,6 +354,14 @@
     {
       "id": "rule.mixed_metaphors.bottleneck",
       "status": "recorded"
+    },
+    {
+      "id": "rule.mixed_metaphors.misc",
+      "status": "recorded"
+    },
+    {
+      "id": "rule.redundancy.ras_syndrome",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -408,7 +416,7 @@
     }
   },
   "active_ownership": {
-    "current": "Two default-enabled rules accepted after independent verification and the shared-CLI cumulative gate passed 798/798 across 88 capabilities. Continue with the next unimplemented default-enabled inventory item; next cumulative gate after 5–10 accepted capabilities or any shared behavior change.",
+    "current": "mixed_metaphors.misc and redundancy.ras_syndrome are accepted after focused and independent verification; the shared CLI cumulative gate passed 812/812 across 90 capabilities.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -5680,28 +5688,228 @@
         "oracle_integrity": "verified",
         "comparator_self_tests": 23
       }
+    },
+    {
+      "id": "rule.mixed_metaphors.misc",
+      "status": "recorded",
+      "case_ids": [
+        "mixed_misc_all_five_items_and_regex_alternatives",
+        "mixed_misc_correct_forms_and_near_misses",
+        "mixed_misc_case_and_duplicate_occurrences",
+        "mixed_misc_quote_suppression",
+        "mixed_misc_unicode_coordinates",
+        "mixed_misc_max_errors_interleaved_pattern_groups"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_source": "proselint/checks/mixed_metaphors.py; pinned BSD-3-Clause repo, with Garner attribution retained in module",
+      "upstream_spec": "Fast PreferredFormsSimple with five ordered mappings, including the regex key `sharpest marble in the (shed|box)`, whose actual match surface does not map back to the source key; case-insensitive, WORDS_IN_TEXT, quote suppression, 0 offset.",
+      "specification": {
+        "live_cases": 6,
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "oracle_source_sha256": "73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831",
+        "oracle_integrity": "verified before and after",
+        "oracle_case_report": "rust/artifacts/mixed-misc-oracle-selfcheck-20261107.json",
+        "source_fingerprint": "2a93e0fd9ae34bdcc544289fa02ea48cb349a8a643ca10a248932d59305aa5ec"
+      },
+      "implementation": "Matches activation patterns before raw patterns, uses exact lowercased source-key lookup (preserving the pinned None replacement for regex alternatives), and emits active pattern groups by first occurrence.",
+      "red": {
+        "status": "MISMATCH",
+        "details": {
+          "unsupported_cli_test_functions": 4,
+          "duration_seconds": 0.98,
+          "behavioral_defect": "none after calibrated contract; unsupported route was the expected initial RED"
+        }
+      },
+      "green": {
+        "status": "PASS",
+        "focused_rust_tests": 4,
+        "focused_live_cases": 6,
+        "focused_live_report": "rust/artifacts/mixed-misc-owner-focused.json",
+        "source_fingerprint": "2a93e0fd9ae34bdcc544289fa02ea48cb349a8a643ca10a248932d59305aa5ec",
+        "candidate_sha256": "1785d28897ec2a758873587424abff4656a33cb29d43ebb0d086185609d27ea2"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 6,
+        "report": "rust/artifacts/independent-mixed-misc-ras-luna-low-20261107/mixed-misc.json",
+        "duration_seconds": 11.785,
+        "oracle_integrity": "verified before and after",
+        "agent_model": "gpt-6-luna",
+        "agent_effort": "low configured role",
+        "agent_runtime_metadata": "unavailable"
+      },
+      "agent_model": "gpt-6-luna",
+      "agent_reasoning_effort": "low configured for implementation/verifier role; oracle engineer role was configured high",
+      "agent_runtime_metadata": "unavailable; an initial explicitly selected default verifier self-reported gpt-6.1-sol/high and was excluded; final independent verification used rust_builder role configured gpt-6-luna/low",
+      "source_fingerprint": "2a93e0fd9ae34bdcc544289fa02ea48cb349a8a643ca10a248932d59305aa5ec",
+      "candidate_sha256": "1785d28897ec2a758873587424abff4656a33cb29d43ebb0d086185609d27ea2",
+      "candidate_attestation": "rust/artifacts/20261107T042859812178Z-build.attestation.json",
+      "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d052b3136",
+      "stage_durations_seconds": {
+        "oracle_live_selfcheck": 11.961,
+        "red_unsupported_route": 0.98,
+        "focused_rust_tests": 0.4,
+        "focused_owner_live": 12.865547,
+        "independent_live": 11.785,
+        "locked_build_attestation": 39.0,
+        "harness_unit_suite": 41.819,
+        "comparator_self_tests": 0.6,
+        "cumulative_gate": 248.946239
+      },
+      "stage_case_counts": {
+        "oracle_selfcheck_passed": 6,
+        "red_failing_rust_tests": 4,
+        "focused_rust_tests_passed": 4,
+        "owner_live_passed": 6,
+        "independent_live_passed": 6,
+        "harness_tests_passed": 64,
+        "comparator_self_tests_passed": 23,
+        "cumulative_gate_passed": 812,
+        "cumulative_gate_capabilities": 90
+      },
+      "comparator_self_test_status": "PASS",
+      "pre_gate_status": "shared_cli_gate_pending",
+      "implementation_source_sha256": "a9252a26ed62c807745d262537dbe898fb0eddf0d8826a1beb4a595e149a27ec",
+      "test_source_sha256": "453592b9a8892ba6efe9dcb5ef796ade15fa892d778fa9e427d4e583623417da",
+      "source_sha256": "a9252a26ed62c807745d262537dbe898fb0eddf0d8826a1beb4a595e149a27ec",
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-mixed-misc-ras-20261107.json",
+        "started_at_utc": "2026-11-07T04:42:31.150875+00:00",
+        "finished_at_utc": "2026-11-07T04:46:40.097114+00:00",
+        "duration_seconds": 248.946239,
+        "passed_cases": 812,
+        "manifest_cases": 818,
+        "capabilities": 90,
+        "source_fingerprint": "2a93e0fd9ae34bdcc544289fa02ea48cb349a8a643ca10a248932d59305aa5ec",
+        "candidate_sha256": "1785d28897ec2a758873587424abff4656a33cb29d43ebb0d086185609d27ea2",
+        "oracle_integrity": "verified",
+        "comparator_self_tests": 23
+      }
+    },
+    {
+      "id": "rule.redundancy.ras_syndrome",
+      "status": "recorded",
+      "case_ids": [
+        "ras_syndrome_all_twenty_mappings",
+        "ras_syndrome_correct_forms_clean",
+        "ras_syndrome_case_and_duplicate_occurrences",
+        "ras_syndrome_mixed_case_source_key_lookup",
+        "ras_syndrome_quote_suppression",
+        "ras_syndrome_unicode_coordinates",
+        "ras_syndrome_interleaved_pattern_group_limit_two",
+        "ras_syndrome_plural_overlap_when_only_plural_activates"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_source": "proselint/checks/redundancy/ras_syndrome.py; pinned BSD-3-Clause repository, no separate third-party data attribution in the source",
+      "upstream_spec": "Fast PreferredFormsSimple with 20 mappings. Three mixed-case keys produce None replacements after the pinned lowercase lookup; raw matching allows `abm missile` within `abm missiles`; quote suppression, case-insensitive boundaries, Unicode codepoint coordinates, active-pattern ordering and max_errors are preserved.",
+      "specification": {
+        "live_cases": 8,
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "oracle_source_sha256": "73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831",
+        "oracle_integrity": "verified before and after",
+        "oracle_case_report": "rust/artifacts/ras-syndrome-oracle-selfcheck-20261107.json",
+        "source_fingerprint": "2a93e0fd9ae34bdcc544289fa02ea48cb349a8a643ca10a248932d59305aa5ec"
+      },
+      "implementation": "Uses the original map after lowercasing the match surface, preserving exactly the pinned misses for mixed-case source keys and overlapping raw matches.",
+      "red": {
+        "status": "MISMATCH",
+        "details": {
+          "unsupported_cli_tests": 8,
+          "behavioral_assertions_failed_before_lookup_fix": 5,
+          "failure": "The initial implementation incorrectly treated all keys containing spaces as missing mappings; fixed by looking up the lowercased match in the original source key map.",
+          "behavioral_red_duration_seconds": 0.39
+        }
+      },
+      "green": {
+        "status": "PASS",
+        "focused_rust_tests": 8,
+        "focused_live_cases": 8,
+        "focused_live_report": "rust/artifacts/ras-syndrome-owner-focused.json",
+        "source_fingerprint": "2a93e0fd9ae34bdcc544289fa02ea48cb349a8a643ca10a248932d59305aa5ec",
+        "candidate_sha256": "1785d28897ec2a758873587424abff4656a33cb29d43ebb0d086185609d27ea2"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 8,
+        "report": "rust/artifacts/independent-mixed-misc-ras-luna-low-20261107/ras-syndrome.json",
+        "duration_seconds": 12.614,
+        "oracle_integrity": "verified before and after",
+        "agent_model": "gpt-6-luna",
+        "agent_effort": "low configured role",
+        "agent_runtime_metadata": "unavailable"
+      },
+      "agent_model": "gpt-6-luna",
+      "agent_reasoning_effort": "low configured for implementation/verifier role; oracle engineer role was configured high",
+      "agent_runtime_metadata": "unavailable; an initial explicitly selected default verifier self-reported gpt-6.1-sol/high and was excluded; final independent verification used rust_builder role configured gpt-6-luna/low",
+      "source_fingerprint": "2a93e0fd9ae34bdcc544289fa02ea48cb349a8a643ca10a248932d59305aa5ec",
+      "candidate_sha256": "1785d28897ec2a758873587424abff4656a33cb29d43ebb0d086185609d27ea2",
+      "candidate_attestation": "rust/artifacts/20261107T042859812178Z-build.attestation.json",
+      "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d052b3136",
+      "stage_durations_seconds": {
+        "oracle_live_selfcheck": 14.42,
+        "red_unsupported_route": 0.67,
+        "focused_rust_tests": 0.29,
+        "focused_owner_live": 13.855569,
+        "independent_live": 12.614,
+        "locked_build_attestation": 39.0,
+        "harness_unit_suite": 41.819,
+        "comparator_self_tests": 0.6,
+        "red_behavioral_lookup": 0.39,
+        "cumulative_gate": 248.946239
+      },
+      "stage_case_counts": {
+        "oracle_selfcheck_passed": 8,
+        "red_failing_rust_tests": 8,
+        "focused_rust_tests_passed": 8,
+        "owner_live_passed": 8,
+        "independent_live_passed": 8,
+        "harness_tests_passed": 64,
+        "comparator_self_tests_passed": 23,
+        "cumulative_gate_passed": 812,
+        "cumulative_gate_capabilities": 90
+      },
+      "comparator_self_test_status": "PASS",
+      "pre_gate_status": "shared_cli_gate_pending",
+      "implementation_source_sha256": "6ff2bf9ebe57bec82869893a7a27b1a0e3bd28d6ade9b44dad3699f2d29fbabf",
+      "test_source_sha256": "7db68cd64d89b2af9450193703be814a73926ca10e30cb22324880d1e3340032",
+      "source_sha256": "6ff2bf9ebe57bec82869893a7a27b1a0e3bd28d6ade9b44dad3699f2d29fbabf",
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-mixed-misc-ras-20261107.json",
+        "started_at_utc": "2026-11-07T04:42:31.150875+00:00",
+        "finished_at_utc": "2026-11-07T04:46:40.097114+00:00",
+        "duration_seconds": 248.946239,
+        "passed_cases": 812,
+        "manifest_cases": 818,
+        "capabilities": 90,
+        "source_fingerprint": "2a93e0fd9ae34bdcc544289fa02ea48cb349a8a643ca10a248932d59305aa5ec",
+        "candidate_sha256": "1785d28897ec2a758873587424abff4656a33cb29d43ebb0d086185609d27ea2",
+        "oracle_integrity": "verified",
+        "comparator_self_tests": 23
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-waxed-bottleneck-20261107.json",
-    "passed_cases": 798,
-    "manifest_cases": 804,
+    "report": "rust/artifacts/strict-gate-mixed-misc-ras-20261107.json",
+    "passed_cases": 812,
+    "manifest_cases": 818,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
       "cli.config.per_file_checks": 4
     },
     "exit_code": 0,
-    "capability_count": 88,
-    "source_fingerprint": "d26be351ef054de7a323fad21b67b71cd5c55fc88e98e27b5c1cadddf40a8f92",
-    "run_id": "20261107T035742440448Z-e25d0f7e",
-    "started_at_utc": "2026-11-07T03:57:42.440418+00:00",
-    "finished_at_utc": "2026-11-07T04:01:37.675280+00:00",
-    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261107T035732251746Z-build.attestation.json",
-    "candidate_sha256": "7eccd0461514a889ee3d8c11603e378e14b96883cc43e3fee2f00b1a1250b549",
+    "capability_count": 90,
+    "source_fingerprint": "2a93e0fd9ae34bdcc544289fa02ea48cb349a8a643ca10a248932d59305aa5ec",
+    "run_id": "20261107T044231150905Z-21d465ca",
+    "started_at_utc": "2026-11-07T04:42:31.150875+00:00",
+    "finished_at_utc": "2026-11-07T04:46:40.097114+00:00",
+    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261107T044218920964Z-build.attestation.json",
+    "candidate_sha256": "1785d28897ec2a758873587424abff4656a33cb29d43ebb0d086185609d27ea2",
     "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
-    "duration_seconds": 235.234862,
-    "scope_note": "Shared CLI checkpoint includes misc.waxed and mixed_metaphors.bottleneck plus prior accepted capabilities; two harness smoke and four per-file-config cases excluded."
+    "duration_seconds": 248.946239,
+    "scope_note": "Shared CLI route checkpoint includes mixed_metaphors.misc and redundancy.ras_syndrome plus the previously accepted scope; two harness smoke and four per-file-config cases excluded."
   },
   "rust_dependencies": {
     "status": "current",
@@ -5726,7 +5934,7 @@
       "evidence": "rust/artifacts/rust-dependency-dry-run-postfix-20261107.txt"
     }
   },
-  "next_capability_handoff": "Select the next unimplemented default-enabled inventory capability. Preserve source-derived tests and per-capability focused live plus independent verification; defer the next full gate until the 5–10 capability checkpoint unless shared matching, config, CLI, or output behavior changes.",
+  "next_capability_handoff": "Continue from the remaining unimplemented inventory. Keep rule modules isolated, require focused live and independent verification for every capability, and run the next cumulative gate after 5–10 accepted capabilities unless shared behavior changes.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",
@@ -5798,5 +6006,22 @@
       "combined_dense_generated": 22.13
     },
     "claim": "selected workloads and explicit combined config only; no universal speed claim; RSS unavailable"
+  },
+  "agent_model_verification": {
+    "initial_default_verifier_selection": {
+      "requested_model": "gpt-6-luna",
+      "requested_effort": "low",
+      "agent_self_report": "gpt-6.1-sol/high",
+      "accepted_as_independent_verification": false,
+      "evidence": "rust/artifacts/independent-mixed-misc-ras-20261107/verification.json",
+      "reason": "Agent self-reported gpt-6.1-sol/high despite gpt-6-luna/low selection; live output retained for audit, excluded from independent acceptance."
+    },
+    "accepted_independent_verifier": {
+      "role": "rust_builder",
+      "configured_model": "gpt-6-luna",
+      "configured_effort": "low",
+      "runtime_dispatch_metadata": "unavailable",
+      "evidence": "rust/artifacts/independent-mixed-misc-ras-luna-low-20261107/verification.json"
+    }
   }
 }

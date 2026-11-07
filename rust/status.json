@@ -346,6 +346,14 @@
     {
       "id": "rule.weasel_words.very",
       "status": "recorded"
+    },
+    {
+      "id": "rule.misc.waxed",
+      "status": "recorded"
+    },
+    {
+      "id": "rule.mixed_metaphors.bottleneck",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -400,7 +408,7 @@
     }
   },
   "active_ownership": {
-    "current": "Matcher regression fixes independently verified; the 783/783 live cumulative gate is green. Continue with the next unimplemented inventory capability; batch the next cumulative gate at the 5–10 capability checkpoint unless shared infrastructure changes.",
+    "current": "Two default-enabled rules accepted after independent verification and the shared-CLI cumulative gate passed 798/798 across 88 capabilities. Continue with the next unimplemented default-enabled inventory item; next cumulative gate after 5–10 accepted capabilities or any shared behavior change.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -5491,28 +5499,209 @@
       "shared_matcher_source_sha256": "53d2a06077252b914a8ab05b3112b2e782fb23be27f88875900927a252181366",
       "shared_regression_test_sha256": "8b68094644ba8e825cafc796eb8cf7833d4f6c50cea8f12ecb91f433f2d57c03",
       "unicode_table_generator_sha256": "5761989e5eef969584897930c5c038ab86ac7c3c3f3ac6fb86ecddf3b902f66f"
+    },
+    {
+      "id": "rule.misc.waxed",
+      "upstream_source": "proselint/checks/misc/waxed.py; Fowler’s Modern English Usage attribution; source snapshot BSD-3-Clause",
+      "source_sha256": "1422bcf67cf0ea1975f625deb546382f7c76ba60bb043634951c64618f059420",
+      "case_ids": [
+        "waxed_all_64_form_modifier_pairs",
+        "waxed_correct_adjectives_clean",
+        "waxed_raw_activation_and_case_boundaries",
+        "waxed_quote_suppression",
+        "waxed_max_errors_one",
+        "waxed_unicode_coordinates",
+        "waxed_pattern_group_truncation"
+      ],
+      "status": "recorded",
+      "registered_entries_exercised": 1,
+      "upstream_spec": "Pinned misc.waxed PreferredFormsSimple; modifier-to-adjective map with four wax forms, raw activation guard, WORDS_IN_TEXT matching, quote suppression, exact messages/replacements and source spans.",
+      "specification": {
+        "live_cases": 7,
+        "forms_or_patterns": 64,
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "oracle_integrity": "verified before and after focused and independent runs",
+        "source_fingerprint": "d26be351ef054de7a323fad21b67b71cd5c55fc88e98e27b5c1cadddf40a8f92",
+        "evidence": "rust/harness/cases/manifest.json"
+      },
+      "agent_model": "gpt-6-luna",
+      "agent_reasoning_effort": "low requested; parity_verifier role is configured high",
+      "agent_runtime_metadata": "unavailable",
+      "stage_durations_seconds": {
+        "oracle_selfcheck_all_cases": 22.125,
+        "red_unsupported_cli": 1.02,
+        "focused_rust_green": 2.0,
+        "focused_live": 14.821,
+        "independent_live": 11.829,
+        "locked_format_clippy_full_tests_build": 72.767,
+        "harness_unit_tests": 18.456,
+        "cumulative_gate": 235.234862
+      },
+      "stage_case_counts": {
+        "oracle_selfcheck_cases": 15,
+        "red_failing_rust_tests": 6,
+        "focused_rust_tests_passed": 7,
+        "focused_live_passed": 7,
+        "independent_live_passed": 7,
+        "harness_tests_passed": 62,
+        "comparator_self_tests_passed": 23,
+        "cumulative_gate_passed": 798,
+        "cumulative_gate_capabilities": 88
+      },
+      "candidate_attestation": "rust/artifacts/20261107T035207609046Z-build.attestation.json",
+      "candidate_sha256": "7eccd0461514a889ee3d8c11603e378e14b96883cc43e3fee2f00b1a1250b549",
+      "source_fingerprint": "d26be351ef054de7a323fad21b67b71cd5c55fc88e98e27b5c1cadddf40a8f92",
+      "implementation": "Enumerates the 64 pinned wax/modifier forms and emits diagnostics in the pinned fast matcher active-pattern group order. Reuses shared quote and line-position helpers.",
+      "red": {
+        "status": "MISMATCH",
+        "details": {
+          "unsupported_cli_tests_failed": 6,
+          "pattern_group_assertions_failed_before_fix": 2,
+          "evidence": "rust/artifacts/waxed-bottleneck-pattern-limits-selfcheck-20261107.json"
+        }
+      },
+      "green": {
+        "status": "PASS",
+        "focused_rust_tests_passed": 7,
+        "live_cases_passed": 7,
+        "report": "rust/artifacts/waxed-owner-focused.json",
+        "source_fingerprint": "d26be351ef054de7a323fad21b67b71cd5c55fc88e98e27b5c1cadddf40a8f92",
+        "candidate_sha256": "7eccd0461514a889ee3d8c11603e378e14b96883cc43e3fee2f00b1a1250b549"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 7,
+        "duration_seconds": 11.829,
+        "report": "rust/artifacts/independent-waxed-bottleneck-20261107/waxed-live.json"
+      },
+      "comparator_self_test_status": "PASS",
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-waxed-bottleneck-20261107.json",
+        "started_at_utc": "2026-11-07T03:57:42.440418+00:00",
+        "finished_at_utc": "2026-11-07T04:01:37.675280+00:00",
+        "duration_seconds": 235.234862,
+        "passed_cases": 798,
+        "manifest_cases": 804,
+        "capabilities": 88,
+        "source_fingerprint": "d26be351ef054de7a323fad21b67b71cd5c55fc88e98e27b5c1cadddf40a8f92",
+        "candidate_sha256": "7eccd0461514a889ee3d8c11603e378e14b96883cc43e3fee2f00b1a1250b549",
+        "oracle_integrity": "verified",
+        "comparator_self_tests": 23
+      }
+    },
+    {
+      "id": "rule.mixed_metaphors.bottleneck",
+      "upstream_source": "proselint/checks/mixed_metaphors.py; Sir Ernest Gowers attribution; source snapshot BSD-3-Clause",
+      "source_sha256": "6d48ef76b7fb2293f5fb8000287f3734443aeb1b3caa6aae98994f27670d0825",
+      "case_ids": [
+        "bottleneck_all_seven_phrases",
+        "bottleneck_clean_and_near_boundary",
+        "bottleneck_case_duplicates_and_overlap",
+        "bottleneck_quote_suppression",
+        "bottleneck_max_errors_one",
+        "bottleneck_unicode_coordinates",
+        "bottleneck_max_errors_interleaved_pattern_order",
+        "bottleneck_pattern_group_truncation"
+      ],
+      "status": "recorded",
+      "registered_entries_exercised": 1,
+      "upstream_spec": "Pinned mixed_metaphors.bottleneck Existence check over seven phrases; WORDS_IN_TEXT, case-insensitive Fast matching, default quote suppression, exact message and null replacement.",
+      "specification": {
+        "live_cases": 8,
+        "forms_or_patterns": 7,
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "oracle_integrity": "verified before and after focused and independent runs",
+        "source_fingerprint": "d26be351ef054de7a323fad21b67b71cd5c55fc88e98e27b5c1cadddf40a8f92",
+        "evidence": "rust/harness/cases/manifest.json"
+      },
+      "agent_model": "gpt-6-luna",
+      "agent_reasoning_effort": "low requested; parity_verifier role is configured high",
+      "agent_runtime_metadata": "unavailable",
+      "stage_durations_seconds": {
+        "oracle_selfcheck_all_cases": 22.125,
+        "red_unsupported_cli": 0.819,
+        "focused_rust_green": 2.0,
+        "focused_live": 11.836,
+        "independent_live": 8.944,
+        "locked_format_clippy_full_tests_build": 72.767,
+        "harness_unit_tests": 18.456,
+        "cumulative_gate": 235.234862
+      },
+      "stage_case_counts": {
+        "oracle_selfcheck_cases": 15,
+        "red_failing_rust_tests": 3,
+        "focused_rust_tests_passed": 4,
+        "focused_live_passed": 8,
+        "independent_live_passed": 8,
+        "harness_tests_passed": 62,
+        "comparator_self_tests_passed": 23,
+        "cumulative_gate_passed": 798,
+        "cumulative_gate_capabilities": 88
+      },
+      "candidate_attestation": "rust/artifacts/20261107T035207609046Z-build.attestation.json",
+      "candidate_sha256": "7eccd0461514a889ee3d8c11603e378e14b96883cc43e3fee2f00b1a1250b549",
+      "source_fingerprint": "d26be351ef054de7a323fad21b67b71cd5c55fc88e98e27b5c1cadddf40a8f92",
+      "implementation": "Matches each pinned phrase group and orders active groups by first occurrence, preserving within-group order and pinned max_errors behavior. Reuses shared quote and line-position helpers.",
+      "red": {
+        "status": "MISMATCH",
+        "details": {
+          "unsupported_cli_test_functions_failed": 3,
+          "grouping_probe": "pinned interleaved max_errors expectation distinguished first-occurrence group order",
+          "evidence": "rust/artifacts/waxed-bottleneck-pattern-limits-selfcheck-20261107.json"
+        }
+      },
+      "green": {
+        "status": "PASS",
+        "focused_rust_tests_passed": 4,
+        "live_cases_passed": 8,
+        "report": "rust/artifacts/bottleneck-owner-focused.json",
+        "source_fingerprint": "d26be351ef054de7a323fad21b67b71cd5c55fc88e98e27b5c1cadddf40a8f92",
+        "candidate_sha256": "7eccd0461514a889ee3d8c11603e378e14b96883cc43e3fee2f00b1a1250b549"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 8,
+        "duration_seconds": 8.944,
+        "report": "rust/artifacts/independent-waxed-bottleneck-20261107/bottleneck-live.json"
+      },
+      "comparator_self_test_status": "PASS",
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-waxed-bottleneck-20261107.json",
+        "started_at_utc": "2026-11-07T03:57:42.440418+00:00",
+        "finished_at_utc": "2026-11-07T04:01:37.675280+00:00",
+        "duration_seconds": 235.234862,
+        "passed_cases": 798,
+        "manifest_cases": 804,
+        "capabilities": 88,
+        "source_fingerprint": "d26be351ef054de7a323fad21b67b71cd5c55fc88e98e27b5c1cadddf40a8f92",
+        "candidate_sha256": "7eccd0461514a889ee3d8c11603e378e14b96883cc43e3fee2f00b1a1250b549",
+        "oracle_integrity": "verified",
+        "comparator_self_tests": 23
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-matcher-fixes-20261107.json",
-    "passed_cases": 783,
-    "manifest_cases": 789,
+    "report": "rust/artifacts/strict-gate-waxed-bottleneck-20261107.json",
+    "passed_cases": 798,
+    "manifest_cases": 804,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
       "cli.config.per_file_checks": 4
     },
     "exit_code": 0,
-    "capability_count": 86,
-    "source_fingerprint": "bd184c3775035296bb3dde5d8145e83fea429bcb43522aaa4ef5654813699770",
-    "run_id": "20261107T030445691292Z-90f3bf5d",
-    "started_at_utc": "2026-11-07T03:04:45.691246+00:00",
-    "finished_at_utc": "2026-11-07T03:09:17.666014+00:00",
-    "candidate_attestation": "rust/artifacts/20261107T030425954326Z-build.attestation.json",
-    "candidate_sha256": "c073e0d2c91600e9c06b622aa182905e0ecef3c6fb282d22fc99d01a6970b6f7",
+    "capability_count": 88,
+    "source_fingerprint": "d26be351ef054de7a323fad21b67b71cd5c55fc88e98e27b5c1cadddf40a8f92",
+    "run_id": "20261107T035742440448Z-e25d0f7e",
+    "started_at_utc": "2026-11-07T03:57:42.440418+00:00",
+    "finished_at_utc": "2026-11-07T04:01:37.675280+00:00",
+    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261107T035732251746Z-build.attestation.json",
+    "candidate_sha256": "7eccd0461514a889ee3d8c11603e378e14b96883cc43e3fee2f00b1a1250b549",
     "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
-    "duration_seconds": 271.974768,
-    "scope_note": "Includes the eight pinned-live Astra regressions; excludes two harness smoke and four per-file-config cases."
+    "duration_seconds": 235.234862,
+    "scope_note": "Shared CLI checkpoint includes misc.waxed and mixed_metaphors.bottleneck plus prior accepted capabilities; two harness smoke and four per-file-config cases excluded."
   },
   "rust_dependencies": {
     "status": "current",
@@ -5537,7 +5726,7 @@
       "evidence": "rust/artifacts/rust-dependency-dry-run-postfix-20261107.txt"
     }
   },
-  "next_capability_handoff": "Begin the next unimplemented default-enabled rule from rust/docs/PLAN.md after verifying data provenance. Keep disjoint modules parallel; coordinator owns shared routing. Next cumulative gate after 5–10 accepted capabilities or any shared behavior change.",
+  "next_capability_handoff": "Select the next unimplemented default-enabled inventory capability. Preserve source-derived tests and per-capability focused live plus independent verification; defer the next full gate until the 5–10 capability checkpoint unless shared matching, config, CLI, or output behavior changes.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

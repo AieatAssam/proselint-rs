@@ -1,0 +1,116 @@
+{
+  "all_cases_passed": 15,
+  "baseline": {
+    "integrity_after": "verified",
+    "integrity_before": "verified",
+    "package": "proselint 0.16.0",
+    "python": "3.12.3",
+    "revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+    "source_tree_sha256": "73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831"
+  },
+  "build_commands": [
+    {
+      "command": [
+        "/home/dev/proselint-rs/rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "fmt",
+        "--manifest-path",
+        "/home/dev/proselint-rs/rust/Cargo.toml",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261107T035207609046Z-build-0.stderr.bin",
+      "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261107T035207609046Z-build-0.stdout.bin"
+    },
+    {
+      "command": [
+        "/home/dev/proselint-rs/rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "clippy",
+        "--manifest-path",
+        "/home/dev/proselint-rs/rust/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261107T035207609046Z-build-1.stderr.bin",
+      "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261107T035207609046Z-build-1.stdout.bin"
+    },
+    {
+      "command": [
+        "/home/dev/proselint-rs/rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "test",
+        "--locked",
+        "--manifest-path",
+        "/home/dev/proselint-rs/rust/Cargo.toml"
+      ],
+      "exit_code": 0,
+      "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261107T035207609046Z-build-2.stderr.bin",
+      "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261107T035207609046Z-build-2.stdout.bin"
+    },
+    {
+      "command": [
+        "/home/dev/proselint-rs/rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "build",
+        "--locked",
+        "--manifest-path",
+        "/home/dev/proselint-rs/rust/Cargo.toml"
+      ],
+      "exit_code": 0,
+      "stderr_path": "/home/dev/proselint-rs/rust/artifacts/20261107T035207609046Z-build-3.stderr.bin",
+      "stdout_path": "/home/dev/proselint-rs/rust/artifacts/20261107T035207609046Z-build-3.stdout.bin"
+    }
+  ],
+  "build_seconds": 72.767,
+  "candidate_binary": "/home/dev/proselint-rs/rust/target/debug/proselint",
+  "candidate_sha256": "7eccd0461514a889ee3d8c11603e378e14b96883cc43e3fee2f00b1a1250b549",
+  "comparator_selftest": {
+    "command": "python3 rust/harness/compare.py --self-test",
+    "evidence": "comparator-selftest.json",
+    "passed": 23,
+    "status": "PASS",
+    "total": 23
+  },
+  "focused_live": {
+    "bottleneck": {
+      "case_ids": [
+        "bottleneck_all_seven_phrases",
+        "bottleneck_clean_and_near_boundary",
+        "bottleneck_case_duplicates_and_overlap",
+        "bottleneck_quote_suppression",
+        "bottleneck_max_errors_one",
+        "bottleneck_unicode_coordinates",
+        "bottleneck_max_errors_interleaved_pattern_order",
+        "bottleneck_pattern_group_truncation"
+      ],
+      "elapsed_seconds": 8.944,
+      "mismatches": 0,
+      "passed": 8,
+      "report": "/home/dev/proselint-rs/rust/artifacts/independent-waxed-bottleneck-20261107/bottleneck-live.json",
+      "status": "PASS"
+    },
+    "waxed": {
+      "case_ids": [
+        "waxed_all_64_form_modifier_pairs",
+        "waxed_correct_adjectives_clean",
+        "waxed_raw_activation_and_case_boundaries",
+        "waxed_quote_suppression",
+        "waxed_max_errors_one",
+        "waxed_unicode_coordinates",
+        "waxed_pattern_group_truncation"
+      ],
+      "elapsed_seconds": 11.829,
+      "mismatches": 0,
+      "passed": 7,
+      "report": "/home/dev/proselint-rs/rust/artifacts/independent-waxed-bottleneck-20261107/waxed-live.json",
+      "status": "PASS"
+    }
+  },
+  "frozen_source_fingerprint": "d26be351ef054de7a323fad21b67b71cd5c55fc88e98e27b5c1cadddf40a8f92",
+  "locked_build_attestation": "/home/dev/proselint-rs/rust/artifacts/20261107T035207609046Z-build.attestation.json",
+  "mismatch_count": 0,
+  "notes": "The 15 live cases include all 64 waxed pairs, raw/case boundaries, quote suppression, Unicode coordinates, and interleaved pattern-group max_errors selection. Bottleneck cases cover all seven phrases, near boundaries, quotes, Unicode coordinates, duplicates, and both interleaved pattern-order limits. No files affecting source, harness, fixtures, or expectations were changed by this verifier.",
+  "source_fingerprint_after_verification": "d26be351ef054de7a323fad21b67b71cd5c55fc88e98e27b5c1cadddf40a8f92",
+  "status": "PASS",
+  "total_cases": 15
+}

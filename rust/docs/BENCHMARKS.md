@@ -2,9 +2,22 @@
 
 ## Candidate freshness
 
-These are reproducible historical comparisons against pinned Python Proselint 0.16.0, not measurements of the current Rust tree or the full rewrite. The isolated-rule report used Rust source fingerprint `f0aa5422…`; the combined selected-rule report used `e4072d0c…`. The latest official cumulative gate used fingerprint `6abf318b9b2776bf55f865f23da1362c9ec18ad9eb292e1cabee15f9278c63a0` (83 accepted capabilities, 2026-11-06). No timing report measures that candidate, so neither historical speed ratio is a current-candidate performance claim. Rerun the parity precheck and benchmark against the final frozen source after implementation is complete.
+The 2026-11-07 combined-profile run below measures the current frozen Rust tree at source fingerprint `be20e6e9ebd9bc54b3a8a72b099824a2d455dc554480382b6ed5af30183cc74b` against pinned Python Proselint 0.16.0. The isolated `misc.suddenly` figures later in this document are historical and use an older candidate. Neither selected profile measures full default-config Proselint behavior.
 
 Every benchmark run performs an exact live parity preflight before timing. The runner enforces an overall 30-minute deadline by default across build, preflight, and sampling (`--overall-timeout-seconds` changes the limit); expiration is reported as `BLOCKED` and produces no timing claim. On POSIX the supervisor terminates the benchmark process group and closes pipes; descendants that detach from that group are outside cleanup. The current Windows fallback terminates only the direct child and does not guarantee descendant cleanup. Correctness gates do not run benchmarks.
+
+
+## Current combined selected-rule comparison (2026-11-07)
+
+This run compares the pinned Python executable and Rust CLI with only `misc.suddenly` and `psychology.p_equals_zero` enabled. It is a selected-rule CLI measurement, not whole-program parity or speed. It completed in 39.953 seconds under a 900-second overall deadline. Exact parity preflight passed all three representative workloads (small authored positive example, ordinary generated prose, and dense generated triggers); the runner also checked parity during every warmup and timed sample. It collected 25 paired samples per workload after two warmup pairs.
+
+| Workload | Input | Findings | Python median | Rust median | Python / Rust | Python IQR | Rust IQR |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Small authored positive example | 82 B | 2 | 229.584 ms | 4.598 ms | 49.9× | 223.660–239.427 ms | 4.288–4.964 ms |
+| Ordinary generated prose | 9,280 B | 128 | 244.413 ms | 6.636 ms | 36.8× | 235.358–254.305 ms | 6.347–7.464 ms |
+| Dense generated trigger stream | 6,400 B | 512 | 279.232 ms | 13.088 ms | 21.3× | 268.950–291.891 ms | 12.441–14.315 ms |
+
+The full report contains paired samples, per-sample output hashes and environment details: [`../artifacts/benchmark-combined-resume-20261107-final-buildopt.json`](../artifacts/benchmark-combined-resume-20261107-final-buildopt.json) (SHA-256 `0b45d66b89e41036f11b7c2bf7a5bdbec6c77cb91574520d26ba6fcb73442482`). Its [release attestation](../artifacts/20261107T013900141904Z-benchmark-41eb639d-release.attestation.json) records the CLI and helper hashes and the selected build targets. Baseline revision: `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`; Rust toolchain 1.99.1; Cargo.lock SHA-256 `2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d052b3136`; Rust release binary SHA-256 `0be40b0c6dcfb233e9feafebcd3c7d3f78941763a6b95d49fbef6cf2aa217137`. RSS was unavailable. The target-specific release build took 0.207 seconds and is excluded from CLI medians. The preceding all-target build took 125.339 seconds with the same candidate; its [attestation](../artifacts/20261107T012632188465Z-benchmark-c5f51e2f-release.attestation.json) records the broad target selection. The target-specific rerun reused compiled dependencies and warmed Cargo artifacts, so that build-time difference is environment-specific and not a clean-cache estimate.
 
 
 ## Result

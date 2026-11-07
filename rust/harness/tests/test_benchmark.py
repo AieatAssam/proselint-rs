@@ -21,6 +21,49 @@ spec.loader.exec_module(benchmark)
 
 
 class BenchmarkTests(unittest.TestCase):
+    def test_release_build_targets_cli_and_benchmark_example_only(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            cargo = root / "bin" / "cargo"
+            cargo.parent.mkdir()
+            cargo.touch()
+            rust_root = root / "rust"
+            rust_root.mkdir()
+            (rust_root / "artifacts").mkdir()
+            (rust_root / "Cargo.toml").touch()
+            (rust_root / "Cargo.lock").touch()
+            binary = rust_root / "target" / "release" / "proselint"
+            helper = rust_root / "target" / "release" / "examples" / "benchmark_suddenly"
+
+            def run(command, **kwargs):
+                if command[1] == "build":
+                    binary.parent.mkdir(parents=True)
+                    helper.parent.mkdir(parents=True)
+                    binary.write_bytes(b"cli")
+                    helper.write_bytes(b"helper")
+                    return benchmark.subprocess.CompletedProcess(command, 0, b"", b"")
+                return benchmark.subprocess.CompletedProcess(command, 0, "tool version", "")
+
+            with (
+                mock.patch.object(benchmark, "RUST_ROOT", rust_root),
+                mock.patch.object(benchmark, "RUST_HELPER", helper),
+                mock.patch.object(benchmark, "locked_cargo", return_value=(cargo, "stable")),
+                mock.patch.object(benchmark, "supervised_fingerprint", return_value="f" * 64),
+                mock.patch.object(benchmark, "supervised_run", side_effect=run),
+            ):
+                _, _, attestation, _ = benchmark.build_release_candidate(root / "run", time.monotonic() + 30)
+                self.assertEqual(attestation["binary_sha256"], benchmark.sha256_file(binary))
+                self.assertEqual(attestation["helper_binary_sha256"], benchmark.sha256_file(helper))
+
+        command = attestation["build_commands"][0]["command"]
+        self.assertIn("--bin", command)
+        self.assertIn("proselint", command)
+        self.assertIn("--example", command)
+        self.assertIn("benchmark_suddenly", command)
+        self.assertNotIn("--all-targets", command)
+        self.assertEqual(attestation["binary_path"], str(binary.resolve()))
+        self.assertEqual(attestation["helper_binary_path"], str(helper.resolve()))
+
     def test_alternates_pair_order(self):
         self.assertEqual(benchmark.pair_order(0), ["reference", "candidate"])
         self.assertEqual(benchmark.pair_order(1), ["candidate", "reference"])

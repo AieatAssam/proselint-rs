@@ -363,12 +363,12 @@
   },
   "harness": {
     "status": "verified after metadata fingerprint changes; Markdown/ledger exclusion is covered by a discrimination test",
-    "source_fingerprint": "546f0b68e3076502ba63b2d62622cc8b15d8224759d663debdeeae98a8340e3a",
+    "source_fingerprint": "be20e6e9ebd9bc54b3a8a72b099824a2d455dc554480382b6ed5af30183cc74b",
     "unit_tests": {
-      "passed": 57,
+      "passed": 58,
       "exit_code": 0,
-      "duration_seconds": 12.481,
-      "evidence": "rust/artifacts/independent-social-nword-20261107/harness-unittests.log"
+      "duration_seconds": 11.638,
+      "evidence": "rust/artifacts/benchmark-harness-tests-buildopt-20261107.log"
     },
     "comparator_discriminators": {
       "passed": 23,
@@ -387,6 +387,12 @@
       "source_projection_sha256": "6e6b1a625b7bf776549975cfd2d312d21906e5e6a96173d69c7596bbcc64d849",
       "evidence": "rust/artifacts/oracle-verify-only-cache-isolation-20261106.json",
       "pycache_isolation": "valid altered .pyc is bypassed by per-run isolated PYTHONPYCACHEPREFIX"
+    },
+    "benchmark_build_tests": {
+      "passed": 17,
+      "exit_code": 0,
+      "duration_seconds": 2.996,
+      "suite": "rust/harness/tests/test_benchmark.py"
     }
   },
   "active_ownership": {
@@ -5273,7 +5279,7 @@
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/independent-curly-quotes-20261107/cumulative-live.json",
+    "report": "rust/artifacts/20261107T012115Z-resume-2fd27a0/live-report.json",
     "passed_cases": 767,
     "manifest_cases": 773,
     "excluded_manifest_cases": {
@@ -5283,13 +5289,13 @@
     "exit_code": 0,
     "capability_count": 85,
     "source_fingerprint": "cd4ca4e888de9398d9f831f609eb02dab0b215e6867604f369cd7f508efbe33a",
-    "run_id": "20261107T010155885667Z-bbaf9602",
-    "started_at_utc": "2026-11-07T01:01:55.885633+00:00",
-    "finished_at_utc": "2026-11-07T01:05:43.272481+00:00",
-    "candidate_attestation": "rust/artifacts/independent-curly-quotes-20261107/candidate-attestation.json",
+    "run_id": "20261107T012149826125Z-7e75542e",
+    "started_at_utc": "2026-11-07T01:21:49.826094+00:00",
+    "finished_at_utc": "2026-11-07T01:25:38.056858+00:00",
+    "candidate_attestation": "rust/artifacts/20261107T012140054495Z-build.attestation.json",
     "candidate_sha256": "1850a7f6efef3d9f955bff05641e9387b9d77c2ac9845157a7389ed3b7d7f246",
-    "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
-    "duration_seconds": 227.386848
+    "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d052b3136",
+    "duration_seconds": 241.08177703199908
   },
   "rust_dependencies": {
     "status": "current",
@@ -5358,5 +5364,31 @@
         "scope": "cli.config.directory_path"
       }
     ]
+  },
+  "latest_benchmark": {
+    "status": "PASS",
+    "report": "rust/artifacts/benchmark-combined-resume-20261107-final-buildopt.json",
+    "report_sha256": "0b45d66b89e41036f11b7c2bf7a5bdbec6c77cb91574520d26ba6fcb73442482",
+    "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+    "profile": "combined_suddenly_p_equals_zero",
+    "source_fingerprint": "be20e6e9ebd9bc54b3a8a72b099824a2d455dc554480382b6ed5af30183cc74b",
+    "candidate_sha256": "0be40b0c6dcfb233e9feafebcd3c7d3f78941763a6b95d49fbef6cf2aa217137",
+    "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d052b3136",
+    "parity_preflight": {
+      "passed": 3,
+      "mismatches": 0,
+      "errors": 0,
+      "timeouts": 0
+    },
+    "paired_samples_per_workload": 25,
+    "warmup_pairs": 2,
+    "duration_seconds": 39.95322,
+    "release_build_seconds": 0.207473091,
+    "median_ratios_python_over_rust": {
+      "combined_small": 49.93,
+      "combined_ordinary_generated": 36.83,
+      "combined_dense_generated": 21.33
+    },
+    "claim": "selected workloads and explicit combined config only; no universal speed claim; RSS unavailable"
   }
 }

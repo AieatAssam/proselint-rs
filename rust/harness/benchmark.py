@@ -361,7 +361,7 @@ def build_release_candidate(run_dir: Path, deadline: float) -> tuple[list[str], 
     env.pop("RUSTFLAGS", None)
     env.update({"CARGO_HOME": str(RUST_ROOT / ".cache" / "cargo-home"), "RUSTUP_HOME": str(RUST_ROOT / ".cache" / "rustup-home"), "RUSTUP_TOOLCHAIN": channel})
     env["PATH"] = str(cargo_dir) + os.pathsep + env.get("PATH", "")
-    command = [str(cargo), "build", "--release", "--locked", "--all-targets", "--manifest-path", str(manifest)]
+    command = [str(cargo), "build", "--release", "--locked", "--bin", "proselint", "--example", "benchmark_suddenly", "--manifest-path", str(manifest)]
     before = supervised_fingerprint(deadline)
     build_dir = run_dir / "release_build"
     build_dir.mkdir(parents=True, exist_ok=True)

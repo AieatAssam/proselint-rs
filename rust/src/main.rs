@@ -3,18 +3,21 @@ use proselint_rs::{
     airlinese_diagnostics, am_pm_lowercase_periods_diagnostics, am_pm_spacing_diagnostics,
     annotation_diagnostics_in_matcher_order, apologizing_diagnostics, archaism_diagnostics,
     back_formations_diagnostics, bureaucratese_diagnostics, but_diagnostics,
-    capitalization_days_diagnostics, capitalization_months_diagnostics,
-    capitalization_seasons_diagnostics, capitalization_terms_diagnostics, cliches_hell_diagnostics,
+    capitalization_days_diagnostics_in_matcher_order,
+    capitalization_months_diagnostics_in_matcher_order,
+    capitalization_seasons_diagnostics_in_matcher_order,
+    capitalization_terms_diagnostics_in_matcher_order, cliches_hell_diagnostics,
     composition_diagnostics_in_matcher_order, currency_diagnostics,
     dates_times_dates_dash_and_from_diagnostics, dates_times_dates_month_of_year_diagnostics,
-    dates_times_dates_month_year_comma_diagnostics, debased_diagnostics,
+    dates_times_dates_month_year_comma_diagnostics, debased_diagnostics_in_matcher_order,
     decade_apostrophes_diagnostics, eponymous_adjectives_diagnostics, exclamation_diagnostics,
     false_plurals_kudos_diagnostics, false_plurals_misc_diagnostics_in_matcher_order, file_uri,
-    greylist_diagnostics, hedging_diagnostics, hyperbole_diagnostics, illogic_coin_diagnostics,
-    illogic_collusion_diagnostics, inferior_superior_diagnostics, institution_name_diagnostics,
-    jargon_diagnostics, json_result, latin_diagnostics, lexical_illusions_diagnostics,
-    lie_detector_diagnostics, malapropisms_diagnostics, many_a_diagnostics,
-    mental_telepathy_diagnostics, metadiscourse_diagnostics, midnight_noon_diagnostics,
+    greylist_diagnostics_in_matcher_order, hedging_diagnostics, hyperbole_diagnostics,
+    illogic_coin_diagnostics, illogic_collusion_diagnostics, inferior_superior_diagnostics,
+    institution_name_diagnostics, jargon_diagnostics, json_result, latin_diagnostics,
+    lexical_illusions_diagnostics, lie_detector_diagnostics, malapropisms_diagnostics,
+    many_a_diagnostics_in_matcher_order, mental_telepathy_diagnostics,
+    metadiscourse_diagnostics_in_matcher_order, midnight_noon_diagnostics,
     misc_illogic_diagnostics, misc_tense_present_diagnostics, misc_waxed_diagnostics,
     misplaced_diagnostics, mixed_metaphors_bottleneck_diagnostics,
     mixed_metaphors_misc_diagnostics, mondegreens_diagnostics, narcissism_diagnostics,
@@ -1208,7 +1211,7 @@ fn run() -> Result<ExitCode, String> {
             }
             SelectedCheck::MixedMetaphorsMisc => mixed_metaphors_misc_diagnostics(&content),
             SelectedCheck::MiscSuddenly => suddenly_diagnostics(&content),
-            SelectedCheck::MiscDebased => debased_diagnostics(&content),
+            SelectedCheck::MiscDebased => debased_diagnostics_in_matcher_order(&content),
             SelectedCheck::MiscCurrency => currency_diagnostics(&content),
             SelectedCheck::MiscInferiorSuperior => inferior_superior_diagnostics(&content),
             SelectedCheck::DatesTimesAmPmLowercasePeriods => {
@@ -1246,23 +1249,31 @@ fn run() -> Result<ExitCode, String> {
             SelectedCheck::MiscIllogicCoin => illogic_coin_diagnostics(&content),
             SelectedCheck::MiscIllogicCollusion => illogic_collusion_diagnostics(&content),
             SelectedCheck::MiscBackFormations => back_formations_diagnostics(&content),
-            SelectedCheck::MiscGreylist => greylist_diagnostics(&content),
+            SelectedCheck::MiscGreylist => greylist_diagnostics_in_matcher_order(&content),
             SelectedCheck::IndustrialLanguageBureaucratese => bureaucratese_diagnostics(&content),
             SelectedCheck::Hedging => hedging_diagnostics(&content),
             SelectedCheck::IndustrialLanguageJargon => jargon_diagnostics(&content),
             SelectedCheck::IndustrialLanguageAirlinese => airlinese_diagnostics(&content),
-            SelectedCheck::MiscManyA => many_a_diagnostics(&content),
-            SelectedCheck::MiscMetadiscourse => metadiscourse_diagnostics(&content),
+            SelectedCheck::MiscManyA => many_a_diagnostics_in_matcher_order(&content),
+            SelectedCheck::MiscMetadiscourse => {
+                metadiscourse_diagnostics_in_matcher_order(&content)
+            }
             SelectedCheck::MiscNarcissism => narcissism_diagnostics(&content),
             SelectedCheck::MiscNotGuilty => not_guilty_diagnostics(&content),
             SelectedCheck::MiscPretension => pretension_diagnostics(&content),
             SelectedCheck::MiscLatin => latin_diagnostics(&content),
             SelectedCheck::MiscCapitalizationSeasons => {
-                capitalization_seasons_diagnostics(&content)
+                capitalization_seasons_diagnostics_in_matcher_order(&content)
             }
-            SelectedCheck::MiscCapitalizationTerms => capitalization_terms_diagnostics(&content),
-            SelectedCheck::MiscCapitalizationDays => capitalization_days_diagnostics(&content),
-            SelectedCheck::MiscCapitalizationMonths => capitalization_months_diagnostics(&content),
+            SelectedCheck::MiscCapitalizationTerms => {
+                capitalization_terms_diagnostics_in_matcher_order(&content)
+            }
+            SelectedCheck::MiscCapitalizationDays => {
+                capitalization_days_diagnostics_in_matcher_order(&content)
+            }
+            SelectedCheck::MiscCapitalizationMonths => {
+                capitalization_months_diagnostics_in_matcher_order(&content)
+            }
             SelectedCheck::MiscInstitutionName => institution_name_diagnostics(&content),
             SelectedCheck::MiscProfessions => professions_diagnostics(&content),
             SelectedCheck::SpellingAllyLy => spelling_ally_ly_diagnostics(&content),

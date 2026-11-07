@@ -1198,6 +1198,14 @@ pub fn midnight_noon_diagnostics(text: &str) -> Vec<Value> {
 /// can also be reported. Matching is case-insensitive and quoted occurrences
 /// are suppressed.
 pub fn debased_diagnostics(text: &str) -> Vec<Value> {
+    let mut diagnostics = debased_diagnostics_in_matcher_order(text);
+    diagnostics
+        .sort_unstable_by_key(|diagnostic| diagnostic["span"][0].as_u64().unwrap_or_default());
+    diagnostics
+}
+
+/// Return `misc.debased` findings in FastSet activation order for CLI limits.
+pub fn debased_diagnostics_in_matcher_order(text: &str) -> Vec<Value> {
     if text.is_empty() {
         return Vec::new();
     }
@@ -1206,19 +1214,23 @@ pub fn debased_diagnostics(text: &str) -> Vec<Value> {
     let lowered = padded.to_ascii_lowercase();
     let quote_bounds = paired_quote_bounds(&padded);
     let line_bounds = splitlines_bounds(&padded);
-    let mut matches = Vec::new();
+    let mut active_patterns = Vec::new();
 
-    for item in DEBASED_ITEMS {
-        let active = unicode_case_match_ends(&lowered, item)
+    for (pattern_index, item) in DEBASED_ITEMS.iter().enumerate() {
+        let pattern_matches = unicode_case_match_ends(&lowered, item);
+        let activation_position = pattern_matches
             .iter()
-            .any(|(start, end)| {
+            .filter(|(start, end)| {
                 !is_ascii_word_before(&lowered, *start) && !is_ascii_word_at(&lowered, *end)
-            });
-        if !active {
+            })
+            .map(|(start, _)| *start)
+            .min();
+        let Some(activation_position) = activation_position else {
             continue;
-        }
+        };
 
-        for (start, end) in unicode_case_match_ends(&lowered, item) {
+        let mut diagnostics = Vec::new();
+        for (start, end) in pattern_matches {
             let span_start = padded[..start].chars().count();
             let span_end = span_start + lowered[start..end].chars().count();
             let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
@@ -1226,23 +1238,23 @@ pub fn debased_diagnostics(text: &str) -> Vec<Value> {
                 continue;
             }
             let (line, column) = line_col_of(span_start, &line_bounds);
-            matches.push((
-                span_start,
-                json!({
-                    "check_path": "misc.debased",
-                    "message": DEBASED_MESSAGE,
-                    "span": [span_start, span_end],
-                    "pos": [line, column],
-                    "replacements": null,
-                }),
-            ));
+            diagnostics.push(json!({
+                "check_path": "misc.debased",
+                "message": DEBASED_MESSAGE,
+                "span": [span_start, span_end],
+                "pos": [line, column],
+                "replacements": null,
+            }));
         }
+        active_patterns.push((activation_position, pattern_index, diagnostics));
     }
 
-    matches.sort_unstable_by_key(|(start, _)| *start);
-    matches
+    active_patterns.sort_by_key(|(activation_position, pattern_index, _)| {
+        (*activation_position, *pattern_index)
+    });
+    active_patterns
         .into_iter()
-        .map(|(_, diagnostic)| diagnostic)
+        .flat_map(|(_, _, diagnostics)| diagnostics)
         .collect()
 }
 
@@ -1918,6 +1930,14 @@ pub fn back_formations_diagnostics(text: &str) -> Vec<Value> {
 /// matching to each term without word-boundary padding, then formats a
 /// term-specific message. Quoted matches are suppressed by the check default.
 pub fn greylist_diagnostics(text: &str) -> Vec<Value> {
+    let mut diagnostics = greylist_diagnostics_in_matcher_order(text);
+    diagnostics
+        .sort_unstable_by_key(|diagnostic| diagnostic["span"][0].as_u64().unwrap_or_default());
+    diagnostics
+}
+
+/// Return greylist findings in the upstream dictionary traversal order.
+pub fn greylist_diagnostics_in_matcher_order(text: &str) -> Vec<Value> {
     if text.is_empty() {
         return Vec::new();
     }
@@ -1925,7 +1945,7 @@ pub fn greylist_diagnostics(text: &str) -> Vec<Value> {
     let padded = format!("\n{text}\n");
     let quote_bounds = paired_quote_bounds(&padded);
     let line_bounds = splitlines_bounds(&padded);
-    let mut matches = Vec::new();
+    let mut diagnostics = Vec::new();
 
     for (term, explanation) in GREYLIST_TERMS {
         for (start, end) in unicode_case_match_ends(&padded, term) {
@@ -1936,24 +1956,17 @@ pub fn greylist_diagnostics(text: &str) -> Vec<Value> {
                 continue;
             }
             let (line, column) = line_col_of(span_start, &line_bounds);
-            matches.push((
-                span_start,
-                json!({
-                    "check_path": "misc.greylist",
-                    "message": format!("Use of '{term}'. {explanation}"),
-                    "span": [span_start, span_end],
-                    "pos": [line, column],
-                    "replacements": null,
-                }),
-            ));
+            diagnostics.push(json!({
+                "check_path": "misc.greylist",
+                "message": format!("Use of '{term}'. {explanation}"),
+                "span": [span_start, span_end],
+                "pos": [line, column],
+                "replacements": null,
+            }));
         }
     }
 
-    matches.sort_unstable_by_key(|(start, _)| *start);
-    matches
-        .into_iter()
-        .map(|(_, diagnostic)| diagnostic)
-        .collect()
+    diagnostics
 }
 
 /// Return diagnostics for the pinned `industrial_language.bureaucratese` rule.
@@ -2285,6 +2298,14 @@ pub fn airlinese_diagnostics(text: &str) -> Vec<Value> {
 /// Matches use case-insensitive WORDS_IN_TEXT boundaries, while replacements
 /// come from the upstream form mapping and the message remains static.
 pub fn many_a_diagnostics(text: &str) -> Vec<Value> {
+    let mut diagnostics = many_a_diagnostics_in_matcher_order(text);
+    diagnostics
+        .sort_unstable_by_key(|diagnostic| diagnostic["span"][0].as_u64().unwrap_or_default());
+    diagnostics
+}
+
+/// Return `misc.many_a` findings in FastSet activation order for CLI limits.
+pub fn many_a_diagnostics_in_matcher_order(text: &str) -> Vec<Value> {
     if text.is_empty() {
         return Vec::new();
     }
@@ -2292,30 +2313,33 @@ pub fn many_a_diagnostics(text: &str) -> Vec<Value> {
     let padded = format!("\n{text}\n");
     let quote_bounds = paired_quote_bounds(&padded);
     let line_bounds = splitlines_bounds(&padded);
-    let mut diagnostics = Vec::new();
+    let mut active_patterns = Vec::new();
 
-    for (pattern, replacement) in MANY_A_FORMS {
+    for (pattern_index, (pattern, replacement)) in MANY_A_FORMS.iter().enumerate() {
         let pattern_len = pattern.len();
-        let active = padded.char_indices().any(|(start, _)| {
-            let Some(candidate) = padded.get(start..start.saturating_add(pattern_len)) else {
-                return false;
-            };
-            candidate.eq_ignore_ascii_case(pattern)
-                && !is_ascii_word_before(&padded, start)
-                && !is_ascii_word_at(&padded, start + pattern_len)
-        });
-        if !active {
+        let pattern_matches = padded
+            .char_indices()
+            .filter_map(|(start, _)| {
+                let candidate = padded.get(start..start.saturating_add(pattern_len))?;
+                candidate
+                    .eq_ignore_ascii_case(pattern)
+                    .then_some((start, start + pattern_len))
+            })
+            .collect::<Vec<_>>();
+        let activation_position = pattern_matches
+            .iter()
+            .filter(|(start, end)| {
+                !is_ascii_word_before(&padded, *start) && !is_ascii_word_at(&padded, *end)
+            })
+            .map(|(start, _)| *start)
+            .min();
+        let Some(activation_position) = activation_position else {
             continue;
-        }
-        for (start, _) in padded.char_indices() {
-            let end = start.saturating_add(pattern_len);
-            let Some(candidate) = padded.get(start..end) else {
-                continue;
-            };
-            if !candidate.eq_ignore_ascii_case(pattern) {
-                continue;
-            }
+        };
 
+        let mut diagnostics = Vec::new();
+        for (start, end) in pattern_matches {
+            let candidate = &padded[start..end];
             let span_start = padded[..start].chars().count();
             let span_end = span_start + candidate.chars().count();
             let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
@@ -2323,23 +2347,23 @@ pub fn many_a_diagnostics(text: &str) -> Vec<Value> {
                 continue;
             }
             let (line, column) = line_col_of(span_start, &line_bounds);
-            diagnostics.push((
-                span_start,
-                json!({
-                    "check_path": "misc.many_a",
-                    "message": MANY_A_MESSAGE,
-                    "span": [span_start, span_end],
-                    "pos": [line, column],
-                    "replacements": replacement,
-                }),
-            ));
+            diagnostics.push(json!({
+                "check_path": "misc.many_a",
+                "message": MANY_A_MESSAGE,
+                "span": [span_start, span_end],
+                "pos": [line, column],
+                "replacements": replacement,
+            }));
         }
+        active_patterns.push((activation_position, pattern_index, diagnostics));
     }
 
-    diagnostics.sort_unstable_by_key(|(start, _)| *start);
-    diagnostics
+    active_patterns.sort_by_key(|(activation_position, pattern_index, _)| {
+        (*activation_position, *pattern_index)
+    });
+    active_patterns
         .into_iter()
-        .map(|(_, diagnostic)| diagnostic)
+        .flat_map(|(_, _, diagnostics)| diagnostics)
         .collect()
 }
 
@@ -2348,6 +2372,14 @@ pub fn many_a_diagnostics(text: &str) -> Vec<Value> {
 /// Upstream uses a case-insensitive Fast set with WORDS_IN_TEXT padding,
 /// including the intentional spelling `preceeding` in its first phrase.
 pub fn metadiscourse_diagnostics(text: &str) -> Vec<Value> {
+    let mut diagnostics = metadiscourse_diagnostics_in_matcher_order(text);
+    diagnostics
+        .sort_unstable_by_key(|diagnostic| diagnostic["span"][0].as_u64().unwrap_or_default());
+    diagnostics
+}
+
+/// Return metadiscourse findings in FastSet activation order for CLI limits.
+pub fn metadiscourse_diagnostics_in_matcher_order(text: &str) -> Vec<Value> {
     if text.is_empty() {
         return Vec::new();
     }
@@ -2355,19 +2387,23 @@ pub fn metadiscourse_diagnostics(text: &str) -> Vec<Value> {
     let padded = format!("\n{text}\n");
     let quote_bounds = paired_quote_bounds(&padded);
     let line_bounds = splitlines_bounds(&padded);
-    let mut diagnostics = Vec::new();
+    let mut active_patterns = Vec::new();
 
-    for pattern in METADISCOURSE_PATTERNS {
-        let activated = unicode_case_match_ends(&padded, pattern)
+    for (pattern_index, pattern) in METADISCOURSE_PATTERNS.iter().enumerate() {
+        let pattern_matches = unicode_case_match_ends(&padded, pattern);
+        let activation_position = pattern_matches
             .iter()
-            .any(|(start, end)| {
+            .filter(|(start, end)| {
                 !is_ascii_word_before(&padded, *start) && !is_ascii_word_at(&padded, *end)
-            });
-        if !activated {
+            })
+            .map(|(start, _)| *start)
+            .min();
+        let Some(activation_position) = activation_position else {
             continue;
-        }
+        };
 
-        for (start, end) in unicode_case_match_ends(&padded, pattern) {
+        let mut diagnostics = Vec::new();
+        for (start, end) in pattern_matches {
             let matched = &padded[start..end];
 
             let span_start = padded[..start].chars().count();
@@ -2377,23 +2413,23 @@ pub fn metadiscourse_diagnostics(text: &str) -> Vec<Value> {
                 continue;
             }
             let (line, column) = line_col_of(span_start, &line_bounds);
-            diagnostics.push((
-                span_start,
-                json!({
-                    "check_path": "misc.metadiscourse",
-                    "message": METADISCOURSE_MESSAGE,
-                    "span": [span_start, span_end],
-                    "pos": [line, column],
-                    "replacements": null,
-                }),
-            ));
+            diagnostics.push(json!({
+                "check_path": "misc.metadiscourse",
+                "message": METADISCOURSE_MESSAGE,
+                "span": [span_start, span_end],
+                "pos": [line, column],
+                "replacements": null,
+            }));
         }
+        active_patterns.push((activation_position, pattern_index, diagnostics));
     }
 
-    diagnostics.sort_unstable_by_key(|(start, _)| *start);
-    diagnostics
+    active_patterns.sort_by_key(|(activation_position, pattern_index, _)| {
+        (*activation_position, *pattern_index)
+    });
+    active_patterns
         .into_iter()
-        .map(|(_, diagnostic)| diagnostic)
+        .flat_map(|(_, _, diagnostics)| diagnostics)
         .collect()
 }
 
@@ -2507,9 +2543,12 @@ pub fn latin_diagnostics(text: &str) -> Vec<Value> {
         .collect()
 }
 
-/// Return diagnostics for the case-sensitive pinned seasons capitalization
-/// preferred forms. Lowercase and other-case variants do not match.
-pub fn capitalization_seasons_diagnostics(text: &str) -> Vec<Value> {
+fn capitalization_diagnostics_in_matcher_order(
+    text: &str,
+    check_path: &str,
+    message: &str,
+    forms: &[(&str, &str)],
+) -> Vec<Value> {
     if text.is_empty() {
         return Vec::new();
     }
@@ -2517,22 +2556,29 @@ pub fn capitalization_seasons_diagnostics(text: &str) -> Vec<Value> {
     let padded = format!("\n{text}\n");
     let quote_bounds = paired_quote_bounds(&padded);
     let line_bounds = splitlines_bounds(&padded);
-    let mut diagnostics = Vec::new();
+    let mut active_patterns = Vec::new();
 
-    for (pattern, replacement) in CAPITALIZATION_SEASONS {
+    for (pattern_index, (pattern, replacement)) in forms.iter().enumerate() {
         let pattern_len = pattern.len();
-        let active = padded.match_indices(pattern).any(|(start, _)| {
-            !is_ascii_word_before(&padded, start) && !is_ascii_word_at(&padded, start + pattern_len)
-        });
-        if !active {
+        let activation_position = padded
+            .match_indices(pattern)
+            .filter(|(start, _)| {
+                !is_ascii_word_before(&padded, *start)
+                    && !is_ascii_word_at(&padded, *start + pattern_len)
+            })
+            .map(|(start, _)| start)
+            .min();
+        let Some(activation_position) = activation_position else {
             continue;
-        }
+        };
+
+        let mut diagnostics = Vec::new();
         for (start, _) in padded.char_indices() {
             let end = start.saturating_add(pattern_len);
             let Some(matched) = padded.get(start..end) else {
                 continue;
             };
-            if matched != pattern {
+            if matched != *pattern {
                 continue;
             }
 
@@ -2543,191 +2589,99 @@ pub fn capitalization_seasons_diagnostics(text: &str) -> Vec<Value> {
                 continue;
             }
             let (line, column) = line_col_of(span_start, &line_bounds);
-            diagnostics.push((
-                span_start,
-                json!({
-                    "check_path": "misc.capitalization.seasons",
-                    "message": CAPITALIZATION_SEASONS_MESSAGE.replace("{}", replacement),
-                    "span": [span_start, span_end],
-                    "pos": [line, column],
-                    "replacements": replacement,
-                }),
-            ));
+            diagnostics.push(json!({
+                "check_path": check_path,
+                "message": message.replace("{}", replacement),
+                "span": [span_start, span_end],
+                "pos": [line, column],
+                "replacements": replacement,
+            }));
         }
+        active_patterns.push((activation_position, pattern_index, diagnostics));
     }
 
-    diagnostics.sort_unstable_by_key(|(start, _)| *start);
-    diagnostics
+    active_patterns.sort_by_key(|(activation_position, pattern_index, _)| {
+        (*activation_position, *pattern_index)
+    });
+    active_patterns
         .into_iter()
-        .map(|(_, diagnostic)| diagnostic)
+        .flat_map(|(_, _, diagnostics)| diagnostics)
         .collect()
+}
+
+/// Return diagnostics for the case-sensitive pinned seasons capitalization
+/// preferred forms. Lowercase and other-case variants do not match.
+pub fn capitalization_seasons_diagnostics(text: &str) -> Vec<Value> {
+    let mut diagnostics = capitalization_seasons_diagnostics_in_matcher_order(text);
+    diagnostics
+        .sort_unstable_by_key(|diagnostic| diagnostic["span"][0].as_u64().unwrap_or_default());
+    diagnostics
+}
+
+/// Return season capitalization findings in FastSet activation order for CLI limits.
+pub fn capitalization_seasons_diagnostics_in_matcher_order(text: &str) -> Vec<Value> {
+    capitalization_diagnostics_in_matcher_order(
+        text,
+        "misc.capitalization.seasons",
+        CAPITALIZATION_SEASONS_MESSAGE,
+        &CAPITALIZATION_SEASONS,
+    )
 }
 
 /// Return diagnostics for the case-sensitive pinned capitalization terms.
 pub fn capitalization_terms_diagnostics(text: &str) -> Vec<Value> {
-    if text.is_empty() {
-        return Vec::new();
-    }
-
-    let padded = format!("\n{text}\n");
-    let quote_bounds = paired_quote_bounds(&padded);
-    let line_bounds = splitlines_bounds(&padded);
-    let mut diagnostics = Vec::new();
-
-    for (pattern, replacement) in CAPITALIZATION_TERMS {
-        let pattern_len = pattern.len();
-        let active = padded.match_indices(pattern).any(|(start, _)| {
-            !is_ascii_word_before(&padded, start) && !is_ascii_word_at(&padded, start + pattern_len)
-        });
-        if !active {
-            continue;
-        }
-        for (start, _) in padded.char_indices() {
-            let end = start.saturating_add(pattern_len);
-            let Some(matched) = padded.get(start..end) else {
-                continue;
-            };
-            if matched != pattern {
-                continue;
-            }
-
-            let span_start = padded[..start].chars().count();
-            let span_end = span_start + matched.chars().count();
-            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
-            if quote_index % 2 == 1 {
-                continue;
-            }
-            let (line, column) = line_col_of(span_start, &line_bounds);
-            diagnostics.push((
-                span_start,
-                json!({
-                    "check_path": "misc.capitalization.terms",
-                    "message": CAPITALIZATION_TERMS_MESSAGE.replace("{}", replacement),
-                    "span": [span_start, span_end],
-                    "pos": [line, column],
-                    "replacements": replacement,
-                }),
-            ));
-        }
-    }
-
-    diagnostics.sort_unstable_by_key(|(start, _)| *start);
+    let mut diagnostics = capitalization_terms_diagnostics_in_matcher_order(text);
     diagnostics
-        .into_iter()
-        .map(|(_, diagnostic)| diagnostic)
-        .collect()
+        .sort_unstable_by_key(|diagnostic| diagnostic["span"][0].as_u64().unwrap_or_default());
+    diagnostics
+}
+
+/// Return term capitalization findings in FastSet activation order for CLI limits.
+pub fn capitalization_terms_diagnostics_in_matcher_order(text: &str) -> Vec<Value> {
+    capitalization_diagnostics_in_matcher_order(
+        text,
+        "misc.capitalization.terms",
+        CAPITALIZATION_TERMS_MESSAGE,
+        &CAPITALIZATION_TERMS,
+    )
 }
 
 /// Return diagnostics for the case-sensitive pinned capitalization days rule.
 /// PreferredFormsSimple activates each item at a word boundary, then reports
 /// every raw case-sensitive occurrence of that item in the padded text.
 pub fn capitalization_days_diagnostics(text: &str) -> Vec<Value> {
-    if text.is_empty() {
-        return Vec::new();
-    }
-
-    let padded = format!("\n{text}\n");
-    let quote_bounds = paired_quote_bounds(&padded);
-    let line_bounds = splitlines_bounds(&padded);
-    let mut diagnostics = Vec::new();
-
-    for (pattern, replacement) in CAPITALIZATION_DAYS {
-        let pattern_len = pattern.len();
-        let active = padded.match_indices(pattern).any(|(start, _)| {
-            !is_ascii_word_before(&padded, start) && !is_ascii_word_at(&padded, start + pattern_len)
-        });
-        if !active {
-            continue;
-        }
-        for (start, _) in padded.char_indices() {
-            let end = start.saturating_add(pattern_len);
-            let Some(matched) = padded.get(start..end) else {
-                continue;
-            };
-            if matched != pattern {
-                continue;
-            }
-
-            let span_start = padded[..start].chars().count();
-            let span_end = span_start + matched.chars().count();
-            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
-            if quote_index % 2 == 1 {
-                continue;
-            }
-            let (line, column) = line_col_of(span_start, &line_bounds);
-            diagnostics.push((
-                span_start,
-                json!({
-                    "check_path": "misc.capitalization.days",
-                    "message": CAPITALIZATION_DAYS_MESSAGE.replace("{}", replacement),
-                    "span": [span_start, span_end],
-                    "pos": [line, column],
-                    "replacements": replacement,
-                }),
-            ));
-        }
-    }
-
-    diagnostics.sort_unstable_by_key(|(start, _)| *start);
+    let mut diagnostics = capitalization_days_diagnostics_in_matcher_order(text);
     diagnostics
-        .into_iter()
-        .map(|(_, diagnostic)| diagnostic)
-        .collect()
+        .sort_unstable_by_key(|diagnostic| diagnostic["span"][0].as_u64().unwrap_or_default());
+    diagnostics
+}
+
+/// Return day capitalization findings in FastSet activation order for CLI limits.
+pub fn capitalization_days_diagnostics_in_matcher_order(text: &str) -> Vec<Value> {
+    capitalization_diagnostics_in_matcher_order(
+        text,
+        "misc.capitalization.days",
+        CAPITALIZATION_DAYS_MESSAGE,
+        &CAPITALIZATION_DAYS,
+    )
 }
 
 /// Return diagnostics for the pinned case-sensitive month capitalization rule.
 pub fn capitalization_months_diagnostics(text: &str) -> Vec<Value> {
-    if text.is_empty() {
-        return Vec::new();
-    }
-
-    let padded = format!("\n{text}\n");
-    let quote_bounds = paired_quote_bounds(&padded);
-    let line_bounds = splitlines_bounds(&padded);
-    let mut diagnostics = Vec::new();
-
-    for (pattern, replacement) in CAPITALIZATION_MONTHS {
-        let pattern_len = pattern.len();
-        let active = padded.match_indices(pattern).any(|(start, _)| {
-            !is_ascii_word_before(&padded, start) && !is_ascii_word_at(&padded, start + pattern_len)
-        });
-        if !active {
-            continue;
-        }
-        for (start, _) in padded.char_indices() {
-            let end = start.saturating_add(pattern_len);
-            let Some(matched) = padded.get(start..end) else {
-                continue;
-            };
-            if matched != pattern {
-                continue;
-            }
-
-            let span_start = padded[..start].chars().count();
-            let span_end = span_start + matched.chars().count();
-            let quote_index = quote_bounds.partition_point(|bound| *bound < span_start);
-            if quote_index % 2 == 1 {
-                continue;
-            }
-            let (line, column) = line_col_of(span_start, &line_bounds);
-            diagnostics.push((
-                span_start,
-                json!({
-                    "check_path": "misc.capitalization.months",
-                    "message": CAPITALIZATION_MONTHS_MESSAGE.replace("{}", replacement),
-                    "span": [span_start, span_end],
-                    "pos": [line, column],
-                    "replacements": replacement,
-                }),
-            ));
-        }
-    }
-
-    diagnostics.sort_unstable_by_key(|(start, _)| *start);
+    let mut diagnostics = capitalization_months_diagnostics_in_matcher_order(text);
     diagnostics
-        .into_iter()
-        .map(|(_, diagnostic)| diagnostic)
-        .collect()
+        .sort_unstable_by_key(|diagnostic| diagnostic["span"][0].as_u64().unwrap_or_default());
+    diagnostics
+}
+
+/// Return month capitalization findings in FastSet activation order for CLI limits.
+pub fn capitalization_months_diagnostics_in_matcher_order(text: &str) -> Vec<Value> {
+    capitalization_diagnostics_in_matcher_order(
+        text,
+        "misc.capitalization.months",
+        CAPITALIZATION_MONTHS_MESSAGE,
+        &CAPITALIZATION_MONTHS,
+    )
 }
 
 /// Return diagnostics for the pinned `psychology.lie_detector` preferred forms.

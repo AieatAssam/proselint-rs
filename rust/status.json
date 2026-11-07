@@ -370,6 +370,10 @@
     {
       "id": "rule.misc.tense_present",
       "status": "recorded"
+    },
+    {
+      "id": "rule.lexical_illusions",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -424,18 +428,19 @@
     }
   },
   "active_ownership": {
-    "current": "misc.illogic and misc.tense_present are recorded after focused/independent verification and the 824/824 cumulative gate across 92 capabilities.",
+    "current": "lexical_illusions is recorded after focused and independent 21/21 live parity and the 836/836 cumulative gate across 93 capabilities.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
     "The no-config-found bundled DEFAULT, every default-enabled rule interaction, and combined enabled-rule configurations remain unverified; selected-rule passes do not establish default behavior.",
-    "27 unique rule paths remain unimplemented.",
+    "26 unique rule paths remain unimplemented.",
     "Other CLI behavior remains unverified, including remaining subcommands, missing nonempty-XDG config, HOME-unset resolution, directory user candidates, file/directory traversal and decoding edges, multi-file rendering, and Compact output.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
     "Directory/non-UTF-8 path error formatting on non-Linux platforms remains unverified.",
     "Benchmarks cover only the isolated misc.suddenly profile and the selected misc.suddenly + psychology.p_equals_zero profile on their recorded inputs; broader rule sets and default configurations remain unmeasured.",
     "Agent task configuration requested gpt-6-luna/low for implementation and independent review, but runtime model/effort metadata is not exposed, so routing cannot be independently audited.",
-    "Unicode case folding and quote-pairing combinations beyond explicitly tested cases remain unverified."
+    "Unicode case folding and quote-pairing combinations beyond explicitly tested cases remain unverified.",
+    "Eight confirmed low-max_errors ordering mismatches remain in capitalization seasons/months/days/terms, debased, metadiscourse, many_a and greylist; see the Astra live review plan and evidence."
   ],
   "capability_states": [
     {
@@ -1056,7 +1061,7 @@
         "ellipsis_unicode_codepoint_spans",
         "ellipsis_selected_config_interaction"
       ],
-      "upstream_spec": "ExistenceSimple unanchored literal \\.\\.\\.; exact message \"'...' is an approximation, use the ellipsis symbol '\u2026'.\"; nonoverlapping matches; allow_quotes=false suppresses quoted findings.",
+      "upstream_spec": "ExistenceSimple unanchored literal \\.\\.\\.; exact message \"'...' is an approximation, use the ellipsis symbol '…'.\"; nonoverlapping matches; allow_quotes=false suppresses quoted findings.",
       "red": {
         "behavioral_failures": 6,
         "total_tests": 6,
@@ -1100,7 +1105,7 @@
         "copyright_unicode_codepoint_positions",
         "copyright_selected_config_interaction"
       ],
-      "upstream_spec": "ExistenceSimple unanchored, case-insensitive literal \\(c\\); message `(c) is a goofy alphabetic approximation, use the symbol \u00a9.`; allow_quotes=false suppresses quoted findings.",
+      "upstream_spec": "ExistenceSimple unanchored, case-insensitive literal \\(c\\); message `(c) is a goofy alphabetic approximation, use the symbol ©.`; allow_quotes=false suppresses quoted findings.",
       "red": {
         "behavioral_failures": 6,
         "total_tests": 6,
@@ -1235,7 +1240,7 @@
         "multiplication_unicode_codepoint_positions",
         "multiplication_selected_config_interaction"
       ],
-      "upstream_spec": "ExistenceSimple `\\d+ ?x ?\\d+`: ASCII digits, case-insensitive x, zero or one ASCII space on either side, unanchored. Exact message: `Use the multiplication symbol \u00d7, not the letter x.`",
+      "upstream_spec": "ExistenceSimple `\\d+ ?x ?\\d+`: ASCII digits, case-insensitive x, zero or one ASCII space on either side, unanchored. Exact message: `Use the multiplication symbol ×, not the letter x.`",
       "red": {
         "behavioral_failures": 7,
         "total_tests": 7,
@@ -1571,7 +1576,7 @@
         "inferior_superior_unicode_codepoint_positions",
         "inferior_superior_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.inferior_superior` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `inferior than` \u2192 `inferior to`; `superior than` \u2192 `superior to`. Default quote suppression; no exceptions or offsets. The replacement fills the message template `'Inferior' and 'superior' are not true comparatives. Use '{}'.`",
+      "upstream_spec": "Pinned `misc.inferior_superior` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `inferior than` → `inferior to`; `superior than` → `superior to`. Default quote suppression; no exceptions or offsets. The replacement fills the message template `'Inferior' and 'superior' are not true comparatives. Use '{}'.`",
       "red": {
         "behavioral_failures": 10,
         "total_tests": 10,
@@ -1876,7 +1881,7 @@
         "many_a_unicode_codepoint_positions",
         "many_a_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.many_a` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `are many a` \u2192 `is many a`; `have been many a` \u2192 `has been many a`; `were many a` \u2192 `was many a`. The static message is `'many a' requires a singular verb.`; each mapped replacement is returned. Default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `misc.many_a` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `are many a` → `is many a`; `have been many a` → `has been many a`; `were many a` → `was many a`. The static message is `'many a' requires a singular verb.`; each mapped replacement is returned. Default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 7,
         "total_tests": 7,
@@ -2019,7 +2024,7 @@
         "latin_unicode_codepoint_positions",
         "latin_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.latin` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `ceteris paribus` \u2192 `other things being equal`; `inter alia` \u2192 `among other things`; `simpliciter` \u2192 `in and of itself`; `mutatis mutandis` \u2192 `having made the necessary changes`. The message is `Use English. '{}' is the preferred form.` and interpolates the replacement. Default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `misc.latin` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `ceteris paribus` → `other things being equal`; `inter alia` → `among other things`; `simpliciter` → `in and of itself`; `mutatis mutandis` → `having made the necessary changes`. The message is `Use English. '{}' is the preferred form.` and interpolates the replacement. Default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -2067,7 +2072,7 @@
         "seasons_unicode_codepoint_positions",
         "seasons_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.capitalization.seasons` is case-sensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries. Only `Winter` \u2192 `winter` and `Summer` \u2192 `summer` are mapped; lowercase, all-uppercase, and mixed-case variants are clean, as are commented-out `Spring` and `Fall`. Message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements returned, default quote suppression.",
+      "upstream_spec": "Pinned `misc.capitalization.seasons` is case-sensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries. Only `Winter` → `winter` and `Summer` → `summer` are mapped; lowercase, all-uppercase, and mixed-case variants are clean, as are commented-out `Spring` and `Fall`. Message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements returned, default quote suppression.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -2115,7 +2120,7 @@
         "capitalization_terms_unicode_codepoint_positions",
         "capitalization_terms_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.capitalization.terms` is case-sensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `mother nature` \u2192 `Mother Nature`, `Space Age` \u2192 `space age`, `stone age` \u2192 `Stone Age`, and `the American west` \u2192 `the American West`. Message `Incorrect capitalization. '{}' is the preferred form.`; replacements interpolate the mapped form; default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `misc.capitalization.terms` is case-sensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `mother nature` → `Mother Nature`, `Space Age` → `space age`, `stone age` → `Stone Age`, and `the American west` → `the American West`. Message `Incorrect capitalization. '{}' is the preferred form.`; replacements interpolate the mapped form; default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -2165,7 +2170,7 @@
         "lie_detector_selected_config_interaction",
         "lie_detector_fastset_activation_raw_copy"
       ],
-      "upstream_spec": "Pinned `psychology.lie_detector` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `lie detector test` \u2192 `polygraph test` and `lie detector machine` \u2192 `polygraph machine`. Message `Polygraph machines measure arousal, not lying per se. Try '{}'.`; mapped phrase is replacement and interpolation; default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `psychology.lie_detector` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `lie detector test` → `polygraph test` and `lie detector machine` → `polygraph machine`. Message `Polygraph machines measure arousal, not lying per se. Try '{}'.`; mapped phrase is replacement and interpolation; default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -2220,7 +2225,7 @@
         "wallace_unicode_codepoint_positions",
         "wallace_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `redundancy.misc.wallace` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `rectangular in shape` \u2192 `rectangular`, `audible to the ear` \u2192 `audible`. Message `Redundancy. Use '{}' instead of '{}'.`; the replacement is interpolated first and the original matched surface second. Default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `redundancy.misc.wallace` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `rectangular in shape` → `rectangular`, `audible to the ear` → `audible`. Message `Redundancy. Use '{}' instead of '{}'.`; the replacement is interpolated first and the original matched surface second. Default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -2645,7 +2650,7 @@
         "cli_config_cwd_discovers_empty_checks",
         "cli_config_explicit_precedes_cwd_discovery"
       ],
-      "upstream_spec": "When --config is omitted, pinned Python checks the current working directory for proselint.json; an explicit --config path takes precedence over that discovered file. The discovered file\u2019s checks and JSON diagnostics must match the explicit-file loading behavior.",
+      "upstream_spec": "When --config is omitted, pinned Python checks the current working directory for proselint.json; an explicit --config path takes precedence over that discovered file. The discovered file’s checks and JSON diagnostics must match the explicit-file loading behavior.",
       "red": {
         "behavioral_mismatches": 2,
         "total_cases": 3,
@@ -3135,7 +3140,7 @@
         "terms_eponymous_adjectives_max_errors_one"
       ],
       "registered_entries_exercised": 1,
-      "upstream_spec": "The pinned default-enabled terms.eponymous_adjectives check is PreferredFormsSimple with Fast case-insensitive WORDS_IN_TEXT padding, quote suppression, zero offset and two mappings: mephistophelian -> Mephistophelean and shakespearian -> Shakespearean. The registered message is \u201c'{}' is the preferred eponymous adjective.\u201d Preserve replacement lookup, raw match output after boundary activation, quote filtering, and source coordinates.",
+      "upstream_spec": "The pinned default-enabled terms.eponymous_adjectives check is PreferredFormsSimple with Fast case-insensitive WORDS_IN_TEXT padding, quote suppression, zero offset and two mappings: mephistophelian -> Mephistophelean and shakespearian -> Shakespearean. The registered message is “'{}' is the preferred eponymous adjective.” Preserve replacement lookup, raw match output after boundary activation, quote filtering, and source coordinates.",
       "red": {
         "report_status": "MISMATCH",
         "mismatches": 4,
@@ -3197,7 +3202,7 @@
         "ordering_report": "rust/artifacts/ally-ly-order-red-20261106.json",
         "ordering_result": "Seven original cases passed; max_errors=1 selected the earlier raw embedded academicly instead of optimisticly, whose bounded match activated first.",
         "lookup_report": "rust/artifacts/ally-ly-sol-edge-probes-live-20261106.json",
-        "lookup_result": "Pinned Python returned message replacement None and replacements null for long-s matches ba\u017ficly / optimi\u017fticly; pre-fix Rust returned basically. Quoted activation probe passed.",
+        "lookup_result": "Pinned Python returned message replacement None and replacements null for long-s matches baſicly / optimiſticly; pre-fix Rust returned basically. Quoted activation probe passed.",
         "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
       },
       "green": {
@@ -3243,7 +3248,7 @@
         "spelling_ely_ly_quoted_activation"
       ],
       "registered_entries_exercised": 1,
-      "upstream_spec": "Pinned default-enabled PreferredFormsSimple rule at spelling.ely_ly: completly\u2192completely, immediatly\u2192immediately, unfortunatly\u2192unfortunately. Uses Fast case-insensitive matching, WORDS_IN_TEXT boundaries, quote suppression, zero offset and PPM, with message -ely vs. -ly. Preserve activation-order emission, raw occurrences after activation, max_errors truncation, Unicode positions, and exact preferred lookup.",
+      "upstream_spec": "Pinned default-enabled PreferredFormsSimple rule at spelling.ely_ly: completly→completely, immediatly→immediately, unfortunatly→unfortunately. Uses Fast case-insensitive matching, WORDS_IN_TEXT boundaries, quote suppression, zero offset and PPM, with message -ely vs. -ly. Preserve activation-order emission, raw occurrences after activation, max_errors truncation, Unicode positions, and exact preferred lookup.",
       "red": {
         "report_status": "MISMATCH",
         "mismatches": 9,
@@ -3296,7 +3301,7 @@
         "spelling_ve_of_long_s_no_activation"
       ],
       "registered_entries_exercised": 1,
-      "upstream_spec": "Pinned default-enabled PreferredFormsSimple rule spelling.ve_of with could of\u2192could've, should of\u2192should've, would of\u2192would've; Fast case-insensitive WORDS_IN_TEXT matching, quote suppression, offset/PPM0. Activation requires ASCII word transitions at both match edges. A lone long-s should of is not activated; after normal should of activates the pattern, raw matching includes the later long-s surface and Python lower-key lookup returns None/null.",
+      "upstream_spec": "Pinned default-enabled PreferredFormsSimple rule spelling.ve_of with could of→could've, should of→should've, would of→would've; Fast case-insensitive WORDS_IN_TEXT matching, quote suppression, offset/PPM0. Activation requires ASCII word transitions at both match edges. A lone long-s should of is not activated; after normal should of activates the pattern, raw matching includes the later long-s surface and Python lower-key lookup returns None/null.",
       "red": {
         "report_status": "MISMATCH",
         "mismatches": 11,
@@ -3398,7 +3403,7 @@
         "spelling_in_un_quoted_activation_limit"
       ],
       "registered_entries_exercised": 1,
-      "upstream_spec": "Pinned default-enabled PreferredFormsSimple check with unadvisable\u2192inadvisable, unalienable\u2192inalienable, unexpressive\u2192inexpressive, unfeasible\u2192infeasible. Fast case-insensitive WORDS_IN_TEXT matching, allow_quotes=false, offset 0; message \"in- vs. un-. '{}' is the preferred spelling.\" Exact lowercase lookup means long-s surfaces can yield message None and replacements null. FastSet activation order, raw occurrence emission, quote suppression before max_errors, and final positional sorting are observable.",
+      "upstream_spec": "Pinned default-enabled PreferredFormsSimple check with unadvisable→inadvisable, unalienable→inalienable, unexpressive→inexpressive, unfeasible→infeasible. Fast case-insensitive WORDS_IN_TEXT matching, allow_quotes=false, offset 0; message \"in- vs. un-. '{}' is the preferred spelling.\" Exact lowercase lookup means long-s surfaces can yield message None and replacements null. FastSet activation order, raw occurrence emission, quote suppression before max_errors, and final positional sorting are observable.",
       "red": {
         "report_status": "MISMATCH",
         "mismatches": 10,
@@ -3992,7 +3997,7 @@
         "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
         "oracle_integrity": "verified before and after",
         "candidate_sha256": "048ae012c010914b544d0140191592c8574632b1c3eec6cc79fba7f7c09a107d",
-        "cumulative_gate": "deferred; next 5\u201310-capability checkpoint",
+        "cumulative_gate": "deferred; next 5–10-capability checkpoint",
         "stage_durations_seconds": {
           "locked_build": 0.1788,
           "fmt_check": 0.605222,
@@ -4115,7 +4120,7 @@
       "additional_case_specification": {
         "case_id": "spelling_able_ible_unicode_casefolds",
         "case_count": 1,
-        "oracle_result": "combined input produced three findings: spans [1,9] and [10,18] with null replacement, then visible at [19,26]; \u017fensable and Cyrillic v\u0456sable remain clean when isolated.",
+        "oracle_result": "combined input produced three findings: spans [1,9] and [10,18] with null replacement, then visible at [19,26]; ſensable and Cyrillic vіsable remain clean when isolated.",
         "oracle_integrity": "verified before and after",
         "evidence": "rust/artifacts/able_ible_red_20261106/pinned_semantics_live_probe.json; independently reconfirmed through the pinned absolute CLI during this session."
       },
@@ -5518,7 +5523,7 @@
     },
     {
       "id": "rule.misc.waxed",
-      "upstream_source": "proselint/checks/misc/waxed.py; Fowler\u2019s Modern English Usage attribution; source snapshot BSD-3-Clause",
+      "upstream_source": "proselint/checks/misc/waxed.py; Fowler’s Modern English Usage attribution; source snapshot BSD-3-Clause",
       "source_sha256": "1422bcf67cf0ea1975f625deb546382f7c76ba60bb043634951c64618f059420",
       "case_ids": [
         "waxed_all_64_form_modifier_pairs",
@@ -6104,34 +6109,143 @@
         "comparator_self_tests": 23
       },
       "source_sha256": "d6bd93a34712935437a20d25ec86e9642e11671d35b880f04010322385fb374a"
+    },
+    {
+      "id": "rule.lexical_illusions",
+      "status": "recorded",
+      "case_ids": [
+        "lexical_illusions_single_repeat",
+        "lexical_illusions_exact_exceptions",
+        "lexical_illusions_triple_repeats",
+        "lexical_illusions_phrase_lengths_one_to_four",
+        "lexical_illusions_more_than_four_words",
+        "lexical_illusions_whitespace_backreference_exact",
+        "lexical_illusions_whitespace_backreference_mismatch",
+        "lexical_illusions_apostrophe_hyphen_boundaries",
+        "lexical_illusions_unicode_casefold_and_word_semantics",
+        "lexical_illusions_quote_suppression",
+        "lexical_illusions_unicode_codepoint_offsets",
+        "lexical_illusions_max_errors_one"
+      ],
+      "supplemental_live_case_ids": [
+        "lexprobe_newline_internal",
+        "lexprobe_nbsp_internal",
+        "lexprobe_u001c_internal",
+        "lexprobe_u001f_internal",
+        "lexprobe_combining_mark_tail",
+        "lexprobe_unicode_digit",
+        "lexprobe_underscore",
+        "lexprobe_join_control",
+        "lexprobe_leading_punctuation"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_source": "proselint/checks/lexical_illusions.py; source attribution: write-good; pinned repo BSD-3-Clause",
+      "upstream_spec": "Fancy ExistenceSimple: greedy 1–4 Python-Unicode-word capture, exact captured-whitespace backreference with case-insensitive comparison, strict [A-Za-z'-] padding, exceptions filtered after matching.",
+      "specification": {
+        "live_cases": 12,
+        "supplemental_oracle_probes": 9,
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "oracle_source_sha256": "73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831",
+        "oracle_integrity": "verified",
+        "oracle_case_report": "rust/artifacts/lexical-illusions-live-selfcheck.json"
+      },
+      "red": {
+        "status": "behavioral_failure",
+        "failing_tests": 5,
+        "duration_seconds": 57.9,
+        "details": "Focused CLI tests compiled; all five failed because the check path was unsupported (candidate exited 4 where findings/clean outcomes were expected). Original console log was not retained; red result was reported in the Luna builder handoff."
+      },
+      "green": {
+        "status": "PASS",
+        "focused_rust_tests": 5,
+        "focused_live_cases": 21,
+        "focused_live_report": "rust/artifacts/lexical-illusions-expanded-live-20261107.json",
+        "source_fingerprint": "7fa9dd451b458a759c56684d0d7d9f69ba66bda05dd9661ea783faaf006bfad6",
+        "candidate_sha256": "692d31e191cb566d3bb761be2c0ecf0db5a0c49b0d2dd01ada0e6f209110fb61"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 21,
+        "report": "rust/artifacts/independent-lexical-illusions-20261107/verification.md",
+        "duration_seconds": 11.806,
+        "oracle_integrity": "verified before and after",
+        "agent_model": "gpt-6-luna",
+        "agent_effort": "high configured role",
+        "agent_runtime_metadata": "unavailable"
+      },
+      "agent_model": "gpt-6-luna",
+      "agent_reasoning_effort": "rust_builder/parity_verifier roles configured high; oracle_engineer role configured high",
+      "agent_runtime_metadata": "unavailable",
+      "source_fingerprint": "7fa9dd451b458a759c56684d0d7d9f69ba66bda05dd9661ea783faaf006bfad6",
+      "candidate_sha256": "692d31e191cb566d3bb761be2c0ecf0db5a0c49b0d2dd01ada0e6f209110fb61",
+      "candidate_attestation": "rust/artifacts/20261107T061837009163Z-build.attestation.json",
+      "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d052b3136",
+      "stage_durations_seconds": {
+        "pinned_oracle_selfcheck_12": 22.735,
+        "red_build_and_test": 57.9,
+        "focused_rust_green": 0.5,
+        "focused_live_21": 11.823,
+        "independent_locked_build_and_live": 11.806,
+        "harness_unit_suite": 38.764,
+        "comparator_self_tests": 0.8,
+        "cumulative_gate_92_capabilities": 244.441,
+        "cumulative_gate_93_capabilities": 240.237,
+        "independent_locked_checks": 11.016
+      },
+      "stage_case_counts": {
+        "oracle_selfcheck_passed": 12,
+        "red_failing_rust_tests": 5,
+        "focused_rust_tests_passed": 5,
+        "owner_live_passed": 21,
+        "independent_live_passed": 21,
+        "harness_tests_passed": 49,
+        "comparator_self_tests_passed": 23,
+        "cumulative_gate_passed": 836,
+        "cumulative_gate_capabilities": 93,
+        "independent_locked_rust_tests_passed": 621
+      },
+      "pre_gate_status": "PASS; lexical_illusions included in strict cumulative gate",
+      "implementation": "Rule-specific bounded backtracking matcher with CPython 3.12.3 word table; exact whitespace backreference; quote suppression and padded codepoint spans; no new dependency or runtime fallback.",
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-lexical-accepted-20261107.json",
+        "started_at_utc": "2026-11-07T06:31:01.481690+00:00",
+        "finished_at_utc": "2026-11-07T06:35:01.718626+00:00",
+        "duration_seconds": 240.237,
+        "passed_cases": 836,
+        "manifest_cases": 842,
+        "capabilities": 93,
+        "source_fingerprint": "7fa9dd451b458a759c56684d0d7d9f69ba66bda05dd9661ea783faaf006bfad6",
+        "candidate_sha256": "692d31e191cb566d3bb761be2c0ecf0db5a0c49b0d2dd01ada0e6f209110fb61",
+        "oracle_integrity": "verified",
+        "comparator_self_tests": 23
+      },
+      "implementation_source_sha256": "b2cc77fdf7ba961d7eabc740b42306815320cf07df8f60b06f66f74b84d3bee1",
+      "test_source_sha256": "b3107afd4dd709ab074e23c09967d96aa290c18883d79347e33e7e7a9599b31e",
+      "source_sha256": "b2cc77fdf7ba961d7eabc740b42306815320cf07df8f60b06f66f74b84d3bee1"
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-illogic-tense-20261107.json",
-    "passed_cases": 824,
-    "manifest_cases": 830,
+    "report": "rust/artifacts/strict-gate-lexical-accepted-20261107.json",
+    "passed_cases": 836,
+    "manifest_cases": 842,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
       "cli.config.per_file_checks": 4
     },
     "exit_code": 0,
-    "capability_count": 92,
-    "source_fingerprint": "9cdab0244cdb7efcb6ec81e5e1d6319600c2f8c53428518fe0fb90bd4000387f",
-    "run_id": "20261107T053303728535Z-10e714c3",
-    "started_at_utc": "2026-11-07T05:33:03.728505+00:00",
-    "finished_at_utc": "2026-11-07T05:37:07.307387+00:00",
-    "candidate_attestation": "rust/artifacts/20261107T053252344342Z-build.attestation.json",
-    "candidate_sha256": "b51493e98822a8a10753c3f32698ee4c6467808f8fb5c589aade342fb6dc40a1",
+    "capability_count": 93,
+    "source_fingerprint": "7fa9dd451b458a759c56684d0d7d9f69ba66bda05dd9661ea783faaf006bfad6",
+    "run_id": "20261107T063101481723Z-2994130c",
+    "started_at_utc": "2026-11-07T06:31:01.481690+00:00",
+    "finished_at_utc": "2026-11-07T06:35:01.718626+00:00",
+    "candidate_attestation": "rust/artifacts/20261107T063048856821Z-build.attestation.json",
+    "candidate_sha256": "692d31e191cb566d3bb761be2c0ecf0db5a0c49b0d2dd01ada0e6f209110fb61",
     "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d052b3136",
-    "duration_seconds": 243.578882,
-    "scope_note": "Shared CLI route checkpoint includes misc.illogic and misc.tense_present; excludes two harness smoke and four per-file-config cases.",
-    "build_stage_durations_seconds": {
-      "fmt_check": 0.808,
-      "clippy": 0.252,
-      "cargo_test": 9.666,
-      "cargo_build": 0.226
-    }
+    "duration_seconds": 240.237,
+    "scope_note": "Strict accepted capability gate includes lexical_illusions; excludes two harness smoke and four per-file-config cases.",
+    "comparator_self_tests": 23
   },
   "rust_dependencies": {
     "status": "current",
@@ -6156,7 +6270,7 @@
       "evidence": "rust/artifacts/rust-dependency-dry-run-latest-20261107.txt"
     }
   },
-  "next_capability_handoff": "Continue from the remaining unimplemented inventory. Keep rule modules isolated, require focused live and independent verification for every capability, and run the next cumulative gate after 5\u201310 accepted capabilities unless shared behavior changes.",
+  "next_capability_handoff": "Next: integrate the calibrated rule.typography.punctuation.spacing cases from rust/artifacts/spacing-oracle-probe-final.json, run meaningful Rust RED, implement in its own module, and run cumulative gate immediately after coordinator-owned CLI routing because it adds Consistency behavior.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",
@@ -6199,7 +6313,59 @@
         "disposition": "Resolved for four live cases including `.` and `child/..`; Unix symlink canonicalization is covered by a focused Rust test and pinned oracle probe.",
         "scope": "cli.config.directory_path"
       }
-    ]
+    ],
+    "subsequent_review": {
+      "reviewer": "Astra live implementation review",
+      "configured_model": "gpt-6-astra",
+      "configured_effort": "low",
+      "runtime_dispatch_metadata": "unavailable",
+      "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+      "reviewed_source_fingerprint": "38439d4cd8d795a8791c3417fa7279f2772ea0d3b813873821e40fbb032e3b01",
+      "evidence": "rust/artifacts/astra-live-review/ordering-20261107.jsonl",
+      "findings": [
+        {
+          "capability": "misc.capitalization.seasons",
+          "status": "confirmed_mismatch",
+          "disposition": "Add pinned interleaved low-max_errors regression and repair ordering while preserving upstream traversal semantics."
+        },
+        {
+          "capability": "misc.capitalization.months",
+          "status": "confirmed_mismatch",
+          "disposition": "Add pinned interleaved low-max_errors regression and repair ordering while preserving upstream traversal semantics."
+        },
+        {
+          "capability": "misc.capitalization.days",
+          "status": "confirmed_mismatch",
+          "disposition": "Add pinned interleaved low-max_errors regression and repair ordering while preserving upstream traversal semantics."
+        },
+        {
+          "capability": "misc.capitalization.terms",
+          "status": "confirmed_mismatch",
+          "disposition": "Add pinned interleaved low-max_errors regression and repair ordering while preserving upstream traversal semantics."
+        },
+        {
+          "capability": "misc.debased",
+          "status": "confirmed_mismatch",
+          "disposition": "Add pinned interleaved low-max_errors regression and repair ordering while preserving upstream traversal semantics."
+        },
+        {
+          "capability": "misc.metadiscourse",
+          "status": "confirmed_mismatch",
+          "disposition": "Add pinned interleaved low-max_errors regression and repair ordering while preserving upstream traversal semantics."
+        },
+        {
+          "capability": "misc.many_a",
+          "status": "confirmed_mismatch",
+          "disposition": "Add pinned interleaved low-max_errors regression and repair ordering while preserving upstream traversal semantics."
+        },
+        {
+          "capability": "misc.greylist",
+          "status": "confirmed_mismatch",
+          "disposition": "Add pinned interleaved low-max_errors regression and repair ordering while preserving upstream traversal semantics."
+        }
+      ],
+      "plan": "Distinguish FastSet pattern activation order, explicit dictionary/check registration traversal, and final CLI position sorting; do not remove sorting globally."
+    }
   },
   "latest_benchmark": {
     "status": "PASS",
@@ -6250,9 +6416,15 @@
       "configured_model": "gpt-6-luna",
       "configured_effort": "high",
       "runtime_dispatch_metadata": "unavailable",
-      "requested_effort": "low",
-      "low_effort_effective": false,
-      "evidence": "rust/artifacts/independent-illogic-tense-final-20261107/verification.md"
+      "requested_effort": "high per named role",
+      "low_effort_effective": null,
+      "evidence": "rust/artifacts/independent-lexical-illusions-20261107/verification.md"
+    },
+    "latest_astra_live_review": {
+      "configured_model": "gpt-6-astra",
+      "configured_effort": "low",
+      "runtime_dispatch_metadata": "unavailable",
+      "evidence": "rust/artifacts/astra-live-review/ordering-20261107.jsonl"
     }
   }
 }

@@ -27514,6 +27514,402 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "lexical_illusions_single_repeat",
+      "capability_id": "rule.lexical_illusions",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI oracle; source module proselint/checks/lexical_illusions.py (source tree SHA256 73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831); upstream BSD-3-Clause. Positive single-word repeat.",
+      "input_mode": "stdin",
+      "stdin_base64": "d29yZCB3b3Jk",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibGV4aWNhbF9pbGx1c2lvbnMiOnRydWV9LCJtYXhfZXJyb3JzIjoxMDAwfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "only_lexical_illusions",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "lexical_illusions_exact_exceptions",
+      "capability_id": "rule.lexical_illusions",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI oracle; source module proselint/checks/lexical_illusions.py (source tree SHA256 73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831); upstream BSD-3-Clause. Both exact phrase exceptions.",
+      "input_mode": "stdin",
+      "stdin_base64": "aGFkIGhhZDsgdGhhdCB0aGF0",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibGV4aWNhbF9pbGx1c2lvbnMiOnRydWV9LCJtYXhfZXJyb3JzIjoxMDAwfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "only_lexical_illusions",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "lexical_illusions_triple_repeats",
+      "capability_id": "rule.lexical_illusions",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI oracle; source module proselint/checks/lexical_illusions.py (source tree SHA256 73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831); upstream BSD-3-Clause. Repeated raw matches beyond each exact exception.",
+      "input_mode": "stdin",
+      "stdin_base64": "aGFkIGhhZCBoYWQ7IHRoYXQgdGhhdCB0aGF0",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibGV4aWNhbF9pbGx1c2lvbnMiOnRydWV9LCJtYXhfZXJyb3JzIjoxMDAwfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "only_lexical_illusions",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "lexical_illusions_phrase_lengths_one_to_four",
+      "capability_id": "rule.lexical_illusions",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI oracle; source module proselint/checks/lexical_illusions.py (source tree SHA256 73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831); upstream BSD-3-Clause. Covers the inclusive one-to-four word capture range.",
+      "input_mode": "stdin",
+      "stdin_base64": "cmVkIHJlZDsgYSBiIGEgYjsgYSBiIGMgYSBiIGM7IGEgYiBjIGQgYSBiIGMgZA==",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibGV4aWNhbF9pbGx1c2lvbnMiOnRydWV9LCJtYXhfZXJyb3JzIjoxMDAwfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "only_lexical_illusions",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "lexical_illusions_more_than_four_words",
+      "capability_id": "rule.lexical_illusions",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI oracle; source module proselint/checks/lexical_illusions.py (source tree SHA256 73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831); upstream BSD-3-Clause. Five-word near miss beyond the capture limit.",
+      "input_mode": "stdin",
+      "stdin_base64": "YSBiIGMgZCBlIGEgYiBjIGQgZQ==",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibGV4aWNhbF9pbGx1c2lvbnMiOnRydWV9LCJtYXhfZXJyb3JzIjoxMDAwfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "only_lexical_illusions",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "lexical_illusions_whitespace_backreference_exact",
+      "capability_id": "rule.lexical_illusions",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI oracle; source module proselint/checks/lexical_illusions.py (source tree SHA256 73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831); upstream BSD-3-Clause. Repeated phrase retains exact internal spaces and tab.",
+      "input_mode": "stdin",
+      "stdin_base64": "YSAgYglhICBi",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibGV4aWNhbF9pbGx1c2lvbnMiOnRydWV9LCJtYXhfZXJyb3JzIjoxMDAwfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "only_lexical_illusions",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "lexical_illusions_whitespace_backreference_mismatch",
+      "capability_id": "rule.lexical_illusions",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI oracle; source module proselint/checks/lexical_illusions.py (source tree SHA256 73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831); upstream BSD-3-Clause. Different internal whitespace does not satisfy the exact backreference.",
+      "input_mode": "stdin",
+      "stdin_base64": "YSBiIGEgIGI=",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibGV4aWNhbF9pbGx1c2lvbnMiOnRydWV9LCJtYXhfZXJyb3JzIjoxMDAwfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "only_lexical_illusions",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "lexical_illusions_apostrophe_hyphen_boundaries",
+      "capability_id": "rule.lexical_illusions",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI oracle; source module proselint/checks/lexical_illusions.py (source tree SHA256 73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831); upstream BSD-3-Clause. Strict word padding excludes apostrophe- and hyphen-joined repeats.",
+      "input_mode": "stdin",
+      "stdin_base64": "ZG9uJ3QgZG9uJ3Q7IHdlbGwta25vd24gd2VsbC1rbm93bg==",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibGV4aWNhbF9pbGx1c2lvbnMiOnRydWV9LCJtYXhfZXJyb3JzIjoxMDAwfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "only_lexical_illusions",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "lexical_illusions_unicode_casefold_and_word_semantics",
+      "capability_id": "rule.lexical_illusions",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI oracle; source module proselint/checks/lexical_illusions.py (source tree SHA256 73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831); upstream BSD-3-Clause. Kelvin and dotted-I casefold matches; long-s boundary/case behavior is a clean control.",
+      "input_mode": "stdin",
+      "stdin_base64": "xb8gczsg4oSqIGs7IMSwIGk=",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibGV4aWNhbF9pbGx1c2lvbnMiOnRydWV9LCJtYXhfZXJyb3JzIjoxMDAwfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "only_lexical_illusions",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "lexical_illusions_quote_suppression",
+      "capability_id": "rule.lexical_illusions",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI oracle; source module proselint/checks/lexical_illusions.py (source tree SHA256 73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831); upstream BSD-3-Clause. Quoted duplicate phrases are suppressed.",
+      "input_mode": "stdin",
+      "stdin_base64": "U2hlIHdyb3RlIOKAnHdvcmQgd29yZOKAnSBhbmQgc2FpZCAndGhhdCB0aGF0Jy4=",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibGV4aWNhbF9pbGx1c2lvbnMiOnRydWV9LCJtYXhfZXJyb3JzIjoxMDAwfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "only_lexical_illusions",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "lexical_illusions_unicode_codepoint_offsets",
+      "capability_id": "rule.lexical_illusions",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI oracle; source module proselint/checks/lexical_illusions.py (source tree SHA256 73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831); upstream BSD-3-Clause. Non-ASCII prefix checks Python codepoint offsets and spans.",
+      "input_mode": "stdin",
+      "stdin_base64": "eCDDqfCfmIogd29yZCB3b3Jk",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibGV4aWNhbF9pbGx1c2lvbnMiOnRydWV9LCJtYXhfZXJyb3JzIjoxMDAwfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "only_lexical_illusions",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "lexical_illusions_max_errors_one",
+      "capability_id": "rule.lexical_illusions",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI oracle; source module proselint/checks/lexical_illusions.py (source tree SHA256 73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831); upstream BSD-3-Clause. CLI truncates findings at max_errors=1.",
+      "input_mode": "stdin",
+      "stdin_base64": "b25lIG9uZTsgdHdvIHR3bzsgdGhyZWUgdGhyZWU=",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibGV4aWNhbF9pbGx1c2lvbnMiOnRydWV9LCJtYXhfZXJyb3JzIjoxfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "only_lexical_illusions",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

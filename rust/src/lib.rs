@@ -5,6 +5,7 @@ pub use rules::archaism::diagnostics as archaism_diagnostics;
 pub use rules::dash_and_from::diagnostics as dates_times_dates_dash_and_from_diagnostics;
 pub use rules::exclamation::diagnostics as exclamation_diagnostics;
 pub use rules::hyperbole::diagnostics as hyperbole_diagnostics;
+pub use rules::lexical_illusions::diagnostics as lexical_illusions_diagnostics;
 pub use rules::misc_illogic::diagnostics as misc_illogic_diagnostics;
 pub use rules::misc_tense_present::diagnostics as misc_tense_present_diagnostics;
 pub use rules::misc_waxed::diagnostics as misc_waxed_diagnostics;

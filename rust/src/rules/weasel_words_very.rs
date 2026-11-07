@@ -11,12 +11,12 @@ pub fn diagnostics(text: &str) -> Vec<Value> {
         .char_indices()
         .enumerate()
         .filter_map(|(index, (byte, ch))| {
-            if !ch.eq_ignore_ascii_case(&'v') || (index > 0 && is_word(chars[index - 1])) {
+            if !ch.eq_ignore_ascii_case(&'v') || (index > 0 && is_python_word(chars[index - 1])) {
                 return None;
             }
             let matched = padded.get(byte..byte + 4)?;
             if !matched.eq_ignore_ascii_case("very")
-                || chars.get(index + 4).is_some_and(|ch| is_word(*ch))
+                || chars.get(index + 4).is_some_and(|ch| is_python_word(*ch))
             {
                 return None;
             }
@@ -798,7 +798,7 @@ const PYTHON_ALNUM_RANGES: &[(u32, u32)] = &[
     (0x30000, 0x3134A),
     (0x31350, 0x323AF),
 ];
-fn is_word(ch: char) -> bool {
+pub(crate) fn is_python_word(ch: char) -> bool {
     ch == '_' || {
         let code = ch as u32;
         let index = PYTHON_ALNUM_RANGES.partition_point(|(_, end)| *end < code);

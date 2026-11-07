@@ -18,7 +18,7 @@ import uuid
 from pathlib import Path
 from typing import Any
 
-from compare import REPORT_SCHEMA_VERSION, load_manifest, run_live, run_self_tests, source_fingerprint, validate_report
+from compare import REPORT_SCHEMA_VERSION, load_manifest, read_candidate_attestation, run_live, run_self_tests, source_fingerprint, validate_report
 from setup_oracle import ROOT, RUST_ROOT, oracle_integrity
 
 
@@ -179,12 +179,50 @@ def build_and_attest(candidate_json: str | None) -> tuple[list[str], Path]:
     return candidate, path
 
 
+def reuse_attested_candidate(attestation_path: Path, candidate_json: str | None) -> tuple[list[str], Path]:
+    cargo, channel = locked_cargo()
+    binary = RUST_ROOT / "target" / "debug" / ("proselint.exe" if os.name == "nt" else "proselint")
+    candidate = [str(binary.resolve())]
+    if candidate_json is not None:
+        try:
+            candidate = json.loads(candidate_json)
+        except json.JSONDecodeError as exc:
+            raise ValueError(f"invalid --candidate-argv-json: {exc}") from exc
+        if not isinstance(candidate, list) or not candidate or not all(isinstance(value, str) for value in candidate):
+            raise ValueError("candidate argv must be a non-empty JSON string array")
+        if Path(candidate[0]).resolve() != binary.resolve():
+            raise ValueError("candidate argv must begin with the attested debug CLI binary")
+    attestation = read_candidate_attestation(attestation_path, candidate, source_fingerprint())
+    if attestation.get("toolchain") != channel:
+        raise ValueError("build attestation uses a different Rust toolchain")
+    missing = missing_gate_attestation_checks(attestation, cargo, RUST_ROOT / "Cargo.toml")
+    if missing:
+        raise ValueError(f"build attestation does not prove successful locked gate checks: {missing}")
+    return candidate, attestation_path
+
+
+def missing_gate_attestation_checks(attestation: dict[str, Any], cargo: Path, manifest: Path) -> list[str]:
+    records = attestation.get("build_commands", [])
+    if not isinstance(records, list) or any(not isinstance(item, dict) or item.get("exit_code") != 0 or not isinstance(item.get("command"), list) or not item["command"] for item in records):
+        raise ValueError("build attestation has incomplete or unsuccessful command records")
+    cargo_path, manifest_path = str(cargo), str(manifest)
+    requirements = {
+        "fmt --check": lambda command: command[0] == cargo_path and command[1:] == ["fmt", "--manifest-path", manifest_path, "--check"],
+        "clippy -D warnings": lambda command: command[0] == cargo_path and command[1:] == ["clippy", "--manifest-path", manifest_path, "--all-targets", "--", "-D", "warnings"],
+        "cargo test --locked": lambda command: command[0] == cargo_path and command[1:] == ["test", "--locked", "--manifest-path", manifest_path],
+        "cargo build --locked": lambda command: command[0] == cargo_path and command[1:] == ["build", "--locked", "--manifest-path", manifest_path],
+    }
+    commands = [item["command"] for item in records]
+    return [name for name, matches in requirements.items() if not any(matches(command) for command in commands)]
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--live", action="store_true")
     parser.add_argument("--report", type=Path, required=True)
     parser.add_argument("--candidate-argv-json")
     parser.add_argument("--reference-argv-json")
+    parser.add_argument("--reuse-attestation", type=Path, help="reuse a successful build attestation after checking current source, lockfile, binary, toolchain, and gate commands")
     args = parser.parse_args()
     if not args.live:
         parser.error("gate requires --live")
@@ -208,6 +246,7 @@ def main() -> int:
 
     try:
         stage_started = begin_stage()
+        stage_name = "rust_candidate_validation"
         try:
             oracle_integrity()
         finally:
@@ -232,9 +271,14 @@ def main() -> int:
         selected_cases = sum(case["capability_id"] in capabilities for case in manifest["cases"])
         stage_started = begin_stage()
         try:
-            candidate, attestation = build_and_attest(args.candidate_argv_json)
+            if args.reuse_attestation is None:
+                candidate, attestation = build_and_attest(args.candidate_argv_json)
+                stage_name = "rust_checks_and_build"
+            else:
+                candidate, attestation = reuse_attested_candidate(args.reuse_attestation, args.candidate_argv_json)
+                stage_name = "rust_candidate_attestation_reuse"
         finally:
-            finish_stage("rust_checks_and_build", stage_started)
+            finish_stage(stage_name, stage_started)
         stage_started = begin_stage()
         try:
             result = run_live(None, args.report, json.dumps(candidate), args.reference_argv_json, attestation, required_capabilities=capabilities)

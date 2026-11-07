@@ -16,6 +16,28 @@ spec.loader.exec_module(gate)
 
 
 class GateTests(unittest.TestCase):
+    def test_reusable_attestation_must_prove_each_locked_gate_command(self):
+        cargo = Path("/toolchain/bin/cargo")
+        manifest = Path("/checkout/rust/Cargo.toml")
+        commands = [
+            [str(cargo), "fmt", "--manifest-path", str(manifest), "--check"],
+            [str(cargo), "clippy", "--manifest-path", str(manifest), "--all-targets", "--", "-D", "warnings"],
+            [str(cargo), "test", "--locked", "--manifest-path", str(manifest)],
+            [str(cargo), "build", "--locked", "--manifest-path", str(manifest)],
+        ]
+        attestation = {"build_commands": [{"command": command, "exit_code": 0} for command in commands]}
+
+        self.assertEqual(gate.missing_gate_attestation_checks(attestation, cargo, manifest), [])
+        attestation["build_commands"].pop(1)
+        self.assertEqual(gate.missing_gate_attestation_checks(attestation, cargo, manifest), ["clippy -D warnings"])
+
+    def test_reusable_attestation_rejects_failed_build_record(self):
+        with self.assertRaisesRegex(ValueError, "unsuccessful"):
+            gate.missing_gate_attestation_checks(
+                {"build_commands": [{"command": ["cargo", "test"], "exit_code": 1}]},
+                Path("cargo"), Path("Cargo.toml"),
+            )
+
     def test_gate_execution_summary_records_stage_duration_and_scope(self):
         report = {}
         stages = {

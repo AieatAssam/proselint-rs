@@ -145,6 +145,14 @@ A capability may instead be blocked or failed, with its reason recorded. Only in
 7. CUMULATIVE CHECKPOINT: run the full live gate after each 5–10 newly accepted capabilities, before release, and immediately after changes to shared matching, configuration, CLI, or output behavior. Do not repeat this full gate after an isolated capability unless one of those checkpoints is due. A mismatch blocks dependent work until fixed. A focused capability pass never implies a cumulative pass.
 8. PROCEED: after the capability's independent focused verification passes, mark it accepted and select the next unblocked item. At a due checkpoint, wait for the cumulative gate before recording checkpoint acceptance. Unrelated read-only discovery can continue.
 
+### Efficient work cadence
+
+- Run focused RED/GREEN and independent live verification for every capability. Default to one cumulative checkpoint after five accepted capabilities; never let more than ten accumulate. Run one immediately after shared matcher, config, CLI, or output changes, and before release. Do not run it after an isolated capability unless a checkpoint is due.
+- Keep independent rule implementations in separate modules and assign one owner per source/test file. Run up to two such builders concurrently; serialize shared infrastructure and final gates.
+- `gate.py` always repeats comparator discrimination, pinned-oracle integrity, and cumulative live comparison. It normally runs fmt, Clippy, Rust tests, and build too. To reuse those checks, pass `--reuse-attestation <path>` only when an existing attestation records all four successful commands and its source fingerprint, `Cargo.lock`, binary hash/path, and pinned toolchain still match. Reuse never skips live Python-versus-Rust comparison or oracle integrity checks. A source or lock change makes the attestation unusable.
+- Use the benchmark runner only after parity preflight; its default overall deadline is 1800 seconds and it remains separate from correctness gates. Use `--parity-only` when validating a proposed workload without collecting timings.
+- Preserve stage durations and case counts from focused, independent, and cumulative reports. Review them at each checkpoint to choose the next bottleneck to address.
+
 Do not wait for user confirmation after each passing capability. Continue autonomously within the agreed scope and available resources. Stop only for genuine approval needs, unavailable tools/models/dependencies, unresolved compatibility decisions or failure budgets. After two unsuccessful diagnosis/fix attempts on the same root cause, ask the adviser one focused question with a reduced reproducer and evidence; if still blocked, record it honestly and continue only independent work. Never mask it.
 
 ## Partial-port discipline

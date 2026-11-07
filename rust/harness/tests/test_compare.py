@@ -155,6 +155,19 @@ class ComparatorTests(unittest.TestCase):
                 "curly_quotes_max_errors_one",
                 "curly_quotes_adjacent_quote_boundary_match",
             },
+            "rule.weasel_words.very": {
+                "weasel_very_positive_ordinary_case",
+                "weasel_very_well_exclusions",
+                "weasel_very_tabs_and_newlines",
+                "weasel_very_unicode_letter_boundary",
+                "weasel_very_quote_suppression",
+                "weasel_very_max_errors_one",
+                "weasel_very_combining_mark_and_ascii_boundaries",
+                "weasel_very_multiline_position",
+                "weasel_very_u1c89_leading", "weasel_very_u1c89_trailing",
+                "weasel_very_u0345_leading", "weasel_very_u0345_trailing",
+                "weasel_very_u05b0_leading", "weasel_very_u05b0_trailing",
+            },
         }
         cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] in expected]
         by_capability = {capability: {case["id"] for case in cases if case["capability_id"] == capability} for capability in expected}
@@ -163,7 +176,9 @@ class ComparatorTests(unittest.TestCase):
         for case in cases:
             with self.subTest(case=case["id"]):
                 self.assertEqual(len(case["files"]), 1)
-                self.assertEqual(case["files"][0]["path"], "config.json")
+                config_path = case["files"][0]["path"]
+                self.assertIn(config_path, {"config.json", "selected config.json"})
+                self.assertEqual(case["argv"][2], "{file:" + config_path + "}")
                 config = json.loads(base64.b64decode(case["files"][0]["content_base64"]))
                 enabled = []
 
@@ -176,6 +191,46 @@ class ComparatorTests(unittest.TestCase):
 
                 collect(config.get("checks"))
                 self.assertEqual(enabled, [case["capability_id"].removeprefix("rule.")])
+
+    def test_weasel_very_manifest_cases_and_exact_selected_config(self) -> None:
+        expected = {
+            "weasel_very_positive_ordinary_case", "weasel_very_well_exclusions",
+            "weasel_very_tabs_and_newlines", "weasel_very_unicode_letter_boundary",
+            "weasel_very_quote_suppression", "weasel_very_max_errors_one", "weasel_very_combining_mark_and_ascii_boundaries",
+            "weasel_very_multiline_position",
+            "weasel_very_u1c89_leading", "weasel_very_u1c89_trailing",
+            "weasel_very_u0345_leading", "weasel_very_u0345_trailing",
+            "weasel_very_u05b0_leading", "weasel_very_u05b0_trailing",
+        }
+        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "rule.weasel_words.very"]
+        self.assertEqual({case["id"] for case in cases}, expected)
+        for case in cases:
+            config = json.loads(base64.b64decode(case["files"][0]["content_base64"]))
+            self.assertEqual(config["checks"], {"weasel_words": {"very": True}})
+            self.assertEqual(case["argv"], ["check", "--config", "{file:" + case["files"][0]["path"] + "}", "--output-format", "json"])
+        self.assertEqual(json.loads(base64.b64decode(next(c for c in cases if c["id"].endswith("max_errors_one"))["files"][0]["content_base64"]))["max_errors"], 1)
+
+    def test_astra_interleaving_and_unicode_boundary_cases(self) -> None:
+        cases = {case["id"]: case for case in compare.load_manifest()["cases"]}
+        expected = {
+            "jargon_interleave_limit_two": ("rule.industrial_language.jargon", "agendize; disincentivize; agendize", 2),
+            "hedging_interleave_limit_two": ("rule.hedging", "I would argue that; to a certain degree; I would argue that", 2),
+            "weasel_very_u1c89_leading": ("rule.weasel_words.very", "\u1c89very", 1000),
+            "weasel_very_u1c89_trailing": ("rule.weasel_words.very", "very\u1c89", 1000),
+            "weasel_very_u0345_leading": ("rule.weasel_words.very", "\u0345very", 1000),
+            "weasel_very_u0345_trailing": ("rule.weasel_words.very", "very\u0345", 1000),
+            "weasel_very_u05b0_leading": ("rule.weasel_words.very", "\u05b0very", 1000),
+            "weasel_very_u05b0_trailing": ("rule.weasel_words.very", "very\u05b0", 1000),
+        }
+        self.assertTrue(set(expected).issubset(cases))
+        for case_id, (capability, text, max_errors) in expected.items():
+            with self.subTest(case=case_id):
+                case = cases[case_id]
+                self.assertEqual(case["capability_id"], capability)
+                self.assertEqual(case["expected_oracle_outcome"], "findings")
+                self.assertEqual(base64.b64decode(case["stdin_base64"]).decode("utf-8"), text)
+                config = json.loads(base64.b64decode(case["files"][0]["content_base64"]))
+                self.assertEqual(config["max_errors"], max_errors)
 
     def test_source_fingerprint_ignores_docs_and_status_but_tracks_inputs(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -942,13 +997,15 @@ class ComparatorTests(unittest.TestCase):
             "curly_quotes_max_errors_one",
             "curly_quotes_adjacent_quote_boundary_match",
         })
+        expected_case_ids.update({"weasel_very_positive_ordinary_case", "weasel_very_well_exclusions", "weasel_very_tabs_and_newlines", "weasel_very_unicode_letter_boundary", "weasel_very_quote_suppression", "weasel_very_max_errors_one", "weasel_very_combining_mark_and_ascii_boundaries", "weasel_very_multiline_position", "weasel_very_u1c89_leading", "weasel_very_u1c89_trailing", "weasel_very_u0345_leading", "weasel_very_u0345_trailing", "weasel_very_u05b0_leading", "weasel_very_u05b0_trailing"})
+        expected_case_ids.update({"jargon_interleave_limit_two", "hedging_interleave_limit_two"})
         self.assertEqual({item["id"] for item in manifest["cases"]}, expected_case_ids)
         self.assertEqual(len(manifest["cases"]), len(expected_case_ids))
 
         self.assertEqual(
             {capability: sum(case["capability_id"] == capability for case in manifest["cases"])
              for capability in {case["capability_id"] for case in manifest["cases"]}},
-            {'rule.misc.debased': 13, 'rule.misc.capitalization.days': 10, 'rule.cliches.hell': 7, 'harness.oracle_smoke': 2, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.dates_times.am_pm.midnight_noon': 10, 'rule.dates_times.dates.decade_apostrophes': 10, 'rule.misc.narcissism': 9, 'rule.misc.latin': 10, 'rule.misc.back_formations': 8, 'rule.misc.capitalization.terms': 10, 'rule.industrial_language.airlinese': 12, 'cli.json_no_findings': 8, 'rule.misc.phrasal_adjectives.ly': 7, 'rule.misc.greylist': 9, 'rule.misc.many_a': 10, 'cli.output_format.full': 3, 'cli.config.ignored_values': 5, 'rule.misc.professions': 8, 'cli.config.cwd_discovery': 3, 'cli.config.ancestor_discovery': 5, 'rule.misc.illogic.coin': 7, 'rule.hedging': 13, 'cli.config.invalid_utf8': 5, 'rule.misc.whence': 6, 'rule.annotations.misc': 10, 'rule.typography.symbols.sentence_spacing': 7, 'cli.config.consumed_special_values': 12, 'cli.config.malformed_json': 22, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.copyright': 6, 'rule.misc.pretension': 9, 'cli.config.recursion_depth': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.misc.institution_name': 8, 'rule.misc.currency': 12, 'rule.misc.suddenly': 7, 'cli.coordinates': 6, 'rule.misc.but': 8, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.collusion': 7, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.capitalization.seasons': 10, 'cli.config.directory_path': 4, 'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 10, 'rule.misc.inferior_superior': 12, 'rule.misc.false_plurals.misc': 9, 'cli.config.per_file_checks': 4, 'rule.redundancy.misc.wallace': 10, 'rule.dates_times.am_pm.spacing': 8, 'rule.typography.symbols.ellipsis': 6, 'rule.psychology.lie_detector': 12, 'rule.industrial_language.jargon': 10, 'cli.config.user_discovery': 8, 'rule.misc.capitalization.months': 6, 'rule.psychology.p_equals_zero': 8, 'spelling.ance_ence': 10, 'rule.misc.composition': 38, 'cli.combined_checks': 3, 'rule.terms.eponymous_adjectives': 4, 'rule.spelling.ally_ly': 10, 'rule.spelling.ely_ly': 9, 'rule.spelling.ve_of': 11, 'rule.malapropisms': 10, 'rule.spelling.in_un': 10, 'rule.mondegreens': 10, 'rule.skunked_terms': 11, 'rule.oxymorons': 16, 'rule.redundancy.misc.nordquist': 11, 'rule.misc.not_guilty': 4, 'spelling.er_or': 8, 'spelling.able_ible': 9, 'spelling.able_atable': 8, 'spelling.em_im_en_in': 8, 'spelling.athletes': 29, 'rule.archaism': 13, 'rule.dates_times.dates.month_year_comma': 8, 'rule.dates_times.dates.dash_and_from': 13, 'rule.dates_times.dates.month_of_year': 3, 'rule.misc.scare_quotes': 3, 'rule.typography.punctuation.hyperbole': 3, 'rule.typography.punctuation.misplaced': 3, 'rule.typography.punctuation.exclamation': 4, 'rule.social_awareness.nword': 8, 'rule.typography.symbols.curly_quotes': 9},
+            {'rule.misc.debased': 13, 'rule.misc.capitalization.days': 10, 'rule.cliches.hell': 7, 'harness.oracle_smoke': 2, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.dates_times.am_pm.midnight_noon': 10, 'rule.dates_times.dates.decade_apostrophes': 10, 'rule.misc.narcissism': 9, 'rule.misc.latin': 10, 'rule.misc.back_formations': 8, 'rule.misc.capitalization.terms': 10, 'rule.industrial_language.airlinese': 12, 'cli.json_no_findings': 8, 'rule.misc.phrasal_adjectives.ly': 7, 'rule.misc.greylist': 9, 'rule.misc.many_a': 10, 'cli.output_format.full': 3, 'cli.config.ignored_values': 5, 'rule.misc.professions': 8, 'cli.config.cwd_discovery': 3, 'cli.config.ancestor_discovery': 5, 'rule.misc.illogic.coin': 7, 'rule.hedging': 14, 'cli.config.invalid_utf8': 5, 'rule.misc.whence': 6, 'rule.annotations.misc': 10, 'rule.typography.symbols.sentence_spacing': 7, 'cli.config.consumed_special_values': 12, 'cli.config.malformed_json': 22, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.copyright': 6, 'rule.misc.pretension': 9, 'cli.config.recursion_depth': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.misc.institution_name': 8, 'rule.misc.currency': 12, 'rule.misc.suddenly': 7, 'cli.coordinates': 6, 'rule.misc.but': 8, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.collusion': 7, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.capitalization.seasons': 10, 'cli.config.directory_path': 4, 'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 10, 'rule.misc.inferior_superior': 12, 'rule.misc.false_plurals.misc': 9, 'cli.config.per_file_checks': 4, 'rule.redundancy.misc.wallace': 10, 'rule.dates_times.am_pm.spacing': 8, 'rule.typography.symbols.ellipsis': 6, 'rule.psychology.lie_detector': 12, 'rule.industrial_language.jargon': 11, 'cli.config.user_discovery': 8, 'rule.misc.capitalization.months': 6, 'rule.psychology.p_equals_zero': 8, 'spelling.ance_ence': 10, 'rule.misc.composition': 38, 'cli.combined_checks': 3, 'rule.terms.eponymous_adjectives': 4, 'rule.spelling.ally_ly': 10, 'rule.spelling.ely_ly': 9, 'rule.spelling.ve_of': 11, 'rule.malapropisms': 10, 'rule.spelling.in_un': 10, 'rule.mondegreens': 10, 'rule.skunked_terms': 11, 'rule.oxymorons': 16, 'rule.redundancy.misc.nordquist': 11, 'rule.misc.not_guilty': 4, 'spelling.er_or': 8, 'spelling.able_ible': 9, 'spelling.able_atable': 8, 'spelling.em_im_en_in': 8, 'spelling.athletes': 29, 'rule.archaism': 13, 'rule.dates_times.dates.month_year_comma': 8, 'rule.dates_times.dates.dash_and_from': 13, 'rule.dates_times.dates.month_of_year': 3, 'rule.misc.scare_quotes': 3, 'rule.typography.punctuation.hyperbole': 3, 'rule.typography.punctuation.misplaced': 3, 'rule.typography.punctuation.exclamation': 4, 'rule.social_awareness.nword': 8, 'rule.typography.symbols.curly_quotes': 9, 'rule.weasel_words.very': 14},
         )
 
         archaism = [case for case in manifest["cases"] if case["capability_id"] == "rule.archaism"]

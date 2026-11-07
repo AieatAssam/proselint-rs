@@ -22,8 +22,15 @@
     "sortedcontainers": "2.4.0"
   },
   "environment_setup_command": [
-    "python3",
-    "rust/harness/setup_oracle.py"
+    "uv",
+    "sync",
+    "--locked",
+    "--python",
+    "3.12.3",
+    "--group",
+    "test",
+    "--no-default-groups",
+    "--no-editable"
   ],
   "executable": ".cache/oracle-src/source/.venv/bin/proselint",
   "import_provenance": {
@@ -32,7 +39,7 @@
     "verification": "The setup script imports proselint.command_line and proselint.checks with PYTHONPATH unset and PYTHONNOUSERSITE=1, then asserts all loaded proselint modules are installed in the oracle venv.",
     "verified": true
   },
-  "installed_package_tree_sha256": "e76c6c6472cd77e21e046bf4853b58a7b6b3fe99ab37fb0a321da42b722c0899",
+  "installed_package_tree_sha256": "6e6b1a625b7bf776549975cfd2d312d21906e5e6a96173d69c7596bbcc64d849",
   "module_provenance": {
     "proselint": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/__init__.py",
     "proselint.backports": ".cache/oracle-src/source/.venv/lib/python3.12/site-packages/proselint/backports.py",
@@ -167,7 +174,7 @@
   "status": "provisioned",
   "upstream_tests": {
     "command": [
-      "<reference-python>",
+      ".cache/oracle-src/source/.venv/bin/python",
       "-m",
       "pytest",
       "-q"

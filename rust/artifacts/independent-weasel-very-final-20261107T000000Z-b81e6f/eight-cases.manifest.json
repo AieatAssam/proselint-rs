@@ -1,0 +1,269 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "id": "weasel_very_positive_ordinary_case",
+      "capability_id": "rule.weasel_words.very",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; inventory identifies weasel_words.very as case-insensitive Fancy ExistenceSimple, allow_quotes=false, ppm_threshold=0, no exceptions. Selected config enables only weasel_words.very. Case probes the stated literal/boundary/quote/limit semantics.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhpcyBpcyB2ZXJ5IHVzZWZ1bC4gVkVSWSBjbGVhci4=",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsid2Vhc2VsX3dvcmRzIjp7InZlcnkiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "weasel_words_very_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "weasel_very_well_exclusions",
+      "capability_id": "rule.weasel_words.very",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; inventory identifies weasel_words.very as case-insensitive Fancy ExistenceSimple, allow_quotes=false, ppm_threshold=0, no exceptions. Selected config enables only weasel_words.very. Case probes the stated literal/boundary/quote/limit semantics.",
+      "input_mode": "stdin",
+      "stdin_base64": "SXQgd2VudCB2ZXJ5IHdlbGw7IHZlcnkgd2VsbGluZ3RvbiB3YXMgbWVudGlvbmVkLg==",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsid2Vhc2VsX3dvcmRzIjp7InZlcnkiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "weasel_words_very_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "weasel_very_tabs_and_newlines",
+      "capability_id": "rule.weasel_words.very",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; inventory identifies weasel_words.very as case-insensitive Fancy ExistenceSimple, allow_quotes=false, ppm_threshold=0, no exceptions. Selected config enables only weasel_words.very. Case probes the stated literal/boundary/quote/limit semantics.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhpcyBpcyB2ZXJ5CXVzZWZ1bC4gSXQgaXMgdmVyeQppbXBvcnRhbnQu",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsid2Vhc2VsX3dvcmRzIjp7InZlcnkiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "weasel_words_very_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "weasel_very_unicode_letter_boundary",
+      "capability_id": "rule.weasel_words.very",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; inventory identifies weasel_words.very as case-insensitive Fancy ExistenceSimple, allow_quotes=false, ppm_threshold=0, no exceptions. Selected config enables only weasel_words.very. Case probes the stated literal/boundary/quote/limit semantics. Pinned live oracle returns clean for both \u00e9very and very\u732b, consistent with Unicode letters occupying the word boundary.",
+      "input_mode": "stdin",
+      "stdin_base64": "w6l2ZXJ5IHVzZWZ1bCBhbmQgdmVyeeeMqyB1c2VmdWwu",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsid2Vhc2VsX3dvcmRzIjp7InZlcnkiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "weasel_words_very_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "weasel_very_quote_suppression",
+      "capability_id": "rule.weasel_words.very",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; inventory identifies weasel_words.very as case-insensitive Fancy ExistenceSimple, allow_quotes=false, ppm_threshold=0, no exceptions. Selected config enables only weasel_words.very. Case probes the stated literal/boundary/quote/limit semantics.",
+      "input_mode": "stdin",
+      "stdin_base64": "SGUgY2FsbGVkIGl0ICJ2ZXJ5IHVzZWZ1bCIu",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsid2Vhc2VsX3dvcmRzIjp7InZlcnkiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "weasel_words_very_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "weasel_very_max_errors_one",
+      "capability_id": "rule.weasel_words.very",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; inventory identifies weasel_words.very as case-insensitive Fancy ExistenceSimple, allow_quotes=false, ppm_threshold=0, no exceptions. Selected config enables only weasel_words.very. Case probes the stated literal/boundary/quote/limit semantics.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhpcyBpcyB2ZXJ5IHVzZWZ1bCBhbmQgdmVyeSBpbXBvcnRhbnQu",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsid2Vhc2VsX3dvcmRzIjp7InZlcnkiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "weasel_words_very_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "weasel_very_combining_mark_and_ascii_boundaries",
+      "capability_id": "rule.weasel_words.very",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; inventory identifies weasel_words.very as case-insensitive Fancy ExistenceSimple, allow_quotes=false, ppm_threshold=0, no exceptions. Selected config enables only weasel_words.very. Probe directly measures combining-mark and ASCII word boundaries.",
+      "input_mode": "stdin",
+      "stdin_base64": "zIF2ZXJ5IHZlcnnMgSBfdmVyeSAxdmVyeSB4dmVyeSB2ZXJ5eA==",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsid2Vhc2VsX3dvcmRzIjp7InZlcnkiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "weasel_words_very_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "weasel_very_multiline_position",
+      "capability_id": "rule.weasel_words.very",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; selected config enables only weasel_words.very. Checks line and column reporting for a match after a newline.",
+      "input_mode": "stdin",
+      "stdin_base64": "Zmlyc3QgbGluZQpzZWNvbmQgbGluZSB2ZXJ5IHVzZWZ1bA==",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsid2Vhc2VsX3dvcmRzIjp7InZlcnkiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "weasel_words_very_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    }
+  ]
+}

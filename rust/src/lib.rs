@@ -16,6 +16,7 @@ pub use rules::spelling_athletes::diagnostics as spelling_athletes_diagnostics;
 pub use rules::spelling_em_im_en_in::diagnostics as spelling_em_im_en_in_diagnostics;
 pub use rules::spelling_er_or::diagnostics as spelling_er_or_diagnostics;
 pub use rules::typography_curly_quotes::diagnostics as typography_curly_quotes_diagnostics;
+pub use rules::weasel_words_very::diagnostics as weasel_words_very_diagnostics;
 
 use regex::{Regex, RegexBuilder};
 use serde_json::{Map, Value, json};
@@ -2050,7 +2051,6 @@ pub fn hedging_diagnostics(text: &str) -> Vec<Value> {
         }
     }
 
-    diagnostics.sort_unstable_by_key(|(start, _)| *start);
     diagnostics
         .into_iter()
         .map(|(_, diagnostic)| diagnostic)
@@ -2105,7 +2105,6 @@ pub fn jargon_diagnostics(text: &str) -> Vec<Value> {
         }
     }
 
-    diagnostics.sort_unstable_by_key(|(start, _)| *start);
     diagnostics
         .into_iter()
         .map(|(_, diagnostic)| diagnostic)

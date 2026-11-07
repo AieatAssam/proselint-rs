@@ -23,6 +23,7 @@ pub use rules::spelling_athletes::diagnostics as spelling_athletes_diagnostics;
 pub use rules::spelling_em_im_en_in::diagnostics as spelling_em_im_en_in_diagnostics;
 pub use rules::spelling_er_or::diagnostics as spelling_er_or_diagnostics;
 pub use rules::typography_curly_quotes::diagnostics as typography_curly_quotes_diagnostics;
+pub use rules::typography_diacritical_marks::diagnostics as typography_diacritical_marks_diagnostics;
 pub use rules::typography_spacing::diagnostics as typography_spacing_diagnostics;
 pub use rules::weasel_words_very::diagnostics as weasel_words_very_diagnostics;
 
@@ -3476,7 +3477,7 @@ fn unicode_case_match_end(text: &str, start: usize, pattern: &str) -> Option<usi
     None
 }
 
-fn unicode_case_match_ends(text: &str, pattern: &str) -> Vec<(usize, usize)> {
+pub(crate) fn unicode_case_match_ends(text: &str, pattern: &str) -> Vec<(usize, usize)> {
     text.char_indices()
         .filter_map(|(start, _)| {
             unicode_case_match_end(text, start, pattern).map(|end| (start, end))
@@ -3494,7 +3495,7 @@ fn unicode_case_fold(text: &str) -> String {
         .collect()
 }
 
-fn preferred_lookup(surface: &str, replacement: &'static str) -> Option<&'static str> {
+pub(crate) fn preferred_lookup(surface: &str, replacement: &'static str) -> Option<&'static str> {
     (!surface.contains('ſ')).then_some(replacement)
 }
 

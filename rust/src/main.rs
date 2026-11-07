@@ -29,10 +29,10 @@ use proselint_rs::{
     spelling_athletes_diagnostics, spelling_ely_ly_diagnostics, spelling_em_im_en_in_diagnostics,
     spelling_er_or_diagnostics, spelling_in_un_diagnostics, spelling_ve_of_diagnostics,
     suddenly_diagnostics, typography_copyright_diagnostics, typography_curly_quotes_diagnostics,
-    typography_ellipsis_diagnostics, typography_multiplication_diagnostics,
-    typography_sentence_spacing_diagnostics, typography_spacing_diagnostics,
-    typography_trademark_diagnostics, wallace_diagnostics, weasel_words_very_diagnostics,
-    whence_diagnostics,
+    typography_diacritical_marks_diagnostics, typography_ellipsis_diagnostics,
+    typography_multiplication_diagnostics, typography_sentence_spacing_diagnostics,
+    typography_spacing_diagnostics, typography_trademark_diagnostics, wallace_diagnostics,
+    weasel_words_very_diagnostics, whence_diagnostics,
 };
 use serde::Deserialize;
 use serde_json::Value;
@@ -1223,7 +1223,7 @@ fn run() -> Result<ExitCode, String> {
         (None, _) | (_, Some(None)) => None,
     };
     let selected_checks = selected_checks.ok_or_else(|| {
-        "this capability supports disabled checks, annotations.misc, archaism, cliches.hell, malapropisms, misc.apologizing, misc.but, misc.whence, misc.waxed, misc.illogic, misc.illogic.coin, misc.illogic.collusion, misc.tense_present, mixed_metaphors.bottleneck, mixed_metaphors.misc, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.back_formations, misc.many_a, misc.metadiscourse, misc.narcissism, misc.not_guilty, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, misc.scare_quotes, mondegreens, oxymorons, redundancy.misc.wallace, redundancy.misc.nordquist, redundancy.ras_syndrome, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, typography.symbols.curly_quotes, typography.punctuation.misplaced, typography.punctuation.exclamation, typography.punctuation.hyperbole, typography.punctuation.spacing, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, dates_times.am_pm.midnight_noon, dates_times.dates.decade_apostrophes, dates_times.dates.month_of_year, spelling.able_atable, spelling.able_ible, spelling.ally_ly, spelling.ance_ence, spelling.athletes, spelling.ely_ly, spelling.em_im_en_in, spelling.er_or, spelling.in_un, spelling.ve_of, skunked_terms, social_awareness.nword, weasel_words.very, or terms.eponymous_adjectives only".to_owned()
+        "this capability supports disabled checks, annotations.misc, archaism, cliches.hell, malapropisms, misc.apologizing, misc.but, misc.whence, misc.waxed, misc.illogic, misc.illogic.coin, misc.illogic.collusion, misc.tense_present, mixed_metaphors.bottleneck, mixed_metaphors.misc, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.back_formations, misc.many_a, misc.metadiscourse, misc.narcissism, misc.not_guilty, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, misc.scare_quotes, mondegreens, oxymorons, redundancy.misc.wallace, redundancy.misc.nordquist, redundancy.ras_syndrome, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, typography.symbols.curly_quotes, typography.punctuation.misplaced, typography.punctuation.exclamation, typography.punctuation.hyperbole, typography.punctuation.spacing, typography.diacritical_marks, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, dates_times.am_pm.midnight_noon, dates_times.dates.decade_apostrophes, dates_times.dates.month_of_year, spelling.able_atable, spelling.able_ible, spelling.ally_ly, spelling.ance_ence, spelling.athletes, spelling.ely_ly, spelling.em_im_en_in, spelling.er_or, spelling.in_un, spelling.ve_of, skunked_terms, social_awareness.nword, weasel_words.very, or terms.eponymous_adjectives only".to_owned()
     })?;
 
     let mut diagnostics = Vec::new();
@@ -1277,6 +1277,9 @@ fn run() -> Result<ExitCode, String> {
             SelectedCheck::TypographyPunctuationExclamation => exclamation_diagnostics(&content),
             SelectedCheck::TypographyPunctuationHyperbole => hyperbole_diagnostics(&content),
             SelectedCheck::TypographyPunctuationSpacing => typography_spacing_diagnostics(&content),
+            SelectedCheck::TypographyDiacriticalMarks => {
+                typography_diacritical_marks_diagnostics(&content)
+            }
             SelectedCheck::MiscFalsePluralsKudos => false_plurals_kudos_diagnostics(&content),
             SelectedCheck::MiscFalsePluralsMisc => {
                 false_plurals_misc_diagnostics_in_matcher_order(&content)
@@ -1461,6 +1464,7 @@ enum SelectedCheck {
     SpellingInUn,
     SpellingVeOf,
     TermsEponymousAdjectives,
+    TypographyDiacriticalMarks,
     TypographyPunctuationMisplaced,
     TypographyPunctuationExclamation,
     TypographyPunctuationHyperbole,
@@ -1531,6 +1535,7 @@ fn supported_checks(checks: &Value) -> Option<Vec<SelectedCheck>> {
             ["typography", "punctuation", "spacing"] => {
                 Some(SelectedCheck::TypographyPunctuationSpacing)
             }
+            ["typography", "diacritical_marks"] => Some(SelectedCheck::TypographyDiacriticalMarks),
             ["misc", "false_plurals", "kudos"] => Some(SelectedCheck::MiscFalsePluralsKudos),
             ["misc", "false_plurals", "misc"] => Some(SelectedCheck::MiscFalsePluralsMisc),
             ["psychology", "mental_telepathy"] => Some(SelectedCheck::PsychologyMentalTelepathy),
@@ -1696,6 +1701,7 @@ fn selected_check_path(check: SelectedCheck) -> &'static str {
         SelectedCheck::TypographyPunctuationExclamation => "typography.punctuation.exclamation",
         SelectedCheck::TypographyPunctuationHyperbole => "typography.punctuation.hyperbole",
         SelectedCheck::TypographyPunctuationSpacing => "typography.punctuation.spacing",
+        SelectedCheck::TypographyDiacriticalMarks => "typography.diacritical_marks",
         SelectedCheck::MiscFalsePluralsKudos => "misc.false_plurals.kudos",
         SelectedCheck::MiscFalsePluralsMisc => "misc.false_plurals.misc",
         SelectedCheck::PsychologyMentalTelepathy => "psychology.mental_telepathy",

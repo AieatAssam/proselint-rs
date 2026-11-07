@@ -410,6 +410,10 @@
     {
       "id": "cli.version_text",
       "status": "recorded"
+    },
+    {
+      "id": "cli.top_level_help",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -436,11 +440,11 @@
     "status": "verified after metadata fingerprint changes; Markdown/ledger exclusion is covered by a discrimination test",
     "source_fingerprint": "0df38996d4f2d816a43e9d70e54c6e20b85af025ec48e9a2348bfee51cc12563",
     "unit_tests": {
-      "passed": 77,
+      "passed": 78,
       "exit_code": 0,
-      "duration_seconds": 42.717,
+      "duration_seconds": 42.636,
       "command": "python3 -m unittest discover -s rust/harness/tests -p 'test_*.py'",
-      "evidence": "full harness suite after plain-text version cases and implementation"
+      "evidence": "full harness suite after top-level help implementation"
     },
     "comparator_discriminators": {
       "passed": 23,
@@ -468,7 +472,7 @@
     }
   },
   "active_ownership": {
-    "current": "No active writers. Latest strict gate passes 922/922 cases across 102 capabilities; 23 rule paths remain unimplemented pending data provenance.",
+    "current": "No active writers. Latest strict gate passes 925/925 cases across 103 capabilities; 23 rule paths remain unimplemented pending data provenance.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -482,7 +486,8 @@
     "23 unique rule paths remain unimplemented. Reconnaissance found each is backed by an attributed third-party list/dictionary with no separate list-specific grant recorded in the pinned source, or has unknown provenance (industrial_language.chatspeak); the current provenance policy holds these until a consistent reuse basis is recorded. This is a provenance blocker, not accepted parity.",
     "No-config execution now loads bundled DEFAULT for 83 implemented checks, but the 23 unimplemented unique paths include default-enabled rules, so full default-config parity and all combined-rule interactions remain incomplete.",
     "dump-config HOME-unset/platform-specific config discovery, missing nonempty-XDG configuration, directory user candidates, file/directory traversal and decoding edges, and full multi-file output behavior remain unverified.",
-    "JSON version output and --version combined with additional arguments are not covered by the accepted plain-text version capability."
+    "JSON version output and --version combined with additional arguments are not covered by the accepted plain-text version capability.",
+    "Command-specific help (`version --help`, `check --help`, `dump-config --help`) and help combined with other arguments remain unverified."
   ],
   "capability_states": [
     {
@@ -7185,31 +7190,111 @@
         "report": "rust/artifacts/strict-gate-version-text-accepted-20261107.json",
         "source_fingerprint": "5636bdc5344770698b466b73375e091b35c5fd95c28d255e3facb05b27bfb254"
       }
+    },
+    {
+      "id": "cli.top_level_help",
+      "status": "recorded",
+      "case_ids": [
+        "cli_top_level_help_long",
+        "cli_top_level_help_short",
+        "cli_top_level_help_no_args"
+      ],
+      "upstream_source": "proselint/command_line.py:46-113; Rust parser: rust/src/main.rs:901-1460",
+      "upstream_spec": "Top-level --help and -h emit identical pinned help bytes to stdout and exit 0. No arguments emits the same help to stdout and exits 2. All three leave stderr empty.",
+      "specification": {
+        "live_cases": 3,
+        "help_bytes": 630,
+        "help_sha256": "a4b656be6ae58dc41fdda3e925bf6bf2f06e5844840a6396fa1f870e0edbf4a1",
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "comparison": "exact stdout/stderr bytes and exit status"
+      },
+      "red": {
+        "status": "behavioral_failure",
+        "focused_rust_tests_failed": 3,
+        "live_mismatches": 3,
+        "report": "rust/artifacts/cli-top-level-help-red-live.json",
+        "source_fingerprint": "1d08df4dc0c28784e208452798722fa5ac738a10c9c78edf334fedf45b4337c7"
+      },
+      "green": {
+        "status": "PASS",
+        "focused_rust_tests_passed": 3,
+        "live_cases_passed": 3,
+        "report": "rust/artifacts/cli-top-level-help-green-live-attributes.json",
+        "candidate_attestation": "rust/artifacts/20261107T155856116673Z-build.attestation.json",
+        "source_fingerprint": "6e5361bb3fd97030a9eac8e2ab21be792e79717d479c5fdd4938a6e5113d56df"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "focused_rust_tests_passed": 3,
+        "comparator_self_tests_passed": 23,
+        "live_cases_passed": 3,
+        "report": "rust/artifacts/independent-top-help-attributes-20261107/live-comparison.json",
+        "candidate_attestation": "rust/artifacts/independent-top-help-attributes-20261107/candidate.attestation.json",
+        "source_fingerprint": "6e5361bb3fd97030a9eac8e2ab21be792e79717d479c5fdd4938a6e5113d56df",
+        "runtime_model_metadata": "unavailable"
+      },
+      "stage_durations_seconds": {
+        "red_live": 7.65598,
+        "owner_live": 7.681046,
+        "independent_live": 7.832063
+      },
+      "stage_case_counts": {
+        "red_cases": 3,
+        "red_mismatches": 3,
+        "focused_rust_tests_failed": 3,
+        "focused_rust_tests_passed": 3,
+        "owner_live_cases": 3,
+        "independent_live_cases": 3
+      },
+      "cumulative_gate": {
+        "status": "PASS",
+        "capability_count": 103,
+        "passed_cases": 925,
+        "manifest_cases": 927,
+        "duration_seconds": 311.191593,
+        "report": "rust/artifacts/strict-gate-top-help-final-20261107.json",
+        "source_fingerprint": "6e5361bb3fd97030a9eac8e2ab21be792e79717d479c5fdd4938a6e5113d56df",
+        "candidate_sha256": "7bd75382d80802f773a601996065efcf213a2188d84041a8af47455ac7c101fb",
+        "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d052b3136",
+        "stage_durations_seconds": {
+          "comparator_self_tests": 0.145009,
+          "cumulative_live_comparison": 308.339298,
+          "oracle_integrity": 2.00957,
+          "rust_candidate_attestation_reuse": 0.39184
+        }
+      },
+      "cumulative_live_parity": {
+        "status": "PASS",
+        "passed_cases": 925,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-top-help-final-20261107.json",
+        "source_fingerprint": "6e5361bb3fd97030a9eac8e2ab21be792e79717d479c5fdd4938a6e5113d56df"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-version-text-accepted-20261107.json",
-    "passed_cases": 922,
-    "manifest_cases": 924,
+    "report": "rust/artifacts/strict-gate-top-help-final-20261107.json",
+    "passed_cases": 925,
+    "manifest_cases": 927,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "capability_count": 102,
-    "source_fingerprint": "5636bdc5344770698b466b73375e091b35c5fd95c28d255e3facb05b27bfb254",
-    "run_id": "20261107T150718585087Z-929b9736",
-    "started_at_utc": "2026-11-07T15:07:18.585058+00:00",
-    "finished_at_utc": "2026-11-07T15:12:28.861977+00:00",
-    "candidate_attestation": "rust/artifacts/independent-version-text-20261107/candidate.attestation.json",
-    "candidate_sha256": "39e27618b76b83f1bf6d0887b26d9156af997d8f59bc521b8749a0fe1203a53f",
+    "capability_count": 103,
+    "source_fingerprint": "6e5361bb3fd97030a9eac8e2ab21be792e79717d479c5fdd4938a6e5113d56df",
+    "run_id": "20261107T160225945351Z-e8666a3a",
+    "started_at_utc": "2026-11-07T16:02:25.945322+00:00",
+    "finished_at_utc": "2026-11-07T16:07:34.032234+00:00",
+    "candidate_attestation": "rust/artifacts/20261107T155856116673Z-build.attestation.json",
+    "candidate_sha256": "7bd75382d80802f773a601996065efcf213a2188d84041a8af47455ac7c101fb",
     "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d052b3136",
-    "duration_seconds": 313.599558,
+    "duration_seconds": 311.191593,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.149174,
-      "cumulative_live_comparison": 310.613221,
-      "oracle_integrity": 2.133516,
-      "rust_candidate_attestation_reuse": 0.394326
+      "comparator_self_tests": 0.145009,
+      "cumulative_live_comparison": 308.339298,
+      "oracle_integrity": 2.00957,
+      "rust_candidate_attestation_reuse": 0.39184
     },
     "comparator_self_tests": 23
   },
@@ -7217,7 +7302,7 @@
     "status": "current",
     "toolchain": "1.99.1",
     "registry": "crates.io",
-    "latest_checked": "2026-11-07T13:27:00Z",
+    "latest_checked": "2026-11-07T15:18:00Z",
     "locked_versions": {
       "clap": "4.6.7",
       "serde": "1.0.229",
@@ -7226,18 +7311,19 @@
       "regex": "1.13.1",
       "cc": "1.11.1"
     },
-    "cargo_update_dry_run": "0 packages to update (checked against current crates.io index at 2026-11-07T13:27:00Z)",
+    "cargo_update_dry_run": "0 packages to update (checked against current crates.io index at 2026-11-07T15:18:00Z)",
     "update_dry_run": {
       "status": "current",
       "packages_to_update": 0,
-      "command": "rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo update --dry-run --manifest-path rust/Cargo.toml",
+      "command": "cargo update --dry-run --manifest-path rust/Cargo.toml",
       "rust_version_constraint": "1.99",
-      "checked_after_gate": "2026-11-07T13:27:00Z",
-      "evidence": "rust/artifacts/rust-dependency-dry-run-20261107-1327.txt"
+      "checked_after_gate": "2026-11-07T15:18:00Z",
+      "evidence": "rust/artifacts/rust-dependency-dry-run-20261107-1518.txt",
+      "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d052b3136"
     },
-    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-20261107-1327.txt"
+    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-20261107-1518.txt"
   },
-  "next_capability_handoff": "cli.version_text is recorded for plain-text `version` and `--version`. Continue with remaining CLI help/output/error paths; JSON version output remains unresolved because the Python runtime metadata has no truthful Rust equivalent.",
+  "next_capability_handoff": "cli.top_level_help is recorded for `--help`, `-h`, and no arguments. Next cover command-specific help for `version`, `check`, and `dump-config`, then continue remaining CLI/error and unimplemented-rule paths.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

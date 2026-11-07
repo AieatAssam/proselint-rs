@@ -30551,6 +30551,54 @@
       "config_scenario": "no_config",
       "workspace_mutates": false,
       "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "cli_top_level_help_long",
+      "capability_id": "cli.top_level_help",
+      "provenance": "Captured from the isolated pinned Python Proselint 0.16.0 CLI at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; --help prints the top-level parser help to stdout and exits 0.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": ["--help"],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "cli_top_level_help_short",
+      "capability_id": "cli.top_level_help",
+      "provenance": "Captured from the isolated pinned Python Proselint 0.16.0 CLI at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; -h is the short alias and prints the same top-level help bytes with status 0.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": ["-h"],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "cli_top_level_help_no_args",
+      "capability_id": "cli.top_level_help",
+      "provenance": "Captured from the isolated pinned Python Proselint 0.16.0 CLI at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; no arguments prints the same help bytes to stdout, leaves stderr empty, and exits 2.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
     }
   ]
 }

@@ -1,4 +1,4 @@
-use clap::{Parser, Subcommand, ValueEnum};
+use clap::{ArgAction, CommandFactory, Parser, Subcommand, ValueEnum};
 use proselint_rs::{
     airlinese_diagnostics, am_pm_lowercase_periods_diagnostics, am_pm_spacing_diagnostics,
     annotation_diagnostics_in_matcher_order, apologizing_diagnostics, archaism_diagnostics,
@@ -901,41 +901,58 @@ fn python_utf8_decode_error_message(bytes: &[u8], error: std::str::Utf8Error) ->
 }
 
 #[derive(Debug, Parser)]
-#[command(name = "proselint", about = "A linter for prose")]
+#[command(
+    name = "proselint",
+    about = "proselint, a linter for prose.",
+    disable_help_subcommand = true
+)]
 struct Cli {
+    #[arg(
+        long,
+        global = true,
+        value_name = "CONFIG",
+        help = "path to a configuration file (`.proselintrc.json`)"
+    )]
+    config: Option<PathBuf>,
+    #[arg(
+        long = "output-format",
+        short = 'o',
+        global = true,
+        value_enum,
+        default_value = "full",
+        help = "the format to display results in"
+    )]
+    output_format: OutputFormat,
+    #[arg(
+        long,
+        short = 'v',
+        global = true,
+        action = ArgAction::SetTrue,
+        help = "enable verbose logging"
+    )]
+    verbose: bool,
+    #[arg(
+        long,
+        global = true,
+        action = ArgAction::SetTrue,
+        help = "display the current version and exit"
+    )]
+    version: bool,
     #[command(subcommand)]
-    command: Command,
+    command: Option<Command>,
 }
 
 #[derive(Debug, Subcommand)]
 enum Command {
-    Version {
-        #[arg(long)]
-        config: Option<PathBuf>,
-        #[arg(
-            long = "output-format",
-            short = 'o',
-            value_enum,
-            default_value = "full"
-        )]
-        output_format: OutputFormat,
-    },
+    #[command(about = "display the current version and exit")]
+    Version,
+    #[command(about = "run proselint against paths")]
     Check {
-        #[arg(long)]
-        config: Option<PathBuf>,
-        #[arg(
-            long = "output-format",
-            short = 'o',
-            value_enum,
-            default_value = "full"
-        )]
-        output_format: OutputFormat,
         #[arg(value_name = "PATH")]
         paths: Vec<PathBuf>,
     },
+    #[command(about = "display the loaded configuration and exit")]
     DumpConfig {
-        #[arg(long)]
-        config: Option<PathBuf>,
         #[arg(long)]
         default: bool,
     },
@@ -946,6 +963,113 @@ enum OutputFormat {
     Full,
     Json,
     Compact,
+}
+
+fn top_level_help() -> String {
+    let mut command = Cli::command();
+    command.build();
+    let mut help = format!(
+        "usage: {} [options] <command>\n\n{}\n\noptions:\n",
+        command.get_name(),
+        command
+            .get_about()
+            .expect("top-level command has a description")
+    );
+    let mut arguments: Vec<_> = command.get_arguments().collect();
+    arguments.sort_by_key(|argument| match argument.get_long() {
+        Some("help") => 0,
+        Some("config") => 1,
+        Some("output-format") => 2,
+        Some("verbose") => 3,
+        Some("version") => 4,
+        _ => 5,
+    });
+    for argument in arguments {
+        let mut names = String::new();
+        let possible_values = if matches!(
+            argument.get_action(),
+            ArgAction::SetTrue | ArgAction::SetFalse | ArgAction::Count | ArgAction::Help
+        ) {
+            Vec::new()
+        } else {
+            argument.get_possible_values()
+        };
+        let takes_value = !matches!(
+            argument.get_action(),
+            ArgAction::SetTrue | ArgAction::SetFalse | ArgAction::Count | ArgAction::Help
+        );
+        let value_name = if !takes_value {
+            None
+        } else if !possible_values.is_empty() {
+            Some(format!(
+                "{{{}}}",
+                possible_values
+                    .iter()
+                    .map(|value| value.get_name())
+                    .collect::<Vec<_>>()
+                    .join(",")
+            ))
+        } else {
+            argument
+                .get_value_names()
+                .and_then(|values| values.first())
+                .map(ToString::to_string)
+        };
+        if argument.get_long() == Some("help")
+            && let Some(short) = argument.get_short()
+        {
+            names.push('-');
+            names.push(short);
+            names.push_str(", ");
+        }
+        if let Some(long) = argument.get_long() {
+            names.push_str("--");
+            names.push_str(long);
+        }
+        if let Some(value_name) = &value_name {
+            names.push(' ');
+            names.push_str(value_name);
+        }
+        if let Some(short) = argument
+            .get_short()
+            .filter(|_| argument.get_long() != Some("help"))
+        {
+            if !names.is_empty() {
+                names.push_str(", ");
+            }
+            names.push('-');
+            names.push(short);
+            if let Some(value_name) = &value_name {
+                names.push(' ');
+                names.push_str(value_name);
+            }
+        }
+        let description = if argument.get_long() == Some("help") {
+            "show this help message and exit".to_owned()
+        } else {
+            argument
+                .get_help()
+                .map(ToString::to_string)
+                .unwrap_or_default()
+        };
+        if names.len() <= 22 {
+            help.push_str(&format!("  {names:<22}{description}\n"));
+        } else {
+            help.push_str(&format!("  {names}\n{}{}\n", " ".repeat(24), description));
+        }
+    }
+    help.push_str("\ncommands:\n  \n");
+    for subcommand in command.get_subcommands() {
+        help.push_str(&format!(
+            "    {:<19} {}\n",
+            subcommand.get_name(),
+            subcommand
+                .get_about()
+                .map(ToString::to_string)
+                .unwrap_or_default()
+        ));
+    }
+    help
 }
 
 fn dump_config(config: Option<PathBuf>, default: bool) -> Result<ExitCode, String> {
@@ -1133,18 +1257,20 @@ fn run() -> Result<ExitCode, String> {
     if args.len() == 2 && args[1] == "--version" {
         args[1] = "version".into();
     }
-    let command = Cli::parse_from(args).command;
-    let (config, output_format, paths, show_version) = match command {
-        Command::Version {
-            config,
-            output_format,
-        } => (config, output_format, Vec::new(), true),
-        Command::Check {
-            config,
-            output_format,
-            paths,
-        } => (config, output_format, paths, false),
-        Command::DumpConfig { config, default } => return dump_config(config, default),
+    if args.len() == 2 && (args[1] == "--help" || args[1] == "-h") {
+        print!("{}", top_level_help());
+        return Ok(ExitCode::SUCCESS);
+    }
+    let parsed = Cli::parse_from(args);
+    let config = parsed.config;
+    let output_format = parsed.output_format;
+    let version_flag = parsed.version;
+    let _verbose = parsed.verbose;
+    let (paths, show_version, no_command) = match parsed.command {
+        Some(Command::Version) => (Vec::new(), true, false),
+        Some(Command::Check { paths }) => (paths, version_flag, false),
+        Some(Command::DumpConfig { default }) => return dump_config(config, default),
+        None => (Vec::new(), version_flag, !version_flag),
     };
     let (config, config_is_default) = match config {
         Some(config) => (config, false),
@@ -1311,6 +1437,10 @@ fn run() -> Result<ExitCode, String> {
     if show_version {
         println!("Proselint 0.16.0");
         return Ok(ExitCode::SUCCESS);
+    }
+    if no_command {
+        print!("{}", top_level_help());
+        return Ok(ExitCode::from(2));
     }
     let checks = config_value
         .get("checks")

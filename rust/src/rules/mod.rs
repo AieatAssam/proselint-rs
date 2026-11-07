@@ -20,4 +20,5 @@ pub mod spelling_athletes;
 pub mod spelling_em_im_en_in;
 pub mod spelling_er_or;
 pub mod typography_curly_quotes;
+pub mod typography_spacing;
 pub mod weasel_words_very;

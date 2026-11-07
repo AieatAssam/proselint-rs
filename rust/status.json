@@ -374,6 +374,10 @@
     {
       "id": "rule.lexical_illusions",
       "status": "recorded"
+    },
+    {
+      "id": "rule.typography.punctuation.spacing",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -428,7 +432,7 @@
     }
   },
   "active_ownership": {
-    "current": "lexical_illusions is recorded after focused and independent 21/21 live parity and the 836/836 cumulative gate across 93 capabilities.",
+    "current": "typography.punctuation.spacing is recorded after focused and independent 9/9 live parity and the 845/845 cumulative gate across 94 capabilities.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -6223,35 +6227,132 @@
       "implementation_source_sha256": "b2cc77fdf7ba961d7eabc740b42306815320cf07df8f60b06f66f74b84d3bee1",
       "test_source_sha256": "b3107afd4dd709ab074e23c09967d96aa290c18883d79347e33e7e7a9599b31e",
       "source_sha256": "b2cc77fdf7ba961d7eabc740b42306815320cf07df8f60b06f66f74b84d3bee1"
+    },
+    {
+      "id": "rule.typography.punctuation.spacing",
+      "status": "recorded",
+      "case_ids": [
+        "punctuation_spacing_only_one_space",
+        "punctuation_spacing_only_two_spaces",
+        "punctuation_spacing_one_space_majority",
+        "punctuation_spacing_two_space_majority",
+        "punctuation_spacing_tie",
+        "punctuation_spacing_interleaved_occurrences",
+        "punctuation_spacing_quoted_minority_suppressed",
+        "punctuation_spacing_unicode_coordinates",
+        "punctuation_spacing_max_errors_one"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_source": "proselint/registry/checks/types.py; Consistency with RAW padding and paired one/two-space regexes; Garner attribution retained.",
+      "upstream_spec": "Default-disabled Consistency: pair the ordered match streams for `[.?!] \\w` and `[.?!]  \\w`; report the minority style, with ties choosing one-space matches; suppress quoted findings and preserve raw padded coordinates.",
+      "specification": {
+        "live_cases": 9,
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "oracle_source_sha256": "73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831",
+        "oracle_integrity": "verified before and after owner and independent runs",
+        "fixture_source": "pinned oracle CLI",
+        "oracle_case_report": "rust/artifacts/punctuation-spacing-oracle-selfcheck-20261107.json"
+      },
+      "red": {
+        "status": "behavioral_failure",
+        "failing_tests": 7,
+        "duration_seconds": 66.0,
+        "cause": "focused CLI tests compiled and all failed because selected capability routing was unsupported; exit status 4 was observed where lint outcomes were expected."
+      },
+      "green": {
+        "status": "PASS",
+        "focused_rust_tests": 7,
+        "focused_live_cases": 9,
+        "focused_live_report": "rust/artifacts/punctuation-spacing-live-green-final-20261107.json",
+        "focused_live_duration_seconds": 8.808,
+        "source_fingerprint": "8e72d8606bc8aacb3cc34a09cb6446530526f0f58b062c57f11b000a64357ce9",
+        "candidate_sha256": "611841520e1f31c9b22dd86c1995bfd94865395f079f2aa57a7c905f278e3b4b",
+        "candidate_attestation": "rust/artifacts/typography-spacing-focused-build.attestation.json"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 9,
+        "report": "rust/artifacts/independent-typography-spacing-20261107/verification.md",
+        "live_report": "rust/artifacts/independent-typography-spacing-20261107/live.json",
+        "duration_seconds": 8.808,
+        "oracle_integrity": "verified before and after",
+        "agent_model": "gpt-6-luna (parity_verifier role)",
+        "agent_effort": "high configured role; low was requested",
+        "agent_runtime_metadata": "unavailable"
+      },
+      "agent_model": "gpt-6-luna",
+      "agent_reasoning_effort": "rust_builder, oracle_engineer, and parity_verifier roles configured high; runtime dispatch metadata unavailable",
+      "source_fingerprint": "8e72d8606bc8aacb3cc34a09cb6446530526f0f58b062c57f11b000a64357ce9",
+      "candidate_sha256": "611841520e1f31c9b22dd86c1995bfd94865395f079f2aa57a7c905f278e3b4b",
+      "candidate_attestation": "rust/artifacts/typography-spacing-focused-build.attestation.json",
+      "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f2b8f2d052b3136",
+      "stage_durations_seconds": {
+        "pinned_oracle_selfcheck_9": 35.369,
+        "red_compile_and_tests": 66.0,
+        "focused_rust_green": 0.05,
+        "owner_live": 8.808,
+        "independent_live": 8.808,
+        "comparator_self_tests": 0.75,
+        "harness_unit_suite": 40.18,
+        "locked_build": null,
+        "cumulative_gate": 250.998
+      },
+      "stage_case_counts": {
+        "oracle_selfcheck_passed": 9,
+        "red_failing_rust_tests": 7,
+        "focused_rust_tests_passed": 7,
+        "owner_live_passed": 9,
+        "independent_live_passed": 9,
+        "comparator_self_tests_passed": 23,
+        "harness_tests_passed": 50,
+        "cumulative_gate_passed": 845,
+        "cumulative_gate_capabilities": 94
+      },
+      "pre_gate_status": "PASS; cumulative gate includes spacing after shared CLI routing change",
+      "implementation": "rust/src/rules/typography_spacing.rs; paired ASCII-word regex streams, upstream tie handling, quote suppression, and codepoint coordinates; no new dependencies.",
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-typography-spacing-20261107.json",
+        "started_at_utc": "2026-11-07T07:01:28.514063+00:00",
+        "finished_at_utc": "2026-11-07T07:05:39.512206+00:00",
+        "duration_seconds": 250.998,
+        "passed_cases": 845,
+        "manifest_cases": 851,
+        "capabilities": 94,
+        "source_fingerprint": "8e72d8606bc8aacb3cc34a09cb6446530526f0f58b062c57f11b000a64357ce9",
+        "candidate_sha256": "991cb39304fca850fcc08616e1d5e90ca9bdcfff13f511c0f68526631819d473",
+        "oracle_integrity": "verified",
+        "comparator_self_tests": 23
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-lexical-accepted-20261107.json",
-    "passed_cases": 836,
-    "manifest_cases": 842,
+    "report": "rust/artifacts/strict-gate-typography-spacing-20261107.json",
+    "passed_cases": 845,
+    "manifest_cases": 851,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
       "cli.config.per_file_checks": 4
     },
     "exit_code": 0,
-    "capability_count": 93,
-    "source_fingerprint": "7fa9dd451b458a759c56684d0d7d9f69ba66bda05dd9661ea783faaf006bfad6",
-    "run_id": "20261107T063101481723Z-2994130c",
-    "started_at_utc": "2026-11-07T06:31:01.481690+00:00",
-    "finished_at_utc": "2026-11-07T06:35:01.718626+00:00",
-    "candidate_attestation": "rust/artifacts/20261107T063048856821Z-build.attestation.json",
-    "candidate_sha256": "692d31e191cb566d3bb761be2c0ecf0db5a0c49b0d2dd01ada0e6f209110fb61",
-    "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d052b3136",
-    "duration_seconds": 240.237,
-    "scope_note": "Strict accepted capability gate includes lexical_illusions; excludes two harness smoke and four per-file-config cases.",
+    "capability_count": 94,
+    "source_fingerprint": "8e72d8606bc8aacb3cc34a09cb6446530526f0f58b062c57f11b000a64357ce9",
+    "run_id": "20261107T070128514093Z-84d8436b",
+    "started_at_utc": "2026-11-07T07:01:28.514063+00:00",
+    "finished_at_utc": "2026-11-07T07:05:39.512206+00:00",
+    "candidate_attestation": "rust/artifacts/20261107T065907807750Z-build.attestation.json",
+    "candidate_sha256": "991cb39304fca850fcc08616e1d5e90ca9bdcfff13f511c0f68526631819d473",
+    "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
+    "duration_seconds": 250.998,
+    "scope_note": "Strict accepted capability gate includes typography.punctuation.spacing; excludes two harness smoke and four per-file-config cases.",
     "comparator_self_tests": 23
   },
   "rust_dependencies": {
     "status": "current",
     "toolchain": "1.99.1",
     "registry": "crates.io",
-    "latest_checked": "2026-11-07T05:37:51Z",
+    "latest_checked": "2026-11-07T07:07:21Z",
     "locked_versions": {
       "clap": "4.6.7",
       "serde": "1.0.229",
@@ -6266,11 +6367,11 @@
       "packages_to_update": 0,
       "command": "rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo update --dry-run --manifest-path rust/Cargo.toml",
       "rust_version_constraint": "1.99",
-      "checked_after_gate": "2026-11-07T05:37:51Z",
+      "checked_after_gate": "2026-11-07T07:07:21Z",
       "evidence": "rust/artifacts/rust-dependency-dry-run-latest-20261107.txt"
     }
   },
-  "next_capability_handoff": "Next: integrate the calibrated rule.typography.punctuation.spacing cases from rust/artifacts/spacing-oracle-probe-final.json, run meaningful Rust RED, implement in its own module, and run cumulative gate immediately after coordinator-owned CLI routing because it adds Consistency behavior.",
+  "next_capability_handoff": "Repair Astra-confirmed low-max_errors ordering mismatches before selecting another new rule; see rust/docs/PLAN.md and rust/artifacts/astra-live-review/ordering-20261107.jsonl.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

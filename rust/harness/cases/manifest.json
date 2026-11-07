@@ -30393,6 +30393,78 @@
         "exit_status": "exact"
       },
       "working_directory": "."
+    },
+    {
+      "capability_id": "cli.config.no_config_default",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; no explicit --config, cwd or ancestor proselint.json, or user config exists in isolated HOME/XDG_CONFIG_HOME, so load_from falls back to bundled DEFAULT.",
+      "input_mode": "stdin",
+      "output_format": "full",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [],
+      "argv": [
+        "check"
+      ],
+      "id": "cli_config_no_config_default_enabled_rule_finding",
+      "stdin_base64": "VGhpcyBpcyB2ZXJ5IGdvb2Qu",
+      "expected_oracle_outcome": "findings"
+    },
+    {
+      "capability_id": "cli.config.no_config_default",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; no explicit --config, cwd or ancestor proselint.json, or user config exists in isolated HOME/XDG_CONFIG_HOME, so load_from falls back to bundled DEFAULT.",
+      "input_mode": "stdin",
+      "output_format": "full",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [],
+      "argv": [
+        "check"
+      ],
+      "id": "cli_config_no_config_default_clean_input",
+      "stdin_base64": "QW4gb3JkaW5hcnkgc2VudGVuY2Uu",
+      "expected_oracle_outcome": "clean"
+    },
+    {
+      "capability_id": "cli.config.no_config_default",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; DEFAULT sets typography to false. With no explicit --config, cwd or ancestor proselint.json, or user config in isolated HOME/XDG_CONFIG_HOME, a straight-quoted phrase that matches typography.symbols.curly_quotes remains clean.",
+      "input_mode": "stdin",
+      "output_format": "full",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [],
+      "argv": [
+        "check"
+      ],
+      "id": "cli_config_no_config_default_disabled_curly_quotes_clean",
+      "stdin_base64": "VGhlIHBocmFzZSAid29yZCIgaXMgcXVvdGVkLg==",
+      "expected_oracle_outcome": "clean"
     }
   ]
 }

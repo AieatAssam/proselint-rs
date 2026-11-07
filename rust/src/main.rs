@@ -1127,8 +1127,8 @@ fn run() -> Result<ExitCode, String> {
         } => (config, output_format, paths),
         Command::DumpConfig { config, default } => return dump_config(config, default),
     };
-    let config = match config {
-        Some(config) => config,
+    let (config, config_is_default) = match config {
+        Some(config) => (config, false),
         None => {
             let cwd = std::env::current_dir()
                 .map_err(|error| format!("Unable to determine current directory: {error}"))?;
@@ -1147,9 +1147,10 @@ fn run() -> Result<ExitCode, String> {
             } else {
                 None
             };
-            project_config
-                .or(user_config)
-                .unwrap_or_else(|| PathBuf::from("proselint.json"))
+            match project_config.or(user_config) {
+                Some(config) => (config, false),
+                None => (PathBuf::from("proselint.json"), true),
+            }
         }
     };
 
@@ -1173,40 +1174,45 @@ fn run() -> Result<ExitCode, String> {
         ));
     }
 
-    let config_bytes = match fs::read(&config) {
-        Ok(bytes) => bytes,
-        Err(error) => {
-            let message = format!(
-                "Configuration file '{}' could not be read.",
-                config.display()
-            );
-            if error.kind() == io::ErrorKind::NotFound
-                && matches!(output_format, OutputFormat::Json)
-            {
+    let config_text = if config_is_default {
+        default_config::DEFAULT_CONFIG_JSON.to_owned()
+    } else {
+        let config_bytes = match fs::read(&config) {
+            Ok(bytes) => bytes,
+            Err(error) => {
+                let message = format!(
+                    "Configuration file '{}' could not be read.",
+                    config.display()
+                );
+                if error.kind() == io::ErrorKind::NotFound
+                    && matches!(output_format, OutputFormat::Json)
+                {
+                    println!(
+                        "{}",
+                        serde_json::json!({"error":{"code":-31998,"message":message}})
+                    );
+                    return Ok(ExitCode::from(4));
+                }
+                return Err(format!("{message}: {error}"));
+            }
+        };
+        match String::from_utf8(config_bytes) {
+            Ok(text) => text,
+            Err(error) if matches!(output_format, OutputFormat::Json) => {
+                let message =
+                    python_utf8_decode_error_message(error.as_bytes(), error.utf8_error());
                 println!(
                     "{}",
-                    serde_json::json!({"error":{"code":-31998,"message":message}})
+                    serde_json::json!({"error":{"code":-31999,"message":message,"data":"UnicodeDecodeError"}})
                 );
                 return Ok(ExitCode::from(4));
             }
-            return Err(format!("{message}: {error}"));
-        }
-    };
-    let config_text = match String::from_utf8(config_bytes) {
-        Ok(text) => text,
-        Err(error) if matches!(output_format, OutputFormat::Json) => {
-            let message = python_utf8_decode_error_message(error.as_bytes(), error.utf8_error());
-            println!(
-                "{}",
-                serde_json::json!({"error":{"code":-31999,"message":message,"data":"UnicodeDecodeError"}})
-            );
-            return Ok(ExitCode::from(4));
-        }
-        Err(_) => {
-            return Err(format!(
-                "Configuration file '{}' could not be read.: stream did not contain valid UTF-8",
-                config.display()
-            ));
+            Err(_) => {
+                return Err(format!(
+                    "Configuration file '{}' could not be read.: stream did not contain valid UTF-8",
+                    config.display()
+                ));
+            }
         }
     };
     let normalized_config_text = config_text.replace("\r\n", "\n").replace('\r', "\n");
@@ -1391,7 +1397,11 @@ fn run() -> Result<ExitCode, String> {
     {
         per_file_override = Some(override_checks);
     }
-    let global_selected = supported_checks(checks);
+    let global_selected = if config_is_default {
+        Some(default_supported_checks(checks))
+    } else {
+        supported_checks(checks)
+    };
     let override_selected = per_file_override.map(supported_checks);
     let selected_checks = match (global_selected, override_selected) {
         (Some(global), Some(Some(overlay))) => {
@@ -1685,6 +1695,97 @@ enum SelectedCheck {
     WeaselWordsVery,
 }
 
+impl SelectedCheck {
+    fn all_implemented() -> Vec<Self> {
+        use SelectedCheck::*;
+        vec![
+            AnnotationsMisc,
+            Archaism,
+            ClichesHell,
+            ClichesMiscWriteGood,
+            DatesTimesAmPmLowercasePeriods,
+            DatesTimesAmPmSpacing,
+            DatesTimesAmPmMidnightNoon,
+            DatesTimesDatesDecadeApostrophes,
+            DatesTimesDatesDashAndFrom,
+            DatesTimesDatesMonthYearComma,
+            DatesTimesDatesMonthOfYear,
+            Hedging,
+            IndustrialLanguageAirlinese,
+            IndustrialLanguageBureaucratese,
+            IndustrialLanguageJargon,
+            LexicalIllusions,
+            Malapropisms,
+            MiscApologizing,
+            MiscBackFormations,
+            MiscBut,
+            MiscCapitalizationTerms,
+            MiscCapitalizationSeasons,
+            MiscCapitalizationMonths,
+            MiscCapitalizationDays,
+            MiscComposition,
+            MiscCurrency,
+            MiscDebased,
+            MiscFalsePluralsMisc,
+            MiscFalsePluralsKudos,
+            MiscGreylist,
+            MiscIllogic,
+            MiscIllogicCoin,
+            MiscIllogicCollusion,
+            MiscInferiorSuperior,
+            MiscInstitutionName,
+            MiscLatin,
+            MiscManyA,
+            MiscMetadiscourse,
+            MiscNarcissism,
+            MiscNotGuilty,
+            MiscPhrasalAdjectivesLy,
+            MiscPretension,
+            MiscProfessions,
+            MiscScareQuotes,
+            MiscSuddenly,
+            MiscTensePresent,
+            MiscWaxed,
+            MiscWhence,
+            MixedMetaphorsBottleneck,
+            MixedMetaphorsMisc,
+            Mondegreens,
+            Oxymorons,
+            PsychologyLieDetector,
+            PsychologyPEqualsZero,
+            PsychologyMentalTelepathy,
+            RedundancyMiscWallace,
+            RedundancyMiscNordquist,
+            RedundancyRasSyndrome,
+            SkunkedTerms,
+            SocialAwarenessNword,
+            SpellingAbleAtable,
+            SpellingAbleIble,
+            SpellingAllyLy,
+            SpellingAnceEnce,
+            SpellingAthletes,
+            SpellingElyLy,
+            SpellingEmImEnIn,
+            SpellingErOr,
+            SpellingInUn,
+            SpellingVeOf,
+            TermsEponymousAdjectives,
+            TypographyDiacriticalMarks,
+            TypographyPunctuationMisplaced,
+            TypographyPunctuationExclamation,
+            TypographyPunctuationHyperbole,
+            TypographyPunctuationSpacing,
+            TypographySymbolsEllipsis,
+            TypographySymbolsCopyright,
+            TypographySymbolsTrademark,
+            TypographySymbolsSentenceSpacing,
+            TypographySymbolsMultiplication,
+            TypographySymbolsCurlyQuotes,
+            WeaselWordsVery,
+        ]
+    }
+}
+
 fn supported_checks(checks: &Value) -> Option<Vec<SelectedCheck>> {
     fn check_for_path(path: &[String]) -> Option<SelectedCheck> {
         let path: Vec<&str> = path.iter().flat_map(|segment| segment.split('.')).collect();
@@ -1961,6 +2062,25 @@ fn selected_check_path(check: SelectedCheck) -> &'static str {
         SelectedCheck::TypographySymbolsCurlyQuotes => "typography.symbols.curly_quotes",
         SelectedCheck::WeaselWordsVery => "weasel_words.very",
     }
+}
+
+fn default_supported_checks(checks: &Value) -> Vec<SelectedCheck> {
+    let mut flattened = Vec::new();
+    flatten_checks(checks, "", false, &mut flattened);
+    SelectedCheck::all_implemented()
+        .into_iter()
+        .filter(|check| {
+            let path = selected_check_path(*check);
+            flattened
+                .iter()
+                .enumerate()
+                .filter(|(_, (candidate, _, _))| {
+                    path == candidate || path.starts_with(&format!("{candidate}."))
+                })
+                .max_by_key(|(index, (candidate, _, _))| (candidate.matches('.').count(), *index))
+                .is_some_and(|(_, (_, enabled, _))| *enabled)
+        })
+        .collect()
 }
 
 fn path_matches_pattern(path: &std::path::Path, pattern: &str) -> bool {

@@ -882,6 +882,9 @@ class ComparatorTests(unittest.TestCase):
             "cli_user_discovery_cwd_precedes_user", "cli_user_discovery_ancestor_precedes_user",
             "cli_user_discovery_malformed_first_user_errors", "cli_user_discovery_explicit_overrides_user", "cli_user_discovery_xdg_relative_path",
             "cli_config_cwd_discovers_finding",
+            "cli_config_no_config_default_enabled_rule_finding",
+            "cli_config_no_config_default_clean_input",
+            "cli_config_no_config_default_disabled_curly_quotes_clean",
             "cli_config_cwd_discovers_empty_checks",
             "cli_config_explicit_precedes_cwd_discovery",
             "cli_config_nested_cwd_discovers_ancestor",
@@ -1412,11 +1415,15 @@ class ComparatorTests(unittest.TestCase):
         })
         self.assertEqual({item["id"] for item in manifest["cases"]}, expected_case_ids)
         self.assertEqual(len(manifest["cases"]), len(expected_case_ids))
+        self.assertEqual(
+            sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),
+            3,
+        )
 
         self.assertEqual(
             {capability: sum(case["capability_id"] == capability for case in manifest["cases"])
              for capability in {case["capability_id"] for case in manifest["cases"]}},
-            {'rule.misc.debased': 15, 'rule.misc.capitalization.days': 12, 'rule.cliches.hell': 7, 'harness.oracle_smoke': 2, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.dates_times.am_pm.midnight_noon': 10, 'rule.dates_times.dates.decade_apostrophes': 10, 'rule.misc.narcissism': 9, 'rule.misc.latin': 10, 'rule.misc.back_formations': 8, 'rule.misc.capitalization.terms': 12, 'rule.industrial_language.airlinese': 12, 'cli.json_no_findings': 8, 'rule.misc.phrasal_adjectives.ly': 7, 'rule.misc.greylist': 10, 'rule.misc.many_a': 12, 'cli.output_format.full': 3, 'cli.output.compact': 4, 'cli.config.ignored_values': 5, 'rule.misc.professions': 8, 'cli.config.cwd_discovery': 3, 'cli.config.ancestor_discovery': 5, 'rule.misc.illogic.coin': 7, 'rule.hedging': 14, 'cli.config.invalid_utf8': 5, 'rule.misc.whence': 6, 'rule.annotations.misc': 10, 'rule.typography.symbols.sentence_spacing': 7, 'cli.config.consumed_special_values': 19, 'rule.cliches.misc.write_good': 9, 'cli.config.malformed_json': 22, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.copyright': 6, 'rule.misc.pretension': 9, 'cli.config.recursion_depth': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.misc.institution_name': 8, 'rule.misc.currency': 12, 'rule.misc.suddenly': 7, 'cli.coordinates': 6, 'rule.misc.but': 8, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.collusion': 7, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.capitalization.seasons': 12, 'cli.config.directory_path': 4, 'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 12, 'rule.misc.inferior_superior': 12, 'rule.misc.false_plurals.misc': 9, 'cli.config.per_file_checks': 7, 'rule.redundancy.misc.wallace': 10, 'rule.dates_times.am_pm.spacing': 8, 'rule.typography.symbols.ellipsis': 6, 'rule.psychology.lie_detector': 12, 'rule.industrial_language.jargon': 11, 'cli.config.user_discovery': 8, 'rule.misc.capitalization.months': 8, 'rule.psychology.p_equals_zero': 8, 'spelling.ance_ence': 10, 'rule.misc.composition': 38, 'cli.combined_checks': 3, 'rule.terms.eponymous_adjectives': 4, 'rule.spelling.ally_ly': 10, 'rule.spelling.ely_ly': 9, 'rule.spelling.ve_of': 11, 'rule.malapropisms': 10, 'rule.spelling.in_un': 10, 'rule.mondegreens': 10, 'rule.skunked_terms': 11, 'rule.oxymorons': 16, 'rule.redundancy.misc.nordquist': 11, 'rule.misc.not_guilty': 4, 'spelling.er_or': 8, 'spelling.able_ible': 9, 'spelling.able_atable': 8, 'spelling.em_im_en_in': 8, 'spelling.athletes': 29, 'rule.archaism': 13, 'rule.dates_times.dates.month_year_comma': 8, 'rule.dates_times.dates.dash_and_from': 13, 'rule.dates_times.dates.month_of_year': 3, 'rule.misc.scare_quotes': 3, 'rule.typography.punctuation.hyperbole': 3, 'rule.typography.punctuation.misplaced': 3, 'rule.typography.punctuation.exclamation': 4, 'rule.social_awareness.nword': 8, 'rule.typography.symbols.curly_quotes': 9, 'rule.weasel_words.very': 14, 'rule.misc.waxed': 7, 'rule.mixed_metaphors.bottleneck': 8, 'rule.mixed_metaphors.misc': 6, 'rule.redundancy.ras_syndrome': 8, 'rule.misc.illogic': 6, 'rule.misc.tense_present': 6, 'rule.lexical_illusions': 12, 'rule.typography.punctuation.spacing': 9, 'rule.typography.diacritical_marks': 22, 'cli.dump_config_default': 6},
+            {'rule.misc.debased': 15, 'rule.misc.capitalization.days': 12, 'rule.cliches.hell': 7, 'harness.oracle_smoke': 2, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.dates_times.am_pm.midnight_noon': 10, 'rule.dates_times.dates.decade_apostrophes': 10, 'rule.misc.narcissism': 9, 'rule.misc.latin': 10, 'rule.misc.back_formations': 8, 'rule.misc.capitalization.terms': 12, 'rule.industrial_language.airlinese': 12, 'cli.json_no_findings': 8, 'rule.misc.phrasal_adjectives.ly': 7, 'rule.misc.greylist': 10, 'rule.misc.many_a': 12, 'cli.output_format.full': 3, 'cli.output.compact': 4, 'cli.config.ignored_values': 5, 'rule.misc.professions': 8, 'cli.config.cwd_discovery': 3, 'cli.config.no_config_default': 3, 'cli.config.ancestor_discovery': 5, 'rule.misc.illogic.coin': 7, 'rule.hedging': 14, 'cli.config.invalid_utf8': 5, 'rule.misc.whence': 6, 'rule.annotations.misc': 10, 'rule.typography.symbols.sentence_spacing': 7, 'cli.config.consumed_special_values': 19, 'rule.cliches.misc.write_good': 9, 'cli.config.malformed_json': 22, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.copyright': 6, 'rule.misc.pretension': 9, 'cli.config.recursion_depth': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.misc.institution_name': 8, 'rule.misc.currency': 12, 'rule.misc.suddenly': 7, 'cli.coordinates': 6, 'rule.misc.but': 8, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.collusion': 7, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.capitalization.seasons': 12, 'cli.config.directory_path': 4, 'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 12, 'rule.misc.inferior_superior': 12, 'rule.misc.false_plurals.misc': 9, 'cli.config.per_file_checks': 7, 'rule.redundancy.misc.wallace': 10, 'rule.dates_times.am_pm.spacing': 8, 'rule.typography.symbols.ellipsis': 6, 'rule.psychology.lie_detector': 12, 'rule.industrial_language.jargon': 11, 'cli.config.user_discovery': 8, 'rule.misc.capitalization.months': 8, 'rule.psychology.p_equals_zero': 8, 'spelling.ance_ence': 10, 'rule.misc.composition': 38, 'cli.combined_checks': 3, 'rule.terms.eponymous_adjectives': 4, 'rule.spelling.ally_ly': 10, 'rule.spelling.ely_ly': 9, 'rule.spelling.ve_of': 11, 'rule.malapropisms': 10, 'rule.spelling.in_un': 10, 'rule.mondegreens': 10, 'rule.skunked_terms': 11, 'rule.oxymorons': 16, 'rule.redundancy.misc.nordquist': 11, 'rule.misc.not_guilty': 4, 'spelling.er_or': 8, 'spelling.able_ible': 9, 'spelling.able_atable': 8, 'spelling.em_im_en_in': 8, 'spelling.athletes': 29, 'rule.archaism': 13, 'rule.dates_times.dates.month_year_comma': 8, 'rule.dates_times.dates.dash_and_from': 13, 'rule.dates_times.dates.month_of_year': 3, 'rule.misc.scare_quotes': 3, 'rule.typography.punctuation.hyperbole': 3, 'rule.typography.punctuation.misplaced': 3, 'rule.typography.punctuation.exclamation': 4, 'rule.social_awareness.nword': 8, 'rule.typography.symbols.curly_quotes': 9, 'rule.weasel_words.very': 14, 'rule.misc.waxed': 7, 'rule.mixed_metaphors.bottleneck': 8, 'rule.mixed_metaphors.misc': 6, 'rule.redundancy.ras_syndrome': 8, 'rule.misc.illogic': 6, 'rule.misc.tense_present': 6, 'rule.lexical_illusions': 12, 'rule.typography.punctuation.spacing': 9, 'rule.typography.diacritical_marks': 22, 'cli.dump_config_default': 6},
         )
 
         archaism = [case for case in manifest["cases"] if case["capability_id"] == "rule.archaism"]
@@ -1968,6 +1975,28 @@ class ComparatorTests(unittest.TestCase):
             "self_test": {"required": True, "status": "PASS", "checks": [{"name": "mutation", "passed": True, "observed_kinds": []}]},
             "errors": [],
         }
+
+
+    def test_no_config_default_cases_have_no_discovery_config(self) -> None:
+        cases = {
+            case["id"]: case
+            for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "cli.config.no_config_default"
+        }
+        self.assertEqual(
+            set(cases),
+            {
+                "cli_config_no_config_default_enabled_rule_finding",
+                "cli_config_no_config_default_clean_input",
+                "cli_config_no_config_default_disabled_curly_quotes_clean",
+            },
+        )
+        for case in cases.values():
+            with self.subTest(case=case["id"]):
+                self.assertEqual(case["files"], [])
+                self.assertEqual(case["argv"], ["check"])
+                self.assertEqual(case["config_scenario"], "no_config_default")
+                self.assertEqual(case["output_format"], "full")
 
 
 if __name__ == "__main__":

@@ -953,7 +953,7 @@ enum Command {
     },
     #[command(about = "display the loaded configuration and exit")]
     DumpConfig {
-        #[arg(long)]
+        #[arg(long, help = "display the default configuration")]
         default: bool,
     },
 }
@@ -975,7 +975,95 @@ fn top_level_help() -> String {
             .get_about()
             .expect("top-level command has a description")
     );
+    help_argument_lines(command.get_arguments().collect(), &mut help);
+    help.push_str("\ncommands:\n  \n");
+    for subcommand in command.get_subcommands() {
+        help.push_str(&format!(
+            "    {:<19} {}\n",
+            subcommand.get_name(),
+            subcommand
+                .get_about()
+                .map(ToString::to_string)
+                .unwrap_or_default()
+        ));
+    }
+    help
+}
+
+fn command_help(name: &str) -> Option<String> {
+    let mut root = Cli::command();
+    root.build();
+    let command = root.find_subcommand(name)?;
+    let mut help = String::new();
+    let usage_prefix = format!(
+        "usage: proselint [options] <command> {}",
+        command.get_name()
+    );
+    let mut usage_arguments = Vec::new();
     let mut arguments: Vec<_> = command.get_arguments().collect();
+    arguments.sort_by_key(|argument| match argument.get_long() {
+        Some("help") => 0,
+        Some("config") => 1,
+        Some("output-format") => 2,
+        Some("verbose") => 3,
+        Some("version") => 4,
+        _ => 5,
+    });
+    for argument in arguments {
+        let token = if matches!(argument.get_action(), ArgAction::Help) {
+            argument.get_short().map(|short| format!("-{short}"))
+        } else if let Some(long) = argument.get_long() {
+            let takes_value = !matches!(
+                argument.get_action(),
+                ArgAction::SetTrue | ArgAction::SetFalse | ArgAction::Count | ArgAction::Help
+            );
+            let values = argument.get_possible_values();
+            let value = if !takes_value {
+                None
+            } else if values.is_empty() {
+                argument
+                    .get_value_names()
+                    .and_then(|names| names.first())
+                    .map(ToString::to_string)
+            } else {
+                Some(format!(
+                    "{{{}}}",
+                    values
+                        .iter()
+                        .map(|value| value.get_name())
+                        .collect::<Vec<_>>()
+                        .join(",")
+                ))
+            };
+            Some(match value {
+                Some(value) => format!("--{long} {value}"),
+                None => format!("--{long}"),
+            })
+        } else {
+            None
+        };
+        if let Some(token) = token {
+            usage_arguments.push(format!("[{token}]"));
+        }
+    }
+    let mut line = usage_prefix.clone();
+    for token in usage_arguments {
+        if line.len() + 1 + token.len() > 80 {
+            help.push_str(&line);
+            help.push('\n');
+            line = format!("{}{}", " ".repeat(usage_prefix.len() + 1), token);
+        } else {
+            line.push(' ');
+            line.push_str(&token);
+        }
+    }
+    help.push_str(&line);
+    help.push_str("\n\noptions:\n");
+    help_argument_lines(command.get_arguments().collect(), &mut help);
+    Some(help)
+}
+
+fn help_argument_lines(mut arguments: Vec<&clap::Arg>, help: &mut String) {
     arguments.sort_by_key(|argument| match argument.get_long() {
         Some("help") => 0,
         Some("config") => 1,
@@ -1058,18 +1146,6 @@ fn top_level_help() -> String {
             help.push_str(&format!("  {names}\n{}{}\n", " ".repeat(24), description));
         }
     }
-    help.push_str("\ncommands:\n  \n");
-    for subcommand in command.get_subcommands() {
-        help.push_str(&format!(
-            "    {:<19} {}\n",
-            subcommand.get_name(),
-            subcommand
-                .get_about()
-                .map(ToString::to_string)
-                .unwrap_or_default()
-        ));
-    }
-    help
 }
 
 fn dump_config(config: Option<PathBuf>, default: bool) -> Result<ExitCode, String> {
@@ -1259,6 +1335,14 @@ fn run() -> Result<ExitCode, String> {
     }
     if args.len() == 2 && (args[1] == "--help" || args[1] == "-h") {
         print!("{}", top_level_help());
+        return Ok(ExitCode::SUCCESS);
+    }
+    if args.len() == 3
+        && (args[2] == "--help" || args[2] == "-h")
+        && let Some(name) = args[1].to_str()
+        && matches!(name, "version" | "dump-config")
+    {
+        print!("{}", command_help(name).expect("known command has help"));
         return Ok(ExitCode::SUCCESS);
     }
     let parsed = Cli::parse_from(args);

@@ -30599,6 +30599,38 @@
       "config_scenario": "no_config",
       "workspace_mutates": false,
       "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "cli_command_help_version",
+      "capability_id": "cli.command_help",
+      "provenance": "Captured from the isolated pinned Python Proselint 0.16.0 CLI at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; command_line.py adds the global parser as a parent of the version subparser, and argparse emits its command-specific help with status 0.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": ["version", "--help"],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "cli_command_help_dump_config",
+      "capability_id": "cli.command_help",
+      "provenance": "Captured from the isolated pinned Python Proselint 0.16.0 CLI at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; command_line.py adds the global parser and --default to dump-config, and argparse emits its command-specific help with status 0.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": ["dump-config", "--help"],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
     }
   ]
 }

@@ -993,6 +993,9 @@ fn top_level_help() -> String {
 }
 
 fn command_help(name: &str) -> Option<String> {
+    if name == "check" {
+        return Some("usage: proselint [options] <command> check [-h] [--config CONFIG]\n                                           [--output-format {full,json,compact}]\n                                           [--verbose] [--version] [--demo]\n                                           [paths ...]\n\npositional arguments:\n  paths                 target paths to lint\n\noptions:\n  -h, --help            show this help message and exit\n  --config CONFIG       path to a configuration file (`.proselintrc.json`)\n  --output-format {full,json,compact}, -o {full,json,compact}\n                        the format to display results in\n  --verbose, -v         enable verbose logging\n  --version             display the current version and exit\n  --demo                run proselint against the demo file\n".to_owned());
+    }
     let mut root = Cli::command();
     root.build();
     let command = root.find_subcommand(name)?;
@@ -1342,7 +1345,7 @@ fn run() -> Result<ExitCode, String> {
     if args.len() == 3
         && (args[2] == "--help" || args[2] == "-h")
         && let Some(name) = args[1].to_str()
-        && matches!(name, "version" | "dump-config")
+        && matches!(name, "check" | "version" | "dump-config")
     {
         print!("{}", command_help(name).expect("known command has help"));
         return Ok(ExitCode::SUCCESS);

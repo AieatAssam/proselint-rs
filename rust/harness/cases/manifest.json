@@ -30633,6 +30633,38 @@
       "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
     },
     {
+      "id": "cli_check_help",
+      "capability_id": "cli.check_help",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c: `command_line.py` builds the check subparser from the global parser and adds `--demo` plus positional paths; argparse emits exact help bytes and exits 0.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": ["check", "--help"],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "cli_check_help_short_alias",
+      "capability_id": "cli.check_help",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c: `check -h` is the short help alias. Direct isolated invocations of `check -h` and `check --help` both exited 0 with empty stderr and identical 774-byte stdout (SHA-256 f8fc688e5682c699b18b77305cf9a4322d7d8a30cd91ca41e8b9d62701425b5d).",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": ["check", "-h"],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
       "id": "cli_demo_compact_selected_rule",
       "capability_id": "cli.check_demo_compact_selected_rules",
       "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; the selected rule finds the 5 pm sample and Compact preserves the logical source name demo.md.",

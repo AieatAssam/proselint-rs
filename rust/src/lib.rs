@@ -2,6 +2,7 @@
 
 pub mod rules;
 pub use rules::archaism::diagnostics as archaism_diagnostics;
+pub use rules::cliches_write_good::diagnostics as cliches_write_good_diagnostics;
 pub use rules::dash_and_from::diagnostics as dates_times_dates_dash_and_from_diagnostics;
 pub use rules::exclamation::diagnostics as exclamation_diagnostics;
 pub use rules::hyperbole::diagnostics as hyperbole_diagnostics;

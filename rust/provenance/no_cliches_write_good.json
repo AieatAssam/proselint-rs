@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "baseline": {
+    "package": "proselint",
+    "version": "0.16.0",
+    "revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+    "source_tree_sha256": "73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831",
+    "resource": "proselint/checks/cliches/write-good",
+    "resource_sha256": "998afd7672ed77a4deddfd9e74ee4932c12c08b49740a8d8e1b2960dc74c0df4",
+    "upstream_attribution": "proselint/checks/cliches/misc.py: source write-good, https://github.com/btford/write-good"
+  },
+  "identified_data_distribution": {
+    "package": "no-cliches",
+    "version": "0.3.0",
+    "repository": {
+      "url": "git+https://github.com/duereg/no-cliches.git",
+      "type": "git"
+    },
+    "license": "MIT",
+    "license_notice_file": "rust/licenses/no-cliches-MIT.txt",
+    "license_notice_sha256": "31f062782e7ba3e32c96b55c7362928fa83e61128cff8e4dad82fc2001c9d4db",
+    "npm_tarball_url": "https://registry.npmjs.org/no-cliches/-/no-cliches-0.3.0.tgz",
+    "npm_tarball_sha256": "7a4f489ed7ddf2fa73d96c390e79fdb0e72968b8ee6fb095380563528840440c",
+    "npm_shasum": "c15f6fe6bff747a34d0475d7efe22c6754fba264",
+    "npm_integrity": "sha512-F5RA5GyDsJ9dYx2nFwzzy371BbFTBInQ/gO6arT+ngrI+1sDP5cSZxkWsVLgRoLMln4rs3xXBLjD2sLa7TnV1g==",
+    "tarball_source_member": "package/cliches.js",
+    "tarball_resource_sha256": "2ae8038d0baadc5772ec8ee0c0249ee800d3526b50f1a41bc49f5300d43ab1b9",
+    "npm_metadata_license": "MIT"
+  },
+  "comparison": {
+    "method": "Extract the ordered single-quoted cliches array from package/cliches.js and compare to non-empty lines from pinned Proselint resource.",
+    "proselint_entries": 697,
+    "package_entries": 698,
+    "exact_sequence_match": false,
+    "only_differences": [
+      {
+        "kind": "package_addition",
+        "index": 370,
+        "phrase": "like the plague"
+      },
+      {
+        "kind": "baseline_trailing_space_difference",
+        "baseline_index": 694,
+        "baseline_phrase": "you're the boss",
+        "package_index": 695,
+        "package_phrase": "you're the boss "
+      }
+    ],
+    "disposition": "Use only the exact pinned Proselint resource, preserving ordering and whitespace. Do not add or trim entries to match the npm package."
+  },
+  "rust_data_file": "rust/data/third_party/no_cliches_write_good.txt"
+}

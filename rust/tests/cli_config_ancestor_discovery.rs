@@ -25,6 +25,17 @@ impl Workspace {
     }
 
     fn run(&self, explicit: bool) -> std::process::Output {
+        self.run_with_input(
+            explicit,
+            Some(b"Our policy states: More research is needed."),
+        )
+    }
+
+    fn run_without_input(&self, explicit: bool) -> std::process::Output {
+        self.run_with_input(explicit, None)
+    }
+
+    fn run_with_input(&self, explicit: bool, input: Option<&[u8]>) -> std::process::Output {
         let mut command = Command::new(env!("CARGO_BIN_EXE_proselint"));
         command
             .current_dir(self.cwd())
@@ -38,12 +49,11 @@ impl Workspace {
             .stderr(Stdio::piped())
             .spawn()
             .expect("run native CLI");
-        child
-            .stdin
-            .take()
-            .unwrap()
-            .write_all(b"Our policy states: More research is needed.")
-            .unwrap();
+        if let Some(input) = input {
+            child.stdin.take().unwrap().write_all(input).unwrap();
+        } else {
+            drop(child.stdin.take());
+        }
         child.wait_with_output().expect("wait for native CLI")
     }
 }
@@ -111,7 +121,7 @@ fn malformed_nearest_ancestor_errors_without_falling_through() {
     let workspace = Workspace::new();
     fs::write(workspace.0.join("proselint.json"), disabled()).unwrap();
     fs::write(workspace.0.join("child/proselint.json"), "{").unwrap();
-    let output = workspace.run(false);
+    let output = workspace.run_without_input(false);
     assert_eq!(output.status.code(), Some(4), "stderr: {:?}", output.stderr);
     assert_eq!(
         serde_json::from_slice::<Value>(&output.stdout).unwrap()["error"]["data"],

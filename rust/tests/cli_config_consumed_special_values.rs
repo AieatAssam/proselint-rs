@@ -1,5 +1,6 @@
 use serde_json::{Value, json};
 use std::fs;
+use std::io::Write;
 use std::path::PathBuf;
 use std::process::{Command, Stdio};
 use std::sync::atomic::{AtomicUsize, Ordering};
@@ -93,6 +94,117 @@ fn max_errors_overflow_float_matches_python_islice_value_error() {
 #[test]
 fn max_errors_lone_surrogate_matches_python_islice_value_error() {
     assert_max_errors_value_error(br#"{"checks":{},"max_errors":"\ud800"}"#);
+}
+
+#[test]
+fn max_errors_null_is_unlimited_for_two_todos() {
+    let workspace = Workspace::new();
+    fs::write(
+        workspace.0.join("config.json"),
+        br#"{"max_errors":null,"checks":{"annotations":{"misc":true}}}"#,
+    )
+    .unwrap();
+    let output = run_stdin(&workspace.0, "TODO TODO");
+    let value: Value = serde_json::from_slice(&output.stdout).unwrap();
+    let diagnostics = value["result"]
+        .as_object()
+        .unwrap()
+        .values()
+        .next()
+        .unwrap()["diagnostics"]
+        .as_array()
+        .unwrap();
+    assert_eq!(diagnostics.len(), 2);
+}
+
+#[test]
+fn max_errors_true_acts_as_integer_one() {
+    let workspace = Workspace::new();
+    fs::write(
+        workspace.0.join("config.json"),
+        br#"{"max_errors":true,"checks":{"annotations":{"misc":true}}}"#,
+    )
+    .unwrap();
+    let output = run_stdin(&workspace.0, "TODO TODO");
+    let value: Value = serde_json::from_slice(&output.stdout).unwrap();
+    let diagnostics = value["result"]
+        .as_object()
+        .unwrap()
+        .values()
+        .next()
+        .unwrap()["diagnostics"]
+        .as_array()
+        .unwrap();
+    assert_eq!(diagnostics.len(), 1);
+}
+
+fn run_file(workspace: &std::path::Path) -> std::process::Output {
+    Command::new(env!("CARGO_BIN_EXE_proselint"))
+        .current_dir(workspace)
+        .args([
+            "check",
+            "--config",
+            "config.json",
+            "--output-format",
+            "json",
+            "source.txt",
+        ])
+        .stdin(Stdio::null())
+        .output()
+        .expect("run CLI")
+}
+
+fn run_stdin(workspace: &std::path::Path, input: &str) -> std::process::Output {
+    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint"))
+        .current_dir(workspace)
+        .args([
+            "check",
+            "--config",
+            "config.json",
+            "--output-format",
+            "json",
+        ])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .expect("run CLI");
+    child
+        .stdin
+        .take()
+        .unwrap()
+        .write_all(input.as_bytes())
+        .unwrap();
+    child.wait_with_output().expect("wait for CLI")
+}
+
+fn assert_per_file_max_errors_error(value: &str) {
+    let workspace = Workspace::new();
+    fs::write(workspace.0.join("source.txt"), "text").unwrap();
+    let config = format!(r#"{{"checks":{{}},"max_errors":{value}}}"#);
+    fs::write(workspace.0.join("config.json"), config).unwrap();
+    let output = run_file(&workspace.0);
+    assert_eq!(output.status.code(), Some(0), "stderr: {:?}", output.stderr);
+    let value: Value = serde_json::from_slice(&output.stdout).unwrap();
+    let result = value["result"]
+        .as_object()
+        .unwrap()
+        .values()
+        .next()
+        .unwrap();
+    assert_eq!(result["error"]["code"], -31999);
+    assert_eq!(result["error"]["data"], "ValueError");
+    assert_eq!(
+        result["error"]["message"],
+        "Stop argument for islice() must be None or an integer: 0 <= x <= sys.maxsize."
+    );
+}
+
+#[test]
+fn per_file_string_list_object_negative_and_fractional_limits_match_python_value_error() {
+    for value in [r#""1""#, "[]", "{}", "-1", "1.5"] {
+        assert_per_file_max_errors_error(value);
+    }
 }
 
 #[test]

@@ -1,4 +1,5 @@
 pub mod archaism;
+pub mod cliches_write_good;
 pub mod dash_and_from;
 pub mod exclamation;
 pub mod hyperbole;

@@ -29682,6 +29682,535 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "cli_config_consumed_max_errors_null",
+      "capability_id": "cli.config.consumed_special_values",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI outcome verified. `max_errors` is null; config enables only annotations.misc.",
+      "input_mode": "stdin",
+      "stdin_base64": "VE9ETyBUT0RP",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjpudWxsLCJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsibWlzYyI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "max_errors_null",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_consumed_max_errors_true",
+      "capability_id": "cli.config.consumed_special_values",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI outcome verified. `max_errors` is true; config enables only annotations.misc.",
+      "input_mode": "stdin",
+      "stdin_base64": "VE9ETyBUT0RP",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjp0cnVlLCJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsibWlzYyI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "max_errors_true",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_consumed_max_errors_string",
+      "capability_id": "cli.config.consumed_special_values",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI outcome verified. `max_errors` is \"2\"; config enables only annotations.misc.",
+      "input_mode": "stdin",
+      "stdin_base64": "VE9ETw==",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoiMiIsImNoZWNrcyI6eyJhbm5vdGF0aW9ucyI6eyJtaXNjIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "max_errors_string",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_consumed_max_errors_array",
+      "capability_id": "cli.config.consumed_special_values",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI outcome verified. `max_errors` is [2]; config enables only annotations.misc.",
+      "input_mode": "stdin",
+      "stdin_base64": "VE9ETw==",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjpbMl0sImNoZWNrcyI6eyJhbm5vdGF0aW9ucyI6eyJtaXNjIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "max_errors_array",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_consumed_max_errors_object",
+      "capability_id": "cli.config.consumed_special_values",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI outcome verified. `max_errors` is {\"x\":2}; config enables only annotations.misc.",
+      "input_mode": "stdin",
+      "stdin_base64": "VE9ETw==",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjp7IngiOjJ9LCJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsibWlzYyI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "max_errors_object",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_consumed_max_errors_negative_integer",
+      "capability_id": "cli.config.consumed_special_values",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI outcome verified. `max_errors` is -1; config enables only annotations.misc.",
+      "input_mode": "stdin",
+      "stdin_base64": "VE9ETw==",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjotMSwiY2hlY2tzIjp7ImFubm90YXRpb25zIjp7Im1pc2MiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "max_errors_negative_integer",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_consumed_max_errors_fractional_number",
+      "capability_id": "cli.config.consumed_special_values",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI outcome verified. `max_errors` is 1.5; config enables only annotations.misc.",
+      "input_mode": "stdin",
+      "stdin_base64": "VE9ETw==",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLjUsImNoZWNrcyI6eyJhbm5vdGF0aW9ucyI6eyJtaXNjIjp0cnVlfX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "max_errors_fractional_number",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cliches_write_good_all_items",
+      "capability_id": "rule.cliches.misc.write_good",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI outcome verified. The case selects only cliches.misc.write_good; the full 697-line corpus is inline base64 input.",
+      "input_mode": "stdin",
+      "stdin_base64": "YSBjaGlwIG9mZiB0aGUgb2xkIGJsb2NrCmEgY2xlYW4gc2xhdGUKYSBkYXJrIGFuZCBzdG9ybXkgbmlnaHQKYSBmYXIgY3J5CmEgZmluZSBrZXR0bGUgb2YgZmlzaAphIGxvb3NlIGNhbm5vbgphIHBlbm55IHNhdmVkIGlzIGEgcGVubnkgZWFybmVkCmEgdG91Z2ggcm93IHRvIGhvZQphIHdvcmQgdG8gdGhlIHdpc2UKYWNlIGluIHRoZSBob2xlCmFjaWQgdGVzdAphZGQgaW5zdWx0IHRvIGluanVyeQphZ2FpbnN0IGFsbCBvZGRzCmFpciB5b3VyIGRpcnR5IGxhdW5kcnkKYWxsIGZ1biBhbmQgZ2FtZXMKYWxsIGluIGEgZGF5J3Mgd29yawphbGwgdGFsaywgbm8gYWN0aW9uCmFsbCB0aHVtYnMKYWxsIHlvdXIgZWdncyBpbiBvbmUgYmFza2V0CmFsbCdzIGZhaXIgaW4gbG92ZSBhbmQgd2FyCmFsbCdzIHdlbGwgdGhhdCBlbmRzIHdlbGwKYWxtaWdodHkgZG9sbGFyCkFtZXJpY2FuIGFzIGFwcGxlIHBpZQphbiBheGUgdG8gZ3JpbmQKYW5vdGhlciBkYXksIGFub3RoZXIgZG9sbGFyCmFybWVkIHRvIHRoZSB0ZWV0aAphcyBsdWNrIHdvdWxkIGhhdmUgaXQKYXMgb2xkIGFzIHRpbWUKYXMgdGhlIGNyb3cgZmxpZXMKYXQgbG9vc2UgZW5kcwphdCBteSB3aXRzIGVuZAphdm9pZCBsaWtlIHRoZSBwbGFndWUKYmFiZSBpbiB0aGUgd29vZHMKYmFjayBhZ2FpbnN0IHRoZSB3YWxsCmJhY2sgaW4gdGhlIHNhZGRsZQpiYWNrIHRvIHNxdWFyZSBvbmUKYmFjayB0byB0aGUgZHJhd2luZyBib2FyZApiYWQgdG8gdGhlIGJvbmUKYmFkZ2Ugb2YgaG9ub3IKYmFsZCBmYWNlZCBsaWFyCmJhbGxwYXJrIGZpZ3VyZQpiYW5naW5nIHlvdXIgaGVhZCBhZ2FpbnN0IGEgYnJpY2sgd2FsbApiYXB0aXNtIGJ5IGZpcmUKYmFya2luZyB1cCB0aGUgd3JvbmcgdHJlZQpiYXQgb3V0IG9mIGhlbGwKYmUgYWxsIGFuZCBlbmQgYWxsCmJlYXQgYSBkZWFkIGhvcnNlCmJlYXQgYXJvdW5kIHRoZSBidXNoCmJlZW4gdGhlcmUsIGRvbmUgdGhhdApiZWdnYXJzIGNhbid0IGJlIGNob29zZXJzCmJlaGluZCB0aGUgZWlnaHQgYmFsbApiZW5kIG92ZXIgYmFja3dhcmRzCmJlbmVmaXQgb2YgdGhlIGRvdWJ0CmJlbnQgb3V0IG9mIHNoYXBlCmJlc3QgdGhpbmcgc2luY2Ugc2xpY2VkIGJyZWFkCmJldCB5b3VyIGJvdHRvbSBkb2xsYXIKYmV0dGVyIGhhbGYKYmV0dGVyIGxhdGUgdGhhbiBuZXZlcgpiZXR0ZXIgbW91c2V0cmFwCmJldHRlciBzYWZlIHRoYW4gc29ycnkKYmV0d2VlbiBhIHJvY2sgYW5kIGEgaGFyZCBwbGFjZQpiZXlvbmQgdGhlIHBhbGUKYmlkZSB5b3VyIHRpbWUKYmlnIGFzIGxpZmUKYmlnIGNoZWVzZQpiaWcgZmlzaCBpbiBhIHNtYWxsIHBvbmQKYmlnIG1hbiBvbiBjYW1wdXMKYmlnZ2VyIHRoZXkgYXJlIHRoZSBoYXJkZXIgdGhleSBmYWxsCmJpcmQgaW4gdGhlIGhhbmQKYmlyZCdzIGV5ZSB2aWV3CmJpcmRzIGFuZCB0aGUgYmVlcwpiaXJkcyBvZiBhIGZlYXRoZXIgZmxvY2sgdG9nZXRoZXIKYml0IHRoZSBoYW5kIHRoYXQgZmVlZHMgeW91CmJpdGUgdGhlIGJ1bGxldApiaXRlIHRoZSBkdXN0CmJpdHRlbiBvZmYgbW9yZSB0aGFuIGhlIGNhbiBjaGV3CmJsYWNrIGFzIGNvYWwKYmxhY2sgYXMgcGl0Y2gKYmxhY2sgYXMgdGhlIGFjZSBvZiBzcGFkZXMKYmxhc3QgZnJvbSB0aGUgcGFzdApibGVlZGluZyBoZWFydApibGVzc2luZyBpbiBkaXNndWlzZQpibGluZCBhbWJpdGlvbgpibGluZCBhcyBhIGJhdApibGluZCBsZWFkaW5nIHRoZSBibGluZApibG9vZCBpcyB0aGlja2VyIHRoYW4gd2F0ZXIKYmxvb2Qgc3dlYXQgYW5kIHRlYXJzCmJsb3cgb2ZmIHN0ZWFtCmJsb3cgeW91ciBvd24gaG9ybgpibHVzaGluZyBicmlkZQpib2lscyBkb3duIHRvCmJvbHQgZnJvbSB0aGUgYmx1ZQpib25lIHRvIHBpY2sKYm9yZWQgc3RpZmYKYm9yZWQgdG8gdGVhcnMKYm90dG9tbGVzcyBwaXQKYm95cyB3aWxsIGJlIGJveXMKYnJpZ2h0IGFuZCBlYXJseQpicmluZ3MgaG9tZSB0aGUgYmFjb24KYnJvYWQgYWNyb3NzIHRoZSBiZWFtCmJyb2tlbiByZWNvcmQKYnJvdWdodCBiYWNrIHRvIHJlYWxpdHkKYnVsbCBieSB0aGUgaG9ybnMKYnVsbCBpbiBhIGNoaW5hIHNob3AKYnVybiB0aGUgbWlkbmlnaHQgb2lsCmJ1cm5pbmcgcXVlc3Rpb24KYnVybmluZyB0aGUgY2FuZGxlIGF0IGJvdGggZW5kcwpidXJzdCB5b3VyIGJ1YmJsZQpidXJ5IHRoZSBoYXRjaGV0CmJ1c3kgYXMgYSBiZWUKYnkgaG9vayBvciBieSBjcm9vawpjYWxsIGEgc3BhZGUgYSBzcGFkZQpjYWxsZWQgb250byB0aGUgY2FycGV0CmNhbG0gYmVmb3JlIHRoZSBzdG9ybQpjYW4gb2Ygd29ybXMKY2FuJ3QgY3V0IHRoZSBtdXN0YXJkCmNhbid0IGhvbGQgYSBjYW5kbGUgdG8KY2FzZSBvZiBtaXN0YWtlbiBpZGVudGl0eQpjYXQgZ290IHlvdXIgdG9uZ3VlCmNhdCdzIG1lb3cKY2F1Z2h0IGluIHRoZSBjcm9zc2ZpcmUKY2F1Z2h0IHJlZC1oYW5kZWQKY2hlY2tlcmVkIHBhc3QKY2hvbXBpbmcgYXQgdGhlIGJpdApjbGVhbmxpbmVzcyBpcyBuZXh0IHRvIGdvZGxpbmVzcwpjbGVhciBhcyBhIGJlbGwKY2xlYXIgYXMgbXVkCmNsb3NlIHRvIHRoZSB2ZXN0CmNvY2sgYW5kIGJ1bGwgc3RvcnkKY29sZCBzaG91bGRlcgpjb21lIGhlbGwgb3IgaGlnaCB3YXRlcgpjb29sIGFzIGEgY3VjdW1iZXIKY29vbCwgY2FsbSwgYW5kIGNvbGxlY3RlZApjb3N0IGEga2luZydzIHJhbnNvbQpjb3VudCB5b3VyIGJsZXNzaW5ncwpjcmFjayBvZiBkYXduCmNyYXNoIGNvdXJzZQpjcmVhdHVyZSBjb21mb3J0cwpjcm9zcyB0aGF0IGJyaWRnZSB3aGVuIHlvdSBjb21lIHRvIGl0CmNydXNoaW5nIGJsb3cKY3J5IGxpa2UgYSBiYWJ5CmNyeSBtZSBhIHJpdmVyCmNyeSBvdmVyIHNwaWx0IG1pbGsKY3J5c3RhbCBjbGVhcgpjdXJpb3NpdHkga2lsbGVkIHRoZSBjYXQKY3V0IGFuZCBkcmllZApjdXQgdGhyb3VnaCB0aGUgcmVkIHRhcGUKY3V0IHRvIHRoZSBjaGFzZQpjdXRlIGFzIGEgYnVncyBlYXIKY3V0ZSBhcyBhIGJ1dHRvbgpjdXRlIGFzIGEgcHVwcHkKY3V0cyB0byB0aGUgcXVpY2sKZGFyayBiZWZvcmUgdGhlIGRhd24KZGF5IGluLCBkYXkgb3V0CmRlYWQgYXMgYSBkb29ybmFpbApkZXZpbCBpcyBpbiB0aGUgZGV0YWlscwpkaW1lIGEgZG96ZW4KZGl2aWRlIGFuZCBjb25xdWVyCmRvZyBhbmQgcG9ueSBzaG93CmRvZyBkYXlzCmRvZyBlYXQgZG9nCmRvZyB0aXJlZApkb24ndCBidXJuIHlvdXIgYnJpZGdlcwpkb24ndCBjb3VudCB5b3VyIGNoaWNrZW5zCmRvbid0IGxvb2sgYSBnaWZ0IGhvcnNlIGluIHRoZSBtb3V0aApkb24ndCByb2NrIHRoZSBib2F0CmRvbid0IHN0ZXAgb24gYW55b25lJ3MgdG9lcwpkb24ndCB0YWtlIGFueSB3b29kZW4gbmlja2Vscwpkb3duIGFuZCBvdXQKZG93biBhdCB0aGUgaGVlbHMKZG93biBpbiB0aGUgZHVtcHMKZG93biB0aGUgaGF0Y2gKZG93biB0byBlYXJ0aApkcmF3IHRoZSBsaW5lCmRyZXNzZWQgdG8ga2lsbApkcmVzc2VkIHRvIHRoZSBuaW5lcwpkcml2ZXMgbWUgdXAgdGhlIHdhbGwKZHVsbCBhcyBkaXNod2F0ZXIKZHllZCBpbiB0aGUgd29vbAplYWdsZSBleWUKZWFyIHRvIHRoZSBncm91bmQKZWFybHkgYmlyZCBjYXRjaGVzIHRoZSB3b3JtCmVhc2llciBzYWlkIHRoYW4gZG9uZQplYXN5IGFzIHBpZQplYXQgeW91ciBoZWFydCBvdXQKZWF0IHlvdXIgd29yZHMKZWxldmVudGggaG91cgpldmVuIHRoZSBwbGF5aW5nIGZpZWxkCmV2ZXJ5IGRvZyBoYXMgaXRzIGRheQpldmVyeSBmaWJlciBvZiBteSBiZWluZwpldmVyeXRoaW5nIGJ1dCB0aGUga2l0Y2hlbiBzaW5rCmV5ZSBmb3IgYW4gZXllCmZhY2UgdGhlIG11c2ljCmZhY3RzIG9mIGxpZmUKZmFpciB3ZWF0aGVyIGZyaWVuZApmYWxsIGJ5IHRoZSB3YXlzaWRlCmZhbiB0aGUgZmxhbWVzCmZlYXN0IG9yIGZhbWluZQpmZWF0aGVyIHlvdXIgbmVzdApmZWF0aGVyZWQgZnJpZW5kcwpmZXcgYW5kIGZhciBiZXR3ZWVuCmZpZnRlZW4gbWludXRlcyBvZiBmYW1lCmZpbHRoeSB2ZXJtaW4KZmluZSBrZXR0bGUgb2YgZmlzaApmaXNoIG91dCBvZiB3YXRlcgpmaXNoaW5nIGZvciBhIGNvbXBsaW1lbnQKZml0IGFzIGEgZmlkZGxlCmZpdCB0aGUgYmlsbApmaXQgdG8gYmUgdGllZApmbGFzaCBpbiB0aGUgcGFuCmZsYXQgYXMgYSBwYW5jYWtlCmZsaXAgeW91ciBsaWQKZmxvZyBhIGRlYWQgaG9yc2UKZmx5IGJ5IG5pZ2h0CmZseSB0aGUgY29vcApmb2xsb3cgeW91ciBoZWFydApmb3IgYWxsIGludGVudHMgYW5kIHB1cnBvc2VzCmZvciB0aGUgYmlyZHMKZm9yIHdoYXQgaXQncyB3b3J0aApmb3JjZSBvZiBuYXR1cmUKZm9yY2UgdG8gYmUgcmVja29uZWQgd2l0aApmb3JnaXZlIGFuZCBmb3JnZXQKZm94IGluIHRoZSBoZW5ob3VzZQpmcmVlIGFuZCBlYXN5CmZyZWUgYXMgYSBiaXJkCmZyZXNoIGFzIGEgZGFpc3kKZnVsbCBzdGVhbSBhaGVhZApmdW4gaW4gdGhlIHN1bgpnYXJiYWdlIGluLCBnYXJiYWdlIG91dApnZW50bGUgYXMgYSBsYW1iCmdldCBhIGtpY2sgb3V0IG9mCmdldCBhIGxlZyB1cApnZXQgZG93biBhbmQgZGlydHkKZ2V0IHRoZSBsZWFkIG91dApnZXQgdG8gdGhlIGJvdHRvbSBvZgpnZXQgeW91ciBmZWV0IHdldApnZXRzIG15IGdvYXQKZ2lsZGluZyB0aGUgbGlseQpnaXZlIGFuZCB0YWtlCmdvIGFnYWluc3QgdGhlIGdyYWluCmdvIGF0IGl0IHRvb3RoIGFuZCBuYWlsCmdvIGZvciBicm9rZQpnbyBoaW0gb25lIGJldHRlcgpnbyB0aGUgZXh0cmEgbWlsZQpnbyB3aXRoIHRoZSBmbG93CmdvZXMgd2l0aG91dCBzYXlpbmcKZ29vZCBhcyBnb2xkCmdvb2QgZGVlZCBmb3IgdGhlIGRheQpnb29kIHRoaW5ncyBjb21lIHRvIHRob3NlIHdobyB3YWl0Cmdvb2QgdGltZSB3YXMgaGFkIGJ5IGFsbApnb29kIHRpbWVzIHdlcmUgaGFkIGJ5IGFsbApncmVhc2VkIGxpZ2h0bmluZwpncmVlayB0byBtZQpncmVlbiB0aHVtYgpncmVlbi1leWVkIG1vbnN0ZXIKZ3Jpc3QgZm9yIHRoZSBtaWxsCmdyb3dpbmcgbGlrZSBhIHdlZWQKaGFpciBvZiB0aGUgZG9nCmhhbmQgdG8gbW91dGgKaGFwcHkgYXMgYSBjbGFtCmhhcHB5IGFzIGEgbGFyawpoYXNuJ3QgYSBjbHVlCmhhdmUgYSBuaWNlIGRheQpoYXZlIGhpZ2ggaG9wZXMKaGF2ZSB0aGUgbGFzdCBsYXVnaApoYXZlbid0IGdvdCBhIHJvdyB0byBob2UKaGVhZCBob25jaG8KaGVhZCBvdmVyIGhlZWxzCmhlYXIgYSBwaW4gZHJvcApoZWFyZCBpdCB0aHJvdWdoIHRoZSBncmFwZXZpbmUKaGVhcnQncyBjb250ZW50CmhlYXZ5IGFzIGxlYWQKaGVtIGFuZCBoYXcKaGlnaCBhbmQgZHJ5CmhpZ2ggYW5kIG1pZ2h0eQpoaWdoIGFzIGEga2l0ZQpoaXQgcGF5ZGlydApob2xkIHlvdXIgaGVhZCB1cCBoaWdoCmhvbGQgeW91ciBob3JzZXMKaG9sZCB5b3VyIG93bgpob2xkIHlvdXIgdG9uZ3VlCmhvbmVzdCBhcyB0aGUgZGF5IGlzIGxvbmcKaG9ybnMgb2YgYSBkaWxlbW1hCmhvcnNlIG9mIGEgZGlmZmVyZW50IGNvbG9yCmhvdCB1bmRlciB0aGUgY29sbGFyCmhvdXIgb2YgbmVlZApJIGJlZyB0byBkaWZmZXIKaWNpbmcgb24gdGhlIGNha2UKaWYgdGhlIHNob2UgZml0cwppZiB0aGUgc2hvZSB3ZXJlIG9uIHRoZSBvdGhlciBmb290CmluIGEgamFtCmluIGEgamlmZnkKaW4gYSBudXRzaGVsbAppbiBhIHBpZydzIGV5ZQppbiBhIHBpbmNoCmluIGEgd29yZAppbiBob3Qgd2F0ZXIKaW4gdGhlIGd1dHRlcgppbiB0aGUgbmljayBvZiB0aW1lCmluIHRoZSB0aGljayBvZiBpdAppbiB5b3VyIGRyZWFtcwppdCBhaW4ndCBvdmVyIHRpbGwgdGhlIGZhdCBsYWR5IHNpbmdzCml0IGdvZXMgd2l0aG91dCBzYXlpbmcKaXQgdGFrZXMgYWxsIGtpbmRzCml0IHRha2VzIG9uZSB0byBrbm93IG9uZQppdCdzIGEgc21hbGwgd29ybGQKaXQncyBvbmx5IGEgbWF0dGVyIG9mIHRpbWUKaXZvcnkgdG93ZXIKSmFjayBvZiBhbGwgdHJhZGVzCmpvY2tleSBmb3IgcG9zaXRpb24Kam9nIHlvdXIgbWVtb3J5CmpvaW5lZCBhdCB0aGUgaGlwCmp1ZGdlIGEgYm9vayBieSBpdHMgY292ZXIKanVtcCBkb3duIHlvdXIgdGhyb2F0Cmp1bXAgaW4gd2l0aCBib3RoIGZlZXQKanVtcCBvbiB0aGUgYmFuZHdhZ29uCmp1bXAgdGhlIGd1bgpqdW1wIHRvIGNvbmNsdXNpb25zCmp1c3QgYSBob3AsIHNraXAsIGFuZCBhIGp1bXAKanVzdCB0aGUgdGlja2V0Cmp1c3RpY2UgaXMgYmxpbmQKa2VlcCBhIHN0aWZmIHVwcGVyIGxpcAprZWVwIGFuIGV5ZSBvbgprZWVwIGl0IHNpbXBsZSwgc3R1cGlkCmtlZXAgdGhlIGhvbWUgZmlyZXMgYnVybmluZwprZWVwIHVwIHdpdGggdGhlIEpvbmVzZXMKa2VlcCB5b3VyIGNoaW4gdXAKa2VlcCB5b3VyIGZpbmdlcnMgY3Jvc3NlZApraWNrIHRoZSBidWNrZXQKa2ljayB1cCB5b3VyIGhlZWxzCmtpY2sgeW91ciBmZWV0IHVwCmtpZCBpbiBhIGNhbmR5IHN0b3JlCmtpbGwgdHdvIGJpcmRzIHdpdGggb25lIHN0b25lCmtpc3Mgb2YgZGVhdGgKa25vY2sgaXQgb3V0IG9mIHRoZSBwYXJrCmtub2NrIG9uIHdvb2QKa25vY2sgeW91ciBzb2NrcyBvZmYKa25vdyBoaW0gZnJvbSBBZGFtCmtub3cgdGhlIHJvcGVzCmtub3cgdGhlIHNjb3JlCmtudWNrbGUgZG93bgprbnVja2xlIHNhbmR3aWNoCmtudWNrbGUgdW5kZXIKbGFib3Igb2YgbG92ZQpsYWRkZXIgb2Ygc3VjY2VzcwpsYW5kIG9uIHlvdXIgZmVldApsYXAgb2YgbHV4dXJ5Cmxhc3QgYnV0IG5vdCBsZWFzdApsYXN0IGh1cnJhaApsYXN0LWRpdGNoIGVmZm9ydApsYXcgb2YgdGhlIGp1bmdsZQpsYXcgb2YgdGhlIGxhbmQKbGF5IGRvd24gdGhlIGxhdwpsZWFwcyBhbmQgYm91bmRzCmxldCBzbGVlcGluZyBkb2dzIGxpZQpsZXQgdGhlIGNhdCBvdXQgb2YgdGhlIGJhZwpsZXQgdGhlIGdvb2QgdGltZXMgcm9sbApsZXQgeW91ciBoYWlyIGRvd24KbGV0J3MgdGFsayB0dXJrZXkKbGV0dGVyIHBlcmZlY3QKbGljayB5b3VyIHdvdW5kcwpsaWVzIGxpa2UgYSBydWcKbGlmZSdzIGEgYml0Y2gKbGlmZSdzIGEgZ3JpbmQKbGlnaHQgYXQgdGhlIGVuZCBvZiB0aGUgdHVubmVsCmxpZ2h0ZXIgdGhhbiBhIGZlYXRoZXIKbGlnaHRlciB0aGFuIGFpcgpsaWtlIGNsb2Nrd29yawpsaWtlIGZhdGhlciBsaWtlIHNvbgpsaWtlIHRha2luZyBjYW5keSBmcm9tIGEgYmFieQpsaWtlIHRoZXJlJ3Mgbm8gdG9tb3Jyb3cKbGlvbidzIHNoYXJlCmxpdmUgYW5kIGxlYXJuCmxpdmUgYW5kIGxldCBsaXZlCmxvbmcgYW5kIHNob3J0IG9mIGl0CmxvbmcgbG9zdCBsb3ZlCmxvb2sgYmVmb3JlIHlvdSBsZWFwCmxvb2sgZG93biB5b3VyIG5vc2UKbG9vayB3aGF0IHRoZSBjYXQgZHJhZ2dlZCBpbgpsb29raW5nIGEgZ2lmdCBob3JzZSBpbiB0aGUgbW91dGgKbG9va3MgbGlrZSBkZWF0aCB3YXJtZWQgb3Zlcgpsb29zZSBjYW5ub24KbG9zZSB5b3VyIGhlYWQKbG9zZSB5b3VyIHRlbXBlcgpsb3VkIGFzIGEgaG9ybgpsb3VuZ2UgbGl6YXJkCmxvdmVkIGFuZCBsb3N0CmxvdyBtYW4gb24gdGhlIHRvdGVtIHBvbGUKbHVjayBvZiB0aGUgZHJhdwpsdWNrIG9mIHRoZSBJcmlzaAptYWtlIGhheSB3aGlsZSB0aGUgc3VuIHNoaW5lcwptYWtlIG1vbmV5IGhhbmQgb3ZlciBmaXN0Cm1ha2UgbXkgZGF5Cm1ha2UgdGhlIGJlc3Qgb2YgYSBiYWQgc2l0dWF0aW9uCm1ha2UgdGhlIGJlc3Qgb2YgaXQKbWFrZSB5b3VyIGJsb29kIGJvaWwKbWFuIG9mIGZldyB3b3JkcwptYW4ncyBiZXN0IGZyaWVuZAptYXJrIG15IHdvcmRzCm1lYW5pbmdmdWwgZGlhbG9ndWUKbWlzc2VkIHRoZSBib2F0IG9uIHRoYXQgb25lCm1vbWVudCBpbiB0aGUgc3VuCm1vbWVudCBvZiBnbG9yeQptb21lbnQgb2YgdHJ1dGgKbW9uZXkgdG8gYnVybgptb3JlIHBvd2VyIHRvIHlvdQptb3JlIHRoYW4gb25lIHdheSB0byBza2luIGEgY2F0Cm1vdmVycyBhbmQgc2hha2Vycwptb3ZpbmcgZXhwZXJpZW5jZQpuYWtlZCBhcyBhIGpheWJpcmQKbmFrZWQgdHJ1dGgKbmVhdCBhcyBhIHBpbgpuZWVkbGUgaW4gYSBoYXlzdGFjawpuZWVkbGVzcyB0byBzYXkKbmVpdGhlciBoZXJlIG5vciB0aGVyZQpuZXZlciBsb29rIGJhY2sKbmV2ZXIgc2F5IG5ldmVyCm5pcCBhbmQgdHVjawpuaXAgaXQgaW4gdGhlIGJ1ZApubyBndXRzLCBubyBnbG9yeQpubyBsb3ZlIGxvc3QKbm8gcGFpbiwgbm8gZ2FpbgpubyBza2luIG9mZiBteSBiYWNrCm5vIHN0b25lIHVudHVybmVkCm5vIHRpbWUgbGlrZSB0aGUgcHJlc2VudApubyB1c2UgY3J5aW5nIG92ZXIgc3BpbGxlZCBtaWxrCm5vc2UgdG8gdGhlIGdyaW5kc3RvbmUKbm90IGEgaG9wZSBpbiBoZWxsCm5vdCBhIG1pbnV0ZSdzIHBlYWNlCm5vdCBpbiBteSBiYWNreWFyZApub3QgcGxheWluZyB3aXRoIGEgZnVsbCBkZWNrCm5vdCB0aGUgZW5kIG9mIHRoZSB3b3JsZApub3Qgd3JpdHRlbiBpbiBzdG9uZQpub3RoaW5nIHRvIHNuZWV6ZSBhdApub3RoaW5nIHZlbnR1cmVkIG5vdGhpbmcgZ2FpbmVkCm5vdyB3ZSdyZSBjb29raW5nCm9mZiB0aGUgdG9wIG9mIG15IGhlYWQKb2ZmIHRoZSB3YWdvbgpvZmYgdGhlIHdhbGwKb2xkIGhhdApvbGRlciBhbmQgd2lzZXIKb2xkZXIgdGhhbiBkaXJ0Cm9sZGVyIHRoYW4gTWV0aHVzZWxhaApvbiBhIHJvbGwKb24gY2xvdWQgbmluZQpvbiBwaW5zIGFuZCBuZWVkbGVzCm9uIHRoZSBiYW5kd2Fnb24Kb24gdGhlIG1vbmV5Cm9uIHRoZSBub3NlCm9uIHRoZSByb2NrcwpvbiB0aGUgc3BvdApvbiB0aGUgdGlwIG9mIG15IHRvbmd1ZQpvbiB0aGUgd2Fnb24Kb24gdGhpbiBpY2UKb25jZSBiaXR0ZW4sIHR3aWNlIHNoeQpvbmUgYmFkIGFwcGxlIGRvZXNuJ3Qgc3BvaWwgdGhlIGJ1c2hlbApvbmUgYm9ybiBldmVyeSBtaW51dGUKb25lIGJyaWNrIHNob3J0Cm9uZSBmb290IGluIHRoZSBncmF2ZQpvbmUgaW4gYSBtaWxsaW9uCm9uZSByZWQgY2VudApvbmx5IGdhbWUgaW4gdG93bgpvcGVuIGEgY2FuIG9mIHdvcm1zCm9wZW4gYW5kIHNodXQgY2FzZQpvcGVuIHRoZSBmbG9vZCBnYXRlcwpvcHBvcnR1bml0eSBkb2Vzbid0IGtub2NrIHR3aWNlCm91dCBvZiBwb2NrZXQKb3V0IG9mIHNpZ2h0LCBvdXQgb2YgbWluZApvdXQgb2YgdGhlIGZyeWluZyBwYW4gaW50byB0aGUgZmlyZQpvdXQgb2YgdGhlIHdvb2RzCm91dCBvbiBhIGxpbWIKb3ZlciBhIGJhcnJlbApvdmVyIHRoZSBodW1wCnBhaW4gYW5kIHN1ZmZlcmluZwpwYWluIGluIHRoZQpwYW5pYyBidXR0b24KcGFyIGZvciB0aGUgY291cnNlCnBhcnQgYW5kIHBhcmNlbApwYXJ0eSBwb29wZXIKcGFzcyB0aGUgYnVjawpwYXRpZW5jZSBpcyBhIHZpcnR1ZQpwYXkgdGhyb3VnaCB0aGUgbm9zZQpwZW5ueSBwaW5jaGVyCnBlcmZlY3Qgc3Rvcm0KcGlnIGluIGEgcG9rZQpwaWxlIGl0IG9uCnBpbGxhciBvZiB0aGUgY29tbXVuaXR5CnBpbiB5b3VyIGhvcGVzIG9uCnBpdHRlciBwYXR0ZXIgb2YgbGl0dGxlIGZlZXQKcGxhaW4gYXMgZGF5CnBsYWluIGFzIHRoZSBub3NlIG9uIHlvdXIgZmFjZQpwbGF5IGJ5IHRoZSBydWxlcwpwbGF5IHlvdXIgY2FyZHMgcmlnaHQKcGxheWluZyB0aGUgZmllbGQKcGxheWluZyB3aXRoIGZpcmUKcGxlYXNlZCBhcyBwdW5jaApwbGVudHkgb2YgZmlzaCBpbiB0aGUgc2VhCnBvaW50IHdpdGggcHJpZGUKcG9vciBhcyBhIGNodXJjaCBtb3VzZQpwb3QgY2FsbGluZyB0aGUga2V0dGxlIGJsYWNrCnByZXR0eSBhcyBhIHBpY3R1cmUKcHVsbCBhIGZhc3Qgb25lCnB1bGwgeW91ciBwdW5jaGVzCnB1bGxpbmcgeW91ciBsZWcKcHVyZSBhcyB0aGUgZHJpdmVuIHNub3cKcHV0IGl0IGluIGEgbnV0c2hlbGwKcHV0IG9uZSBvdmVyIG9uIHlvdQpwdXQgdGhlIGNhcnQgYmVmb3JlIHRoZSBob3JzZQpwdXQgdGhlIHBlZGFsIHRvIHRoZSBtZXRhbApwdXQgeW91ciBiZXN0IGZvb3QgZm9yd2FyZApwdXQgeW91ciBmb290IGRvd24KcXVpY2sgYXMgYSBidW5ueQpxdWljayBhcyBhIGxpY2sKcXVpY2sgYXMgYSB3aW5rCnF1aWNrIGFzIGxpZ2h0bmluZwpxdWlldCBhcyBhIGRvcm1vdXNlCnJhZ3MgdG8gcmljaGVzCnJhaW5pbmcgYnVja2V0cwpyYWluaW5nIGNhdHMgYW5kIGRvZ3MKcmFuayBhbmQgZmlsZQpyYXQgcmFjZQpyZWFwIHdoYXQgeW91IHNvdwpyZWQgYXMgYSBiZWV0CnJlZCBoZXJyaW5nCnJlaW52ZW50IHRoZSB3aGVlbApyaWNoIGFuZCBmYW1vdXMKcmluZ3MgYSBiZWxsCnJpcGUgb2xkIGFnZQpyaXBwZWQgbWUgb2ZmCnJpc2UgYW5kIHNoaW5lCnJvYWQgdG8gaGVsbCBpcyBwYXZlZCB3aXRoIGdvb2QgaW50ZW50aW9ucwpyb2IgUGV0ZXIgdG8gcGF5IFBhdWwKcm9sbCBvdmVyIGluIHRoZSBncmF2ZQpydWIgdGhlIHdyb25nIHdheQpydWxlZCB0aGUgcm9vc3QKcnVubmluZyBpbiBjaXJjbGVzCnNhZCBidXQgdHJ1ZQpzYWRkZXIgYnV0IHdpc2VyCnNhbHQgb2YgdGhlIGVhcnRoCnNjYXJlZCBzdGlmZgpzY2FyZWQgdG8gZGVhdGgKc2VhbGVkIHdpdGggYSBraXNzCnNlY29uZCB0byBub25lCnNlZSBleWUgdG8gZXllCnNlZW4gdGhlIGxpZ2h0CnNlaXplIHRoZSBkYXkKc2V0IHRoZSByZWNvcmQgc3RyYWlnaHQKc2V0IHRoZSB3b3JsZCBvbiBmaXJlCnNldCB5b3VyIHRlZXRoIG9uIGVkZ2UKc2hhcnAgYXMgYSB0YWNrCnNob290IGZvciB0aGUgbW9vbgpzaG9vdCB0aGUgYnJlZXplCnNob3QgaW4gdGhlIGRhcmsKc2hvdWxkZXIgdG8gdGhlIHdoZWVsCnNpY2sgYXMgYSBkb2cKc2lnaCBvZiByZWxpZWYKc2lnbmVkLCBzZWFsZWQsIGFuZCBkZWxpdmVyZWQKc2luayBvciBzd2ltCnNpeCBvZiBvbmUsIGhhbGYgYSBkb3plbiBvZiBhbm90aGVyCnNrYXRpbmcgb24gdGhpbiBpY2UKc2xlcHQgbGlrZSBhIGxvZwpzbGluZ2luZyBtdWQKc2xpcHBlcnkgYXMgYW4gZWVsCnNsb3cgYXMgbW9sYXNzZXMKc21hcnQgYXMgYSB3aGlwCnNtb290aCBhcyBhIGJhYnkncyBib3R0b20Kc25lYWtpbmcgc3VzcGljaW9uCnNudWcgYXMgYSBidWcgaW4gYSBydWcKc293IHdpbGQgb2F0cwpzcGFyZSB0aGUgcm9kLCBzcG9pbCB0aGUgY2hpbGQKc3BlYWsgb2YgdGhlIGRldmlsCnNwaWxsZWQgdGhlIGJlYW5zCnNwaW5uaW5nIHlvdXIgd2hlZWxzCnNwaXR0aW5nIGltYWdlIG9mCnNwb2tlIHdpdGggcmVsaXNoCnNwcmVhZCBsaWtlIHdpbGRmaXJlCnNwcmluZyB0byBsaWZlCnNxdWVha3kgd2hlZWwgZ2V0cyB0aGUgZ3JlYXNlCnN0YW5kcyBvdXQgbGlrZSBhIHNvcmUgdGh1bWIKc3RhcnQgZnJvbSBzY3JhdGNoCnN0aWNrIGluIHRoZSBtdWQKc3RpbGwgd2F0ZXJzIHJ1biBkZWVwCnN0aXRjaCBpbiB0aW1lCnN0b3AgYW5kIHNtZWxsIHRoZSByb3NlcwpzdHJhaWdodCBhcyBhbiBhcnJvdwpzdHJhdyB0aGF0IGJyb2tlIHRoZSBjYW1lbCdzIGJhY2sKc3Ryb25nIGFzIGFuIG94CnN0dWJib3JuIGFzIGEgbXVsZQpzdHVmZiB0aGF0IGRyZWFtcyBhcmUgbWFkZSBvZgpzdHVmZmVkIHNoaXJ0CnN3ZWF0aW5nIGJsb29kCnN3ZWF0aW5nIGJ1bGxldHMKdGFrZSBhIGxvYWQgb2ZmCnRha2Ugb25lIGZvciB0aGUgdGVhbQp0YWtlIHRoZSBiYWl0CnRha2UgdGhlIGJ1bGwgYnkgdGhlIGhvcm5zCnRha2UgdGhlIHBsdW5nZQp0YWtlcyBvbmUgdG8ga25vdyBvbmUKdGFrZXMgdHdvIHRvIHRhbmdvCnRoZSBtb3JlIHRoZSBtZXJyaWVyCnRoZSByZWFsIGRlYWwKdGhlIHJlYWwgTWNDb3kKdGhlIHJlZCBjYXJwZXQgdHJlYXRtZW50CnRoZSBzYW1lIG9sZCBzdG9yeQp0aGVyZSBpcyBubyBhY2NvdW50aW5nIGZvciB0YXN0ZQp0aGljayBhcyBhIGJyaWNrCnRoaWNrIGFzIHRoaWV2ZXMKdGhpbiBhcyBhIHJhaWwKdGhpbmsgb3V0c2lkZSBvZiB0aGUgYm94CnRoaXJkIHRpbWUncyB0aGUgY2hhcm0KdGhpcyBkYXkgYW5kIGFnZQp0aGlzIGh1cnRzIG1lIHdvcnNlIHRoYW4gaXQgaHVydHMgeW91CnRoaXMgcG9pbnQgaW4gdGltZQp0aHJlZSBzaGVldHMgdG8gdGhlIHdpbmQKdGhyb3VnaCB0aGljayBhbmQgdGhpbgp0aHJvdyBpbiB0aGUgdG93ZWwKdGllIG9uZSBvbgp0aWdodGVyIHRoYW4gYSBkcnVtCnRpbWUgYW5kIHRpbWUgYWdhaW4KdGltZSBpcyBvZiB0aGUgZXNzZW5jZQp0aXAgb2YgdGhlIGljZWJlcmcKdGlyZWQgYnV0IGhhcHB5CnRvIGNvaW4gYSBwaHJhc2UKdG8gZWFjaCBoaXMgb3duCnRvIG1ha2UgYSBsb25nIHN0b3J5IHNob3J0CnRvIHRoZSBiZXN0IG9mIG15IGtub3dsZWRnZQp0b2UgdGhlIGxpbmUKdG9uZ3VlIGluIGNoZWVrCnRvbyBnb29kIHRvIGJlIHRydWUKdG9vIGhvdCB0byBoYW5kbGUKdG9vIG51bWVyb3VzIHRvIG1lbnRpb24KdG91Y2ggd2l0aCBhIHRlbiBmb290IHBvbGUKdG91Z2ggYXMgbmFpbHMKdHJpYWwgYW5kIGVycm9yCnRyaWFscyBhbmQgdHJpYnVsYXRpb25zCnRyaWVkIGFuZCB0cnVlCnRyaXAgZG93biBtZW1vcnkgbGFuZQp0d2lzdCBvZiBmYXRlCnR3byBjZW50cyB3b3J0aAp0d28gcGVhcyBpbiBhIHBvZAp1Z2x5IGFzIHNpbgp1bmRlciB0aGUgY291bnRlcgp1bmRlciB0aGUgZ3VuCnVuZGVyIHRoZSBzYW1lIHJvb2YKdW5kZXIgdGhlIHdlYXRoZXIKdW50aWwgdGhlIGNvd3MgY29tZSBob21lCnVudmFybmlzaGVkIHRydXRoCnVwIHRoZSBjcmVlawp1cGhpbGwgYmF0dGxlCnVwcGVyIGNydXN0CnVwc2V0IHRoZSBhcHBsZWNhcnQKdmFpbiBhdHRlbXB0CnZhaW4gZWZmb3J0CnZhbnF1aXNoIHRoZSBlbmVteQp2ZXN0ZWQgaW50ZXJlc3QKd2FpdGluZyBmb3IgdGhlIG90aGVyIHNob2UgdG8gZHJvcAp3YWtldXAgY2FsbAp3YXJtIHdlbGNvbWUKd2F0Y2ggeW91ciBwJ3MgYW5kIHEncwp3YXRjaCB5b3VyIHRvbmd1ZQp3YXRjaGluZyB0aGUgY2xvY2sKd2F0ZXIgdW5kZXIgdGhlIGJyaWRnZQp3ZWF0aGVyIHRoZSBzdG9ybQp3ZWVkIHRoZW0gb3V0CndlZWsgb2YgU3VuZGF5cwp3ZW50IGJlbGx5IHVwCndldCBiZWhpbmQgdGhlIGVhcnMKd2hhdCBnb2VzIGFyb3VuZCBjb21lcyBhcm91bmQKd2hhdCB5b3Ugc2VlIGlzIHdoYXQgeW91IGdldAp3aGVuIGl0IHJhaW5zLCBpdCBwb3Vycwp3aGVuIHB1c2ggY29tZXMgdG8gc2hvdmUKd2hlbiB0aGUgY2F0J3MgYXdheQp3aGVuIHRoZSBnb2luZyBnZXRzIHRvdWdoLCB0aGUgdG91Z2ggZ2V0IGdvaW5nCndoaXRlIGFzIGEgc2hlZXQKd2hvbGUgYmFsbCBvZiB3YXgKd2hvbGUgaG9nCndob2xlIG5pbmUgeWFyZHMKd2lsZCBnb29zZSBjaGFzZQp3aWxsIHdvbmRlcnMgbmV2ZXIgY2Vhc2U/Cndpc2RvbSBvZiB0aGUgYWdlcwp3aXNlIGFzIGFuIG93bAp3b2xmIGF0IHRoZSBkb29yCndvcmRzIGZhaWwgbWUKd29yayBsaWtlIGEgZG9nCndvcmxkIHdlYXJ5CndvcnN0IG5pZ2h0bWFyZQp3b3J0aCBpdHMgd2VpZ2h0IGluIGdvbGQKd3Jvbmcgc2lkZSBvZiB0aGUgYmVkCnlhbmtpbmcgeW91ciBjaGFpbgp5YXBweSBhcyBhIGRvZwp5ZWFycyB5b3VuZwp5b3UgYXJlIHdoYXQgeW91IGVhdAp5b3UgY2FuIHJ1biBidXQgeW91IGNhbid0IGhpZGUKeW91IG9ubHkgbGl2ZSBvbmNlCnlvdSdyZSB0aGUgYm9zcwp5b3VuZyBhbmQgZm9vbGlzaAp5b3VuZyBhbmQgdmlicmFudAo=",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsiY2xpY2hlcyI6eyJtaXNjIjp7IndyaXRlX2dvb2QiOnRydWV9fX0sIm1heF9lcnJvcnMiOjEwMDB9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 20,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cliches_misc_write_good_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cliches_write_good_case",
+      "capability_id": "rule.cliches.misc.write_good",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI outcome verified. The case selects only cliches.misc.write_good; the full 697-line corpus is inline base64 input.",
+      "input_mode": "stdin",
+      "stdin_base64": "QSBDSElQIE9GRiBUSEUgT0xEIEJMT0NL",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsiY2xpY2hlcyI6eyJtaXNjIjp7IndyaXRlX2dvb2QiOnRydWV9fX0sIm1heF9lcnJvcnMiOjEwMDB9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cliches_misc_write_good_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cliches_write_good_quoted_suppression",
+      "capability_id": "rule.cliches.misc.write_good",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI outcome verified. The case selects only cliches.misc.write_good; the full 697-line corpus is inline base64 input.",
+      "input_mode": "stdin",
+      "stdin_base64": "4oCcYSBjaGlwIG9mZiB0aGUgb2xkIGJsb2Nr4oCd",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsiY2xpY2hlcyI6eyJtaXNjIjp7IndyaXRlX2dvb2QiOnRydWV9fX0sIm1heF9lcnJvcnMiOjEwMDB9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cliches_misc_write_good_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cliches_write_good_word_boundary",
+      "capability_id": "rule.cliches.misc.write_good",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI outcome verified. The case selects only cliches.misc.write_good; the full 697-line corpus is inline base64 input.",
+      "input_mode": "stdin",
+      "stdin_base64": "YWNpZCB0ZXN0aW5n",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsiY2xpY2hlcyI6eyJtaXNjIjp7IndyaXRlX2dvb2QiOnRydWV9fX0sIm1heF9lcnJvcnMiOjEwMDB9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cliches_misc_write_good_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cliches_write_good_unicode_position",
+      "capability_id": "rule.cliches.misc.write_good",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI outcome verified. The case selects only cliches.misc.write_good; the full 697-line corpus is inline base64 input.",
+      "input_mode": "stdin",
+      "stdin_base64": "w6nwn5iKIGEgY2hpcCBvZmYgdGhlIG9sZCBibG9jaw==",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsiY2xpY2hlcyI6eyJtaXNjIjp7IndyaXRlX2dvb2QiOnRydWV9fX0sIm1heF9lcnJvcnMiOjEwMDB9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cliches_misc_write_good_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cliches_write_good_package_only_like_the_plague",
+      "capability_id": "rule.cliches.misc.write_good",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI outcome verified. The case selects only cliches.misc.write_good; the full 697-line corpus is inline base64 input.",
+      "input_mode": "stdin",
+      "stdin_base64": "bGlrZSB0aGUgcGxhZ3Vl",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsiY2xpY2hlcyI6eyJtaXNjIjp7IndyaXRlX2dvb2QiOnRydWV9fX0sIm1heF9lcnJvcnMiOjEwMDB9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cliches_misc_write_good_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cliches_write_good_pinned_whitespace_youre_the_boss",
+      "capability_id": "rule.cliches.misc.write_good",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI outcome verified. The case selects only cliches.misc.write_good; the full 697-line corpus is inline base64 input.",
+      "input_mode": "stdin",
+      "stdin_base64": "eW91J3JlIHRoZSBib3Nz",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsiY2xpY2hlcyI6eyJtaXNjIjp7IndyaXRlX2dvb2QiOnRydWV9fX0sIm1heF9lcnJvcnMiOjEwMDB9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cliches_misc_write_good_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cliches_write_good_max_errors_ordering",
+      "capability_id": "rule.cliches.misc.write_good",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI outcome verified. The case selects only cliches.misc.write_good; the full 697-line corpus is inline base64 input.",
+      "input_mode": "stdin",
+      "stdin_base64": "YSBjaGlwIG9mZiB0aGUgb2xkIGJsb2NrOyBhIGNsZWFuIHNsYXRlOyBhIHRvdWdoIHJvdyB0byBob2U=",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsiY2xpY2hlcyI6eyJtaXNjIjp7IndyaXRlX2dvb2QiOnRydWV9fX0sIm1heF9lcnJvcnMiOjF9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cliches_misc_write_good_only_max_errors_1",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    }
+,
+    {
+      "id": "cliches_write_good_regex_optional_final_e",
+      "capability_id": "rule.cliches.misc.write_good",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI verified that the raw regex metacharacter in `will wonders never cease?` treats the final e as optional.",
+      "input_mode": "stdin",
+      "stdin_base64": "d2lsbCB3b25kZXJzIG5ldmVyIGNlYXM=",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsiY2xpY2hlcyI6eyJtaXNjIjp7IndyaXRlX2dvb2QiOnRydWV9fX0sIm1heF9lcnJvcnMiOjEwMDB9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cliches_misc_write_good_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

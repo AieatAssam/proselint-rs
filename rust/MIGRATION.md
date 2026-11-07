@@ -176,16 +176,7 @@ Each run report must contain a schema version, run ID, times, source fingerprint
 
 The gate exits zero only if every required case ran and passed and the oracle/candidate integrity and comparator self-tests succeeded. Fail on unexpectedly zero collected cases, duplicate IDs, missing fixtures, malformed manifests, stale binaries or unexplained exclusions. No `|| true`, broad exception swallowing or blanket xfail/ignore. Document legitimate upstream baseline failures separately and never claim they were verified.
 
-For each capability, run its focused Rust tests, focused live Python/Rust comparison, independent focused verification, and lightweight harness/comparator self-tests. At each 5–10 capability checkpoint, after shared matching/config/CLI changes, and before release, also run actual equivalents of:
-
-    cargo fmt --manifest-path rust/Cargo.toml --check
-    cargo clippy --manifest-path rust/Cargo.toml --all-targets -- -D warnings
-    cargo test --manifest-path rust/Cargo.toml
-    python3 -m unittest discover -s rust/harness/tests
-    python3 rust/harness/compare.py --self-test
-    python3 rust/harness/gate.py --live --report <unique-path.json>
-
-Choose the harness test runner deliberately if not unittest, update documentation consistently and execute it. Reuse valid build artifacts where possible; source/lockfile fingerprints and attestations must prove what was reused. For release also run upstream Python tests, a locked Rust release build, full live parity and the separately bounded performance suite. Add a runtime-independence test in an isolated environment with no Python/reference executable accessible; it must process fresh input not limited to fixtures. Inspect runtime dependencies; do not break OS tools by globally changing PATH or renaming system executables.
+For each capability, run its focused Rust tests, focused live Python/Rust comparison, independent focused verification, and lightweight harness/comparator self-tests. At each 5–10 capability checkpoint, after shared matching/config/CLI changes, and before release, run the cumulative live gate and Python harness unit suite. `gate.py` already runs formatter, clippy, all Rust tests, comparator self-tests, candidate build/attestation and cumulative live comparison; do not run those checks separately immediately before the gate. Choose the harness test runner deliberately if not unittest, update documentation consistently and execute it. Reuse valid build artifacts where possible; source/lockfile fingerprints and attestations must prove what was reused. For release also run upstream Python tests, a locked Rust release build, full live parity and the separately bounded performance suite. Add a runtime-independence test in an isolated environment with no Python/reference executable accessible; it must process fresh input not limited to fixtures. Inspect runtime dependencies; do not break OS tools by globally changing PATH or renaming system executables.
 
 ## Performance protocol
 
@@ -197,7 +188,7 @@ Use upstream corpora with licences checked, representative ordinary documents an
 
 ## Session recovery and final handoff
 
-Update progress after every accepted capability and before stopping/compaction. Record active ownership and unfinished files so a new coordinator cannot conflict with existing workers. On resume read status/decisions/evidence, inspect current diff, verify the baseline and rerun the cumulative gate before new implementation. Do not trust narrative 'all tests pass' without reproducible current-tree evidence.
+Update progress after every accepted capability and before stopping/compaction. Record active ownership and unfinished files so a new coordinator cannot conflict with existing workers. On resume read status/decisions/evidence, inspect the current diff and verify live oracle integrity. Reuse a completed cumulative live-gate report only when its source fingerprint and candidate binary attestation still match, its pinned-baseline integrity is verified, and its capability and case IDs exactly equal the current accepted capability/case scope. Acceptance ledgers are excluded from the behavioral fingerprint, so compare scope explicitly. Otherwise rerun the cumulative gate before implementation when a checkpoint is due or shared behavior changed. Never use cached snapshots or narrative status as parity evidence.
 
 Begin now: reconnaissance in parallel, then pin/provision the oracle and demonstrate harness discrimination. Build and independently verify the first complete rule after the foundations pass. Continue the cycle through the inventory while resources permit. Do not stop at a plan or stub harness. If blocked, name the exact blocker and what was actually executed.
 

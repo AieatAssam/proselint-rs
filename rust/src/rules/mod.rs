@@ -6,6 +6,7 @@ pub mod misplaced;
 pub mod month_of_year;
 pub mod month_year_comma;
 pub mod scare_quotes;
+pub mod social_nword;
 pub mod spelling_able_atable;
 pub mod spelling_able_ible;
 pub mod spelling_athletes;

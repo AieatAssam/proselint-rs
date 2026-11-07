@@ -334,6 +334,10 @@
     {
       "id": "rule.typography.punctuation.exclamation",
       "status": "recorded"
+    },
+    {
+      "id": "rule.social_awareness.nword",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -355,17 +359,17 @@
   },
   "harness": {
     "status": "verified after metadata fingerprint changes; Markdown/ledger exclusion is covered by a discrimination test",
-    "source_fingerprint": "6abf318b9b2776bf55f865f23da1362c9ec18ad9eb292e1cabee15f9278c63a0",
+    "source_fingerprint": "546f0b68e3076502ba63b2d62622cc8b15d8224759d663debdeeae98a8340e3a",
     "unit_tests": {
       "passed": 57,
       "exit_code": 0,
-      "duration_seconds": 12.111,
-      "evidence": "rust/artifacts/harness-process-tests-five-rule-20261106.log"
+      "duration_seconds": 12.481,
+      "evidence": "rust/artifacts/independent-social-nword-20261107/harness-unittests.log"
     },
     "comparator_discriminators": {
       "passed": 23,
       "exit_code": 0,
-      "evidence": "rust/artifacts/harness-process-self-test-five-rule-20261106.json"
+      "evidence": "rust/artifacts/independent-social-nword-20261107/comparator-self-test.json"
     },
     "live_oracle_self_check": {
       "passed_cases": 2,
@@ -5068,33 +5072,126 @@
         "duration_seconds": 226.238536,
         "source_fingerprint": "6abf318b9b2776bf55f865f23da1362c9ec18ad9eb292e1cabee15f9278c63a0"
       }
+    },
+    {
+      "id": "rule.social_awareness.nword",
+      "status": "recorded",
+      "case_ids": [
+        "social_awareness_nword_upstream_example",
+        "social_awareness_nword_without_hyphen",
+        "social_awareness_nword_case_insensitive",
+        "social_awareness_nword_unanchored_inside_word",
+        "social_awareness_nword_space_is_near_miss",
+        "social_awareness_nword_unicode_codepoint_position",
+        "social_awareness_nword_quoted_suppressed",
+        "social_awareness_nword_max_errors_first_match"
+      ],
+      "registered_entries_exercised": 1,
+      "upstream_spec": "ExistenceSimple(pattern=r\"the n-?word\"), unanchored case-insensitive match, default paired-quote suppression, fixed message, exact codepoint spans/positions.",
+      "specification": {
+        "live_cases": 8,
+        "forms_or_patterns": 1,
+        "oracle_integrity": "verified before and after",
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "evidence": "rust/harness/cases/manifest.json"
+      },
+      "red": {
+        "status": "MISMATCH",
+        "focused_live_report": "rust/artifacts/social-awareness-nword-red-20261107.json",
+        "live_cases": 8,
+        "mismatches": 8,
+        "duration_seconds": 9.209328,
+        "candidate_errors": 0,
+        "oracle_errors": 0,
+        "timeouts": 0,
+        "oracle_integrity": "verified"
+      },
+      "agent_model": "gpt-6-luna",
+      "agent_reasoning_effort": "named Luna roles were fixed at high; low requested effort could not be applied",
+      "agent_runtime_metadata": "unavailable",
+      "stage_durations_seconds": {
+        "red_live": 9.209328,
+        "focused_rust_tests_green": 1.051676,
+        "focused_green_live": 9.106152,
+        "independent_live": 9.769489,
+        "cumulative_gate": 231.766123
+      },
+      "stage_case_counts": {
+        "red_live": 8,
+        "focused_rust_tests_red": 5,
+        "focused_rust_tests_green": 5,
+        "focused_green_live": 8,
+        "independent_live": 8,
+        "cumulative_gate": 758,
+        "cumulative_capabilities": 84,
+        "focused_rust_tests_red_failed_assertions": 3,
+        "focused_rust_tests_red_passing_negative_assertions": 2
+      },
+      "implementation": "Added native unanchored case-insensitive the n-?word matcher with shared paired-quote suppression and codepoint coordinate reporting.",
+      "green": {
+        "status": "PASS",
+        "live_cases_passed": 8,
+        "focused_live_report": "rust/artifacts/social-awareness-nword-green-final-20261107.json",
+        "build_attestation": "rust/artifacts/20261107T002328148582Z-build.attestation.json",
+        "source_fingerprint": "546f0b68e3076502ba63b2d62622cc8b15d8224759d663debdeeae98a8340e3a",
+        "candidate_sha256": "2fb2cf702665f1b62753b46418c5109bd1261c70ad531679284a2393adff9c22",
+        "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
+        "locked_format_clippy_test_build": "PASS; full Rust suite 566 passed",
+        "duration_seconds": 9.106152
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 8,
+        "report": "rust/artifacts/independent-social-nword-20261107/live-report.json",
+        "duration_seconds": 9.769489,
+        "source_fingerprint": "546f0b68e3076502ba63b2d62622cc8b15d8224759d663debdeeae98a8340e3a",
+        "oracle_integrity": "verified before and after",
+        "agent_model": "gpt-6-luna",
+        "agent_effort": "high fixed by named role",
+        "agent_runtime_metadata": "unavailable"
+      },
+      "implementation_source_sha256": "42af1291026e648bb32f4df45c458fc2975363c9f98b7d16c9dee5bd5ac1c0ce",
+      "test_source_sha256": "42af1291026e648bb32f4df45c458fc2975363c9f98b7d16c9dee5bd5ac1c0ce",
+      "harness_test_source_sha256": "e6b32b1c5cf5a6fddc2e90154b432571b18e8d11522b7801674b083add1f67de",
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-social-awareness-nword-20261107.json",
+        "passed_cases": 758,
+        "capability_count": 84,
+        "duration_seconds": 231.766123,
+        "source_fingerprint": "546f0b68e3076502ba63b2d62622cc8b15d8224759d663debdeeae98a8340e3a",
+        "candidate_sha256": "2fb2cf702665f1b62753b46418c5109bd1261c70ad531679284a2393adff9c22",
+        "candidate_attestation": "rust/artifacts/20261107T002328148582Z-build.attestation.json",
+        "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136"
+      },
+      "focused_rust_test_log": "rust/artifacts/focused-cargo-social-nword-20261107.log"
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-five-rule-checkpoint-20261106.json",
-    "passed_cases": 750,
-    "manifest_cases": 756,
+    "report": "rust/artifacts/strict-gate-social-awareness-nword-20261107.json",
+    "passed_cases": 758,
+    "manifest_cases": 764,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
       "cli.config.per_file_checks": 4
     },
     "exit_code": 0,
-    "capability_count": 83,
-    "source_fingerprint": "6abf318b9b2776bf55f865f23da1362c9ec18ad9eb292e1cabee15f9278c63a0",
-    "run_id": "20261106T233600613000Z-f7566479",
-    "started_at_utc": "2026-11-06T23:36:00.612969+00:00",
-    "finished_at_utc": "2026-11-06T23:39:46.851505+00:00",
-    "candidate_attestation": "rust/artifacts/20261106T233551420055Z-build.attestation.json",
-    "candidate_sha256": "3732d28803704fda3e8ab614379f59c6c04b3408bdd2ece2dd862459e90310da",
-    "duration_seconds": 226.238536,
-    "build_duration_seconds": 9.167
+    "capability_count": 84,
+    "source_fingerprint": "546f0b68e3076502ba63b2d62622cc8b15d8224759d663debdeeae98a8340e3a",
+    "run_id": "20261107T002554844279Z-88ccab9d",
+    "started_at_utc": "2026-11-07T00:25:54.844243+00:00",
+    "finished_at_utc": "2026-11-07T00:29:46.610366+00:00",
+    "candidate_attestation": "rust/artifacts/20261107T002328148582Z-build.attestation.json",
+    "candidate_sha256": "2fb2cf702665f1b62753b46418c5109bd1261c70ad531679284a2393adff9c22",
+    "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
+    "duration_seconds": 231.766123
   },
   "rust_dependencies": {
     "status": "current",
     "toolchain": "1.99.1",
     "registry": "crates.io",
-    "latest_checked": "2026-11-06",
+    "latest_checked": "2026-11-07",
     "locked_versions": {
       "clap": "4.6.7",
       "serde": "1.0.229",
@@ -5107,12 +5204,13 @@
     "update_dry_run": {
       "status": "current",
       "packages_to_update": 0,
-      "command": "rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo update --manifest-path rust/Cargo.toml --dry-run",
+      "command": "rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo update --dry-run --manifest-path rust/Cargo.toml",
       "rust_version_constraint": "1.99",
-      "checked_after_gate": "2026-11-06T23:44:17Z"
+      "checked_after_gate": "2026-11-07T00:37:02Z",
+      "evidence": "rust/artifacts/rust-dependency-dry-run-20261107.txt"
     }
   },
-  "next_capability_handoff": "Select the next 5–10 independent paths from rust/inventory.json. Keep focused live and independent verification per capability. Run the cumulative gate at the next batch checkpoint and after shared matching/config/CLI/output changes. Keep benchmarks separate and bounded.",
+  "next_capability_handoff": "Continue with the next unimplemented paths in rust/docs/PLAN.md. Keep per-capability tests/live parity/independent verification; resolve list redistribution terms before copying data. Run the cumulative gate at the next 5–10 capability checkpoint and after shared infrastructure changes.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

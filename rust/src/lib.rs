@@ -9,6 +9,7 @@ pub use rules::misplaced::diagnostics as misplaced_diagnostics;
 pub use rules::month_of_year::diagnostics as dates_times_dates_month_of_year_diagnostics;
 pub use rules::month_year_comma::diagnostics as dates_times_dates_month_year_comma_diagnostics;
 pub use rules::scare_quotes::diagnostics as scare_quotes_diagnostics;
+pub use rules::social_nword::diagnostics as social_nword_diagnostics;
 pub use rules::spelling_able_atable::diagnostics as spelling_able_atable_diagnostics;
 pub use rules::spelling_able_ible::diagnostics as spelling_able_ible_diagnostics;
 pub use rules::spelling_athletes::diagnostics as spelling_athletes_diagnostics;

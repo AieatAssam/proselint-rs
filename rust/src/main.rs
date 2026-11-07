@@ -43,6 +43,24 @@ use std::process::ExitCode;
 
 mod default_config;
 
+const CHECK_HELP: &str = r#"usage: proselint [options] <command> check [-h] [--config CONFIG]
+                                           [--output-format {full,json,compact}]
+                                           [--verbose] [--version] [--demo]
+                                           [paths ...]
+
+positional arguments:
+  paths                 target paths to lint
+
+options:
+  -h, --help            show this help message and exit
+  --config CONFIG       path to a configuration file (`.proselintrc.json`)
+  --output-format {full,json,compact}, -o {full,json,compact}
+                        the format to display results in
+  --verbose, -v         enable verbose logging
+  --version             display the current version and exit
+  --demo                run proselint against the demo file
+"#;
+
 #[derive(Debug)]
 struct JsonSyntaxError {
     reason: &'static str,
@@ -946,7 +964,10 @@ struct Cli {
 enum Command {
     #[command(about = "display the current version and exit")]
     Version,
-    #[command(about = "run proselint against paths")]
+    #[command(
+        about = "run proselint against paths",
+        override_help = CHECK_HELP
+    )]
     Check {
         #[arg(long, help = "run proselint against the demo file")]
         demo: bool,
@@ -994,7 +1015,7 @@ fn top_level_help() -> String {
 
 fn command_help(name: &str) -> Option<String> {
     if name == "check" {
-        return Some("usage: proselint [options] <command> check [-h] [--config CONFIG]\n                                           [--output-format {full,json,compact}]\n                                           [--verbose] [--version] [--demo]\n                                           [paths ...]\n\npositional arguments:\n  paths                 target paths to lint\n\noptions:\n  -h, --help            show this help message and exit\n  --config CONFIG       path to a configuration file (`.proselintrc.json`)\n  --output-format {full,json,compact}, -o {full,json,compact}\n                        the format to display results in\n  --verbose, -v         enable verbose logging\n  --version             display the current version and exit\n  --demo                run proselint against the demo file\n".to_owned());
+        return Some(CHECK_HELP.to_owned());
     }
     let mut root = Cli::command();
     root.build();

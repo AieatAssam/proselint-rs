@@ -10,6 +10,8 @@ Run the Python harness unit suite with `python3 -m unittest discover -s rust/har
 
 `gate.py` reruns pinned-oracle integrity, comparator self-tests, and the cumulative live comparison on every invocation. By default it also runs fmt, Clippy, all Rust tests, and a locked build. If an existing build attestation proves all four checks and still matches the current source fingerprint, `Cargo.lock`, binary, and pinned toolchain, those build steps can be reused with `--reuse-attestation <path>`; live comparison and oracle integrity are never reused. Any covered source or lockfile change requires a new attestation.
 
+For test-first RED cases, `gate.py --attest-candidate-for-red` runs locked fmt, Clippy, and build without requiring the intentionally failing Rust tests to pass. Its `focused_candidate_build` attestation is valid only for capability-scoped live comparisons; the cumulative gate rejects it because it does not prove `cargo test --locked`.
+
 ## Performance comparison
 
 [`benchmark.py`](benchmark.py) supports an isolated `misc.suddenly` profile and a combined `misc.suddenly` + `psychology.p_equals_zero` profile. It checks exact parity for every measured input before collecting paired, alternating fresh-process CLI samples. The isolated profile also includes repeated in-memory scans; combined-profile results are CLI-only. Inputs, attribution, hashes, commands, raw samples, summaries, environment details, and parity evidence are recorded in each report.

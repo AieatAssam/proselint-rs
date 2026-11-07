@@ -1,6 +1,8 @@
 import importlib.util
 import sys
+from tempfile import TemporaryDirectory
 from pathlib import Path
+from unittest.mock import patch
 import unittest
 
 
@@ -16,6 +18,39 @@ spec.loader.exec_module(gate)
 
 
 class GateTests(unittest.TestCase):
+    def test_focused_candidate_build_is_locked_and_omits_unit_tests(self):
+        cargo = Path("/toolchain/bin/cargo")
+        manifest = Path("/checkout/rust/Cargo.toml")
+
+        commands = gate.build_commands(cargo, manifest, focused_candidate_build=True)
+
+        self.assertEqual(
+            commands,
+            [
+                [str(cargo), "--locked", "fmt", "--manifest-path", str(manifest), "--check"],
+                [str(cargo), "--locked", "clippy", "--manifest-path", str(manifest), "--all-targets", "--", "-D", "warnings"],
+                [str(cargo), "--locked", "build", "--manifest-path", str(manifest)],
+            ],
+        )
+        records = [{"command": command, "exit_code": 0} for command in commands]
+        self.assertEqual(
+            gate.missing_gate_attestation_checks({"build_commands": records}, cargo, manifest),
+            ["cargo test --locked"],
+        )
+
+    def test_focused_candidate_attestation_cannot_be_reused_by_gate(self):
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            binary = root / "target" / "debug" / "proselint"
+            binary.parent.mkdir(parents=True)
+            binary.write_bytes(b"test candidate")
+            cargo = root / "bin" / "cargo"
+            with patch.object(gate, "RUST_ROOT", root), patch.object(gate, "locked_cargo", return_value=(cargo, "1.99.1")), patch.object(
+                gate, "read_candidate_attestation", return_value={"validation_scope": "focused_candidate_build"}
+            ):
+                with self.assertRaisesRegex(ValueError, "cannot be reused by the cumulative gate"):
+                    gate.reuse_attested_candidate(Path("focused.attestation.json"), None)
+
     def test_reusable_attestation_must_prove_each_locked_gate_command(self):
         cargo = Path("/toolchain/bin/cargo")
         manifest = Path("/checkout/rust/Cargo.toml")

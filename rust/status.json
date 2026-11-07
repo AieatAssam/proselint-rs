@@ -426,6 +426,10 @@
     {
       "id": "cli.check_help",
       "status": "independently_verified"
+    },
+    {
+      "id": "cli.help_combined_arguments",
+      "status": "independently_verified"
     }
   ],
   "inventory": {
@@ -452,12 +456,14 @@
     "status": "verified after metadata fingerprint changes; Markdown/ledger exclusion is covered by a discrimination test",
     "source_fingerprint": "91695883b59e57b04d699eb7f44b79d762822c999a7b4fff1e3a29d1483cac88",
     "unit_tests": {
-      "passed": 81,
+      "passed": 84,
       "exit_code": 0,
-      "duration_seconds": 55.295,
-      "command": "python3 -m unittest discover -s rust/harness/tests -p 'test_*.py'",
-      "evidence": "rust/artifacts/harness-suite-demo-final-20261107.json",
-      "source_fingerprint": "91695883b59e57b04d699eb7f44b79d762822c999a7b4fff1e3a29d1483cac88"
+      "duration_seconds": 44.197,
+      "test_runner_seconds": 43.713,
+      "wall_duration_seconds": 44.197,
+      "command": "python3 -m unittest discover -s rust/harness/tests -v",
+      "evidence": "rust/artifacts/harness-suite-red-scope-guard-20261107.json",
+      "source_fingerprint": "cc42ba513d7cf85d6bb66e084f87a282be88432c5ced543b97546a807221deba"
     },
     "comparator_discriminators": {
       "passed": 23,
@@ -488,10 +494,30 @@
       "red_evidence": "rust/artifacts/fingerprint-demo-red-20261107.json",
       "included_path": "rust/data/demo.md",
       "docs_exclusion_regression": "test_source_fingerprint_ignores_docs_and_status_but_tracks_inputs"
+    },
+    "red_candidate_attestation": {
+      "status": "PASS",
+      "mode": "gate.py --attest-candidate-for-red",
+      "validation_scope": "focused_candidate_build",
+      "source_fingerprint": "4f8651aaabc560e8cf852b036b15f003a874ed3ff5d672b52fabb0edd8011bb8",
+      "attestation": "rust/artifacts/20261107T191909729264Z-build.attestation.json",
+      "build_command_durations_seconds": [
+        0.906519,
+        0.212345,
+        0.150988
+      ],
+      "focused_compare_report": "rust/artifacts/cli-combined-help-red-final-20261107.json",
+      "cumulative_gate_reuse_rejection": "rust/artifacts/red-attestation-reuse-blocked-20261107.json",
+      "reuse_allowed": false,
+      "harness_tests_passed": 5,
+      "full_harness_suite_passed": 83,
+      "full_harness_suite_seconds": 44.274,
+      "suite_evidence": "rust/artifacts/independent-check-help-current-20261107/harness-suite.json",
+      "estimated_time_saved_seconds_vs_prior_pre_red_full_gate": 630.612
     }
   },
   "active_ownership": {
-    "current": "No active writers. Latest strict gate passes 932/932 live cases across 106 capabilities; 23 rule paths remain unimplemented pending data provenance.",
+    "current": "The combined check-help capability passed the shared-CLI cumulative checkpoint. Investigate unresolved help guard observations and select the next unblocked CLI capability.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -506,7 +532,8 @@
     "No-config execution now loads bundled DEFAULT for 83 implemented checks, but the 23 unimplemented unique paths include default-enabled rules, so full default-config parity and all combined-rule interactions remain incomplete.",
     "dump-config HOME-unset/platform-specific config discovery, missing nonempty-XDG configuration, directory user candidates, file/directory traversal and decoding edges, and full multi-file output behavior remain unverified.",
     "JSON version output and --version combined with additional arguments are not covered by the accepted plain-text version capability.",
-    "Full/JSON demo source-path behavior and full-default demo output remain unverified; selected-rule Compact behavior is the accepted slice."
+    "Full/JSON demo source-path behavior and full-default demo output remain unverified; selected-rule Compact behavior is the accepted slice.",
+    "Help combinations outside the accepted three cases remain unverified. Independent probes found differences for a missing `--config` value before help, invalid `--output-format` before help, a global config value literally named `check`, and `--` terminating option parsing; one probe for help before an invalid later output format matched exactly. See `rust/artifacts/independent-help-combined-final-20261107/verification-summary.json`."
   ],
   "capability_states": [
     {
@@ -7596,31 +7623,103 @@
         "report": "rust/artifacts/strict-gate-check-help-final-v2-20261107.json",
         "source_fingerprint": "1b38686ca3164efc7c6a51104e2809f476919146735a5114a68334b53671863f"
       }
+    },
+    {
+      "id": "cli.help_combined_arguments",
+      "status": "independently_verified",
+      "case_ids": [
+        "cli_check_help_with_extra_path",
+        "cli_check_help_config_before_help",
+        "cli_check_help_global_config_before_subcommand"
+      ],
+      "upstream_source": "proselint/command_line.py:get_parser(); argparse help actions run before proselint() loads configuration; Rust CLI: rust/src/main.rs Check subcommand override",
+      "upstream_spec": "For the recorded combinations, help is emitted before later paths/configuration are processed: `check --help ghost.md`, `check --config \"missing config.json\" --help ghost.md`, and `--config \"missing config.json\" check --help` all emit the same pinned 774-byte check help, exit 0, and leave stderr empty.",
+      "specification": {
+        "live_cases": 3,
+        "help_bytes": 774,
+        "help_sha256": "f8fc688e5682c699b18b77305cf9a4322d7d8a30cd91ca41e8b9d62701425b5d",
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "comparison": "exact stdout/stderr bytes and exit status"
+      },
+      "red": {
+        "status": "behavioral_failure",
+        "focused_rust_tests_failed": 3,
+        "live_mismatches": 3,
+        "report": "rust/artifacts/cli-combined-help-red-final-20261107.json",
+        "candidate_attestation": "rust/artifacts/20261107T191909729264Z-build.attestation.json",
+        "source_fingerprint": "4f8651aaabc560e8cf852b036b15f003a874ed3ff5d672b52fabb0edd8011bb8"
+      },
+      "green": {
+        "status": "PASS",
+        "focused_rust_tests_passed": 3,
+        "live_cases_passed": 3,
+        "report": "rust/artifacts/cli-combined-help-green-final-20261107.json",
+        "candidate_attestation": "rust/artifacts/20261107T192251907235Z-build.attestation.json",
+        "source_fingerprint": "bdb15d01422bfc305754e897bd2fd6a0d2cb560e4713c877fa1ab124e99dd79f"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "focused_rust_tests_passed": 3,
+        "full_rust_tests_passed": 696,
+        "rust_test_groups": 101,
+        "comparator_self_tests_passed": 23,
+        "oracle_self_check_cases": 2,
+        "live_cases_passed": 3,
+        "report": "rust/artifacts/independent-help-combined-final-20261107/verification-summary.json",
+        "candidate_attestation": "rust/artifacts/independent-help-combined-final-20261107/candidate.attestation.json",
+        "source_fingerprint": "bdb15d01422bfc305754e897bd2fd6a0d2cb560e4713c877fa1ab124e99dd79f",
+        "runtime_model_metadata": "unavailable"
+      },
+      "stage_durations_seconds": {
+        "red_live": 8.024288,
+        "focused_owner_live": 7.810131,
+        "independent_live": 7.56924,
+        "independent_locked_rust_checks": 192.71451,
+        "red_focused_candidate_build": 1.269852
+      },
+      "stage_case_counts": {
+        "red_cases": 3,
+        "red_mismatches": 3,
+        "focused_rust_tests_failed": 3,
+        "focused_rust_tests_passed": 3,
+        "owner_live_cases": 3,
+        "independent_live_cases": 3,
+        "comparator_self_tests": 23,
+        "independent_full_rust_tests_passed": 696,
+        "oracle_self_check_cases": 2
+      },
+      "unaccepted_guard_probes": {
+        "status": "PASS_WITH_UNCOVERED_GUARD_DIFFERENCES",
+        "evidence": "rust/artifacts/independent-help-combined-final-20261107/verification-summary.json",
+        "matched": 1,
+        "differed": 4,
+        "note": "These probes are not in the accepted manifest: missing option value/invalid format before help, config value named `check`, and `--` terminator behavior remain unresolved."
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-check-help-final-v2-20261107.json",
-    "passed_cases": 932,
-    "manifest_cases": 934,
+    "report": "rust/artifacts/strict-gate-help-combined-scope-guard-final-20261107.json",
+    "passed_cases": 935,
+    "manifest_cases": 937,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "capability_count": 106,
-    "source_fingerprint": "1b38686ca3164efc7c6a51104e2809f476919146735a5114a68334b53671863f",
-    "run_id": "20261107T185335983727Z-d070f4c8",
-    "started_at_utc": "2026-11-07T18:53:35.983697+00:00",
-    "finished_at_utc": "2026-11-07T18:58:50.704902+00:00",
-    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261107T184852226720Z-build.attestation.json",
-    "candidate_sha256": "9ea0dc8c5ac16b22c41029b78e65111d9f4d52846b0580c6b2f6ab1dc544c730",
+    "capability_count": 107,
+    "source_fingerprint": "cc42ba513d7cf85d6bb66e084f87a282be88432c5ced543b97546a807221deba",
+    "run_id": "20261107T195157847571Z-58803355",
+    "started_at_utc": "2026-11-07T19:51:57.847545+00:00",
+    "finished_at_utc": "2026-11-07T19:57:12.853212+00:00",
+    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261107T195121903863Z-build.attestation.json",
+    "candidate_sha256": "f6522ef3d08bef581b9f7fc64aefd90a09824496269f05188732185e465a3aba",
     "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
-    "duration_seconds": 317.893072,
+    "duration_seconds": 353.670969,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.152656,
-      "cumulative_live_comparison": 314.979107,
-      "oracle_integrity": 2.047457,
-      "rust_candidate_attestation_reuse": 0.410504
+      "comparator_self_tests": 0.141861,
+      "cumulative_live_comparison": 315.242273,
+      "oracle_integrity": 2.006881,
+      "rust_checks_and_build": 36.00861
     },
     "comparator_self_tests": 23
   },
@@ -7628,7 +7727,7 @@
     "status": "current",
     "toolchain": "1.99.1",
     "registry": "crates.io",
-    "latest_checked": "2026-11-07T18:59:38Z",
+    "latest_checked": "2026-11-07T19:57:23Z",
     "locked_versions": {
       "clap": "4.6.7",
       "serde": "1.0.229",
@@ -7637,19 +7736,19 @@
       "regex": "1.13.1",
       "cc": "1.11.1"
     },
-    "cargo_update_dry_run": "0 packages to update (checked against current crates.io index at 2026-11-07T18:59:38Z)",
+    "cargo_update_dry_run": "0 packages to update (checked against current crates.io index at 2026-11-07T19:57:23Z)",
     "update_dry_run": {
       "status": "current",
       "packages_to_update": 0,
       "command": "rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo update --dry-run --manifest-path rust/Cargo.toml",
       "rust_version_constraint": "1.99",
-      "checked_after_gate": "2026-11-07T18:59:38Z",
-      "evidence": "rust/artifacts/rust-dependency-dry-run-20261107-1859.txt",
+      "checked_after_gate": "2026-11-07T19:57:23Z",
+      "evidence": "rust/artifacts/rust-dependency-dry-run-20261107T195723Z.txt",
       "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136"
     },
-    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-20261107-1859.txt"
+    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-20261107T195723Z.txt"
   },
-  "next_capability_handoff": "Next cover help combined with other arguments and remaining open CLI paths. Demo full/default output and JSON/Full installation-specific source paths remain unresolved.",
+  "next_capability_handoff": "Next investigate the uncovered CLI argument-error and help-ordering cases, beginning with missing option values and invalid output-format errors before help. Full/default demo output and JSON/Full installation-specific source paths remain unresolved.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

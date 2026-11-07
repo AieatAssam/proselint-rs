@@ -106,7 +106,23 @@ def write_blocked_report(report_path: Path, reason: str) -> None:
     report_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
-def build_and_attest(candidate_json: str | None) -> tuple[list[str], Path]:
+def build_commands(cargo: Path, manifest: Path, *, focused_candidate_build: bool) -> list[list[str]]:
+    if focused_candidate_build:
+        locked = [str(cargo), "--locked"]
+        return [
+            [*locked, "fmt", "--manifest-path", str(manifest), "--check"],
+            [*locked, "clippy", "--manifest-path", str(manifest), "--all-targets", "--", "-D", "warnings"],
+            [*locked, "build", "--manifest-path", str(manifest)],
+        ]
+    return [
+        [str(cargo), "fmt", "--manifest-path", str(manifest), "--check"],
+        [str(cargo), "clippy", "--manifest-path", str(manifest), "--all-targets", "--", "-D", "warnings"],
+        [str(cargo), "test", "--locked", "--manifest-path", str(manifest)],
+        [str(cargo), "build", "--locked", "--manifest-path", str(manifest)],
+    ]
+
+
+def build_and_attest(candidate_json: str | None, *, focused_candidate_build: bool = False) -> tuple[list[str], Path]:
     manifest = RUST_ROOT / "Cargo.toml"
     lockfile = RUST_ROOT / "Cargo.lock"
     if not manifest.is_file() or not lockfile.is_file():
@@ -119,24 +135,21 @@ def build_and_attest(candidate_json: str | None) -> tuple[list[str], Path]:
     env["RUSTUP_HOME"] = str(RUST_ROOT / ".cache" / "rustup-home")
     env["RUSTUP_TOOLCHAIN"] = channel
     env["PATH"] = str(cargo_dir) + os.pathsep + env.get("PATH", "")
-    commands = [
-        [str(cargo), "fmt", "--manifest-path", str(manifest), "--check"],
-        [str(cargo), "clippy", "--manifest-path", str(manifest), "--all-targets", "--", "-D", "warnings"],
-        [str(cargo), "test", "--locked", "--manifest-path", str(manifest)],
-        [str(cargo), "build", "--locked", "--manifest-path", str(manifest)],
-    ]
+    commands = build_commands(cargo, manifest, focused_candidate_build=focused_candidate_build)
     before = source_fingerprint()
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%S%fZ") + "-build"
     artifacts = RUST_ROOT / "artifacts"
     artifacts.mkdir(parents=True, exist_ok=True)
     build_runs = []
     for index, command in enumerate(commands):
+        command_started = time.monotonic()
         output = subprocess.run(command, cwd=ROOT, env=env, capture_output=True, timeout=900, check=False)
+        duration_seconds = round(time.monotonic() - command_started, 6)
         stdout_path = artifacts / f"{run_id}-{index}.stdout.bin"
         stderr_path = artifacts / f"{run_id}-{index}.stderr.bin"
         stdout_path.write_bytes(output.stdout)
         stderr_path.write_bytes(output.stderr)
-        build_runs.append({"command": command, "exit_code": output.returncode, "stdout_path": str(stdout_path), "stderr_path": str(stderr_path)})
+        build_runs.append({"command": command, "exit_code": output.returncode, "duration_seconds": duration_seconds, "stdout_path": str(stdout_path), "stderr_path": str(stderr_path)})
         if output.returncode != 0:
             raise RuntimeError(f"Rust gate command failed with exit status {output.returncode}; logs: {run_id}-{index}")
         if source_fingerprint() != before:
@@ -164,6 +177,7 @@ def build_and_attest(candidate_json: str | None) -> tuple[list[str], Path]:
     attestation = {
         "schema_version": 1,
         "verified": True,
+        "validation_scope": "focused_candidate_build" if focused_candidate_build else "full_gate",
         "source_fingerprint": after,
         "cargo_lock_sha256": lock_hash,
         "binary_path": str(binary.resolve()),
@@ -193,6 +207,8 @@ def reuse_attested_candidate(attestation_path: Path, candidate_json: str | None)
         if Path(candidate[0]).resolve() != binary.resolve():
             raise ValueError("candidate argv must begin with the attested debug CLI binary")
     attestation = read_candidate_attestation(attestation_path, candidate, source_fingerprint())
+    if attestation.get("validation_scope") == "focused_candidate_build":
+        raise ValueError("focused candidate-build attestation cannot be reused by the cumulative gate")
     if attestation.get("toolchain") != channel:
         raise ValueError("build attestation uses a different Rust toolchain")
     missing = missing_gate_attestation_checks(attestation, cargo, RUST_ROOT / "Cargo.toml")
@@ -207,10 +223,10 @@ def missing_gate_attestation_checks(attestation: dict[str, Any], cargo: Path, ma
         raise ValueError("build attestation has incomplete or unsuccessful command records")
     cargo_path, manifest_path = str(cargo), str(manifest)
     requirements = {
-        "fmt --check": lambda command: command[0] == cargo_path and command[1:] == ["fmt", "--manifest-path", manifest_path, "--check"],
-        "clippy -D warnings": lambda command: command[0] == cargo_path and command[1:] == ["clippy", "--manifest-path", manifest_path, "--all-targets", "--", "-D", "warnings"],
+        "fmt --check": lambda command: command == [cargo_path, "fmt", "--manifest-path", manifest_path, "--check"] or command == [cargo_path, "--locked", "fmt", "--manifest-path", manifest_path, "--check"],
+        "clippy -D warnings": lambda command: command == [cargo_path, "clippy", "--manifest-path", manifest_path, "--all-targets", "--", "-D", "warnings"] or command == [cargo_path, "--locked", "clippy", "--manifest-path", manifest_path, "--all-targets", "--", "-D", "warnings"],
         "cargo test --locked": lambda command: command[0] == cargo_path and command[1:] == ["test", "--locked", "--manifest-path", manifest_path],
-        "cargo build --locked": lambda command: command[0] == cargo_path and command[1:] == ["build", "--locked", "--manifest-path", manifest_path],
+        "cargo build --locked": lambda command: command == [cargo_path, "build", "--locked", "--manifest-path", manifest_path] or command == [cargo_path, "--locked", "build", "--manifest-path", manifest_path],
     }
     commands = [item["command"] for item in records]
     return [name for name, matches in requirements.items() if not any(matches(command) for command in commands)]
@@ -219,13 +235,26 @@ def missing_gate_attestation_checks(attestation: dict[str, Any], cargo: Path, ma
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--live", action="store_true")
-    parser.add_argument("--report", type=Path, required=True)
+    parser.add_argument("--report", type=Path)
     parser.add_argument("--candidate-argv-json")
     parser.add_argument("--reference-argv-json")
     parser.add_argument("--reuse-attestation", type=Path, help="reuse a successful build attestation after checking current source, lockfile, binary, toolchain, and gate commands")
+    parser.add_argument("--attest-candidate-for-red", action="store_true", help="run locked fmt, Clippy, and build and write an attestation for focused RED comparisons only")
     args = parser.parse_args()
+    if args.attest_candidate_for_red:
+        if args.live or args.reuse_attestation is not None:
+            parser.error("--attest-candidate-for-red cannot be combined with --live or --reuse-attestation")
+        try:
+            candidate, attestation = build_and_attest(args.candidate_argv_json, focused_candidate_build=True)
+        except (OSError, RuntimeError, ValueError, subprocess.SubprocessError) as exc:
+            print(f"BLOCKED: {exc}", file=sys.stderr)
+            return 2
+        print(json.dumps({"status": "PASS", "validation_scope": "focused_candidate_build", "candidate": candidate, "attestation": str(attestation)}, indent=2))
+        return 0
     if not args.live:
         parser.error("gate requires --live")
+    if args.report is None:
+        parser.error("gate requires --report")
     started = time.monotonic()
     stages: dict[str, dict[str, Any]] = {}
     selected_capabilities = 0

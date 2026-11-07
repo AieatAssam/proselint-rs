@@ -876,6 +876,11 @@ def read_candidate_attestation(path: Path, candidate: list[str], source_before: 
     return attestation
 
 
+def validate_attestation_scope(attestation: dict[str, Any], capability: str | None) -> None:
+    if attestation.get("validation_scope") == "focused_candidate_build" and not (capability and capability.strip()):
+        raise ValueError("focused candidate build attestation requires a capability-scoped comparison")
+
+
 def verify_candidate_after_batch(
     candidate: list[str],
     expected_binary_sha256: str,
@@ -959,6 +964,7 @@ def run_live(
             raise RuntimeError("live parity requires --candidate-attestation from a locked rebuild")
         else:
             attestation = read_candidate_attestation(attestation_path, candidate, source_before)
+            validate_attestation_scope(attestation, capability)
             report["candidate"] = {
                 "kind": "rust_build_attested",
                 "argv": candidate,

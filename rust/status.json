@@ -418,6 +418,10 @@
     {
       "id": "cli.command_help",
       "status": "recorded"
+    },
+    {
+      "id": "cli.check_demo_compact_selected_rules",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -442,20 +446,14 @@
   },
   "harness": {
     "status": "verified after metadata fingerprint changes; Markdown/ledger exclusion is covered by a discrimination test",
-    "source_fingerprint": "cc706b6aa4b51c222bd8d5d8a3cd0aacb77af3f08de9bda4a0ca89e91a081e05",
+    "source_fingerprint": "91695883b59e57b04d699eb7f44b79d762822c999a7b4fff1e3a29d1483cac88",
     "unit_tests": {
-      "passed": 79,
+      "passed": 81,
       "exit_code": 0,
-      "duration_seconds": 42.849,
+      "duration_seconds": 55.295,
       "command": "python3 -m unittest discover -s rust/harness/tests -p 'test_*.py'",
-      "evidence": "rust/artifacts/harness-suite-command-help-final-20261107.json",
-      "source_fingerprint": "cc706b6aa4b51c222bd8d5d8a3cd0aacb77af3f08de9bda4a0ca89e91a081e05",
-      "earlier_failures": {
-        "count": 3,
-        "resolved": true,
-        "evidence": "rust/artifacts/harness-suite-command-help-final-20261107.json",
-        "reason": "The manifest schema test was missing the new case IDs and exact cli.command_help case count; both explicit inventory expectations were updated without weakening output or parity comparisons."
-      }
+      "evidence": "rust/artifacts/harness-suite-demo-final-20261107.json",
+      "source_fingerprint": "91695883b59e57b04d699eb7f44b79d762822c999a7b4fff1e3a29d1483cac88"
     },
     "comparator_discriminators": {
       "passed": 23,
@@ -480,10 +478,16 @@
       "exit_code": 0,
       "duration_seconds": 2.996,
       "suite": "rust/harness/tests/test_benchmark.py"
+    },
+    "runtime_markdown_asset_fingerprint_test": {
+      "status": "PASS",
+      "red_evidence": "rust/artifacts/fingerprint-demo-red-20261107.json",
+      "included_path": "rust/data/demo.md",
+      "docs_exclusion_regression": "test_source_fingerprint_ignores_docs_and_status_but_tracks_inputs"
     }
   },
   "active_ownership": {
-    "current": "No active writers. Latest strict gate passes 927/927 cases across 104 capabilities; 23 rule paths remain unimplemented pending data provenance.",
+    "current": "No active writers. Latest strict gate passes 930/930 cases across 105 capabilities; 23 rule paths remain unimplemented pending data provenance.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -498,7 +502,9 @@
     "No-config execution now loads bundled DEFAULT for 83 implemented checks, but the 23 unimplemented unique paths include default-enabled rules, so full default-config parity and all combined-rule interactions remain incomplete.",
     "dump-config HOME-unset/platform-specific config discovery, missing nonempty-XDG configuration, directory user candidates, file/directory traversal and decoding edges, and full multi-file output behavior remain unverified.",
     "JSON version output and --version combined with additional arguments are not covered by the accepted plain-text version capability.",
-    "`check --help` remains unverified until --demo is implemented; short help and help combined with other arguments remain unverified."
+    "`check --help` remains unverified until --demo is implemented; short help and help combined with other arguments remain unverified.",
+    "Full/JSON demo source-path behavior and full-default demo output remain unverified; selected-rule Compact behavior is the accepted slice.",
+    "`check --help` after adding --demo, short command help, and help combined with other arguments remain unverified."
   ],
   "capability_states": [
     {
@@ -7385,31 +7391,135 @@
         "report": "rust/artifacts/strict-gate-command-help-final-20261107.json",
         "source_fingerprint": "cc706b6aa4b51c222bd8d5d8a3cd0aacb77af3f08de9bda4a0ca89e91a081e05"
       }
+    },
+    {
+      "id": "cli.check_demo_compact_selected_rules",
+      "status": "recorded",
+      "case_ids": [
+        "cli_demo_compact_selected_rule",
+        "cli_demo_ignores_extra_path",
+        "cli_demo_config_error_precedes_demo"
+      ],
+      "upstream_source": "proselint/command_line.py:114-156; proselint/config/paths.py:10-11; proselint/log.py:134-144; Rust CLI: rust/src/main.rs:949-1850",
+      "upstream_spec": "Load and validate configuration first. With --demo, lint the bundled demo instead of positional paths. In Compact output use source name demo.md. The selected configuration produces one pinned finding with status 1; a nonexistent positional path is ignored. A missing config errors with status 4 before demo processing.",
+      "specification": {
+        "live_cases": 3,
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "comparison": "exact stdout/stderr bytes and exit status",
+        "demo_asset_bytes": 6095,
+        "demo_asset_sha256": "ac7c30e4765df05db560d43b0d6efb8a7735e477fcf13af2139aa3464a31d3ba",
+        "license": "BSD-3-Clause",
+        "license_sha256": "b493e9e0841fe1688e850f89bfabec8bbf391e5b3b43d06d7ea055f8ae5df446",
+        "license_source_sha256": "ec9310a5464e1669610c7d7a6160100258a0e5133a02a9de0139aa3464a31d3ba",
+        "license_text_preserved": true,
+        "license_trailing_whitespace_trimmed": true
+      },
+      "red": {
+        "status": "behavioral_failure",
+        "focused_rust_tests_failed": 3,
+        "live_mismatches": 3,
+        "report": "rust/artifacts/cli-demo-red-final-20261107.json",
+        "focused_test_report": "rust/artifacts/cli-demo-red-final-focused-rust.json",
+        "source_fingerprint": "270d624f33ef7a482195d359b942f26d9455e566ab5ae2208c0d04afee17da57"
+      },
+      "green": {
+        "status": "PASS",
+        "focused_rust_tests_passed": 8,
+        "live_cases_passed": 3,
+        "report": "rust/artifacts/cli-demo-green-20261107.json",
+        "candidate_attestation": "rust/artifacts/demo-green-attestation-20261107T174121979512Z.json",
+        "source_fingerprint": "91695883b59e57b04d699eb7f44b79d762822c999a7b4fff1e3a29d1483cac88"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "focused_rust_tests_passed": 8,
+        "full_rust_tests_passed": 691,
+        "full_rust_test_groups": 99,
+        "comparator_self_tests_passed": 23,
+        "live_cases_passed": 3,
+        "report": "rust/artifacts/independent-demo-final-20261107/live-comparison.json",
+        "summary": "rust/artifacts/independent-demo-final-20261107/verification-summary.json",
+        "candidate_attestation": "rust/artifacts/independent-demo-final-20261107/candidate.attestation.json",
+        "source_fingerprint": "91695883b59e57b04d699eb7f44b79d762822c999a7b4fff1e3a29d1483cac88",
+        "runtime_model_metadata": "unavailable"
+      },
+      "stage_durations_seconds": {
+        "red_live": 7.445,
+        "red_focused_rust_tests": 0.881,
+        "red_comparator_self_tests": 0.514,
+        "red_oracle_integrity": 2.697,
+        "owner_live": 8.249,
+        "owner_full_rust_tests": 137.056,
+        "independent_live": 8.054,
+        "independent_full_rust_tests": 173.476
+      },
+      "stage_case_counts": {
+        "red_cases": 3,
+        "red_mismatches": 3,
+        "focused_rust_tests_failed": 3,
+        "focused_rust_tests_passed": 8,
+        "owner_live_cases": 3,
+        "independent_live_cases": 3,
+        "independent_full_rust_tests_passed": 691,
+        "comparator_self_tests": 23,
+        "owner_focused_rust_tests_passed": 8
+      },
+      "fingerprint_integrity_fix": {
+        "test_red": "rust/artifacts/fingerprint-demo-red-20261107.json",
+        "test_red_source_fingerprint": "724c7926ca9d430c92c5908c9b1a8490507a29b3bc6ee8719ceb166604ddfd94",
+        "final_source_fingerprint": "91695883b59e57b04d699eb7f44b79d762822c999a7b4fff1e3a29d1483cac88",
+        "runtime_asset_included": "rust/data/demo.md",
+        "docs_and_status_still_excluded": true
+      },
+      "cumulative_gate": {
+        "status": "PASS",
+        "capability_count": 105,
+        "passed_cases": 930,
+        "manifest_cases": 932,
+        "duration_seconds": 347.131949,
+        "report": "rust/artifacts/strict-gate-demo-final-20261107.json",
+        "source_fingerprint": "91695883b59e57b04d699eb7f44b79d762822c999a7b4fff1e3a29d1483cac88",
+        "candidate_sha256": "b6e873f7c9c1ddaa24dee14ce71f9e6f598669e3503fcc4218a53cbf91fc26e9",
+        "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
+        "stage_durations_seconds": {
+          "comparator_self_tests": 0.142611,
+          "cumulative_live_comparison": 344.095563,
+          "oracle_integrity": 2.123824,
+          "rust_candidate_attestation_reuse": 0.432107
+        }
+      },
+      "cumulative_live_parity": {
+        "status": "PASS",
+        "passed_cases": 930,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-demo-final-20261107.json",
+        "source_fingerprint": "91695883b59e57b04d699eb7f44b79d762822c999a7b4fff1e3a29d1483cac88"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-command-help-final-20261107.json",
-    "passed_cases": 927,
-    "manifest_cases": 929,
+    "report": "rust/artifacts/strict-gate-demo-final-20261107.json",
+    "passed_cases": 930,
+    "manifest_cases": 932,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "capability_count": 104,
-    "source_fingerprint": "cc706b6aa4b51c222bd8d5d8a3cd0aacb77af3f08de9bda4a0ca89e91a081e05",
-    "run_id": "20261107T165913146840Z-474a43f7",
-    "started_at_utc": "2026-11-07T16:59:13.146809+00:00",
-    "finished_at_utc": "2026-11-07T17:04:20.771922+00:00",
-    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/independent-command-help-final-20261107/candidate.attestation.json",
-    "candidate_sha256": "b5431e73adb3c1d4c4c3053d556b30f772fdbf98ed48b87dca41ba65322702d7",
+    "capability_count": 105,
+    "source_fingerprint": "91695883b59e57b04d699eb7f44b79d762822c999a7b4fff1e3a29d1483cac88",
+    "run_id": "20261107T175905578282Z-50884891",
+    "started_at_utc": "2026-11-07T17:59:05.578250+00:00",
+    "finished_at_utc": "2026-11-07T18:04:49.426673+00:00",
+    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/demo-green-attestation-20261107T174121979512Z.json",
+    "candidate_sha256": "b6e873f7c9c1ddaa24dee14ce71f9e6f598669e3503fcc4218a53cbf91fc26e9",
     "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
-    "duration_seconds": 310.8856,
+    "duration_seconds": 347.131949,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.14616,
-      "cumulative_live_comparison": 307.914002,
-      "oracle_integrity": 2.128154,
-      "rust_candidate_attestation_reuse": 0.401616
+      "comparator_self_tests": 0.142611,
+      "cumulative_live_comparison": 344.095563,
+      "oracle_integrity": 2.123824,
+      "rust_candidate_attestation_reuse": 0.432107
     },
     "comparator_self_tests": 23
   },
@@ -7417,7 +7527,7 @@
     "status": "current",
     "toolchain": "1.99.1",
     "registry": "crates.io",
-    "latest_checked": "2026-11-07T17:04:32Z",
+    "latest_checked": "2026-11-07T18:05:07Z",
     "locked_versions": {
       "clap": "4.6.7",
       "serde": "1.0.229",
@@ -7426,19 +7536,19 @@
       "regex": "1.13.1",
       "cc": "1.11.1"
     },
-    "cargo_update_dry_run": "0 packages to update (checked against current crates.io index at 2026-11-07T17:04:32Z)",
+    "cargo_update_dry_run": "0 packages to update (checked against current crates.io index at 2026-11-07T18:05:07Z)",
     "update_dry_run": {
       "status": "current",
       "packages_to_update": 0,
       "command": "rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo update --dry-run --manifest-path rust/Cargo.toml",
       "rust_version_constraint": "1.99",
-      "checked_after_gate": "2026-11-07T17:04:32Z",
-      "evidence": "rust/artifacts/rust-dependency-dry-run-20261107-1704.txt",
+      "checked_after_gate": "2026-11-07T18:05:07Z",
+      "evidence": "rust/artifacts/rust-dependency-dry-run-20261107-1805.txt",
       "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136"
     },
-    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-20261107-1704.txt"
+    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-20261107-1805.txt"
   },
-  "next_capability_handoff": "Next implement `check --demo` against pinned command_line.py/config/paths.py semantics, with a narrowly scoped source-URI normalization if required. The full default demo still exercises 23 unimplemented rule paths.",
+  "next_capability_handoff": "Next cover exact pinned `check --help` output now that `--demo` is implemented; then continue combined help and other open CLI paths. Demo full/default output and JSON/Full installation-specific source paths remain unresolved.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

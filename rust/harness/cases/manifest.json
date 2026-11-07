@@ -30631,6 +30631,104 @@
       "config_scenario": "no_config",
       "workspace_mutates": false,
       "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "cli_demo_compact_selected_rule",
+      "capability_id": "cli.check_demo_compact_selected_rules",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; the selected rule finds the 5 pm sample and Compact preserves the logical source name demo.md.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsibG93ZXJjYXNlX3BlcmlvZHMiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--demo",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "compact"
+      ],
+      "output_format": "compact",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "demo_selected_dates_times_am_pm_lowercase_periods",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_demo_ignores_extra_path",
+      "capability_id": "cli.check_demo_compact_selected_rules",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; --demo selects package demo.md before positional paths, so the nonexistent extra path is ignored.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsibG93ZXJjYXNlX3BlcmlvZHMiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--demo",
+        "not-a-real-demo-input.md",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "compact"
+      ],
+      "output_format": "compact",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "demo_selected_dates_times_am_pm_lowercase_periods",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_demo_config_error_precedes_demo",
+      "capability_id": "cli.check_demo_compact_selected_rules",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; config loading and validation occurs before the --demo path is selected.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--demo",
+        "--config",
+        "missing config.json",
+        "--output-format",
+        "compact"
+      ],
+      "output_format": "compact",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_missing_config_before_demo",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

@@ -25,6 +25,7 @@ from setup_oracle import ROOT, RUST_ROOT, oracle_integrity, read_lock
 
 MANIFEST = RUST_ROOT / "harness" / "cases" / "manifest.json"
 REPORT_SCHEMA_VERSION = 1
+RUNTIME_MARKDOWN_INPUTS = {"data/demo.md"}
 EXCLUDED_TREE_PARTS = {".cache", "artifacts", "target", ".git", "__pycache__", "docs", "inventory.json", "status.json", "status-history.jsonl"}
 VALID_COMPARISON = {"stdout": {"bytes", "json"}, "stderr": {"bytes"}, "exit_status": {"exact"}}
 
@@ -44,7 +45,11 @@ def source_fingerprint() -> str:
     for directory, subdirectories, filenames in os.walk(root):
         subdirectories[:] = sorted(name for name in subdirectories if name not in EXCLUDED_TREE_PARTS)
         base = Path(directory)
-        paths.extend(base / name for name in filenames if name not in EXCLUDED_TREE_PARTS and not name.endswith(".md"))
+        for name in filenames:
+            path = base / name
+            relative = path.relative_to(root).as_posix()
+            if name not in EXCLUDED_TREE_PARTS and (not name.endswith(".md") or relative in RUNTIME_MARKDOWN_INPUTS):
+                paths.append(path)
     for path in sorted(path for path in paths if path.is_file()):
         relative = path.relative_to(root).as_posix().encode("utf-8")
         content = path.read_bytes()

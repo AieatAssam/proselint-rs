@@ -948,6 +948,8 @@ enum Command {
     Version,
     #[command(about = "run proselint against paths")]
     Check {
+        #[arg(long, help = "run proselint against the demo file")]
+        demo: bool,
         #[arg(value_name = "PATH")]
         paths: Vec<PathBuf>,
     },
@@ -1350,11 +1352,11 @@ fn run() -> Result<ExitCode, String> {
     let output_format = parsed.output_format;
     let version_flag = parsed.version;
     let _verbose = parsed.verbose;
-    let (paths, show_version, no_command) = match parsed.command {
-        Some(Command::Version) => (Vec::new(), true, false),
-        Some(Command::Check { paths }) => (paths, version_flag, false),
+    let (paths, demo, show_version, no_command) = match parsed.command {
+        Some(Command::Version) => (Vec::new(), false, true, false),
+        Some(Command::Check { paths, demo }) => (paths, demo, version_flag, false),
         Some(Command::DumpConfig { default }) => return dump_config(config, default),
-        None => (Vec::new(), version_flag, !version_flag),
+        None => (Vec::new(), false, version_flag, !version_flag),
     };
     let (config, config_is_default) = match config {
         Some(config) => (config, false),
@@ -1564,11 +1566,16 @@ fn run() -> Result<ExitCode, String> {
         }
     };
 
-    if paths.len() > 1 {
+    if !demo && paths.len() > 1 {
         return Err("this capability currently supports one source at a time".to_owned());
     }
 
-    let (source, content) = if let Some(path) = paths.first() {
+    let (source, content) = if demo {
+        (
+            "demo.md".to_owned(),
+            include_str!("../data/demo.md").to_owned(),
+        )
+    } else if let Some(path) = paths.first() {
         let source = file_uri_or_missing(path)
             .map_err(|error| format!("Could not resolve '{}': {error}", path.display()))?;
         let content = match fs::read_to_string(path) {
@@ -1627,7 +1634,8 @@ fn run() -> Result<ExitCode, String> {
     }
 
     let mut per_file_override = None;
-    if let Some(path) = paths.first()
+    if !demo
+        && let Some(path) = paths.first()
         && let Some(per_file_checks) = config_value
             .get("per_file_checks")
             .and_then(Value::as_object)
@@ -1828,11 +1836,15 @@ fn run() -> Result<ExitCode, String> {
             }
         }
         OutputFormat::Compact => {
-            let source = paths
-                .first()
-                .and_then(|path| path.file_name())
-                .and_then(|name| name.to_str())
-                .unwrap_or("<stdin>");
+            let source = if demo {
+                "demo.md"
+            } else {
+                paths
+                    .first()
+                    .and_then(|path| path.file_name())
+                    .and_then(|name| name.to_str())
+                    .unwrap_or("<stdin>")
+            };
             for diagnostic in diagnostics {
                 println!(
                     "{source}:{}:{}: {}: {}",

@@ -28703,6 +28703,260 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "cli_output_compact_clean_stdin",
+      "capability_id": "cli.output.compact",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c live CLI; explicit empty check set.",
+      "input_mode": "stdin",
+      "stdin_base64": "aGVsbG8gd29ybGQ=",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnt9fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "compact"
+      ],
+      "output_format": "compact",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "compact_clean_stdin",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+  },
+  {
+      "id": "cli_output_compact_stdin_finding",
+      "capability_id": "cli.output.compact",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c live CLI; annotations.misc enabled explicitly.",
+      "input_mode": "stdin",
+      "stdin_base64": "VE9ETw==",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsibWlzYyI6dHJ1ZX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "compact"
+      ],
+      "output_format": "compact",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "compact_stdin_finding",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+  },
+  {
+      "id": "cli_output_compact_nested_file_basename",
+      "capability_id": "cli.output.compact",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c live CLI; filesystem source displays its basename in Compact mode.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsibWlzYyI6dHJ1ZX19fQ=="
+        },
+        {
+          "path": "docs/draft.txt",
+          "content_base64": "VE9ETw=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "compact",
+        "{file:docs/draft.txt}"
+      ],
+      "output_format": "compact",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "compact_nested_file_basename",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+  },
+  {
+      "id": "per_file_checks_enable_globally_disabled_annotation",
+      "capability_id": "cli.config.per_file_checks",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c live CLI; config.load_from flattens and deep-merges per-file overrides before file_config_for; annotation is disabled globally and enabled for matching .txt.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsibWlzYyI6ZmFsc2V9fSwicGVyX2ZpbGVfY2hlY2tzIjp7IioudHh0Ijp7ImFubm90YXRpb25zIjp7Im1pc2MiOnRydWV9fX19"
+        },
+        {
+          "path": "draft.txt",
+          "content_base64": "VE9ETw=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json",
+        "{file:draft.txt}"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "per_file_enable_global_disabled_annotation",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact",
+        "normalize_workspace_uri": true
+      }
+  },
+  {
+      "id": "per_file_checks_override_merges_global_checks",
+      "capability_id": "cli.config.per_file_checks",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c live CLI; global annotations.misc remains enabled while per-file checks add psychology.p_equals_zero.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsibWlzYyI6dHJ1ZX19LCJwZXJfZmlsZV9jaGVja3MiOnsiKi50eHQiOnsicHN5Y2hvbG9neSI6eyJwX2VxdWFsc196ZXJvIjp0cnVlfX19fQ=="
+        },
+        {
+          "path": "draft.txt",
+          "content_base64": "VE9ETzsgcCA9IDAuMDA="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json",
+        "{file:draft.txt}"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "per_file_enable_merges_global_checks",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact",
+        "normalize_workspace_uri": true
+      }
+  },
+  {
+      "id": "per_file_checks_nonmatching_pattern_uses_global",
+      "capability_id": "cli.config.per_file_checks",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c live CLI; a nonmatching per-file pattern leaves global checks effective.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsibWlzYyI6dHJ1ZX19LCJwZXJfZmlsZV9jaGVja3MiOnsiKi5tZCI6eyJhbm5vdGF0aW9ucyI6eyJtaXNjIjpmYWxzZX19fX0="
+        },
+        {
+          "path": "draft.txt",
+          "content_base64": "VE9ETw=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json",
+        "{file:draft.txt}"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "per_file_nonmatch_global_fallback",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact",
+        "normalize_workspace_uri": true
+      }
+    },
+    {
+      "id": "cli_output_compact_invalid_utf8_file_error",
+      "capability_id": "cli.output.compact",
+      "provenance": "Pinned Python Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c live CLI; invalid UTF-8 source is reported as a per-file lint exception in compact mode.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnt9fQ=="
+        },
+        {
+          "path": "broken.txt",
+          "content_base64": "/w=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "compact",
+        "{file:broken.txt}"
+      ],
+      "output_format": "compact",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "compact_invalid_utf8_file_error",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

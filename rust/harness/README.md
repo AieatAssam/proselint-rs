@@ -6,6 +6,8 @@ Each capability moves through upstream specification, behaviorally failing tests
 
 The comparator has negative self-tests that deliberately introduce output, status, schema, and harness-integrity failures. Those checks ensure that mismatches are detected instead of normalized away.
 
+Run the Python harness unit suite with `python3 -m unittest discover -s rust/harness/tests -p 'test_*.py'`. Keep this separate from focused capability comparisons; run it with the cumulative gate after shared CLI, config, matcher, or output changes and at the scheduled 5–10-capability checkpoint.
+
 ## Performance comparison
 
 [`benchmark.py`](benchmark.py) supports an isolated `misc.suddenly` profile and a combined `misc.suddenly` + `psychology.p_equals_zero` profile. It checks exact parity for every measured input before collecting paired, alternating fresh-process CLI samples. The isolated profile also includes repeated in-memory scans; combined-profile results are CLI-only. Inputs, attribution, hashes, commands, raw samples, summaries, environment details, and parity evidence are recorded in each report.

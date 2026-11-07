@@ -1112,9 +1112,6 @@ fn run() -> Result<ExitCode, String> {
         .and_then(|limit| usize::try_from(limit).ok())
         .unwrap_or(0);
 
-    if matches!(output_format, OutputFormat::Compact) {
-        return Err("this capability currently supports JSON output only".to_owned());
-    }
     if paths.len() > 1 {
         return Err("this capability currently supports one source at a time".to_owned());
     }
@@ -1136,6 +1133,24 @@ fn run() -> Result<ExitCode, String> {
                     serde_json::json!({"error":{"code":-31998,"message":message}}),
                 );
                 println!("{}", serde_json::json!({"result":file_results}));
+                return Ok(ExitCode::SUCCESS);
+            }
+            Err(error)
+                if matches!(output_format, OutputFormat::Compact)
+                    && error.kind() == io::ErrorKind::InvalidData =>
+            {
+                let bytes = fs::read(path)
+                    .map_err(|error| format!("Could not read '{}': {error}", path.display()))?;
+                let error =
+                    std::str::from_utf8(&bytes).expect_err("invalid UTF-8 was just detected");
+                let source = path
+                    .file_name()
+                    .and_then(|name| name.to_str())
+                    .unwrap_or("<stdin>");
+                eprintln!(
+                    "Error encountered while linting {source}: {}",
+                    python_utf8_decode_error_message(&bytes, error)
+                );
                 return Ok(ExitCode::SUCCESS);
             }
             Err(error) => return Err(format!("Could not read '{}': {error}", path.display())),
@@ -1162,7 +1177,7 @@ fn run() -> Result<ExitCode, String> {
         return Ok(ExitCode::SUCCESS);
     }
 
-    let mut selected_checks = supported_checks(checks);
+    let mut per_file_override = None;
     if let Some(path) = paths.first()
         && let Some(per_file_checks) = config_value
             .get("per_file_checks")
@@ -1171,16 +1186,42 @@ fn run() -> Result<ExitCode, String> {
             .iter()
             .find(|(pattern, _)| path_matches_pattern(path, pattern))
     {
-        selected_checks = selected_checks.map(|selected| {
-            selected
-                .into_iter()
-                .filter(|check| {
-                    effective_check_enabled(checks, override_checks, selected_check_path(*check))
-                        != Some(false)
-                })
-                .collect()
-        });
+        per_file_override = Some(override_checks);
     }
+    let global_selected = supported_checks(checks);
+    let override_selected = per_file_override.map(supported_checks);
+    let selected_checks = match (global_selected, override_selected) {
+        (Some(global), Some(Some(overlay))) => {
+            let mut all = global;
+            all.extend(overlay);
+            all.sort_unstable();
+            all.dedup();
+            let mut flattened = Vec::new();
+            flatten_checks(checks, "", false, &mut flattened);
+            if let Some(overlay) = per_file_override {
+                flatten_checks(overlay, "", true, &mut flattened);
+            }
+            Some(
+                all.into_iter()
+                    .filter(|check| {
+                        let path = selected_check_path(*check);
+                        flattened
+                            .iter()
+                            .enumerate()
+                            .filter(|(_, (candidate, _, _))| {
+                                path == candidate || path.starts_with(&format!("{candidate}."))
+                            })
+                            .max_by_key(|(index, (candidate, _, per_file))| {
+                                (candidate.matches('.').count(), *per_file, *index)
+                            })
+                            .is_some_and(|(_, (_, enabled, _))| *enabled)
+                    })
+                    .collect(),
+            )
+        }
+        (Some(global), None) => Some(global),
+        (None, _) | (_, Some(None)) => None,
+    };
     let selected_checks = selected_checks.ok_or_else(|| {
         "this capability supports disabled checks, annotations.misc, archaism, cliches.hell, malapropisms, misc.apologizing, misc.but, misc.whence, misc.waxed, misc.illogic, misc.illogic.coin, misc.illogic.collusion, misc.tense_present, mixed_metaphors.bottleneck, mixed_metaphors.misc, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.back_formations, misc.many_a, misc.metadiscourse, misc.narcissism, misc.not_guilty, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, misc.scare_quotes, mondegreens, oxymorons, redundancy.misc.wallace, redundancy.misc.nordquist, redundancy.ras_syndrome, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, typography.symbols.curly_quotes, typography.punctuation.misplaced, typography.punctuation.exclamation, typography.punctuation.hyperbole, typography.punctuation.spacing, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, dates_times.am_pm.midnight_noon, dates_times.dates.decade_apostrophes, dates_times.dates.month_of_year, spelling.able_atable, spelling.able_ible, spelling.ally_ly, spelling.ance_ence, spelling.athletes, spelling.ely_ly, spelling.em_im_en_in, spelling.er_or, spelling.in_un, spelling.ve_of, skunked_terms, social_awareness.nword, weasel_words.very, or terms.eponymous_adjectives only".to_owned()
     })?;
@@ -1327,7 +1368,22 @@ fn run() -> Result<ExitCode, String> {
                 );
             }
         }
-        OutputFormat::Compact => unreachable!(),
+        OutputFormat::Compact => {
+            let source = paths
+                .first()
+                .and_then(|path| path.file_name())
+                .and_then(|name| name.to_str())
+                .unwrap_or("<stdin>");
+            for diagnostic in diagnostics {
+                println!(
+                    "{source}:{}:{}: {}: {}",
+                    diagnostic["pos"][0].as_u64().unwrap_or_default(),
+                    diagnostic["pos"][1].as_u64().unwrap_or_default(),
+                    diagnostic["check_path"].as_str().unwrap_or_default(),
+                    diagnostic["message"].as_str().unwrap_or_default()
+                );
+            }
+        }
     }
     Ok(exit_code)
 }
@@ -1584,7 +1640,12 @@ fn main() -> ExitCode {
     }
 }
 
-fn flatten_checks(value: &Value, prefix: &str, checks: &mut Vec<(String, bool)>) {
+fn flatten_checks(
+    value: &Value,
+    prefix: &str,
+    per_file: bool,
+    checks: &mut Vec<(String, bool, bool)>,
+) {
     match value {
         Value::Object(entries) => {
             for (key, value) in entries {
@@ -1593,27 +1654,12 @@ fn flatten_checks(value: &Value, prefix: &str, checks: &mut Vec<(String, bool)>)
                 } else {
                     format!("{prefix}.{key}")
                 };
-                flatten_checks(value, &path, checks);
+                flatten_checks(value, &path, per_file, checks);
             }
         }
-        Value::Bool(enabled) => checks.push((prefix.to_owned(), *enabled)),
+        Value::Bool(enabled) => checks.push((prefix.to_owned(), *enabled, per_file)),
         _ => {}
     }
-}
-
-fn effective_check_enabled(global: &Value, per_file: &Value, selected: &str) -> Option<bool> {
-    let mut candidates = Vec::new();
-    flatten_checks(global, "", &mut candidates);
-    let global_len = candidates.len();
-    flatten_checks(per_file, "", &mut candidates);
-    candidates
-        .iter()
-        .enumerate()
-        .filter(|(_, (path, _))| selected == path || selected.starts_with(&format!("{path}.")))
-        .max_by_key(|(index, (path, _))| {
-            (path.matches('.').count(), usize::from(*index >= global_len))
-        })
-        .map(|(_, (_, enabled))| *enabled)
 }
 
 fn selected_check_path(check: SelectedCheck) -> &'static str {

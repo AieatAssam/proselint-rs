@@ -478,6 +478,10 @@
     {
       "id": "cli.config.non_object_root",
       "status": "recorded"
+    },
+    {
+      "id": "cli.dump_config.version_precedence",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -504,11 +508,11 @@
     "status": "verified after metadata fingerprint changes; Markdown/ledger exclusion is covered by a discrimination test",
     "source_fingerprint": "a4eacf7c8f49912604ac6335b05c5dda91876e883ca08ee6cd1ac72cb6c637b0",
     "unit_tests": {
-      "passed": 94,
-      "exit_code": 0,
-      "duration_seconds": 75.778,
-      "command": "python3 -m unittest discover -s rust/harness/tests -p 'test_*.py'",
-      "notes": "The short-deadline benchmark BLOCKED reports are intentional unit-test probes; the suite passed."
+      "status": "PASS",
+      "suite": "rust.harness.tests.test_compare rust.harness.tests.test_gate rust.harness.tests.test_benchmark",
+      "tests_passed": 98,
+      "duration_seconds": 63.687,
+      "expected_timeout_discriminator_cases": 2
     },
     "comparator_discriminators": {
       "passed": 23,
@@ -562,7 +566,7 @@
     }
   },
   "active_ownership": {
-    "current": "cli.config.non_object_root is recorded and passes focused owner/independent parity plus the 119-capability/1022-case cumulative gate. Continue with unverified CLI argument/output combinations; 23 rule paths remain held pending list-specific provenance/rights evidence. The selected-rule demo JSON source URI mismatch remains unresolved.",
+    "current": "cli.dump_config.version_precedence is accepted after focused owner/independent passes and the 120-capability/1025-case cumulative gate. JSON and verbose Python runtime metadata remain blocked. Next, probe root --config versus subcommand argparse precedence; 23 rule paths remain held for provenance/rights evidence.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -579,7 +583,10 @@
     "Other --version combined-argument orderings beyond cli.version_argument_precedence remain unverified.",
     "Focused live case cli_demo_json_selected_rule mismatches only on the source key: pinned Python emits its installed demo.md file URI while Rust emits demo.md. Exact parity is installation-location-specific; case remains unresolved at rust/artifacts/cli-demo-json-red-20261108.json. Full demo path behavior and default-config demo output are also unverified.",
     "`cli.help_argument_precedence` now accepts four exact vectors: missing check --config value before help, invalid OutputFormat `invalid` before help, global `--config check --help`, and `check -- --help` with a real file. Other invalid format values, missing-option/order combinations, and other option orderings remain unverified. Missing `--help` after `--` now matches in Full, Compact, and JSON; other missing-path forms remain unverified.",
-    "Malformed UTF-8 stdin remains unverified: the pinned executable uses surrogateescape; Fast and Fancy rules differ around invalid bytes, so no lossy sentinel approximation is accepted."
+    "Malformed UTF-8 stdin remains unverified: the pinned executable uses surrogateescape; Fast and Fancy rules differ around invalid bytes, so no lossy sentinel approximation is accepted.",
+    "JSON version output differs in four tested vectors because Python includes sys.version_info[:3]; no fabricated Python version is emitted by Rust. See rust/artifacts/version-json-metadata-final-20261108.json.",
+    "`version --verbose` stderr contains timestamped pinned Python runtime metadata and is not reproduced by Rust. See rust/artifacts/version-verbose-runtime-final-20261108.json.",
+    "A direct live probe found root `--config bad.json dump-config --version` prints the Python version but returns a Rust config parse error; this root/subcommand argparse precedence variant is not yet represented by an accepted case."
   ],
   "capability_states": [
     {
@@ -8989,32 +8996,134 @@
         "report": "rust/artifacts/strict-gate-non-object-config-root-20261108.json",
         "source_fingerprint": "94cf201eb71b3cc4df4c28f997efa59adbc4328fc1b737d3af399a367900b2e1"
       }
+    },
+    {
+      "id": "cli.version.json_metadata",
+      "status": "blocked",
+      "case_ids": [
+        "cli_version_json_metadata_subcommand",
+        "cli_version_json_metadata_short_attached",
+        "cli_version_json_metadata_flag_before_format",
+        "cli_version_json_metadata_format_before_flag",
+        "cli_version_json_metadata_precedence_control"
+      ],
+      "upstream_source": "proselint/log.py::Logger.write_version; proselint/command_line.py::proselint",
+      "upstream_spec": "Pinned JSON version output includes Python sys.version_info[:3]. The Rust CLI must not fabricate or invoke a Python runtime version, so four JSON-output vectors remain intentional exact-parity mismatches; the text precedence control matches.",
+      "status_reason": "Blocked by the migration contract prohibiting fabricated Python runtime metadata.",
+      "red": {
+        "status": "MISMATCH",
+        "cases": 4,
+        "passes": 1,
+        "report": "rust/artifacts/version-json-metadata-live-final-20261108.json"
+      },
+      "independent_verification": {
+        "status": "MISMATCH",
+        "mismatches": 4,
+        "passes": 1,
+        "report": "rust/artifacts/independent-cli-version-json_metadata-20261108T1333.json",
+        "report_sha256": "feee0482571283bb6ddf2b671835a5b308428c56107f34d525e23a418d1862be",
+        "candidate_attestation": "rust/artifacts/20261108T131227278440Z-build.attestation.json"
+      },
+      "acceptance": "not accepted; excluded from production_capabilities and cumulative strict gate"
+    },
+    {
+      "id": "cli.version.verbose_runtime",
+      "status": "blocked",
+      "case_ids": [
+        "cli_version_subcommand_verbose_debug_text"
+      ],
+      "upstream_source": "proselint/log.py::Logger.setup and Logger.write_version",
+      "upstream_spec": "`version --verbose` writes timestamped Python runtime details to stderr. Rust cannot reproduce the pinned Python runtime metadata without fabricating it; stdout/status match but stderr remains different.",
+      "status_reason": "Blocked by the migration contract prohibiting fabricated Python runtime metadata.",
+      "red": {
+        "status": "MISMATCH",
+        "cases": 1,
+        "report": "rust/artifacts/version-verbose-runtime-live-final-20261108.json"
+      },
+      "independent_verification": {
+        "status": "MISMATCH",
+        "mismatches": 1,
+        "report": "rust/artifacts/independent-cli-version-verbose_runtime-20261108T1333.json",
+        "report_sha256": "b7a05f5d9ecfdb7c3b9e8ee1a21b0578d18fea1321cca141b7d3cccc8d965f42",
+        "candidate_attestation": "rust/artifacts/20261108T131227278440Z-build.attestation.json"
+      },
+      "acceptance": "not accepted; excluded from production_capabilities and cumulative strict gate"
+    },
+    {
+      "id": "cli.dump_config.version_precedence",
+      "status": "recorded",
+      "case_ids": [
+        "cli_dump_config_version_flag",
+        "cli_dump_config_version_compact",
+        "cli_dump_config_default_version_flag"
+      ],
+      "upstream_source": "proselint/command_line.py::proselint; proselint/config/__init__.py::load_from; rust/src/main.rs::dump_config and run",
+      "upstream_spec": "A `--version` flag parsed by the dump-config subcommand runs only after configuration loading. It takes precedence over config serialization in Full and Compact output. Missing/malformed config errors still occur before this local version action.",
+      "red": {
+        "status": "MISMATCH",
+        "cases": 3,
+        "report": "rust/artifacts/dump-config-version-red-20261108.json"
+      },
+      "green": {
+        "status": "PASS",
+        "cases": 3,
+        "report": "rust/artifacts/dump-config-version-green-final-20261108.json",
+        "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T131227278440Z-build.attestation.json",
+        "source_fingerprint": "b52e687a6ad293427df3b6c80e07b643afcd308e2209117211bb7ffffe4a7894"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "cases": 3,
+        "report": "rust/artifacts/independent-cli-dump_config-version_precedence-20261108T1333.json",
+        "report_sha256": "f41a871afe1ac50923d31dd961e53860eee7a21b6338497edb28dd5ee2d8de15",
+        "candidate_attestation": "rust/artifacts/20261108T131227278440Z-build.attestation.json"
+      },
+      "cumulative_gate_required": false,
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-dump-config-version-final-20261108.json",
+        "capabilities": 120,
+        "cases": 1025,
+        "source_fingerprint": "b52e687a6ad293427df3b6c80e07b643afcd308e2209117211bb7ffffe4a7894"
+      },
+      "stage_durations_seconds": {
+        "red_live": 16.599,
+        "green_live": 10.198,
+        "independent_live": 12.605
+      },
+      "stage_case_counts": {
+        "red": 3,
+        "green": 3,
+        "independent": 3
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-non-object-config-root-20261108.json",
-    "passed_cases": 1022,
-    "manifest_cases": 1025,
+    "report": "rust/artifacts/strict-gate-dump-config-version-final-20261108.json",
+    "passed_cases": 1025,
+    "manifest_cases": 1034,
     "excluded_manifest_cases": {
-      "harness.oracle_smoke": 2
+      "harness.oracle_smoke": 2,
+      "cli.version.json_metadata": 5,
+      "cli.version.verbose_runtime": 1
     },
     "unresolved_manifest_cases": 1,
     "exit_code": 0,
-    "capability_count": 119,
-    "source_fingerprint": "94cf201eb71b3cc4df4c28f997efa59adbc4328fc1b737d3af399a367900b2e1",
-    "run_id": "20261108T121028917424Z-e1293092",
-    "started_at_utc": "2026-11-08T12:10:28.917399+00:00",
-    "finished_at_utc": "2026-11-08T12:25:34.223232+00:00",
-    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T120933127146Z-build.attestation.json",
-    "candidate_sha256": "ee878caa4248d32c4695e72e2a81015aa713a673654b7666fdfd7485985b8a87",
+    "capability_count": 120,
+    "source_fingerprint": "b52e687a6ad293427df3b6c80e07b643afcd308e2209117211bb7ffffe4a7894",
+    "run_id": "20261108T131319336621Z-7d38adc6",
+    "started_at_utc": "2026-11-08T13:13:19.336589+00:00",
+    "finished_at_utc": "2026-11-08T13:28:15.232766+00:00",
+    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T131227278440Z-build.attestation.json",
+    "candidate_sha256": "5d3515afeafb516d787563f04777ac8d0a1f4e0f23a55634232940a30eb7bbc4",
     "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
-    "duration_seconds": 964.10563,
+    "duration_seconds": 950.900012,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.152696,
-      "cumulative_live_comparison": 905.654349,
-      "oracle_integrity": 2.095502,
-      "rust_checks_and_build": 55.861723
+      "comparator_self_tests": 0.157644,
+      "cumulative_live_comparison": 896.204775,
+      "oracle_integrity": 2.093137,
+      "rust_checks_and_build": 52.129517
     },
     "comparator_self_tests": 23
   },
@@ -9052,7 +9161,7 @@
       "report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2"
     }
   },
-  "next_capability_handoff": "Next probe the explicitly unverified version JSON metadata/argument behavior and remaining attached output-format forms against the pinned CLI; continue source-derived CLI cases before release. Keep the focused demo-JSON source URI mismatch unaccepted. The latest strict gate passes 119 capabilities/1022 cases at 94cf201eb71b3cc4df4c28f997efa59adbc4328fc1b737d3af399a367900b2e1. Twenty-three data-list rule paths remain held pending a documented reuse basis.",
+  "next_capability_handoff": "Investigate root --config value reset before dump-config with pinned live vectors, then focused RED/GREEN/independent verification; keep Python runtime metadata divergences blocked and do not fabricate a runtime.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

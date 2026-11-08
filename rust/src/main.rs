@@ -1243,6 +1243,7 @@ fn user_config_path() -> Option<PathBuf> {
 fn dump_config(
     config: Option<PathBuf>,
     default: bool,
+    version: bool,
     output_format: OutputFormat,
 ) -> Result<ExitCode, String> {
     let config_path = match config {
@@ -1325,6 +1326,11 @@ fn dump_config(
         }
         None => None,
     };
+
+    if version {
+        println!("Proselint 0.16.0");
+        return Ok(ExitCode::SUCCESS);
+    }
 
     if default || loaded.is_none() {
         print!("{}", default_config::DEFAULT_CONFIG_JSON);
@@ -1716,7 +1722,7 @@ fn run() -> Result<ExitCode, String> {
         Some(Command::Version) => (Vec::new(), false, true, false),
         Some(Command::Check { paths, demo }) => (paths, demo, version_flag, false),
         Some(Command::DumpConfig { default }) => {
-            return dump_config(config, default, output_format);
+            return dump_config(config, default, version_flag, output_format);
         }
         None => (Vec::new(), false, version_flag, !version_flag),
     };

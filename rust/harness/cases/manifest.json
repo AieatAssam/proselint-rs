@@ -33486,5 +33486,239 @@
         "exit_status": "exact"
       }
     }
+,
+    {
+      "id": "cli_version_json_metadata_subcommand",
+      "capability_id": "cli.version.json_metadata",
+      "provenance": "Pinned live Python Proselint 0.16.0: Logger.write_version emits JSON containing package version and Python sys.version_info[:3] when the version subcommand selects JSON output. Runtime metadata is preserved as emitted by the oracle.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "version",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_version_json_metadata_short_attached",
+      "capability_id": "cli.version.json_metadata",
+      "provenance": "Pinned live Python Proselint 0.16.0: argparse accepts attached -ojson after the version subcommand and Logger.write_version emits JSON runtime metadata.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "version",
+        "-ojson"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_version_json_metadata_flag_before_format",
+      "capability_id": "cli.version.json_metadata",
+      "provenance": "Pinned live Python Proselint 0.16.0: root --version with --output-format json selects JSON version output and includes Python sys.version_info[:3].",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "--version",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_version_json_metadata_format_before_flag",
+      "capability_id": "cli.version.json_metadata",
+      "provenance": "Pinned live Python Proselint 0.16.0: root --output-format json remains selected when followed by --version, producing JSON version output with Python sys.version_info[:3].",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "--output-format",
+        "json",
+        "--version"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_version_json_metadata_precedence_control",
+      "capability_id": "cli.version.json_metadata",
+      "provenance": "Pinned live Python Proselint 0.16.0 precedence control: --output-format json before the version subcommand is reset to text by that subparser; compare exact stdout bytes.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "--output-format",
+        "json",
+        "version"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_version_subcommand_verbose_debug_text",
+      "capability_id": "cli.version.verbose_runtime",
+      "provenance": "Pinned Python Proselint 0.16.0 Logger.write_version emits a timestamped Python sys.version debug line on stderr for `version --verbose`; stderr is compared byte-for-byte.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "version",
+        "--verbose"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    }
+,
+    {
+      "id": "cli_dump_config_version_flag",
+      "capability_id": "cli.dump_config.version_precedence",
+      "provenance": "Pinned live Python Proselint 0.16.0: version handling occurs after configuration loading and takes precedence over dump-config serialization; exact stdout/stderr/status are compared.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "dump-config",
+        "--version"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_dump_config_version_compact",
+      "capability_id": "cli.dump_config.version_precedence",
+      "provenance": "Pinned live Python Proselint 0.16.0: version handling occurs after configuration loading and takes precedence over dump-config serialization; exact stdout/stderr/status are compared.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "dump-config",
+        "--version",
+        "--output-format",
+        "compact"
+      ],
+      "output_format": "compact",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_dump_config_default_version_flag",
+      "capability_id": "cli.dump_config.version_precedence",
+      "provenance": "Pinned live Python Proselint 0.16.0: version handling occurs after configuration loading and takes precedence over dump-config serialization; exact stdout/stderr/status are compared.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "dump-config",
+        "--default",
+        "--version"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    }
   ]
 }

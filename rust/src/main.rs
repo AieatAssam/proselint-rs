@@ -1193,7 +1193,11 @@ fn user_config_path() -> Option<PathBuf> {
         .filter(|candidate| candidate.is_file())
 }
 
-fn dump_config(config: Option<PathBuf>, default: bool) -> Result<ExitCode, String> {
+fn dump_config(
+    config: Option<PathBuf>,
+    default: bool,
+    output_format: OutputFormat,
+) -> Result<ExitCode, String> {
     let config_path = match config {
         Some(path) => Some(path),
         None => {
@@ -1212,12 +1216,32 @@ fn dump_config(config: Option<PathBuf>, default: bool) -> Result<ExitCode, Strin
 
     let loaded = match config_path {
         Some(path) => {
-            let source = fs::read_to_string(&path).map_err(|error| {
-                format!(
-                    "Configuration file '{}' could not be read: {error}",
-                    path.display()
-                )
-            })?;
+            let source = match fs::read_to_string(&path) {
+                Ok(source) => source,
+                Err(error) if error.kind() == io::ErrorKind::NotFound => {
+                    let message =
+                        format!("Configuration file '{}' could not be read.", path.display());
+                    if matches!(output_format, OutputFormat::Json) {
+                        print!(
+                            "{}",
+                            serde_json::to_string_pretty(&serde_json::json!({
+                                "error": {"code": -31998, "message": message}
+                            }))
+                            .expect("error JSON is serializable")
+                        );
+                        return Ok(ExitCode::from(4));
+                    }
+                    return Err(format!(
+                        "Unrecoverable error encountered while running proselint: {message}"
+                    ));
+                }
+                Err(error) => {
+                    return Err(format!(
+                        "Configuration file '{}' could not be read: {error}",
+                        path.display()
+                    ));
+                }
+            };
             let normalized = source.replace("\r\n", "\n").replace('\r', "\n");
             let scan_result = if source.starts_with('\u{feff}') {
                 Err(JsonScanError::Syntax(JsonSyntaxError {
@@ -1641,7 +1665,9 @@ fn run() -> Result<ExitCode, String> {
     let (paths, demo, show_version, no_command) = match parsed.command {
         Some(Command::Version) => (Vec::new(), false, true, false),
         Some(Command::Check { paths, demo }) => (paths, demo, version_flag, false),
-        Some(Command::DumpConfig { default }) => return dump_config(config, default),
+        Some(Command::DumpConfig { default }) => {
+            return dump_config(config, default, output_format);
+        }
         None => (Vec::new(), false, version_flag, !version_flag),
     };
     let (config, config_is_default) = match config {

@@ -177,3 +177,31 @@ fn dump_config_invalid_explicit_json_returns_python_error() {
 fn dump_config_default_still_loads_and_rejects_invalid_explicit_json() {
     assert_malformed_config_error(&["dump-config", "--config", "explicit.json", "--default"]);
 }
+
+#[test]
+fn dump_config_missing_explicit_file_returns_python_error() {
+    let output = Workspace::new().run(&["dump-config", "--config", "missing.json"]);
+    assert_eq!(output.status.code(), Some(4), "stderr: {:?}", output.stderr);
+    assert!(output.stdout.is_empty(), "stdout: {:?}", output.stdout);
+    assert_eq!(
+        output.stderr,
+        b"Unrecoverable error encountered while running proselint: Configuration file 'missing.json' could not be read.\n"
+    );
+}
+
+#[test]
+fn dump_config_missing_explicit_file_json_returns_python_error() {
+    let output = Workspace::new().run(&[
+        "dump-config",
+        "--output-format",
+        "json",
+        "--config",
+        "missing.json",
+    ]);
+    assert_eq!(output.status.code(), Some(4), "stderr: {:?}", output.stderr);
+    assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
+    assert_eq!(
+        output.stdout,
+        b"{\n  \"error\": {\n    \"code\": -31998,\n    \"message\": \"Configuration file 'missing.json' could not be read.\"\n  }\n}"
+    );
+}

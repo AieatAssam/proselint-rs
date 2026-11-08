@@ -30625,6 +30625,60 @@
       "working_directory": "."
     },
     {
+      "id": "cli_dump_config_missing_explicit_file",
+      "capability_id": "cli.dump_config_default",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; verify_path(resolve=True,reject_dir=True,must_exist=True) raises FileNotFoundError for missing.json, reported by the CLI with exact status and stderr.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "dump-config",
+        "--config",
+        "missing.json"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "working_directory": "."
+    },
+    {
+      "id": "cli_dump_config_missing_explicit_file_json",
+      "capability_id": "cli.dump_config_default",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; with JSON output selected, FileNotFoundError is serialized as the exact structured error object with code -31998 and no stderr.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "dump-config",
+        "--output-format",
+        "json",
+        "--config",
+        "missing.json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "working_directory": "."
+    },
+    {
       "capability_id": "cli.config.no_config_default",
       "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; no explicit --config, cwd or ancestor proselint.json, or user config exists in isolated HOME/XDG_CONFIG_HOME, so load_from falls back to bundled DEFAULT.",
       "input_mode": "stdin",

@@ -33524,7 +33524,7 @@
         "version",
         "-ojson"
       ],
-      "output_format": "full",
+      "output_format": "json",
       "expected_oracle_outcome": "clean",
       "timeout_seconds": 10,
       "environment": {
@@ -33891,6 +33891,208 @@
         "locale": "C.UTF-8"
       },
       "config_scenario": "malformed_config_root_vs_subcommand_option_position",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    }
+,
+    {
+      "id": "cli_check_attached_short_json",
+      "capability_id": "cli.output_format.attached_values",
+      "provenance": "Pinned Python Proselint 0.16.0: attached output-format values are accepted for this command. JSON compares structured output per the harness contract; Compact compares exact bytes.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "-ojson"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_check_attached_long_json",
+      "capability_id": "cli.output_format.attached_values",
+      "provenance": "Pinned Python Proselint 0.16.0: attached output-format values are accepted for this command. JSON compares structured output per the harness contract; Compact compares exact bytes.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format=json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_check_attached_short_compact",
+      "capability_id": "cli.output_format.attached_values",
+      "provenance": "Pinned Python Proselint 0.16.0: attached output-format values are accepted for this command. JSON compares structured output per the harness contract; Compact compares exact bytes.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "-ocompact"
+      ],
+      "output_format": "compact",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_check_attached_long_compact",
+      "capability_id": "cli.output_format.attached_values",
+      "provenance": "Pinned Python Proselint 0.16.0: attached output-format values are accepted for this command. JSON compares structured output per the harness contract; Compact compares exact bytes.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format=compact"
+      ],
+      "output_format": "compact",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_dump_config_attached_short_json",
+      "capability_id": "cli.output_format.attached_values",
+      "provenance": "Pinned Python Proselint 0.16.0: attached output-format values are accepted for this command. JSON compares structured output per the harness contract; Compact compares exact bytes.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "dump-config",
+        "-ojson"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_dump_config_attached_short_compact",
+      "capability_id": "cli.output_format.attached_values",
+      "provenance": "Pinned Python Proselint 0.16.0: attached output-format values are accepted for this command. JSON compares structured output per the harness contract; Compact compares exact bytes.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "dump-config",
+        "-ocompact"
+      ],
+      "output_format": "compact",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    }
+,
+    {
+      "id": "cli_dump_config_attached_long_json",
+      "capability_id": "cli.output_format.attached_values",
+      "provenance": "Pinned Python Proselint 0.16.0: attached long output-format value is accepted by dump-config; JSON uses structural comparison, Compact uses exact bytes.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "dump-config",
+        "--output-format=json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_dump_config_attached_long_compact",
+      "capability_id": "cli.output_format.attached_values",
+      "provenance": "Pinned Python Proselint 0.16.0: attached long output-format value is accepted by dump-config; JSON uses structural comparison, Compact uses exact bytes.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "dump-config",
+        "--output-format=compact"
+      ],
+      "output_format": "compact",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
       "workspace_mutates": false,
       "comparison": {
         "stdout": "bytes",

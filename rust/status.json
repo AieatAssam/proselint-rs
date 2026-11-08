@@ -486,6 +486,10 @@
     {
       "id": "cli.root_config_argument_precedence",
       "status": "recorded"
+    },
+    {
+      "id": "cli.output_format.attached_values",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -514,8 +518,8 @@
     "unit_tests": {
       "status": "PASS",
       "suite": "rust.harness.tests.test_compare rust.harness.tests.test_gate rust.harness.tests.test_benchmark",
-      "tests_passed": 99,
-      "duration_seconds": 70.033,
+      "tests_passed": 100,
+      "duration_seconds": 86.708,
       "expected_timeout_discriminator_cases": 2
     },
     "comparator_discriminators": {
@@ -570,7 +574,7 @@
     }
   },
   "active_ownership": {
-    "current": "cli.root_config_argument_precedence passes focused owner/independent parity, regression-focused Rust tests, 99 Python harness tests, and the 121-capability/1031-case cumulative gate. JSON and verbose Python runtime metadata remain blocked; 23 rule paths remain held pending provenance/rights evidence.",
+    "current": "cli.output_format.attached_values has focused owner/independent live passes; no Rust production change was required. The last cumulative gate covers 121 capabilities/1031 cases, and this eight-case addition will be included at the next scheduled checkpoint. Two runtime-metadata paths remain blocked; 23 rule paths remain held for provenance/rights evidence.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -9165,6 +9169,52 @@
         "failing_test": "cli_missing_option_value_before_option::root_config_followed_by_option_like_token_reports_missing_value",
         "fix": "keep missing/option-like --config values in argv for the early parser validator"
       }
+    },
+    {
+      "id": "cli.output_format.attached_values",
+      "status": "recorded",
+      "case_ids": [
+        "cli_check_attached_short_json",
+        "cli_check_attached_long_json",
+        "cli_check_attached_short_compact",
+        "cli_check_attached_long_compact",
+        "cli_dump_config_attached_short_json",
+        "cli_dump_config_attached_short_compact",
+        "cli_dump_config_attached_long_json",
+        "cli_dump_config_attached_long_compact"
+      ],
+      "upstream_source": "proselint/command_line.py::get_parser and proselint; proselint/log.py output formatting; rust/src/main.rs::Cli and dump_config",
+      "upstream_spec": "The pinned CLI accepts attached -oVALUE, -o=VALUE, and --output-format=VALUE forms for the tested check/dump-config commands. Compact output is byte-compared. Check JSON is structurally compared per the harness contract; dump-config JSON is byte-compared because it returns a raw config object rather than the diagnostic response schema.",
+      "red": {
+        "status": "HARNESS_SCHEMA_FAILURE",
+        "details": "Before the harness parser change, load_manifest rejected attached -oVALUE cases with a default-format validation error. No Rust behavior change was indicated by the oracle probe."
+      },
+      "green": {
+        "status": "PASS",
+        "cases": 8,
+        "report": "rust/artifacts/attached-output-format-green-final-20261108.json",
+        "report_sha256": "b6a25663ac61b86a172c7682ecd26b23c9941cf58b3b6f4a252cf9e20d9b57c1",
+        "candidate_attestation": "rust/artifacts/20261108T165606829412Z-build.attestation.json",
+        "source_fingerprint": "0a18b0e92b8951c8de6b8b8a314824c0ee8223f3166523b9f9a13b32933cd597"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "cases": 8,
+        "report": "rust/artifacts/independent-cli-output-format-attached-values-20261108T1657.json",
+        "report_sha256": "3f9e0ea4b254febe3f519dcf7e64f990ef0585d0bcb7bc4c070a44d6bc2fb16c",
+        "candidate_attestation": "rust/artifacts/20261108T165606829412Z-build.attestation.json",
+        "oracle_integrity_report": "rust/artifacts/oracle-integrity-attached-values-independent-20261108T1656.json",
+        "configured_model": "gpt-6-luna",
+        "configured_effort": "low"
+      },
+      "focused_python_tests": {
+        "status": "PASS",
+        "tests_passed": 100,
+        "duration_seconds": 86.708,
+        "targeted_manifest_tests_passed": 3
+      },
+      "production_change": "none; this records already implemented attached argument forms",
+      "cumulative_gate": "pending next scheduled checkpoint; most recent strict gate covers 121 capabilities and 1031 cases"
     }
   ],
   "last_strict_gate": {
@@ -9230,7 +9280,7 @@
       "report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2"
     }
   },
-  "next_capability_handoff": "Continue with remaining attached output-format and root/subcommand CLI argument orderings against pinned live Python. Keep JSON/verbose Python-runtime metadata explicitly blocked and do not fabricate it.",
+  "next_capability_handoff": "Continue with remaining CLI argument-ordering cases that can be distinguished by the pinned oracle; preserve attached JSON config output as exact bytes and do not weaken comparison policies.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

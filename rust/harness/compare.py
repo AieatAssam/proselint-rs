@@ -155,6 +155,8 @@ def validate_case(case: Any) -> None:
                 format_args.append(case["argv"][index + 1])
         elif arg.startswith("--output-format="):
             format_args.append(arg.partition("=")[2])
+        elif arg.startswith("-o") and len(arg) > 2:
+            format_args.append(arg[3:] if arg.startswith("-o=") else arg[2:])
     invalid_cli_error_format = (
         case["expected_oracle_outcome"] == "cli_error"
         and len(format_args) == 1

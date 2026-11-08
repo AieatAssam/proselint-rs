@@ -574,7 +574,7 @@
     }
   },
   "active_ownership": {
-    "current": "The Unicode 15 printability table fix passed 44 owner and 44 independent live cases, an exhaustive 1,114,112-codepoint audit with zero mismatches, and the shared-CLI cumulative gate (1075/1075 across 122 capabilities). The Python harness suite passed 101/101. Cargo.lock is unchanged and the latest-compatible Rust dependency dry run found zero updates. Runtime metadata remains blocked and 23 rules remain held for provenance/rights evidence.",
+    "current": "The latest strict gate passes 1075/1075 across 122 capabilities. A read-only audit checked all 23 remaining rule paths and found no explicit path-scoped reuse grant; all remain held. Next work should target uncovered CLI cases that do not require unlicensed list data.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -585,7 +585,7 @@
     "Benchmarks cover only the isolated misc.suddenly profile and the selected misc.suddenly + psychology.p_equals_zero profile on their recorded inputs; broader rule sets and default configurations remain unmeasured.",
     "Agent task configuration requested gpt-6-luna/low for implementation and independent review, but runtime model/effort metadata is not exposed, so routing cannot be independently audited.",
     "Unicode case folding and quote-pairing combinations beyond explicitly tested cases remain unverified.",
-    "23 unique rule paths remain unimplemented. Reconnaissance found each is backed by an attributed third-party list/dictionary with no separate list-specific grant recorded in the pinned source, or has unknown provenance (industrial_language.chatspeak); the current provenance policy holds these until a consistent reuse basis is recorded. This is a provenance blocker, not accepted parity.",
+    "A read-only audit of all 23 unimplemented paths found no explicit path-scoped reuse grant in the pinned checkout; the root BSD-3-Clause license does not clear separately attributed lists. Unknown provenance remains for industrial_language.chatspeak, misc.phrasal_adjectives.examples, and redundancy.misc.after_the_deadline. Keep all held until rights evidence or a documented policy basis is recorded.",
     "No-config execution now loads bundled DEFAULT for 83 implemented checks, but the 23 unimplemented unique paths include default-enabled rules, so full default-config parity and all combined-rule interactions remain incomplete.",
     "dump-config HOME-unset/platform-specific config discovery, directory user candidates, directory traversal/decoding edges outside the accepted directory cases remain unverified; explicit multi-file output for file lists is covered by the recorded cases.",
     "Other --version combined-argument orderings beyond cli.version_argument_precedence remain unverified.",
@@ -9397,7 +9397,7 @@
       "report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2"
     }
   },
-  "next_capability_handoff": "Continue with an unblocked capability after checking rule data provenance. Keep independent modules parallel and shared CLI/config/matcher work serialized; next full cumulative gate is due after five newly accepted capabilities or immediately after shared behavior changes.",
+  "next_capability_handoff": "Continue with a bounded, live-distinguishable CLI/config case family that can be exercised in isolated workspaces; avoid the rights-held rule lists. Keep shared behavior changes serialized and use the required gate cadence.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",
@@ -9602,5 +9602,18 @@
         "evidence": "rust/artifacts/harness-suite-parallel-cases-20261108.log"
       }
     }
+  },
+  "rights_audit_latest": {
+    "audit_date": "2026-11-08",
+    "reviewed_unimplemented_paths": 23,
+    "explicit_path_scoped_reuse_grants_found": 0,
+    "eligible_paths": 0,
+    "conclusion": "No unimplemented list path is cleared by checked-in rights evidence; keep all 23 held. The project BSD-3-Clause license does not establish rights for separately attributed third-party data.",
+    "unknown_provenance_paths": [
+      "industrial_language.chatspeak",
+      "misc.phrasal_adjectives.examples",
+      "redundancy.misc.after_the_deadline"
+    ],
+    "next_step": "Obtain and record list-specific permission/license evidence or a documented project policy basis before porting any held list."
   }
 }

@@ -1641,6 +1641,19 @@ fn run() -> Result<ExitCode, String> {
                     "[Errno 2] No such file or directory: '{}'",
                     resolved_path.display()
                 );
+                if !matches!(output_format, OutputFormat::Json) {
+                    let source = match output_format {
+                        OutputFormat::Full => resolved_path.display().to_string(),
+                        OutputFormat::Compact => path
+                            .file_name()
+                            .and_then(|name| name.to_str())
+                            .unwrap_or("<stdin>")
+                            .to_owned(),
+                        OutputFormat::Json => unreachable!(),
+                    };
+                    eprintln!("Error encountered while linting {source}: {message}");
+                    return Ok(ExitCode::SUCCESS);
+                }
                 let mut file_results = serde_json::Map::new();
                 file_results.insert(
                     source.clone(),

@@ -30873,6 +30873,91 @@
       "config_scenario": "no_config",
       "workspace_mutates": false,
       "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "cli_missing_path_after_double_dash_full",
+      "capability_id": "cli.missing_path_error_after_double_dash",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; after `--`, `--help` is a path. The missing file is handled as a per-file FileNotFoundError, with Full/Compact text errors or a JSON file-error entry. Sources: command_line.py:proselint, tools.py:LintFile._read, log.py:format_source/write_lint_exception.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "full",
+        "--",
+        "--help"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_missing_path_after_double_dash_compact",
+      "capability_id": "cli.missing_path_error_after_double_dash",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; after `--`, `--help` is a path. The missing file is handled as a per-file FileNotFoundError, with Full/Compact text errors or a JSON file-error entry. Sources: command_line.py:proselint, tools.py:LintFile._read, log.py:format_source/write_lint_exception.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "compact",
+        "--",
+        "--help"
+      ],
+      "output_format": "compact",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_missing_path_after_double_dash_json",
+      "capability_id": "cli.missing_path_error_after_double_dash",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; after `--`, `--help` is a path. The missing file is handled as a per-file FileNotFoundError, with Full/Compact text errors or a JSON file-error entry. Sources: command_line.py:proselint, tools.py:LintFile._read, log.py:format_source/write_lint_exception.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json",
+        "--",
+        "--help"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact",
+        "normalize_workspace_uri": true
+      }
     }
   ]
 }

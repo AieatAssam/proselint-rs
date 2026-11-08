@@ -458,6 +458,10 @@
     {
       "id": "cli.version_argument_precedence",
       "status": "recorded"
+    },
+    {
+      "id": "cli.unrecognized_arguments",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -486,10 +490,10 @@
     "unit_tests": {
       "passed": 92,
       "exit_code": 0,
-      "duration_seconds": 53.563,
+      "duration_seconds": 60.302,
       "command": "python3 -m unittest discover -s rust/harness/tests -v",
-      "evidence": "rust/artifacts/harness-suite-parallel-cases-20261108.log",
-      "notes": "Full suite passed after bounded live-case concurrency and two XDG-missing user-discovery cases."
+      "evidence": "rust/artifacts/harness-suite-cli-unrecognized-20261108.log",
+      "notes": "Full suite passed after CLI argument parser changes and all 12 capability cases were present."
     },
     "comparator_discriminators": {
       "passed": 23,
@@ -548,7 +552,7 @@
   },
   "unresolved": [
     "23 unique rule paths remain unimplemented.",
-    "Other CLI behavior remains unverified, including remaining subcommands, HOME-unset resolution, directory user candidates, directory traversal/decoding edges outside the accepted directory cases; explicit multi-file rendering is accepted for the recorded file-list cases.",
+    "Other CLI behavior remains unverified, including remaining subcommands, HOME-unset resolution, directory user candidates, directory traversal/decoding edges outside the accepted directory cases; explicit multi-file rendering is accepted for the recorded file-list cases; missing option-value error formatting when a value-taking option is followed by an option-looking token.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
     "Directory/non-UTF-8 path error formatting on non-Linux platforms remains unverified.",
     "Benchmarks cover only the isolated misc.suddenly profile and the selected misc.suddenly + psychology.p_equals_zero profile on their recorded inputs; broader rule sets and default configurations remain unmeasured.",
@@ -8409,31 +8413,86 @@
         "comparator_self_tests_passed": 23,
         "source_fingerprint": "a77e73e491f8347bf0b77ec28e7152c7c6a0d43aa52ac72f044646d151832571"
       }
+    },
+    {
+      "id": "cli.unrecognized_arguments",
+      "status": "recorded",
+      "case_ids": [
+        "cli_unknown_argument_root",
+        "cli_unknown_argument_check",
+        "cli_unknown_argument_version",
+        "cli_unknown_argument_dump_config",
+        "cli_unknown_argument_short",
+        "cli_unknown_argument_attached_value",
+        "cli_unknown_argument_multiple",
+        "cli_unknown_argument_wrong_subcommand_demo",
+        "cli_unknown_argument_wrong_subcommand_default",
+        "cli_unknown_argument_help_precedence",
+        "cli_unknown_argument_long_o_prefix",
+        "cli_unknown_after_double_dash_is_path"
+      ],
+      "upstream_spec": "Pinned Proselint 0.16.0 argparse.parse_args runs before application handling. Unrecognized root or subcommand options exit 2 with empty stdout, root usage, and original unrecognized tokens joined in argument order. `--demo` is known only for check; `--default` only for dump-config. Help exits before the final unrecognized-argument check; tokens after `--` are positional paths.",
+      "red": {
+        "behavioral_failures": 6,
+        "total_cases": 6,
+        "exit_code": 1,
+        "report": "rust/artifacts/cli-unrecognized-args-red-live.json",
+        "rust_tests_failed": 6,
+        "rust_test_total": 6,
+        "summary": "rust/artifacts/cli-unrecognized-args-red-summary.md"
+      },
+      "green": {
+        "focused_rust_tests_passed": 11,
+        "live_cases_passed": 12,
+        "report": "rust/artifacts/cli-unrecognized-args-final-green-live.json",
+        "build_attestation": "rust/artifacts/20261108T062441626341Z-build.attestation.json",
+        "status": "PASS",
+        "duration_seconds": 16.733
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases_passed": 12,
+        "harness_tests_passed": 92,
+        "report": "rust/artifacts/independent-cli-unrecognized-args-final-20261108.json",
+        "build_attestation": "rust/artifacts/20261108T062524772739Z-build.attestation.json",
+        "source_fingerprint": "8c14e84cca1e14aebe8ac80111a83c381a96ad3562f441dd8ff2808df212773b",
+        "duration_seconds": 16.271
+      },
+      "cumulative_live_parity": {
+        "status": "PASS",
+        "passed_cases": 979,
+        "capability_count": 115,
+        "manifest_cases": 981,
+        "report": "rust/artifacts/strict-gate-unknown-args-final-20261108.json"
+      },
+      "limitations": [
+        "Missing values for known options when followed by an option-looking token remain a separate parser-error gap; current probes show clap stderr differs from Python argparse."
+      ]
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-parallel-cases-final-20261108.json",
-    "passed_cases": 967,
-    "manifest_cases": 969,
+    "report": "rust/artifacts/strict-gate-unknown-args-final-20261108.json",
+    "passed_cases": 979,
+    "manifest_cases": 981,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "capability_count": 114,
-    "source_fingerprint": "101c03576b211413e9fe167098e33aeeca15933e5a60752ebea64dc40a6ecd84",
-    "run_id": "20261108T053930502933Z-f8b14413",
-    "started_at_utc": "2026-11-08T05:39:30.502907+00:00",
-    "finished_at_utc": "2026-11-08T05:53:16.264618+00:00",
-    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T053847816904Z-build.attestation.json",
-    "candidate_sha256": "8121e82979509350475d053b9cacac11fa365eb9c7d18c91dcf1b674cf5647f7",
+    "capability_count": 115,
+    "source_fingerprint": "8c14e84cca1e14aebe8ac80111a83c381a96ad3562f441dd8ff2808df212773b",
+    "run_id": "20261108T063002927558Z-020b4c89",
+    "started_at_utc": "2026-11-08T06:30:02.927530+00:00",
+    "finished_at_utc": "2026-11-08T06:43:35.356614+00:00",
+    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T062921560278Z-build.attestation.json",
+    "candidate_sha256": "05d5cc677c24d63a61d664a18302f5b482bc958f280a37c7e2529b21834cfc29",
     "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
-    "duration_seconds": 871.456419,
+    "duration_seconds": 856.51152,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.164932,
-      "cumulative_live_comparison": 826.076391,
-      "oracle_integrity": 2.08304,
-      "rust_checks_and_build": 42.768846
+      "comparator_self_tests": 0.138273,
+      "cumulative_live_comparison": 812.701079,
+      "oracle_integrity": 1.965529,
+      "rust_checks_and_build": 41.428076
     },
     "comparator_self_tests": 23
   },
@@ -8471,7 +8530,7 @@
       "report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2"
     }
   },
-  "next_capability_handoff": "Continue from cli.version_argument_precedence at the 114-capability/967-case strict checkpoint. User-discovery coverage now includes two cases proving a missing file selected by nonempty XDG_CONFIG_HOME uses bundled defaults instead of falling back to HOME. The next source-derived CLI slice should avoid unsafe HOME-unset fixtures until a passwd-home isolation mechanism exists. Invalid UTF-8 stdin remains unresolved: pinned probes show distinct Fast and Fancy surrogateescape behavior; do not use lossy replacement or claim parity without an encoding representation and live cases.",
+  "next_capability_handoff": "Continue from cli.unrecognized_arguments after the immediate shared-CLI cumulative gate. The next focused parser slice is missing values for known `--config`, `--output-format`, or `-o` when the next token begins with `-`: pinned argparse reports `argument <option>: expected one argument`, while current clap output says the token is unexpected. Add source-derived cases before changing parsing. Rule data paths remain blocked on provenance/licence evidence.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",
@@ -8645,20 +8704,22 @@
         "requested_model": "gpt-6-luna",
         "requested_effort": "low",
         "role": "default Luna 6 light",
-        "runtime_model_metadata": "unavailable"
+        "runtime_model_metadata": "unavailable",
+        "evidence": "rust/artifacts/harness-suite-cli-unrecognized-20261108.log"
       },
       "implementation": {
         "requested_model": "gpt-6-luna",
         "requested_effort": "low",
         "role": "default Luna 6 light",
-        "runtime_model_metadata": "unavailable"
+        "runtime_model_metadata": "unavailable",
+        "evidence": "rust/tests/cli_unrecognized_arguments.rs"
       },
       "independent_verification": {
         "requested_model": "gpt-6-luna",
         "requested_effort": "low",
         "role": "default Luna 6 light",
         "runtime_model_metadata": "unavailable",
-        "evidence": "rust/artifacts/independent-user-discovery-xdg-missing-final-20261108.json"
+        "evidence": "rust/artifacts/independent-cli-unrecognized-args-final-20261108.json"
       },
       "sol_critical_adviser": {
         "requested_model": "gpt-6.1-sol",

@@ -1456,6 +1456,58 @@ fn reset_root_version_before_subcommand(args: &mut Vec<std::ffi::OsString>) {
     }
 }
 
+fn unrecognized_cli_arguments(args: &[std::ffi::OsString]) -> Option<ExitCode> {
+    let mut unknown = Vec::new();
+    let mut subcommand = None;
+    let mut index = 1;
+    while index < args.len() {
+        let Some(token) = args[index].to_str() else {
+            index += 1;
+            continue;
+        };
+        if token == "--" || token == "-h" || token == "--help" {
+            break;
+        }
+        if matches!(token, "--config" | "--output-format" | "-o") {
+            index = (index + 2).min(args.len());
+            continue;
+        }
+        if token.starts_with("--config=")
+            || token.starts_with("--output-format=")
+            || (token.starts_with("-o") && token != "-o")
+            || matches!(token, "--verbose" | "-v" | "--version")
+            || (token == "--demo" && subcommand == Some("check"))
+            || (token == "--default" && subcommand == Some("dump-config"))
+            || (!token.starts_with('-') && index > 1)
+        {
+            if subcommand.is_none() {
+                subcommand = match token {
+                    "check" | "version" | "dump-config" => Some(token),
+                    _ => None,
+                };
+            }
+            index += 1;
+            continue;
+        }
+        if token.starts_with('-') {
+            unknown.push(token.to_owned());
+        }
+        index += 1;
+    }
+    if unknown.is_empty() {
+        return None;
+    }
+    let parsed = Cli::try_parse_from(args).err()?;
+    if parsed.kind() != clap::error::ErrorKind::UnknownArgument {
+        return None;
+    }
+    eprintln!(
+        "usage: proselint [options] <command>\nproselint: error: unrecognized arguments: {}",
+        unknown.join(" ")
+    );
+    Some(ExitCode::from(2))
+}
+
 fn run() -> Result<ExitCode, String> {
     let mut args = std::env::args_os().collect::<Vec<_>>();
     if args.len() == 2 && args[1] == "--version" {
@@ -1477,6 +1529,9 @@ fn run() -> Result<ExitCode, String> {
         return Ok(ExitCode::from(2));
     }
     if let Some(exit_code) = invalid_cli_output_format(&args) {
+        return Ok(exit_code);
+    }
+    if let Some(exit_code) = unrecognized_cli_arguments(&args) {
         return Ok(exit_code);
     }
     if args.len() == 4 && args[1] == "--config" && args[2] == "check" && args[3] == "--help" {

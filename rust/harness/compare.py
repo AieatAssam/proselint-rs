@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+import concurrent.futures
 import datetime as dt
 import hashlib
 import json
@@ -28,6 +29,12 @@ REPORT_SCHEMA_VERSION = 1
 RUNTIME_MARKDOWN_INPUTS = {"data/demo.md"}
 EXCLUDED_TREE_PARTS = {".cache", "artifacts", "target", ".git", "__pycache__", "docs", "inventory.json", "status.json", "status-history.jsonl"}
 VALID_COMPARISON = {"stdout": {"bytes", "json"}, "stderr": {"bytes"}, "exit_status": {"exact"}}
+CASE_WORKERS = 2
+
+
+def run_cases_concurrently(cases: Sequence[dict[str, Any]], worker: Any, max_workers: int = CASE_WORKERS) -> list[Any]:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
+        return list(executor.map(worker, cases))
 
 
 def sha256_bytes(value: bytes) -> str:
@@ -446,7 +453,7 @@ def run_case(
     commands = []
     executions = []
     environments = {}
-    reference_cache = run_dir / "reference-pycache"
+    reference_cache = case_dir / "reference-pycache"
     reference_cache.mkdir(exist_ok=True)
     with tempfile.TemporaryDirectory(prefix="proselint harness space-é ") as temp_root:
         temp_base = Path(temp_root)
@@ -991,8 +998,10 @@ def run_live(
             raise RuntimeError(f"zero cases selected for capability {capability!r}")
         report["capability_ids"] = sorted({case["capability_id"] for case in cases})
         report["case_ids"] = [case["id"] for case in cases]
-        for case in cases:
-            report["cases"].append(json_report_value(run_case(case, reference, candidate, run_dir, attestation_path)))
+        report["cases"] = run_cases_concurrently(
+            cases,
+            lambda case: json_report_value(run_case(case, reference, candidate, run_dir, attestation_path)),
+        )
         for case_result in report["cases"]:
             report["counts"][case_result["status"]] += 1
         report["status"] = "PASS" if all(case["status"] == "PASS" for case in report["cases"]) else "MISMATCH"

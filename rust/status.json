@@ -484,12 +484,12 @@
     "status": "verified after metadata fingerprint changes; Markdown/ledger exclusion is covered by a discrimination test",
     "source_fingerprint": "f613269db8621fcb8d6836dada159d2f6eb15212bea7ea54419955eb9b212838",
     "unit_tests": {
-      "passed": 91,
+      "passed": 92,
       "exit_code": 0,
-      "duration_seconds": 45.387,
+      "duration_seconds": 53.563,
       "command": "python3 -m unittest discover -s rust/harness/tests -v",
-      "evidence": "rust/artifacts/harness-suite-invalid-utf8-file-20261108.log",
-      "notes": "Full harness suite passed after adding Full and JSON invalid-UTF-8 file cases."
+      "evidence": "rust/artifacts/harness-suite-parallel-cases-20261108.log",
+      "notes": "Full suite passed after bounded live-case concurrency and two XDG-missing user-discovery cases."
     },
     "comparator_discriminators": {
       "passed": 23,
@@ -8404,27 +8404,27 @@
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-version-precedence-final-r2-20261108.json",
-    "passed_cases": 965,
-    "manifest_cases": 967,
+    "report": "rust/artifacts/strict-gate-parallel-cases-final-20261108.json",
+    "passed_cases": 967,
+    "manifest_cases": 969,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
     "capability_count": 114,
-    "source_fingerprint": "a77e73e491f8347bf0b77ec28e7152c7c6a0d43aa52ac72f044646d151832571",
-    "run_id": "20261108T050133056913Z-1782134e",
-    "started_at_utc": "2026-11-08T05:01:33.056889+00:00",
-    "finished_at_utc": "2026-11-08T05:06:58.456007+00:00",
-    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T045952212895Z-build.attestation.json",
+    "source_fingerprint": "101c03576b211413e9fe167098e33aeeca15933e5a60752ebea64dc40a6ecd84",
+    "run_id": "20261108T053930502933Z-f8b14413",
+    "started_at_utc": "2026-11-08T05:39:30.502907+00:00",
+    "finished_at_utc": "2026-11-08T05:53:16.264618+00:00",
+    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T053847816904Z-build.attestation.json",
     "candidate_sha256": "8121e82979509350475d053b9cacac11fa365eb9c7d18c91dcf1b674cf5647f7",
     "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
-    "duration_seconds": 429.090828,
+    "duration_seconds": 871.456419,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.143728,
-      "cumulative_live_comparison": 325.656956,
-      "oracle_integrity": 2.063779,
-      "rust_checks_and_build": 100.919404
+      "comparator_self_tests": 0.164932,
+      "cumulative_live_comparison": 826.076391,
+      "oracle_integrity": 2.08304,
+      "rust_checks_and_build": 42.768846
     },
     "comparator_self_tests": 23
   },
@@ -8649,7 +8649,7 @@
         "requested_effort": "low",
         "role": "default Luna 6 light",
         "runtime_model_metadata": "unavailable",
-        "evidence": "rust/artifacts/independent-help-precedence-20261108/verification-summary.json"
+        "evidence": "rust/artifacts/independent-user-discovery-xdg-missing-final-20261108.json"
       },
       "sol_critical_adviser": {
         "requested_model": "gpt-6.1-sol",
@@ -8657,7 +8657,13 @@
         "status": "dispatch_failed_usage_limit",
         "evidence": "collaboration agent reported model usage limit; no Sol advice was used"
       },
-      "forbidden_models": "No Astra or Terra agents were dispatched in this cycle."
+      "forbidden_models": "No Astra or Terra agents were dispatched in this cycle.",
+      "latest_harness_change": {
+        "requested_model": "gpt-6-luna",
+        "requested_effort": "low",
+        "runtime_model_metadata": "unavailable",
+        "evidence": "rust/artifacts/harness-suite-parallel-cases-20261108.log"
+      }
     }
   }
 }

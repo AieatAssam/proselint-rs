@@ -519,7 +519,7 @@
       "status": "PASS",
       "suite": "rust.harness.tests.test_compare rust.harness.tests.test_gate rust.harness.tests.test_benchmark",
       "tests_passed": 100,
-      "duration_seconds": 86.708,
+      "duration_seconds": 76.248,
       "expected_timeout_discriminator_cases": 2
     },
     "comparator_discriminators": {
@@ -574,7 +574,7 @@
     }
   },
   "active_ownership": {
-    "current": "cli.output_format.attached_values has focused owner/independent live passes; no Rust production change was required. The last cumulative gate covers 121 capabilities/1031 cases, and this eight-case addition will be included at the next scheduled checkpoint. Two runtime-metadata paths remain blocked; 23 rule paths remain held for provenance/rights evidence.",
+    "current": "The attached-output-format extension (8 cases) and invalid-output-format extension (12 cases) pass focused owner and independent live comparisons; the full Python harness suite passes 100 tests. They await the next scheduled cumulative checkpoint. Runtime metadata remains blocked and 23 rules remain held for provenance/rights evidence.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -8198,15 +8198,27 @@
         "cli_invalid_output_format_dump_config_subcommand",
         "cli_invalid_output_format_config_value_version",
         "cli_invalid_output_format_config_value_dump_config",
-        "cli_invalid_output_format_config_value_check"
+        "cli_invalid_output_format_config_value_check",
+        "cli_invalid_output_format_check_short_attached",
+        "cli_invalid_output_format_check_long_attached",
+        "cli_invalid_output_format_version_short_attached",
+        "cli_invalid_output_format_version_long_attached",
+        "cli_invalid_output_format_dump_config_short_attached",
+        "cli_invalid_output_format_dump_config_long_attached",
+        "cli_output_format_dash_value_check_short_dash_value",
+        "cli_output_format_dash_value_check_long_dash_value",
+        "cli_output_format_dash_value_version_short_dash_value",
+        "cli_output_format_dash_value_version_long_dash_value",
+        "cli_output_format_dash_value_dump_config_short_dash_value",
+        "cli_output_format_dash_value_dump_config_long_dash_value"
       ],
       "upstream_source": "pinned proselint/command_line.py:get_parser and OutputFormat conversion; Rust rust/src/main.rs::invalid_cli_output_format and command_help",
       "upstream_spec": "Invalid --output-format/-o values are rejected before lint execution. Exit status is 2, stdout is empty, and stderr uses the selected command’s exact argparse usage and invalid OutputFormat message. This includes check, version and dump-config; invalid check values precede --help. A value consumed by --config must not be mistaken for a subcommand.",
       "specification": {
-        "live_cases": 8,
+        "live_cases": 20,
         "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
         "comparison": "Exact stdout/stderr bytes and exit status",
-        "scope_limit": "Covers separate long/short values for check, invalid-before-help, long values for version/dump-config, and three command-like --config values. Attached output-format forms, dash-prefixed values, unusual token quoting and other parser interactions remain unverified."
+        "scope_limit": "Covers separate and attached invalid values plus dash-prefixed separate values for check, version, and dump-config. Unusual token quoting, control-character formatting, and other parser interactions remain unverified."
       },
       "red": {
         "status": "behavioral_failure",
@@ -8245,9 +8257,7 @@
         "binary_sha256": "11f09dd9318abb310a175681de219bb641a27d1a41aa34f1b0d51d1e1d4e58dd",
         "source_fingerprint": "5af4c524f1e65619a0032261179037e4048af3625aaf52dd64e03c6dbf1f167d",
         "edge_risks": [
-          "Pre-parser remains a partial parser and does not account for every possible option with a value, nor every future CLI alias.",
-          "Attached output-format forms and control-character quoting are still not directly exercised by these eight cases.",
-          "Values beginning with a dash are not rejected by this scanner; their precise upstream argparse behavior is outside these cases."
+          "Unusual token quoting and control-character formatting are not directly exercised."
         ]
       },
       "stage_durations_seconds": {
@@ -8263,7 +8273,9 @@
         "python_harness_suite_seconds": 88.75,
         "cumulative_gate": "pending",
         "cumulative_gate_seconds": 360.842038,
-        "cumulative_gate_live_seconds": 321.756822
+        "cumulative_gate_live_seconds": 321.756822,
+        "extended_owner_live": 18.9,
+        "extended_independent_live": 24.1
       },
       "stage_case_counts": {
         "red_focused_rust_tests_failed": 2,
@@ -8272,9 +8284,9 @@
         "red_live_passed": 5,
         "manifest_contract_tests_passed": 1,
         "owner_focused_rust_tests_passed": 6,
-        "owner_live_cases_passed": 8,
+        "owner_live_cases_passed": 20,
         "independent_focused_rust_tests_passed": 8,
-        "independent_live_cases_passed": 8,
+        "independent_live_cases_passed": 20,
         "comparator_self_tests_passed": 23,
         "python_harness_tests_passed": 90
       },
@@ -8293,6 +8305,14 @@
         "comparator_self_tests_seconds": 0.150322,
         "comparator_self_tests_passed": 23,
         "source_fingerprint": "5af4c524f1e65619a0032261179037e4048af3625aaf52dd64e03c6dbf1f167d"
+      },
+      "coverage_extension": {
+        "status": "PASS",
+        "added_cases": 12,
+        "owner_report": "rust/artifacts/invalid-output-format-extended-green-20261108.json",
+        "independent_report": "rust/artifacts/independent-cli-invalid-output-format-error-20261108T1708.json",
+        "source_fingerprint": "c1c52baea7c6a7b5c847cac1b308793d414e4293374a9c30bf3a9d2903486947",
+        "cumulative_gate": "deferred to next scheduled checkpoint; no Rust production code changed"
       }
     },
     {
@@ -9280,7 +9300,7 @@
       "report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2"
     }
   },
-  "next_capability_handoff": "Continue with remaining CLI argument-ordering cases that can be distinguished by the pinned oracle; preserve attached JSON config output as exact bytes and do not weaken comparison policies.",
+  "next_capability_handoff": "Continue with remaining parser token quoting and control-character cases or another distinguishable CLI ordering; next cumulative gate should include all pending cases.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

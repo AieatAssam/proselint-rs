@@ -454,6 +454,10 @@
     {
       "id": "cli.file_invalid_utf8_error",
       "status": "recorded"
+    },
+    {
+      "id": "cli.version_argument_precedence",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -553,9 +557,10 @@
     "23 unique rule paths remain unimplemented. Reconnaissance found each is backed by an attributed third-party list/dictionary with no separate list-specific grant recorded in the pinned source, or has unknown provenance (industrial_language.chatspeak); the current provenance policy holds these until a consistent reuse basis is recorded. This is a provenance blocker, not accepted parity.",
     "No-config execution now loads bundled DEFAULT for 83 implemented checks, but the 23 unimplemented unique paths include default-enabled rules, so full default-config parity and all combined-rule interactions remain incomplete.",
     "dump-config HOME-unset/platform-specific config discovery, missing nonempty-XDG configuration, directory user candidates, directory traversal/decoding edges outside the accepted directory cases remain unverified; explicit multi-file output for file lists is covered by the recorded cases.",
-    "JSON version output and --version combined with additional arguments are not covered by the accepted plain-text version capability.",
+    "Other --version combined-argument orderings beyond cli.version_argument_precedence remain unverified.",
     "Full/JSON demo source-path behavior and full-default demo output remain unverified; selected-rule Compact behavior is the accepted slice.",
-    "`cli.help_argument_precedence` now accepts four exact vectors: missing check --config value before help, invalid OutputFormat `invalid` before help, global `--config check --help`, and `check -- --help` with a real file. Other invalid format values, missing-option/order combinations, and other option orderings remain unverified. Missing `--help` after `--` now matches in Full, Compact, and JSON; other missing-path forms remain unverified."
+    "`cli.help_argument_precedence` now accepts four exact vectors: missing check --config value before help, invalid OutputFormat `invalid` before help, global `--config check --help`, and `check -- --help` with a real file. Other invalid format values, missing-option/order combinations, and other option orderings remain unverified. Missing `--help` after `--` now matches in Full, Compact, and JSON; other missing-path forms remain unverified.",
+    "Malformed UTF-8 stdin remains unverified: the pinned executable uses surrogateescape; Fast and Fancy rules differ around invalid bytes, so no lossy sentinel approximation is accepted."
   ],
   "capability_states": [
     {
@@ -8304,31 +8309,122 @@
         "comparator_self_tests_passed": 23,
         "source_fingerprint": "2fae8beebbe6496a79ecb5c06919e23762297da6c2805f00531608e9ac8c89a7"
       }
+    },
+    {
+      "id": "cli.version_argument_precedence",
+      "status": "recorded",
+      "case_ids": [
+        "cli_version_before_check_no_output",
+        "cli_version_before_check_json",
+        "cli_check_version_flag_control",
+        "cli_version_before_check_missing_path"
+      ],
+      "upstream_source": "pinned proselint/command_line.py:42,114-137; argparse registers --version on root and subparsers, with child default overriding the root value before check.",
+      "upstream_spec": "When --version occurs before a command, the selected subparser default determines version behavior. For `--version check`, the check parser default overrides the root flag and normal check behavior runs; `check --version` continues to print the version.",
+      "specification": {
+        "live_cases": 4,
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "comparison": "Full exact bytes/status; JSON structural comparison preserving all fields and values; no normalization.",
+        "scope_limit": "Covers --version before check with empty stdin, JSON output, and missing path, plus check --version control. Other option orderings and dump-config/version combinations remain unverified."
+      },
+      "red": {
+        "status": "behavioral_failure",
+        "focused_rust_tests_failed": 3,
+        "focused_rust_test_total": 4,
+        "focused_rust_test_report": "rust/artifacts/version-precedence-red.log"
+      },
+      "green": {
+        "status": "PASS",
+        "focused_rust_tests_passed": 4,
+        "focused_rust_test_report": "rust/artifacts/version-precedence-green.log",
+        "owner_live_cases_passed": 4,
+        "owner_live_report": "rust/artifacts/version-precedence-green-final-r2-20261108.json",
+        "candidate_attestation": "rust/artifacts/20261108T045522424032Z-build.attestation.json",
+        "source_fingerprint": "a77e73e491f8347bf0b77ec28e7152c7c6a0d43aa52ac72f044646d151832571"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "configured_model": "gpt-6-luna",
+        "configured_effort": "low",
+        "runtime_model_metadata": "unavailable",
+        "focused_rust_tests_passed": 4,
+        "locked_build_status": "PASS",
+        "independent_live_cases_passed": 4,
+        "independent_live_report": "rust/artifacts/version-precedence-independent-low-20261108/live.json",
+        "oracle_self_check_cases_passed": 2,
+        "comparator_self_tests_passed": 23,
+        "candidate_binary_sha256": "8121e82979509350475d053b9cacac11fa365eb9c7d18c91dcf1b674cf5647f7",
+        "source_fingerprint": "a77e73e491f8347bf0b77ec28e7152c7c6a0d43aa52ac72f044646d151832571",
+        "note": "The custom parity_verifier preset forces high effort and was not used as the final low-effort verification. This final rerun used an explicitly configured Luna low-effort default agent. Runtime model/effort metadata remains unavailable, so actual routing cannot be independently audited.",
+        "report": "rust/artifacts/version-precedence-independent-low-20261108/verification-summary.json"
+      },
+      "stage_durations_seconds": {
+        "red_focused_rust_tests": 2.56,
+        "focused_green_rust_tests": 2.26,
+        "owner_focused_live": 10.551417,
+        "independent_focused_rust_tests": 1.75,
+        "independent_locked_fmt_clippy_build": "recorded in gate attestation",
+        "independent_focused_live": 10.665235,
+        "comparator_self_tests": "recorded in independent report",
+        "cumulative_gate": 429.090828,
+        "python_harness_suite": 45.38,
+        "cumulative_gate_live_comparison": 325.656956,
+        "cumulative_gate_rust_checks_build": 100.919404
+      },
+      "stage_case_counts": {
+        "red_focused_rust_tests_failed": 3,
+        "red_focused_rust_tests_total": 4,
+        "owner_focused_rust_tests_passed": 4,
+        "owner_live_cases_passed": 4,
+        "independent_focused_rust_tests_passed": 4,
+        "independent_live_cases_passed": 4,
+        "oracle_self_check_cases_passed": 2,
+        "comparator_self_tests_passed": 23,
+        "python_harness_tests_passed": 91,
+        "cumulative_gate_live_cases_passed": 965,
+        "cumulative_gate_capabilities": 114
+      },
+      "cumulative_gate_required": true,
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-version-precedence-final-r2-20261108.json",
+        "capabilities": 114,
+        "production_cases": 965,
+        "manifest_cases": 967,
+        "excluded_smoke_cases": 2,
+        "duration_seconds": 429.090828,
+        "live_seconds": 325.656956,
+        "rust_checks_build_seconds": 100.919404,
+        "oracle_integrity_seconds": 2.063779,
+        "comparator_self_tests_seconds": 0.143728,
+        "comparator_self_tests_passed": 23,
+        "source_fingerprint": "a77e73e491f8347bf0b77ec28e7152c7c6a0d43aa52ac72f044646d151832571"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-invalid-utf8-file-final-r2-20261108.json",
-    "passed_cases": 961,
-    "manifest_cases": 963,
+    "report": "rust/artifacts/strict-gate-version-precedence-final-r2-20261108.json",
+    "passed_cases": 965,
+    "manifest_cases": 967,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "capability_count": 113,
-    "source_fingerprint": "2fae8beebbe6496a79ecb5c06919e23762297da6c2805f00531608e9ac8c89a7",
-    "run_id": "20261108T035940659394Z-7826735c",
-    "started_at_utc": "2026-11-08T03:59:40.659369+00:00",
-    "finished_at_utc": "2026-11-08T04:05:02.856857+00:00",
-    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T035906264853Z-build.attestation.json",
-    "candidate_sha256": "912ad3eadfc7e303caccdd8aea48fed145a8830b2cd3429c26878dbd064be192",
+    "capability_count": 114,
+    "source_fingerprint": "a77e73e491f8347bf0b77ec28e7152c7c6a0d43aa52ac72f044646d151832571",
+    "run_id": "20261108T050133056913Z-1782134e",
+    "started_at_utc": "2026-11-08T05:01:33.056889+00:00",
+    "finished_at_utc": "2026-11-08T05:06:58.456007+00:00",
+    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T045952212895Z-build.attestation.json",
+    "candidate_sha256": "8121e82979509350475d053b9cacac11fa365eb9c7d18c91dcf1b674cf5647f7",
     "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
-    "duration_seconds": 359.561395,
+    "duration_seconds": 429.090828,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.151747,
-      "cumulative_live_comparison": 322.465055,
-      "oracle_integrity": 2.165599,
-      "rust_checks_and_build": 34.467371
+      "comparator_self_tests": 0.143728,
+      "cumulative_live_comparison": 325.656956,
+      "oracle_integrity": 2.063779,
+      "rust_checks_and_build": 100.919404
     },
     "comparator_self_tests": 23
   },
@@ -8336,7 +8432,7 @@
     "status": "current",
     "toolchain": "1.99.1",
     "registry": "crates.io",
-    "latest_checked": "2026-11-08T02:32:47Z",
+    "latest_checked": "2026-11-08T05:07:22Z",
     "locked_versions": {
       "clap": "4.6.7",
       "serde": "1.0.229",
@@ -8345,7 +8441,7 @@
       "regex": "1.13.1",
       "cc": "1.11.1"
     },
-    "cargo_update_dry_run": "0 packages to update (checked against latest crates.io index compatible with Rust 1.99 at 2026-11-08T02:32:47Z)",
+    "cargo_update_dry_run": "0 packages to update (latest Rust 1.99-compatible crates.io versions)",
     "update_dry_run": {
       "status": "current",
       "packages_to_update": 0,
@@ -8355,18 +8451,18 @@
       "evidence": "rust/artifacts/rust-dependency-dry-run-post-directory-20261108.txt",
       "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136"
     },
-    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-directory-20261108.txt",
+    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-version-20261108.txt",
     "latest_dry_run": {
       "status": "PASS",
-      "command": "cargo update --dry-run",
+      "command": "cargo update --dry-run --manifest-path rust/Cargo.toml",
       "toolchain": "1.99.1",
       "updates": 0,
-      "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f2b8d05278b3136",
-      "report": "rust/artifacts/rust-dependency-dry-run-post-invalid-utf8-20261108.txt",
+      "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
+      "report": "rust/artifacts/rust-dependency-dry-run-post-version-20261108.txt",
       "report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2"
     }
   },
-  "next_capability_handoff": "Investigate multi-file continuation after a decoding error and additional invalid UTF-8 shapes, or select the next source-derived unverified CLI behavior; preserve pinned-oracle RED before implementation.",
+  "next_capability_handoff": "Continue from cli.version_argument_precedence accepted at the 114-capability/965-case strict checkpoint. The next source-derived CLI slice should avoid unsafe HOME-unset fixtures until a passwd-home isolation mechanism exists. Invalid UTF-8 stdin is unresolved: the pinned engine probes show distinct Fast and Fancy surrogateescape behavior; do not use lossy replacement or claim parity without a representation and live cases.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

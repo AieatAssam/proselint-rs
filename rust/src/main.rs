@@ -1417,11 +1417,51 @@ fn invalid_cli_output_format(args: &[std::ffi::OsString]) -> Option<ExitCode> {
     None
 }
 
+fn reset_root_version_before_subcommand(args: &mut Vec<std::ffi::OsString>) {
+    let mut index = 1;
+    let mut versions = Vec::new();
+    let mut command_index = None;
+    while index < args.len() {
+        let Some(token) = args[index].to_str() else {
+            index += 1;
+            continue;
+        };
+        if token == "--" {
+            break;
+        }
+        if matches!(token, "--config" | "--output-format" | "-o") {
+            index = (index + 2).min(args.len());
+            continue;
+        }
+        if token.starts_with("--config=")
+            || token.starts_with("--output-format=")
+            || (token.starts_with("-o") && token != "-o")
+        {
+            index += 1;
+            continue;
+        }
+        if matches!(token, "check" | "version" | "dump-config") {
+            command_index = Some(index);
+            break;
+        }
+        if token == "--version" {
+            versions.push(index);
+        }
+        index += 1;
+    }
+    if command_index.is_some() {
+        for index in versions.into_iter().rev() {
+            args.remove(index);
+        }
+    }
+}
+
 fn run() -> Result<ExitCode, String> {
     let mut args = std::env::args_os().collect::<Vec<_>>();
     if args.len() == 2 && args[1] == "--version" {
         args[1] = "version".into();
     }
+    reset_root_version_before_subcommand(&mut args);
     if args.len() == 2 && (args[1] == "--help" || args[1] == "-h") {
         print!("{}", top_level_help());
         return Ok(ExitCode::SUCCESS);

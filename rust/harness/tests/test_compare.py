@@ -2710,12 +2710,21 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(set(cases), {
             "cli_directory_expansion_recursive", "cli_directory_expansion_case_sensitive_extensions",
             "cli_directory_expansion_ignored_extension", "cli_directory_expansion_per_file_max_errors",
-            "cli_directory_expansion_among_explicit_paths",
+            "cli_directory_expansion_among_explicit_paths", "cli_directory_expansion_suffix_rtf",
+            "cli_directory_expansion_suffix_html", "cli_directory_expansion_suffix_tex",
+            "cli_directory_expansion_suffix_markdown",
         })
         for case in cases.values():
             self.assertEqual(case["argv"][-1], "tree") if case["id"] != "cli_directory_expansion_among_explicit_paths" else self.assertEqual(case["argv"][-3:], ["before.txt", "tree", "after.txt"])
             self.assertTrue(case["comparison"]["normalize_workspace_uri"])
             compare.validate_case(case)
+        self.assertEqual(sum(case["capability_id"] == "cli.directory_expansion" for case in compare.load_manifest()["cases"]), 9)
+        for suffix in ("rtf", "html", "tex", "markdown"):
+            case = cases[f"cli_directory_expansion_suffix_{suffix}"]
+            self.assertEqual(case["expected_oracle_outcome"], "findings")
+            self.assertEqual(case["argv"], ["check", "--config", "{file:config.json}", "--output-format", "json", "tree"])
+            self.assertEqual({item["path"] for item in case["files"]}, {"config.json", f"tree/nested/only.{suffix}"})
+            self.assertEqual(json.loads(base64.b64decode(case["files"][0]["content_base64"])), {"checks": {"misc": {"apologizing": True}}, "max_errors": 10})
         self.assertEqual(cases["cli_directory_expansion_ignored_extension"]["expected_oracle_outcome"], "clean")
         limited = cases["cli_directory_expansion_per_file_max_errors"]
         self.assertEqual(json.loads(base64.b64decode(limited["files"][0]["content_base64"]))["max_errors"], 1)

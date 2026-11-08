@@ -34996,6 +34996,170 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "cli_directory_expansion_suffix_rtf",
+      "capability_id": "cli.directory_expansion",
+      "provenance": "Pinned Python Proselint 0.16.0 source proselint/tools.py:extract_files includes .rtf in ACCEPTED_EXTENSIONS; isolated nested directory contains one .rtf finding fixture.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19LCJtYXhfZXJyb3JzIjoxMH0="
+        },
+        {
+          "path": "tree/nested/only.rtf",
+          "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="
+        }
+      ],
+      "unused_files": [
+        "tree/nested/only.rtf"
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json",
+        "tree"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_apologizing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact",
+        "normalize_workspace_uri": true
+      }
+    },
+    {
+      "id": "cli_directory_expansion_suffix_html",
+      "capability_id": "cli.directory_expansion",
+      "provenance": "Pinned Python Proselint 0.16.0 source proselint/tools.py:extract_files includes .html in ACCEPTED_EXTENSIONS; isolated nested directory contains one .html finding fixture.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19LCJtYXhfZXJyb3JzIjoxMH0="
+        },
+        {
+          "path": "tree/nested/only.html",
+          "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="
+        }
+      ],
+      "unused_files": [
+        "tree/nested/only.html"
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json",
+        "tree"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_apologizing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact",
+        "normalize_workspace_uri": true
+      }
+    },
+    {
+      "id": "cli_directory_expansion_suffix_tex",
+      "capability_id": "cli.directory_expansion",
+      "provenance": "Pinned Python Proselint 0.16.0 source proselint/tools.py:extract_files includes .tex in ACCEPTED_EXTENSIONS; isolated nested directory contains one .tex finding fixture.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19LCJtYXhfZXJyb3JzIjoxMH0="
+        },
+        {
+          "path": "tree/nested/only.tex",
+          "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="
+        }
+      ],
+      "unused_files": [
+        "tree/nested/only.tex"
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json",
+        "tree"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_apologizing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact",
+        "normalize_workspace_uri": true
+      }
+    },
+    {
+      "id": "cli_directory_expansion_suffix_markdown",
+      "capability_id": "cli.directory_expansion",
+      "provenance": "Pinned Python Proselint 0.16.0 source proselint/tools.py:extract_files includes .markdown in ACCEPTED_EXTENSIONS; isolated nested directory contains one .markdown finding fixture.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19LCJtYXhfZXJyb3JzIjoxMH0="
+        },
+        {
+          "path": "tree/nested/only.markdown",
+          "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="
+        }
+      ],
+      "unused_files": [
+        "tree/nested/only.markdown"
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json",
+        "tree"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_apologizing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact",
+        "normalize_workspace_uri": true
+      }
     }
 ]
 }

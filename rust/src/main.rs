@@ -1375,13 +1375,11 @@ fn missing_option_value_before_option(args: &[std::ffi::OsString]) -> Option<Exi
             break;
         }
         if matches!(token, "--config" | "--output-format" | "-o") {
-            if args
-                .get(index + 1)
-                .and_then(|value| value.to_str())
-                .is_some_and(|value| {
+            if args.get(index + 1).is_none_or(|value| {
+                value.to_str().is_some_and(|value| {
                     value.starts_with('-') && value != "-" && !argparse_negative_number(value)
                 })
-            {
+            }) {
                 let argument = if token == "--config" {
                     "--config"
                 } else {

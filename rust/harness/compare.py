@@ -144,11 +144,13 @@ def validate_case(case: Any) -> None:
     if not isinstance(output_format, str) or output_format not in {"json", "full", "compact"}:
         raise ValueError(f"{case['id']}: output_format must be json, full, or compact")
     format_args = []
+    missing_format_value = False
     for index, arg in enumerate(case["argv"]):
-        if arg == "--output-format":
+        if arg in {"--output-format", "-o"}:
             if index + 1 >= len(case["argv"]):
-                raise ValueError(f"{case['id']}: --output-format needs a value")
-            format_args.append(case["argv"][index + 1])
+                missing_format_value = True
+            else:
+                format_args.append(case["argv"][index + 1])
         elif arg.startswith("--output-format="):
             format_args.append(arg.partition("=")[2])
     invalid_cli_error_format = (
@@ -156,6 +158,8 @@ def validate_case(case: Any) -> None:
         and len(format_args) == 1
         and format_args[0] not in {"json", "full", "compact"}
     )
+    if missing_format_value and case["expected_oracle_outcome"] != "cli_error":
+        raise ValueError(f"{case['id']}: --output-format may omit its value only for a CLI error")
     if len(format_args) > 1 or (format_args and format_args[0] != output_format and not invalid_cli_error_format):
         raise ValueError(f"{case['id']}: output_format must match at most one --output-format argv option")
     if not format_args and output_format != "full":

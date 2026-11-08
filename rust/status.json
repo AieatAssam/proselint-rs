@@ -466,6 +466,10 @@
     {
       "id": "cli.missing_option_value_before_option",
       "status": "recorded"
+    },
+    {
+      "id": "cli.missing_option_value_at_argv_end",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -490,14 +494,14 @@
   },
   "harness": {
     "status": "verified after metadata fingerprint changes; Markdown/ledger exclusion is covered by a discrimination test",
-    "source_fingerprint": "cbf3372da20f6900fb13dfa8f637b0b5c445ba51c324642e0a59b1455ca88909",
+    "source_fingerprint": "6da9e8ff9c0c4f80f02654ae09ebe504a12c09be265c9c674a91db77a8c71c60",
     "unit_tests": {
       "passed": 92,
       "exit_code": 0,
-      "duration_seconds": 61.309,
-      "command": "python3 -m unittest discover -s rust/harness/tests -p 'test_*.py'",
-      "evidence": "rust/artifacts/harness-suite-missing-option-value-final-20261108.log",
-      "notes": "Full suite passed with all 14 missing-option-value cases present; benchmark deadline tests correctly assert BLOCKED on their artificial short deadlines."
+      "duration_seconds": 74.117,
+      "command": "python3 -m unittest discover -s rust/harness/tests -p 'test_*.py' -v",
+      "evidence": "rust/artifacts/harness-suite-argv-end-final-20261108.log",
+      "notes": "All harness tests passed after adding parser-failure cases for trailing --output-format/-o; short-deadline BLOCKED reports are expected assertions."
     },
     "comparator_discriminators": {
       "passed": 23,
@@ -551,12 +555,12 @@
     }
   },
   "active_ownership": {
-    "current": "cli.missing_option_value_before_option is recorded after 14/14 focused owner and independent live cases and the 116-capability/993-case immediate cumulative gate. Next probe known value-taking options with no following token at end of argv.",
+    "current": "cli.missing_option_value_at_argv_end is recorded after owner and independent 6/6 live passes and the immediate shared-CLI cumulative gate passed 999/999 across 117 capabilities. Continue with the next unblocked small behavior; 23 rule paths still await provenance/licence resolution.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
     "23 unique rule paths remain unimplemented.",
-    "Other CLI behavior remains unverified, including remaining subcommands, HOME-unset resolution, directory user candidates, directory traversal/decoding edges outside the accepted directory cases; explicit multi-file rendering is accepted for the recorded file-list cases; option-value parsing outside cli.missing_option_value_before_option remains unverified.",
+    "Other CLI behavior remains unverified, including remaining subcommands, HOME-unset resolution, directory user candidates, traversal/decoding edges, and option parsing beyond the two recorded missing-value capabilities.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
     "Directory/non-UTF-8 path error formatting on non-Linux platforms remains unverified.",
     "Benchmarks cover only the isolated misc.suddenly profile and the selected misc.suddenly + psychology.p_equals_zero profile on their recorded inputs; broader rule sets and default configurations remain unmeasured.",
@@ -8542,7 +8546,7 @@
       },
       "cumulative_gate_required": true,
       "limitations": [
-        "Other value-taking CLI options and missing values at end of argv remain unverified."
+        "Other value-taking CLI options and option/value contexts beyond the accepted cases remain unverified."
       ],
       "cumulative_gate": {
         "status": "PASS",
@@ -8590,31 +8594,133 @@
         "cumulative_gate_live_cases_passed": 993,
         "cumulative_gate_capabilities": 116
       }
+    },
+    {
+      "id": "cli.missing_option_value_at_argv_end",
+      "status": "recorded",
+      "case_ids": [
+        "cli_config_missing_value_at_root_argv_end",
+        "cli_config_missing_value_at_check_argv_end",
+        "cli_output_format_missing_value_at_root_argv_end",
+        "cli_output_format_missing_value_at_check_argv_end",
+        "cli_short_output_format_missing_value_at_root_argv_end",
+        "cli_short_output_format_missing_value_at_check_argv_end"
+      ],
+      "upstream_source": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/command_line.py:get_parser() registers --config and --output-format/-o on root and subparsers; main() calls argparse.parse_args before application handling.",
+      "upstream_spec": "When argv ends immediately after --config, --output-format, or -o, argparse exits 2 with parser-specific usage and `argument <option>: expected one argument`. The alias is rendered as `--output-format/-o`; root and check usage blocks are byte-exact.",
+      "specification": {
+        "live_cases": 6,
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "comparison": "Exact stdout/stderr bytes and process exit status against the pinned live Python CLI.",
+        "scope_limit": "Covers only --config, --output-format/-o at root and check argv ends; other subcommands and option-value contexts remain unverified."
+      },
+      "red": {
+        "status": "behavioral_failure",
+        "focused_live_mismatches": 6,
+        "focused_live_passes": 0,
+        "focused_live_total": 6,
+        "focused_live_report": "rust/artifacts/argv-end-red-20261108.json",
+        "source_fingerprint": "be764ccdf4bc4c74948527955873dac62a41e6ff2e52ddcf4900be00203de844",
+        "duration_seconds": 11.702
+      },
+      "green": {
+        "status": "PASS",
+        "focused_rust_tests_passed": 2,
+        "adjacent_before_option_rust_tests_passed": 7,
+        "owner_live_cases_passed": 6,
+        "owner_live_report": "rust/artifacts/argv-end-live-current2-20261108.json",
+        "candidate_attestation": "rust/artifacts/20261108T080733820115Z-build.attestation.json",
+        "source_fingerprint": "6da9e8ff9c0c4f80f02654ae09ebe504a12c09be265c9c674a91db77a8c71c60",
+        "note": "Owner report was rebuilt and superseded after harness test edits; independent report is the current-tree acceptance evidence.",
+        "candidate_sha256": "cc2b84e40f4d7865e12ba7c97f64e5faa70dca3ba592c3a63a35f7fae1915c4c"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "configured_model": "gpt-6-luna",
+        "configured_effort": "low",
+        "runtime_model_metadata": "unavailable",
+        "focused_rust_tests_passed": 2,
+        "adjacent_before_option_rust_tests_passed": 7,
+        "independent_live_cases_passed": 6,
+        "independent_live_report": "rust/artifacts/independent-argv-end-20261108-low/live-report-current.json",
+        "build_attestation": "rust/artifacts/independent-argv-end-20261108-low/verification.json",
+        "candidate_binary_sha256": "cc2b84e40f4d7865e12ba7c97f64e5faa70dca3ba592c3a63a35f7fae1915c4c",
+        "source_fingerprint": "6da9e8ff9c0c4f80f02654ae09ebe504a12c09be265c9c674a91db77a8c71c60",
+        "oracle_integrity": "verified",
+        "oracle_selfcheck_cases_passed": 2,
+        "comparator_selftests_passed": 23,
+        "harness_comparator_tests_passed": 68,
+        "report": "rust/artifacts/independent-argv-end-20261108-low/verification.json"
+      },
+      "cumulative_gate_required": true,
+      "limitations": [
+        "Other subcommands and option/value contexts beyond the six root/check end-of-argv cases remain unverified."
+      ],
+      "stage_durations_seconds": {
+        "red_live": 11.702,
+        "harness_suite": 74.117,
+        "owner_live": 11.32,
+        "independent_live": 14.32,
+        "cumulative_gate": 951.173486,
+        "cumulative_gate_live": 904.836399,
+        "cumulative_gate_rust_checks_build": 43.782857,
+        "cumulative_gate_oracle_integrity": 2.065635,
+        "cumulative_gate_comparator_selftests": 0.152326
+      },
+      "stage_case_counts": {
+        "red_mismatches": 6,
+        "red_total": 6,
+        "owner_live_passed": 6,
+        "independent_live_passed": 6,
+        "focused_rust_tests_passed": 2,
+        "adjacent_focused_rust_tests_passed": 7,
+        "comparator_selftests_passed": 23,
+        "oracle_selfcheck_cases_passed": 2,
+        "harness_tests_passed": 92,
+        "cumulative_gate_live_cases_passed": 999,
+        "cumulative_gate_capabilities": 117
+      },
+      "owner_live_report_superseded": "rust/artifacts/argv-end-live-20261108.json (fingerprint changed after harness-test update; independent current-tree run and owner current2 report are certifying)",
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-argv-end-final-retry-20261108.json",
+        "capabilities": 117,
+        "production_cases": 999,
+        "manifest_cases": 1001,
+        "excluded_smoke_cases": 2,
+        "duration_seconds": 951.173486,
+        "live_seconds": 904.836399,
+        "rust_checks_build_seconds": 43.782857,
+        "oracle_integrity_seconds": 2.065635,
+        "comparator_self_tests_seconds": 0.152326,
+        "comparator_self_tests_passed": 23,
+        "source_fingerprint": "6da9e8ff9c0c4f80f02654ae09ebe504a12c09be265c9c674a91db77a8c71c60"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-missing-option-value-final-20261108.json",
-    "passed_cases": 993,
-    "manifest_cases": 995,
+    "report": "rust/artifacts/strict-gate-argv-end-final-retry-20261108.json",
+    "passed_cases": 999,
+    "manifest_cases": 1001,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "capability_count": 116,
-    "source_fingerprint": "cbf3372da20f6900fb13dfa8f637b0b5c445ba51c324642e0a59b1455ca88909",
-    "run_id": "20261108T073801024808Z-93754598",
-    "started_at_utc": "2026-11-08T07:38:01.024763+00:00",
-    "finished_at_utc": "2026-11-08T07:52:06.723271+00:00",
-    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T073716628143Z-build.attestation.json",
-    "candidate_sha256": "05cb36756040efe3d71b5b7200d3e3afd91eed58e843c92c9b982a6dccba5e66",
+    "capability_count": 117,
+    "source_fingerprint": "6da9e8ff9c0c4f80f02654ae09ebe504a12c09be265c9c674a91db77a8c71c60",
+    "run_id": "20261108T083901608230Z-9d494cf2",
+    "started_at_utc": "2026-11-08T08:39:01.608196+00:00",
+    "finished_at_utc": "2026-11-08T08:54:06.135310+00:00",
+    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T083817903672Z-build.attestation.json",
+    "candidate_sha256": "cc2b84e40f4d7865e12ba7c97f64e5faa70dca3ba592c3a63a35f7fae1915c4c",
     "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
-    "duration_seconds": 893.051931,
+    "duration_seconds": 951.173486,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.190483,
-      "cumulative_live_comparison": 845.982207,
-      "oracle_integrity": 2.094227,
-      "rust_checks_and_build": 44.468643
+      "comparator_self_tests": 0.152326,
+      "cumulative_live_comparison": 904.836399,
+      "oracle_integrity": 2.065635,
+      "rust_checks_and_build": 43.782857
     },
     "comparator_self_tests": 23
   },
@@ -8652,7 +8758,7 @@
       "report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2"
     }
   },
-  "next_capability_handoff": "Continue from cli.missing_option_value_before_option after its immediate 116-capability/993-case strict gate. The next small CLI parser slice is known value-taking options with no following token at end of argv (`--config`, `--output-format`, `-o`) and root/check parser usage. Add pinned live cases before changing parsing. Remaining rule data paths are blocked on provenance/licence evidence.",
+  "next_capability_handoff": "Continue after cli.missing_option_value_at_argv_end. The immediate 117-capability/999-case strict gate passes at source fingerprint 6da9e8ff9c0c4f80f02654ae09ebe504a12c09be265c9c674a91db77a8c71c60. Select the next unblocked source-derived behavior; do not spend full checkpoints after isolated capabilities until the 5-capability cadence is due. The 23 remaining rule paths still require data provenance/licence resolution.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

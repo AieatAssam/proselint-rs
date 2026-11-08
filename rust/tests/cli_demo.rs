@@ -56,6 +56,36 @@ fn demo_compact_uses_pinned_sample_with_selected_rule() {
 }
 
 #[test]
+fn demo_json_emits_selected_rule_diagnostic() {
+    let workspace = Workspace::new();
+    workspace.selected_config();
+    let output = run(
+        &workspace,
+        &[
+            "check",
+            "--demo",
+            "--config",
+            "selected config.json",
+            "--output-format",
+            "json",
+        ],
+    );
+
+    assert_eq!(output.status.code(), Some(1));
+    assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
+    let value: serde_json::Value = serde_json::from_slice(&output.stdout).expect("demo JSON");
+    let diagnostics = value["result"]["demo.md"]["diagnostics"]
+        .as_array()
+        .expect("demo diagnostics");
+    assert!(!diagnostics.is_empty());
+    assert!(
+        diagnostics.iter().all(|diagnostic| {
+            diagnostic["check_path"] == "dates_times.am_pm.lowercase_periods"
+        })
+    );
+}
+
+#[test]
 fn demo_compact_ignores_extra_positional_path() {
     let workspace = Workspace::new();
     workspace.selected_config();

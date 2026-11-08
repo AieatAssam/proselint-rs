@@ -1486,10 +1486,11 @@ fn invalid_cli_output_format(args: &[std::ffi::OsString]) -> Option<ExitCode> {
     None
 }
 
-fn reset_root_version_before_subcommand(args: &mut Vec<std::ffi::OsString>) {
+fn reset_root_options_before_subcommand(args: &mut Vec<std::ffi::OsString>) {
     let mut index = 1;
-    let mut versions = Vec::new();
+    let mut root_options = Vec::new();
     let mut command_index = None;
+    let mut invalid_root_output_format = false;
     while index < args.len() {
         let Some(token) = args[index].to_str() else {
             index += 1;
@@ -1498,14 +1499,38 @@ fn reset_root_version_before_subcommand(args: &mut Vec<std::ffi::OsString>) {
         if token == "--" {
             break;
         }
-        if matches!(token, "--config" | "--output-format" | "-o") {
+        if token == "--config" {
             index = (index + 2).min(args.len());
             continue;
         }
-        if token.starts_with("--config=")
-            || token.starts_with("--output-format=")
-            || (token.starts_with("-o") && token != "-o")
+        if token == "--output-format" || token == "-o" {
+            if let Some(value) = args.get(index + 1).and_then(|value| value.to_str()) {
+                if OutputFormat::from_str(value, false).is_ok() {
+                    root_options.extend([index, index + 1]);
+                } else {
+                    invalid_root_output_format = true;
+                }
+                index += 2;
+            } else {
+                invalid_root_output_format = true;
+                index += 1;
+            }
+            continue;
+        }
+        if token.starts_with("--config=") {
+            index += 1;
+            continue;
+        }
+        if let Some(value) = token
+            .strip_prefix("--output-format=")
+            .or_else(|| token.strip_prefix("-o").filter(|_| token != "-o"))
         {
+            let value = value.strip_prefix('=').unwrap_or(value);
+            if OutputFormat::from_str(value, false).is_ok() {
+                root_options.push(index);
+            } else {
+                invalid_root_output_format = true;
+            }
             index += 1;
             continue;
         }
@@ -1514,12 +1539,12 @@ fn reset_root_version_before_subcommand(args: &mut Vec<std::ffi::OsString>) {
             break;
         }
         if token == "--version" {
-            versions.push(index);
+            root_options.push(index);
         }
         index += 1;
     }
-    if command_index.is_some() {
-        for index in versions.into_iter().rev() {
+    if command_index.is_some() && !invalid_root_output_format {
+        for index in root_options.into_iter().rev() {
             args.remove(index);
         }
     }
@@ -1582,7 +1607,7 @@ fn run() -> Result<ExitCode, String> {
     if args.len() == 2 && args[1] == "--version" {
         args[1] = "version".into();
     }
-    reset_root_version_before_subcommand(&mut args);
+    reset_root_options_before_subcommand(&mut args);
     if args.len() == 2 && (args[1] == "--help" || args[1] == "-h") {
         print!("{}", top_level_help());
         return Ok(ExitCode::SUCCESS);

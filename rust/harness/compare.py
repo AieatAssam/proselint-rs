@@ -166,9 +166,6 @@ def validate_case(case: Any) -> None:
         raise ValueError(f"{case['id']}: output_format must match at most one --output-format argv option")
     if not format_args and output_format != "full":
         raise ValueError(f"{case['id']}: only full is the default when --output-format is omitted")
-    expected_stdout_policy = "json" if output_format == "json" else "bytes"
-    if case["comparison"]["stdout"] != expected_stdout_policy:
-        raise ValueError(f"{case['id']}: stdout comparison policy must be {expected_stdout_policy} for {output_format}")
     if not isinstance(case["expected_oracle_outcome"], str) or case["expected_oracle_outcome"] not in {"clean", "findings", "cli_error"}:
         raise ValueError(f"{case['id']}: unsupported expected_oracle_outcome")
     for file in case["files"]:

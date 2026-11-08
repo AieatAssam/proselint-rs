@@ -64,6 +64,29 @@ fn root_version_before_check_json_runs_normal_empty_stdin_check() {
 }
 
 #[test]
+fn root_output_format_before_check_uses_check_subparser_default() {
+    let output = Workspace::new().run(&["--output-format", "json", "--version", "check"]);
+
+    assert_eq!(output.status.code(), Some(0), "stderr: {:?}", output.stderr);
+    assert!(output.stdout.is_empty(), "stdout: {:?}", output.stdout);
+    assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
+}
+
+#[test]
+fn root_output_format_followed_by_version_reports_missing_value() {
+    for flag in ["--output-format", "-o"] {
+        let output = Workspace::new().run(&[flag, "--version", "check"]);
+
+        assert_eq!(output.status.code(), Some(2), "stderr: {:?}", output.stderr);
+        assert!(output.stdout.is_empty(), "stdout: {:?}", output.stdout);
+        assert_eq!(
+            output.stderr,
+            b"usage: proselint [options] <command>\nproselint: error: argument --output-format/-o: expected one argument\n"
+        );
+    }
+}
+
+#[test]
 fn root_version_before_check_missing_path_runs_check_behavior() {
     let workspace = Workspace::new();
     let output = workspace.run(&["--version", "check", "--", "missing.txt"]);

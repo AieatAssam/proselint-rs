@@ -548,7 +548,7 @@
   },
   "unresolved": [
     "23 unique rule paths remain unimplemented.",
-    "Other CLI behavior remains unverified, including remaining subcommands, missing nonempty-XDG config, HOME-unset resolution, directory user candidates, directory traversal/decoding edges outside the accepted directory cases; explicit multi-file rendering is accepted for the recorded file-list cases.",
+    "Other CLI behavior remains unverified, including remaining subcommands, HOME-unset resolution, directory user candidates, directory traversal/decoding edges outside the accepted directory cases; explicit multi-file rendering is accepted for the recorded file-list cases.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
     "Directory/non-UTF-8 path error formatting on non-Linux platforms remains unverified.",
     "Benchmarks cover only the isolated misc.suddenly profile and the selected misc.suddenly + psychology.p_equals_zero profile on their recorded inputs; broader rule sets and default configurations remain unmeasured.",
@@ -556,7 +556,7 @@
     "Unicode case folding and quote-pairing combinations beyond explicitly tested cases remain unverified.",
     "23 unique rule paths remain unimplemented. Reconnaissance found each is backed by an attributed third-party list/dictionary with no separate list-specific grant recorded in the pinned source, or has unknown provenance (industrial_language.chatspeak); the current provenance policy holds these until a consistent reuse basis is recorded. This is a provenance blocker, not accepted parity.",
     "No-config execution now loads bundled DEFAULT for 83 implemented checks, but the 23 unimplemented unique paths include default-enabled rules, so full default-config parity and all combined-rule interactions remain incomplete.",
-    "dump-config HOME-unset/platform-specific config discovery, missing nonempty-XDG configuration, directory user candidates, directory traversal/decoding edges outside the accepted directory cases remain unverified; explicit multi-file output for file lists is covered by the recorded cases.",
+    "dump-config HOME-unset/platform-specific config discovery, directory user candidates, directory traversal/decoding edges outside the accepted directory cases remain unverified; explicit multi-file output for file lists is covered by the recorded cases.",
     "Other --version combined-argument orderings beyond cli.version_argument_precedence remain unverified.",
     "Full/JSON demo source-path behavior and full-default demo output remain unverified; selected-rule Compact behavior is the accepted slice.",
     "`cli.help_argument_precedence` now accepts four exact vectors: missing check --config value before help, invalid OutputFormat `invalid` before help, global `--config check --help`, and `check -- --help` with a real file. Other invalid format values, missing-option/order combinations, and other option orderings remain unverified. Missing `--help` after `--` now matches in Full, Compact, and JSON; other missing-path forms remain unverified.",
@@ -2964,9 +2964,11 @@
         "cli_user_discovery_ancestor_precedes_user",
         "cli_user_discovery_malformed_first_user_errors",
         "cli_user_discovery_explicit_overrides_user",
-        "cli_user_discovery_xdg_relative_path"
+        "cli_user_discovery_xdg_relative_path",
+        "cli_xdg_missing_does_not_fall_back_to_home_check",
+        "cli_xdg_missing_does_not_fall_back_to_home_dump_config"
       ],
-      "upstream_spec": "After explicit, cwd, and ancestor configs, use XDG_CONFIG_HOME/proselint/config.json when XDG_CONFIG_HOME is nonempty; when unset or empty, use HOME/.config/proselint/config.json. Relative XDG paths resolve from cwd. Select first regular file; malformed selected user configs error without falling through.",
+      "upstream_spec": "After explicit, cwd, and ancestor configs, use XDG_CONFIG_HOME/proselint/config.json when XDG_CONFIG_HOME is nonempty; when unset or empty, use HOME/.config/proselint/config.json. Relative XDG paths resolve from cwd. Select first regular file; malformed selected user configs error without falling through. With a nonempty XDG_CONFIG_HOME whose selected file is missing, use bundled defaults and do not fall back to an existing HOME config.",
       "red": {
         "behavioral_mismatches": 5,
         "total_cases": 8,
@@ -2974,28 +2976,35 @@
         "report": "rust/artifacts/user-discovery-candidate-red.json"
       },
       "green": {
-        "focused_rust_tests_passed": 6,
-        "live_cases_passed": 8,
-        "report": "rust/artifacts/20261106T061000000000Z-user-discovery-green.json",
+        "focused_rust_tests_passed": 2,
+        "live_cases_passed": 10,
+        "report": "rust/artifacts/independent-user-discovery-xdg-missing-final-20261108.json",
         "build_attestation": "rust/artifacts/20261106T060840370113Z-build.attestation.json"
       },
       "independent_verification": {
         "status": "PASS",
-        "live_cases_passed": 8,
+        "live_cases_passed": 10,
         "harness_tests_passed": 19,
         "comparator_discriminators_passed": 23,
-        "report": "rust/artifacts/independent-user-discovery-20261106/cli-config-user-discovery.json",
+        "report": "rust/artifacts/independent-user-discovery-xdg-missing-final-20261108.json",
         "build_attestation": "rust/artifacts/independent-user-discovery-20261106/rebuild.attestation.json",
-        "source_fingerprint": "2aedd609a6dffe7d39c7fca72ccd478f273889199ae427965016254dc1bb0f4c"
+        "source_fingerprint": "101c03576b211413e9fe167098e33aeeca15933e5a60752ebea64dc40a6ecd84"
       },
       "limitations": [
-        "No-config-found bundled DEFAULT behavior, nonempty-XDG with missing user file, HOME-unset platform home resolution, and directory user candidates remain unverified; these require separate default-config behavior or additional focused cases."
+        "No-config-found bundled DEFAULT behavior, HOME-unset platform home resolution, and directory user candidates remain unverified; the missing nonempty-XDG case now has two live regressions."
       ],
       "cumulative_live_parity": {
         "status": "PASS",
-        "passed_cases": 431,
-        "manifest_cases": 437,
-        "report": "rust/artifacts/strict-gate-user-discovery-20261106.json"
+        "passed_cases": 967,
+        "manifest_cases": 969,
+        "report": "rust/artifacts/strict-gate-parallel-cases-final-20261108.json"
+      },
+      "coverage_expansion": {
+        "cases_added": 2,
+        "red_stage": "not applicable: current Rust behavior was already correct; this added coverage, not a production capability",
+        "independent_live_cases_passed": 10,
+        "report": "rust/artifacts/independent-user-discovery-xdg-missing-final-20261108.json",
+        "source_fingerprint": "101c03576b211413e9fe167098e33aeeca15933e5a60752ebea64dc40a6ecd84"
       }
     },
     {
@@ -8462,7 +8471,7 @@
       "report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2"
     }
   },
-  "next_capability_handoff": "Continue from cli.version_argument_precedence accepted at the 114-capability/965-case strict checkpoint. The next source-derived CLI slice should avoid unsafe HOME-unset fixtures until a passwd-home isolation mechanism exists. Invalid UTF-8 stdin is unresolved: the pinned engine probes show distinct Fast and Fancy surrogateescape behavior; do not use lossy replacement or claim parity without a representation and live cases.",
+  "next_capability_handoff": "Continue from cli.version_argument_precedence at the 114-capability/967-case strict checkpoint. User-discovery coverage now includes two cases proving a missing file selected by nonempty XDG_CONFIG_HOME uses bundled defaults instead of falling back to HOME. The next source-derived CLI slice should avoid unsafe HOME-unset fixtures until a passwd-home isolation mechanism exists. Invalid UTF-8 stdin remains unresolved: pinned probes show distinct Fast and Fancy surrogateescape behavior; do not use lossy replacement or claim parity without an encoding representation and live cases.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

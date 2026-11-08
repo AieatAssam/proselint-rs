@@ -18,7 +18,7 @@ import sys
 import tempfile
 import time
 import uuid
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
 from typing import Any, Sequence
 
 from setup_oracle import ROOT, RUST_ROOT, oracle_integrity, read_lock
@@ -180,6 +180,31 @@ def validate_case(case: Any) -> None:
             base64.b64decode(file["content_base64"], validate=True)
         except ValueError as exc:
             raise ValueError(f"{case['id']}: invalid file base64 for {file['path']}") from exc
+    symlinks = case.get("symlinks", [])
+    if not isinstance(symlinks, list):
+        raise ValueError(f"{case['id']}: symlinks must be an array")
+    file_paths = {item["path"] for item in case["files"]}
+    represented = set(file_paths)
+    for path in file_paths:
+        represented.update(str(parent) for parent in PurePosixPath(path).parents if str(parent) != ".")
+    declared_links: set[str] = set()
+    def safe_relative(value: str, label: str) -> str:
+        posix, windows = PurePosixPath(value), PureWindowsPath(value)
+        if not value or "\\" in value or str(posix) == "." or posix.is_absolute() or windows.is_absolute() or windows.drive or ".." in posix.parts or ".." in windows.parts:
+            raise ValueError(f"{case['id']}: symlink {label} must stay inside workspace")
+        return str(posix)
+    for item in symlinks:
+        if not isinstance(item, dict) or not isinstance(item.get("path"), str) or not isinstance(item.get("target"), str):
+            raise ValueError(f"{case['id']}: each symlink needs path and target strings")
+        path = safe_relative(item["path"], "paths")
+        target = safe_relative(item["target"], "targets")
+        if path in declared_links:
+            raise ValueError(f"{case['id']}: duplicate symlink path: {path}")
+        if path in represented or any(path == other or path.startswith(other + "/") or other.startswith(path + "/") for other in file_paths | declared_links):
+            raise ValueError(f"{case['id']}: symlink path collides with another fixture: {path}")
+        if target not in represented:
+            raise ValueError(f"{case['id']}: symlink target is not represented by a file fixture or directory: {target}")
+        declared_links.add(path)
     unused_files = case.get("unused_files", [])
     if not isinstance(unused_files, list) or not all(isinstance(path, str) for path in unused_files):
         raise ValueError(f"{case['id']}: unused_files must be a string array")
@@ -425,6 +450,14 @@ def materialize_files(case: dict[str, Any], workspace: Path) -> None:
         target.write_bytes(base64.b64decode(item["content_base64"], validate=True))
 
 
+def materialize_symlinks(case: dict[str, Any], workspace: Path) -> None:
+    for item in case.get("symlinks", []):
+        link = workspace / item["path"]
+        link.parent.mkdir(parents=True, exist_ok=True)
+        relative_target = os.path.relpath(item["target"], start=Path(item["path"]).parent)
+        os.symlink(relative_target, link)
+
+
 def materialize_home_files(case: dict[str, Any], home: Path) -> None:
     for item in case.get("home_files", []):
         target = home / item["path"]
@@ -450,6 +483,7 @@ def run_case(
     layout = case_dir / "input-layout"
     layout.mkdir()
     materialize_files(case, layout)
+    materialize_symlinks(case, layout)
     stdin = base64.b64decode(case.get("stdin_base64", ""), validate=True)
     (case_dir / "stdin.bin").write_bytes(stdin)
     args = list(case["argv"])
@@ -467,7 +501,7 @@ def run_case(
         for role, executable in (("reference", reference_argv), ("candidate", candidate_argv)):
             role_workspace = temp_base / role if case["workspace_mutates"] else temp_base / "shared"
             if not role_workspace.exists():
-                shutil.copytree(layout, role_workspace)
+                shutil.copytree(layout, role_workspace, symlinks=True)
             working_directory = role_workspace / case.get("working_directory", ".")
             working_directory.mkdir(parents=True, exist_ok=True)
             home = case_dir / role / "home"
@@ -487,9 +521,9 @@ def run_case(
         workspace_uris = (workspace_paths[0].as_uri(), workspace_paths[1].as_uri())
         if case["workspace_mutates"]:
             for path, role in zip(workspace_paths, ("reference", "candidate"), strict=True):
-                shutil.copytree(path, case_dir / f"{role}-input-layout")
+                shutil.copytree(path, case_dir / f"{role}-input-layout", symlinks=True)
         else:
-            shutil.copytree(workspace_paths[0], case_dir / "materialized-workspace")
+            shutil.copytree(workspace_paths[0], case_dir / "materialized-workspace", symlinks=True)
     left, right = executions
     status = "PASS"
     diffs: list[dict[str, Any]] = []

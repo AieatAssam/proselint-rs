@@ -48,6 +48,37 @@
       }
     },
     {
+      "id": "cli_directory_expansion_root_symlink",
+      "capability_id": "cli.directory_expansion",
+      "provenance": "Pinned Python Proselint 0.16.0 source proselint/tools.py:extract_files checks and walks directory inputs; a relative root symlink to a directory is traversed recursively.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19LCJtYXhfZXJyb3JzIjoxMH0="
+        },
+        {
+          "path": "tree/nested/only.txt",
+          "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="
+        }
+      ],
+      "unused_files": ["tree/nested/only.txt"],
+      "symlinks": [{"path": "alias", "target": "tree"}],
+      "argv": ["check", "--config", "{file:config.json}", "--output-format", "json", "alias"],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "misc_apologizing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact",
+        "normalize_workspace_uri": true
+      }
+    },
+    {
       "id": "cli_directory_expansion_case_sensitive_extensions",
       "capability_id": "cli.directory_expansion",
       "provenance": "Pinned Python Proselint 0.16.0 source proselint/tools.py:extract_files filters with Path.suffix in ACCEPTED_EXTENSIONS, so .txt is accepted while .TXT is skipped on a case-sensitive filesystem.",

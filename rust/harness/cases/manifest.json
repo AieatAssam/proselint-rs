@@ -31645,6 +31645,56 @@
       }
     },
     {
+      "id": "cli_invalid_output_format_check_u2028",
+      "capability_id": "cli.invalid_output_format_error",
+      "provenance": "Pinned Proselint 0.16.0: argparse repr behavior for Unicode separators and non-printable or unassigned code points.",
+      "input_mode": "stdin", "stdin_base64": "", "files": [],
+      "argv": ["check", "--output-format", "bad\u2028value"],
+      "output_format": "full", "expected_oracle_outcome": "cli_error", "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"}, "config_scenario": "no_config", "workspace_mutates": false,
+      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "cli_invalid_output_format_check_u2029",
+      "capability_id": "cli.invalid_output_format_error",
+      "provenance": "Pinned Proselint 0.16.0: argparse repr behavior for Unicode separators and non-printable or unassigned code points.",
+      "input_mode": "stdin", "stdin_base64": "", "files": [],
+      "argv": ["check", "--output-format", "bad\u2029value"],
+      "output_format": "full", "expected_oracle_outcome": "cli_error", "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"}, "config_scenario": "no_config", "workspace_mutates": false,
+      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "cli_invalid_output_format_check_u200b",
+      "capability_id": "cli.invalid_output_format_error",
+      "provenance": "Pinned Proselint 0.16.0: argparse repr behavior for Unicode separators and non-printable or unassigned code points.",
+      "input_mode": "stdin", "stdin_base64": "", "files": [],
+      "argv": ["check", "--output-format", "bad\u200bvalue"],
+      "output_format": "full", "expected_oracle_outcome": "cli_error", "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"}, "config_scenario": "no_config", "workspace_mutates": false,
+      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "cli_invalid_output_format_check_00a0",
+      "capability_id": "cli.invalid_output_format_error",
+      "provenance": "Pinned Proselint 0.16.0: argparse repr behavior for Unicode separators and non-printable or unassigned code points.",
+      "input_mode": "stdin", "stdin_base64": "", "files": [],
+      "argv": ["check", "--output-format", "bad\u00a0value"],
+      "output_format": "full", "expected_oracle_outcome": "cli_error", "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"}, "config_scenario": "no_config", "workspace_mutates": false,
+      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "cli_invalid_output_format_check_1c89",
+      "capability_id": "cli.invalid_output_format_error",
+      "provenance": "Pinned Proselint 0.16.0 with Unicode 15 printability: U+1C89 is unassigned there.",
+      "input_mode": "stdin", "stdin_base64": "", "files": [],
+      "argv": ["check", "--output-format", "bad\u1c89value"],
+      "output_format": "full", "expected_oracle_outcome": "cli_error", "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"}, "config_scenario": "no_config", "workspace_mutates": false,
+      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
       "id": "cli_invalid_output_format_version_quote",
       "capability_id": "cli.invalid_output_format_error",
       "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c: argparse rejects this invalid OutputFormat token and renders its repr in the subcommand error.",
@@ -34686,5 +34736,266 @@
         "exit_status": "exact"
       }
     }
-  ]
+  ,
+    {
+      "id": "cli_invalid_output_format_version_u2028",
+      "capability_id": "cli.invalid_output_format_error",
+      "provenance": "Pinned Proselint 0.16.0: argparse repr behavior for Unicode separators and non-printable code points.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "version",
+        "--output-format",
+        "bad value"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_invalid_output_format_version_u2029",
+      "capability_id": "cli.invalid_output_format_error",
+      "provenance": "Pinned Proselint 0.16.0: argparse repr behavior for Unicode separators and non-printable code points.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "version",
+        "--output-format",
+        "bad value"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_invalid_output_format_version_u200b",
+      "capability_id": "cli.invalid_output_format_error",
+      "provenance": "Pinned Proselint 0.16.0: argparse repr behavior for Unicode separators and non-printable code points.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "version",
+        "--output-format",
+        "bad​value"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_invalid_output_format_version_00a0",
+      "capability_id": "cli.invalid_output_format_error",
+      "provenance": "Pinned Proselint 0.16.0: argparse repr behavior for Unicode separators and non-printable code points.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "version",
+        "--output-format",
+        "bad value"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_invalid_output_format_version_1c89",
+      "capability_id": "cli.invalid_output_format_error",
+      "provenance": "Pinned Proselint 0.16.0 with Unicode 15 printability: U+1C89 is unassigned there.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "version",
+        "--output-format",
+        "badᲉvalue"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_invalid_output_format_dump_config_u2028",
+      "capability_id": "cli.invalid_output_format_error",
+      "provenance": "Pinned Proselint 0.16.0: argparse repr behavior for Unicode separators and non-printable code points.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "dump-config",
+        "--output-format",
+        "bad value"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_invalid_output_format_dump_config_u2029",
+      "capability_id": "cli.invalid_output_format_error",
+      "provenance": "Pinned Proselint 0.16.0: argparse repr behavior for Unicode separators and non-printable code points.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "dump-config",
+        "--output-format",
+        "bad value"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_invalid_output_format_dump_config_u200b",
+      "capability_id": "cli.invalid_output_format_error",
+      "provenance": "Pinned Proselint 0.16.0: argparse repr behavior for Unicode separators and non-printable code points.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "dump-config",
+        "--output-format",
+        "bad​value"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_invalid_output_format_dump_config_00a0",
+      "capability_id": "cli.invalid_output_format_error",
+      "provenance": "Pinned Proselint 0.16.0: argparse repr behavior for Unicode separators and non-printable code points.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "dump-config",
+        "--output-format",
+        "bad value"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_invalid_output_format_dump_config_1c89",
+      "capability_id": "cli.invalid_output_format_error",
+      "provenance": "Pinned Proselint 0.16.0 with Unicode 15 printability: U+1C89 is unassigned there.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "dump-config",
+        "--output-format",
+        "badᲉvalue"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    }
+]
 }

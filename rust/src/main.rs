@@ -43,6 +43,7 @@ use std::process::ExitCode;
 use std::sync::OnceLock;
 
 mod default_config;
+mod unicode_printability;
 
 const CHECK_HELP: &str = r#"usage: proselint [options] <command> check [-h] [--config CONFIG]
                                            [--output-format {full,json,compact}]
@@ -1584,7 +1585,7 @@ fn python_string_repr(value: &str) -> String {
                 rendered.push('\\');
                 rendered.push(value);
             }
-            value if value.is_control() => {
+            value if !unicode_printability::is_printable(value) => {
                 let codepoint = value as u32;
                 if codepoint <= 0xff {
                     rendered.push_str(&format!("\\x{codepoint:02x}"));
@@ -1599,6 +1600,22 @@ fn python_string_repr(value: &str) -> String {
     }
     rendered.push(quote);
     rendered
+}
+
+#[cfg(test)]
+mod python_repr_tests {
+    use super::python_string_repr;
+
+    #[test]
+    fn escapes_python_nonprintable_unicode_and_preserves_quote_rules() {
+        assert_eq!(python_string_repr("'\""), "'\\'\"'");
+        assert_eq!(python_string_repr("\n\r\t\u{7f}"), "'\\n\\r\\t\\x7f'");
+        assert_eq!(
+            python_string_repr("\u{2028}\u{2029}\u{200b}\u{00a0}\u{1c89}"),
+            "'\\u2028\\u2029\\u200b\\xa0\\u1c89'"
+        );
+        assert_eq!(python_string_repr("a b"), "'a b'");
+    }
 }
 
 fn reset_root_options_before_subcommand(args: &mut Vec<std::ffi::OsString>) {

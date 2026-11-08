@@ -49,6 +49,32 @@ fn invalid_output_format_escapes_newlines_tabs_and_preserves_quotes() {
 }
 
 #[test]
+fn invalid_output_format_renders_unicode_nonprintables_with_python_repr() {
+    let cases = [
+        ("\u{2028}", "\\u2028"),
+        ("\u{2029}", "\\u2029"),
+        ("\u{200b}", "\\u200b"),
+        ("\u{00a0}", "\\xa0"),
+        ("\u{1c89}", "\\u1c89"),
+    ];
+    for command in ["check", "version", "dump-config"] {
+        for (character, rendered) in cases {
+            let output = run(&[command, "--output-format", &format!("bad{character}value")]);
+            assert_eq!(output.status.code(), Some(2));
+            assert!(output.stdout.is_empty());
+            assert!(
+                output.stderr.ends_with(
+                    format!("invalid OutputFormat value: 'bad{rendered}value'\n").as_bytes()
+                ),
+                "{command} with U+{:04X}: {:?}",
+                character.chars().next().unwrap() as u32,
+                output.stderr
+            );
+        }
+    }
+}
+
+#[test]
 fn invalid_output_format_uses_version_subcommand_usage() {
     let expected = b"usage: proselint [options] <command> version [-h] [--config CONFIG]\n                                             [--output-format {full,json,compact}]\n                                             [--verbose] [--version]\nproselint [options] <command> version: error: argument --output-format/-o: invalid OutputFormat value: 'invalid'\n";
     let output = run(&["version", "--output-format", "invalid"]);

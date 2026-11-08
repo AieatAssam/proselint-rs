@@ -518,8 +518,8 @@
     "unit_tests": {
       "status": "PASS",
       "suite": "rust.harness.tests.test_compare rust.harness.tests.test_gate rust.harness.tests.test_benchmark",
-      "tests_passed": 100,
-      "duration_seconds": 66.664,
+      "tests_passed": 101,
+      "duration_seconds": 63.31,
       "expected_timeout_discriminator_cases": 2
     },
     "comparator_discriminators": {
@@ -574,7 +574,7 @@
     }
   },
   "active_ownership": {
-    "current": "The invalid-output-format repr fix and its nine new cases passed owner and independent live comparison; the required shared-CLI cumulative gate passed 1060/1060 across 122 capabilities. The Python harness suite passed 100/100. Runtime metadata remains blocked and 23 rules remain held for provenance/rights evidence.",
+    "current": "The Unicode 15 printability table fix passed 44 owner and 44 independent live cases, an exhaustive 1,114,112-codepoint audit with zero mismatches, and the shared-CLI cumulative gate (1075/1075 across 122 capabilities). The Python harness suite passed 101/101. Cargo.lock is unchanged and the latest-compatible Rust dependency dry run found zero updates. Runtime metadata remains blocked and 23 rules remain held for provenance/rights evidence.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -590,7 +590,7 @@
     "dump-config HOME-unset/platform-specific config discovery, directory user candidates, directory traversal/decoding edges outside the accepted directory cases remain unverified; explicit multi-file output for file lists is covered by the recorded cases.",
     "Other --version combined-argument orderings beyond cli.version_argument_precedence remain unverified.",
     "Focused live case cli_demo_json_selected_rule mismatches only on the source key: pinned Python emits its installed demo.md file URI while Rust emits demo.md. Exact parity is installation-location-specific; case remains unresolved at rust/artifacts/cli-demo-json-red-20261108.json. Full demo path behavior and default-config demo output are also unverified.",
-    "`cli.help_argument_precedence` accepts the recorded four vectors, including invalid `invalid` output-format precedence; `cli.invalid_output_format_error` separately covers 20 invalid/attached/dash-value cases and nine quote/newline/tab vectors. Other option orderings, unusual Unicode nonprintables, and help interactions remain unverified.",
+    "`cli.help_argument_precedence` accepts its recorded precedence vectors; `cli.invalid_output_format_error` covers 44 separate/attached/dash-prefixed, quote/control, and Unicode 15 printability cases. Invalid non-UTF-8 argv bytes that CPython decodes with surrogateescape cannot be represented by Rust `String` arguments and remain outside this scope.",
     "Malformed UTF-8 stdin remains unverified: the pinned executable uses surrogateescape; Fast and Fancy rules differ around invalid bytes, so no lossy sentinel approximation is accepted.",
     "JSON version output differs in four tested vectors because Python includes sys.version_info[:3]; no fabricated Python version is emitted by Rust. See rust/artifacts/version-json-metadata-final-20261108.json.",
     "`version --verbose` stderr contains timestamped pinned Python runtime metadata and is not reproduced by Rust. See rust/artifacts/version-verbose-runtime-final-20261108.json."
@@ -8219,15 +8219,30 @@
         "cli_invalid_output_format_version_tab",
         "cli_invalid_output_format_dump_config_quote",
         "cli_invalid_output_format_dump_config_newline",
-        "cli_invalid_output_format_dump_config_tab"
+        "cli_invalid_output_format_dump_config_tab",
+        "cli_invalid_output_format_check_u2028",
+        "cli_invalid_output_format_check_u2029",
+        "cli_invalid_output_format_check_u200b",
+        "cli_invalid_output_format_check_00a0",
+        "cli_invalid_output_format_check_1c89",
+        "cli_invalid_output_format_version_u2028",
+        "cli_invalid_output_format_version_u2029",
+        "cli_invalid_output_format_version_u200b",
+        "cli_invalid_output_format_version_00a0",
+        "cli_invalid_output_format_version_1c89",
+        "cli_invalid_output_format_dump_config_u2028",
+        "cli_invalid_output_format_dump_config_u2029",
+        "cli_invalid_output_format_dump_config_u200b",
+        "cli_invalid_output_format_dump_config_00a0",
+        "cli_invalid_output_format_dump_config_1c89"
       ],
       "upstream_source": "pinned proselint/command_line.py:get_parser and OutputFormat conversion; Rust rust/src/main.rs::invalid_cli_output_format and command_help",
       "upstream_spec": "Invalid --output-format/-o values are rejected before lint execution. Exit status is 2, stdout is empty, and stderr uses the selected command’s exact argparse usage and invalid OutputFormat message. This includes check, version and dump-config; invalid check values precede --help. A value consumed by --config must not be mistaken for a subcommand.",
       "specification": {
-        "live_cases": 29,
+        "live_cases": 44,
         "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
         "comparison": "Exact stdout/stderr bytes and exit status",
-        "scope_limit": "Covers separate/attached invalid and dash-prefixed values for check/version/dump-config, plus invalid values containing a double quote, newline, or tab for each command. Python repr behavior for less common control/nonprintable Unicode values and other parser interactions remains unverified."
+        "scope_limit": "Covers invalid format values across all three commands, including quote/LF/TAB and Unicode 15 nonprintables (U+2028, U+2029, U+200B, U+00A0) plus U+1C89, unassigned in pinned UCD15. Rust string arguments cannot represent Python surrogateescape code points from invalid argv bytes; that platform argv-decoding edge remains outside scope."
       },
       "red": {
         "status": "behavioral_failure",
@@ -8281,17 +8296,22 @@
         "independent_locked_tests_seconds": "not separately instrumented",
         "independent_build_seconds": 0.161403,
         "independent_live_seconds": 2.798,
-        "python_harness_suite_seconds": 66.664,
+        "python_harness_suite_seconds": 63.31,
         "cumulative_gate": "PASS",
-        "cumulative_gate_seconds": 1060.703471,
-        "cumulative_gate_live_seconds": 943.375515,
+        "cumulative_gate_seconds": 1051.693086,
+        "cumulative_gate_live_seconds": 936.365372,
         "extended_owner_live": 18.9,
         "extended_independent_live": 24.1,
         "red_live_control_characters_seconds": 30.402465,
         "owner_live_control_characters_seconds": 38.137416,
         "independent_live_control_characters_seconds": 31.4245,
-        "python_harness_suite": "PASS in 66.664s",
-        "candidate_refresh_attestation_seconds": 3.5
+        "python_harness_suite": "PASS in 63.310s",
+        "candidate_refresh_attestation_seconds": 3.5,
+        "red_unicode_nonprintable_live_seconds": 43.444504,
+        "owner_unicode_nonprintable_live_seconds": 51.681533,
+        "independent_unicode_nonprintable_live_seconds": 41.728983,
+        "unicode_table_exhaustive_audit_seconds": "not separately instrumented",
+        "unicode_table_generator_check_seconds": "not separately instrumented"
       },
       "stage_case_counts": {
         "red_focused_rust_tests_failed": 2,
@@ -8300,32 +8320,33 @@
         "red_live_passed": 5,
         "manifest_contract_tests_passed": 1,
         "owner_focused_rust_tests_passed": 6,
-        "owner_live_cases_passed": 29,
-        "independent_focused_rust_tests_passed": 7,
-        "independent_live_cases_passed": 29,
+        "owner_live_cases_passed": 44,
+        "independent_focused_rust_tests_passed": 8,
+        "independent_live_cases_passed": 44,
         "comparator_self_tests_passed": 23,
-        "python_harness_tests_passed": 100,
+        "python_harness_tests_passed": 101,
         "red_control_character_mismatches": 6,
         "red_control_character_passed": 23,
-        "focused_green_rust_tests_passed": 7
+        "focused_green_rust_tests_passed": 7,
+        "red_unicode_nonprintable_mismatches": 15
       },
       "cumulative_gate_required": true,
       "cumulative_gate": {
         "status": "PASS",
-        "report": "rust/artifacts/strict-gate-invalid-format-repr-fix-20261108.json",
+        "report": "rust/artifacts/strict-gate-unicode15-repr-20261108.json",
         "capabilities": 122,
-        "production_cases": 1060,
-        "manifest_cases": 1069,
+        "production_cases": 1075,
+        "manifest_cases": 1084,
         "excluded_smoke_cases": 2,
         "excluded_runtime_metadata_cases": 6,
         "unresolved_cases": 1,
-        "duration_seconds": 1060.703471,
-        "live_seconds": 943.375515,
-        "rust_checks_build_seconds": 114.779449,
-        "oracle_integrity_seconds": 2.083275,
-        "comparator_self_tests_seconds": 0.144741,
+        "duration_seconds": 1051.693086,
+        "live_seconds": 936.365372,
+        "rust_checks_build_seconds": 112.734245,
+        "oracle_integrity_seconds": 2.086311,
+        "comparator_self_tests_seconds": 0.145125,
         "comparator_self_tests_passed": 23,
-        "source_fingerprint": "91d4790e41455a0b6e88db79b0d0a2c7650ebdf0644647081c4e5054e14b0cc6"
+        "source_fingerprint": "4f53a517529a604e2ed957ad5d03bf7f58708232b480e8b9f21e73e91f5afe27"
       },
       "coverage_extension": {
         "status": "PASS",
@@ -8352,6 +8373,43 @@
         "owner_red_seconds": 30.402465,
         "owner_seconds": 38.137416,
         "independent_seconds": 31.4245
+      },
+      "unicode15_printability_extension": {
+        "status": "PASS owner+independent and cumulative gate",
+        "added_cases": 15,
+        "red_report": "rust/artifacts/unicode-repr-final-red.json",
+        "red_mismatches": 15,
+        "red_previous_cases_passed": 29,
+        "red_source_fingerprint": "623502d360d858035fc6fc7f3c940fe05a3f56a478d2cfd0b5917e59665558a8",
+        "owner_report": "rust/artifacts/unicode-repr-license-live-green.json",
+        "owner_live_cases_passed": 44,
+        "independent_live_report": "rust/artifacts/20261108T185448126174Z-independent-live.json",
+        "independent_live_cases_passed": 44,
+        "candidate_attestation": "rust/artifacts/20261108T183649025900Z-build.attestation.json",
+        "independent_candidate_attestation": "rust/artifacts/20261108T184148950306Z-build.attestation.json",
+        "source_fingerprint": "4f53a517529a604e2ed957ad5d03bf7f58708232b480e8b9f21e73e91f5afe27",
+        "generator": "rust/tools/generate_unicode_printability.py --check under pinned Python 3.12.3",
+        "generated_table": "rust/src/unicode_printability.rs",
+        "ucd_version": "15.0.0",
+        "unicode_license": "rust/data/unicode/Unicode-3.0.txt",
+        "independent_exhaustive_check": "rust/artifacts/20261108T184148950306Z-independent-unicode-evidence.json",
+        "exhaustive_codepoints": 1114112,
+        "exhaustive_intervals": 712,
+        "exhaustive_mismatches": 0,
+        "classification_bitmap_sha256": "a24a109bc8e347f9490466c59e4160d0dc9dd1006a5be9a4c91af71cd2e7fa99",
+        "dependencies_changed": false,
+        "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d05278b3136",
+        "cumulative_gate": "PASS 1075/1075 across 122 capabilities",
+        "owner_attestation": "rust/artifacts/20261108T185236467479Z-build.attestation.json",
+        "owner_live_report": "rust/artifacts/unicode-repr-controls-final-green-20261108.json",
+        "independent_attestation": "rust/artifacts/20261108T185448126174Z-build.attestation.json",
+        "independent_evidence": "rust/artifacts/20261108T185448126174Z-independent-unicode-evidence.json",
+        "owner_live_seconds": 51.681533,
+        "independent_live_seconds": 41.728983,
+        "focused_rust_tests": 8,
+        "exhaustive_audit": "PASS 1,114,112 UCD values; 712 intervals; zero mismatches",
+        "cumulative_gate_report": "rust/artifacts/strict-gate-unicode15-repr-20261108.json",
+        "red_seconds": 43.444504
       }
     },
     {
@@ -9273,14 +9331,14 @@
         "targeted_manifest_tests_passed": 3
       },
       "production_change": "none; this records already implemented attached argument forms",
-      "cumulative_gate": "included in strict gate PASS 122 capabilities/1060 cases at rust/artifacts/strict-gate-invalid-format-repr-fix-20261108.json"
+      "cumulative_gate": "included in strict gate PASS 122 capabilities/1075 cases at rust/artifacts/strict-gate-unicode15-repr-20261108.json"
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-invalid-format-repr-fix-20261108.json",
-    "passed_cases": 1060,
-    "manifest_cases": 1069,
+    "report": "rust/artifacts/strict-gate-unicode15-repr-20261108.json",
+    "passed_cases": 1075,
+    "manifest_cases": 1084,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
       "cli.version.json_metadata": 5,
@@ -9289,19 +9347,19 @@
     "unresolved_manifest_cases": 1,
     "exit_code": 0,
     "capability_count": 122,
-    "source_fingerprint": "91d4790e41455a0b6e88db79b0d0a2c7650ebdf0644647081c4e5054e14b0cc6",
-    "run_id": "20261108T174816018638Z-2b28b44d",
-    "started_at_utc": "2026-11-08T17:48:16.018611+00:00",
-    "finished_at_utc": "2026-11-08T18:03:59.104296+00:00",
-    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T174621311707Z-build.attestation.json",
-    "candidate_sha256": "0feef56f010a9b3a5913df4694f1d209bcccdca43cbc5d410d69fe629badbef8",
+    "source_fingerprint": "4f53a517529a604e2ed957ad5d03bf7f58708232b480e8b9f21e73e91f5afe27",
+    "run_id": "20261108T190115099935Z-05fb67bd",
+    "started_at_utc": "2026-11-08T19:01:15.099911+00:00",
+    "finished_at_utc": "2026-11-08T19:16:51.126945+00:00",
+    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T185922449559Z-build.attestation.json",
+    "candidate_sha256": "b2f0a11d87d5c58f022d1d5c205ad06155ac45a9d30f06ca73fe54ed4164d4e4",
     "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
-    "duration_seconds": 1060.703471,
+    "duration_seconds": 1051.693086,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.144741,
-      "cumulative_live_comparison": 943.375515,
-      "oracle_integrity": 2.083275,
-      "rust_checks_and_build": 114.779449
+      "comparator_self_tests": 0.145125,
+      "cumulative_live_comparison": 936.365372,
+      "oracle_integrity": 2.086311,
+      "rust_checks_and_build": 112.734245
     },
     "comparator_self_tests": 23
   },
@@ -9309,7 +9367,7 @@
     "status": "current",
     "toolchain": "1.99.1",
     "registry": "crates.io",
-    "latest_checked": "2026-11-08T18:07:59Z",
+    "latest_checked": "2026-11-08T19:17:00Z",
     "locked_versions": {
       "clap": "4.6.7",
       "serde": "1.0.229",
@@ -9324,11 +9382,11 @@
       "packages_to_update": 0,
       "command": "cargo update --dry-run --manifest-path rust/Cargo.toml",
       "rust_version_constraint": "1.99",
-      "checked_after_gate": "2026-11-08T18:07:59Z",
-      "evidence": "rust/artifacts/rust-dependency-dry-run-post-cli-20261108.txt",
+      "checked_after_gate": "2026-11-08T19:17:00Z",
+      "evidence": "rust/artifacts/rust-dependency-dry-run-post-unicode15-20261108.txt",
       "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d05278b3136"
     },
-    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-cli-20261108.txt",
+    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-unicode15-20261108.txt",
     "latest_dry_run": {
       "status": "PASS",
       "command": "cargo update --dry-run --manifest-path rust/Cargo.toml",
@@ -9339,7 +9397,7 @@
       "report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2"
     }
   },
-  "next_capability_handoff": "Continue with one bounded, live-distinguishable CLI/config behavior; parallelize independent rule modules, keep shared matcher/config/CLI changes serialized, and run the next cumulative gate after five accepted capabilities or immediately after any shared behavior change.",
+  "next_capability_handoff": "Continue with an unblocked capability after checking rule data provenance. Keep independent modules parallel and shared CLI/config/matcher work serialized; next full cumulative gate is due after five newly accepted capabilities or immediately after shared behavior changes.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

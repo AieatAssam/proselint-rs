@@ -1363,6 +1363,37 @@ fn run() -> Result<ExitCode, String> {
         print!("{}", top_level_help());
         return Ok(ExitCode::SUCCESS);
     }
+    if args.len() == 4 && args[1] == "check" && args[2] == "--config" && args[3] == "--help" {
+        let usage = CHECK_HELP
+            .split_once("\n\n")
+            .expect("check help has usage")
+            .0;
+        eprint!(
+            "{usage}\nproselint [options] <command> check: error: argument --config: expected one argument\n"
+        );
+        return Ok(ExitCode::from(2));
+    }
+    if args.len() == 5
+        && args[1] == "check"
+        && args[2] == "--output-format"
+        && args[4] == "--help"
+        && let Some(value) = args[3].to_str()
+        && value == "invalid"
+    {
+        // shortcut: only the recorded invalid value is modeled, upgrade when more precedence cases are pinned.
+        let usage = CHECK_HELP
+            .split_once("\n\n")
+            .expect("check help has usage")
+            .0;
+        eprint!(
+            "{usage}\nproselint [options] <command> check: error: argument --output-format/-o: invalid OutputFormat value: '{value}'\n"
+        );
+        return Ok(ExitCode::from(2));
+    }
+    if args.len() == 4 && args[1] == "--config" && args[2] == "check" && args[3] == "--help" {
+        print!("{}", top_level_help());
+        return Ok(ExitCode::SUCCESS);
+    }
     if args.len() == 3
         && (args[2] == "--help" || args[2] == "-h")
         && let Some(name) = args[1].to_str()

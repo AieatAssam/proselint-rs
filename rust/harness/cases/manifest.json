@@ -30809,6 +30809,70 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "cli_check_missing_config_value_before_help",
+      "capability_id": "cli.help_argument_precedence",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact subcommand-prefixed missing-value probe is in rust/artifacts/guard-argv-check-subcommand-20261107/results.json.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": ["check", "--config", "--help"],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "cli_check_invalid_output_format_before_help",
+      "capability_id": "cli.help_argument_precedence",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; exact subcommand-prefixed invalid-format probe is in rust/artifacts/independent-help-combined-final-20261107/guard-probes/invalid_output_format_before_help/.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": ["check", "--output-format", "invalid", "--help"],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "cli_top_level_config_value_check_before_help",
+      "capability_id": "cli.help_argument_precedence",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; an option value `check` is consumed before argparse emits top-level help; raw probe is in rust/artifacts/guard-argv-probe-20261107/results.json.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": ["--config", "check", "--help"],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "cli_check_delimiter_help_path",
+      "capability_id": "cli.help_argument_precedence",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; `--help` after the `--` delimiter is parsed as a path. This case materializes that path; the initial missing-path probe is in rust/artifacts/guard-argv-probe-20261107/results.json.",
+      "input_mode": "files",
+      "stdin_base64": "",
+      "files": [{"path": "--help", "content_base64": ""}],
+      "argv": ["check", "--", "--help"],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
     }
   ]
 }

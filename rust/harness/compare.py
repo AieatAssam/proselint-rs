@@ -188,6 +188,7 @@ def validate_case(case: Any) -> None:
     for path in file_paths:
         represented.update(str(parent) for parent in PurePosixPath(path).parents if str(parent) != ".")
     declared_links: set[str] = set()
+    dangling_targets: set[str] = set()
     def safe_relative(value: str, label: str) -> str:
         posix, windows = PurePosixPath(value), PureWindowsPath(value)
         if not value or "\\" in value or str(posix) == "." or posix.is_absolute() or windows.is_absolute() or windows.drive or ".." in posix.parts or ".." in windows.parts:
@@ -198,13 +199,28 @@ def validate_case(case: Any) -> None:
             raise ValueError(f"{case['id']}: each symlink needs path and target strings")
         path = safe_relative(item["path"], "paths")
         target = safe_relative(item["target"], "targets")
+        dangling = item.get("dangling", False)
+        if not isinstance(dangling, bool):
+            raise ValueError(f"{case['id']}: symlink dangling must be a boolean")
         if path in declared_links:
             raise ValueError(f"{case['id']}: duplicate symlink path: {path}")
         if path in represented or any(path == other or path.startswith(other + "/") or other.startswith(path + "/") for other in file_paths | declared_links):
             raise ValueError(f"{case['id']}: symlink path collides with another fixture: {path}")
-        if target not in represented:
+        if dangling:
+            if target in represented:
+                raise ValueError(f"{case['id']}: dangling symlink target is represented: {target}")
+            dangling_targets.add(target)
+        elif target not in represented:
             raise ValueError(f"{case['id']}: symlink target is not represented by a file fixture or directory: {target}")
         declared_links.add(path)
+    link_directories = {
+        str(parent)
+        for path in declared_links
+        for parent in PurePosixPath(path).parents
+        if str(parent) != "."
+    }
+    if dangling_targets & (declared_links | link_directories):
+        raise ValueError(f"{case['id']}: dangling symlink target is created by another symlink fixture")
     unused_files = case.get("unused_files", [])
     if not isinstance(unused_files, list) or not all(isinstance(path, str) for path in unused_files):
         raise ValueError(f"{case['id']}: unused_files must be a string array")

@@ -109,6 +109,29 @@
       }
     },
     {
+      "id": "cli_directory_expansion_dangling_file_symlink_compact",
+      "capability_id": "cli.directory_expansion",
+      "provenance": "Pinned Python Proselint 0.16.0 source proselint/tools.py:verify_path resolves explicit paths with Path.resolve() before reading; a dangling file symlink is reported under its resolved target path. The per-file read error is formatted by proselint/tools.py:LintFile._read and proselint/log.py.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19LCJtYXhfZXJyb3JzIjoxMH0="
+        }
+      ],
+      "symlinks": [
+        {"path": "alias.md", "target": "target.txt", "dangling": true}
+      ],
+      "argv": ["check", "--config", "{file:config.json}", "--output-format", "compact", "alias.md"],
+      "output_format": "compact",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "misc_apologizing_only",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
       "id": "cli_directory_expansion_case_sensitive_extensions",
       "capability_id": "cli.directory_expansion",
       "provenance": "Pinned Python Proselint 0.16.0 source proselint/tools.py:extract_files filters with Path.suffix in ACCEPTED_EXTENSIONS, so .txt is accepted while .TXT is skipped on a case-sensitive filesystem.",

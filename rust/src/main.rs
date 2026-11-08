@@ -36,6 +36,8 @@ use proselint_rs::{
 };
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
+use std::collections::{HashSet, VecDeque};
+use std::ffi::OsString;
 use std::fs;
 use std::io::{self, Read};
 use std::path::PathBuf;
@@ -2934,36 +2936,76 @@ fn file_uri_or_missing(path: &std::path::Path) -> Result<String, io::Error> {
     Ok(uri)
 }
 
+enum ResolutionPart {
+    Prefix(OsString),
+    RootDir,
+    CurDir,
+    ParentDir,
+    Normal(OsString),
+    EndSymlink(PathBuf),
+}
+
+fn resolution_parts(path: &std::path::Path) -> VecDeque<ResolutionPart> {
+    path.components()
+        .map(|component| match component {
+            std::path::Component::Prefix(prefix) => {
+                ResolutionPart::Prefix(prefix.as_os_str().to_os_string())
+            }
+            std::path::Component::RootDir => ResolutionPart::RootDir,
+            std::path::Component::CurDir => ResolutionPart::CurDir,
+            std::path::Component::ParentDir => ResolutionPart::ParentDir,
+            std::path::Component::Normal(name) => ResolutionPart::Normal(name.to_os_string()),
+        })
+        .collect()
+}
+
 fn resolved_path(path: &std::path::Path) -> Result<PathBuf, io::Error> {
     let absolute = if path.is_absolute() {
         path.to_path_buf()
     } else {
         std::env::current_dir()?.join(path)
     };
-    let mut normalized = PathBuf::new();
-    for component in absolute.components() {
-        match component {
-            std::path::Component::CurDir => {}
-            std::path::Component::ParentDir => {
-                normalized.pop();
+    let mut pending = resolution_parts(&absolute);
+    let mut resolved = PathBuf::new();
+    let mut resolving_symlinks = HashSet::new();
+
+    while let Some(part) = pending.pop_front() {
+        match part {
+            ResolutionPart::Prefix(prefix) => resolved.push(prefix),
+            ResolutionPart::RootDir => resolved.push(std::path::MAIN_SEPARATOR.to_string()),
+            ResolutionPart::CurDir => {}
+            ResolutionPart::ParentDir => {
+                resolved.pop();
             }
-            other => normalized.push(other.as_os_str()),
+            ResolutionPart::EndSymlink(path) => {
+                resolving_symlinks.remove(&path);
+            }
+            ResolutionPart::Normal(name) => {
+                let candidate = resolved.join(&name);
+                if fs::symlink_metadata(&candidate)
+                    .is_ok_and(|metadata| metadata.file_type().is_symlink())
+                {
+                    let parent = resolved.canonicalize().unwrap_or_else(|_| resolved.clone());
+                    let link = parent.join(&name);
+                    if !resolving_symlinks.insert(link.clone()) {
+                        return Err(io::Error::other("symbolic link loop while resolving path"));
+                    }
+                    let target = fs::read_link(candidate)?;
+                    if target.is_absolute() {
+                        resolved = PathBuf::new();
+                    }
+                    let mut expanded = resolution_parts(&target);
+                    expanded.push_back(ResolutionPart::EndSymlink(link));
+                    expanded.append(&mut pending);
+                    pending = expanded;
+                } else if candidate.exists() {
+                    resolved = candidate.canonicalize()?;
+                } else {
+                    resolved.push(name);
+                }
+            }
         }
     }
-    let mut ancestor = normalized.as_path();
-    let mut suffix = Vec::new();
-    while !ancestor.exists() {
-        let Some(name) = ancestor.file_name() else {
-            break;
-        };
-        suffix.push(name.to_os_string());
-        ancestor = ancestor
-            .parent()
-            .unwrap_or_else(|| std::path::Path::new("/"));
-    }
-    let mut resolved = ancestor.canonicalize()?;
-    for component in suffix.iter().rev() {
-        resolved.push(component);
-    }
+
     Ok(resolved)
 }

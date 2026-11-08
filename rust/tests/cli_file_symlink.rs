@@ -65,3 +65,39 @@ fn compact_output_uses_resolved_file_symlink_name() {
     );
     assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
 }
+
+#[cfg(unix)]
+#[test]
+fn compact_output_uses_resolved_path_for_dangling_file_symlink() {
+    let workspace = Workspace::new();
+    fs::remove_file(workspace.0.join("target.txt")).expect("remove symlink target");
+    std::os::unix::fs::symlink("target.txt", workspace.0.join("alias.md"))
+        .expect("create dangling file symlink");
+
+    let output = Command::new(env!("CARGO_BIN_EXE_proselint"))
+        .current_dir(&workspace.0)
+        .args([
+            "check",
+            "--config",
+            "config.json",
+            "--output-format",
+            "compact",
+            "alias.md",
+        ])
+        .stdin(Stdio::null())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .output()
+        .expect("run native CLI");
+
+    assert_eq!(output.status.code(), Some(0), "stderr: {:?}", output.stderr);
+    assert!(output.stdout.is_empty(), "stdout: {:?}", output.stdout);
+    assert_eq!(
+        output.stderr,
+        format!(
+            "Error encountered while linting target.txt: [Errno 2] No such file or directory: '{}'\n",
+            workspace.0.join("target.txt").display()
+        )
+        .as_bytes()
+    );
+}

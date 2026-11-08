@@ -1,236 +1,236 @@
 {
   "schema_version": 1,
   "cases": [
-{
-  "id": "cli_directory_expansion_recursive",
-  "capability_id": "cli.directory_expansion",
-  "provenance": "Pinned Python Proselint 0.16.0 source proselint/tools.py:extract_files walks each directory recursively and includes accepted-suffix files. Created nested .txt fixtures; config enables only misc.apologizing.",
-  "input_mode": "files",
-  "files": [
     {
-      "path": "config.json",
-      "content_base64": "eyJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19LCJtYXhfZXJyb3JzIjoxMH0="
+      "id": "cli_directory_expansion_recursive",
+      "capability_id": "cli.directory_expansion",
+      "provenance": "Pinned Python Proselint 0.16.0 source proselint/tools.py:extract_files walks each directory recursively and includes accepted-suffix files. Created nested .txt fixtures; config enables only misc.apologizing.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19LCJtYXhfZXJyb3JzIjoxMH0="
+        },
+        {
+          "path": "tree/root.txt",
+          "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlcy4="
+        },
+        {
+          "path": "tree/nested/child.txt",
+          "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlcy4="
+        }
+      ],
+      "unused_files": [
+        "tree/root.txt",
+        "tree/nested/child.txt"
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json",
+        "tree"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_apologizing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact",
+        "normalize_workspace_uri": true
+      }
     },
     {
-      "path": "tree/root.txt",
-      "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlcy4="
+      "id": "cli_directory_expansion_case_sensitive_extensions",
+      "capability_id": "cli.directory_expansion",
+      "provenance": "Pinned Python Proselint 0.16.0 source proselint/tools.py:extract_files filters with Path.suffix in ACCEPTED_EXTENSIONS, so .txt is accepted while .TXT is skipped on a case-sensitive filesystem.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19LCJtYXhfZXJyb3JzIjoxMH0="
+        },
+        {
+          "path": "tree/accepted.txt",
+          "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlcy4="
+        },
+        {
+          "path": "tree/rejected.TXT",
+          "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlcy4="
+        }
+      ],
+      "unused_files": [
+        "tree/accepted.txt",
+        "tree/rejected.TXT"
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json",
+        "tree"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_apologizing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact",
+        "normalize_workspace_uri": true
+      }
     },
     {
-      "path": "tree/nested/child.txt",
-      "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlcy4="
-    }
-  ],
-  "unused_files": [
-    "tree/root.txt",
-    "tree/nested/child.txt"
-  ],
-  "argv": [
-    "check",
-    "--config",
-    "{file:config.json}",
-    "--output-format",
-    "json",
-    "tree"
-  ],
-  "output_format": "json",
-  "expected_oracle_outcome": "findings",
-  "timeout_seconds": 10,
-  "environment": {
-    "locale": "C.UTF-8"
-  },
-  "config_scenario": "misc_apologizing_only",
-  "workspace_mutates": false,
-  "comparison": {
-    "stdout": "json",
-    "stderr": "bytes",
-    "exit_status": "exact",
-    "normalize_workspace_uri": true
-  }
-},
-{
-  "id": "cli_directory_expansion_case_sensitive_extensions",
-  "capability_id": "cli.directory_expansion",
-  "provenance": "Pinned Python Proselint 0.16.0 source proselint/tools.py:extract_files filters with Path.suffix in ACCEPTED_EXTENSIONS, so .txt is accepted while .TXT is skipped on a case-sensitive filesystem.",
-  "input_mode": "files",
-  "files": [
-    {
-      "path": "config.json",
-      "content_base64": "eyJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19LCJtYXhfZXJyb3JzIjoxMH0="
+      "id": "cli_directory_expansion_ignored_extension",
+      "capability_id": "cli.directory_expansion",
+      "provenance": "Pinned Python Proselint 0.16.0 source proselint/tools.py:extract_files accepts only .md, .txt, .rtf, .html, .tex, and .markdown; this directory contains only ignored .bin content.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="
+        },
+        {
+          "path": "tree/ignored.bin",
+          "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="
+        }
+      ],
+      "unused_files": [
+        "tree/ignored.bin"
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json",
+        "tree"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_apologizing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact",
+        "normalize_workspace_uri": true
+      }
     },
     {
-      "path": "tree/accepted.txt",
-      "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlcy4="
+      "id": "cli_directory_expansion_per_file_max_errors",
+      "capability_id": "cli.directory_expansion",
+      "provenance": "Pinned Python Proselint 0.16.0 source proselint/tools.py:LCompoundFile.lint applies config max_errors separately for each file; two accepted files each contain multiple apologizing matches and max_errors is one.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="
+        },
+        {
+          "path": "tree/one.txt",
+          "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlczogTW9yZSByZXNlYXJjaCBpcyBuZWVkZWQu"
+        },
+        {
+          "path": "tree/two.txt",
+          "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlczogTW9yZSByZXNlYXJjaCBpcyBuZWVkZWQu"
+        }
+      ],
+      "unused_files": [
+        "tree/one.txt",
+        "tree/two.txt"
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json",
+        "tree"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_apologizing_only_max_one",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact",
+        "normalize_workspace_uri": true
+      }
     },
     {
-      "path": "tree/rejected.TXT",
-      "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlcy4="
-    }
-  ],
-  "unused_files": [
-    "tree/accepted.txt",
-    "tree/rejected.TXT"
-  ],
-  "argv": [
-    "check",
-    "--config",
-    "{file:config.json}",
-    "--output-format",
-    "json",
-    "tree"
-  ],
-  "output_format": "json",
-  "expected_oracle_outcome": "findings",
-  "timeout_seconds": 10,
-  "environment": {
-    "locale": "C.UTF-8"
-  },
-  "config_scenario": "misc_apologizing_only",
-  "workspace_mutates": false,
-  "comparison": {
-    "stdout": "json",
-    "stderr": "bytes",
-    "exit_status": "exact",
-    "normalize_workspace_uri": true
-  }
-},
-{
-  "id": "cli_directory_expansion_ignored_extension",
-  "capability_id": "cli.directory_expansion",
-  "provenance": "Pinned Python Proselint 0.16.0 source proselint/tools.py:extract_files accepts only .md, .txt, .rtf, .html, .tex, and .markdown; this directory contains only ignored .bin content.",
-  "input_mode": "files",
-  "files": [
-    {
-      "path": "config.json",
-      "content_base64": "eyJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="
+      "id": "cli_directory_expansion_among_explicit_paths",
+      "capability_id": "cli.directory_expansion",
+      "provenance": "Pinned Python Proselint 0.16.0 source proselint/tools.py:extract_files preserves argument order and recursively expands a directory in place. This case passes a file, directory, then file with deterministic creation order.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19LCJtYXhfZXJyb3JzIjoxMH0="
+        },
+        {
+          "path": "before.txt",
+          "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlcy4="
+        },
+        {
+          "path": "tree/middle.txt",
+          "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlcy4="
+        },
+        {
+          "path": "after.txt",
+          "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlcy4="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json",
+        "before.txt",
+        "tree",
+        "after.txt"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_apologizing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact",
+        "normalize_workspace_uri": true
+      },
+      "unused_files": [
+        "tree/middle.txt"
+      ]
     },
-    {
-      "path": "tree/ignored.bin",
-      "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="
-    }
-  ],
-  "unused_files": [
-    "tree/ignored.bin"
-  ],
-  "argv": [
-    "check",
-    "--config",
-    "{file:config.json}",
-    "--output-format",
-    "json",
-    "tree"
-  ],
-  "output_format": "json",
-  "expected_oracle_outcome": "clean",
-  "timeout_seconds": 10,
-  "environment": {
-    "locale": "C.UTF-8"
-  },
-  "config_scenario": "misc_apologizing_only",
-  "workspace_mutates": false,
-  "comparison": {
-    "stdout": "json",
-    "stderr": "bytes",
-    "exit_status": "exact",
-    "normalize_workspace_uri": true
-  }
-},
-{
-  "id": "cli_directory_expansion_per_file_max_errors",
-  "capability_id": "cli.directory_expansion",
-  "provenance": "Pinned Python Proselint 0.16.0 source proselint/tools.py:LCompoundFile.lint applies config max_errors separately for each file; two accepted files each contain multiple apologizing matches and max_errors is one.",
-  "input_mode": "files",
-  "files": [
-    {
-      "path": "config.json",
-      "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="
-    },
-    {
-      "path": "tree/one.txt",
-      "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlczogTW9yZSByZXNlYXJjaCBpcyBuZWVkZWQu"
-    },
-    {
-      "path": "tree/two.txt",
-      "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlczogTW9yZSByZXNlYXJjaCBpcyBuZWVkZWQu"
-    }
-  ],
-  "unused_files": [
-    "tree/one.txt",
-    "tree/two.txt"
-  ],
-  "argv": [
-    "check",
-    "--config",
-    "{file:config.json}",
-    "--output-format",
-    "json",
-    "tree"
-  ],
-  "output_format": "json",
-  "expected_oracle_outcome": "findings",
-  "timeout_seconds": 10,
-  "environment": {
-    "locale": "C.UTF-8"
-  },
-  "config_scenario": "misc_apologizing_only_max_one",
-  "workspace_mutates": false,
-  "comparison": {
-    "stdout": "json",
-    "stderr": "bytes",
-    "exit_status": "exact",
-    "normalize_workspace_uri": true
-  }
-},
-{
-  "id": "cli_directory_expansion_among_explicit_paths",
-  "capability_id": "cli.directory_expansion",
-  "provenance": "Pinned Python Proselint 0.16.0 source proselint/tools.py:extract_files preserves argument order and recursively expands a directory in place. This case passes a file, directory, then file with deterministic creation order.",
-  "input_mode": "files",
-  "files": [
-    {
-      "path": "config.json",
-      "content_base64": "eyJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19LCJtYXhfZXJyb3JzIjoxMH0="
-    },
-    {
-      "path": "before.txt",
-      "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlcy4="
-    },
-    {
-      "path": "tree/middle.txt",
-      "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlcy4="
-    },
-    {
-      "path": "after.txt",
-      "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlcy4="
-    }
-  ],
-  "argv": [
-    "check",
-    "--config",
-    "{file:config.json}",
-    "--output-format",
-    "json",
-    "before.txt",
-    "tree",
-    "after.txt"
-  ],
-  "output_format": "json",
-  "expected_oracle_outcome": "findings",
-  "timeout_seconds": 10,
-  "environment": {
-    "locale": "C.UTF-8"
-  },
-  "config_scenario": "misc_apologizing_only",
-  "workspace_mutates": false,
-  "comparison": {
-    "stdout": "json",
-    "stderr": "bytes",
-    "exit_status": "exact",
-    "normalize_workspace_uri": true
-  },
-  "unused_files": [
-    "tree/middle.txt"
-  ]
-},
     {
       "capability_id": "cli.config.cwd_discovery",
       "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; with no explicit --config, load_from discovers cwd proselint.json before using DEFAULT. The discovered config enables only misc.apologizing and the pinned CLI emits one diagnostic.",
@@ -30757,14 +30757,22 @@
       "input_mode": "stdin",
       "stdin_base64": "",
       "files": [],
-      "argv": ["version"],
+      "argv": [
+        "version"
+      ],
       "output_format": "full",
       "expected_oracle_outcome": "clean",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "no_config",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_version_flag_plain_text",
@@ -30773,14 +30781,22 @@
       "input_mode": "stdin",
       "stdin_base64": "",
       "files": [],
-      "argv": ["--version"],
+      "argv": [
+        "--version"
+      ],
       "output_format": "full",
       "expected_oracle_outcome": "clean",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "no_config",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_top_level_help_long",
@@ -30789,14 +30805,22 @@
       "input_mode": "stdin",
       "stdin_base64": "",
       "files": [],
-      "argv": ["--help"],
+      "argv": [
+        "--help"
+      ],
       "output_format": "full",
       "expected_oracle_outcome": "clean",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "no_config",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_top_level_help_short",
@@ -30805,14 +30829,22 @@
       "input_mode": "stdin",
       "stdin_base64": "",
       "files": [],
-      "argv": ["-h"],
+      "argv": [
+        "-h"
+      ],
       "output_format": "full",
       "expected_oracle_outcome": "clean",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "no_config",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_top_level_help_no_args",
@@ -30825,10 +30857,16 @@
       "output_format": "full",
       "expected_oracle_outcome": "cli_error",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "no_config",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_command_help_version",
@@ -30837,14 +30875,23 @@
       "input_mode": "stdin",
       "stdin_base64": "",
       "files": [],
-      "argv": ["version", "--help"],
+      "argv": [
+        "version",
+        "--help"
+      ],
       "output_format": "full",
       "expected_oracle_outcome": "clean",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "no_config",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_command_help_dump_config",
@@ -30853,14 +30900,23 @@
       "input_mode": "stdin",
       "stdin_base64": "",
       "files": [],
-      "argv": ["dump-config", "--help"],
+      "argv": [
+        "dump-config",
+        "--help"
+      ],
       "output_format": "full",
       "expected_oracle_outcome": "clean",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "no_config",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_check_help",
@@ -30869,14 +30925,23 @@
       "input_mode": "stdin",
       "stdin_base64": "",
       "files": [],
-      "argv": ["check", "--help"],
+      "argv": [
+        "check",
+        "--help"
+      ],
       "output_format": "full",
       "expected_oracle_outcome": "clean",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "no_config",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_check_help_short_alias",
@@ -30885,14 +30950,23 @@
       "input_mode": "stdin",
       "stdin_base64": "",
       "files": [],
-      "argv": ["check", "-h"],
+      "argv": [
+        "check",
+        "-h"
+      ],
       "output_format": "full",
       "expected_oracle_outcome": "clean",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "no_config",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_check_help_with_extra_path",
@@ -30901,14 +30975,24 @@
       "input_mode": "stdin",
       "stdin_base64": "",
       "files": [],
-      "argv": ["check", "--help", "ghost.md"],
+      "argv": [
+        "check",
+        "--help",
+        "ghost.md"
+      ],
       "output_format": "full",
       "expected_oracle_outcome": "clean",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "no_config",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_check_help_config_before_help",
@@ -30917,14 +31001,26 @@
       "input_mode": "stdin",
       "stdin_base64": "",
       "files": [],
-      "argv": ["check", "--config", "missing config.json", "--help", "ghost.md"],
+      "argv": [
+        "check",
+        "--config",
+        "missing config.json",
+        "--help",
+        "ghost.md"
+      ],
       "output_format": "full",
       "expected_oracle_outcome": "clean",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "explicit_missing_config_bypassed_by_help",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_check_help_global_config_before_subcommand",
@@ -30933,14 +31029,25 @@
       "input_mode": "stdin",
       "stdin_base64": "",
       "files": [],
-      "argv": ["--config", "missing config.json", "check", "--help"],
+      "argv": [
+        "--config",
+        "missing config.json",
+        "check",
+        "--help"
+      ],
       "output_format": "full",
       "expected_oracle_outcome": "clean",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "explicit_missing_global_config_bypassed_by_help",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_demo_compact_selected_rule",
@@ -31047,14 +31154,24 @@
       "input_mode": "stdin",
       "stdin_base64": "",
       "files": [],
-      "argv": ["check", "--config", "--help"],
+      "argv": [
+        "check",
+        "--config",
+        "--help"
+      ],
       "output_format": "full",
       "expected_oracle_outcome": "cli_error",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "no_config",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_check_invalid_output_format_before_help",
@@ -31063,14 +31180,25 @@
       "input_mode": "stdin",
       "stdin_base64": "",
       "files": [],
-      "argv": ["check", "--output-format", "invalid", "--help"],
+      "argv": [
+        "check",
+        "--output-format",
+        "invalid",
+        "--help"
+      ],
       "output_format": "full",
       "expected_oracle_outcome": "cli_error",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "no_config",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_top_level_config_value_check_before_help",
@@ -31079,14 +31207,24 @@
       "input_mode": "stdin",
       "stdin_base64": "",
       "files": [],
-      "argv": ["--config", "check", "--help"],
+      "argv": [
+        "--config",
+        "check",
+        "--help"
+      ],
       "output_format": "full",
       "expected_oracle_outcome": "clean",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "no_config",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_check_delimiter_help_path",
@@ -31094,15 +31232,30 @@
       "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; `--help` after the `--` delimiter is parsed as a path. This case materializes that path; the initial missing-path probe is in rust/artifacts/guard-argv-probe-20261107/results.json.",
       "input_mode": "files",
       "stdin_base64": "",
-      "files": [{"path": "--help", "content_base64": ""}],
-      "argv": ["check", "--", "--help"],
+      "files": [
+        {
+          "path": "--help",
+          "content_base64": ""
+        }
+      ],
+      "argv": [
+        "check",
+        "--",
+        "--help"
+      ],
       "output_format": "full",
       "expected_oracle_outcome": "clean",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "no_config",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_missing_path_after_double_dash_full",
@@ -31196,9 +31349,18 @@
       "input_mode": "files",
       "stdin_base64": "",
       "files": [
-        {"path": "config.json", "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="},
-        {"path": "z.txt", "content_base64": "TW9yZSByZXNlYXJjaCBpcyBuZWVkZWQuIE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="},
-        {"path": "a.txt", "content_base64": "TW9yZSByZXNlYXJjaCBpcyBuZWVkZWQuIE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="}
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="
+        },
+        {
+          "path": "z.txt",
+          "content_base64": "TW9yZSByZXNlYXJjaCBpcyBuZWVkZWQuIE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="
+        },
+        {
+          "path": "a.txt",
+          "content_base64": "TW9yZSByZXNlYXJjaCBpcyBuZWVkZWQuIE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="
+        }
       ],
       "argv": [
         "check",
@@ -31212,10 +31374,16 @@
       "output_format": "full",
       "expected_oracle_outcome": "findings",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "explicit_selected_config",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_multi_file_limits_per_file_compact",
@@ -31224,9 +31392,18 @@
       "input_mode": "files",
       "stdin_base64": "",
       "files": [
-        {"path": "config.json", "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="},
-        {"path": "z.txt", "content_base64": "TW9yZSByZXNlYXJjaCBpcyBuZWVkZWQuIE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="},
-        {"path": "a.txt", "content_base64": "TW9yZSByZXNlYXJjaCBpcyBuZWVkZWQuIE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="}
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="
+        },
+        {
+          "path": "z.txt",
+          "content_base64": "TW9yZSByZXNlYXJjaCBpcyBuZWVkZWQuIE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="
+        },
+        {
+          "path": "a.txt",
+          "content_base64": "TW9yZSByZXNlYXJjaCBpcyBuZWVkZWQuIE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="
+        }
       ],
       "argv": [
         "check",
@@ -31240,10 +31417,16 @@
       "output_format": "compact",
       "expected_oracle_outcome": "findings",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "explicit_selected_config",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_multi_file_limits_per_file_json",
@@ -31252,9 +31435,18 @@
       "input_mode": "files",
       "stdin_base64": "",
       "files": [
-        {"path": "config.json", "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="},
-        {"path": "z.txt", "content_base64": "TW9yZSByZXNlYXJjaCBpcyBuZWVkZWQuIE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="},
-        {"path": "a.txt", "content_base64": "TW9yZSByZXNlYXJjaCBpcyBuZWVkZWQuIE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="}
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="
+        },
+        {
+          "path": "z.txt",
+          "content_base64": "TW9yZSByZXNlYXJjaCBpcyBuZWVkZWQuIE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="
+        },
+        {
+          "path": "a.txt",
+          "content_base64": "TW9yZSByZXNlYXJjaCBpcyBuZWVkZWQuIE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="
+        }
       ],
       "argv": [
         "check",
@@ -31268,10 +31460,17 @@
       "output_format": "json",
       "expected_oracle_outcome": "findings",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "explicit_selected_config",
       "workspace_mutates": false,
-      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact", "normalize_workspace_uri": true}
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact",
+        "normalize_workspace_uri": true
+      }
     },
     {
       "id": "cli_multi_file_json_continues_after_missing_path",
@@ -31280,8 +31479,14 @@
       "input_mode": "files",
       "stdin_base64": "",
       "files": [
-        {"path": "config.json", "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="},
-        {"path": "a.txt", "content_base64": "TW9yZSByZXNlYXJjaCBpcyBuZWVkZWQuIE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="}
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="
+        },
+        {
+          "path": "a.txt",
+          "content_base64": "TW9yZSByZXNlYXJjaCBpcyBuZWVkZWQuIE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="
+        }
       ],
       "argv": [
         "check",
@@ -31295,10 +31500,17 @@
       "output_format": "json",
       "expected_oracle_outcome": "findings",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "explicit_selected_config",
       "workspace_mutates": false,
-      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact", "normalize_workspace_uri": true}
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact",
+        "normalize_workspace_uri": true
+      }
     },
     {
       "id": "cli_invalid_output_format_long_form",
@@ -31307,14 +31519,24 @@
       "input_mode": "stdin",
       "stdin_base64": "",
       "files": [],
-      "argv": ["check", "--output-format", "bogus"],
+      "argv": [
+        "check",
+        "--output-format",
+        "bogus"
+      ],
       "output_format": "full",
       "expected_oracle_outcome": "cli_error",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "no_config",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_invalid_output_format_short_alias",
@@ -31323,14 +31545,24 @@
       "input_mode": "stdin",
       "stdin_base64": "",
       "files": [],
-      "argv": ["check", "-o", "bogus"],
+      "argv": [
+        "check",
+        "-o",
+        "bogus"
+      ],
       "output_format": "full",
       "expected_oracle_outcome": "cli_error",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "no_config",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_invalid_output_format_before_help",
@@ -31339,14 +31571,25 @@
       "input_mode": "stdin",
       "stdin_base64": "",
       "files": [],
-      "argv": ["check", "--output-format", "bogus", "--help"],
+      "argv": [
+        "check",
+        "--output-format",
+        "bogus",
+        "--help"
+      ],
       "output_format": "full",
       "expected_oracle_outcome": "cli_error",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "no_config",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_invalid_output_format_version_subcommand",
@@ -31355,14 +31598,24 @@
       "input_mode": "stdin",
       "stdin_base64": "",
       "files": [],
-      "argv": ["version", "--output-format", "bogus"],
+      "argv": [
+        "version",
+        "--output-format",
+        "bogus"
+      ],
       "output_format": "full",
       "expected_oracle_outcome": "cli_error",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "no_config",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_invalid_output_format_dump_config_subcommand",
@@ -31371,14 +31624,24 @@
       "input_mode": "stdin",
       "stdin_base64": "",
       "files": [],
-      "argv": ["dump-config", "--output-format", "bogus"],
+      "argv": [
+        "dump-config",
+        "--output-format",
+        "bogus"
+      ],
       "output_format": "full",
       "expected_oracle_outcome": "cli_error",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "no_config",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_invalid_output_format_config_value_version",
@@ -31387,14 +31650,26 @@
       "input_mode": "stdin",
       "stdin_base64": "",
       "files": [],
-      "argv": ["--config", "version", "check", "--output-format", "bogus"],
+      "argv": [
+        "--config",
+        "version",
+        "check",
+        "--output-format",
+        "bogus"
+      ],
       "output_format": "full",
       "expected_oracle_outcome": "cli_error",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "no_config",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_invalid_output_format_config_value_dump_config",
@@ -31403,14 +31678,26 @@
       "input_mode": "stdin",
       "stdin_base64": "",
       "files": [],
-      "argv": ["--config", "dump-config", "check", "--output-format", "bogus"],
+      "argv": [
+        "--config",
+        "dump-config",
+        "check",
+        "--output-format",
+        "bogus"
+      ],
       "output_format": "full",
       "expected_oracle_outcome": "cli_error",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "no_config",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_invalid_output_format_config_value_check",
@@ -31419,14 +31706,25 @@
       "input_mode": "stdin",
       "stdin_base64": "",
       "files": [],
-      "argv": ["--config", "check", "--output-format", "bogus"],
+      "argv": [
+        "--config",
+        "check",
+        "--output-format",
+        "bogus"
+      ],
       "output_format": "full",
       "expected_oracle_outcome": "cli_error",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "no_config",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_invalid_utf8_file_full_per_file_error",
@@ -31434,17 +31732,36 @@
       "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c: Path.read_text raises UnicodeDecodeError inside LintFile.lint and command_line logs it per file in Full mode.",
       "input_mode": "files",
       "files": [
-        {"path": "config.json", "content_base64": "eyJjaGVja3MiOnt9fQ=="},
-        {"path": "broken.txt", "content_base64": "/w=="}
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnt9fQ=="
+        },
+        {
+          "path": "broken.txt",
+          "content_base64": "/w=="
+        }
       ],
-      "argv": ["check", "--config", "{file:config.json}", "--output-format", "full", "{file:broken.txt}"],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "full",
+        "{file:broken.txt}"
+      ],
       "output_format": "full",
       "expected_oracle_outcome": "clean",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "explicit_empty_checks_invalid_utf8_file",
       "workspace_mutates": false,
-      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     },
     {
       "id": "cli_invalid_utf8_file_json_per_file_error",
@@ -31452,39 +31769,882 @@
       "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c: UnicodeDecodeError is converted to ResponseError code -31999/data UnicodeDecodeError and collected under the resolved file URI in JSON mode.",
       "input_mode": "files",
       "files": [
-        {"path": "config.json", "content_base64": "eyJjaGVja3MiOnt9fQ=="},
-        {"path": "broken.txt", "content_base64": "/w=="}
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnt9fQ=="
+        },
+        {
+          "path": "broken.txt",
+          "content_base64": "/w=="
+        }
       ],
-      "argv": ["check", "--config", "{file:config.json}", "--output-format", "json", "{file:broken.txt}"],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json",
+        "{file:broken.txt}"
+      ],
       "output_format": "json",
       "expected_oracle_outcome": "clean",
       "timeout_seconds": 10,
-      "environment": {"locale": "C.UTF-8"},
+      "environment": {
+        "locale": "C.UTF-8"
+      },
       "config_scenario": "explicit_empty_checks_invalid_utf8_file",
       "workspace_mutates": false,
-      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact", "normalize_workspace_uri": true}
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact",
+        "normalize_workspace_uri": true
+      }
     },
-{"id":"cli_version_before_check_no_output","capability_id":"cli.version_argument_precedence","provenance":"Pinned Proselint 0.16.0 argparse behavior: the check subparser's default version=False overrides a root --version parsed before the subcommand, so empty stdin is linted and emits no output.","input_mode":"stdin","stdin_base64":"","files":[],"argv":["--version","check"],"output_format":"full","expected_oracle_outcome":"clean","timeout_seconds":10,"environment":{"locale":"C.UTF-8"},"config_scenario":"no_config","workspace_mutates":false,"comparison":{"stdout":"bytes","stderr":"bytes","exit_status":"exact"}},
-{"id":"cli_version_before_check_json","capability_id":"cli.version_argument_precedence","provenance":"Pinned Proselint 0.16.0 argparse behavior: --version before check is overridden by the check subparser default and JSON output is produced for empty stdin.","input_mode":"stdin","stdin_base64":"","files":[],"argv":["--version","check","--output-format","json"],"output_format":"json","expected_oracle_outcome":"clean","timeout_seconds":10,"environment":{"locale":"C.UTF-8"},"config_scenario":"no_config","workspace_mutates":false,"comparison":{"stdout":"json","stderr":"bytes","exit_status":"exact"}},
-{"id":"cli_check_version_flag_control","capability_id":"cli.version_argument_precedence","provenance":"Pinned Proselint 0.16.0 regression control: --version after the check subcommand still selects the version output.","input_mode":"stdin","stdin_base64":"","files":[],"argv":["check","--version"],"output_format":"full","expected_oracle_outcome":"clean","timeout_seconds":10,"environment":{"locale":"C.UTF-8"},"config_scenario":"no_config","workspace_mutates":false,"comparison":{"stdout":"bytes","stderr":"bytes","exit_status":"exact"}},
-{"id":"cli_version_before_check_missing_path","capability_id":"cli.version_argument_precedence","provenance":"Pinned Proselint 0.16.0 argparse behavior: --version before check is overridden; a path after -- is processed by check and reports the missing input. Python reports per-file errors on stderr while retaining exit status 0.","input_mode":"files","files":[{"path":"unused.txt","content_base64":""}],"unused_files":["unused.txt"],"argv":["--version","check","--","missing.txt"],"output_format":"full","expected_oracle_outcome":"clean","timeout_seconds":10,"environment":{"locale":"C.UTF-8"},"config_scenario":"no_config","workspace_mutates":false,"comparison":{"stdout":"bytes","stderr":"bytes","exit_status":"exact"}},
-    {"id":"cli_xdg_missing_does_not_fall_back_to_home_check","capability_id":"cli.config.user_discovery","provenance":"Pinned Proselint 0.16.0 config.paths selects only XDG_CONFIG_HOME/proselint/config.json when XDG_CONFIG_HOME is nonempty; if it is missing, config.load_from uses bundled DEFAULT and ignores the existing HOME config. The default-disabled curly_quotes check remains disabled.","input_mode":"stdin","stdin_base64":"VGhlIHBocmFzZSAid29yZCIgaXMgcXVvdGVkLg==","files":[],"home_files":[{"path":".config/proselint/config.json","content_base64":"eyJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7ImN1cmx5X3F1b3RlcyI6dHJ1ZX19fX0="}],"argv":["check","--output-format","json"],"output_format":"json","expected_oracle_outcome":"clean","timeout_seconds":10,"environment":{"locale":"C.UTF-8","XDG_CONFIG_HOME":"xdg-missing"},"config_scenario":"nonempty_xdg_missing_home_config_present","workspace_mutates":false,"comparison":{"stdout":"json","stderr":"bytes","exit_status":"exact"}},
-    {"id":"cli_xdg_missing_does_not_fall_back_to_home_dump_config","capability_id":"cli.config.user_discovery","provenance":"Pinned Proselint 0.16.0 config.paths selects only XDG_CONFIG_HOME/proselint/config.json when XDG_CONFIG_HOME is nonempty; dump-config therefore emits bundled DEFAULT when that file is absent, despite a distinct HOME config being present.","input_mode":"stdin","stdin_base64":"","files":[],"home_files":[{"path":".config/proselint/config.json","content_base64":"eyJtYXhfZXJyb3JzIjo3fQ=="}],"argv":["dump-config"],"output_format":"full","expected_oracle_outcome":"clean","timeout_seconds":10,"environment":{"locale":"C.UTF-8","XDG_CONFIG_HOME":"xdg-missing"},"config_scenario":"nonempty_xdg_missing_home_config_present","workspace_mutates":false,"comparison":{"stdout":"bytes","stderr":"bytes","exit_status":"exact"}}
-,
-    {"id":"cli_unknown_argument_root","capability_id":"cli.unrecognized_arguments","provenance":"Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c uses argparse.parse_args before CLI application handling; unrecognized root or subcommand options exit 2 with root usage and exact `unrecognized arguments` stderr.","input_mode":"stdin","stdin_base64":"","files":[],"argv":["--not-a-real-option"],"output_format":"full","expected_oracle_outcome":"cli_error","timeout_seconds":10,"environment":{"locale":"C.UTF-8"},"config_scenario":"no_config","workspace_mutates":false,"comparison":{"stdout":"bytes","stderr":"bytes","exit_status":"exact"}},
-    {"id":"cli_unknown_argument_check","capability_id":"cli.unrecognized_arguments","provenance":"Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c uses argparse.parse_args before CLI application handling; unrecognized root or subcommand options exit 2 with root usage and exact `unrecognized arguments` stderr.","input_mode":"stdin","stdin_base64":"","files":[],"argv":["check","--not-a-real-option"],"output_format":"full","expected_oracle_outcome":"cli_error","timeout_seconds":10,"environment":{"locale":"C.UTF-8"},"config_scenario":"no_config","workspace_mutates":false,"comparison":{"stdout":"bytes","stderr":"bytes","exit_status":"exact"}},
-    {"id":"cli_unknown_argument_version","capability_id":"cli.unrecognized_arguments","provenance":"Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c uses argparse.parse_args before CLI application handling; unrecognized root or subcommand options exit 2 with root usage and exact `unrecognized arguments` stderr.","input_mode":"stdin","stdin_base64":"","files":[],"argv":["version","--not-a-real-option"],"output_format":"full","expected_oracle_outcome":"cli_error","timeout_seconds":10,"environment":{"locale":"C.UTF-8"},"config_scenario":"no_config","workspace_mutates":false,"comparison":{"stdout":"bytes","stderr":"bytes","exit_status":"exact"}},
-    {"id":"cli_unknown_argument_dump_config","capability_id":"cli.unrecognized_arguments","provenance":"Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c uses argparse.parse_args before CLI application handling; unrecognized root or subcommand options exit 2 with root usage and exact `unrecognized arguments` stderr.","input_mode":"stdin","stdin_base64":"","files":[],"argv":["dump-config","--not-a-real-option"],"output_format":"full","expected_oracle_outcome":"cli_error","timeout_seconds":10,"environment":{"locale":"C.UTF-8"},"config_scenario":"no_config","workspace_mutates":false,"comparison":{"stdout":"bytes","stderr":"bytes","exit_status":"exact"}},
-    {"id":"cli_unknown_argument_short","capability_id":"cli.unrecognized_arguments","provenance":"Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c uses argparse.parse_args before CLI application handling; unrecognized root or subcommand options exit 2 with root usage and exact `unrecognized arguments` stderr.","input_mode":"stdin","stdin_base64":"","files":[],"argv":["check","-Z"],"output_format":"full","expected_oracle_outcome":"cli_error","timeout_seconds":10,"environment":{"locale":"C.UTF-8"},"config_scenario":"no_config","workspace_mutates":false,"comparison":{"stdout":"bytes","stderr":"bytes","exit_status":"exact"}},
-    {"id":"cli_unknown_argument_attached_value","capability_id":"cli.unrecognized_arguments","provenance":"Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c uses argparse.parse_args before CLI application handling; unrecognized root or subcommand options exit 2 with root usage and exact `unrecognized arguments` stderr.","input_mode":"stdin","stdin_base64":"","files":[],"argv":["check","--not-a-real-option=value"],"output_format":"full","expected_oracle_outcome":"cli_error","timeout_seconds":10,"environment":{"locale":"C.UTF-8"},"config_scenario":"no_config","workspace_mutates":false,"comparison":{"stdout":"bytes","stderr":"bytes","exit_status":"exact"}}
-,
-    {"id":"cli_unknown_argument_multiple","capability_id":"cli.unrecognized_arguments","provenance":"Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c: argparse.parse_args reports all unrecognized argument tokens in order using root usage, even after a subcommand. Help exits before the later unknown-argument check.","input_mode":"stdin","stdin_base64":"","files":[],"argv":["check","--first-unknown","--second-unknown"],"output_format":"full","expected_oracle_outcome":"cli_error","timeout_seconds":10,"environment":{"locale":"C.UTF-8"},"config_scenario":"no_config","workspace_mutates":false,"comparison":{"stdout":"bytes","stderr":"bytes","exit_status":"exact"}},
-    {"id":"cli_unknown_argument_wrong_subcommand_demo","capability_id":"cli.unrecognized_arguments","provenance":"Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c: argparse.parse_args reports all unrecognized argument tokens in order using root usage, even after a subcommand. Help exits before the later unknown-argument check.","input_mode":"stdin","stdin_base64":"","files":[],"argv":["version","--demo"],"output_format":"full","expected_oracle_outcome":"cli_error","timeout_seconds":10,"environment":{"locale":"C.UTF-8"},"config_scenario":"no_config","workspace_mutates":false,"comparison":{"stdout":"bytes","stderr":"bytes","exit_status":"exact"}},
-    {"id":"cli_unknown_argument_wrong_subcommand_default","capability_id":"cli.unrecognized_arguments","provenance":"Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c: argparse.parse_args reports all unrecognized argument tokens in order using root usage, even after a subcommand. Help exits before the later unknown-argument check.","input_mode":"stdin","stdin_base64":"","files":[],"argv":["check","--default"],"output_format":"full","expected_oracle_outcome":"cli_error","timeout_seconds":10,"environment":{"locale":"C.UTF-8"},"config_scenario":"no_config","workspace_mutates":false,"comparison":{"stdout":"bytes","stderr":"bytes","exit_status":"exact"}},
-    {"id":"cli_unknown_argument_help_precedence","capability_id":"cli.unrecognized_arguments","provenance":"Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c: argparse.parse_args reports all unrecognized argument tokens in order using root usage, even after a subcommand. Help exits before the later unknown-argument check.","input_mode":"stdin","stdin_base64":"","files":[],"argv":["check","--help","--not-a-real-option"],"output_format":"full","expected_oracle_outcome":"clean","timeout_seconds":10,"environment":{"locale":"C.UTF-8"},"config_scenario":"no_config","workspace_mutates":false,"comparison":{"stdout":"bytes","stderr":"bytes","exit_status":"exact"}}
-,
-    {"id":"cli_unknown_argument_long_o_prefix","capability_id":"cli.unrecognized_arguments","provenance":"Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c treats a long `--other` token as unrecognized; the short `-o` option does not make `--o...` options valid.","input_mode":"stdin","stdin_base64":"","files":[],"argv":["check","--other"],"output_format":"full","expected_oracle_outcome":"cli_error","timeout_seconds":10,"environment":{"locale":"C.UTF-8"},"config_scenario":"no_config","workspace_mutates":false,"comparison":{"stdout":"bytes","stderr":"bytes","exit_status":"exact"}}
-,
-    {"id":"cli_unknown_after_double_dash_is_path","capability_id":"cli.unrecognized_arguments","provenance":"Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c treats tokens after `--` as positional check paths, even when the path begins with `-`; this is the boundary of unknown-option parsing.","input_mode":"files","files":[{"path":"--not-a-real-option","content_base64":""}],"argv":["check","--","{file:--not-a-real-option}"],"output_format":"full","expected_oracle_outcome":"clean","timeout_seconds":10,"environment":{"locale":"C.UTF-8"},"config_scenario":"no_config","workspace_mutates":false,"comparison":{"stdout":"bytes","stderr":"bytes","exit_status":"exact"}}
+    {
+      "id": "cli_version_before_check_no_output",
+      "capability_id": "cli.version_argument_precedence",
+      "provenance": "Pinned Proselint 0.16.0 argparse behavior: the check subparser's default version=False overrides a root --version parsed before the subcommand, so empty stdin is linted and emits no output.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "--version",
+        "check"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_version_before_check_json",
+      "capability_id": "cli.version_argument_precedence",
+      "provenance": "Pinned Proselint 0.16.0 argparse behavior: --version before check is overridden by the check subparser default and JSON output is produced for empty stdin.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "--version",
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_check_version_flag_control",
+      "capability_id": "cli.version_argument_precedence",
+      "provenance": "Pinned Proselint 0.16.0 regression control: --version after the check subcommand still selects the version output.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--version"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_version_before_check_missing_path",
+      "capability_id": "cli.version_argument_precedence",
+      "provenance": "Pinned Proselint 0.16.0 argparse behavior: --version before check is overridden; a path after -- is processed by check and reports the missing input. Python reports per-file errors on stderr while retaining exit status 0.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "unused.txt",
+          "content_base64": ""
+        }
+      ],
+      "unused_files": [
+        "unused.txt"
+      ],
+      "argv": [
+        "--version",
+        "check",
+        "--",
+        "missing.txt"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_xdg_missing_does_not_fall_back_to_home_check",
+      "capability_id": "cli.config.user_discovery",
+      "provenance": "Pinned Proselint 0.16.0 config.paths selects only XDG_CONFIG_HOME/proselint/config.json when XDG_CONFIG_HOME is nonempty; if it is missing, config.load_from uses bundled DEFAULT and ignores the existing HOME config. The default-disabled curly_quotes check remains disabled.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlIHBocmFzZSAid29yZCIgaXMgcXVvdGVkLg==",
+      "files": [],
+      "home_files": [
+        {
+          "path": ".config/proselint/config.json",
+          "content_base64": "eyJjaGVja3MiOnsidHlwb2dyYXBoeSI6eyJzeW1ib2xzIjp7ImN1cmx5X3F1b3RlcyI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "XDG_CONFIG_HOME": "xdg-missing"
+      },
+      "config_scenario": "nonempty_xdg_missing_home_config_present",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_xdg_missing_does_not_fall_back_to_home_dump_config",
+      "capability_id": "cli.config.user_discovery",
+      "provenance": "Pinned Proselint 0.16.0 config.paths selects only XDG_CONFIG_HOME/proselint/config.json when XDG_CONFIG_HOME is nonempty; dump-config therefore emits bundled DEFAULT when that file is absent, despite a distinct HOME config being present.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "home_files": [
+        {
+          "path": ".config/proselint/config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjo3fQ=="
+        }
+      ],
+      "argv": [
+        "dump-config"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "XDG_CONFIG_HOME": "xdg-missing"
+      },
+      "config_scenario": "nonempty_xdg_missing_home_config_present",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_unknown_argument_root",
+      "capability_id": "cli.unrecognized_arguments",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c uses argparse.parse_args before CLI application handling; unrecognized root or subcommand options exit 2 with root usage and exact `unrecognized arguments` stderr.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "--not-a-real-option"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_unknown_argument_check",
+      "capability_id": "cli.unrecognized_arguments",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c uses argparse.parse_args before CLI application handling; unrecognized root or subcommand options exit 2 with root usage and exact `unrecognized arguments` stderr.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--not-a-real-option"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_unknown_argument_version",
+      "capability_id": "cli.unrecognized_arguments",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c uses argparse.parse_args before CLI application handling; unrecognized root or subcommand options exit 2 with root usage and exact `unrecognized arguments` stderr.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "version",
+        "--not-a-real-option"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_unknown_argument_dump_config",
+      "capability_id": "cli.unrecognized_arguments",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c uses argparse.parse_args before CLI application handling; unrecognized root or subcommand options exit 2 with root usage and exact `unrecognized arguments` stderr.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "dump-config",
+        "--not-a-real-option"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_unknown_argument_short",
+      "capability_id": "cli.unrecognized_arguments",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c uses argparse.parse_args before CLI application handling; unrecognized root or subcommand options exit 2 with root usage and exact `unrecognized arguments` stderr.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "-Z"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_unknown_argument_attached_value",
+      "capability_id": "cli.unrecognized_arguments",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c uses argparse.parse_args before CLI application handling; unrecognized root or subcommand options exit 2 with root usage and exact `unrecognized arguments` stderr.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--not-a-real-option=value"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_unknown_argument_multiple",
+      "capability_id": "cli.unrecognized_arguments",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c: argparse.parse_args reports all unrecognized argument tokens in order using root usage, even after a subcommand. Help exits before the later unknown-argument check.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--first-unknown",
+        "--second-unknown"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_unknown_argument_wrong_subcommand_demo",
+      "capability_id": "cli.unrecognized_arguments",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c: argparse.parse_args reports all unrecognized argument tokens in order using root usage, even after a subcommand. Help exits before the later unknown-argument check.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "version",
+        "--demo"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_unknown_argument_wrong_subcommand_default",
+      "capability_id": "cli.unrecognized_arguments",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c: argparse.parse_args reports all unrecognized argument tokens in order using root usage, even after a subcommand. Help exits before the later unknown-argument check.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--default"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_unknown_argument_help_precedence",
+      "capability_id": "cli.unrecognized_arguments",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c: argparse.parse_args reports all unrecognized argument tokens in order using root usage, even after a subcommand. Help exits before the later unknown-argument check.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--help",
+        "--not-a-real-option"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_unknown_argument_long_o_prefix",
+      "capability_id": "cli.unrecognized_arguments",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c treats a long `--other` token as unrecognized; the short `-o` option does not make `--o...` options valid.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--other"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_unknown_after_double_dash_is_path",
+      "capability_id": "cli.unrecognized_arguments",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c treats tokens after `--` as positional check paths, even when the path begins with `-`; this is the boundary of unknown-option parsing.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "--not-a-real-option",
+          "content_base64": ""
+        }
+      ],
+      "argv": [
+        "check",
+        "--",
+        "{file:--not-a-real-option}"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_missing_config_before_option_at_root",
+      "capability_id": "cli.missing_option_value_before_option",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/command_line.py:get_parser() defines these value-taking options and main() calls argparse.parse_args before application handling. When the next token begins with `-`, argparse reports the option-specific “expected one argument” message. Direct live probes confirm root and check parser usage differ.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "--config",
+        "--bogus",
+        "check"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_missing_config_before_option_in_check",
+      "capability_id": "cli.missing_option_value_before_option",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/command_line.py:get_parser() defines these value-taking options and main() calls argparse.parse_args before application handling. When the next token begins with `-`, argparse reports the option-specific “expected one argument” message. Direct live probes confirm root and check parser usage differ.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--config",
+        "--bogus"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_missing_output_format_before_option",
+      "capability_id": "cli.missing_option_value_before_option",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/command_line.py:get_parser() defines these value-taking options and main() calls argparse.parse_args before application handling. When the next token begins with `-`, argparse reports the option-specific “expected one argument” message. Direct live probes confirm root and check parser usage differ.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "--bogus"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_missing_short_output_format_before_option",
+      "capability_id": "cli.missing_option_value_before_option",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/command_line.py:get_parser() defines these value-taking options and main() calls argparse.parse_args before application handling. When the next token begins with `-`, argparse reports the option-specific “expected one argument” message. Direct live probes confirm root and check parser usage differ.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "-o",
+        "--bogus"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_missing_output_format_before_help",
+      "capability_id": "cli.missing_option_value_before_option",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/command_line.py:get_parser() defines --output-format/-o as value-taking and main() calls argparse.parse_args before application handling. `--help` is an option, not a value, so the missing value is reported before help can exit; the original check-parser usage and option alias are preserved.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "--help"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_missing_short_output_format_before_help",
+      "capability_id": "cli.missing_option_value_before_option",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/command_line.py:get_parser() defines --output-format/-o as value-taking and main() calls argparse.parse_args before application handling. `--help` is an option, not a value, so the missing value is reported before help can exit; the original check-parser usage and option alias are preserved.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "-o",
+        "--help"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_single_dash_value",
+      "capability_id": "cli.missing_option_value_before_option",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/command_line.py uses argparse option parsing. `-`, negative integers, and negative decimals matching argparse’s negative-number grammar are accepted as values even though they begin with `-`; config then proceeds to file loading and output-format proceeds to its type conversion.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--config",
+        "-"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_negative_integer_value",
+      "capability_id": "cli.missing_option_value_before_option",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/command_line.py uses argparse option parsing. `-`, negative integers, and negative decimals matching argparse’s negative-number grammar are accepted as values even though they begin with `-`; config then proceeds to file loading and output-format proceeds to its type conversion.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--config",
+        "-1"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_negative_decimal_value",
+      "capability_id": "cli.missing_option_value_before_option",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/command_line.py uses argparse option parsing. `-`, negative integers, and negative decimals matching argparse’s negative-number grammar are accepted as values even though they begin with `-`; config then proceeds to file loading and output-format proceeds to its type conversion.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--config",
+        "-1.5"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_output_format_single_dash_value",
+      "capability_id": "cli.missing_option_value_before_option",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/command_line.py uses argparse option parsing. `-`, negative integers, and negative decimals matching argparse’s negative-number grammar are accepted as values even though they begin with `-`; config then proceeds to file loading and output-format proceeds to its type conversion.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "-"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_output_format_negative_integer_value",
+      "capability_id": "cli.missing_option_value_before_option",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/command_line.py uses argparse option parsing. `-`, negative integers, and negative decimals matching argparse’s negative-number grammar are accepted as values even though they begin with `-`; config then proceeds to file loading and output-format proceeds to its type conversion.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "-1"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_output_format_negative_decimal_without_integer",
+      "capability_id": "cli.missing_option_value_before_option",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/command_line.py uses argparse option parsing. `-`, negative integers, and negative decimals matching argparse’s negative-number grammar are accepted as values even though they begin with `-`; config then proceeds to file loading and output-format proceeds to its type conversion.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "-.5"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_unicode_negative_decimal_value",
+      "capability_id": "cli.missing_option_value_before_option",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Python argparse uses its Unicode-aware negative-number matcher `^-\\d+$|^-\\d*\\.\\d+$`. An Arabic-Indic decimal digit is therefore a valid negative-number value even though it begins with `-`; the option then proceeds to config loading or output-format conversion.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--config",
+        "-١"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_output_format_unicode_negative_decimal_value",
+      "capability_id": "cli.missing_option_value_before_option",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Python argparse uses its Unicode-aware negative-number matcher `^-\\d+$|^-\\d*\\.\\d+$`. An Arabic-Indic decimal digit is therefore a valid negative-number value even though it begins with `-`; the option then proceeds to config loading or output-format conversion.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "-١"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    }
   ]
 }

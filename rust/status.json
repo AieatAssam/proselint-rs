@@ -462,6 +462,10 @@
     {
       "id": "cli.unrecognized_arguments",
       "status": "recorded"
+    },
+    {
+      "id": "cli.missing_option_value_before_option",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -486,25 +490,25 @@
   },
   "harness": {
     "status": "verified after metadata fingerprint changes; Markdown/ledger exclusion is covered by a discrimination test",
-    "source_fingerprint": "f613269db8621fcb8d6836dada159d2f6eb15212bea7ea54419955eb9b212838",
+    "source_fingerprint": "cbf3372da20f6900fb13dfa8f637b0b5c445ba51c324642e0a59b1455ca88909",
     "unit_tests": {
       "passed": 92,
       "exit_code": 0,
-      "duration_seconds": 60.302,
-      "command": "python3 -m unittest discover -s rust/harness/tests -v",
-      "evidence": "rust/artifacts/harness-suite-cli-unrecognized-20261108.log",
-      "notes": "Full suite passed after CLI argument parser changes and all 12 capability cases were present."
+      "duration_seconds": 61.309,
+      "command": "python3 -m unittest discover -s rust/harness/tests -p 'test_*.py'",
+      "evidence": "rust/artifacts/harness-suite-missing-option-value-final-20261108.log",
+      "notes": "Full suite passed with all 14 missing-option-value cases present; benchmark deadline tests correctly assert BLOCKED on their artificial short deadlines."
     },
     "comparator_discriminators": {
       "passed": 23,
       "exit_code": 0,
-      "evidence": "rust/artifacts/independent-config-cliches-postrace-20261107T112758-1779916/comparator-selftest.stdout.txt"
+      "evidence": "rust/artifacts/independent-missing-option-value-final-luna-low-20261108/comparator-selftest.json"
     },
     "live_oracle_self_check": {
       "passed_cases": 2,
       "exit_code": 0,
       "scope": "harness_health_only",
-      "evidence": "rust/artifacts/oracle-self-check-residual-regressions.json"
+      "evidence": "rust/artifacts/cli-missing-option-value-final-oracle-selfcheck-20261108.json"
     },
     "independent_evidence": "rust/artifacts/independent-review-fixes/final-gate-348.json",
     "oracle_integrity": {
@@ -547,12 +551,12 @@
     }
   },
   "active_ownership": {
-    "current": "The 113-capability output checkpoint passes 961/961 live cases. cli.file_invalid_utf8_error is recorded; Full and JSON per-file decoding errors now match, and Compact remains covered. Continue with the next small unverified CLI/rule behavior after source-derived pinned-oracle RED.",
+    "current": "cli.missing_option_value_before_option is recorded after 14/14 focused owner and independent live cases and the 116-capability/993-case immediate cumulative gate. Next probe known value-taking options with no following token at end of argv.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
     "23 unique rule paths remain unimplemented.",
-    "Other CLI behavior remains unverified, including remaining subcommands, HOME-unset resolution, directory user candidates, directory traversal/decoding edges outside the accepted directory cases; explicit multi-file rendering is accepted for the recorded file-list cases; missing option-value error formatting when a value-taking option is followed by an option-looking token.",
+    "Other CLI behavior remains unverified, including remaining subcommands, HOME-unset resolution, directory user candidates, directory traversal/decoding edges outside the accepted directory cases; explicit multi-file rendering is accepted for the recorded file-list cases; option-value parsing outside cli.missing_option_value_before_option remains unverified.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
     "Directory/non-UTF-8 path error formatting on non-Linux platforms remains unverified.",
     "Benchmarks cover only the isolated misc.suddenly profile and the selected misc.suddenly + psychology.p_equals_zero profile on their recorded inputs; broader rule sets and default configurations remain unmeasured.",
@@ -8468,31 +8472,149 @@
       "limitations": [
         "Missing values for known options when followed by an option-looking token remain a separate parser-error gap; current probes show clap stderr differs from Python argparse."
       ]
+    },
+    {
+      "id": "cli.missing_option_value_before_option",
+      "status": "recorded",
+      "case_ids": [
+        "cli_missing_config_before_option_at_root",
+        "cli_missing_config_before_option_in_check",
+        "cli_missing_output_format_before_option",
+        "cli_missing_short_output_format_before_option",
+        "cli_missing_output_format_before_help",
+        "cli_missing_short_output_format_before_help",
+        "cli_config_single_dash_value",
+        "cli_config_negative_integer_value",
+        "cli_config_negative_decimal_value",
+        "cli_output_format_single_dash_value",
+        "cli_output_format_negative_integer_value",
+        "cli_output_format_negative_decimal_without_integer",
+        "cli_config_unicode_negative_decimal_value",
+        "cli_output_format_unicode_negative_decimal_value"
+      ],
+      "upstream_source": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/command_line.py:get_parser() registers --config and --output-format/-o; main() calls argparse.parse_args before application handling.",
+      "upstream_spec": "For separate value-taking --config, --output-format, or -o options followed by an option token, argparse exits 2 with the parser-specific usage and `argument <option>: expected one argument`. A bare `-` and tokens matching Python argparse’s Unicode-aware negative-number grammar are values, not options; config values proceed to file loading and output-format values proceed to enum conversion. `--` ends option parsing. Help tokens following the value-taking option are diagnosed as missing values before help.",
+      "specification": {
+        "live_cases": 14,
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "comparison": "Exact stdout/stderr bytes and process exit status against the real pinned CLI. Root and check-parser usage, long/short aliases, help interactions, option-token errors, dash/negative decimal/Unicode-decimal values.",
+        "scope_limit": "Does not cover all value-taking options, values attached with equals for every form, or missing values at end of argv."
+      },
+      "red": {
+        "status": "behavioral_failure",
+        "focused_live_mismatches": 4,
+        "focused_live_total": 4,
+        "focused_live_report": "rust/artifacts/cli-missing-option-value-red-live-20261108.json",
+        "initial_red_source_fingerprint": "79f1c4096171b3ddf07af19faf8255e73b7b92f7ecd5f3d156e6d7df64358e11",
+        "expanded_regression_live_mismatches": 6,
+        "expanded_regression_live_passes": 6,
+        "expanded_regression_total": 12,
+        "expanded_regression_report": "rust/artifacts/cli-missing-option-value-regression-red-live-20261108.json",
+        "regression_rust_test_log": "rust/artifacts/cli-missing-option-value-full-red-tests-20261108.log",
+        "regression_finding": "Independent review found argparse accepts bare dash and negative decimal tokens as values; scanner initially rejected them. Added ASCII and Unicode decimal cases before correcting."
+      },
+      "green": {
+        "status": "PASS",
+        "focused_rust_tests_passed": 7,
+        "focused_rust_test_total": 7,
+        "focused_rust_test_report": "rust/artifacts/independent-missing-option-value-final-luna-low-20261108/cargo-test.log",
+        "owner_live_cases_passed": 14,
+        "owner_live_report": "rust/artifacts/cli-missing-option-value-final-green-live-20261108.json",
+        "owner_live_seconds": 17.973081,
+        "candidate_attestation": "rust/artifacts/20261108T071338662662Z-build.attestation.json",
+        "source_fingerprint": "cbf3372da20f6900fb13dfa8f637b0b5c445ba51c324642e0a59b1455ca88909"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "configured_model": "gpt-6-luna",
+        "configured_effort": "low",
+        "runtime_model_metadata": "unavailable",
+        "focused_rust_tests_passed": 7,
+        "independent_live_cases_passed": 14,
+        "independent_live_report": "rust/artifacts/independent-missing-option-value-final-luna-low-20261108/live.json",
+        "build_attestation": "rust/artifacts/20261108T071511589311Z-build.attestation.json",
+        "candidate_binary_sha256": "05cb36756040efe3d71b5b7200d3e3afd91eed58e843c92c9b982a6dccba5e66",
+        "source_fingerprint": "cbf3372da20f6900fb13dfa8f637b0b5c445ba51c324642e0a59b1455ca88909",
+        "oracle_integrity": "verified",
+        "oracle_selfcheck_cases_passed": 2,
+        "comparator_selftests_passed": 23,
+        "report": "rust/artifacts/independent-missing-option-value-final-luna-low-20261108/verification-summary.md"
+      },
+      "cumulative_gate_required": true,
+      "limitations": [
+        "Other value-taking CLI options and missing values at end of argv remain unverified."
+      ],
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-missing-option-value-final-20261108.json",
+        "capabilities": 116,
+        "production_cases": 993,
+        "manifest_cases": 995,
+        "excluded_smoke_cases": 2,
+        "duration_seconds": 893.051931,
+        "live_seconds": 845.982207,
+        "rust_checks_build_seconds": 44.468643,
+        "oracle_integrity_seconds": 2.094227,
+        "comparator_self_tests_seconds": 0.190483,
+        "comparator_self_tests_passed": 23,
+        "source_fingerprint": "cbf3372da20f6900fb13dfa8f637b0b5c445ba51c324642e0a59b1455ca88909"
+      },
+      "stage_durations_seconds": {
+        "red_focused_live_initial": 8.125995,
+        "red_focused_live_expanded_regression": 16.584058,
+        "red_focused_rust_tests": 0.02,
+        "owner_focused_rust_test_command": 55.61,
+        "owner_focused_live": 17.973081,
+        "independent_locked_test_command": 0.14,
+        "independent_build_checks": 1.392861,
+        "independent_focused_live": 17.99928,
+        "python_harness_suite": 61.309,
+        "cumulative_gate": 893.051931,
+        "cumulative_gate_live": 845.982207,
+        "cumulative_gate_rust_checks_build": 44.468643,
+        "cumulative_gate_oracle_integrity": 2.094227,
+        "cumulative_gate_comparator_selftests": 0.190483
+      },
+      "stage_case_counts": {
+        "initial_red_live_mismatches": 4,
+        "initial_red_live_total": 4,
+        "expanded_red_live_mismatches": 6,
+        "expanded_red_live_passes": 6,
+        "expanded_red_live_total": 12,
+        "focused_rust_tests_passed": 7,
+        "owner_live_cases_passed": 14,
+        "independent_live_cases_passed": 14,
+        "comparator_selftests_passed": 23,
+        "oracle_selfcheck_cases_passed": 2,
+        "python_harness_tests_passed": 92,
+        "cumulative_gate_live_cases_passed": 993,
+        "cumulative_gate_capabilities": 116
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-unknown-args-final-20261108.json",
-    "passed_cases": 979,
-    "manifest_cases": 981,
+    "report": "rust/artifacts/strict-gate-missing-option-value-final-20261108.json",
+    "passed_cases": 993,
+    "manifest_cases": 995,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "capability_count": 115,
-    "source_fingerprint": "8c14e84cca1e14aebe8ac80111a83c381a96ad3562f441dd8ff2808df212773b",
-    "run_id": "20261108T063002927558Z-020b4c89",
-    "started_at_utc": "2026-11-08T06:30:02.927530+00:00",
-    "finished_at_utc": "2026-11-08T06:43:35.356614+00:00",
-    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T062921560278Z-build.attestation.json",
-    "candidate_sha256": "05d5cc677c24d63a61d664a18302f5b482bc958f280a37c7e2529b21834cfc29",
+    "capability_count": 116,
+    "source_fingerprint": "cbf3372da20f6900fb13dfa8f637b0b5c445ba51c324642e0a59b1455ca88909",
+    "run_id": "20261108T073801024808Z-93754598",
+    "started_at_utc": "2026-11-08T07:38:01.024763+00:00",
+    "finished_at_utc": "2026-11-08T07:52:06.723271+00:00",
+    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T073716628143Z-build.attestation.json",
+    "candidate_sha256": "05cb36756040efe3d71b5b7200d3e3afd91eed58e843c92c9b982a6dccba5e66",
     "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
-    "duration_seconds": 856.51152,
+    "duration_seconds": 893.051931,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.138273,
-      "cumulative_live_comparison": 812.701079,
-      "oracle_integrity": 1.965529,
-      "rust_checks_and_build": 41.428076
+      "comparator_self_tests": 0.190483,
+      "cumulative_live_comparison": 845.982207,
+      "oracle_integrity": 2.094227,
+      "rust_checks_and_build": 44.468643
     },
     "comparator_self_tests": 23
   },
@@ -8500,7 +8622,7 @@
     "status": "current",
     "toolchain": "1.99.1",
     "registry": "crates.io",
-    "latest_checked": "2026-11-08T05:07:22Z",
+    "latest_checked": "2026-11-08T07:34:25Z",
     "locked_versions": {
       "clap": "4.6.7",
       "serde": "1.0.229",
@@ -8515,22 +8637,22 @@
       "packages_to_update": 0,
       "command": "cargo update --dry-run --manifest-path rust/Cargo.toml",
       "rust_version_constraint": "1.99",
-      "checked_after_gate": "2026-11-08T02:32:47Z",
-      "evidence": "rust/artifacts/rust-dependency-dry-run-post-directory-20261108.txt",
+      "checked_after_gate": "2026-11-08T07:34:25Z",
+      "evidence": "rust/artifacts/rust-dependency-dry-run-post-missing-option-value-20261108.txt",
       "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136"
     },
-    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-version-20261108.txt",
+    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-missing-option-value-20261108.txt",
     "latest_dry_run": {
       "status": "PASS",
       "command": "cargo update --dry-run --manifest-path rust/Cargo.toml",
       "toolchain": "1.99.1",
       "updates": 0,
       "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
-      "report": "rust/artifacts/rust-dependency-dry-run-post-version-20261108.txt",
+      "report": "rust/artifacts/rust-dependency-dry-run-post-missing-option-value-20261108.txt",
       "report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2"
     }
   },
-  "next_capability_handoff": "Continue from cli.unrecognized_arguments after the immediate shared-CLI cumulative gate. The next focused parser slice is missing values for known `--config`, `--output-format`, or `-o` when the next token begins with `-`: pinned argparse reports `argument <option>: expected one argument`, while current clap output says the token is unexpected. Add source-derived cases before changing parsing. Rule data paths remain blocked on provenance/licence evidence.",
+  "next_capability_handoff": "Continue from cli.missing_option_value_before_option after its immediate 116-capability/993-case strict gate. The next small CLI parser slice is known value-taking options with no following token at end of argv (`--config`, `--output-format`, `-o`) and root/check parser usage. Add pinned live cases before changing parsing. Remaining rule data paths are blocked on provenance/licence evidence.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

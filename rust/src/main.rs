@@ -40,6 +40,7 @@ use std::fs;
 use std::io::{self, Read};
 use std::path::PathBuf;
 use std::process::ExitCode;
+use std::sync::OnceLock;
 
 mod default_config;
 
@@ -929,6 +930,7 @@ struct Cli {
         long,
         global = true,
         value_name = "CONFIG",
+        allow_hyphen_values = true,
         help = "path to a configuration file (`.proselintrc.json`)"
     )]
     config: Option<PathBuf>,
@@ -1354,6 +1356,65 @@ fn python_json_dump(value: &Value) -> Result<String, String> {
     Ok(format!("{}\n", escape_non_ascii_json(&text)))
 }
 
+fn argparse_negative_number(value: &str) -> bool {
+    static NEGATIVE_NUMBER: OnceLock<regex::Regex> = OnceLock::new();
+    NEGATIVE_NUMBER
+        .get_or_init(|| regex::Regex::new(r"^-[\d]+$|^-[\d]*\.[\d]+$").unwrap())
+        .is_match(value)
+}
+
+fn missing_option_value_before_option(args: &[std::ffi::OsString]) -> Option<ExitCode> {
+    let mut subcommand = None;
+    let mut index = 1;
+    while index < args.len() {
+        let Some(token) = args[index].to_str() else {
+            index += 1;
+            continue;
+        };
+        if token == "--" {
+            break;
+        }
+        if matches!(token, "--config" | "--output-format" | "-o") {
+            if args
+                .get(index + 1)
+                .and_then(|value| value.to_str())
+                .is_some_and(|value| {
+                    value.starts_with('-') && value != "-" && !argparse_negative_number(value)
+                })
+            {
+                let argument = if token == "--config" {
+                    "--config"
+                } else {
+                    "--output-format/-o"
+                };
+                let help = subcommand
+                    .and_then(command_help)
+                    .unwrap_or_else(|| "usage: proselint [options] <command>".to_owned());
+                let usage = help
+                    .split_once("\n\n")
+                    .map_or(help.as_str(), |(usage, _)| usage);
+                let prefix = subcommand.map_or_else(
+                    || "proselint".to_owned(),
+                    |command| format!("proselint [options] <command> {command}"),
+                );
+                eprint!("{usage}\n{prefix}: error: argument {argument}: expected one argument\n");
+                return Some(ExitCode::from(2));
+            }
+            index = (index + 2).min(args.len());
+            continue;
+        }
+        if token.starts_with("--config=") || token.starts_with("--output-format=") {
+            index += 1;
+            continue;
+        }
+        if subcommand.is_none() && matches!(token, "check" | "version" | "dump-config") {
+            subcommand = Some(token);
+        }
+        index += 1;
+    }
+    None
+}
+
 fn invalid_cli_output_format(args: &[std::ffi::OsString]) -> Option<ExitCode> {
     let mut subcommand = None;
     let mut index = 1;
@@ -1390,7 +1451,7 @@ fn invalid_cli_output_format(args: &[std::ffi::OsString]) -> Option<ExitCode> {
                 (None, false)
             };
         if let Some(value) = format_value
-            && !value.starts_with('-')
+            && (!value.starts_with('-') || value == "-" || argparse_negative_number(value))
             && OutputFormat::from_str(value, false).is_err()
         {
             let help = subcommand
@@ -1518,15 +1579,8 @@ fn run() -> Result<ExitCode, String> {
         print!("{}", top_level_help());
         return Ok(ExitCode::SUCCESS);
     }
-    if args.len() == 4 && args[1] == "check" && args[2] == "--config" && args[3] == "--help" {
-        let usage = CHECK_HELP
-            .split_once("\n\n")
-            .expect("check help has usage")
-            .0;
-        eprint!(
-            "{usage}\nproselint [options] <command> check: error: argument --config: expected one argument\n"
-        );
-        return Ok(ExitCode::from(2));
+    if let Some(exit_code) = missing_option_value_before_option(&args) {
+        return Ok(exit_code);
     }
     if let Some(exit_code) = invalid_cli_output_format(&args) {
         return Ok(exit_code);

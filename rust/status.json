@@ -574,7 +574,7 @@
     }
   },
   "active_ownership": {
-    "current": "The latest strict gate passes 1075/1075 across 122 capabilities. Eight post-gate CLI cases have focused owner and independent PASS evidence: six directory-expansion cases and two duplicate-path cases. No Rust production/shared infrastructure changed. Rust 1.99-compatible dependencies were rechecked with zero updates; the 101-test harness suite and Unicode exhaustive audit remain green. Twenty-three rule paths remain held for rights evidence.",
+    "current": "The latest strict gate passes 1075/1075 across 122 capabilities. Nine CLI cases added afterward have focused owner and independent PASS evidence: six directory-expansion cases, two duplicate-path cases, and one multi-file per-file-config case. No Rust production/shared infrastructure changed. Rust 1.99-compatible dependencies were rechecked with zero updates; the 101-test harness suite and Unicode exhaustive audit remain green. Twenty-three rule paths remain held pending a project policy decision on third-party-derived bundled lists.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -585,7 +585,7 @@
     "Benchmarks cover only the isolated misc.suddenly profile and the selected misc.suddenly + psychology.p_equals_zero profile on their recorded inputs; broader rule sets and default configurations remain unmeasured.",
     "Agent task configuration requested gpt-6-luna/low for implementation and independent review, but runtime model/effort metadata is not exposed, so routing cannot be independently audited.",
     "Unicode case folding and quote-pairing combinations beyond explicitly tested cases remain unverified.",
-    "A read-only audit of all 23 unimplemented paths found no explicit path-scoped reuse grant in the pinned checkout; the root BSD-3-Clause license does not clear separately attributed lists. Unknown provenance remains for industrial_language.chatspeak, misc.phrasal_adjectives.examples, and redundancy.misc.after_the_deadline. Keep all held until rights evidence or a documented policy basis is recorded.",
+    "The 23 unimplemented data-backed paths remain held under an unresolved project policy. The pinned package declares BSD-3-Clause and no file-level exclusions were found, but the audit did not establish whether the project-wide license covers separately attributed third-party-derived lists. No blanket prohibition or path-specific permission was established. Three paths have unknown provenance; see rust/status.json rights_audit_latest and rust/docs/PLAN.md.",
     "No-config execution now loads bundled DEFAULT for 83 implemented checks, but the 23 unimplemented unique paths include default-enabled rules, so full default-config parity and all combined-rule interactions remain incomplete.",
     "dump-config HOME-unset/platform-specific config discovery, directory user candidates, directory traversal/decoding edges outside the accepted directory cases remain unverified; explicit multi-file output for file lists is covered by the recorded cases.",
     "Other --version combined-argument orderings beyond cli.version_argument_precedence remain unverified.",
@@ -8006,15 +8006,16 @@
         "cli_multi_file_limits_per_file_json",
         "cli_multi_file_json_continues_after_missing_path",
         "cli_multi_file_duplicate_explicit_full",
-        "cli_multi_file_overlap_explicit_directory_compact"
+        "cli_multi_file_overlap_explicit_directory_compact",
+        "cli_multi_file_per_file_override_json"
       ],
       "upstream_source": "pinned proselint/command_line.py:proselint; proselint/tools.py:extract_files and LintFile.lint; proselint/log.py:format_source/write_lint_exception; Rust rust/src/main.rs::run",
-      "upstream_spec": "Explicit file paths are processed in argv order. max_errors resets per file. Full output names use resolved paths, Compact uses basenames, JSON uses file URIs and retains one diagnostic array per file. Per-file FileNotFoundError does not stop later files. Exit status reflects whether findings occurred. Compare exact Full/Compact bytes, JSON fields/arrays, and exit status. Duplicate paths are not deduplicated: Full/Compact emit findings on each visit; JSON assigns results by canonical source key, so repeated visits overwrite that key.",
+      "upstream_spec": "Explicit file paths are processed in argv order. max_errors resets per file. Full output names use resolved paths, Compact uses basenames, JSON uses file URIs and retains one diagnostic array per file. Per-file FileNotFoundError does not stop later files. Exit status reflects whether findings occurred. Compare exact Full/Compact bytes, JSON fields/arrays, and exit status. Duplicate paths are not deduplicated: Full/Compact emit findings on each visit; JSON assigns results by canonical source key, so repeated visits overwrite that key. Each file independently selects its first matching per_file_checks entry; a two-file JSON case enables misc.apologizing only for selected.txt while global.txt remains clean under global config.",
       "specification": {
-        "live_cases": 6,
+        "live_cases": 7,
         "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
         "comparison": "Full/Compact byte-exact stdout/stderr and status; JSON structural comparison preserving exact values and status",
-        "scope_limit": "Six cases cover argv-order processing, per-file max_errors, Full/Compact/JSON outputs, continuation after a missing file, duplicate explicit paths in Full, and an explicit file overlapping its containing directory in Compact. JSON source-key overwrite for repeated paths, per-file config overrides, and non-NotFound read errors remain outside acceptance."
+        "scope_limit": "Seven cases cover argv-order processing, per-file max_errors, Full/Compact/JSON formats, continuation after a missing path, duplicate explicit paths in Full, explicit-file/directory overlap in Compact, and per-file selection across two explicit files in JSON. Other glob patterns, non-NotFound read errors, and broader per-file config combinations remain outside this capability scope."
       },
       "red": {
         "status": "behavioral_failure",
@@ -8032,11 +8033,11 @@
         "focused_rust_tests_passed": 4,
         "focused_rust_test_report": "rust/artifacts/cli-multi-file-green-final-20261108.log",
         "focused_rust_test_seconds": 0.638,
-        "owner_live_cases_passed": 6,
-        "owner_live_report": "rust/artifacts/multiple-file-duplicates-owner-20261108.json",
+        "owner_live_cases_passed": 7,
+        "owner_live_report": "rust/artifacts/multi-file-per-file-override-owner-20261108.json",
         "owner_live_seconds": 9.45387,
-        "candidate_attestation": "rust/artifacts/20261108T195835273416Z-build.attestation.json",
-        "source_fingerprint": "ef191a116ea04f6f5fd95895a8ae89af07546a124e64d2e8a61de02cccacca78"
+        "candidate_attestation": "rust/artifacts/20261108T200436856528Z-build.attestation.json",
+        "source_fingerprint": "d75fa152d6252cd0c84231244044b5bed17189afc10cc1713bf01ee34793cb46"
       },
       "independent_verification": {
         "status": "PASS",
@@ -8045,14 +8046,14 @@
         "runtime_model_metadata": "unavailable",
         "focused_rust_tests_passed": 5,
         "isolated_locked_checks_build_seconds": 95.633475,
-        "independent_live_cases_passed": 6,
-        "independent_live_report": "rust/artifacts/independent-multiple-file-duplicates-20261108/live-comparison.json",
-        "independent_live_seconds": 11.930955,
+        "independent_live_cases_passed": 7,
+        "independent_live_report": "rust/artifacts/independent-multi-file-per-file-override-20261108/live-comparison.json",
+        "independent_live_seconds": 12.118773,
         "oracle_self_check_cases": 2,
         "comparator_self_tests_passed": 23,
         "report": "rust/artifacts/independent-full-missing-verifier-20261108/verification-summary.json",
         "binary_sha256": "10ea2beb32c61e29cd064a341fd1723bbb451037fe09735809be27afbe27e30f",
-        "source_fingerprint": "ef191a116ea04f6f5fd95895a8ae89af07546a124e64d2e8a61de02cccacca78",
+        "source_fingerprint": "d75fa152d6252cd0c84231244044b5bed17189afc10cc1713bf01ee34793cb46",
         "additional_full_missing_path_live_case": "rust/artifacts/independent-full-missing-verifier-20261108/full-missing-live.json",
         "additional_full_missing_path_live_cases_passed": 1
       },
@@ -8069,19 +8070,27 @@
         "owner_duplicate_paths_live_seconds": 11.28052,
         "independent_duplicate_paths_live_seconds": 11.930955,
         "owner_duplicate_paths_contract_test_seconds": 0.457,
-        "independent_duplicate_paths_contract_test_seconds": 0.429
+        "independent_duplicate_paths_contract_test_seconds": 0.429,
+        "owner_per_file_config_live_seconds": 12.665605,
+        "independent_per_file_config_live_seconds": 12.118773,
+        "focused_rust_cli_multi_file_tests_seconds": 0.05,
+        "owner_multi_file_contract_test_seconds": 0.381,
+        "independent_multi_file_contract_test_seconds": 0.444
       },
       "stage_case_counts": {
         "red_rust_test_failures": 4,
         "red_rust_test_total": 4,
         "red_live_mismatches": 4,
         "green_rust_tests_passed": 4,
-        "owner_live_cases_passed": 6,
-        "independent_live_cases_passed": 6,
+        "owner_live_cases_passed": 7,
+        "independent_live_cases_passed": 7,
         "oracle_self_check_cases": 2,
         "comparator_self_tests_passed": 23,
         "python_harness_tests_passed": 88,
-        "additional_independent_full_missing_path_cases_passed": 1
+        "additional_independent_full_missing_path_cases_passed": 1,
+        "focused_rust_cli_multi_file_tests_passed": 5,
+        "owner_contract_test_passed": 1,
+        "independent_contract_test_passed": 1
       },
       "cumulative_gate_required": false,
       "cumulative_gate": {
@@ -8116,6 +8125,28 @@
         "source_fingerprint": "ef191a116ea04f6f5fd95895a8ae89af07546a124e64d2e8a61de02cccacca78",
         "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
         "cumulative_gate": "deferred; no production/shared infrastructure change and no capability checkpoint due"
+      },
+      "per_file_config_extension": {
+        "status": "focused_and_independent_PASS_pending_scheduled_cumulative_gate",
+        "added_cases": 1,
+        "case_id": "cli_multi_file_per_file_override_json",
+        "pinned_spec": "file_config_for selects the first matching Path.match pattern for each file; global checks apply when no pattern matches.",
+        "owner_report": "rust/artifacts/multi-file-per-file-override-owner-20261108.json",
+        "owner_live_cases_passed": 7,
+        "owner_live_seconds": 12.665605,
+        "independent_report": "rust/artifacts/independent-multi-file-per-file-override-20261108/live-comparison.json",
+        "independent_live_cases_passed": 7,
+        "independent_live_seconds": 12.118773,
+        "owner_targeted_contract_test_passed": 1,
+        "owner_targeted_contract_test_seconds": 0.381,
+        "independent_targeted_contract_test_passed": 1,
+        "independent_targeted_contract_test_seconds": 0.444,
+        "focused_rust_tests_passed": 5,
+        "focused_rust_tests_seconds": 0.05,
+        "candidate_attestation": "rust/artifacts/20261108T200436856528Z-build.attestation.json",
+        "source_fingerprint": "d75fa152d6252cd0c84231244044b5bed17189afc10cc1713bf01ee34793cb46",
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "cumulative_gate": "deferred; no Rust production/shared infrastructure change and no capability checkpoint due"
       }
     },
     {
@@ -9472,7 +9503,7 @@
       "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d05278b3136"
     }
   },
-  "next_capability_handoff": "Continue with a bounded live-distinguishable CLI/config edge outside the held third-party rule lists. The next multi-file gap is per-file config override behavior through CLI file iteration; preserve exact per-file output and max_errors semantics. Defer the cumulative gate until five newly accepted capabilities accumulate, before release, or after shared behavior changes.",
+  "next_capability_handoff": "Continue with another bounded, live-distinguishable CLI edge outside the held third-party rule lists, prioritizing directory/file read errors or remaining config discovery behavior. Keep shared production changes serialized and defer the cumulative gate to the next 5-capability checkpoint or any shared-behavior change.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",
@@ -9705,6 +9736,28 @@
           "evidence": "rust/artifacts/independent-multiple-file-duplicates-20261108/live-comparison.json"
         },
         "forbidden_models": "No Astra or Terra agents were dispatched in this extension."
+      },
+      "latest_multi_file_per_file_extension": {
+        "owner": {
+          "requested_model": "gpt-6-luna",
+          "requested_effort": "low",
+          "runtime_model_metadata": "unavailable",
+          "evidence": "rust/artifacts/multi-file-per-file-override-owner-20261108.json"
+        },
+        "independent_verifier": {
+          "requested_model": "gpt-6-luna",
+          "requested_effort": "low",
+          "runtime_model_metadata": "unavailable",
+          "evidence": "rust/artifacts/independent-multi-file-per-file-override-20261108/live-comparison.json"
+        },
+        "forbidden_models": "No Astra or Terra agents were dispatched in this extension."
+      },
+      "latest_sol_rights_policy_review": {
+        "requested_model": "gpt-6.1-sol",
+        "requested_effort": "low",
+        "runtime_model_metadata": "effort unavailable",
+        "scope": "critical rights-policy review only",
+        "evidence": "rust/status.json rights_audit_latest.critical_review"
       }
     }
   },
@@ -9712,13 +9765,34 @@
     "audit_date": "2026-11-08",
     "reviewed_unimplemented_paths": 23,
     "explicit_path_scoped_reuse_grants_found": 0,
-    "eligible_paths": 0,
-    "conclusion": "No unimplemented list path is cleared by checked-in rights evidence; keep all 23 held. The project BSD-3-Clause license does not establish rights for separately attributed third-party data.",
+    "eligible_paths": null,
+    "conclusion": "The repository declares BSD-3-Clause for the Proselint package and the pinned files contain no explicit list exclusions. The audit did not establish whether that project-wide grant covers all separately attributed or third-party-derived list content; it establishes neither a blanket prohibition nor path-specific grants for the 23 held paths. A project policy decision is pending.",
     "unknown_provenance_paths": [
       "industrial_language.chatspeak",
       "misc.phrasal_adjectives.examples",
       "redundancy.misc.after_the_deadline"
     ],
-    "next_step": "Obtain and record list-specific permission/license evidence or a documented project policy basis before porting any held list."
+    "next_step": "Resolve whether the project-wide license is the basis for reusing bundled third-party-derived lists; otherwise obtain path-specific source terms or permission. Preserve attributions and notices. Three paths still have unknown provenance.",
+    "repository_license": {
+      "spdx": "BSD-3-Clause",
+      "notice": "LICENSE.md",
+      "package_metadata": "pyproject.toml declares license file LICENSE.md"
+    },
+    "explicit_path_scoped_exclusions_found": 0,
+    "eligibility_decision": "pending_project_policy",
+    "critical_review": {
+      "reviewer": "sol_advisor",
+      "configured_model": "gpt-6.1-sol",
+      "configured_effort": "low",
+      "runtime_effort_metadata": "unavailable",
+      "finding": "The earlier categorical statement that BSD does not establish rights is too strong. The project license applies at package level, but its coverage of third-party-derived lists is ambiguous; mixed_metaphors.misc already retains Garner-attributed data. No path-specific grant or prohibition was established.",
+      "evidence": [
+        "LICENSE.md",
+        "pyproject.toml",
+        "proselint/checks/mixed_metaphors.py",
+        "proselint/checks/cliches/misc.py",
+        "rust/docs/PLAN.md"
+      ]
+    }
   }
 }

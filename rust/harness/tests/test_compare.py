@@ -2675,8 +2675,8 @@ class ComparatorTests(unittest.TestCase):
             "cli_multi_file_duplicate_explicit_full",
             "cli_multi_file_overlap_explicit_directory_compact",
         }
-        self.assertEqual(set(cases), set(formats) | {"cli_multi_file_json_continues_after_missing_path"} | duplicate_ids)
-        self.assertEqual(sum(case["capability_id"] == "cli.multiple_file_paths" for case in compare.load_manifest()["cases"]), 6)
+        self.assertEqual(set(cases), set(formats) | {"cli_multi_file_json_continues_after_missing_path"} | duplicate_ids | {"cli_multi_file_per_file_override_json"})
+        self.assertEqual(sum(case["capability_id"] == "cli.multiple_file_paths" for case in compare.load_manifest()["cases"]), 7)
         expected_files = [
             {"path": "config.json", "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="},
             {"path": "z.txt", "content_base64": "TW9yZSByZXNlYXJjaCBpcyBuZWVkZWQuIE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="},
@@ -2735,6 +2735,17 @@ class ComparatorTests(unittest.TestCase):
                 self.assertEqual(case["files"][0]["content_base64"], duplicate_config)
                 self.assertEqual(case["files"][1]["content_base64"], duplicate_content)
                 compare.validate_case(case)
+
+        per_file = cases["cli_multi_file_per_file_override_json"]
+        self.assertEqual(per_file["argv"], ["check", "--config", "{file:config.json}", "--output-format", "json", "{file:selected.txt}", "{file:global.txt}"])
+        self.assertEqual(per_file["output_format"], "json")
+        self.assertEqual(per_file["expected_oracle_outcome"], "findings")
+        self.assertEqual(per_file["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact", "normalize_workspace_uri": True})
+        self.assertEqual({item["path"] for item in per_file["files"]}, {"config.json", "selected.txt", "global.txt"})
+        self.assertEqual(json.loads(base64.b64decode(per_file["files"][0]["content_base64"])), {"max_errors": 10, "checks": {"misc": {"apologizing": False}}, "per_file_checks": {"selected.txt": {"misc": {"apologizing": True}}}})
+        self.assertEqual(base64.b64decode(per_file["files"][1]["content_base64"]), base64.b64decode(per_file["files"][2]["content_base64"]))
+        self.assertEqual(per_file["config_scenario"], "per_file_selected_override_two_files")
+        compare.validate_case(per_file)
 
     def test_directory_expansion_cases_pin_source_derived_contracts(self) -> None:
         cases = {case["id"]: case for case in compare.load_manifest()["cases"] if case["capability_id"] == "cli.directory_expansion"}

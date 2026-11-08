@@ -1354,6 +1354,69 @@ fn python_json_dump(value: &Value) -> Result<String, String> {
     Ok(format!("{}\n", escape_non_ascii_json(&text)))
 }
 
+fn invalid_cli_output_format(args: &[std::ffi::OsString]) -> Option<ExitCode> {
+    let mut subcommand = None;
+    let mut index = 1;
+    while index < args.len() {
+        let Some(token) = args[index].to_str() else {
+            index += 1;
+            continue;
+        };
+        if token == "--" || token == "-h" || token == "--help" {
+            break;
+        }
+        if token == "--config" {
+            index = (index + 2).min(args.len());
+            continue;
+        }
+        if token.starts_with("--config=") {
+            index += 1;
+            continue;
+        }
+        if subcommand.is_none() && matches!(token, "check" | "version" | "dump-config") {
+            subcommand = Some(token);
+            index += 1;
+            continue;
+        }
+
+        let (format_value, consumes_next) =
+            if let Some(attached) = token.strip_prefix("--output-format=") {
+                (Some(attached), false)
+            } else if token == "--output-format" || token == "-o" {
+                (args.get(index + 1).and_then(|value| value.to_str()), true)
+            } else if let Some(attached) = token.strip_prefix("-o") {
+                (Some(attached.strip_prefix('=').unwrap_or(attached)), false)
+            } else {
+                (None, false)
+            };
+        if let Some(value) = format_value
+            && !value.starts_with('-')
+            && OutputFormat::from_str(value, false).is_err()
+        {
+            let help = subcommand
+                .and_then(command_help)
+                .unwrap_or_else(|| "usage: proselint [options] <command>".to_owned());
+            let usage = help
+                .split_once("\n\n")
+                .map_or(help.as_str(), |(usage, _)| usage);
+            let prefix = subcommand.map_or_else(
+                || "proselint".to_owned(),
+                |command| format!("proselint [options] <command> {command}"),
+            );
+            eprint!(
+                "{usage}\n{prefix}: error: argument --output-format/-o: invalid OutputFormat value: '{}'\n",
+                value.replace('\\', "\\\\").replace('\'', "\\'")
+            );
+            return Some(ExitCode::from(2));
+        }
+        if consumes_next && index + 1 < args.len() {
+            index += 1;
+        }
+        index += 1;
+    }
+    None
+}
+
 fn run() -> Result<ExitCode, String> {
     let mut args = std::env::args_os().collect::<Vec<_>>();
     if args.len() == 2 && args[1] == "--version" {
@@ -1373,22 +1436,8 @@ fn run() -> Result<ExitCode, String> {
         );
         return Ok(ExitCode::from(2));
     }
-    if args.len() == 5
-        && args[1] == "check"
-        && args[2] == "--output-format"
-        && args[4] == "--help"
-        && let Some(value) = args[3].to_str()
-        && value == "invalid"
-    {
-        // shortcut: only the recorded invalid value is modeled, upgrade when more precedence cases are pinned.
-        let usage = CHECK_HELP
-            .split_once("\n\n")
-            .expect("check help has usage")
-            .0;
-        eprint!(
-            "{usage}\nproselint [options] <command> check: error: argument --output-format/-o: invalid OutputFormat value: '{value}'\n"
-        );
-        return Ok(ExitCode::from(2));
+    if let Some(exit_code) = invalid_cli_output_format(&args) {
+        return Ok(exit_code);
     }
     if args.len() == 4 && args[1] == "--config" && args[2] == "check" && args[3] == "--help" {
         print!("{}", top_level_help());

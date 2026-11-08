@@ -30958,6 +30958,117 @@
         "exit_status": "exact",
         "normalize_workspace_uri": true
       }
+    },
+    {
+      "id": "cli_multi_file_limits_per_file_full",
+      "capability_id": "cli.multiple_file_paths",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c: command_line.py processes explicit paths in argv order; max_errors is applied per file by LintFile.lint. This case reverses lexical path order and gives each file two misc.apologizing matches with max_errors=1.",
+      "input_mode": "files",
+      "stdin_base64": "",
+      "files": [
+        {"path": "config.json", "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="},
+        {"path": "z.txt", "content_base64": "TW9yZSByZXNlYXJjaCBpcyBuZWVkZWQuIE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="},
+        {"path": "a.txt", "content_base64": "TW9yZSByZXNlYXJjaCBpcyBuZWVkZWQuIE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="}
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "full",
+        "{file:z.txt}",
+        "{file:a.txt}"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "explicit_selected_config",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "cli_multi_file_limits_per_file_compact",
+      "capability_id": "cli.multiple_file_paths",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c: command_line.py processes explicit paths in argv order; max_errors is applied per file by LintFile.lint. This case reverses lexical path order and gives each file two misc.apologizing matches with max_errors=1.",
+      "input_mode": "files",
+      "stdin_base64": "",
+      "files": [
+        {"path": "config.json", "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="},
+        {"path": "z.txt", "content_base64": "TW9yZSByZXNlYXJjaCBpcyBuZWVkZWQuIE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="},
+        {"path": "a.txt", "content_base64": "TW9yZSByZXNlYXJjaCBpcyBuZWVkZWQuIE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="}
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "compact",
+        "{file:z.txt}",
+        "{file:a.txt}"
+      ],
+      "output_format": "compact",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "explicit_selected_config",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "cli_multi_file_limits_per_file_json",
+      "capability_id": "cli.multiple_file_paths",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c: command_line.py processes explicit paths in argv order; max_errors is applied per file by LintFile.lint. This case reverses lexical path order and gives each file two misc.apologizing matches with max_errors=1.",
+      "input_mode": "files",
+      "stdin_base64": "",
+      "files": [
+        {"path": "config.json", "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="},
+        {"path": "z.txt", "content_base64": "TW9yZSByZXNlYXJjaCBpcyBuZWVkZWQuIE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="},
+        {"path": "a.txt", "content_base64": "TW9yZSByZXNlYXJjaCBpcyBuZWVkZWQuIE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="}
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json",
+        "{file:z.txt}",
+        "{file:a.txt}"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "explicit_selected_config",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact", "normalize_workspace_uri": true}
+    },
+    {
+      "id": "cli_multi_file_json_continues_after_missing_path",
+      "capability_id": "cli.multiple_file_paths",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c: command_line.py catches per-file exceptions and continues to later paths. This case has a missing path before a finding file and compares the exact JSON error and diagnostic objects.",
+      "input_mode": "files",
+      "stdin_base64": "",
+      "files": [
+        {"path": "config.json", "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="},
+        {"path": "a.txt", "content_base64": "TW9yZSByZXNlYXJjaCBpcyBuZWVkZWQuIE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="}
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json",
+        "missing.txt",
+        "{file:a.txt}"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "explicit_selected_config",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact", "normalize_workspace_uri": true}
     }
   ]
 }

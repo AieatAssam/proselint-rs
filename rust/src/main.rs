@@ -1621,310 +1621,339 @@ fn run() -> Result<ExitCode, String> {
         }
     };
 
-    if !demo && paths.len() > 1 {
-        return Err("this capability currently supports one source at a time".to_owned());
-    }
-
-    let (source, content) = if demo {
-        (
-            "demo.md".to_owned(),
-            include_str!("../data/demo.md").to_owned(),
-        )
-    } else if let Some(path) = paths.first() {
-        let source = file_uri_or_missing(path)
-            .map_err(|error| format!("Could not resolve '{}': {error}", path.display()))?;
-        let content = match fs::read_to_string(path) {
-            Ok(content) => normalize_file_newlines(&content),
-            Err(error) if error.kind() == io::ErrorKind::NotFound => {
-                let resolved_path = resolved_path(path).unwrap_or_else(|_| path.to_path_buf());
-                let message = format!(
-                    "[Errno 2] No such file or directory: '{}'",
-                    resolved_path.display()
-                );
-                if !matches!(output_format, OutputFormat::Json) {
-                    let source = match output_format {
-                        OutputFormat::Full => resolved_path.display().to_string(),
-                        OutputFormat::Compact => path
-                            .file_name()
-                            .and_then(|name| name.to_str())
-                            .unwrap_or("<stdin>")
-                            .to_owned(),
-                        OutputFormat::Json => unreachable!(),
-                    };
-                    eprintln!("Error encountered while linting {source}: {message}");
-                    return Ok(ExitCode::SUCCESS);
-                }
-                let mut file_results = serde_json::Map::new();
-                file_results.insert(
-                    source.clone(),
-                    serde_json::json!({"error":{"code":-31998,"message":message}}),
-                );
-                println!("{}", serde_json::json!({"result":file_results}));
-                return Ok(ExitCode::SUCCESS);
-            }
-            Err(error)
-                if matches!(output_format, OutputFormat::Compact)
-                    && error.kind() == io::ErrorKind::InvalidData =>
-            {
-                let bytes = fs::read(path)
-                    .map_err(|error| format!("Could not read '{}': {error}", path.display()))?;
-                let error =
-                    std::str::from_utf8(&bytes).expect_err("invalid UTF-8 was just detected");
-                let source = path
-                    .file_name()
-                    .and_then(|name| name.to_str())
-                    .unwrap_or("<stdin>");
-                eprintln!(
-                    "Error encountered while linting {source}: {}",
-                    python_utf8_decode_error_message(&bytes, error)
-                );
-                return Ok(ExitCode::SUCCESS);
-            }
-            Err(error) => return Err(format!("Could not read '{}': {error}", path.display())),
-        };
-        (source, content)
-    } else {
-        let mut input = String::new();
-        io::stdin()
-            .read_to_string(&mut input)
-            .map_err(|error| format!("Could not read stdin: {error}"))?;
-        ("<stdin>".to_owned(), input)
-    };
-
-    if max_errors_is_invalid {
-        let mut file_results = serde_json::Map::new();
-        file_results.insert(
-            source,
-            serde_json::json!({"error":{"code":-31999,"data":"ValueError","message":"Stop argument for islice() must be None or an integer: 0 <= x <= sys.maxsize."}}),
-        );
-        println!("{}", serde_json::json!({"result":file_results}));
-        return Ok(ExitCode::SUCCESS);
-    }
-
-    let mut per_file_override = None;
-    if !demo
-        && let Some(path) = paths.first()
-        && let Some(per_file_checks) = config_value
-            .get("per_file_checks")
-            .and_then(Value::as_object)
-        && let Some((_, override_checks)) = per_file_checks
-            .iter()
-            .find(|(pattern, _)| path_matches_pattern(path, pattern))
-    {
-        per_file_override = Some(override_checks);
-    }
     let global_selected = if config_is_default {
         Some(default_supported_checks(checks))
     } else {
         supported_checks(checks)
     };
-    let override_selected = per_file_override.map(supported_checks);
-    let selected_checks = match (global_selected, override_selected) {
-        (Some(global), Some(Some(overlay))) => {
-            let mut all = global;
-            all.extend(overlay);
-            all.sort_unstable();
-            all.dedup();
-            let mut flattened = Vec::new();
-            flatten_checks(checks, "", false, &mut flattened);
-            if let Some(overlay) = per_file_override {
-                flatten_checks(overlay, "", true, &mut flattened);
-            }
-            Some(
-                all.into_iter()
-                    .filter(|check| {
-                        let path = selected_check_path(*check);
-                        flattened
-                            .iter()
-                            .enumerate()
-                            .filter(|(_, (candidate, _, _))| {
-                                path == candidate || path.starts_with(&format!("{candidate}."))
-                            })
-                            .max_by_key(|(index, (candidate, _, per_file))| {
-                                (candidate.matches('.').count(), *per_file, *index)
-                            })
-                            .is_some_and(|(_, (_, enabled, _))| *enabled)
-                    })
-                    .collect(),
-            )
+    let mut file_results = serde_json::Map::new();
+    let mut has_findings = false;
+    let process_source = |path: Option<&PathBuf>,
+                          source: &str,
+                          full_source: &str,
+                          compact_source: &str,
+                          content: &str|
+     -> Result<(Option<Value>, bool), String> {
+        if max_errors_is_invalid {
+            return Ok((
+                Some(
+                    serde_json::json!({"error":{"code":-31999,"data":"ValueError","message":"Stop argument for islice() must be None or an integer: 0 <= x <= sys.maxsize."}}),
+                ),
+                false,
+            ));
         }
-        (Some(global), None) => Some(global),
-        (None, _) | (_, Some(None)) => None,
-    };
-    let selected_checks = selected_checks.ok_or_else(|| {
-        "this capability supports disabled checks, annotations.misc, archaism, cliches.hell, cliches.misc.write_good, malapropisms, misc.apologizing, misc.but, misc.whence, misc.waxed, misc.illogic, misc.illogic.coin, misc.illogic.collusion, misc.tense_present, mixed_metaphors.bottleneck, mixed_metaphors.misc, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.back_formations, misc.many_a, misc.metadiscourse, misc.narcissism, misc.not_guilty, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, misc.scare_quotes, mondegreens, oxymorons, redundancy.misc.wallace, redundancy.misc.nordquist, redundancy.ras_syndrome, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, typography.symbols.curly_quotes, typography.punctuation.misplaced, typography.punctuation.exclamation, typography.punctuation.hyperbole, typography.punctuation.spacing, typography.diacritical_marks, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, dates_times.am_pm.midnight_noon, dates_times.dates.decade_apostrophes, dates_times.dates.month_of_year, spelling.able_atable, spelling.able_ible, spelling.ally_ly, spelling.ance_ence, spelling.athletes, spelling.ely_ly, spelling.em_im_en_in, spelling.er_or, spelling.in_un, spelling.ve_of, skunked_terms, social_awareness.nword, weasel_words.very, or terms.eponymous_adjectives only".to_owned()
-    })?;
+        let mut per_file_override = None;
+        if !demo
+            && let Some(path) = path
+            && let Some(per_file_checks) = config_value
+                .get("per_file_checks")
+                .and_then(Value::as_object)
+            && let Some((_, override_checks)) = per_file_checks
+                .iter()
+                .find(|(pattern, _)| path_matches_pattern(path, pattern))
+        {
+            per_file_override = Some(override_checks);
+        }
+        let override_selected = per_file_override.map(supported_checks);
+        let selected_checks = match (global_selected.clone(), override_selected) {
+            (Some(global), Some(Some(overlay))) => {
+                let mut all = global;
+                all.extend(overlay);
+                all.sort_unstable();
+                all.dedup();
+                let mut flattened = Vec::new();
+                flatten_checks(checks, "", false, &mut flattened);
+                if let Some(overlay) = per_file_override {
+                    flatten_checks(overlay, "", true, &mut flattened);
+                }
+                Some(
+                    all.into_iter()
+                        .filter(|check| {
+                            let path = selected_check_path(*check);
+                            flattened
+                                .iter()
+                                .enumerate()
+                                .filter(|(_, (candidate, _, _))| {
+                                    path == candidate || path.starts_with(&format!("{candidate}."))
+                                })
+                                .max_by_key(|(index, (candidate, _, per_file))| {
+                                    (candidate.matches('.').count(), *per_file, *index)
+                                })
+                                .is_some_and(|(_, (_, enabled, _))| *enabled)
+                        })
+                        .collect(),
+                )
+            }
+            (Some(global), None) => Some(global),
+            (None, _) | (_, Some(None)) => None,
+        };
+        let selected_checks = selected_checks.ok_or_else(|| {
+            "this capability supports disabled checks, annotations.misc, archaism, cliches.hell, cliches.misc.write_good, malapropisms, misc.apologizing, misc.but, misc.whence, misc.waxed, misc.illogic, misc.illogic.coin, misc.illogic.collusion, misc.tense_present, mixed_metaphors.bottleneck, mixed_metaphors.misc, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.back_formations, misc.many_a, misc.metadiscourse, misc.narcissism, misc.not_guilty, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, misc.scare_quotes, mondegreens, oxymorons, redundancy.misc.wallace, redundancy.misc.nordquist, redundancy.ras_syndrome, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, typography.symbols.curly_quotes, typography.punctuation.misplaced, typography.punctuation.exclamation, typography.punctuation.hyperbole, typography.punctuation.spacing, typography.diacritical_marks, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, dates_times.am_pm.midnight_noon, dates_times.dates.decade_apostrophes, dates_times.dates.month_of_year, spelling.able_atable, spelling.able_ible, spelling.ally_ly, spelling.ance_ence, spelling.athletes, spelling.ely_ly, spelling.em_im_en_in, spelling.er_or, spelling.in_un, spelling.ve_of, skunked_terms, social_awareness.nword, weasel_words.very, or terms.eponymous_adjectives only".to_owned()
+        })?;
 
-    let mut diagnostics = Vec::new();
-    for selected_check in selected_checks {
-        let check_diagnostics = match selected_check {
-            SelectedCheck::AnnotationsMisc => annotation_diagnostics_in_matcher_order(&content),
-            SelectedCheck::Archaism => archaism_diagnostics(&content),
-            SelectedCheck::ClichesHell => cliches_hell_diagnostics(&content),
-            SelectedCheck::ClichesMiscWriteGood => cliches_write_good_diagnostics(&content),
-            SelectedCheck::Malapropisms => malapropisms_diagnostics(&content),
-            SelectedCheck::SkunkedTerms => skunked_terms_diagnostics(&content),
-            SelectedCheck::SocialAwarenessNword => social_nword_diagnostics(&content),
-            SelectedCheck::TypographySymbolsCurlyQuotes => {
-                typography_curly_quotes_diagnostics(&content)
+        let mut diagnostics = Vec::new();
+        for selected_check in selected_checks {
+            let check_diagnostics = match selected_check {
+                SelectedCheck::AnnotationsMisc => annotation_diagnostics_in_matcher_order(content),
+                SelectedCheck::Archaism => archaism_diagnostics(content),
+                SelectedCheck::ClichesHell => cliches_hell_diagnostics(content),
+                SelectedCheck::ClichesMiscWriteGood => cliches_write_good_diagnostics(content),
+                SelectedCheck::Malapropisms => malapropisms_diagnostics(content),
+                SelectedCheck::SkunkedTerms => skunked_terms_diagnostics(content),
+                SelectedCheck::SocialAwarenessNword => social_nword_diagnostics(content),
+                SelectedCheck::TypographySymbolsCurlyQuotes => {
+                    typography_curly_quotes_diagnostics(content)
+                }
+                SelectedCheck::WeaselWordsVery => weasel_words_very_diagnostics(content),
+                SelectedCheck::MiscApologizing => apologizing_diagnostics(content),
+                SelectedCheck::MiscPhrasalAdjectivesLy => {
+                    phrasal_adjectives_ly_diagnostics(content)
+                }
+                SelectedCheck::MiscBut => but_diagnostics(content),
+                SelectedCheck::MiscWhence => whence_diagnostics(content),
+                SelectedCheck::MiscWaxed => misc_waxed_diagnostics(content),
+                SelectedCheck::MiscIllogic => misc_illogic_diagnostics(content),
+                SelectedCheck::LexicalIllusions => lexical_illusions_diagnostics(content),
+                SelectedCheck::MiscTensePresent => misc_tense_present_diagnostics(content),
+                SelectedCheck::MixedMetaphorsBottleneck => {
+                    mixed_metaphors_bottleneck_diagnostics(content)
+                }
+                SelectedCheck::MixedMetaphorsMisc => mixed_metaphors_misc_diagnostics(content),
+                SelectedCheck::MiscSuddenly => suddenly_diagnostics(content),
+                SelectedCheck::MiscDebased => debased_diagnostics_in_matcher_order(content),
+                SelectedCheck::MiscCurrency => currency_diagnostics(content),
+                SelectedCheck::MiscInferiorSuperior => inferior_superior_diagnostics(content),
+                SelectedCheck::DatesTimesAmPmLowercasePeriods => {
+                    am_pm_lowercase_periods_diagnostics(content)
+                }
+                SelectedCheck::DatesTimesAmPmSpacing => am_pm_spacing_diagnostics(content),
+                SelectedCheck::DatesTimesAmPmMidnightNoon => midnight_noon_diagnostics(content),
+                SelectedCheck::DatesTimesDatesDecadeApostrophes => {
+                    decade_apostrophes_diagnostics(content)
+                }
+                SelectedCheck::DatesTimesDatesDashAndFrom => {
+                    dates_times_dates_dash_and_from_diagnostics(content)
+                }
+                SelectedCheck::DatesTimesDatesMonthYearComma => {
+                    dates_times_dates_month_year_comma_diagnostics(content)
+                }
+                SelectedCheck::DatesTimesDatesMonthOfYear => {
+                    dates_times_dates_month_of_year_diagnostics(content)
+                }
+                SelectedCheck::MiscScareQuotes => scare_quotes_diagnostics(content),
+                SelectedCheck::TypographyPunctuationMisplaced => misplaced_diagnostics(content),
+                SelectedCheck::TypographyPunctuationExclamation => exclamation_diagnostics(content),
+                SelectedCheck::TypographyPunctuationHyperbole => hyperbole_diagnostics(content),
+                SelectedCheck::TypographyPunctuationSpacing => {
+                    typography_spacing_diagnostics(content)
+                }
+                SelectedCheck::TypographyDiacriticalMarks => {
+                    typography_diacritical_marks_diagnostics(content)
+                }
+                SelectedCheck::MiscFalsePluralsKudos => false_plurals_kudos_diagnostics(content),
+                SelectedCheck::MiscFalsePluralsMisc => {
+                    false_plurals_misc_diagnostics_in_matcher_order(content)
+                }
+                SelectedCheck::PsychologyMentalTelepathy => mental_telepathy_diagnostics(content),
+                SelectedCheck::PsychologyPEqualsZero => p_equals_zero_diagnostics(content),
+                SelectedCheck::PsychologyLieDetector => lie_detector_diagnostics(content),
+                SelectedCheck::RedundancyMiscWallace => wallace_diagnostics(content),
+                SelectedCheck::RedundancyMiscNordquist => nordquist_diagnostics(content),
+                SelectedCheck::RedundancyRasSyndrome => {
+                    redundancy_ras_syndrome_diagnostics(content)
+                }
+                SelectedCheck::MiscIllogicCoin => illogic_coin_diagnostics(content),
+                SelectedCheck::MiscIllogicCollusion => illogic_collusion_diagnostics(content),
+                SelectedCheck::MiscBackFormations => back_formations_diagnostics(content),
+                SelectedCheck::MiscGreylist => greylist_diagnostics_in_matcher_order(content),
+                SelectedCheck::IndustrialLanguageBureaucratese => {
+                    bureaucratese_diagnostics(content)
+                }
+                SelectedCheck::Hedging => hedging_diagnostics(content),
+                SelectedCheck::IndustrialLanguageJargon => jargon_diagnostics(content),
+                SelectedCheck::IndustrialLanguageAirlinese => airlinese_diagnostics(content),
+                SelectedCheck::MiscManyA => many_a_diagnostics_in_matcher_order(content),
+                SelectedCheck::MiscMetadiscourse => {
+                    metadiscourse_diagnostics_in_matcher_order(content)
+                }
+                SelectedCheck::MiscNarcissism => narcissism_diagnostics(content),
+                SelectedCheck::MiscNotGuilty => not_guilty_diagnostics(content),
+                SelectedCheck::MiscPretension => pretension_diagnostics(content),
+                SelectedCheck::MiscLatin => latin_diagnostics(content),
+                SelectedCheck::MiscCapitalizationSeasons => {
+                    capitalization_seasons_diagnostics_in_matcher_order(content)
+                }
+                SelectedCheck::MiscCapitalizationTerms => {
+                    capitalization_terms_diagnostics_in_matcher_order(content)
+                }
+                SelectedCheck::MiscCapitalizationDays => {
+                    capitalization_days_diagnostics_in_matcher_order(content)
+                }
+                SelectedCheck::MiscCapitalizationMonths => {
+                    capitalization_months_diagnostics_in_matcher_order(content)
+                }
+                SelectedCheck::MiscInstitutionName => institution_name_diagnostics(content),
+                SelectedCheck::MiscProfessions => professions_diagnostics(content),
+                SelectedCheck::SpellingAllyLy => spelling_ally_ly_diagnostics(content),
+                SelectedCheck::SpellingAbleAtable => spelling_able_atable_diagnostics(content),
+                SelectedCheck::SpellingAbleIble => spelling_able_ible_diagnostics(content),
+                SelectedCheck::SpellingAnceEnce => spelling_ance_ence_diagnostics(content),
+                SelectedCheck::SpellingElyLy => spelling_ely_ly_diagnostics(content),
+                SelectedCheck::SpellingErOr => spelling_er_or_diagnostics(content),
+                SelectedCheck::SpellingEmImEnIn => spelling_em_im_en_in_diagnostics(content),
+                SelectedCheck::SpellingAthletes => spelling_athletes_diagnostics(content),
+                SelectedCheck::SpellingInUn => spelling_in_un_diagnostics(content),
+                SelectedCheck::SpellingVeOf => spelling_ve_of_diagnostics(content),
+                SelectedCheck::Mondegreens => mondegreens_diagnostics(content),
+                SelectedCheck::Oxymorons => oxymorons_diagnostics(content),
+                SelectedCheck::MiscComposition => composition_diagnostics_in_matcher_order(content),
+                SelectedCheck::TermsEponymousAdjectives => {
+                    eponymous_adjectives_diagnostics(content)
+                }
+                SelectedCheck::TypographySymbolsEllipsis => {
+                    typography_ellipsis_diagnostics(content)
+                }
+                SelectedCheck::TypographySymbolsCopyright => {
+                    typography_copyright_diagnostics(content)
+                }
+                SelectedCheck::TypographySymbolsSentenceSpacing => {
+                    typography_sentence_spacing_diagnostics(content)
+                }
+                SelectedCheck::TypographySymbolsTrademark => {
+                    typography_trademark_diagnostics(content)
+                }
+                SelectedCheck::TypographySymbolsMultiplication => {
+                    typography_multiplication_diagnostics(content)
+                }
+            };
+            diagnostics.extend(check_diagnostics);
+        }
+        if let Some(max_errors) = max_errors {
+            diagnostics.truncate(max_errors);
+        }
+        diagnostics.sort_by_key(|diagnostic| {
+            (
+                diagnostic["pos"][0].as_u64().unwrap_or_default(),
+                diagnostic["pos"][1].as_u64().unwrap_or_default(),
+            )
+        });
+        let has_findings = !diagnostics.is_empty();
+        let result = match output_format {
+            OutputFormat::Json => Some(json_result(source, diagnostics)["result"][source].clone()),
+            OutputFormat::Full => {
+                for diagnostic in diagnostics {
+                    println!(
+                        "{full_source}:{}:{}: {}: {}",
+                        diagnostic["pos"][0].as_u64().unwrap_or_default(),
+                        diagnostic["pos"][1].as_u64().unwrap_or_default(),
+                        diagnostic["check_path"].as_str().unwrap_or_default(),
+                        diagnostic["message"].as_str().unwrap_or_default(),
+                    );
+                }
+                None
             }
-            SelectedCheck::WeaselWordsVery => weasel_words_very_diagnostics(&content),
-            SelectedCheck::MiscApologizing => apologizing_diagnostics(&content),
-            SelectedCheck::MiscPhrasalAdjectivesLy => phrasal_adjectives_ly_diagnostics(&content),
-            SelectedCheck::MiscBut => but_diagnostics(&content),
-            SelectedCheck::MiscWhence => whence_diagnostics(&content),
-            SelectedCheck::MiscWaxed => misc_waxed_diagnostics(&content),
-            SelectedCheck::MiscIllogic => misc_illogic_diagnostics(&content),
-            SelectedCheck::LexicalIllusions => lexical_illusions_diagnostics(&content),
-            SelectedCheck::MiscTensePresent => misc_tense_present_diagnostics(&content),
-            SelectedCheck::MixedMetaphorsBottleneck => {
-                mixed_metaphors_bottleneck_diagnostics(&content)
-            }
-            SelectedCheck::MixedMetaphorsMisc => mixed_metaphors_misc_diagnostics(&content),
-            SelectedCheck::MiscSuddenly => suddenly_diagnostics(&content),
-            SelectedCheck::MiscDebased => debased_diagnostics_in_matcher_order(&content),
-            SelectedCheck::MiscCurrency => currency_diagnostics(&content),
-            SelectedCheck::MiscInferiorSuperior => inferior_superior_diagnostics(&content),
-            SelectedCheck::DatesTimesAmPmLowercasePeriods => {
-                am_pm_lowercase_periods_diagnostics(&content)
-            }
-            SelectedCheck::DatesTimesAmPmSpacing => am_pm_spacing_diagnostics(&content),
-            SelectedCheck::DatesTimesAmPmMidnightNoon => midnight_noon_diagnostics(&content),
-            SelectedCheck::DatesTimesDatesDecadeApostrophes => {
-                decade_apostrophes_diagnostics(&content)
-            }
-            SelectedCheck::DatesTimesDatesDashAndFrom => {
-                dates_times_dates_dash_and_from_diagnostics(&content)
-            }
-            SelectedCheck::DatesTimesDatesMonthYearComma => {
-                dates_times_dates_month_year_comma_diagnostics(&content)
-            }
-            SelectedCheck::DatesTimesDatesMonthOfYear => {
-                dates_times_dates_month_of_year_diagnostics(&content)
-            }
-            SelectedCheck::MiscScareQuotes => scare_quotes_diagnostics(&content),
-            SelectedCheck::TypographyPunctuationMisplaced => misplaced_diagnostics(&content),
-            SelectedCheck::TypographyPunctuationExclamation => exclamation_diagnostics(&content),
-            SelectedCheck::TypographyPunctuationHyperbole => hyperbole_diagnostics(&content),
-            SelectedCheck::TypographyPunctuationSpacing => typography_spacing_diagnostics(&content),
-            SelectedCheck::TypographyDiacriticalMarks => {
-                typography_diacritical_marks_diagnostics(&content)
-            }
-            SelectedCheck::MiscFalsePluralsKudos => false_plurals_kudos_diagnostics(&content),
-            SelectedCheck::MiscFalsePluralsMisc => {
-                false_plurals_misc_diagnostics_in_matcher_order(&content)
-            }
-            SelectedCheck::PsychologyMentalTelepathy => mental_telepathy_diagnostics(&content),
-            SelectedCheck::PsychologyPEqualsZero => p_equals_zero_diagnostics(&content),
-            SelectedCheck::PsychologyLieDetector => lie_detector_diagnostics(&content),
-            SelectedCheck::RedundancyMiscWallace => wallace_diagnostics(&content),
-            SelectedCheck::RedundancyMiscNordquist => nordquist_diagnostics(&content),
-            SelectedCheck::RedundancyRasSyndrome => redundancy_ras_syndrome_diagnostics(&content),
-            SelectedCheck::MiscIllogicCoin => illogic_coin_diagnostics(&content),
-            SelectedCheck::MiscIllogicCollusion => illogic_collusion_diagnostics(&content),
-            SelectedCheck::MiscBackFormations => back_formations_diagnostics(&content),
-            SelectedCheck::MiscGreylist => greylist_diagnostics_in_matcher_order(&content),
-            SelectedCheck::IndustrialLanguageBureaucratese => bureaucratese_diagnostics(&content),
-            SelectedCheck::Hedging => hedging_diagnostics(&content),
-            SelectedCheck::IndustrialLanguageJargon => jargon_diagnostics(&content),
-            SelectedCheck::IndustrialLanguageAirlinese => airlinese_diagnostics(&content),
-            SelectedCheck::MiscManyA => many_a_diagnostics_in_matcher_order(&content),
-            SelectedCheck::MiscMetadiscourse => {
-                metadiscourse_diagnostics_in_matcher_order(&content)
-            }
-            SelectedCheck::MiscNarcissism => narcissism_diagnostics(&content),
-            SelectedCheck::MiscNotGuilty => not_guilty_diagnostics(&content),
-            SelectedCheck::MiscPretension => pretension_diagnostics(&content),
-            SelectedCheck::MiscLatin => latin_diagnostics(&content),
-            SelectedCheck::MiscCapitalizationSeasons => {
-                capitalization_seasons_diagnostics_in_matcher_order(&content)
-            }
-            SelectedCheck::MiscCapitalizationTerms => {
-                capitalization_terms_diagnostics_in_matcher_order(&content)
-            }
-            SelectedCheck::MiscCapitalizationDays => {
-                capitalization_days_diagnostics_in_matcher_order(&content)
-            }
-            SelectedCheck::MiscCapitalizationMonths => {
-                capitalization_months_diagnostics_in_matcher_order(&content)
-            }
-            SelectedCheck::MiscInstitutionName => institution_name_diagnostics(&content),
-            SelectedCheck::MiscProfessions => professions_diagnostics(&content),
-            SelectedCheck::SpellingAllyLy => spelling_ally_ly_diagnostics(&content),
-            SelectedCheck::SpellingAbleAtable => spelling_able_atable_diagnostics(&content),
-            SelectedCheck::SpellingAbleIble => spelling_able_ible_diagnostics(&content),
-            SelectedCheck::SpellingAnceEnce => spelling_ance_ence_diagnostics(&content),
-            SelectedCheck::SpellingElyLy => spelling_ely_ly_diagnostics(&content),
-            SelectedCheck::SpellingErOr => spelling_er_or_diagnostics(&content),
-            SelectedCheck::SpellingEmImEnIn => spelling_em_im_en_in_diagnostics(&content),
-            SelectedCheck::SpellingAthletes => spelling_athletes_diagnostics(&content),
-            SelectedCheck::SpellingInUn => spelling_in_un_diagnostics(&content),
-            SelectedCheck::SpellingVeOf => spelling_ve_of_diagnostics(&content),
-            SelectedCheck::Mondegreens => mondegreens_diagnostics(&content),
-            SelectedCheck::Oxymorons => oxymorons_diagnostics(&content),
-            SelectedCheck::MiscComposition => composition_diagnostics_in_matcher_order(&content),
-            SelectedCheck::TermsEponymousAdjectives => eponymous_adjectives_diagnostics(&content),
-            SelectedCheck::TypographySymbolsEllipsis => typography_ellipsis_diagnostics(&content),
-            SelectedCheck::TypographySymbolsCopyright => typography_copyright_diagnostics(&content),
-            SelectedCheck::TypographySymbolsSentenceSpacing => {
-                typography_sentence_spacing_diagnostics(&content)
-            }
-            SelectedCheck::TypographySymbolsTrademark => typography_trademark_diagnostics(&content),
-            SelectedCheck::TypographySymbolsMultiplication => {
-                typography_multiplication_diagnostics(&content)
+            OutputFormat::Compact => {
+                for diagnostic in diagnostics {
+                    println!(
+                        "{compact_source}:{}:{}: {}: {}",
+                        diagnostic["pos"][0].as_u64().unwrap_or_default(),
+                        diagnostic["pos"][1].as_u64().unwrap_or_default(),
+                        diagnostic["check_path"].as_str().unwrap_or_default(),
+                        diagnostic["message"].as_str().unwrap_or_default()
+                    );
+                }
+                None
             }
         };
-        diagnostics.extend(check_diagnostics);
-    }
-    if let Some(max_errors) = max_errors {
-        diagnostics.truncate(max_errors);
-    }
-    diagnostics.sort_by_key(|diagnostic| {
-        (
-            diagnostic["pos"][0].as_u64().unwrap_or_default(),
-            diagnostic["pos"][1].as_u64().unwrap_or_default(),
-        )
-    });
-    let exit_code = if diagnostics.is_empty() {
-        ExitCode::SUCCESS
-    } else {
-        ExitCode::from(1)
+        Ok((result, has_findings))
     };
-    match output_format {
-        OutputFormat::Json => println!("{}", json_result(&source, diagnostics)),
-        OutputFormat::Full => {
-            for diagnostic in diagnostics {
-                println!(
-                    "{source}:{}:{}: {}: {}",
-                    diagnostic["pos"][0].as_u64().unwrap_or_default(),
-                    diagnostic["pos"][1].as_u64().unwrap_or_default(),
-                    diagnostic["check_path"].as_str().unwrap_or_default(),
-                    diagnostic["message"].as_str().unwrap_or_default(),
-                );
-            }
+
+    if demo {
+        let (result, findings) = process_source(
+            None,
+            "demo.md",
+            "demo.md",
+            "demo.md",
+            include_str!("../data/demo.md"),
+        )?;
+        if let Some(result) = result {
+            file_results.insert("demo.md".to_owned(), result);
         }
-        OutputFormat::Compact => {
-            let source = if demo {
-                "demo.md"
-            } else {
-                paths
-                    .first()
-                    .and_then(|path| path.file_name())
-                    .and_then(|name| name.to_str())
-                    .unwrap_or("<stdin>")
+        has_findings |= findings;
+    } else if paths.is_empty() {
+        let mut input = String::new();
+        io::stdin()
+            .read_to_string(&mut input)
+            .map_err(|error| format!("Could not read stdin: {error}"))?;
+        let (result, findings) = process_source(None, "<stdin>", "<stdin>", "<stdin>", &input)?;
+        if let Some(result) = result {
+            file_results.insert("<stdin>".to_owned(), result);
+        }
+        has_findings |= findings;
+    } else {
+        for path in &paths {
+            let source = file_uri_or_missing(path)
+                .map_err(|error| format!("Could not resolve '{}': {error}", path.display()))?;
+            let full = resolved_path(path)
+                .unwrap_or_else(|_| path.to_path_buf())
+                .display()
+                .to_string();
+            let compact = path
+                .file_name()
+                .and_then(|name| name.to_str())
+                .unwrap_or("<stdin>")
+                .to_owned();
+            let content = match fs::read_to_string(path) {
+                Ok(content) => normalize_file_newlines(&content),
+                Err(error) if error.kind() == io::ErrorKind::NotFound => {
+                    let message = format!("[Errno 2] No such file or directory: '{}'", full);
+                    if matches!(output_format, OutputFormat::Json) || max_errors_is_invalid {
+                        file_results.insert(
+                            source.clone(),
+                            serde_json::json!({"error":{"code":-31998,"message":message}}),
+                        );
+                    } else {
+                        let label = match output_format {
+                            OutputFormat::Full => &full,
+                            OutputFormat::Compact => &compact,
+                            OutputFormat::Json => unreachable!(),
+                        };
+                        eprintln!("Error encountered while linting {label}: {message}");
+                    }
+                    continue;
+                }
+                Err(error)
+                    if matches!(output_format, OutputFormat::Compact)
+                        && error.kind() == io::ErrorKind::InvalidData =>
+                {
+                    let bytes = fs::read(path)
+                        .map_err(|error| format!("Could not read '{}': {error}", path.display()))?;
+                    let utf8_error =
+                        std::str::from_utf8(&bytes).expect_err("invalid UTF-8 was just detected");
+                    eprintln!(
+                        "Error encountered while linting {compact}: {}",
+                        python_utf8_decode_error_message(&bytes, utf8_error)
+                    );
+                    continue;
+                }
+                Err(error) => return Err(format!("Could not read '{}': {error}", path.display())),
             };
-            for diagnostic in diagnostics {
-                println!(
-                    "{source}:{}:{}: {}: {}",
-                    diagnostic["pos"][0].as_u64().unwrap_or_default(),
-                    diagnostic["pos"][1].as_u64().unwrap_or_default(),
-                    diagnostic["check_path"].as_str().unwrap_or_default(),
-                    diagnostic["message"].as_str().unwrap_or_default()
-                );
+            let (result, findings) =
+                process_source(Some(path), &source, &full, &compact, &content)?;
+            if let Some(result) = result {
+                file_results.insert(source, result);
             }
+            has_findings |= findings;
         }
     }
-    Ok(exit_code)
+    if matches!(output_format, OutputFormat::Json) || max_errors_is_invalid {
+        println!("{}", serde_json::json!({"result": file_results}));
+    }
+    Ok(if has_findings {
+        ExitCode::from(1)
+    } else {
+        ExitCode::SUCCESS
+    })
 }
 
 #[derive(Clone, Copy, Debug, Eq, Ord, PartialEq, PartialOrd)]

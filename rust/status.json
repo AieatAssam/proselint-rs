@@ -438,6 +438,10 @@
     {
       "id": "cli.missing_path_error_after_double_dash",
       "status": "recorded"
+    },
+    {
+      "id": "cli.multiple_file_paths",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -464,12 +468,12 @@
     "status": "verified after metadata fingerprint changes; Markdown/ledger exclusion is covered by a discrimination test",
     "source_fingerprint": "91695883b59e57b04d699eb7f44b79d762822c999a7b4fff1e3a29d1483cac88",
     "unit_tests": {
-      "passed": 87,
+      "passed": 88,
       "exit_code": 0,
-      "duration_seconds": 87.51,
+      "duration_seconds": 44.414,
       "command": "python3 -m unittest discover -s rust/harness/tests -v",
-      "evidence": "rust/artifacts/harness-suite-missing-path-final-20261108.log",
-      "notes": "Timeout-discrimination tests emit BLOCKED reports as expected assertions; the full suite passed."
+      "evidence": "rust/artifacts/harness-suite-multi-file-20261108.log",
+      "notes": "Timeout-discrimination tests emitted BLOCKED reports as expected assertions; all tests passed."
     },
     "comparator_discriminators": {
       "passed": 23,
@@ -523,7 +527,7 @@
     }
   },
   "active_ownership": {
-    "current": "The 109-capability shared-CLI checkpoint passed 942/942 live cases; cli.missing_path_error_after_double_dash is recorded. Continue with an unverified path only after confirming a behavioral RED against the pinned executable.",
+    "current": "110-capability shared-output checkpoint passed 946/946 live cases; cli.multiple_file_paths is recorded. Continue with a pinned-oracle RED on the next unverified CLI behavior or an unblocked rule path.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -7888,31 +7892,128 @@
           "rust_checks_and_build": 149.967131
         }
       }
+    },
+    {
+      "id": "cli.multiple_file_paths",
+      "status": "recorded",
+      "case_ids": [
+        "cli_multi_file_limits_per_file_full",
+        "cli_multi_file_limits_per_file_compact",
+        "cli_multi_file_limits_per_file_json",
+        "cli_multi_file_json_continues_after_missing_path"
+      ],
+      "upstream_source": "pinned proselint/command_line.py:proselint; proselint/tools.py:extract_files and LintFile.lint; proselint/log.py:format_source/write_lint_exception; Rust rust/src/main.rs::run",
+      "upstream_spec": "Explicit file paths are processed in argv order. max_errors resets per file. Full output names use resolved paths, Compact uses basenames, JSON uses file URIs and retains one diagnostic array per file. Per-file FileNotFoundError does not stop later files. Exit status reflects whether findings occurred. Compare exact Full/Compact bytes, JSON fields/arrays, and exit status.",
+      "specification": {
+        "live_cases": 4,
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "comparison": "Full/Compact byte-exact stdout/stderr and status; JSON structural comparison preserving exact values and status",
+        "scope_limit": "Four cases cover explicit file paths only; directory expansion, duplicate paths, per-file config overrides, and non-NotFound read errors remain outside acceptance."
+      },
+      "red": {
+        "status": "behavioral_failure",
+        "focused_rust_tests_failed": 4,
+        "focused_rust_tests_total": 4,
+        "focused_test_report": "rust/artifacts/cli-multi-file-red-final-20261108.log",
+        "focused_test_seconds": 0.113,
+        "live_mismatches": 4,
+        "live_report": "rust/artifacts/multi-file-red-live-20261108.json",
+        "live_seconds": 7.885812,
+        "source_fingerprint": "b3edeedee205dcd40390854781332342d2926ee3fbfb9957ebe33a29dab5d829"
+      },
+      "green": {
+        "status": "PASS",
+        "focused_rust_tests_passed": 4,
+        "focused_rust_test_report": "rust/artifacts/cli-multi-file-green-final-20261108.log",
+        "focused_rust_test_seconds": 0.638,
+        "owner_live_cases_passed": 4,
+        "owner_live_report": "rust/artifacts/multi-file-green-live-20261108.json",
+        "owner_live_seconds": 9.45387,
+        "candidate_attestation": "rust/artifacts/20261108T013128979588Z-build.attestation.json",
+        "source_fingerprint": "0c00413220d06c4f74154becd46ab26af6c82f20abf69e515f3e618765abf05b"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "configured_model": "gpt-6-luna",
+        "configured_effort": "low",
+        "runtime_model_metadata": "unavailable",
+        "focused_rust_tests_passed": 5,
+        "isolated_locked_checks_build_seconds": 95.633475,
+        "independent_live_cases_passed": 5,
+        "independent_live_report": "rust/artifacts/independent-full-missing-verifier-20261108/existing-capability-live.json",
+        "independent_live_seconds": 11.008091,
+        "oracle_self_check_cases": 2,
+        "comparator_self_tests_passed": 23,
+        "report": "rust/artifacts/independent-full-missing-verifier-20261108/verification-summary.json",
+        "binary_sha256": "10ea2beb32c61e29cd064a341fd1723bbb451037fe09735809be27afbe27e30f",
+        "source_fingerprint": "39fb254466b92076bc8abc274f0ae56c10d7443a6fafa4d3b262986f51973367",
+        "additional_full_missing_path_live_case": "rust/artifacts/independent-full-missing-verifier-20261108/full-missing-live.json",
+        "additional_full_missing_path_live_cases_passed": 1
+      },
+      "stage_durations_seconds": {
+        "upstream_specification": "not instrumented by scout",
+        "red_focused_rust_tests_command": 0.113,
+        "red_live": 7.885812,
+        "focused_green_rust_tests_command": 0.638,
+        "owner_live": 9.45387,
+        "independent_locked_checks_build": 95.633475,
+        "independent_live": null,
+        "python_harness_suite": 44.414,
+        "final_regression_red_green": "recorded by Luna implementation handoff; RED assertion showed basename where resolved path was expected"
+      },
+      "stage_case_counts": {
+        "red_rust_test_failures": 4,
+        "red_rust_test_total": 4,
+        "red_live_mismatches": 4,
+        "green_rust_tests_passed": 4,
+        "owner_live_cases_passed": 4,
+        "independent_live_cases_passed": 5,
+        "oracle_self_check_cases": 2,
+        "comparator_self_tests_passed": 23,
+        "python_harness_tests_passed": 88,
+        "additional_independent_full_missing_path_cases_passed": 1
+      },
+      "cumulative_gate_required": false,
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-multi-file-final-r2-20261108.json",
+        "capabilities": 110,
+        "production_cases": 946,
+        "manifest_cases": 948,
+        "excluded_smoke_cases": 2,
+        "duration_seconds": 430.388199,
+        "live_seconds": 332.120404,
+        "rust_checks_build_seconds": 94.725389,
+        "oracle_integrity_seconds": 2.954721,
+        "comparator_self_tests_seconds": 0.191519,
+        "comparator_self_tests_passed": 23,
+        "source_fingerprint": "39fb254466b92076bc8abc274f0ae56c10d7443a6fafa4d3b262986f51973367"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-missing-path-final-20261108.json",
-    "passed_cases": 942,
-    "manifest_cases": 944,
+    "report": "rust/artifacts/strict-gate-multi-file-final-r2-20261108.json",
+    "passed_cases": 946,
+    "manifest_cases": 948,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "capability_count": 109,
-    "source_fingerprint": "233a8066683f26dbd8669943a1a4edc071845780556998e1f0131ee0418826f5",
-    "run_id": "20261108T010157201176Z-0024ab72",
-    "started_at_utc": "2026-11-08T01:01:57.201148+00:00",
-    "finished_at_utc": "2026-11-08T01:07:12.775889+00:00",
-    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T005927314030Z-build.attestation.json",
-    "candidate_sha256": "992e2856db7a274430000e0f8218bd0bd7092e823d264237eee6239ab5e231b3",
+    "capability_count": 110,
+    "source_fingerprint": "39fb254466b92076bc8abc274f0ae56c10d7443a6fafa4d3b262986f51973367",
+    "run_id": "20261108T014728688825Z-1405977a",
+    "started_at_utc": "2026-11-08T01:47:28.688776+00:00",
+    "finished_at_utc": "2026-11-08T01:53:00.551199+00:00",
+    "candidate_attestation": "rust/artifacts/20261108T014554060244Z-build.attestation.json",
+    "candidate_sha256": "10ea2beb32c61e29cd064a341fd1723bbb451037fe09735809be27afbe27e30f",
     "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
-    "duration_seconds": 468.470736,
+    "duration_seconds": 430.388199,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.152395,
-      "cumulative_live_comparison": 315.862832,
-      "oracle_integrity": 2.163535,
-      "rust_checks_and_build": 149.967131
+      "comparator_self_tests": 0.191519,
+      "cumulative_live_comparison": 332.120404,
+      "oracle_integrity": 2.954721,
+      "rust_checks_and_build": 94.725389
     },
     "comparator_self_tests": 23
   },
@@ -7941,7 +8042,7 @@
     },
     "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-20261108T010727Z.txt"
   },
-  "next_capability_handoff": "Investigate cli.config.missing_nonempty_xdg_fallback against the pinned source, but add it only if the Rust behavior can be shown to fail first; otherwise choose the smallest unimplemented rule with a meaningful red case.",
+  "next_capability_handoff": "Investigate the smallest unverified CLI behavior with a meaningful pinned-oracle RED; preserve the third-party provenance hold on the remaining rule lists.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

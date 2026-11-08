@@ -574,7 +574,7 @@
     }
   },
   "active_ownership": {
-    "current": "The latest strict gate passes 1075/1075 across 122 capabilities. Nine CLI cases added afterward have focused owner and independent PASS evidence: six directory-expansion cases, two duplicate-path cases, and one multi-file per-file-config case. No Rust production/shared infrastructure changed. Rust 1.99-compatible dependencies were rechecked with zero updates; the 101-test harness suite and Unicode exhaustive audit remain green. Twenty-three rule paths remain held pending a project policy decision on third-party-derived bundled lists.",
+    "current": "The latest strict gate passes 1075/1075 across 122 capabilities. Ten CLI/config cases added afterward have focused owner and independent PASS evidence: six directory-expansion cases, two duplicate-path cases, one multi-file per-file-config case, and one XDG directory-candidate case. No Rust production/shared infrastructure changed. Rust 1.99-compatible dependencies were rechecked with zero updates; the 101-test harness suite and Unicode exhaustive audit remain green. Twenty-three rule paths remain held pending a project policy decision on third-party-derived bundled lists.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -2999,7 +2999,8 @@
         "cli_user_discovery_explicit_overrides_user",
         "cli_user_discovery_xdg_relative_path",
         "cli_xdg_missing_does_not_fall_back_to_home_check",
-        "cli_xdg_missing_does_not_fall_back_to_home_dump_config"
+        "cli_xdg_missing_does_not_fall_back_to_home_dump_config",
+        "cli_user_discovery_xdg_directory_does_not_fall_back_to_home"
       ],
       "upstream_spec": "After explicit, cwd, and ancestor configs, use XDG_CONFIG_HOME/proselint/config.json when XDG_CONFIG_HOME is nonempty; when unset or empty, use HOME/.config/proselint/config.json. Relative XDG paths resolve from cwd. Select first regular file; malformed selected user configs error without falling through. With a nonempty XDG_CONFIG_HOME whose selected file is missing, use bundled defaults and do not fall back to an existing HOME config.",
       "red": {
@@ -3010,21 +3011,24 @@
       },
       "green": {
         "focused_rust_tests_passed": 2,
-        "live_cases_passed": 10,
-        "report": "rust/artifacts/independent-user-discovery-xdg-missing-final-20261108.json",
-        "build_attestation": "rust/artifacts/20261106T060840370113Z-build.attestation.json"
+        "live_cases_passed": 11,
+        "report": "rust/artifacts/xdg-directory-user-config-owner-20261108.json",
+        "build_attestation": "rust/artifacts/20261108T201840178462Z-build.attestation.json",
+        "source_fingerprint": "5a474a0a5769273be1ad2d90c1733bdda0311731bd14121e2c20111f5c11b1d4"
       },
       "independent_verification": {
         "status": "PASS",
-        "live_cases_passed": 10,
+        "live_cases_passed": 11,
         "harness_tests_passed": 19,
         "comparator_discriminators_passed": 23,
-        "report": "rust/artifacts/independent-user-discovery-xdg-missing-final-20261108.json",
+        "report": "rust/artifacts/independent-xdg-directory-user-config-20261108/live-comparison.json",
         "build_attestation": "rust/artifacts/independent-user-discovery-20261106/rebuild.attestation.json",
-        "source_fingerprint": "101c03576b211413e9fe167098e33aeeca15933e5a60752ebea64dc40a6ecd84"
+        "source_fingerprint": "5a474a0a5769273be1ad2d90c1733bdda0311731bd14121e2c20111f5c11b1d4"
       },
       "limitations": [
-        "No-config-found bundled DEFAULT behavior, HOME-unset platform home resolution, and directory user candidates remain unverified; the missing nonempty-XDG case now has two live regressions."
+        "HOME-unset platform home resolution and no-passwd-entry behavior remain unverified.",
+        "A nonempty XDG candidate that is a directory is covered; HOME candidate directories and other non-regular user-config paths remain unverified.",
+        "No-config DEFAULT was independently probed in three cases; full default-config parity still depends on the 23 unimplemented rules."
       ],
       "cumulative_live_parity": {
         "status": "PASS",
@@ -3038,6 +3042,35 @@
         "independent_live_cases_passed": 10,
         "report": "rust/artifacts/independent-user-discovery-xdg-missing-final-20261108.json",
         "source_fingerprint": "101c03576b211413e9fe167098e33aeeca15933e5a60752ebea64dc40a6ecd84"
+      },
+      "specification": {
+        "live_cases": 11,
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "comparison": "Exact status and stderr; JSON structure preserves source/diagnostic fields. No normalisation is needed for stdin source keys.",
+        "scope_limit": "Covers XDG/HOME precedence, relative XDG paths, and a nonempty XDG candidate that is a directory while a distinct HOME config exists. HOME-unset platform resolution, HOME candidate directories, and other non-regular user-config paths remain unverified."
+      },
+      "upstream_source": "Pinned proselint/config/paths.py:16-26; proselint/config/__init__.py:98-105; Rust rust/src/main.rs::user_config_path",
+      "directory_candidate_coverage_extension": {
+        "status": "focused_and_independent_PASS_pending_scheduled_cumulative_gate",
+        "added_cases": 1,
+        "case_id": "cli_user_discovery_xdg_directory_does_not_fall_back_to_home",
+        "owner_report": "rust/artifacts/xdg-directory-user-config-owner-20261108.json",
+        "owner_live_cases_passed": 11,
+        "owner_live_seconds": 21.321886,
+        "independent_report": "rust/artifacts/independent-xdg-directory-user-config-20261108/live-comparison.json",
+        "independent_oracle_self_check": "rust/artifacts/independent-xdg-directory-user-config-20261108/oracle-self-check.json",
+        "independent_live_cases_passed": 11,
+        "independent_live_seconds": 22.321324,
+        "owner_targeted_contract_test_passed": 1,
+        "owner_targeted_contract_test_seconds": 0.21,
+        "independent_targeted_contract_test_passed": 1,
+        "independent_targeted_contract_test_seconds": 0.219,
+        "focused_rust_tests_passed": 6,
+        "focused_rust_tests_seconds": 0.03,
+        "candidate_attestation": "rust/artifacts/20261108T201840178462Z-build.attestation.json",
+        "source_fingerprint": "5a474a0a5769273be1ad2d90c1733bdda0311731bd14121e2c20111f5c11b1d4",
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "cumulative_gate": "deferred; no Rust production/shared behavior change and no new-capability checkpoint due"
       }
     },
     {
@@ -9503,7 +9536,7 @@
       "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d05278b3136"
     }
   },
-  "next_capability_handoff": "Continue with another bounded, live-distinguishable CLI edge outside the held third-party rule lists, prioritizing directory/file read errors or remaining config discovery behavior. Keep shared production changes serialized and defer the cumulative gate to the next 5-capability checkpoint or any shared-behavior change.",
+  "next_capability_handoff": "Continue with another bounded, live-distinguishable CLI edge outside the held rule lists. The next infrastructure-heavy candidate is root-symlink directory behavior; first extend the harness only if the case can preserve exact paths and isolated filesystem semantics. Keep production/shared changes serialized and defer the cumulative gate to the next 5-capability checkpoint or any shared-behavior change.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",
@@ -9758,6 +9791,27 @@
         "runtime_model_metadata": "effort unavailable",
         "scope": "critical rights-policy review only",
         "evidence": "rust/status.json rights_audit_latest.critical_review"
+      },
+      "latest_xdg_directory_candidate_extension": {
+        "investigator": {
+          "requested_model": "gpt-6-luna",
+          "requested_effort": "low",
+          "runtime_model_metadata": "unavailable",
+          "evidence": "read-only handoff; proselint/config/paths.py"
+        },
+        "harness_owner": {
+          "requested_model": "gpt-6-luna",
+          "requested_effort": "low",
+          "runtime_model_metadata": "unavailable",
+          "evidence": "rust/harness/tests/test_compare.py"
+        },
+        "independent_verifier": {
+          "requested_model": "gpt-6-luna",
+          "requested_effort": "low",
+          "runtime_model_metadata": "unavailable",
+          "evidence": "rust/artifacts/independent-xdg-directory-user-config-20261108/live-comparison.json"
+        },
+        "forbidden_models": "No Astra or Terra agents were dispatched in this extension."
       }
     }
   },

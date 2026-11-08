@@ -14677,6 +14677,48 @@
       ]
     },
     {
+      "id": "cli_user_discovery_xdg_directory_does_not_fall_back_to_home",
+      "capability_id": "cli.config.user_discovery",
+      "provenance": "Pinned Python Proselint 0.16.0 config.paths selects XDG_CONFIG_HOME/proselint/config.json for nonempty XDG_CONFIG_HOME; Path.is_file skips a directory candidate and load_from falls back to bundled DEFAULT without consulting HOME. A distinct HOME config disables misc.apologizing to make an incorrect fallback observable.",
+      "input_mode": "stdin",
+      "stdin_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg==",
+      "files": [
+        {
+          "path": "xdg/proselint/config.json/marker",
+          "content_base64": "eA=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "XDG_CONFIG_HOME": "xdg"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "working_directory": ".",
+      "home_files": [
+        {
+          "path": ".config/proselint/config.json",
+          "content_base64": "eyJjaGVja3MiOnt9fQ=="
+        }
+      ],
+      "unused_files": [
+        "xdg/proselint/config.json/marker"
+      ],
+      "config_scenario": "xdg_directory_candidate_home_config_present"
+    },
+    {
       "id": "rule_misc_phrasal_adjectives_ly_positive",
       "capability_id": "rule.misc.phrasal_adjectives.ly",
       "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.phrasal_adjectives.ly in proselint/checks/misc/phrasal_adjectives.py. Check uses ExistenceSimple pattern `\\s[^\\s-]+ly-`, Fast default case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, ppm_threshold=0; message `No hyphen is necessary in phrasal adjectives with an adverb ending in -ly, unless the -ly adverb is part of a longer phrase.` and offset (1,0). Case purpose: Positive lower and ASCII-uppercase examples show default case-insensitive matching.",

@@ -482,6 +482,10 @@
     {
       "id": "cli.dump_config.version_precedence",
       "status": "recorded"
+    },
+    {
+      "id": "cli.root_config_argument_precedence",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -510,8 +514,8 @@
     "unit_tests": {
       "status": "PASS",
       "suite": "rust.harness.tests.test_compare rust.harness.tests.test_gate rust.harness.tests.test_benchmark",
-      "tests_passed": 98,
-      "duration_seconds": 63.687,
+      "tests_passed": 99,
+      "duration_seconds": 70.033,
       "expected_timeout_discriminator_cases": 2
     },
     "comparator_discriminators": {
@@ -566,7 +570,7 @@
     }
   },
   "active_ownership": {
-    "current": "cli.dump_config.version_precedence is accepted after focused owner/independent passes and the 120-capability/1025-case cumulative gate. JSON and verbose Python runtime metadata remain blocked. Next, probe root --config versus subcommand argparse precedence; 23 rule paths remain held for provenance/rights evidence.",
+    "current": "cli.root_config_argument_precedence passes focused owner/independent parity, regression-focused Rust tests, 99 Python harness tests, and the 121-capability/1031-case cumulative gate. JSON and verbose Python runtime metadata remain blocked; 23 rule paths remain held pending provenance/rights evidence.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -585,8 +589,7 @@
     "`cli.help_argument_precedence` now accepts four exact vectors: missing check --config value before help, invalid OutputFormat `invalid` before help, global `--config check --help`, and `check -- --help` with a real file. Other invalid format values, missing-option/order combinations, and other option orderings remain unverified. Missing `--help` after `--` now matches in Full, Compact, and JSON; other missing-path forms remain unverified.",
     "Malformed UTF-8 stdin remains unverified: the pinned executable uses surrogateescape; Fast and Fancy rules differ around invalid bytes, so no lossy sentinel approximation is accepted.",
     "JSON version output differs in four tested vectors because Python includes sys.version_info[:3]; no fabricated Python version is emitted by Rust. See rust/artifacts/version-json-metadata-final-20261108.json.",
-    "`version --verbose` stderr contains timestamped pinned Python runtime metadata and is not reproduced by Rust. See rust/artifacts/version-verbose-runtime-final-20261108.json.",
-    "A direct live probe found root `--config bad.json dump-config --version` prints the Python version but returns a Rust config parse error; this root/subcommand argparse precedence variant is not yet represented by an accepted case."
+    "`version --verbose` stderr contains timestamped pinned Python runtime metadata and is not reproduced by Rust. See rust/artifacts/version-verbose-runtime-final-20261108.json."
   ],
   "capability_states": [
     {
@@ -9096,13 +9099,79 @@
         "green": 3,
         "independent": 3
       }
+    },
+    {
+      "id": "cli.root_config_argument_precedence",
+      "status": "recorded",
+      "case_ids": [
+        "cli_root_config_before_dump_config_version",
+        "cli_root_config_before_version_subcommand",
+        "cli_root_config_attached_before_version_subcommand",
+        "cli_root_config_before_check_subcommand",
+        "cli_dump_config_subcommand_config_control",
+        "cli_check_subcommand_config_control"
+      ],
+      "upstream_source": "proselint/command_line.py::get_parser and proselint; rust/src/main.rs::reset_root_options_before_subcommand",
+      "upstream_spec": "Argparse subparsers inherit global --config and their default None resets a value parsed before the command. Subcommand-local --config remains in effect and is loaded before version behavior. Both separated and attached root config forms are covered.",
+      "red": {
+        "status": "MISMATCH",
+        "mismatches": 4,
+        "passes": 2,
+        "report": "rust/artifacts/root-config-precedence-red-final-20261108.json",
+        "source_fingerprint": "5301d0f395e90152d75eee69e53b8f0d0dce9c7baf3a1e3fb1734be2b97ce10c"
+      },
+      "green": {
+        "status": "PASS",
+        "cases": 6,
+        "report": "rust/artifacts/root-config-precedence-green-20261108.json",
+        "report_sha256": "02cf25f5a01f62bda9d348a800041b86f6361322e0284fbfe06d066eaf550347",
+        "candidate_attestation": "rust/artifacts/20261108T162358184210Z-build.attestation.json",
+        "source_fingerprint": "10aab06fae15bb673b063f68c0f9a30467eeb5d5e1e21eb593d24ea73b9c4939"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "cases": 6,
+        "report": "rust/artifacts/independent-cli-root-config-argument-precedence-20261108T1626.json",
+        "candidate_attestation": "rust/artifacts/20261108T162358184210Z-build.attestation.json",
+        "oracle_integrity_report": "rust/artifacts/oracle-integrity-root-config-independent-20261108T1623.json",
+        "configured_model": "gpt-6-luna",
+        "configured_effort": "low"
+      },
+      "focused_rust_tests": {
+        "status": "PASS",
+        "tests_passed": 9,
+        "commands": [
+          "cargo test --locked --manifest-path rust/Cargo.toml --test cli_root_config_precedence",
+          "cargo test --locked --manifest-path rust/Cargo.toml --test cli_missing_option_value_before_option"
+        ]
+      },
+      "cumulative_gate_required": false,
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-root-config-precedence-final-20261108.json",
+        "capabilities": 121,
+        "cases": 1031,
+        "source_fingerprint": "10aab06fae15bb673b063f68c0f9a30467eeb5d5e1e21eb593d24ea73b9c4939",
+        "run_id": "20261108T162927269572Z-1d934a70"
+      },
+      "stage_case_counts": {
+        "red": 6,
+        "green": 6,
+        "independent": 6
+      },
+      "regression_followup": {
+        "initial_full_gate": "BLOCKED",
+        "evidence": "rust/artifacts/20261108T161509570997Z-build-2.stdout.bin",
+        "failing_test": "cli_missing_option_value_before_option::root_config_followed_by_option_like_token_reports_missing_value",
+        "fix": "keep missing/option-like --config values in argv for the early parser validator"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-dump-config-version-final-20261108.json",
-    "passed_cases": 1025,
-    "manifest_cases": 1034,
+    "report": "rust/artifacts/strict-gate-root-config-precedence-final-20261108.json",
+    "passed_cases": 1031,
+    "manifest_cases": 1040,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
       "cli.version.json_metadata": 5,
@@ -9110,20 +9179,20 @@
     },
     "unresolved_manifest_cases": 1,
     "exit_code": 0,
-    "capability_count": 120,
-    "source_fingerprint": "b52e687a6ad293427df3b6c80e07b643afcd308e2209117211bb7ffffe4a7894",
-    "run_id": "20261108T131319336621Z-7d38adc6",
-    "started_at_utc": "2026-11-08T13:13:19.336589+00:00",
-    "finished_at_utc": "2026-11-08T13:28:15.232766+00:00",
-    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T131227278440Z-build.attestation.json",
-    "candidate_sha256": "5d3515afeafb516d787563f04777ac8d0a1f4e0f23a55634232940a30eb7bbc4",
+    "capability_count": 121,
+    "source_fingerprint": "10aab06fae15bb673b063f68c0f9a30467eeb5d5e1e21eb593d24ea73b9c4939",
+    "run_id": "20261108T162927269572Z-1d934a70",
+    "started_at_utc": "2026-11-08T16:29:27.269546+00:00",
+    "finished_at_utc": "2026-11-08T16:44:19.818721+00:00",
+    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T162744070543Z-build.attestation.json",
+    "candidate_sha256": "655052e1a78110b7d5b24cef7892b6816bc65b7ae2497c83d1d8c801f5fbfc70",
     "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
-    "duration_seconds": 950.900012,
+    "duration_seconds": 998.740077,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.157644,
-      "cumulative_live_comparison": 896.204775,
-      "oracle_integrity": 2.093137,
-      "rust_checks_and_build": 52.129517
+      "comparator_self_tests": 0.144665,
+      "cumulative_live_comparison": 892.840383,
+      "oracle_integrity": 2.150515,
+      "rust_checks_and_build": 103.276256
     },
     "comparator_self_tests": 23
   },
@@ -9161,7 +9230,7 @@
       "report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2"
     }
   },
-  "next_capability_handoff": "Investigate root --config value reset before dump-config with pinned live vectors, then focused RED/GREEN/independent verification; keep Python runtime metadata divergences blocked and do not fabricate a runtime.",
+  "next_capability_handoff": "Continue with remaining attached output-format and root/subcommand CLI argument orderings against pinned live Python. Keep JSON/verbose Python-runtime metadata explicitly blocked and do not fabricate it.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

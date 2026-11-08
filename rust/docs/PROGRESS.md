@@ -87,3 +87,5 @@ Full output defaults when `--output-format` is omitted for the verified stdin ca
 
 
 - `cli.dump_config.version_precedence` is accepted: three focused and independent live cases passed, followed by a 120-capability/1,025-case cumulative pass. A direct probe also exposed a separate root `--config` ordering edge for the next capability. JSON and verbose Python runtime metadata stay explicitly blocked because the Rust CLI does not fabricate Python runtime details.
+
+- `cli.root_config_argument_precedence` is accepted: six focused and independent live cases passed, including separated/attached root values and local-config controls. The initial cumulative gate caught a missing-value regression; the correction passed the targeted Rust tests and the retry gate passed 1,031/1,031 cases across 121 capabilities.

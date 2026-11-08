@@ -1580,6 +1580,13 @@ fn reset_root_options_before_subcommand(args: &mut Vec<std::ffi::OsString>) {
             break;
         }
         if token == "--config" {
+            if args.get(index + 1).is_some_and(|value| {
+                value.to_str().is_none_or(|value| {
+                    !value.starts_with('-') || value == "-" || argparse_negative_number(value)
+                })
+            }) {
+                root_options.extend([index, index + 1]);
+            }
             index = (index + 2).min(args.len());
             continue;
         }
@@ -1598,6 +1605,7 @@ fn reset_root_options_before_subcommand(args: &mut Vec<std::ffi::OsString>) {
             continue;
         }
         if token.starts_with("--config=") {
+            root_options.push(index);
             index += 1;
             continue;
         }

@@ -33720,5 +33720,183 @@
         "exit_status": "exact"
       }
     }
+,
+    {
+      "id": "cli_root_config_before_dump_config_version",
+      "capability_id": "cli.root_config_argument_precedence",
+      "provenance": "Pinned Proselint 0.16.0 argparse subparser behavior: The dump-config subparser resets a root-parent --config value; version handling uses the default config. Broken JSON is `{`; the config path is otherwise identical.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "bad.json",
+          "content_base64": "ew=="
+        }
+      ],
+      "argv": [
+        "--config",
+        "{file:bad.json}",
+        "dump-config",
+        "--version"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_config_root_vs_subcommand_option_position",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_root_config_before_version_subcommand",
+      "capability_id": "cli.root_config_argument_precedence",
+      "provenance": "Pinned Proselint 0.16.0 argparse subparser behavior: The version subparser resets the root-parent --config value before load_from. Broken JSON is `{`; the config path is otherwise identical.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "bad.json",
+          "content_base64": "ew=="
+        }
+      ],
+      "argv": [
+        "--config",
+        "{file:bad.json}",
+        "version"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_config_root_vs_subcommand_option_position",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_root_config_before_check_subcommand",
+      "capability_id": "cli.root_config_argument_precedence",
+      "provenance": "Pinned Proselint 0.16.0 argparse subparser behavior: The check subparser resets the root-parent --config value before loading configuration. Broken JSON is `{`; the config path is otherwise identical.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "bad.json",
+          "content_base64": "ew=="
+        }
+      ],
+      "argv": [
+        "--config",
+        "{file:bad.json}",
+        "check"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_config_root_vs_subcommand_option_position",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_dump_config_subcommand_config_control",
+      "capability_id": "cli.root_config_argument_precedence",
+      "provenance": "Pinned Proselint 0.16.0: a --config value supplied after the subcommand is retained. The selected path is missing, so config loading fails before command/version behavior.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "dump-config",
+        "--config",
+        "missing.json",
+        "--version"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_config_root_vs_subcommand_option_position",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_check_subcommand_config_control",
+      "capability_id": "cli.root_config_argument_precedence",
+      "provenance": "Pinned Proselint 0.16.0: a --config value supplied after the subcommand is retained. The selected path is missing, so config loading fails before command/version behavior.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--config",
+        "missing.json"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_config_root_vs_subcommand_option_position",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_root_config_attached_before_version_subcommand",
+      "capability_id": "cli.root_config_argument_precedence",
+      "provenance": "Pinned Proselint 0.16.0 argparse behavior: attached root --config=VALUE is reset by the version subparser default before load_from. Broken JSON is `{` at the referenced path.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "bad.json",
+          "content_base64": "ew=="
+        }
+      ],
+      "argv": [
+        "--config={file:bad.json}",
+        "version"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "malformed_config_root_vs_subcommand_option_position",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    }
   ]
 }

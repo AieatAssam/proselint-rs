@@ -79,6 +79,36 @@
       }
     },
     {
+      "id": "cli_directory_expansion_explicit_file_symlink_compact",
+      "capability_id": "cli.directory_expansion",
+      "provenance": "Pinned Python Proselint 0.16.0 source proselint/tools.py:verify_path/extract_files resolves explicit input paths before classifying them; a file symlink is linted and displayed under its target path.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19LCJtYXhfZXJyb3JzIjoxMH0="
+        },
+        {
+          "path": "target.txt",
+          "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="
+        }
+      ],
+      "unused_files": ["target.txt"],
+      "symlinks": [{"path": "alias.md", "target": "target.txt"}],
+      "argv": ["check", "--config", "{file:config.json}", "--output-format", "compact", "alias.md"],
+      "output_format": "compact",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "misc_apologizing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
       "id": "cli_directory_expansion_case_sensitive_extensions",
       "capability_id": "cli.directory_expansion",
       "provenance": "Pinned Python Proselint 0.16.0 source proselint/tools.py:extract_files filters with Path.suffix in ACCEPTED_EXTENSIONS, so .txt is accepted while .TXT is skipped on a case-sensitive filesystem.",

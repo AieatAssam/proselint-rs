@@ -2266,11 +2266,9 @@ fn run() -> Result<ExitCode, String> {
         for path in &expanded_paths {
             let source = file_uri_or_missing(path)
                 .map_err(|error| format!("Could not resolve '{}': {error}", path.display()))?;
-            let full = resolved_path(path)
-                .unwrap_or_else(|_| path.to_path_buf())
-                .display()
-                .to_string();
-            let compact = path
+            let resolved = resolved_path(path).unwrap_or_else(|_| path.to_path_buf());
+            let full = resolved.display().to_string();
+            let compact = resolved
                 .file_name()
                 .and_then(|name| name.to_str())
                 .unwrap_or("<stdin>")

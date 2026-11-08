@@ -574,7 +574,7 @@
     }
   },
   "active_ownership": {
-    "current": "The latest strict gate passes 1086/1086 accepted live cases across 122 capabilities (1095 manifest cases; eight excluded metadata/smoke cases and one unresolved demo case). The directory-expansion harness now supports validated workspace-contained symlink fixtures; the root-directory-symlink case passed focused owner and independent Luna-low live comparison, and the full Python harness suite passed 104/104. No Rust production behavior changed. Twenty-three rule paths remain held pending the project policy decision on bundled third-party-derived lists.",
+    "current": "The latest strict gate passes 1087/1087 accepted live cases across 122 capabilities (1096 manifest cases; eight excluded metadata/smoke cases and one unresolved demo case). An explicit file-symlink Compact case exposed a filename mismatch; Rust now labels the resolved target. Owner and independent Luna-low runs pass 13/13, the full Python harness suite passes 104/104, and the cumulative gate passes. Rust 1.99-compatible dependency dry-run found zero updates. Twenty-three rule paths remain held pending project policy on bundled third-party-derived lists.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -593,7 +593,8 @@
     "`cli.help_argument_precedence` accepts its recorded precedence vectors; `cli.invalid_output_format_error` covers 44 separate/attached/dash-prefixed, quote/control, and Unicode 15 printability cases. Invalid non-UTF-8 argv bytes that CPython decodes with surrogateescape cannot be represented by Rust `String` arguments and remain outside this scope.",
     "Malformed UTF-8 stdin remains unverified: the pinned executable uses surrogateescape; Fast and Fancy rules differ around invalid bytes, so no lossy sentinel approximation is accepted.",
     "JSON version output differs in four tested vectors because Python includes sys.version_info[:3]; no fabricated Python version is emitted by Rust. See rust/artifacts/version-json-metadata-final-20261108.json.",
-    "`version --verbose` stderr contains timestamped pinned Python runtime metadata and is not reproduced by Rust. See rust/artifacts/version-verbose-runtime-final-20261108.json."
+    "`version --verbose` stderr contains timestamped pinned Python runtime metadata and is not reproduced by Rust. See rust/artifacts/version-verbose-runtime-final-20261108.json.",
+    "Dangling file-symlink targets are not yet resolved to their target path for error labels/source keys; explicit dangling-link behavior remains unverified."
   ],
   "capability_states": [
     {
@@ -8197,15 +8198,16 @@
         "cli_directory_expansion_suffix_markdown",
         "cli_directory_expansion_full_output",
         "cli_directory_expansion_compact_output",
-        "cli_directory_expansion_root_symlink"
+        "cli_directory_expansion_root_symlink",
+        "cli_directory_expansion_explicit_file_symlink_compact"
       ],
       "upstream_source": "pinned proselint/tools.py:20-21,50-66 extract_files; proselint/command_line.py:149-157",
       "upstream_spec": "For each explicit argument in order, verify/resolve the path. Pass explicit non-directory paths through unchanged. Recursively expand directory paths in os.walk enumeration order and include only case-sensitive .md, .txt, .rtf, .html, .tex, .markdown suffixes. Lint each expanded file separately with the existing per-file config/max_errors/output/error handling.",
       "specification": {
-        "live_cases": 12,
+        "live_cases": 13,
         "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
         "comparison": "Exact exit status/stderr and JSON structural values including source URI keys and diagnostic arrays; no sorting normalization beyond JSON object key order.",
-        "scope_limit": "Twelve live cases cover recursive traversal, all accepted suffixes, exact-case filtering, ignored extensions, per-file max_errors, interleaved explicit paths, JSON/Full/Compact output, and a relative directory symlink supplied as the root. Explicit file-symlink roots, permission-denied traversal, and cross-platform enumeration order remain unverified."
+        "scope_limit": "Thirteen live cases cover recursive traversal, all accepted suffixes, exact-case filtering, ignored extensions, per-file max_errors, interleaved explicit paths, JSON/Full/Compact output, a directory symlink supplied as the root, and an existing file symlink in Compact output. Dangling symlink targets, explicit file-symlink Full/JSON output, permission-denied traversal, and cross-platform enumeration order remain unverified."
       },
       "red": {
         "status": "behavioral_failure",
@@ -8221,26 +8223,29 @@
         "status": "PASS",
         "focused_rust_tests_passed": 1,
         "focused_rust_test_report": "rust/artifacts/independent-directory-verifier-20261108/final-0.stdout.log",
-        "owner_live_cases_passed": 12,
-        "owner_live_report": "rust/artifacts/directory-root-symlink-owner-20261108.json",
-        "owner_live_seconds": 17.562835,
-        "candidate_attestation": "rust/artifacts/20261108T203810206841Z-build.attestation.json",
-        "source_fingerprint": "9737b44e877b067104bfd7dc1763ed341f16459fdd300c0b618fbb07f016831e"
+        "owner_live_cases_passed": 13,
+        "owner_live_report": "rust/artifacts/file-symlink-compact-final-20261108.json",
+        "owner_live_seconds": 17.126281,
+        "candidate_attestation": "rust/artifacts/20261108T211934052467Z-build.attestation.json",
+        "source_fingerprint": "f090eaeeabd19dc02f29a9fad09713cf9b6be94422a7d7fc59d1fb3003e2f1f8",
+        "focused_rust_test": "cargo test --locked --manifest-path rust/Cargo.toml --test cli_file_symlink"
       },
       "independent_verification": {
         "status": "PASS",
         "configured_model": "gpt-6-luna",
         "configured_effort": "low",
         "runtime_model_metadata": "unavailable",
-        "independent_live_cases_passed": 12,
-        "independent_live_report": "rust/artifacts/independent-directory-root-symlink-low-20261108/live-comparison.json",
+        "independent_live_cases_passed": 13,
+        "independent_live_report": "rust/artifacts/independent-file-symlink-compact-final-20261108/live-comparison.json",
+        "independent_live_seconds": 16.90965,
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "oracle_integrity": "verified",
         "oracle_self_check_passed": 2,
-        "oracle_self_check_report": "rust/artifacts/independent-directory-root-symlink-low-20261108/oracle-self-check.json",
         "comparator_self_tests_passed": 23,
-        "targeted_manifest_test_passed": 1,
-        "source_fingerprint": "9737b44e877b067104bfd7dc1763ed341f16459fdd300c0b618fbb07f016831e",
-        "effort_mismatch_excluded": "A specialized parity_verifier agent self-reported fixed gpt-6-luna/high; its report was excluded and rerun with a generic gpt-6-luna/low agent.",
-        "independent_live_seconds": 15.255173
+        "manifest_contract_test_passed": 1,
+        "focused_rust_test_passed": 1,
+        "source_fingerprint": "f090eaeeabd19dc02f29a9fad09713cf9b6be94422a7d7fc59d1fb3003e2f1f8",
+        "candidate_sha256": "c5e550e0947da770f51ddaf519cb934f89553ffd93576791203a33d1621d3ad2"
       },
       "stage_durations_seconds": {
         "upstream_specification": "not separately instrumented",
@@ -8250,43 +8255,52 @@
         "owner_live_seconds": 17.562835,
         "independent_locked_test_and_build_seconds": 82.780253,
         "independent_live_seconds": 15.255173,
-        "python_harness_suite_seconds": 69.243,
+        "python_harness_suite_seconds": 68.078,
         "independent_build_seconds": 0.195733,
         "owner_suffix_live_seconds": 13.692408,
         "independent_suffix_live_seconds": 14.017921,
         "targeted_manifest_test_seconds": 0.429,
-        "cumulative_gate": 1000.355936,
+        "cumulative_gate": 997.389631,
         "owner_output_formats_live_seconds": 14.833916,
         "independent_output_formats_live_seconds": 19.418272,
         "owner_targeted_manifest_test_seconds": 0.56,
         "independent_targeted_manifest_test_seconds": 0.424,
-        "cumulative_gate_after_output_formats": "deferred to scheduled checkpoint; no production/shared behavior changed"
+        "cumulative_gate_after_output_formats": "deferred to scheduled checkpoint; no production/shared behavior changed",
+        "focused_file_symlink_rust_test_green_seconds": 2.45,
+        "focused_file_symlink_rust_test_red_seconds": 0.54,
+        "file_symlink_live_red_seconds": 17.427536,
+        "file_symlink_live_green_seconds": 17.126281,
+        "file_symlink_independent_live_seconds": 16.90965
       },
       "stage_case_counts": {
         "red_focused_rust_tests_failed": 1,
         "red_live_mismatches": 5,
         "green_focused_rust_tests_passed": 1,
-        "owner_live_cases_passed": 12,
-        "independent_live_cases_passed": 12,
+        "owner_live_cases_passed": 13,
+        "independent_live_cases_passed": 13,
         "comparator_self_tests_passed": 23,
         "python_harness_tests_passed": 104
       },
       "cumulative_gate_required": true,
       "cumulative_gate": {
         "status": "PASS",
-        "report": "rust/artifacts/strict-gate-root-symlink-20261108.json",
+        "report": "rust/artifacts/strict-gate-file-symlink-compact-20261108.json",
         "capabilities": 122,
-        "production_cases": 1086,
-        "manifest_cases": 1095,
-        "excluded_cases": 9,
+        "production_cases": 1087,
+        "manifest_cases": 1096,
+        "excluded_manifest_cases": {
+          "harness.oracle_smoke": 2,
+          "cli.version.json_metadata": 5,
+          "cli.version.verbose_runtime": 1
+        },
         "unresolved_manifest_cases": 1,
-        "duration_seconds": 1000.355936,
-        "live_seconds": 942.734872,
-        "rust_checks_build_seconds": 54.881641,
-        "oracle_integrity_seconds": 2.104719,
-        "comparator_self_tests_seconds": 0.147339,
+        "duration_seconds": 997.389631,
+        "live_seconds": 941.914962,
+        "rust_checks_build_seconds": 52.745889,
+        "oracle_integrity_seconds": 2.172508,
+        "comparator_self_tests_seconds": 0.144661,
         "comparator_self_tests_passed": 23,
-        "source_fingerprint": "9737b44e877b067104bfd7dc1763ed341f16459fdd300c0b618fbb07f016831e"
+        "source_fingerprint": "f090eaeeabd19dc02f29a9fad09713cf9b6be94422a7d7fc59d1fb3003e2f1f8"
       },
       "suffix_coverage_extension": {
         "status": "focused_and_independent_PASS_pending_scheduled_cumulative_gate",
@@ -8335,7 +8349,30 @@
         "candidate_attestation": "rust/artifacts/20261108T203810206841Z-build.attestation.json",
         "source_fingerprint": "9737b44e877b067104bfd7dc1763ed341f16459fdd300c0b618fbb07f016831e",
         "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-        "coverage_limit": "Root directory symlink tested; explicit file-symlink roots are not covered."
+        "coverage_limit": "Root directory symlink and existing file symlink in Compact mode are tested; dangling targets and explicit file-symlink Full/JSON output remain open."
+      },
+      "file_symlink_compact_extension": {
+        "status": "PASS",
+        "added_cases": 1,
+        "case_id": "cli_directory_expansion_explicit_file_symlink_compact",
+        "upstream_spec": "Pinned proselint/tools.py resolves explicit inputs before linting; Compact labels use the resolved target basename.",
+        "red": {
+          "rust_test": "FAIL: emitted alias.md instead of target.txt",
+          "live": "MISMATCH 1/13; Python emitted target.txt while Rust emitted alias.md",
+          "report": "rust/artifacts/file-symlink-compact-red-20261108.json"
+        },
+        "green": {
+          "focused_rust_test": "PASS 1/1",
+          "owner_report": "rust/artifacts/file-symlink-compact-final-20261108.json",
+          "owner_cases_passed": 13,
+          "independent_report": "rust/artifacts/independent-file-symlink-compact-final-20261108/live-comparison.json",
+          "independent_cases_passed": 13
+        },
+        "harness_suite": "PASS 104/104",
+        "source_fingerprint": "f090eaeeabd19dc02f29a9fad09713cf9b6be94422a7d7fc59d1fb3003e2f1f8",
+        "candidate_sha256": "c5e550e0947da770f51ddaf519cb934f89553ffd93576791203a33d1621d3ad2",
+        "candidate_attestation": "rust/artifacts/20261108T211934052467Z-build.attestation.json",
+        "coverage_limit": "Existing file symlink in Compact mode only; dangling targets and explicit file-symlink Full/JSON output remain open."
       }
     },
     {
@@ -9487,9 +9524,9 @@
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-root-symlink-20261108.json",
-    "passed_cases": 1086,
-    "manifest_cases": 1095,
+    "report": "rust/artifacts/strict-gate-file-symlink-compact-20261108.json",
+    "passed_cases": 1087,
+    "manifest_cases": 1096,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
       "cli.version.json_metadata": 5,
@@ -9498,19 +9535,19 @@
     "unresolved_manifest_cases": 1,
     "exit_code": 0,
     "capability_count": 122,
-    "source_fingerprint": "9737b44e877b067104bfd7dc1763ed341f16459fdd300c0b618fbb07f016831e",
-    "run_id": "20261108T204753860720Z-29ddbb78",
-    "started_at_utc": "2026-11-08T20:47:53.860691+00:00",
-    "finished_at_utc": "2026-11-08T21:03:36.171894+00:00",
-    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T204659056959Z-build.attestation.json",
-    "candidate_sha256": "b2f0a11d87d5c58f022d1d5c205ad06155ac45a9d30f06ca73fe54ed4164d4e4",
+    "source_fingerprint": "f090eaeeabd19dc02f29a9fad09713cf9b6be94422a7d7fc59d1fb3003e2f1f8",
+    "run_id": "20261108T212244568597Z-2b5dea89",
+    "started_at_utc": "2026-11-08T21:22:44.568570+00:00",
+    "finished_at_utc": "2026-11-08T21:38:26.137668+00:00",
+    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T212151898888Z-build.attestation.json",
+    "candidate_sha256": "c5e550e0947da770f51ddaf519cb934f89553ffd93576791203a33d1621d3ad2",
     "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
-    "duration_seconds": 1000.355936,
+    "duration_seconds": 997.389631,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.147339,
-      "cumulative_live_comparison": 942.734872,
-      "oracle_integrity": 2.104719,
-      "rust_checks_and_build": 54.881641
+      "comparator_self_tests": 0.144661,
+      "cumulative_live_comparison": 941.914962,
+      "oracle_integrity": 2.172508,
+      "rust_checks_and_build": 52.745889
     },
     "comparator_self_tests": 23
   },
@@ -9518,7 +9555,7 @@
     "status": "current",
     "toolchain": "1.99.1",
     "registry": "crates.io",
-    "latest_checked": "2026-11-08T19:59:00Z",
+    "latest_checked": "2026-11-08T21:21:00Z",
     "locked_versions": {
       "clap": "4.6.7",
       "serde": "1.0.229",
@@ -9533,23 +9570,22 @@
       "packages_to_update": 0,
       "command": "cargo update --dry-run --manifest-path rust/Cargo.toml",
       "rust_version_constraint": "1.99",
-      "checked_after_gate": "2026-11-08T19:17:00Z",
-      "evidence": "rust/artifacts/rust-dependency-dry-run-post-directory-coverage-20261108.txt",
-      "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d05278b3136",
-      "checked_after": "2026-11-08T19:59:00Z"
+      "checked_after": "2026-11-08T21:21:00Z",
+      "evidence": "rust/artifacts/rust-dependency-dry-run-file-symlink-20261108.txt",
+      "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136"
     },
-    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-directory-coverage-20261108.txt",
+    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-file-symlink-20261108.txt",
     "latest_dry_run": {
       "status": "PASS",
       "command": "cargo update --dry-run --manifest-path rust/Cargo.toml",
       "toolchain": "1.99.1",
       "updates": 0,
-      "report": "rust/artifacts/rust-dependency-dry-run-post-directory-coverage-20261108.txt",
+      "report": "rust/artifacts/rust-dependency-dry-run-file-symlink-20261108.txt",
       "report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2",
-      "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d05278b3136"
+      "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136"
     }
   },
-  "next_capability_handoff": "Continue with a bounded, live-distinguishable capability outside held rule-list data. Keep one writer per shared harness/CLI file and run the cumulative gate at the next checkpoint or after shared behavior changes.",
+  "next_capability_handoff": "Next investigate dangling file-symlink resolution against the pinned oracle. The current fixture schema only permits represented targets; extend it minimally and safely if a confined dangling-link case is needed. Keep shared CLI edits serialized and rerun focused plus cumulative live gates after shared changes.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",
@@ -9699,11 +9735,11 @@
       "evidence": "rust/artifacts/independent-mixed-misc-ras-luna-low-20261107/verification.json"
     },
     "latest_independent_verifier": {
-      "role": "independent focused verifier",
+      "role": "generic independent focused verifier",
       "configured_model": "gpt-6-luna",
       "configured_effort": "low",
       "runtime_dispatch_metadata": "unavailable",
-      "evidence": "rust/artifacts/independent-next-cli-final2-20261107/summary.json"
+      "evidence": "rust/artifacts/independent-file-symlink-compact-final-20261108/"
     },
     "latest_astra_live_review": {
       "configured_model": "gpt-6-astra",

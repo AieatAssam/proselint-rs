@@ -1972,18 +1972,26 @@ fn run() -> Result<ExitCode, String> {
                     }
                     continue;
                 }
-                Err(error)
-                    if matches!(output_format, OutputFormat::Compact)
-                        && error.kind() == io::ErrorKind::InvalidData =>
-                {
+                Err(error) if error.kind() == io::ErrorKind::InvalidData => {
                     let bytes = fs::read(path)
                         .map_err(|error| format!("Could not read '{}': {error}", path.display()))?;
                     let utf8_error =
                         std::str::from_utf8(&bytes).expect_err("invalid UTF-8 was just detected");
-                    eprintln!(
-                        "Error encountered while linting {compact}: {}",
-                        python_utf8_decode_error_message(&bytes, utf8_error)
-                    );
+                    let message = python_utf8_decode_error_message(&bytes, utf8_error);
+                    match output_format {
+                        OutputFormat::Full => {
+                            eprintln!("Error encountered while linting {full}: {message}");
+                        }
+                        OutputFormat::Compact => {
+                            eprintln!("Error encountered while linting {compact}: {message}");
+                        }
+                        OutputFormat::Json => {
+                            file_results.insert(
+                                source.clone(),
+                                serde_json::json!({"error":{"code":-31999,"data":"UnicodeDecodeError","message":message}}),
+                            );
+                        }
+                    }
                     continue;
                 }
                 Err(error) => return Err(format!("Could not read '{}': {error}", path.display())),

@@ -450,6 +450,10 @@
     {
       "id": "cli.invalid_output_format_error",
       "status": "recorded"
+    },
+    {
+      "id": "cli.file_invalid_utf8_error",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -476,12 +480,12 @@
     "status": "verified after metadata fingerprint changes; Markdown/ledger exclusion is covered by a discrimination test",
     "source_fingerprint": "f613269db8621fcb8d6836dada159d2f6eb15212bea7ea54419955eb9b212838",
     "unit_tests": {
-      "passed": 90,
+      "passed": 91,
       "exit_code": 0,
-      "duration_seconds": 88.75,
+      "duration_seconds": 45.387,
       "command": "python3 -m unittest discover -s rust/harness/tests -v",
-      "evidence": "rust/artifacts/harness-suite-invalid-output-format-final-20261108.log",
-      "notes": "Full harness suite passed after adding command-selection and --config value cases."
+      "evidence": "rust/artifacts/harness-suite-invalid-utf8-file-20261108.log",
+      "notes": "Full harness suite passed after adding Full and JSON invalid-UTF-8 file cases."
     },
     "comparator_discriminators": {
       "passed": 23,
@@ -535,7 +539,7 @@
     }
   },
   "active_ownership": {
-    "current": "The 112-capability shared-CLI checkpoint passes 959/959 live cases. cli.invalid_output_format_error is recorded. Continue with the next unverified CLI behavior or an unblocked rule path after a source-derived pinned-oracle RED.",
+    "current": "The 113-capability output checkpoint passes 961/961 live cases. cli.file_invalid_utf8_error is recorded; Full and JSON per-file decoding errors now match, and Compact remains covered. Continue with the next small unverified CLI/rule behavior after source-derived pinned-oracle RED.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -8198,31 +8202,133 @@
         "comparator_self_tests_passed": 23,
         "source_fingerprint": "5af4c524f1e65619a0032261179037e4048af3625aaf52dd64e03c6dbf1f167d"
       }
+    },
+    {
+      "id": "cli.file_invalid_utf8_error",
+      "status": "recorded",
+      "case_ids": [
+        "cli_invalid_utf8_file_full_per_file_error",
+        "cli_invalid_utf8_file_json_per_file_error"
+      ],
+      "upstream_source": "pinned proselint/tools.py:LintFile._read; proselint/command_line.py per-file exception handling; proselint/log.py:format_source and write_lint_exception; ResponseError.from_exception",
+      "upstream_spec": "When a text file contains invalid UTF-8, decoding raises UnicodeDecodeError inside the per-file lint call. The CLI continues with status 0. Full emits a per-file stderr error using the resolved path. JSON emits a result object keyed by the file URI with code -31999, data UnicodeDecodeError, and the exact Python decode message. Compact is covered by the existing cli.output.compact case.",
+      "specification": {
+        "live_cases": 2,
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "comparison": "Full exact stdout/stderr/status; JSON structural values including exact error fields and status; file URI workspace normalization only in the JSON source key",
+        "scope_limit": "The new cases use a single invalid start byte (ff) at position zero. Multi-file continuation after a decoding error, other malformed byte sequences and unreadable-file errors are not included."
+      },
+      "red": {
+        "status": "behavioral_failure",
+        "focused_rust_tests_failed": 2,
+        "focused_rust_test_total": 2,
+        "focused_rust_test_report": "rust/artifacts/invalid-utf8-file-red-rust-20261108.log",
+        "live_mismatches": 2,
+        "live_report": "rust/artifacts/invalid-utf8-file-red-live-20261108.json",
+        "live_seconds": 7.412,
+        "source_fingerprint": "247406baaa638624e473aa916e920e567b80c4169321fdc89a346a20b5ed98bb"
+      },
+      "green": {
+        "status": "PASS",
+        "focused_rust_tests_passed": 2,
+        "focused_rust_test_report": "rust/artifacts/invalid-utf8-file-green-test-by-builder.txt",
+        "owner_live_cases_passed": 2,
+        "owner_live_report": "rust/artifacts/invalid-utf8-file-green-live-20261108.json",
+        "owner_live_seconds": 8.571,
+        "candidate_attestation": "rust/artifacts/20261108T034756083962Z-build.attestation.json",
+        "source_fingerprint": "2fae8beebbe6496a79ecb5c06919e23762297da6c2805f00531608e9ac8c89a7"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "configured_model": "gpt-6-luna",
+        "configured_effort": "low",
+        "runtime_model_metadata": "unavailable",
+        "focused_rust_tests_passed": 2,
+        "focused_rust_test_seconds": 59.678958,
+        "compact_regression_tests_passed": 1,
+        "locked_build_seconds": 0.197323,
+        "independent_live_cases_passed": 2,
+        "independent_live_seconds": 1.648,
+        "comparator_self_tests_passed": 23,
+        "report": "rust/artifacts/independent-invalid-utf8-file-20261108/verification-summary.json",
+        "independent_live_report": "rust/artifacts/independent-invalid-utf8-file-20261108/live-comparison.json",
+        "binary_sha256": "912ad3eadfc7e303caccdd8aea48fed145a8830b2cd3429c26878dbd064be192",
+        "source_fingerprint": "2fae8beebbe6496a79ecb5c06919e23762297da6c2805f00531608e9ac8c89a7",
+        "edge_risks": [
+          "The two live cases cover Full and JSON only; multi-file continuation after invalid UTF-8 is inferred from the explicit continue and is not a live acceptance case.",
+          "Filesystem read errors other than InvalidData remain global errors; only UTF-8 decoding behavior is in this capability."
+        ]
+      },
+      "stage_durations_seconds": {
+        "upstream_specification": "not separately instrumented",
+        "red_focused_rust_tests_seconds": 0.4,
+        "red_live_seconds": 7.412,
+        "manifest_contract_test_seconds": 0.202,
+        "focused_green_rust_tests_seconds": "builder reported 2/2; duration not separately instrumented",
+        "owner_live_seconds": 8.571,
+        "independent_locked_tests_seconds": 59.678958,
+        "independent_build_seconds": 0.197323,
+        "independent_live_seconds": 1.648,
+        "comparator_self_tests_seconds": "included in verifier evidence",
+        "python_harness_suite": "pending",
+        "cumulative_gate": "pending",
+        "python_harness_suite_seconds": 45.387,
+        "cumulative_gate_seconds": 359.561395,
+        "cumulative_gate_live_seconds": 322.465055
+      },
+      "stage_case_counts": {
+        "red_focused_rust_tests_failed": 2,
+        "red_focused_rust_tests_total": 2,
+        "red_live_mismatches": 2,
+        "owner_focused_rust_tests_passed": 2,
+        "owner_live_cases_passed": 2,
+        "independent_focused_rust_tests_passed": 2,
+        "independent_compact_regression_tests_passed": 1,
+        "independent_live_cases_passed": 2,
+        "comparator_self_tests_passed": 23,
+        "python_harness_tests_passed": 91
+      },
+      "cumulative_gate_required": true,
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-invalid-utf8-file-final-r2-20261108.json",
+        "capabilities": 113,
+        "production_cases": 961,
+        "manifest_cases": 963,
+        "excluded_smoke_cases": 2,
+        "duration_seconds": 359.561395,
+        "live_seconds": 322.465055,
+        "rust_checks_build_seconds": 34.467371,
+        "oracle_integrity_seconds": 2.165599,
+        "comparator_self_tests_seconds": 0.151747,
+        "comparator_self_tests_passed": 23,
+        "source_fingerprint": "2fae8beebbe6496a79ecb5c06919e23762297da6c2805f00531608e9ac8c89a7"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-invalid-output-format-final-20261108.json",
-    "passed_cases": 959,
-    "manifest_cases": 961,
+    "report": "rust/artifacts/strict-gate-invalid-utf8-file-final-r2-20261108.json",
+    "passed_cases": 961,
+    "manifest_cases": 963,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "capability_count": 112,
-    "source_fingerprint": "5af4c524f1e65619a0032261179037e4048af3625aaf52dd64e03c6dbf1f167d",
-    "run_id": "20261108T033128240130Z-88336621",
-    "started_at_utc": "2026-11-08T03:31:28.240103+00:00",
-    "finished_at_utc": "2026-11-08T03:36:49.720836+00:00",
-    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T033051832479Z-build.attestation.json",
-    "candidate_sha256": "11f09dd9318abb310a175681de219bb641a27d1a41aa34f1b0d51d1e1d4e58dd",
+    "capability_count": 113,
+    "source_fingerprint": "2fae8beebbe6496a79ecb5c06919e23762297da6c2805f00531608e9ac8c89a7",
+    "run_id": "20261108T035940659394Z-7826735c",
+    "started_at_utc": "2026-11-08T03:59:40.659369+00:00",
+    "finished_at_utc": "2026-11-08T04:05:02.856857+00:00",
+    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T035906264853Z-build.attestation.json",
+    "candidate_sha256": "912ad3eadfc7e303caccdd8aea48fed145a8830b2cd3429c26878dbd064be192",
     "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
-    "duration_seconds": 360.842038,
+    "duration_seconds": 359.561395,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.150322,
-      "cumulative_live_comparison": 321.756822,
-      "oracle_integrity": 2.140134,
-      "rust_checks_and_build": 36.482922
+      "comparator_self_tests": 0.151747,
+      "cumulative_live_comparison": 322.465055,
+      "oracle_integrity": 2.165599,
+      "rust_checks_and_build": 34.467371
     },
     "comparator_self_tests": 23
   },
@@ -8255,12 +8361,12 @@
       "command": "cargo update --dry-run",
       "toolchain": "1.99.1",
       "updates": 0,
-      "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
-      "report": "rust/artifacts/rust-dependency-dry-run-post-invalid-output-format-20261108.txt",
+      "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f2b8d05278b3136",
+      "report": "rust/artifacts/rust-dependency-dry-run-post-invalid-utf8-20261108.txt",
       "report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2"
     }
   },
-  "next_capability_handoff": "Probe invalid UTF-8 input files in Full and JSON modes from the recorded filesystem scout lead; verify exact pinned CLI error behavior, then create focused Rust tests and live cases before implementation.",
+  "next_capability_handoff": "Investigate multi-file continuation after a decoding error and additional invalid UTF-8 shapes, or select the next source-derived unverified CLI behavior; preserve pinned-oracle RED before implementation.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

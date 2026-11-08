@@ -120,6 +120,8 @@ def validate_case(case: Any) -> None:
         raise ValueError(f"{case['id']}: environment and comparison must be objects")
     if "PYTHONPYCACHEPREFIX" in case["environment"]:
         raise ValueError(f"{case['id']}: PYTHONPYCACHEPREFIX is reserved for oracle isolation")
+    if "HOME" in case["environment"] and case["environment"]["HOME"] != "":
+        raise ValueError(f"{case['id']}: HOME may only be overridden with an empty string")
     if any(not isinstance(key, str) or (value is not None and not isinstance(value, str)) or (value is None and key != "XDG_CONFIG_HOME") for key, value in case["environment"].items()):
         raise ValueError(f"{case['id']}: environment values must be strings; only XDG_CONFIG_HOME may be unset")
     home_files = case.get("home_files", [])
@@ -409,6 +411,8 @@ def fresh_env(home: Path, extra: dict[str, Any]) -> dict[str, str]:
                 env.pop(key, None)
             else:
                 env[key] = value
+        elif key == "HOME":
+            env[key] = ""
         elif key not in {"HOME", "PYTHONPATH", "PYTHONHOME"}:
             env[key] = value
     env["PYTHONPYCACHEPREFIX"] = str(home / "isolated-pycache")

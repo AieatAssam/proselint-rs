@@ -470,6 +470,10 @@
     {
       "id": "cli.missing_option_value_at_argv_end",
       "status": "recorded"
+    },
+    {
+      "id": "cli.config.empty_home_fallback",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -494,14 +498,14 @@
   },
   "harness": {
     "status": "verified after metadata fingerprint changes; Markdown/ledger exclusion is covered by a discrimination test",
-    "source_fingerprint": "6da9e8ff9c0c4f80f02654ae09ebe504a12c09be265c9c674a91db77a8c71c60",
+    "source_fingerprint": "d49a5ea6c4b7717cdc611d32766daea2e332dff9d2408652c3cf2285cbc47d78",
     "unit_tests": {
-      "passed": 92,
+      "passed": 93,
       "exit_code": 0,
-      "duration_seconds": 74.117,
+      "duration_seconds": 72.587,
       "command": "python3 -m unittest discover -s rust/harness/tests -p 'test_*.py' -v",
-      "evidence": "rust/artifacts/harness-suite-argv-end-final-20261108.log",
-      "notes": "All harness tests passed after adding parser-failure cases for trailing --output-format/-o; short-deadline BLOCKED reports are expected assertions."
+      "evidence": "rust/artifacts/harness-suite-empty-home-final-20261108.log",
+      "notes": "Harness passes after adding empty-HOME override validation and one source-backed config discovery case; artificial short-deadline benchmark BLOCKED outputs are expected."
     },
     "comparator_discriminators": {
       "passed": 23,
@@ -555,12 +559,12 @@
     }
   },
   "active_ownership": {
-    "current": "cli.missing_option_value_at_argv_end is recorded after owner and independent 6/6 live passes and the immediate shared-CLI cumulative gate passed 999/999 across 117 capabilities. Continue with the next unblocked small behavior; 23 rule paths still await provenance/licence resolution.",
+    "current": "cli.config.empty_home_fallback is recorded after 1/1 owner and independent live cases, 2/2 focused Rust tests, 93/93 harness tests, and the immediate 118-capability/1000-case strict gate PASS. Continue with the next unblocked source-derived behavior; 23 rule paths remain blocked by provenance/licence.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
     "23 unique rule paths remain unimplemented.",
-    "Other CLI behavior remains unverified, including remaining subcommands, HOME-unset resolution, directory user candidates, traversal/decoding edges, and option parsing beyond the two recorded missing-value capabilities.",
+    "Other CLI/config behavior remains unverified, including passwd-home config-present behavior, no-passwd-entry behavior, other subcommands, HOME-unset platform variation, directory candidates, and traversal/decoding edges.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
     "Directory/non-UTF-8 path error formatting on non-Linux platforms remains unverified.",
     "Benchmarks cover only the isolated misc.suddenly profile and the selected misc.suddenly + psychology.p_equals_zero profile on their recorded inputs; broader rule sets and default configurations remain unmeasured.",
@@ -8696,31 +8700,122 @@
         "comparator_self_tests_passed": 23,
         "source_fingerprint": "6da9e8ff9c0c4f80f02654ae09ebe504a12c09be265c9c674a91db77a8c71c60"
       }
+    },
+    {
+      "id": "cli.config.empty_home_fallback",
+      "status": "recorded",
+      "case_ids": [
+        "cli_config_empty_home_fallback"
+      ],
+      "upstream_source": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/config/paths.py resolves Path.home() and uses it for XDG defaults when XDG_CONFIG_HOME is unset or empty; proselint/config/__init__.py loads the first existing path or bundled defaults.",
+      "upstream_spec": "On POSIX, HOME=\"\" causes Python Path.home() to use the account passwd home. When XDG_CONFIG_HOME is unset and that home has no Proselint config, config discovery ignores cwd-relative .config/proselint/config.json and uses bundled defaults. The check and dump-config resolvers should share this fallback.",
+      "specification": {
+        "live_cases": 1,
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "comparison": "Exact stdout/stderr bytes and process exit status against pinned Python.",
+        "scope_limit": "One dump-config case for HOME empty/XDG unset and cwd-relative sentinel; depends on passwd-home config absent. Check resolver is covered by a focused Rust test. No nonempty passwd config case or no-passwd-entry case is covered."
+      },
+      "red": {
+        "status": "behavioral_failure",
+        "focused_live_mismatches": 1,
+        "focused_live_passes": 0,
+        "focused_live_total": 1,
+        "focused_live_report": "rust/artifacts/20261108T092546899630Z-cccae2f1/report.json",
+        "source_fingerprint": "514a260ae6608644b46671bdffcdec156572ca82d013a30875f867ce9a6daf29",
+        "duration_seconds": 7.678486
+      },
+      "green": {
+        "status": "PASS",
+        "focused_rust_tests_passed": 2,
+        "owner_live_cases_passed": 1,
+        "owner_live_report": "rust/artifacts/20261108-empty-home-impl-green.json",
+        "candidate_attestation": "rust/artifacts/20261108T093011992393Z-build.attestation.json",
+        "source_fingerprint": "d49a5ea6c4b7717cdc611d32766daea2e332dff9d2408652c3cf2285cbc47d78",
+        "candidate_binary_sha256": "101ab5ca94bca6dcbcae9837f10c82319339a1e501c6db41279b4b33a60881ed"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "configured_model": "gpt-6-luna",
+        "configured_effort": "low",
+        "runtime_model_metadata": "unavailable",
+        "focused_rust_tests_passed": 2,
+        "independent_live_cases_passed": 1,
+        "independent_live_report": "rust/artifacts/independent-empty-home-fallback-20261108/live-comparison.json",
+        "build_attestation": "rust/artifacts/independent-empty-home-fallback-20261108/candidate.attestation.json",
+        "candidate_binary_sha256": "101ab5ca94bca6dcbcae9837f10c82319339a1e501c6db41279b4b33a60881ed",
+        "source_fingerprint": "d49a5ea6c4b7717cdc611d32766daea2e332dff9d2408652c3cf2285cbc47d78",
+        "oracle_integrity": "verified",
+        "oracle_selfcheck_cases_passed": 2,
+        "comparator_selftests_passed": 23,
+        "report": "rust/artifacts/independent-empty-home-fallback-20261108/verification-summary.md"
+      },
+      "cumulative_gate_required": true,
+      "limitations": [
+        "The case requires /home/dev/.config/proselint/config.json to remain absent; harness records the host-specific precondition. Rust 1.99 std::env::home_dir is deprecated but locally suppressed; no dependency was added. No-passwd-entry and passwd-home config-present cases remain unverified."
+      ],
+      "stage_durations_seconds": {
+        "red_live": 7.678486,
+        "owner_live": 7.967423,
+        "independent_live": 7.802561,
+        "harness_suite": 72.587,
+        "cumulative_gate": 924.951939,
+        "cumulative_gate_live": 868.326476,
+        "cumulative_gate_rust_checks_build": 53.842519,
+        "cumulative_gate_oracle_integrity": 2.267182,
+        "cumulative_gate_comparator_selftests": 0.149886
+      },
+      "stage_case_counts": {
+        "red_mismatches": 1,
+        "red_total": 1,
+        "owner_live_passed": 1,
+        "independent_live_passed": 1,
+        "focused_rust_tests_passed": 2,
+        "comparator_selftests_passed": 23,
+        "oracle_selfcheck_cases_passed": 2,
+        "harness_tests_passed": 93,
+        "cumulative_gate_live_cases_passed": 1000,
+        "cumulative_gate_capabilities": 118
+      },
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-empty-home-fallback-final-20261108.json",
+        "capabilities": 118,
+        "production_cases": 1000,
+        "manifest_cases": 1002,
+        "excluded_smoke_cases": 2,
+        "duration_seconds": 924.951939,
+        "live_seconds": 868.326476,
+        "rust_checks_build_seconds": 53.842519,
+        "oracle_integrity_seconds": 2.267182,
+        "comparator_self_tests_seconds": 0.149886,
+        "comparator_self_tests_passed": 23,
+        "source_fingerprint": "d49a5ea6c4b7717cdc611d32766daea2e332dff9d2408652c3cf2285cbc47d78"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-argv-end-final-retry-20261108.json",
-    "passed_cases": 999,
-    "manifest_cases": 1001,
+    "report": "rust/artifacts/strict-gate-empty-home-fallback-final-20261108.json",
+    "passed_cases": 1000,
+    "manifest_cases": 1002,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "capability_count": 117,
-    "source_fingerprint": "6da9e8ff9c0c4f80f02654ae09ebe504a12c09be265c9c674a91db77a8c71c60",
-    "run_id": "20261108T083901608230Z-9d494cf2",
-    "started_at_utc": "2026-11-08T08:39:01.608196+00:00",
-    "finished_at_utc": "2026-11-08T08:54:06.135310+00:00",
-    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T083817903672Z-build.attestation.json",
-    "candidate_sha256": "cc2b84e40f4d7865e12ba7c97f64e5faa70dca3ba592c3a63a35f7fae1915c4c",
-    "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
-    "duration_seconds": 951.173486,
+    "capability_count": 118,
+    "source_fingerprint": "d49a5ea6c4b7717cdc611d32766daea2e332dff9d2408652c3cf2285cbc47d78",
+    "run_id": "20261108T093736650128Z-47df4dee",
+    "started_at_utc": "2026-11-08T09:37:36.650102+00:00",
+    "finished_at_utc": "2026-11-08T09:52:04.647014+00:00",
+    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T093642886886Z-build.attestation.json",
+    "candidate_sha256": "101ab5ca94bca6dcbcae9837f10c82319339a1e501c6db41279b4b33a60881ed",
+    "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d05278b3136",
+    "duration_seconds": 924.951939,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.152326,
-      "cumulative_live_comparison": 904.836399,
-      "oracle_integrity": 2.065635,
-      "rust_checks_and_build": 43.782857
+      "comparator_self_tests": 0.149886,
+      "cumulative_live_comparison": 868.326476,
+      "oracle_integrity": 2.267182,
+      "rust_checks_and_build": 53.842519
     },
     "comparator_self_tests": 23
   },
@@ -8758,7 +8853,7 @@
       "report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2"
     }
   },
-  "next_capability_handoff": "Continue after cli.missing_option_value_at_argv_end. The immediate 117-capability/999-case strict gate passes at source fingerprint 6da9e8ff9c0c4f80f02654ae09ebe504a12c09be265c9c674a91db77a8c71c60. Select the next unblocked source-derived behavior; do not spend full checkpoints after isolated capabilities until the 5-capability cadence is due. The 23 remaining rule paths still require data provenance/licence resolution.",
+  "next_capability_handoff": "Continue after cli.config.empty_home_fallback. The immediate 118-capability/1000-case strict gate passes at source fingerprint d49a5ea6c4b7717cdc611d32766daea2e332dff9d2408652c3cf2285cbc47d78. The next CLI/config capability should remain source-derived and focused; account passwd-home config-present and no-passwd-entry behavior remain unverified. Twenty-three rule paths remain blocked pending list provenance/licence evidence.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

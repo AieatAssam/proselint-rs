@@ -32741,6 +32741,43 @@
       "config_scenario": "no_config",
       "workspace_mutates": false,
       "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+        "id": "cli_config_empty_home_fallback",
+        "capability_id": "cli.config.empty_home_fallback",
+        "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c. With HOME set to the empty string and XDG_CONFIG_HOME unset, Python falls back to passwd home /home/dev and loads bundled defaults because /home/dev/.config/proselint/config.json is absent; the cwd .config/proselint/config.json fixture is distinguishable and should not be discovered by Python.",
+        "preconditions": [
+            "/home/dev/.config/proselint/config.json must be absent; current passwd home checked absent on 2026-11-08."
+        ],
+        "input_mode": "files",
+        "files": [
+            {
+                "path": ".config/proselint/config.json",
+                "content_base64": "eyJjaGVja3MiOnt9fQo="
+            }
+        ],
+        "unused_files": [
+            ".config/proselint/config.json"
+        ],
+        "argv": [
+            "dump-config"
+        ],
+        "output_format": "full",
+        "expected_oracle_outcome": "clean",
+        "timeout_seconds": 10,
+        "environment": {
+            "locale": "C.UTF-8",
+            "HOME": "",
+            "XDG_CONFIG_HOME": null
+        },
+        "working_directory": ".",
+        "config_scenario": "empty_HOME_passwd_fallback_vs_cwd_dot_config",
+        "workspace_mutates": false,
+        "comparison": {
+            "stdout": "bytes",
+            "stderr": "bytes",
+            "exit_status": "exact"
+        }
     }
   ]
 }

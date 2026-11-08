@@ -1176,6 +1176,23 @@ fn help_argument_lines(mut arguments: Vec<&clap::Arg>, help: &mut String) {
     }
 }
 
+fn user_config_path() -> Option<PathBuf> {
+    std::env::var_os("XDG_CONFIG_HOME")
+        .filter(|path| !path.is_empty())
+        .map(|path| PathBuf::from(path).join("proselint/config.json"))
+        .or_else(|| {
+            std::env::var_os("HOME")
+                .filter(|home| !home.is_empty())
+                .map(PathBuf::from)
+                .or_else(|| {
+                    #[allow(deprecated)]
+                    std::env::home_dir()
+                })
+                .map(|home| home.join(".config/proselint/config.json"))
+        })
+        .filter(|candidate| candidate.is_file())
+}
+
 fn dump_config(config: Option<PathBuf>, default: bool) -> Result<ExitCode, String> {
     let config_path = match config {
         Some(path) => Some(path),
@@ -1188,14 +1205,7 @@ fn dump_config(config: Option<PathBuf>, default: bool) -> Result<ExitCode, Strin
             if project.is_some() {
                 project
             } else {
-                std::env::var_os("XDG_CONFIG_HOME")
-                    .filter(|path| !path.is_empty())
-                    .map(|path| PathBuf::from(path).join("proselint/config.json"))
-                    .or_else(|| {
-                        std::env::var_os("HOME")
-                            .map(|home| PathBuf::from(home).join(".config/proselint/config.json"))
-                    })
-                    .filter(|candidate| candidate.is_file())
+                user_config_path()
             }
         }
     };
@@ -1618,14 +1628,7 @@ fn run() -> Result<ExitCode, String> {
                 .map(|directory| directory.join("proselint.json"))
                 .find(|candidate| candidate.is_file());
             let user_config = if project_config.is_none() {
-                std::env::var_os("XDG_CONFIG_HOME")
-                    .filter(|path| !path.is_empty())
-                    .map(|path| PathBuf::from(path).join("proselint/config.json"))
-                    .or_else(|| {
-                        std::env::var_os("HOME")
-                            .map(|home| PathBuf::from(home).join(".config/proselint/config.json"))
-                    })
-                    .filter(|candidate| candidate.is_file())
+                user_config_path()
             } else {
                 None
             };

@@ -574,7 +574,7 @@
     }
   },
   "active_ownership": {
-    "current": "The latest strict gate passes 1075/1075 across 122 capabilities. Six directory expansion cases added afterward (four suffixes, Full, Compact) have focused owner and independent PASS evidence for all 11 cases; no Rust production/shared infrastructure changed. The 101-test harness suite and Unicode exhaustive audit remain green. Twenty-three rule paths remain held for rights evidence.",
+    "current": "The latest strict gate passes 1075/1075 across 122 capabilities. Eight post-gate CLI cases have focused owner and independent PASS evidence: six directory-expansion cases and two duplicate-path cases. No Rust production/shared infrastructure changed. Rust 1.99-compatible dependencies were rechecked with zero updates; the 101-test harness suite and Unicode exhaustive audit remain green. Twenty-three rule paths remain held for rights evidence.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -8004,15 +8004,17 @@
         "cli_multi_file_limits_per_file_full",
         "cli_multi_file_limits_per_file_compact",
         "cli_multi_file_limits_per_file_json",
-        "cli_multi_file_json_continues_after_missing_path"
+        "cli_multi_file_json_continues_after_missing_path",
+        "cli_multi_file_duplicate_explicit_full",
+        "cli_multi_file_overlap_explicit_directory_compact"
       ],
       "upstream_source": "pinned proselint/command_line.py:proselint; proselint/tools.py:extract_files and LintFile.lint; proselint/log.py:format_source/write_lint_exception; Rust rust/src/main.rs::run",
-      "upstream_spec": "Explicit file paths are processed in argv order. max_errors resets per file. Full output names use resolved paths, Compact uses basenames, JSON uses file URIs and retains one diagnostic array per file. Per-file FileNotFoundError does not stop later files. Exit status reflects whether findings occurred. Compare exact Full/Compact bytes, JSON fields/arrays, and exit status.",
+      "upstream_spec": "Explicit file paths are processed in argv order. max_errors resets per file. Full output names use resolved paths, Compact uses basenames, JSON uses file URIs and retains one diagnostic array per file. Per-file FileNotFoundError does not stop later files. Exit status reflects whether findings occurred. Compare exact Full/Compact bytes, JSON fields/arrays, and exit status. Duplicate paths are not deduplicated: Full/Compact emit findings on each visit; JSON assigns results by canonical source key, so repeated visits overwrite that key.",
       "specification": {
-        "live_cases": 4,
+        "live_cases": 6,
         "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
         "comparison": "Full/Compact byte-exact stdout/stderr and status; JSON structural comparison preserving exact values and status",
-        "scope_limit": "Four cases cover explicit file paths only; directory expansion, duplicate paths, per-file config overrides, and non-NotFound read errors remain outside acceptance."
+        "scope_limit": "Six cases cover argv-order processing, per-file max_errors, Full/Compact/JSON outputs, continuation after a missing file, duplicate explicit paths in Full, and an explicit file overlapping its containing directory in Compact. JSON source-key overwrite for repeated paths, per-file config overrides, and non-NotFound read errors remain outside acceptance."
       },
       "red": {
         "status": "behavioral_failure",
@@ -8030,11 +8032,11 @@
         "focused_rust_tests_passed": 4,
         "focused_rust_test_report": "rust/artifacts/cli-multi-file-green-final-20261108.log",
         "focused_rust_test_seconds": 0.638,
-        "owner_live_cases_passed": 4,
-        "owner_live_report": "rust/artifacts/multi-file-green-live-20261108.json",
+        "owner_live_cases_passed": 6,
+        "owner_live_report": "rust/artifacts/multiple-file-duplicates-owner-20261108.json",
         "owner_live_seconds": 9.45387,
-        "candidate_attestation": "rust/artifacts/20261108T013128979588Z-build.attestation.json",
-        "source_fingerprint": "0c00413220d06c4f74154becd46ab26af6c82f20abf69e515f3e618765abf05b"
+        "candidate_attestation": "rust/artifacts/20261108T195835273416Z-build.attestation.json",
+        "source_fingerprint": "ef191a116ea04f6f5fd95895a8ae89af07546a124e64d2e8a61de02cccacca78"
       },
       "independent_verification": {
         "status": "PASS",
@@ -8043,14 +8045,14 @@
         "runtime_model_metadata": "unavailable",
         "focused_rust_tests_passed": 5,
         "isolated_locked_checks_build_seconds": 95.633475,
-        "independent_live_cases_passed": 5,
-        "independent_live_report": "rust/artifacts/independent-full-missing-verifier-20261108/existing-capability-live.json",
-        "independent_live_seconds": 11.008091,
+        "independent_live_cases_passed": 6,
+        "independent_live_report": "rust/artifacts/independent-multiple-file-duplicates-20261108/live-comparison.json",
+        "independent_live_seconds": 11.930955,
         "oracle_self_check_cases": 2,
         "comparator_self_tests_passed": 23,
         "report": "rust/artifacts/independent-full-missing-verifier-20261108/verification-summary.json",
         "binary_sha256": "10ea2beb32c61e29cd064a341fd1723bbb451037fe09735809be27afbe27e30f",
-        "source_fingerprint": "39fb254466b92076bc8abc274f0ae56c10d7443a6fafa4d3b262986f51973367",
+        "source_fingerprint": "ef191a116ea04f6f5fd95895a8ae89af07546a124e64d2e8a61de02cccacca78",
         "additional_full_missing_path_live_case": "rust/artifacts/independent-full-missing-verifier-20261108/full-missing-live.json",
         "additional_full_missing_path_live_cases_passed": 1
       },
@@ -8063,15 +8065,19 @@
         "independent_locked_checks_build": 95.633475,
         "independent_live": null,
         "python_harness_suite": 44.414,
-        "final_regression_red_green": "recorded by Luna implementation handoff; RED assertion showed basename where resolved path was expected"
+        "final_regression_red_green": "recorded by Luna implementation handoff; RED assertion showed basename where resolved path was expected",
+        "owner_duplicate_paths_live_seconds": 11.28052,
+        "independent_duplicate_paths_live_seconds": 11.930955,
+        "owner_duplicate_paths_contract_test_seconds": 0.457,
+        "independent_duplicate_paths_contract_test_seconds": 0.429
       },
       "stage_case_counts": {
         "red_rust_test_failures": 4,
         "red_rust_test_total": 4,
         "red_live_mismatches": 4,
         "green_rust_tests_passed": 4,
-        "owner_live_cases_passed": 4,
-        "independent_live_cases_passed": 5,
+        "owner_live_cases_passed": 6,
+        "independent_live_cases_passed": 6,
         "oracle_self_check_cases": 2,
         "comparator_self_tests_passed": 23,
         "python_harness_tests_passed": 88,
@@ -8092,6 +8098,24 @@
         "comparator_self_tests_seconds": 0.191519,
         "comparator_self_tests_passed": 23,
         "source_fingerprint": "39fb254466b92076bc8abc274f0ae56c10d7443a6fafa4d3b262986f51973367"
+      },
+      "duplicate_path_coverage_extension": {
+        "status": "focused_and_independent_PASS_pending_scheduled_cumulative_gate",
+        "added_cases": 2,
+        "owner_report": "rust/artifacts/multiple-file-duplicates-owner-20261108.json",
+        "owner_live_cases_passed": 6,
+        "owner_live_seconds": 11.28052,
+        "independent_report": "rust/artifacts/independent-multiple-file-duplicates-20261108/live-comparison.json",
+        "independent_live_cases_passed": 6,
+        "independent_live_seconds": 11.930955,
+        "owner_targeted_contract_test_passed": 1,
+        "owner_targeted_contract_test_seconds": 0.457,
+        "independent_targeted_contract_test_passed": 1,
+        "independent_targeted_contract_test_seconds": 0.429,
+        "candidate_attestation": "rust/artifacts/20261108T195835273416Z-build.attestation.json",
+        "source_fingerprint": "ef191a116ea04f6f5fd95895a8ae89af07546a124e64d2e8a61de02cccacca78",
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "cumulative_gate": "deferred; no production/shared infrastructure change and no capability checkpoint due"
       }
     },
     {
@@ -9417,7 +9441,7 @@
     "status": "current",
     "toolchain": "1.99.1",
     "registry": "crates.io",
-    "latest_checked": "2026-11-08T19:17:00Z",
+    "latest_checked": "2026-11-08T19:59:00Z",
     "locked_versions": {
       "clap": "4.6.7",
       "serde": "1.0.229",
@@ -9433,21 +9457,22 @@
       "command": "cargo update --dry-run --manifest-path rust/Cargo.toml",
       "rust_version_constraint": "1.99",
       "checked_after_gate": "2026-11-08T19:17:00Z",
-      "evidence": "rust/artifacts/rust-dependency-dry-run-post-unicode15-20261108.txt",
-      "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d05278b3136"
+      "evidence": "rust/artifacts/rust-dependency-dry-run-post-directory-coverage-20261108.txt",
+      "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d05278b3136",
+      "checked_after": "2026-11-08T19:59:00Z"
     },
-    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-unicode15-20261108.txt",
+    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-directory-coverage-20261108.txt",
     "latest_dry_run": {
       "status": "PASS",
       "command": "cargo update --dry-run --manifest-path rust/Cargo.toml",
       "toolchain": "1.99.1",
       "updates": 0,
-      "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
-      "report": "rust/artifacts/rust-dependency-dry-run-20261108-1230.txt",
-      "report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2"
+      "report": "rust/artifacts/rust-dependency-dry-run-post-directory-coverage-20261108.txt",
+      "report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2",
+      "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d05278b3136"
     }
   },
-  "next_capability_handoff": "Continue with a bounded, live-distinguishable CLI/config edge that does not depend on held third-party rule lists; inspect duplicate explicit/expanded path retention or other unverified traversal behavior. Do not run the cumulative gate until five newly accepted capabilities accumulate, before release, or after shared behavior changes.",
+  "next_capability_handoff": "Continue with a bounded live-distinguishable CLI/config edge outside the held third-party rule lists. The next multi-file gap is per-file config override behavior through CLI file iteration; preserve exact per-file output and max_errors semantics. Defer the cumulative gate until five newly accepted capabilities accumulate, before release, or after shared behavior changes.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",
@@ -9663,6 +9688,21 @@
           "requested_effort": "low",
           "runtime_model_metadata": "unavailable",
           "evidence": "rust/artifacts/independent-directory-output-formats-20261108/live-comparison.json"
+        },
+        "forbidden_models": "No Astra or Terra agents were dispatched in this extension."
+      },
+      "latest_duplicate_path_extension": {
+        "owner": {
+          "requested_model": "gpt-6-luna",
+          "requested_effort": "low",
+          "runtime_model_metadata": "unavailable",
+          "evidence": "rust/artifacts/multiple-file-duplicates-owner-20261108.json"
+        },
+        "independent_verifier": {
+          "requested_model": "gpt-6-luna",
+          "requested_effort": "low",
+          "runtime_model_metadata": "unavailable",
+          "evidence": "rust/artifacts/independent-multiple-file-duplicates-20261108/live-comparison.json"
         },
         "forbidden_models": "No Astra or Terra agents were dispatched in this extension."
       }

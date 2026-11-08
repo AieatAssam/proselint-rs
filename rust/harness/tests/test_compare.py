@@ -2671,8 +2671,12 @@ class ComparatorTests(unittest.TestCase):
             "cli_multi_file_limits_per_file_compact": "compact",
             "cli_multi_file_limits_per_file_json": "json",
         }
-        self.assertEqual(set(cases), set(formats) | {"cli_multi_file_json_continues_after_missing_path"})
-        self.assertEqual(sum(case["capability_id"] == "cli.multiple_file_paths" for case in compare.load_manifest()["cases"]), 4)
+        duplicate_ids = {
+            "cli_multi_file_duplicate_explicit_full",
+            "cli_multi_file_overlap_explicit_directory_compact",
+        }
+        self.assertEqual(set(cases), set(formats) | {"cli_multi_file_json_continues_after_missing_path"} | duplicate_ids)
+        self.assertEqual(sum(case["capability_id"] == "cli.multiple_file_paths" for case in compare.load_manifest()["cases"]), 6)
         expected_files = [
             {"path": "config.json", "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="},
             {"path": "z.txt", "content_base64": "TW9yZSByZXNlYXJjaCBpcyBuZWVkZWQuIE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="},
@@ -2704,6 +2708,33 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(mixed["comparison"]["stdout"], "json")
         self.assertTrue(mixed["comparison"]["normalize_workspace_uri"])
         compare.validate_case(mixed)
+
+        duplicate_expected = {
+            "cli_multi_file_duplicate_explicit_full": (
+                "full",
+                ["check", "--config", "{file:config.json}", "--output-format", "full", "{file:one.txt}", "{file:one.txt}"],
+                {"config.json", "one.txt"},
+            ),
+            "cli_multi_file_overlap_explicit_directory_compact": (
+                "compact",
+                ["check", "--config", "{file:config.json}", "--output-format", "compact", "{file:tree/only.txt}", "tree"],
+                {"config.json", "tree/only.txt"},
+            ),
+        }
+        duplicate_config = "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="
+        duplicate_content = "TW9yZSByZXNlYXJjaCBpcyBuZWVkZWQuIE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="
+        for case_id, (output_format, argv, file_paths) in duplicate_expected.items():
+            with self.subTest(case=case_id):
+                case = cases[case_id]
+                self.assertEqual(case["argv"], argv)
+                self.assertEqual(case["output_format"], output_format)
+                self.assertEqual(case["expected_oracle_outcome"], "findings")
+                self.assertEqual({item["path"] for item in case["files"]}, file_paths)
+                self.assertEqual(case["comparison"], {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"})
+                self.assertEqual(case["config_scenario"], "explicit_selected_config")
+                self.assertEqual(case["files"][0]["content_base64"], duplicate_config)
+                self.assertEqual(case["files"][1]["content_base64"], duplicate_content)
+                compare.validate_case(case)
 
     def test_directory_expansion_cases_pin_source_derived_contracts(self) -> None:
         cases = {case["id"]: case for case in compare.load_manifest()["cases"] if case["capability_id"] == "cli.directory_expansion"}

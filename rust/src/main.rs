@@ -874,6 +874,53 @@ fn python_json_error_message(source: &str, error: JsonSyntaxError) -> String {
     )
 }
 
+fn python_json_root_type(source: &str) -> Option<&'static str> {
+    let value = source.trim_start_matches([' ', '\t', '\n', '\r']);
+    let first = value.chars().next()?;
+    Some(match first {
+        '{' => return None,
+        '[' => "list",
+        '"' => "str",
+        't' | 'f' => "bool",
+        'n' => "NoneType",
+        'N' | 'I' => "float",
+        '-' | '0'..='9' => {
+            let number = value.trim_end_matches([' ', '\t', '\n', '\r']);
+            if number == "-Infinity" || number.contains(['.', 'e', 'E']) {
+                "float"
+            } else {
+                "int"
+            }
+        }
+        _ => return None,
+    })
+}
+
+fn non_object_config_root_error(
+    type_name: &str,
+    output_format: OutputFormat,
+) -> Result<ExitCode, String> {
+    let message = format!("'{type_name}' object has no attribute 'get'");
+    if matches!(output_format, OutputFormat::Json) {
+        print!(
+            "{}",
+            serde_json::to_string_pretty(&serde_json::json!({
+                "error": {
+                    "code": -31999,
+                    "data": "AttributeError",
+                    "message": message
+                }
+            }))
+            .expect("error JSON is serializable")
+        );
+        Ok(ExitCode::from(4))
+    } else {
+        Err(format!(
+            "Unrecoverable error encountered while running proselint: {message}"
+        ))
+    }
+}
+
 fn recursion_error_message(kind: &str) -> String {
     format!("maximum recursion depth exceeded while decoding a JSON {kind} from a unicode string")
 }
@@ -1265,6 +1312,9 @@ fn dump_config(
                     ));
                 }
                 Ok(None) => {}
+            }
+            if let Some(type_name) = python_json_root_type(&normalized) {
+                return non_object_config_root_error(type_name, output_format);
             }
             Some(serde_json::from_str::<Value>(&source).map_err(|error| {
                 format!(
@@ -1781,6 +1831,11 @@ fn run() -> Result<ExitCode, String> {
             ));
         }
     };
+    if syntax_error.is_none()
+        && let Some(type_name) = python_json_root_type(&normalized_config_text)
+    {
+        return non_object_config_root_error(type_name, output_format);
+    }
     let projected_config = if syntax_error.is_none() {
         project_config_fields(&config_text)
     } else {

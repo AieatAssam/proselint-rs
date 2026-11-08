@@ -474,6 +474,10 @@
     {
       "id": "cli.config.empty_home_fallback",
       "status": "recorded"
+    },
+    {
+      "id": "cli.config.non_object_root",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -558,7 +562,7 @@
     }
   },
   "active_ownership": {
-    "current": "cli.version_argument_precedence is verified for 7/7 focused live cases and passes the 118-capability/1003-case cumulative strict gate; next investigate dump-config automatic discovery. One JSON demo source-key mismatch is recorded but remains unresolved and unaccepted. Twenty-three rule paths remain blocked pending list provenance/licence evidence.",
+    "current": "cli.config.non_object_root is recorded and passes focused owner/independent parity plus the 119-capability/1022-case cumulative gate. Continue with unverified CLI argument/output combinations; 23 rule paths remain held pending list-specific provenance/rights evidence. The selected-rule demo JSON source URI mismatch remains unresolved.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -8861,32 +8865,156 @@
         "comparator_self_tests_passed": 23,
         "source_fingerprint": "d49a5ea6c4b7717cdc611d32766daea2e332dff9d2408652c3cf2285cbc47d78"
       }
+    },
+    {
+      "id": "cli.config.non_object_root",
+      "status": "recorded",
+      "case_ids": [
+        "cli_config_root_type_array",
+        "cli_config_root_type_null",
+        "cli_config_root_type_boolean",
+        "cli_config_root_type_integer",
+        "cli_config_root_type_float",
+        "cli_config_root_type_string",
+        "cli_config_root_type_array_full",
+        "cli_config_root_type_array_compact",
+        "cli_config_root_type_large_integer",
+        "cli_config_root_type_overflow_float",
+        "cli_config_root_type_nan",
+        "cli_config_root_type_infinity",
+        "cli_config_root_type_negative_infinity",
+        "cli_config_root_type_array_version",
+        "cli_config_root_type_array_dump_config",
+        "cli_config_root_type_array_version_json",
+        "cli_config_root_type_array_dump_config_json"
+      ],
+      "upstream_source": "proselint/config/__init__.py::load_from; proselint/command_line.py::proselint; rust/src/main.rs::dump_config and run",
+      "upstream_spec": "load_from decodes the selected config and calls .get(\"checks\") before command dispatch. A valid non-object JSON root raises AttributeError with a type-specific message: list, NoneType, bool, int, float, or str. JSON output uses error code -31999 and data AttributeError; Full and Compact report the unrecoverable message on stderr with status 4. Python accepts arbitrarily large root integers and NaN/±Infinity as numeric values before this AttributeError. The same config loading precedence applies to check, --version, and dump-config.",
+      "specification": {
+        "live_cases": 17,
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "comparison": "exact stderr bytes and status; JSON stdout compared structurally",
+        "covered_types": [
+          "array",
+          "null",
+          "boolean",
+          "integer",
+          "large integer",
+          "float",
+          "overflow float",
+          "NaN",
+          "Infinity",
+          "-Infinity",
+          "string"
+        ],
+        "subcommands": [
+          "check",
+          "--version",
+          "dump-config"
+        ],
+        "output_modes": [
+          "JSON",
+          "Full",
+          "Compact"
+        ]
+      },
+      "red": {
+        "status": "behavioral_failure",
+        "live_cases": 17,
+        "live_mismatches": 17,
+        "report": "rust/artifacts/non-object-config-root-red-final.json",
+        "focused_rust_test_functions_failed": 3,
+        "focused_rust_test_command": "cargo test --locked --test cli_config_root_type"
+      },
+      "green": {
+        "status": "PASS",
+        "focused_rust_test_functions_passed": 4,
+        "focused_live_cases_passed": 17,
+        "report": "rust/artifacts/non-object-config-root-green-final-20261108.json",
+        "candidate_attestation": "rust/artifacts/20261108T120723880559Z-build.attestation.json",
+        "source_fingerprint": "94cf201eb71b3cc4df4c28f997efa59adbc4328fc1b737d3af399a367900b2e1"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "configured_model": "gpt-6-luna",
+        "configured_effort": "low",
+        "runtime_model_metadata": "unavailable",
+        "focused_rust_test_functions_passed": 4,
+        "live_cases_passed": 17,
+        "report": "rust/artifacts/non-object-config-root-independent-final-20261108.json",
+        "candidate_attestation": "rust/artifacts/20261108T120723880559Z-build.attestation.json",
+        "source_fingerprint": "94cf201eb71b3cc4df4c28f997efa59adbc4328fc1b737d3af399a367900b2e1"
+      },
+      "stage_durations_seconds": {
+        "red_live": 20.966,
+        "focused_green_rust_tests": 3.39,
+        "owner_live": 20.678,
+        "independent_live": 19.673,
+        "python_harness_suite": 62.92,
+        "cumulative_gate": 964.10563,
+        "cumulative_live_comparison": 905.654349,
+        "rust_checks_and_build": 55.861723,
+        "oracle_integrity": 2.095502,
+        "comparator_self_tests": 0.152696
+      },
+      "stage_case_counts": {
+        "red_live_cases": 17,
+        "red_live_mismatches": 17,
+        "focused_red_rust_test_functions_failed": 3,
+        "focused_green_rust_test_functions_passed": 4,
+        "owner_live_cases_passed": 17,
+        "independent_live_cases_passed": 17,
+        "python_harness_tests_passed": 95,
+        "cumulative_gate_live_cases_passed": 1022,
+        "cumulative_gate_capabilities": 119,
+        "comparator_self_tests_passed": 23
+      },
+      "cumulative_gate_required": true,
+      "cumulative_gate": {
+        "status": "PASS",
+        "capability_count": 119,
+        "passed_cases": 1022,
+        "manifest_cases": 1025,
+        "duration_seconds": 964.10563,
+        "report": "rust/artifacts/strict-gate-non-object-config-root-20261108.json",
+        "live_seconds": 905.654349,
+        "rust_checks_build_seconds": 55.861723,
+        "comparator_self_tests_passed": 23,
+        "source_fingerprint": "94cf201eb71b3cc4df4c28f997efa59adbc4328fc1b737d3af399a367900b2e1"
+      },
+      "cumulative_live_parity": {
+        "status": "PASS",
+        "passed_cases": 1022,
+        "exit_code": 0,
+        "report": "rust/artifacts/strict-gate-non-object-config-root-20261108.json",
+        "source_fingerprint": "94cf201eb71b3cc4df4c28f997efa59adbc4328fc1b737d3af399a367900b2e1"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-dump-config-missing-explicit-20261108.json",
-    "passed_cases": 1005,
-    "manifest_cases": 1008,
+    "report": "rust/artifacts/strict-gate-non-object-config-root-20261108.json",
+    "passed_cases": 1022,
+    "manifest_cases": 1025,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2
     },
     "unresolved_manifest_cases": 1,
     "exit_code": 0,
-    "capability_count": 118,
-    "source_fingerprint": "33c18e2acdcf9cf23c9490e44c247482acc7296d4db42c8669b2cafba0a81517",
-    "run_id": "20261108T112625675569Z-e945384c",
-    "started_at_utc": "2026-11-08T11:26:25.675544+00:00",
-    "finished_at_utc": "2026-11-08T11:40:52.093954+00:00",
-    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T112427881244Z-build.attestation.json",
-    "candidate_sha256": "0637b903d704b327e7879a0457a6038b28fc33114167fa6fc6046ad4979e1eb0",
+    "capability_count": 119,
+    "source_fingerprint": "94cf201eb71b3cc4df4c28f997efa59adbc4328fc1b737d3af399a367900b2e1",
+    "run_id": "20261108T121028917424Z-e1293092",
+    "started_at_utc": "2026-11-08T12:10:28.917399+00:00",
+    "finished_at_utc": "2026-11-08T12:25:34.223232+00:00",
+    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T120933127146Z-build.attestation.json",
+    "candidate_sha256": "ee878caa4248d32c4695e72e2a81015aa713a673654b7666fdfd7485985b8a87",
     "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
-    "duration_seconds": 987.496316,
+    "duration_seconds": 964.10563,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.146298,
-      "cumulative_live_comparison": 866.691678,
-      "oracle_integrity": 2.461226,
-      "rust_checks_and_build": 117.886094
+      "comparator_self_tests": 0.152696,
+      "cumulative_live_comparison": 905.654349,
+      "oracle_integrity": 2.095502,
+      "rust_checks_and_build": 55.861723
     },
     "comparator_self_tests": 23
   },
@@ -8894,7 +9022,7 @@
     "status": "current",
     "toolchain": "1.99.1",
     "registry": "crates.io",
-    "latest_checked": "2026-11-08T11:41:00Z",
+    "latest_checked": "2026-11-08T12:26:27Z",
     "locked_versions": {
       "clap": "4.6.7",
       "serde": "1.0.229",
@@ -8909,22 +9037,22 @@
       "packages_to_update": 0,
       "command": "cargo update --dry-run --manifest-path rust/Cargo.toml",
       "rust_version_constraint": "1.99",
-      "checked_after_gate": "2026-11-08T11:41:00Z",
-      "evidence": "rust/artifacts/rust-dependency-dry-run-20261108-1141.txt",
+      "checked_after_gate": "2026-11-08T12:26:27Z",
+      "evidence": "rust/artifacts/rust-dependency-dry-run-20261108-1230.txt",
       "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136"
     },
-    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-20261108-1141.txt",
+    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-20261108-1230.txt",
     "latest_dry_run": {
       "status": "PASS",
       "command": "cargo update --dry-run --manifest-path rust/Cargo.toml",
       "toolchain": "1.99.1",
       "updates": 0,
       "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
-      "report": "rust/artifacts/rust-dependency-dry-run-20261108-1141.txt",
+      "report": "rust/artifacts/rust-dependency-dry-run-20261108-1230.txt",
       "report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2"
     }
   },
-  "next_capability_handoff": "Continue with the next unblocked source-derived capability after the passing 118-capability/1005-case strict gate at fingerprint 33c18e2acdcf9cf23c9490e44c247482acc7296d4db42c8669b2cafba0a81517. The focused cli.demo.json source URI mismatch remains unresolved; preserve it as excluded.",
+  "next_capability_handoff": "Next probe the explicitly unverified version JSON metadata/argument behavior and remaining attached output-format forms against the pinned CLI; continue source-derived CLI cases before release. Keep the focused demo-JSON source URI mismatch unaccepted. The latest strict gate passes 119 capabilities/1022 cases at 94cf201eb71b3cc4df4c28f997efa59adbc4328fc1b737d3af399a367900b2e1. Twenty-three data-list rule paths remain held pending a documented reuse basis.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

@@ -519,7 +519,7 @@
       "status": "PASS",
       "suite": "rust.harness.tests.test_compare rust.harness.tests.test_gate rust.harness.tests.test_benchmark",
       "tests_passed": 100,
-      "duration_seconds": 76.248,
+      "duration_seconds": 66.664,
       "expected_timeout_discriminator_cases": 2
     },
     "comparator_discriminators": {
@@ -574,7 +574,7 @@
     }
   },
   "active_ownership": {
-    "current": "The attached-output-format extension (8 cases) and invalid-output-format extension (12 cases) pass focused owner and independent live comparisons; the full Python harness suite passes 100 tests. They await the next scheduled cumulative checkpoint. Runtime metadata remains blocked and 23 rules remain held for provenance/rights evidence.",
+    "current": "The invalid-output-format repr fix and its nine new cases passed owner and independent live comparison; the required shared-CLI cumulative gate passed 1060/1060 across 122 capabilities. The Python harness suite passed 100/100. Runtime metadata remains blocked and 23 rules remain held for provenance/rights evidence.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -590,7 +590,7 @@
     "dump-config HOME-unset/platform-specific config discovery, directory user candidates, directory traversal/decoding edges outside the accepted directory cases remain unverified; explicit multi-file output for file lists is covered by the recorded cases.",
     "Other --version combined-argument orderings beyond cli.version_argument_precedence remain unverified.",
     "Focused live case cli_demo_json_selected_rule mismatches only on the source key: pinned Python emits its installed demo.md file URI while Rust emits demo.md. Exact parity is installation-location-specific; case remains unresolved at rust/artifacts/cli-demo-json-red-20261108.json. Full demo path behavior and default-config demo output are also unverified.",
-    "`cli.help_argument_precedence` now accepts four exact vectors: missing check --config value before help, invalid OutputFormat `invalid` before help, global `--config check --help`, and `check -- --help` with a real file. Other invalid format values, missing-option/order combinations, and other option orderings remain unverified. Missing `--help` after `--` now matches in Full, Compact, and JSON; other missing-path forms remain unverified.",
+    "`cli.help_argument_precedence` accepts the recorded four vectors, including invalid `invalid` output-format precedence; `cli.invalid_output_format_error` separately covers 20 invalid/attached/dash-value cases and nine quote/newline/tab vectors. Other option orderings, unusual Unicode nonprintables, and help interactions remain unverified.",
     "Malformed UTF-8 stdin remains unverified: the pinned executable uses surrogateescape; Fast and Fancy rules differ around invalid bytes, so no lossy sentinel approximation is accepted.",
     "JSON version output differs in four tested vectors because Python includes sys.version_info[:3]; no fabricated Python version is emitted by Rust. See rust/artifacts/version-json-metadata-final-20261108.json.",
     "`version --verbose` stderr contains timestamped pinned Python runtime metadata and is not reproduced by Rust. See rust/artifacts/version-verbose-runtime-final-20261108.json."
@@ -8210,15 +8210,24 @@
         "cli_output_format_dash_value_version_short_dash_value",
         "cli_output_format_dash_value_version_long_dash_value",
         "cli_output_format_dash_value_dump_config_short_dash_value",
-        "cli_output_format_dash_value_dump_config_long_dash_value"
+        "cli_output_format_dash_value_dump_config_long_dash_value",
+        "cli_invalid_output_format_check_quote",
+        "cli_invalid_output_format_check_newline",
+        "cli_invalid_output_format_check_tab",
+        "cli_invalid_output_format_version_quote",
+        "cli_invalid_output_format_version_newline",
+        "cli_invalid_output_format_version_tab",
+        "cli_invalid_output_format_dump_config_quote",
+        "cli_invalid_output_format_dump_config_newline",
+        "cli_invalid_output_format_dump_config_tab"
       ],
       "upstream_source": "pinned proselint/command_line.py:get_parser and OutputFormat conversion; Rust rust/src/main.rs::invalid_cli_output_format and command_help",
       "upstream_spec": "Invalid --output-format/-o values are rejected before lint execution. Exit status is 2, stdout is empty, and stderr uses the selected command’s exact argparse usage and invalid OutputFormat message. This includes check, version and dump-config; invalid check values precede --help. A value consumed by --config must not be mistaken for a subcommand.",
       "specification": {
-        "live_cases": 20,
+        "live_cases": 29,
         "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
         "comparison": "Exact stdout/stderr bytes and exit status",
-        "scope_limit": "Covers separate and attached invalid values plus dash-prefixed separate values for check, version, and dump-config. Unusual token quoting, control-character formatting, and other parser interactions remain unverified."
+        "scope_limit": "Covers separate/attached invalid and dash-prefixed values for check/version/dump-config, plus invalid values containing a double quote, newline, or tab for each command. Python repr behavior for less common control/nonprintable Unicode values and other parser interactions remains unverified."
       },
       "red": {
         "status": "behavioral_failure",
@@ -8233,49 +8242,56 @@
       },
       "green": {
         "status": "PASS",
-        "focused_rust_tests_passed": 6,
-        "focused_rust_test_report": "rust/artifacts/independent-invalid-output-format-final-20261108/0.stdout.log",
-        "owner_live_cases_passed": 8,
-        "owner_live_report": "rust/artifacts/invalid-output-format-config-values-green-live-20261108.json",
-        "owner_live_seconds": 9.424,
-        "candidate_attestation": "rust/artifacts/20261108T032709170846Z-build.attestation.json",
-        "source_fingerprint": "5af4c524f1e65619a0032261179037e4048af3625aaf52dd64e03c6dbf1f167d"
+        "focused_rust_tests_passed": 7,
+        "focused_rust_test_report": "7/7 passed; detailed stdout was not separately retained",
+        "owner_live_cases_passed": 29,
+        "owner_live_report": "rust/artifacts/invalid-output-format-fixed-20261108.json",
+        "owner_live_seconds": 38.137416,
+        "candidate_attestation": "rust/artifacts/20261108T173806741043Z-build.attestation.json",
+        "source_fingerprint": "91d4790e41455a0b6e88db79b0d0a2c7650ebdf0644647081c4e5054e14b0cc6"
       },
       "independent_verification": {
         "status": "PASS",
         "configured_model": "gpt-6-luna",
         "configured_effort": "low",
         "runtime_model_metadata": "unavailable",
-        "focused_rust_tests_passed": 8,
-        "isolated_locked_checks_build_seconds": 80.470789,
-        "locked_build_seconds": 0.161403,
-        "independent_live_cases_passed": 8,
-        "independent_live_seconds": 2.798,
-        "comparator_self_tests_passed": 23,
-        "report": "rust/artifacts/independent-invalid-output-format-final-20261108/verification-summary.json",
-        "independent_live_report": "rust/artifacts/independent-invalid-output-format-final-20261108/live-comparison.json",
-        "binary_sha256": "11f09dd9318abb310a175681de219bb641a27d1a41aa34f1b0d51d1e1d4e58dd",
-        "source_fingerprint": "5af4c524f1e65619a0032261179037e4048af3625aaf52dd64e03c6dbf1f167d",
+        "focused_rust_tests_passed": 7,
+        "independent_live_cases_passed": 29,
+        "independent_live_seconds": 31.4245,
+        "report": "rust/artifacts/independent-invalid-output-format-20261108.json",
+        "independent_live_report": "rust/artifacts/independent-invalid-output-format-20261108.json",
+        "source_fingerprint": "91d4790e41455a0b6e88db79b0d0a2c7650ebdf0644647081c4e5054e14b0cc6",
+        "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "baseline_integrity": "verified",
+        "binary_sha256": "0feef56f010a9b3a5913df4694f1d209bcccdca43cbc5d410d69fe629badbef8",
         "edge_risks": [
-          "Unusual token quoting and control-character formatting are not directly exercised."
-        ]
+          "Exact Python repr behavior for less common Unicode nonprintable categories is not covered by live cases."
+        ],
+        "verification_note": "Initial replay correctly blocked after cargo test changed the candidate binary; locked rebuild restored the attested binary before the passing live replay.",
+        "candidate_attestation": "rust/artifacts/20261108T174202065362Z-build.attestation.json",
+        "attestation_sha256": "e4a6ced258fc021380de1c1fe4be1febe46d9790b6e6f9fce3892c804e9136e7"
       },
       "stage_durations_seconds": {
         "upstream_specification": "not separately instrumented",
         "red_focused_rust_tests_seconds": 0.87,
         "red_live_seconds": 9.227,
         "manifest_contract_test_seconds": 0.21,
-        "focused_green_rust_tests_seconds": "builder reported 6/6; duration not separately instrumented",
+        "focused_green_rust_tests_seconds": "not separately instrumented",
         "owner_live_seconds": 9.424,
-        "independent_locked_tests_seconds": 80.470789,
+        "independent_locked_tests_seconds": "not separately instrumented",
         "independent_build_seconds": 0.161403,
         "independent_live_seconds": 2.798,
-        "python_harness_suite_seconds": 88.75,
-        "cumulative_gate": "pending",
-        "cumulative_gate_seconds": 360.842038,
-        "cumulative_gate_live_seconds": 321.756822,
+        "python_harness_suite_seconds": 66.664,
+        "cumulative_gate": "PASS",
+        "cumulative_gate_seconds": 1060.703471,
+        "cumulative_gate_live_seconds": 943.375515,
         "extended_owner_live": 18.9,
-        "extended_independent_live": 24.1
+        "extended_independent_live": 24.1,
+        "red_live_control_characters_seconds": 30.402465,
+        "owner_live_control_characters_seconds": 38.137416,
+        "independent_live_control_characters_seconds": 31.4245,
+        "python_harness_suite": "PASS in 66.664s",
+        "candidate_refresh_attestation_seconds": 3.5
       },
       "stage_case_counts": {
         "red_focused_rust_tests_failed": 2,
@@ -8284,27 +8300,32 @@
         "red_live_passed": 5,
         "manifest_contract_tests_passed": 1,
         "owner_focused_rust_tests_passed": 6,
-        "owner_live_cases_passed": 20,
-        "independent_focused_rust_tests_passed": 8,
-        "independent_live_cases_passed": 20,
+        "owner_live_cases_passed": 29,
+        "independent_focused_rust_tests_passed": 7,
+        "independent_live_cases_passed": 29,
         "comparator_self_tests_passed": 23,
-        "python_harness_tests_passed": 90
+        "python_harness_tests_passed": 100,
+        "red_control_character_mismatches": 6,
+        "red_control_character_passed": 23,
+        "focused_green_rust_tests_passed": 7
       },
       "cumulative_gate_required": true,
       "cumulative_gate": {
         "status": "PASS",
-        "report": "rust/artifacts/strict-gate-invalid-output-format-final-20261108.json",
-        "capabilities": 112,
-        "production_cases": 959,
-        "manifest_cases": 961,
+        "report": "rust/artifacts/strict-gate-invalid-format-repr-fix-20261108.json",
+        "capabilities": 122,
+        "production_cases": 1060,
+        "manifest_cases": 1069,
         "excluded_smoke_cases": 2,
-        "duration_seconds": 360.842038,
-        "live_seconds": 321.756822,
-        "rust_checks_build_seconds": 36.482922,
-        "oracle_integrity_seconds": 2.140134,
-        "comparator_self_tests_seconds": 0.150322,
+        "excluded_runtime_metadata_cases": 6,
+        "unresolved_cases": 1,
+        "duration_seconds": 1060.703471,
+        "live_seconds": 943.375515,
+        "rust_checks_build_seconds": 114.779449,
+        "oracle_integrity_seconds": 2.083275,
+        "comparator_self_tests_seconds": 0.144741,
         "comparator_self_tests_passed": 23,
-        "source_fingerprint": "5af4c524f1e65619a0032261179037e4048af3625aaf52dd64e03c6dbf1f167d"
+        "source_fingerprint": "91d4790e41455a0b6e88db79b0d0a2c7650ebdf0644647081c4e5054e14b0cc6"
       },
       "coverage_extension": {
         "status": "PASS",
@@ -8313,6 +8334,24 @@
         "independent_report": "rust/artifacts/independent-cli-invalid-output-format-error-20261108T1708.json",
         "source_fingerprint": "c1c52baea7c6a7b5c847cac1b308793d414e4293374a9c30bf3a9d2903486947",
         "cumulative_gate": "deferred to next scheduled checkpoint; no Rust production code changed"
+      },
+      "control_character_extension": {
+        "status": "PASS owner+independent focused verification and cumulative gate",
+        "added_cases": 9,
+        "owner_red_report": "rust/artifacts/invalid-output-format-controls-red-20261108.json",
+        "independent_report": "rust/artifacts/independent-invalid-output-format-20261108.json",
+        "candidate_attestation": "rust/artifacts/20261108T174202065362Z-build.attestation.json",
+        "source_fingerprint": "91d4790e41455a0b6e88db79b0d0a2c7650ebdf0644647081c4e5054e14b0cc6",
+        "owner_report": "rust/artifacts/invalid-output-format-controls-final-green-20261108.json",
+        "independent_status": "PASS 29/29; oracle integrity verified",
+        "initial_independent_attempt": "BLOCKED by stale candidate hash after cargo test; fresh attestation/replay passed",
+        "cumulative_gate": "PASS 1060/1060 across 122 capabilities; shared CLI checkpoint completed",
+        "owner_red_mismatches": 6,
+        "owner_red_passes": 23,
+        "owner_red_source_fingerprint": "a8ec36f121348bfc704585e6181a941693452c6b3cdc3c27e258fd156c2385c6",
+        "owner_red_seconds": 30.402465,
+        "owner_seconds": 38.137416,
+        "independent_seconds": 31.4245
       }
     },
     {
@@ -9234,14 +9273,14 @@
         "targeted_manifest_tests_passed": 3
       },
       "production_change": "none; this records already implemented attached argument forms",
-      "cumulative_gate": "pending next scheduled checkpoint; most recent strict gate covers 121 capabilities and 1031 cases"
+      "cumulative_gate": "included in strict gate PASS 122 capabilities/1060 cases at rust/artifacts/strict-gate-invalid-format-repr-fix-20261108.json"
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-root-config-precedence-final-20261108.json",
-    "passed_cases": 1031,
-    "manifest_cases": 1040,
+    "report": "rust/artifacts/strict-gate-invalid-format-repr-fix-20261108.json",
+    "passed_cases": 1060,
+    "manifest_cases": 1069,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
       "cli.version.json_metadata": 5,
@@ -9249,20 +9288,20 @@
     },
     "unresolved_manifest_cases": 1,
     "exit_code": 0,
-    "capability_count": 121,
-    "source_fingerprint": "10aab06fae15bb673b063f68c0f9a30467eeb5d5e1e21eb593d24ea73b9c4939",
-    "run_id": "20261108T162927269572Z-1d934a70",
-    "started_at_utc": "2026-11-08T16:29:27.269546+00:00",
-    "finished_at_utc": "2026-11-08T16:44:19.818721+00:00",
-    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T162744070543Z-build.attestation.json",
-    "candidate_sha256": "655052e1a78110b7d5b24cef7892b6816bc65b7ae2497c83d1d8c801f5fbfc70",
+    "capability_count": 122,
+    "source_fingerprint": "91d4790e41455a0b6e88db79b0d0a2c7650ebdf0644647081c4e5054e14b0cc6",
+    "run_id": "20261108T174816018638Z-2b28b44d",
+    "started_at_utc": "2026-11-08T17:48:16.018611+00:00",
+    "finished_at_utc": "2026-11-08T18:03:59.104296+00:00",
+    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T174621311707Z-build.attestation.json",
+    "candidate_sha256": "0feef56f010a9b3a5913df4694f1d209bcccdca43cbc5d410d69fe629badbef8",
     "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
-    "duration_seconds": 998.740077,
+    "duration_seconds": 1060.703471,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.144665,
-      "cumulative_live_comparison": 892.840383,
-      "oracle_integrity": 2.150515,
-      "rust_checks_and_build": 103.276256
+      "comparator_self_tests": 0.144741,
+      "cumulative_live_comparison": 943.375515,
+      "oracle_integrity": 2.083275,
+      "rust_checks_and_build": 114.779449
     },
     "comparator_self_tests": 23
   },
@@ -9270,7 +9309,7 @@
     "status": "current",
     "toolchain": "1.99.1",
     "registry": "crates.io",
-    "latest_checked": "2026-11-08T12:26:27Z",
+    "latest_checked": "2026-11-08T18:07:59Z",
     "locked_versions": {
       "clap": "4.6.7",
       "serde": "1.0.229",
@@ -9285,11 +9324,11 @@
       "packages_to_update": 0,
       "command": "cargo update --dry-run --manifest-path rust/Cargo.toml",
       "rust_version_constraint": "1.99",
-      "checked_after_gate": "2026-11-08T12:26:27Z",
-      "evidence": "rust/artifacts/rust-dependency-dry-run-20261108-1230.txt",
-      "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136"
+      "checked_after_gate": "2026-11-08T18:07:59Z",
+      "evidence": "rust/artifacts/rust-dependency-dry-run-post-cli-20261108.txt",
+      "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d05278b3136"
     },
-    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-20261108-1230.txt",
+    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-cli-20261108.txt",
     "latest_dry_run": {
       "status": "PASS",
       "command": "cargo update --dry-run --manifest-path rust/Cargo.toml",
@@ -9300,7 +9339,7 @@
       "report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2"
     }
   },
-  "next_capability_handoff": "Continue with remaining parser token quoting and control-character cases or another distinguishable CLI ordering; next cumulative gate should include all pending cases.",
+  "next_capability_handoff": "Continue with one bounded, live-distinguishable CLI/config behavior; parallelize independent rule modules, keep shared matcher/config/CLI changes serialized, and run the next cumulative gate after five accepted capabilities or immediately after any shared behavior change.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

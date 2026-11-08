@@ -1553,8 +1553,8 @@ fn invalid_cli_output_format(args: &[std::ffi::OsString]) -> Option<ExitCode> {
                 |command| format!("proselint [options] <command> {command}"),
             );
             eprint!(
-                "{usage}\n{prefix}: error: argument --output-format/-o: invalid OutputFormat value: '{}'\n",
-                value.replace('\\', "\\\\").replace('\'', "\\'")
+                "{usage}\n{prefix}: error: argument --output-format/-o: invalid OutputFormat value: {}\n",
+                python_string_repr(value)
             );
             return Some(ExitCode::from(2));
         }
@@ -1564,6 +1564,41 @@ fn invalid_cli_output_format(args: &[std::ffi::OsString]) -> Option<ExitCode> {
         index += 1;
     }
     None
+}
+
+fn python_string_repr(value: &str) -> String {
+    let quote = if value.contains('\'') && !value.contains('"') {
+        '"'
+    } else {
+        '\''
+    };
+    let mut rendered = String::with_capacity(value.len() + 2);
+    rendered.push(quote);
+    for character in value.chars() {
+        match character {
+            '\\' => rendered.push_str("\\\\"),
+            '\n' => rendered.push_str("\\n"),
+            '\r' => rendered.push_str("\\r"),
+            '\t' => rendered.push_str("\\t"),
+            value if value == quote => {
+                rendered.push('\\');
+                rendered.push(value);
+            }
+            value if value.is_control() => {
+                let codepoint = value as u32;
+                if codepoint <= 0xff {
+                    rendered.push_str(&format!("\\x{codepoint:02x}"));
+                } else if codepoint <= 0xffff {
+                    rendered.push_str(&format!("\\u{codepoint:04x}"));
+                } else {
+                    rendered.push_str(&format!("\\U{codepoint:08x}"));
+                }
+            }
+            value => rendered.push(value),
+        }
+    }
+    rendered.push(quote);
+    rendered
 }
 
 fn reset_root_options_before_subcommand(args: &mut Vec<std::ffi::OsString>) {

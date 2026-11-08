@@ -29,6 +29,26 @@ fn invalid_short_output_format_without_help_matches_argparse() {
 }
 
 #[test]
+fn invalid_output_format_escapes_newlines_tabs_and_preserves_quotes() {
+    for (value, rendered) in [
+        ("line\nbreak", "'line\\nbreak'"),
+        ("tab\tvalue", "'tab\\tvalue'"),
+        ("it's\nokay", "\"it's\\nokay\""),
+        ("say \"hi\"\tthere", "'say \"hi\"\\tthere'"),
+        ("a'b\"c", "'a\\'b\"c'"),
+        ("bad\\path\r", "'bad\\\\path\\r'"),
+    ] {
+        let output = run(&["check", "--output-format", value]);
+        assert_eq!(output.status.code(), Some(2));
+        assert!(output.stdout.is_empty());
+        assert!(
+            String::from_utf8_lossy(&output.stderr)
+                .ends_with(&format!("invalid OutputFormat value: {rendered}\n"))
+        );
+    }
+}
+
+#[test]
 fn invalid_output_format_uses_version_subcommand_usage() {
     let expected = b"usage: proselint [options] <command> version [-h] [--config CONFIG]\n                                             [--output-format {full,json,compact}]\n                                             [--verbose] [--version]\nproselint [options] <command> version: error: argument --output-format/-o: invalid OutputFormat value: 'invalid'\n";
     let output = run(&["version", "--output-format", "invalid"]);

@@ -1,6 +1,236 @@
 {
   "schema_version": 1,
   "cases": [
+{
+  "id": "cli_directory_expansion_recursive",
+  "capability_id": "cli.directory_expansion",
+  "provenance": "Pinned Python Proselint 0.16.0 source proselint/tools.py:extract_files walks each directory recursively and includes accepted-suffix files. Created nested .txt fixtures; config enables only misc.apologizing.",
+  "input_mode": "files",
+  "files": [
+    {
+      "path": "config.json",
+      "content_base64": "eyJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19LCJtYXhfZXJyb3JzIjoxMH0="
+    },
+    {
+      "path": "tree/root.txt",
+      "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlcy4="
+    },
+    {
+      "path": "tree/nested/child.txt",
+      "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlcy4="
+    }
+  ],
+  "unused_files": [
+    "tree/root.txt",
+    "tree/nested/child.txt"
+  ],
+  "argv": [
+    "check",
+    "--config",
+    "{file:config.json}",
+    "--output-format",
+    "json",
+    "tree"
+  ],
+  "output_format": "json",
+  "expected_oracle_outcome": "findings",
+  "timeout_seconds": 10,
+  "environment": {
+    "locale": "C.UTF-8"
+  },
+  "config_scenario": "misc_apologizing_only",
+  "workspace_mutates": false,
+  "comparison": {
+    "stdout": "json",
+    "stderr": "bytes",
+    "exit_status": "exact",
+    "normalize_workspace_uri": true
+  }
+},
+{
+  "id": "cli_directory_expansion_case_sensitive_extensions",
+  "capability_id": "cli.directory_expansion",
+  "provenance": "Pinned Python Proselint 0.16.0 source proselint/tools.py:extract_files filters with Path.suffix in ACCEPTED_EXTENSIONS, so .txt is accepted while .TXT is skipped on a case-sensitive filesystem.",
+  "input_mode": "files",
+  "files": [
+    {
+      "path": "config.json",
+      "content_base64": "eyJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19LCJtYXhfZXJyb3JzIjoxMH0="
+    },
+    {
+      "path": "tree/accepted.txt",
+      "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlcy4="
+    },
+    {
+      "path": "tree/rejected.TXT",
+      "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlcy4="
+    }
+  ],
+  "unused_files": [
+    "tree/accepted.txt",
+    "tree/rejected.TXT"
+  ],
+  "argv": [
+    "check",
+    "--config",
+    "{file:config.json}",
+    "--output-format",
+    "json",
+    "tree"
+  ],
+  "output_format": "json",
+  "expected_oracle_outcome": "findings",
+  "timeout_seconds": 10,
+  "environment": {
+    "locale": "C.UTF-8"
+  },
+  "config_scenario": "misc_apologizing_only",
+  "workspace_mutates": false,
+  "comparison": {
+    "stdout": "json",
+    "stderr": "bytes",
+    "exit_status": "exact",
+    "normalize_workspace_uri": true
+  }
+},
+{
+  "id": "cli_directory_expansion_ignored_extension",
+  "capability_id": "cli.directory_expansion",
+  "provenance": "Pinned Python Proselint 0.16.0 source proselint/tools.py:extract_files accepts only .md, .txt, .rtf, .html, .tex, and .markdown; this directory contains only ignored .bin content.",
+  "input_mode": "files",
+  "files": [
+    {
+      "path": "config.json",
+      "content_base64": "eyJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="
+    },
+    {
+      "path": "tree/ignored.bin",
+      "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="
+    }
+  ],
+  "unused_files": [
+    "tree/ignored.bin"
+  ],
+  "argv": [
+    "check",
+    "--config",
+    "{file:config.json}",
+    "--output-format",
+    "json",
+    "tree"
+  ],
+  "output_format": "json",
+  "expected_oracle_outcome": "clean",
+  "timeout_seconds": 10,
+  "environment": {
+    "locale": "C.UTF-8"
+  },
+  "config_scenario": "misc_apologizing_only",
+  "workspace_mutates": false,
+  "comparison": {
+    "stdout": "json",
+    "stderr": "bytes",
+    "exit_status": "exact",
+    "normalize_workspace_uri": true
+  }
+},
+{
+  "id": "cli_directory_expansion_per_file_max_errors",
+  "capability_id": "cli.directory_expansion",
+  "provenance": "Pinned Python Proselint 0.16.0 source proselint/tools.py:LCompoundFile.lint applies config max_errors separately for each file; two accepted files each contain multiple apologizing matches and max_errors is one.",
+  "input_mode": "files",
+  "files": [
+    {
+      "path": "config.json",
+      "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19fQ=="
+    },
+    {
+      "path": "tree/one.txt",
+      "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlczogTW9yZSByZXNlYXJjaCBpcyBuZWVkZWQu"
+    },
+    {
+      "path": "tree/two.txt",
+      "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlczogTW9yZSByZXNlYXJjaCBpcyBuZWVkZWQu"
+    }
+  ],
+  "unused_files": [
+    "tree/one.txt",
+    "tree/two.txt"
+  ],
+  "argv": [
+    "check",
+    "--config",
+    "{file:config.json}",
+    "--output-format",
+    "json",
+    "tree"
+  ],
+  "output_format": "json",
+  "expected_oracle_outcome": "findings",
+  "timeout_seconds": 10,
+  "environment": {
+    "locale": "C.UTF-8"
+  },
+  "config_scenario": "misc_apologizing_only_max_one",
+  "workspace_mutates": false,
+  "comparison": {
+    "stdout": "json",
+    "stderr": "bytes",
+    "exit_status": "exact",
+    "normalize_workspace_uri": true
+  }
+},
+{
+  "id": "cli_directory_expansion_among_explicit_paths",
+  "capability_id": "cli.directory_expansion",
+  "provenance": "Pinned Python Proselint 0.16.0 source proselint/tools.py:extract_files preserves argument order and recursively expands a directory in place. This case passes a file, directory, then file with deterministic creation order.",
+  "input_mode": "files",
+  "files": [
+    {
+      "path": "config.json",
+      "content_base64": "eyJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19LCJtYXhfZXJyb3JzIjoxMH0="
+    },
+    {
+      "path": "before.txt",
+      "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlcy4="
+    },
+    {
+      "path": "tree/middle.txt",
+      "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlcy4="
+    },
+    {
+      "path": "after.txt",
+      "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLiBPdXIgcG9saWN5IHN0YXRlcy4="
+    }
+  ],
+  "argv": [
+    "check",
+    "--config",
+    "{file:config.json}",
+    "--output-format",
+    "json",
+    "before.txt",
+    "tree",
+    "after.txt"
+  ],
+  "output_format": "json",
+  "expected_oracle_outcome": "findings",
+  "timeout_seconds": 10,
+  "environment": {
+    "locale": "C.UTF-8"
+  },
+  "config_scenario": "misc_apologizing_only",
+  "workspace_mutates": false,
+  "comparison": {
+    "stdout": "json",
+    "stderr": "bytes",
+    "exit_status": "exact",
+    "normalize_workspace_uri": true
+  },
+  "unused_files": [
+    "tree/middle.txt"
+  ]
+},
     {
       "capability_id": "cli.config.cwd_discovery",
       "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; with no explicit --config, load_from discovers cwd proselint.json before using DEFAULT. The discovered config enables only misc.apologizing and the pinned CLI emits one diagnostic.",

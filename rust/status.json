@@ -442,6 +442,10 @@
     {
       "id": "cli.multiple_file_paths",
       "status": "recorded"
+    },
+    {
+      "id": "cli.directory_expansion",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -466,14 +470,14 @@
   },
   "harness": {
     "status": "verified after metadata fingerprint changes; Markdown/ledger exclusion is covered by a discrimination test",
-    "source_fingerprint": "91695883b59e57b04d699eb7f44b79d762822c999a7b4fff1e3a29d1483cac88",
+    "source_fingerprint": "f613269db8621fcb8d6836dada159d2f6eb15212bea7ea54419955eb9b212838",
     "unit_tests": {
-      "passed": 88,
+      "passed": 89,
       "exit_code": 0,
-      "duration_seconds": 44.414,
+      "duration_seconds": 97.644,
       "command": "python3 -m unittest discover -s rust/harness/tests -v",
-      "evidence": "rust/artifacts/harness-suite-multi-file-20261108.log",
-      "notes": "Timeout-discrimination tests emitted BLOCKED reports as expected assertions; all tests passed."
+      "evidence": "rust/artifacts/harness-suite-directory-full-20261108.log",
+      "notes": "Full harness suite passed after adding the directory-expansion cases and exact manifest inventory entries."
     },
     "comparator_discriminators": {
       "passed": 23,
@@ -527,12 +531,12 @@
     }
   },
   "active_ownership": {
-    "current": "110-capability shared-output checkpoint passed 946/946 live cases; cli.multiple_file_paths is recorded. Continue with a pinned-oracle RED on the next unverified CLI behavior or an unblocked rule path.",
+    "current": "The 111-capability shared-CLI checkpoint passed 951/951 live cases; cli.directory_expansion is recorded. Continue with the next unverified CLI behavior or an unblocked rule path after establishing a meaningful pinned-oracle RED.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
     "23 unique rule paths remain unimplemented.",
-    "Other CLI behavior remains unverified, including remaining subcommands, missing nonempty-XDG config, HOME-unset resolution, directory user candidates, directory traversal and decoding edges; explicit multi-file rendering is accepted for the recorded file-list cases.",
+    "Other CLI behavior remains unverified, including remaining subcommands, missing nonempty-XDG config, HOME-unset resolution, directory user candidates, directory traversal/decoding edges outside the accepted directory cases; explicit multi-file rendering is accepted for the recorded file-list cases.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
     "Directory/non-UTF-8 path error formatting on non-Linux platforms remains unverified.",
     "Benchmarks cover only the isolated misc.suddenly profile and the selected misc.suddenly + psychology.p_equals_zero profile on their recorded inputs; broader rule sets and default configurations remain unmeasured.",
@@ -540,7 +544,7 @@
     "Unicode case folding and quote-pairing combinations beyond explicitly tested cases remain unverified.",
     "23 unique rule paths remain unimplemented. Reconnaissance found each is backed by an attributed third-party list/dictionary with no separate list-specific grant recorded in the pinned source, or has unknown provenance (industrial_language.chatspeak); the current provenance policy holds these until a consistent reuse basis is recorded. This is a provenance blocker, not accepted parity.",
     "No-config execution now loads bundled DEFAULT for 83 implemented checks, but the 23 unimplemented unique paths include default-enabled rules, so full default-config parity and all combined-rule interactions remain incomplete.",
-    "dump-config HOME-unset/platform-specific config discovery, missing nonempty-XDG configuration, directory user candidates, directory traversal and decoding edges remain unverified; explicit multi-file output for file lists is covered by the recorded cases.",
+    "dump-config HOME-unset/platform-specific config discovery, missing nonempty-XDG configuration, directory user candidates, directory traversal/decoding edges outside the accepted directory cases remain unverified; explicit multi-file output for file lists is covered by the recorded cases.",
     "JSON version output and --version combined with additional arguments are not covered by the accepted plain-text version capability.",
     "Full/JSON demo source-path behavior and full-default demo output remain unverified; selected-rule Compact behavior is the accepted slice.",
     "`cli.help_argument_precedence` now accepts four exact vectors: missing check --config value before help, invalid OutputFormat `invalid` before help, global `--config check --help`, and `check -- --help` with a real file. Other invalid format values, missing-option/order combinations, and other option orderings remain unverified. Missing `--help` after `--` now matches in Full, Compact, and JSON; other missing-path forms remain unverified."
@@ -7989,31 +7993,124 @@
         "comparator_self_tests_passed": 23,
         "source_fingerprint": "39fb254466b92076bc8abc274f0ae56c10d7443a6fafa4d3b262986f51973367"
       }
+    },
+    {
+      "id": "cli.directory_expansion",
+      "status": "recorded",
+      "case_ids": [
+        "cli_directory_expansion_recursive",
+        "cli_directory_expansion_case_sensitive_extensions",
+        "cli_directory_expansion_ignored_extension",
+        "cli_directory_expansion_per_file_max_errors",
+        "cli_directory_expansion_among_explicit_paths"
+      ],
+      "upstream_source": "pinned proselint/tools.py:20-21,50-66 extract_files; proselint/command_line.py:149-157",
+      "upstream_spec": "For each explicit argument in order, verify/resolve the path. Pass explicit non-directory paths through unchanged. Recursively expand directory paths in os.walk enumeration order and include only case-sensitive .md, .txt, .rtf, .html, .tex, .markdown suffixes. Lint each expanded file separately with the existing per-file config/max_errors/output/error handling.",
+      "specification": {
+        "live_cases": 5,
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "comparison": "Exact exit status/stderr and JSON structural values including source URI keys and diagnostic arrays; no sorting normalization beyond JSON object key order.",
+        "scope_limit": "Cases cover recursive root/nested .txt and .md, uppercase .TXT and .bin filtering, per-file max_errors, and a directory interleaved among explicit files. They do not individually exercise .rtf/.html/.tex/.markdown, Full/Compact directory output, permission-denied traversal, root symlink behavior, or cross-platform filesystem enumeration order."
+      },
+      "red": {
+        "status": "behavioral_failure",
+        "focused_rust_tests_failed": 1,
+        "focused_rust_tests_total": 1,
+        "focused_test_report": "Rust test handoff; failure: directory read returned status 4 and `Is a directory (os error 21)` instead of status 1 from findings; raw console log not retained.",
+        "live_mismatches": 5,
+        "live_report": "rust/artifacts/directory-expansion-red-valid.json",
+        "live_seconds": 8.07803,
+        "source_fingerprint": "ad82256e5cc758032cf1e04ef12fe2ecb9cc9e657746a75c7f29056d5b538693"
+      },
+      "green": {
+        "status": "PASS",
+        "focused_rust_tests_passed": 1,
+        "focused_rust_test_report": "rust/artifacts/independent-directory-verifier-20261108/final-0.stdout.log",
+        "owner_live_cases_passed": 5,
+        "owner_live_report": "rust/artifacts/directory-expansion-owner-final-20261108.json",
+        "owner_live_seconds": 20.97292,
+        "candidate_attestation": "rust/artifacts/20261108T022249451525Z-build.attestation.json",
+        "source_fingerprint": "f613269db8621fcb8d6836dada159d2f6eb15212bea7ea54419955eb9b212838"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "configured_model": "gpt-6-luna",
+        "configured_effort": "low",
+        "runtime_model_metadata": "unavailable",
+        "focused_rust_tests_passed": 1,
+        "isolated_locked_checks_build_seconds": 82.780253,
+        "independent_live_cases_passed": 5,
+        "independent_live_report": "rust/artifacts/independent-directory-verifier-20261108/live-final.json",
+        "comparator_self_tests_passed": 23,
+        "report": "rust/artifacts/independent-directory-verifier-20261108/verification-summary.json",
+        "binary_sha256": "55d6a00fbc04cc6778ad0b66e05dfa8c6552690f98b1057db9a0e4313f9b7416",
+        "source_fingerprint": "f613269db8621fcb8d6836dada159d2f6eb15212bea7ea54419955eb9b212838",
+        "edge_risks": [
+          "filesystem enumeration order varies by platform/filesystem",
+          "permission-denied directories and root symlink behavior not separately covered"
+        ]
+      },
+      "stage_durations_seconds": {
+        "upstream_specification": "not separately instrumented",
+        "red_focused_rust_test_seconds": 0.95,
+        "red_live_seconds": 8.07803,
+        "focused_green_rust_test_seconds": 82.58452,
+        "owner_live_seconds": 20.97292,
+        "independent_locked_test_and_build_seconds": 82.780253,
+        "independent_live_seconds": 9.011989,
+        "python_harness_suite_seconds": 97.644,
+        "independent_build_seconds": 0.195733
+      },
+      "stage_case_counts": {
+        "red_focused_rust_tests_failed": 1,
+        "red_live_mismatches": 5,
+        "green_focused_rust_tests_passed": 1,
+        "owner_live_cases_passed": 5,
+        "independent_live_cases_passed": 5,
+        "comparator_self_tests_passed": 23,
+        "python_harness_tests_passed": 89
+      },
+      "cumulative_gate_required": false,
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-directory-expansion-final-20261108.json",
+        "capabilities": 111,
+        "production_cases": 951,
+        "manifest_cases": 953,
+        "excluded_smoke_cases": 2,
+        "duration_seconds": 360.617548,
+        "live_seconds": 321.880736,
+        "rust_checks_build_seconds": 36.164663,
+        "oracle_integrity_seconds": 2.123749,
+        "comparator_self_tests_seconds": 0.148677,
+        "comparator_self_tests_passed": 23,
+        "source_fingerprint": "f613269db8621fcb8d6836dada159d2f6eb15212bea7ea54419955eb9b212838"
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-multi-file-final-r2-20261108.json",
-    "passed_cases": 946,
-    "manifest_cases": 948,
+    "report": "rust/artifacts/strict-gate-directory-expansion-final-20261108.json",
+    "passed_cases": 951,
+    "manifest_cases": 953,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2
     },
     "exit_code": 0,
-    "capability_count": 110,
-    "source_fingerprint": "39fb254466b92076bc8abc274f0ae56c10d7443a6fafa4d3b262986f51973367",
-    "run_id": "20261108T014728688825Z-1405977a",
-    "started_at_utc": "2026-11-08T01:47:28.688776+00:00",
-    "finished_at_utc": "2026-11-08T01:53:00.551199+00:00",
-    "candidate_attestation": "rust/artifacts/20261108T014554060244Z-build.attestation.json",
-    "candidate_sha256": "10ea2beb32c61e29cd064a341fd1723bbb451037fe09735809be27afbe27e30f",
+    "capability_count": 111,
+    "source_fingerprint": "f613269db8621fcb8d6836dada159d2f6eb15212bea7ea54419955eb9b212838",
+    "run_id": "20261108T022640127215Z-8a706bec",
+    "started_at_utc": "2026-11-08T02:26:40.127190+00:00",
+    "finished_at_utc": "2026-11-08T02:32:01.744329+00:00",
+    "candidate_attestation": "rust/artifacts/20261108T022604031116Z-build.attestation.json",
+    "candidate_sha256": "55d6a00fbc04cc6778ad0b66e05dfa8c6552690f98b1057db9a0e4313f9b7416",
     "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136",
-    "duration_seconds": 430.388199,
+    "duration_seconds": 360.617548,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.191519,
-      "cumulative_live_comparison": 332.120404,
-      "oracle_integrity": 2.954721,
-      "rust_checks_and_build": 94.725389
+      "comparator_self_tests": 0.148677,
+      "cumulative_live_comparison": 321.880736,
+      "oracle_integrity": 2.123749,
+      "rust_checks_and_build": 36.164663
     },
     "comparator_self_tests": 23
   },
@@ -8021,7 +8118,7 @@
     "status": "current",
     "toolchain": "1.99.1",
     "registry": "crates.io",
-    "latest_checked": "2026-11-08T01:07:27Z",
+    "latest_checked": "2026-11-08T02:32:47Z",
     "locked_versions": {
       "clap": "4.6.7",
       "serde": "1.0.229",
@@ -8030,19 +8127,19 @@
       "regex": "1.13.1",
       "cc": "1.11.1"
     },
-    "cargo_update_dry_run": "0 packages to update (checked against latest crates.io index compatible with Rust 1.99 at 2026-11-08T01:07:27Z)",
+    "cargo_update_dry_run": "0 packages to update (checked against latest crates.io index compatible with Rust 1.99 at 2026-11-08T02:32:47Z)",
     "update_dry_run": {
       "status": "current",
       "packages_to_update": 0,
-      "command": "CARGO_HOME=rust/.cache/cargo-home RUSTUP_HOME=rust/.cache/rustup-home cargo update --dry-run --manifest-path rust/Cargo.toml",
+      "command": "cargo update --dry-run --manifest-path rust/Cargo.toml",
       "rust_version_constraint": "1.99",
-      "checked_after_gate": "2026-11-08T01:07:27Z",
-      "evidence": "rust/artifacts/rust-dependency-dry-run-20261108T010727Z.txt",
+      "checked_after_gate": "2026-11-08T02:32:47Z",
+      "evidence": "rust/artifacts/rust-dependency-dry-run-post-directory-20261108.txt",
       "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136"
     },
-    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-20261108T010727Z.txt"
+    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-directory-20261108.txt"
   },
-  "next_capability_handoff": "Investigate the smallest unverified CLI behavior with a meaningful pinned-oracle RED; preserve the third-party provenance hold on the remaining rule lists.",
+  "next_capability_handoff": "Investigate the next smallest unverified CLI behavior with a meaningful pinned-oracle RED; preserve the third-party provenance hold on remaining rule lists.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

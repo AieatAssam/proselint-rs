@@ -1891,7 +1891,8 @@ fn run() -> Result<ExitCode, String> {
         }
         has_findings |= findings;
     } else {
-        for path in &paths {
+        let expanded_paths = expand_input_paths(&paths);
+        for path in &expanded_paths {
             let source = file_uri_or_missing(path)
                 .map_err(|error| format!("Could not resolve '{}': {error}", path.display()))?;
             let full = resolved_path(path)
@@ -2490,6 +2491,48 @@ fn wildcard_match(text: &str, pattern: &str) -> bool {
         &text.chars().collect::<Vec<_>>(),
         &pattern.chars().collect::<Vec<_>>(),
     )
+}
+
+fn expand_input_paths(paths: &[PathBuf]) -> Vec<PathBuf> {
+    const EXTENSIONS: [&str; 6] = ["md", "txt", "rtf", "html", "tex", "markdown"];
+
+    fn visit(path: &std::path::Path, output: &mut Vec<PathBuf>) {
+        if !path.is_dir() {
+            output.push(path.to_path_buf());
+            return;
+        }
+
+        // Match os.walk's default behavior: keep the filesystem's enumeration order,
+        // recurse into real directories, and ignore traversal errors.
+        let Ok(entries) = fs::read_dir(path) else {
+            return;
+        };
+        for entry in entries.flatten() {
+            let child = entry.path();
+            let Ok(file_type) = entry.file_type() else {
+                continue;
+            };
+            if file_type.is_dir() {
+                visit(&child, output);
+            } else if file_type.is_symlink()
+                && fs::metadata(&child).is_ok_and(|metadata| metadata.is_dir())
+            {
+                continue;
+            } else if child
+                .extension()
+                .and_then(|extension| extension.to_str())
+                .is_some_and(|extension| EXTENSIONS.contains(&extension))
+            {
+                output.push(child);
+            }
+        }
+    }
+
+    let mut expanded = Vec::new();
+    for path in paths {
+        visit(path, &mut expanded);
+    }
+    expanded
 }
 
 fn file_uri_or_missing(path: &std::path::Path) -> Result<String, io::Error> {

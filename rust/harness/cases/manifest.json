@@ -35160,6 +35160,86 @@
         "exit_status": "exact",
         "normalize_workspace_uri": true
       }
+    },
+    {
+      "id": "cli_directory_expansion_full_output",
+      "capability_id": "cli.directory_expansion",
+      "provenance": "Pinned Python Proselint 0.16.0: proselint/command_line.py expands directory paths into LintFile inputs and calls write_results per file; proselint/log.py:134-164 formats Full sources as resolved paths and emits exact diagnostics.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19LCJtYXhfZXJyb3JzIjoxMH0="
+        },
+        {
+          "path": "tree/nested/only.txt",
+          "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="
+        }
+      ],
+      "unused_files": [
+        "tree/nested/only.txt"
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "full",
+        "tree"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_apologizing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_directory_expansion_compact_output",
+      "capability_id": "cli.directory_expansion",
+      "provenance": "Pinned Python Proselint 0.16.0: proselint/command_line.py expands directory paths into LintFile inputs and calls write_results per file; proselint/log.py:134-164 formats Compact sources as basenames and emits exact diagnostics.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19LCJtYXhfZXJyb3JzIjoxMH0="
+        },
+        {
+          "path": "tree/nested/only.txt",
+          "content_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg=="
+        }
+      ],
+      "unused_files": [
+        "tree/nested/only.txt"
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "compact",
+        "tree"
+      ],
+      "output_format": "compact",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "misc_apologizing_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
 ]
 }

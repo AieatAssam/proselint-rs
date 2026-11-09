@@ -43468,6 +43468,586 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "redundancy_garner_all_88_source_rows",
+      "capability_id": "rule.redundancy.misc.garner",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c. The 87 simple map keys are derived from checks/redundancy/garner (88 source lines; the 'potable drinking water,potable water' row is duplicated and collapses when upstream builds dict(items)). Two regex forms are defined in checks/redundancy/misc.py. Garner's Modern American Usage attribution and URL http://bit.ly/1T4alrY are retained under the user-authorized package BSD-3-Clause project policy basis. Case purpose: Exercises all 88 pinned source rows; the duplicated raw phrase appears twice in input while the dictionary has 87 keys.",
+      "input_mode": "stdin",
+      "stdin_base64": "YWRlcXVhdGUgZW5vdWdoOyBzZWxmLWFkbWl0dGVkOyBzd29ybiBhZmZpZGF2aXQ7IG11dHVhbCBhZ3JlZW1lbnQ7IGZvcm1lciBhbHVtbnVzOyBkaXJlY3RseSBhbnRpdGhldGljYWw7IGFwcHJveGltYXRlbHkgYWJvdXQ7IHRlbXBvcmFyeSBiaXZvdWFjOyBiaXZvdWFjIGNhbXA7IGJsZW5kIHRvZ2V0aGVyOyBidXQgbmV2ZXJ0aGVsZXNzOyBhY2N1c2VkIG9mIGEgY2hhcmdlOyBjaXJjdW1zdGFuY2VzIHN1cnJvdW5kaW5nOyBzdXJyb3VuZGluZyBjaXJjdW1zdGFuY2VzOyBjbG9zZSBwcm94aW1pdHk7IGNvbGxhYm9yYXRlIHRvZ2V0aGVyOyBmZWxsb3cgY29sbGFib3JhdG9yOyBmZWxsb3cgY29sbGFib3JhdG9yczsgY29sbG9jYXRlZCB0b2dldGhlcjsgZmVsbG93IGNvbGxlYWd1ZXM7IGNvbWJpbmUgdG9nZXRoZXI7IHNlbGYtY29tcGxhY2VudDsgc2VsZi1jb25mZXNzZWQ7IGNvbm5lY3QgdG9nZXRoZXI7IGNvbnNvbGlkYXRlIHRvZ2V0aGVyOyBzdGlsbCBjb250aW51ZXMgdG87IG11dHVhbGx5IGNvbnRyYWRpY3Rvcnk7IG11dHVhbCBjb29wZXJhdGlvbjsgY291cGxlIHRvZ2V0aGVyOyBzZXJpb3VzIGNyaXNpczsgZW50aXJlbHkgZWxpbWluYXRlOyBtb3N0IGVzcGVjaWFsbHk7IGFjdHVhbCBmYWN0OyB0cnVlIGZhY3RzOyBmdXR1cmUgZm9yZWNhc3Q7IGZvdW5kaW5nIGZvcmVmYXRoZXJzOyBmcmVlIGFuZCBncmF0aXM7IGZyZWUgZ3JhdGlzOyBjb21wbGV0ZWx5IGZ1bGw7IGJhc2ljIGZ1bmRhbWVudGFsczsgZnJlZSBnaWZ0OyBuZXcgaW5ub3ZhdGlvbjsgaW50ZXJhY3Qgd2l0aCBlYWNoIG90aGVyOyBsYXJnZS1zaXplOyBtZWxkIHRvZ2V0aGVyOyBtZXJnZSB0b2dldGhlcjsgbWluZ2xlIHRvZ2V0aGVyOyBtaXggdG9nZXRoZXI7IG11dHVhbCBmZWVsaW5ncyBmb3IgZWFjaG90aGVyOyBtdXR1YWwgcmVzcGVjdCBmb3IgZWFjaCBvdGhlcjsgbmF0aXZlLWJvcm4gY2l0aXplbjsgYWJzb2x1dGUgbmVjZXNzaXR5OyBibGF0YW50bHkgb2J2aW91czsgcGF1c2UgZm9yIGEgbW9tZW50OyBhZHZhbmNlIHBsYW5uaW5nOyBmdXR1cmUgcGxhbnM7IHBvb2xlZCB0b2dldGhlcjsgcG90YWJsZSBkcmlua2luZyB3YXRlcjsgcG90YWJsZSBkcmlua2luZyB3YXRlcjsgbmV3IHJlY3J1aXQ7IHJlZWxlY3RlZCBmb3IgYW5vdGhlciB0ZXJtOyByZWZlciBiYWNrOyByZWdyZXNzIGJhY2s7IHJlcGF5IHRoZW0gYmFjazsgcmVwYXkgYmFjazsgcmVwZWF0IGFnYWluOyByZXBlYXQgYmFjazsgcmVwZWF0IHRoZSBzYW1lOyByZXBlYXRlZCB0aGUgc2FtZTsgdGVtcG9yYXJ5IHJlcHJpZXZlOyBicmllZiByZXNwaXRlOyByZXRpcmFsOyByZXRpcmFjeTsgcmV0cmVhdCBiYWNrOyByZXR1cm4gYmFjazsgY2xvc2VseSBzY3J1dGluaXplOyBzb2Z0d2FyZSBwcm9ncmFtOyBzdXJyb3VuZGVkIG9uIGFsbCBzaWRlczsgdGhlIHdob2xlIGVudGlyZSBuYXRpb247IHRocm91Z2hvdXQgdGhlIGVudGlyZTsgdGltcGFuaSBkcnVtOyBwYWlyIG9mIHR3aW5zOyB1bmZpbGxlZCB2YWNhbmN5OyB2YXJpb3VzIGRpZmZlcmVudDsgZm9ybWVyIHZldGVyYW47IHZpc2libGUgdG8gdGhlIGV5ZTsgcHJvZmVzc2lvbmFsIHZvY2F0aW9uOyB3aGlsZSBhdCB0aGUgc2FtZSB0aW1l",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7Imdhcm5lciI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_misc_garner_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "redundancy_garner_regex_optional_groups",
+      "capability_id": "rule.redundancy.misc.garner",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c. The 87 simple map keys are derived from checks/redundancy/garner (88 source lines; the 'potable drinking water,potable water' row is duplicated and collapses when upstream builds dict(items)). Two regex forms are defined in checks/redundancy/misc.py. Garner's Modern American Usage attribution and URL http://bit.ly/1T4alrY are retained under the user-authorized package BSD-3-Clause project policy basis. Case purpose: Exercises general optional, absent general, in groups optional, and absent in groups regex branches.",
+      "input_mode": "stdin",
+      "stdin_base64": "Z2VuZXJhbCBjb25zZW5zdXMgb2Ygb3BpbmlvbjsgY29uc2Vuc3VzIG9mIG9waW5pb247IGFzc29jaWF0ZSB0b2dldGhlcjsgYXNzb2NpYXRlIHRvZ2V0aGVyIGluIGdyb3Vwcw==",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7Imdhcm5lciI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_misc_garner_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "redundancy_garner_case_and_order",
+      "capability_id": "rule.redundancy.misc.garner",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c. The 87 simple map keys are derived from checks/redundancy/garner (88 source lines; the 'potable drinking water,potable water' row is duplicated and collapses when upstream builds dict(items)). Two regex forms are defined in checks/redundancy/misc.py. Garner's Modern American Usage attribution and URL http://bit.ly/1T4alrY are retained under the user-authorized package BSD-3-Clause project policy basis. Case purpose: Checks case-insensitive matching, original text, duplicate occurrences, and result ordering.",
+      "input_mode": "stdin",
+      "stdin_base64": "QWRlcXVhdGUgZW5vdWdoOyBBREVRVUFURSBFTk9VR0g7IGFkZXF1YXRlIGVub3VnaC4=",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7Imdhcm5lciI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_misc_garner_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "redundancy_garner_boundaries",
+      "capability_id": "rule.redundancy.misc.garner",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c. The 87 simple map keys are derived from checks/redundancy/garner (88 source lines; the 'potable drinking water,potable water' row is duplicated and collapses when upstream builds dict(items)). Two regex forms are defined in checks/redundancy/misc.py. Garner's Modern American Usage attribution and URL http://bit.ly/1T4alrY are retained under the user-authorized package BSD-3-Clause project policy basis. Case purpose: Checks WORDS_IN_TEXT boundaries reject underscore/adjacent-word contexts.",
+      "input_mode": "stdin",
+      "stdin_base64": "X2FkZXF1YXRlIGVub3VnaF87IHhhZGVxdWF0ZSBlbm91Z2h4OyBhZGVxdWF0ZSBlbm91Z2huZXNz",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7Imdhcm5lciI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_misc_garner_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "redundancy_garner_duplicate_occurrence_order",
+      "capability_id": "rule.redundancy.misc.garner",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c. The 87 simple map keys are derived from checks/redundancy/garner (88 source lines; the 'potable drinking water,potable water' row is duplicated and collapses when upstream builds dict(items)). Two regex forms are defined in checks/redundancy/misc.py. Garner's Modern American Usage attribution and URL http://bit.ly/1T4alrY are retained under the user-authorized package BSD-3-Clause project policy basis. Case purpose: Checks exact repeated input occurrences, duplicate raw source row behavior, and stable order.",
+      "input_mode": "stdin",
+      "stdin_base64": "cG90YWJsZSBkcmlua2luZyB3YXRlcjsgcmVwZWF0IGFnYWluOyBwb3RhYmxlIGRyaW5raW5nIHdhdGVyOyByZXBlYXQgYWdhaW4u",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7Imdhcm5lciI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_misc_garner_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "redundancy_garner_quote_suppression",
+      "capability_id": "rule.redundancy.misc.garner",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c. The 87 simple map keys are derived from checks/redundancy/garner (88 source lines; the 'potable drinking water,potable water' row is duplicated and collapses when upstream builds dict(items)). Two regex forms are defined in checks/redundancy/misc.py. Garner's Modern American Usage attribution and URL http://bit.ly/1T4alrY are retained under the user-authorized package BSD-3-Clause project policy basis. Case purpose: Quoted occurrence is suppressed while the unquoted match remains reportable.",
+      "input_mode": "stdin",
+      "stdin_base64": "4oCcYWRlcXVhdGUgZW5vdWdo4oCdOyBhZGVxdWF0ZSBlbm91Z2g=",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7Imdhcm5lciI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_misc_garner_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "redundancy_garner_unicode_positions",
+      "capability_id": "rule.redundancy.misc.garner",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c. The 87 simple map keys are derived from checks/redundancy/garner (88 source lines; the 'potable drinking water,potable water' row is duplicated and collapses when upstream builds dict(items)). Two regex forms are defined in checks/redundancy/misc.py. Garner's Modern American Usage attribution and URL http://bit.ly/1T4alrY are retained under the user-authorized package BSD-3-Clause project policy basis. Case purpose: Checks Unicode coordinates, punctuation boundaries, and case-insensitive match.",
+      "input_mode": "stdin",
+      "stdin_base64": "w6nwn5mC4oCUQURFUVVBVEUgRU5PVUdI4oCU5Lit5paH",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7Imdhcm5lciI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_misc_garner_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "redundancy_garner_no_hit",
+      "capability_id": "rule.redundancy.misc.garner",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c. The 87 simple map keys are derived from checks/redundancy/garner (88 source lines; the 'potable drinking water,potable water' row is duplicated and collapses when upstream builds dict(items)). Two regex forms are defined in checks/redundancy/misc.py. Garner's Modern American Usage attribution and URL http://bit.ly/1T4alrY are retained under the user-authorized package BSD-3-Clause project policy basis. Case purpose: Unrelated prose produces no Garner redundancy finding.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlIHRlYW0gZGVsaXZlcmVkIHRoZSByZXBvcnQgYWZ0ZXIgbHVuY2gu",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7Imdhcm5lciI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_misc_garner_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "redundancy_garner_default_enabled",
+      "capability_id": "rule.redundancy.misc.garner",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c. The 87 simple map keys are derived from checks/redundancy/garner (88 source lines; the 'potable drinking water,potable water' row is duplicated and collapses when upstream builds dict(items)). Two regex forms are defined in checks/redundancy/misc.py. Garner's Modern American Usage attribution and URL http://bit.ly/1T4alrY are retained under the user-authorized package BSD-3-Clause project policy basis. Case purpose: Confirms default configuration enables the Garner checks and includes both regex rules.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlIGFkZXF1YXRlIGVub3VnaCBldmlkZW5jZSBsZWQgdG8gYSBnZW5lcmFsIGNvbnNlbnN1cyBvZiBvcGluaW9uOyB0aGV5IGFzc29jaWF0ZSB0b2dldGhlciBpbiBncm91cHMu",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "redundancy_after_the_deadline_all_361_source_rows",
+      "capability_id": "rule.redundancy.misc.after_the_deadline",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/redundancy/misc.py registers three PreferredFormsSimple batches with shared check path redundancy.misc.after_the_deadline, split at BATCH_COUNT=150 (150, 150, 61) from checks/redundancy/after-the-deadline (361 source rows). No source attribution or origin metadata for this data list is present in the pinned file/module; the repository rights audit classifies it as unknown provenance. The user-authorized package BSD-3-Clause basis is a project policy basis only, with separate review caveat. Expected outputs come from live pinned Python. Case purpose: Exercises all 361 source rows in order to cover all three upstream batches.",
+      "input_mode": "stdin",
+      "stdin_base64": "Ym8gc3RhZmY7IGNoYWxsYWggYnJlYWQ7IGhhbGxhaCBicmVhZDsgaSBteXNlbGY7IGkgcGVyc29uYWxseTsgbW91bnQgZnVqaXlhbWE7IG1pbGt5IHdheSBnYWxheHk7IHJpbyBncmFuZGUgcml2ZXI7IG9sZCBhZGFnZTsgYWRkIGEgZnVydGhlcjsgYWRkIGFuIGFkZGl0aW9uYWw7IGFkdmFuY2UgZm9yd2FyZDsgYWx0ZXJuYXRpdmUgY2hvaWNlOyBhbWFyZXR0byBhbG1vbmQ7IGNvbXBsZXRlbHkgYW5uaWhpbGF0ZTsgYW5udWFsIGFubml2ZXJzYXJ5OyB1bm5hbWVkIGFub255bW91czsgZXF1YWxseSBhczsgYXNjZW5kIHVwOyBhc2sgdGhlIHF1ZXN0aW9uOyBhc3NlbWJsZSB0b2dldGhlcjsgYXQgdGhlIHByZXNlbnQgdGltZSB0aGU7IGF0IHRoaXMgcG9pbnQgaW4gdGltZTsgYXR0YWNoIHRvZ2V0aGVyOyBhdXR1bW4gc2Vhc29uOyBiYWxkLWhlYWRlZDsgYmFsc2Egd29vZDsgcGVyc29uYWwgYmVsb25naW5nczsgZGVzaXJhYmxlIGJlbmVmaXRzOyBiZW50byBib3g7IGJlc3QgZXZlcjsgdGlueSBiaXQ7IGJsZW5kIHRvZ2V0aGVyOyBjb21tb24gYm9uZDsgYWRkZWQgYm9udXM7IGV4dHJhIGJvbnVzOyBib3VxdWV0IG9mIGZsb3dlcnM7IG1ham9yIGJyZWFrdGhyb3VnaDsgbmV3IGJyaWRlOyBicmllZiBpbiBkdXJhdGlvbjsgYnJ1aW4gYmVhcjsgYnVybmluZyBob3Q7IGNhY29waG9ueSBvZiBzb3VuZDsgYnJpZWYgY2FtZW87IGNhbWVvIGFwcGVhcmFuY2U7IGNhbmNlbCBvdXQ7IGNhc2ggbW9uZXk7IGNoYWkgdGVhOyByYW5kb20gY2hhbmNlOyBwZXJzb25hbCBjaGFybTsgY2lyY2xlIGFyb3VuZDsgcm91bmQgY2lyY2xlOyBjaXJjdWxhdGUgYXJvdW5kOyBjbGFzc2lmeSBpbnRvIGdyb3VwczsgZmVsbG93IGNsYXNzbWF0ZXM7IG9sZCBjbGljaGU7IG92ZXJ1c2VkIGNsaWNoZTsgY2xpbWIgdXA7IHRpbWUgY2xvY2s7IGNvbGxhYm9yYXRlIHRvZ2V0aGVyOyBqb2ludCBjb2xsYWJvcmF0aW9uOyBmZWxsb3cgY29sbGVhZ3VlOyBjb21iaW5lIHRvZ2V0aGVyOyBjb21tdXRlIGJhY2sgYW5kIGZvcnRoOyBjb21wZXRlIHdpdGggZWFjaCBvdGhlcjsgY29tcHJpc2Ugb2Y7IGNvbXByaXNlcyBvZjsgZmlyc3QgY29uY2VpdmVkOyBmaW5hbCBjb25jbHVzaW9uOyBjb25mZXIgdG9nZXRoZXI7IGRpcmVjdCBjb25mcm9udGF0aW9uOyBpbiBhIGNvbmZ1c2VkIHN0YXRlOyBpbiBhIHN0YXRlIG9mIGNvbmZ1c2lvbjsgY29ubmVjdCB0b2dldGhlcjsgY29ubmVjdCB1cDsgY29uc2Vuc3VzIG9mIG9waW5pb247IGdlbmVyYWwgY29uc2Vuc3VzOyBjb25zdWx0IHdpdGg7IG9yYWwgY29udmVyc2F0aW9uOyBjb29sIGRvd247IGNvb3BlcmF0ZSB0b2dldGhlcjsgbXV0dWFsIGNvb3BlcmF0aW9uOyBkdXBsaWNhdGUgY29weTsgaW5uZXIgY29yZTsgY29zdCB0aGUgc3VtIG9mOyBjb3VsZCBwb3NzaWJseTsgbW9uZXktc2F2aW5nIGNvdXBvbjsgb3JpZ2luYWxseSBjcmVhdGVkOyBjcmlzaXMgc2l0dWF0aW9uOyBjcm91Y2ggZG93bjsgbm93IGN1cnJlbnRseTsgb2xkIGN1c3RvbTsgdXN1YWwgY3VzdG9tOyBzZXJpb3VzIGRhbmdlcjsgZGF0ZXMgYmFjazsgZGVmaW5pdGUgZGVjaXNpb247IGRlcHJlY2lhdGUgaW4gdmFsdWU7IGRlc2NlbmQgZG93bjsgdG90YWxseSBkZXN0cm95OyBjb21wbGV0ZWx5IGRlc3Ryb3llZDsgdG90YWwgZGVzdHJ1Y3Rpb247IHNwZWNpZmljIGRldGFpbHM7IGRpZmZpY3VsdCBkaWxlbW1hOyBkaXNhcHBlYXIgZnJvbSBzaWdodDsgb3JpZ2luYWxseSBkaXNjb3ZlcmVkOyBkaXZlIGRvd247IG92ZXIgYW5kIGRvbmUgd2l0aDsgaWxsdXN0cmF0ZWQgZHJhd2luZzsgZHJvcCBkb3duOyBzYW5kIGR1bmU7IGR1cmluZyB0aGUgY291cnNlIG9mOyBkd2luZGxlIGRvd247IGR3aW5kbGVkIGRvd247IGVhY2ggYW5kIGV2ZXJ5OyBlYXJsaWVyIGluIHRpbWU7IGNvbXBsZXRlbHkgZWxpbWluYXRlOyBlbGltaW5hdGUgYWx0b2dldGhlcjsgZW50aXJlbHkgZWxpbWluYXRlOyBnbG93aW5nIGVtYmVyOyBidXJuaW5nIGVtYmVyczsgZW1lcmdlbmN5IHNpdHVhdGlvbjsgdW5leHBlY3RlZCBlbWVyZ2VuY3k7IGVtcHR5IG91dDsgZW5jbG9zZWQgaGVyZWluOyBmaW5hbCBlbmQ7IGNvbXBsZXRlbHkgZW5ndWxmZWQ7IGVudGVyIGluOyBlbnRlciBpbnRvOyBlcXVhbCB0byBvbmUgYW5vdGhlcjsgZXJhZGljYXRlIGNvbXBsZXRlbHk7IGFic29sdXRlbHkgZXNzZW50aWFsOyBlc3RpbWF0ZWQgYXQgYWJvdXQ7IGVzdGltYXRlZCBhdCBhcHByb3hpbWF0ZWx5OyBlc3RpbWF0ZWQgYXQgYXJvdW5kOyBhbmQgZXRjLjsgZXZvbHZlIG92ZXIgdGltZTsgb3ZlciBleGFnZ2VyYXRlOyBleGl0ZWQgZnJvbTsgYWN0dWFsIGV4cGVyaWVuY2U7IHBhc3QgZXhwZXJpZW5jZTsga25vd2xlZGdlYWJsZSBleHBlcnRzOyBleHRyYWRpdGUgYmFjazsgZmFjZSB1cCB0byB0aGUgY29uc2VxdWVuY2VzOyBmYWNlIHVwIHRvIHRoZSBmYWN0OyBmYWNlIHVwIHRvIHRoZSBjaGFsbGVuZ2U7IGZhY2UgdXAgdG8gdGhlIHByb2JsZW07IGZhY2lsaXRhdGUgZWFzaWVyOyBlc3RhYmxpc2hlZCBmYWN0OyBhY3R1YWwgZmFjdHM7IGhhcmQgZmFjdHM7IHRydWUgZmFjdHM7IHBhc3NpbmcgZmFkOyBmYWxsIGRvd247IGZhbGwgc2Vhc29uOyBtYWpvciBmZWF0OyBmZWVsIGluc2lkZTsgaW5uZXIgZmVlbGluZ3M7IGZldyBpbiBudW1iZXI7IGNvbXBsZXRlbHkgZmlsbGVkOyBmaWxsZWQgdG8gY2FwYWNpdHk7IGZpcnN0IG9mIGFsbDsgZmlyc3QgdGltZSBldmVyOyBjbG9zZWQgZmlzdDsgZmx5IHRocm91Z2ggdGhlIGFpcjsgZm9jdXMgaW47IG1haW4gZm9jdXM7IGZvbGxvdyBhZnRlcjsgYXMgZm9yIGV4YW1wbGU7IGZvcmV2ZXIgYW5kIGV2ZXI7IGZvciBmcmVlOyBwZXJzb25hbCBmcmllbmQ7IHBlcnNvbmFsIGZyaWVuZHNoaXA7IGZ1bGwgdG8gY2FwYWNpdHk7IGJhc2ljIGZ1bmRhbWVudGFsczsgZnVzZSB0b2dldGhlcjsgZ2F0aGVyIHRvZ2V0aGVyOyBnYXRoZXIgdXA7IGdldCB1cCBvbiBoaXMgZmVldDsgZ2V0IHVwIG9uIHlvdXIgZmVldDsgZnJlZSBnaWZ0OyBmcmVlIGdpZnRzOyB1bHRpbWF0ZSBnb2FsOyBncm93IGluIHNpemU7IGFic29sdXRlIGd1YXJhbnRlZTsgYXJtZWQgZ3VubWFuOyBhcm1lZCBndW5tZW47IG5hdGl2ZSBoYWJpdGF0OyBoYWQgZG9uZSBwcmV2aW91c2x5OyB0d28gZXF1YWwgaGFsdmVzOyBzYWZlIGhhdmVuOyBoZWF0IHVwOyBwYXN0IGhpc3Rvcnk7IGhvaXN0IHVwOyBlbXB0eSBob2xlOyBoZWFkIGhvbmNobzsgZnJvemVuIGljZTsgcGVyZmVjdCBpZGVhbDsgc2FtZSBpZGVudGljYWw7IHBvc2l0aXZlIGlkZW50aWZpY2F0aW9uOyBmb3JlaWduIGltcG9ydHM7IHN1ZGRlbiBpbXB1bHNlOyBpbiBhY3R1YWwgZmFjdDsgb3V0c2lkZSBpbiB0aGUgeWFyZDsgYWxsIGluY2x1c2l2ZTsgaW5jcmVkaWJsZSB0byBiZWxpZXZlOyBwcmVzZW50IGluY3VtYmVudDsgcHJpdmF0ZSBpbmR1c3RyeTsgaGFybWZ1bCBpbmp1cmllczsgbmV3IGlubm92YXRpb247IGlubm92YXRpdmUgbmV3OyBuZXcgaW5ub3ZhdGl2ZTsgbmF0dXJhbCBpbnN0aW5jdDsgbmF0dXJhbGx5IGluc3RpbmN0OyBpbnRlZ3JhdGUgdG9nZXRoZXI7IGludGVncmF0ZSB3aXRoIGVhY2ggb3RoZXI7IGludGVyZGVwZW5kZW50IG9uIGVhY2ggb3RoZXI7IG11dHVhbGx5IGludGVyZGVwZW5kZW50OyBpbnRyb2R1Y2VkIGZvciB0aGUgZmlyc3QgdGltZTsgbmV3IGludmVudGlvbjsga25lZWwgZG93bjsga25vdHMgcGVyIGhvdXI7IGxpZnQgdXA7IHN0aWxsIGxpbmdlcnM7IGxvb2sgYWhlYWQgdG8gdGhlIGZ1dHVyZTsgdGhyZWUtd2F5IGxvdmUgdHJpYW5nbGU7IGNvbnN0YW50bHkgbWFpbnRhaW5lZDsgbWFudWFsbHkgYnkgaGFuZDsgYm9hdCBtYXJpbmE7IG1heSBwb3NzaWJseTsgbWVldCB0b2dldGhlcjsgbWVldCB3aXRoIGVhY2ggb3RoZXI7IHBhc3QgbWVtb3JpZXM7IG1lcmdlIHRvZ2V0aGVyOyBtZXJnZWQgdG9nZXRoZXI7IG1lc2hlZCB0b2dldGhlcjsgdHdlbHZlIG1pZG5pZ2h0OyBtaWdyYWluZSBoZWFkYWNoZTsgbWluZXN0cm9uZSBzb3VwOyBtaXggdG9nZXRoZXI7IGJyaWVmIG1vbWVudDsgbW9tZW50IGluIHRpbWU7IGNvbXBsZXRlIG1vbm9wb2x5OyB3YWxsIG11cmFsOyBtdXR1YWwgcmVzcGVjdCBmb3IgZWFjaCBvdGhlcjsgbXV0dWFsbHkgZGVwZW5kZW50IG9uIGVhY2ggb3RoZXI7IHVuc29sdmVkIG15c3Rlcnk7IG5hcGUgb2YgaGVyIG5lY2s7IGFic29sdXRlbHkgbmVjZXNzYXJ5OyBuZXZlciBhdCBhbnkgdGltZTsgMTIgbm9vbjsgMTIgbydjbG9jayBub29uOyBoaWdoIG5vb247IHR3ZWx2ZSBub29uOyBub3N0YWxnaWEgZm9yIHRoZSBwYXN0OyBudW1iZXIgb2YgZGlmZmVyZW50OyBleHBvc2VkIG9wZW5pbmc7IG15IHBlcnNvbmFsIG9waW5pb247IGV4YWN0IG9wcG9zaXRlczsgcG9sYXIgb3Bwb3NpdGVzOyBleGFjdCBvcHBvc2l0ZTsgcG9sYXIgb3Bwb3NpdGU7IG9yYml0cyBhcm91bmQ7IGZpbmFsIG91dGNvbWU7IHVuaXZlcnNhbCBwYW5hY2VhOyBub3cgcGVuZGluZzsgcGVuZXRyYXRlIHRocm91Z2g7IHN0aWxsIHBlcnNpc3RzOyBvbGQgcGlvbmVlcjsgcGxhbiBhaGVhZDsgcGxhbiBpbiBhZHZhbmNlOyBwcm9wb3NlZCBwbGFuOyBhZHZhbmNlIHBsYW5uaW5nOyBmb3J3YXJkIHBsYW5uaW5nOyBmdXR1cmUgcGxhbnM7IGZ1dHVyZSBwbGFuOyBwb2ludCBpbiB0aW1lOyBzaGFycCBwb2ludDsgcG9zdHBvbmUgdW50aWwgbGF0ZXI7IHBvdXJpbmcgZG93biByYWluOyBhZHZhbmNlIHByZXZpZXc7IHByZXZpb3VzbHkgbGlzdGVkIGFib3ZlOyBwcm9iZWQgaW50bzsgcHJvY2VlZCBhaGVhZDsgYXJ0aWZpY2lhbCBwcm9zdGhlc2lzOyBvbGQgcHJvdmVyYjsgcHV0IG9mZiB1bnRpbCBsYXRlcjsgcmUtZWxlY3QgZm9yIGFub3RoZXIgdGVybTsgcmVhc29uIGlzIGJlY2F1c2U7IHJlY3VyIGFnYWluOyBmdXR1cmUgcmVjdXJyZW5jZTsgcmVmZXIgYmFjazsgcmVmbGVjdCBiYWNrOyBjb250aW51ZSB0byByZW1haW47IHN0aWxsIHJlbWFpbnM7IGV4YWN0IHJlcGxpY2E7IHJlcGx5IGJhY2s7IGFkdmFuY2UgcmVzZXJ2YXRpb25zOyByZXRyZWF0IGJhY2s7IHJldmVydCBiYWNrOyByb3VuZCBpbiBzaGFwZTsgcm91Z2ggcnVsZSBvZiB0aHVtYjsgdW5jb25maXJtZWQgcnVtb3I7IHJ1c3RpYyBjb3VudHJ5OyBleGFjdCBzYW1lOyBwcmVjaXNlIHNhbWU7IHNhbWUgZXhhY3Q7IHNhZmUgc2FuY3R1YXJ5OyBmdWxsIHNhdGlzZmFjdGlvbjsgc2NydXRpbml6ZSBpbiBkZXRhaWw7IGNhcmVmdWwgc2NydXRpbnk7IGNsb3NlIHNjcnV0aW55OyBzZWNyZXQgdGhhdCBjYW5ub3QgYmUgdG9sZDsgc2VlayB0byBmaW5kOyBzZXBhcmF0ZWQgYXBhcnQgZnJvbSBlYWNoIG90aGVyOyBzaGFyZSB0b2dldGhlcjsgc2hpbnkgaW4gYXBwZWFyYW5jZTsgdHJ1bHkgc2luY2VyZTsgc2luayBkb3duOyBza2lwcGVkIG92ZXI7IHNvZnQgaW4gdGV4dHVyZTsgc29mdCB0byB0aGUgdG91Y2g7IHNvbGUgb2YgdGhlIGZvb3Q7IHNvbWUgdGltZSB0byBjb21lOyBzbWFsbCBzcGVjazsgcmF0ZSBvZiBzcGVlZDsgc3BlbGwgb3V0IGluIGRldGFpbDsgc3Bpa2VkIHVwd2FyZDsgc3Bpa2VkIHVwd2FyZHM7IHNwcmluZyBzZWFzb247IGFub255bW91cyBzdHJhbmdlcjsgbGl2ZSBzdHVkaW8gYXVkaWVuY2U7IHVuZGVyZ3JvdW5kIHN1YndheTsgc3VmZmljaWVudCBlbm91Z2g7IHN1bW1lciBzZWFzb247IGFic29sdXRlbHkgc3VyZTsgdW5leHBlY3RlZCBzdXJwcmlzZTsgY29tcGxldGVseSBzdXJyb3VuZDsgc3Vycm91bmRlZCBvbiBhbGwgc2lkZXM7IHRhbGwgaW4gaGVpZ2h0OyB0YWxsIGluIHN0YXR1cmU7IG1lbnRhbCB0ZWxlcGF0aHk7IHRlbiBpbiBudW1iZXI7IHRoZXNlIG9uZXM7IHRob3NlIG9uZXM7IG9wZW4gdHJlbmNoOyBob25lc3QgdHJ1dGg7IGZyb3plbiB0dW5kcmE7IGZpbmFsIHVsdGltYXR1bTsgdW5kZXJncmFkdWF0ZSBzdHVkZW50OyB2YWNpbGxhdGUgYmFjayBhbmQgZm9ydGg7IGZvcm1lciB2ZXRlcmFuOyB2aXNpYmxlIHRvIHRoZSBleWU7IHdhcm4gaW4gYWR2YW5jZTsgYWR2YW5jZSB3YXJuaW5nOyBob3Qgd2F0ZXIgaGVhdGVyOyBpbiB3aGljaCB3ZSBsaXZlIGluOyB3aW50ZXIgc2Vhc29uOyBsaXZlIHdpdG5lc3M7IHlha2l0b3JpIGNoaWNrZW47IHllcmJhIG1hdGUgdGVhOyBhZmZpcm1hdGl2ZSB5ZXM=",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7ImFmdGVyX3RoZV9kZWFkbGluZSI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_after_the_deadline_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "redundancy_after_the_deadline_garner_dependency_terms",
+      "capability_id": "rule.redundancy.misc.after_the_deadline",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/redundancy/misc.py registers three PreferredFormsSimple batches with shared check path redundancy.misc.after_the_deadline, split at BATCH_COUNT=150 (150, 150, 61) from checks/redundancy/after-the-deadline (361 source rows). No source attribution or origin metadata for this data list is present in the pinned file/module; the repository rights audit classifies it as unknown provenance. The user-authorized package BSD-3-Clause basis is a project policy basis only, with separate review caveat. Expected outputs come from live pinned Python. Case purpose: Isolates the two pinned After the Deadline phrases `general consensus` and `consensus of opinion` that are extra findings in the preserved #138 default fixture; unrelated Garner-only terms must not be reported.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlIGFkZXF1YXRlIGVub3VnaCBldmlkZW5jZSBsZWQgdG8gYSBnZW5lcmFsIGNvbnNlbnN1cyBvZiBvcGluaW9uOyB0aGV5IGFzc29jaWF0ZSB0b2dldGhlciBpbiBncm91cHMu",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7ImFmdGVyX3RoZV9kZWFkbGluZSI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_after_the_deadline_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "redundancy_after_the_deadline_garner_consensus_minimal",
+      "capability_id": "rule.redundancy.misc.after_the_deadline",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/redundancy/misc.py registers three PreferredFormsSimple batches with shared check path redundancy.misc.after_the_deadline, split at BATCH_COUNT=150 (150, 150, 61) from checks/redundancy/after-the-deadline (361 source rows). No source attribution or origin metadata for this data list is present in the pinned file/module; the repository rights audit classifies it as unknown provenance. The user-authorized package BSD-3-Clause basis is a project policy basis only, with separate review caveat. Expected outputs come from live pinned Python. Case purpose: Directly confirms each shared consensus phrase maps to consensus, in source text order.",
+      "input_mode": "stdin",
+      "stdin_base64": "Z2VuZXJhbCBjb25zZW5zdXM7IGNvbnNlbnN1cyBvZiBvcGluaW9u",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7ImFmdGVyX3RoZV9kZWFkbGluZSI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_after_the_deadline_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "redundancy_after_the_deadline_case_and_boundaries",
+      "capability_id": "rule.redundancy.misc.after_the_deadline",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/redundancy/misc.py registers three PreferredFormsSimple batches with shared check path redundancy.misc.after_the_deadline, split at BATCH_COUNT=150 (150, 150, 61) from checks/redundancy/after-the-deadline (361 source rows). No source attribution or origin metadata for this data list is present in the pinned file/module; the repository rights audit classifies it as unknown provenance. The user-authorized package BSD-3-Clause basis is a project policy basis only, with separate review caveat. Expected outputs come from live pinned Python. Case purpose: Checks case-insensitive matching and rejects partial word-boundary forms.",
+      "input_mode": "stdin",
+      "stdin_base64": "T2xkIGFkYWdlOyBPTEQgQURBR0U7IG9sZCBhZGFnZXg7IHhvbGQgYWRhZ2U=",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7ImFmdGVyX3RoZV9kZWFkbGluZSI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_after_the_deadline_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "redundancy_after_the_deadline_duplicate_occurrence_order",
+      "capability_id": "rule.redundancy.misc.after_the_deadline",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/redundancy/misc.py registers three PreferredFormsSimple batches with shared check path redundancy.misc.after_the_deadline, split at BATCH_COUNT=150 (150, 150, 61) from checks/redundancy/after-the-deadline (361 source rows). No source attribution or origin metadata for this data list is present in the pinned file/module; the repository rights audit classifies it as unknown provenance. The user-authorized package BSD-3-Clause basis is a project policy basis only, with separate review caveat. Expected outputs come from live pinned Python. Case purpose: Checks repeated occurrences and stable source-order diagnostics; source list itself has no duplicate rows.",
+      "input_mode": "stdin",
+      "stdin_base64": "Z2VuZXJhbCBjb25zZW5zdXM7IG9sZCBhZGFnZTsgY29uc2Vuc3VzIG9mIG9waW5pb247IGdlbmVyYWwgY29uc2Vuc3Vz",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7ImFmdGVyX3RoZV9kZWFkbGluZSI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_after_the_deadline_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "redundancy_after_the_deadline_quote_suppression",
+      "capability_id": "rule.redundancy.misc.after_the_deadline",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/redundancy/misc.py registers three PreferredFormsSimple batches with shared check path redundancy.misc.after_the_deadline, split at BATCH_COUNT=150 (150, 150, 61) from checks/redundancy/after-the-deadline (361 source rows). No source attribution or origin metadata for this data list is present in the pinned file/module; the repository rights audit classifies it as unknown provenance. The user-authorized package BSD-3-Clause basis is a project policy basis only, with separate review caveat. Expected outputs come from live pinned Python. Case purpose: Quoted occurrence is suppressed while the unquoted match remains.",
+      "input_mode": "stdin",
+      "stdin_base64": "4oCcb2xkIGFkYWdl4oCdOyBvbGQgYWRhZ2U=",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7ImFmdGVyX3RoZV9kZWFkbGluZSI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_after_the_deadline_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "redundancy_after_the_deadline_unicode_positions",
+      "capability_id": "rule.redundancy.misc.after_the_deadline",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/redundancy/misc.py registers three PreferredFormsSimple batches with shared check path redundancy.misc.after_the_deadline, split at BATCH_COUNT=150 (150, 150, 61) from checks/redundancy/after-the-deadline (361 source rows). No source attribution or origin metadata for this data list is present in the pinned file/module; the repository rights audit classifies it as unknown provenance. The user-authorized package BSD-3-Clause basis is a project policy basis only, with separate review caveat. Expected outputs come from live pinned Python. Case purpose: Checks Unicode positions, punctuation boundaries, and case.",
+      "input_mode": "stdin",
+      "stdin_base64": "w6nwn5mC4oCUT0xEIEFEQUdF4oCU5Lit5paH",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7ImFmdGVyX3RoZV9kZWFkbGluZSI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_after_the_deadline_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "redundancy_after_the_deadline_no_hit",
+      "capability_id": "rule.redundancy.misc.after_the_deadline",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/redundancy/misc.py registers three PreferredFormsSimple batches with shared check path redundancy.misc.after_the_deadline, split at BATCH_COUNT=150 (150, 150, 61) from checks/redundancy/after-the-deadline (361 source rows). No source attribution or origin metadata for this data list is present in the pinned file/module; the repository rights audit classifies it as unknown provenance. The user-authorized package BSD-3-Clause basis is a project policy basis only, with separate review caveat. Expected outputs come from live pinned Python. Case purpose: Unrelated prose produces no After the Deadline finding.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlIHRlYW0gZGVsaXZlcmVkIGEgcmVwb3J0IGJlZm9yZSBsdW5jaC4=",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsicmVkdW5kYW5jeSI6eyJtaXNjIjp7ImFmdGVyX3RoZV9kZWFkbGluZSI6dHJ1ZX19fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "redundancy_after_the_deadline_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "redundancy_after_the_deadline_default_enabled",
+      "capability_id": "rule.redundancy.misc.after_the_deadline",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/redundancy/misc.py registers three PreferredFormsSimple batches with shared check path redundancy.misc.after_the_deadline, split at BATCH_COUNT=150 (150, 150, 61) from checks/redundancy/after-the-deadline (361 source rows). No source attribution or origin metadata for this data list is present in the pinned file/module; the repository rights audit classifies it as unknown provenance. The user-authorized package BSD-3-Clause basis is a project policy basis only, with separate review caveat. Expected outputs come from live pinned Python. Case purpose: Confirms this check is enabled in the default configuration.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlIGdlbmVyYWwgY29uc2Vuc3VzIHdhcyByZWNvcmRlZCwgYWxvbmcgd2l0aCB0aGUgb2xkIGFkYWdlLg==",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

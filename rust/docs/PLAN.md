@@ -2,7 +2,7 @@
 
 ## Latest cumulative gate
 
-The latest cumulative gate is historical: it passed 1324/1324 accepted cases across 136 capabilities, but predates `rule.misc.phrasal_adjectives.examples`. Current accepted coverage is 1332/1343 manifest cases across 137 capabilities. Report: [`../artifacts/strict-gate-five-rules-checkpoint-20261109.json`](../artifacts/strict-gate-five-rules-checkpoint-20261109.json), run `20261109T164242161665Z-5e3d94ef`. Schedule another gate after 5–10 additional accepted capabilities or before release/shared infrastructure changes. See [`status.json`](../status.json) and [`status-history.jsonl`](../status-history.jsonl).
+The latest cumulative gate is historical: it passed 1324/1324 accepted cases across 136 capabilities, but predates `rule.redundancy.misc.garner` and `rule.redundancy.misc.after_the_deadline`. Current accepted coverage is 1350/1361 manifest cases across 139 capabilities. Report: [`../artifacts/strict-gate-five-rules-checkpoint-20261109.json`](../artifacts/strict-gate-five-rules-checkpoint-20261109.json), run `20261109T164242161665Z-5e3d94ef`. Schedule another gate after capability #141 (five additional accepted capabilities) or before release/shared infrastructure changes. See [`status.json`](../status.json) and [`status-history.jsonl`](../status-history.jsonl).
 
 At that checkpoint the gate took 1503.553135s: live comparison 1292.626111s, Rust checks/build 207.835102s, oracle integrity 2.422938s, and 23 comparator self-tests in 0.141647s. Its attestation is [`../artifacts/20261109T163914412361Z-build.attestation.json`](../artifacts/20261109T163914412361Z-build.attestation.json).
 
@@ -36,7 +36,15 @@ Execution cadence and evidence-reuse rules are maintained in [`MIGRATION.md`](..
 
 `cli.unrecognized_arguments` matches pinned argparse for 12 live vectors, including subcommand-specific options, unknown short/attached/multiple options, help precedence, and tokens after `--`. A 6-case RED exposed exact stderr/status differences; 11 focused Rust tests, owner and independent live comparisons (12/12 each), and the immediate shared-CLI gate passed. The option-value behavior is now covered by `cli.missing_option_value_before_option` and `cli.missing_option_value_at_argv_end`; other value-taking option contexts remain unverified. Evidence: [`../artifacts/cli-unrecognized-args-red-summary.md`](../artifacts/cli-unrecognized-args-red-summary.md), [`../artifacts/independent-cli-unrecognized-args-final-20261108.json`](../artifacts/independent-cli-unrecognized-args-final-20261108.json), [`../artifacts/strict-gate-unknown-args-final-20261108.json`](../artifacts/strict-gate-unknown-args-final-20261108.json).
 
-The pinned inventory contains 106 unique check paths. Ninety-seven rule paths are accepted and 9 remain unimplemented; 41 bounded CLI capabilities are recorded. Current accepted production coverage is 1332/1343 manifest cases across 137 capabilities. The 1324/1324 gate across 136 capabilities is historical and stale for this case set. Preserve duplicate registrations as separate checks and retain unresolved CLI/config behavior in the ledger.
+The pinned inventory contains 106 unique check paths. Ninety-nine rule paths are accepted and 7 remain unimplemented; 41 bounded CLI capabilities are recorded. Current accepted production coverage is 1350/1361 manifest cases across 139 capabilities. The 1324/1324 gate across 136 capabilities is historical and stale for this case set; schedule the next gate after capability #141 unless release/shared infrastructure changes require it sooner. Preserve duplicate registrations as separate checks and retain unresolved CLI/config behavior in the ledger.
+
+### `rule.redundancy.misc.garner`
+
+Nine focused owner and independent cases pass after earlier reports showed transient oracle timeouts and a dependency mismatch before `after_the_deadline` was implemented. The two focused retry reports pass, and the consolidated retry left only that dependency mismatch. Final reports after implementing the dependency pass 9/9. Three focused Rust tests, fmt, and 23 comparator self-tests pass. Garner attribution is retained under the user-authorized package-wide BSD-3-Clause policy basis with provenance/conflict caveats. Evidence is in [`status.json`](../status.json).
+
+### `rule.redundancy.misc.after_the_deadline`
+
+Nine focused owner and independent cases pass after a 9/9 RED. Three focused Rust tests, fmt, and comparator self-tests pass. The pinned source provenance is unknown; reuse follows the user's package-wide BSD-3-Clause policy basis with an explicit provenance caveat and retained notices. Evidence is in [`status.json`](../status.json).
 
 ### `rule.misc.phrasal_adjectives.examples`
 

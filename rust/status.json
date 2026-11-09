@@ -554,6 +554,14 @@
     {
       "id": "rule.misc.phrasal_adjectives.examples",
       "status": "independently_verified"
+    },
+    {
+      "id": "rule.redundancy.misc.garner",
+      "status": "independently_verified"
+    },
+    {
+      "id": "rule.redundancy.misc.after_the_deadline",
+      "status": "independently_verified"
     }
   ],
   "inventory": {
@@ -563,8 +571,8 @@
     "default_enabled_entries": 110,
     "default_disabled_entries": 14,
     "artifact": "rust/inventory.json",
-    "accepted_unique_paths": 84,
-    "unimplemented_unique_paths": 22,
+    "accepted_unique_paths": 99,
+    "unimplemented_unique_paths": 7,
     "last_reconciled_utc": "2026-11-07T11:44:35Z"
   },
   "oracle": {
@@ -677,12 +685,12 @@
     }
   },
   "active_ownership": {
-    "current": "rule.misc.phrasal_adjectives.examples has focused owner and independent live acceptance (8/8 each), with the U.S. mapping preserved as the literal string 'None'. Current coverage is 1332 accepted production cases across 137 capabilities, with 97 accepted and 9 unimplemented rule paths. The 1324/1324 cumulative gate across 136 capabilities is historical and stale for this case set; schedule the next gate after 5–10 additional accepted capabilities or before release/shared infrastructure changes. Garner attribution follows the package-wide BSD-3-Clause policy basis with attribution/notices and provenance/conflict caveats.",
+    "current": "rule.redundancy.misc.garner and rule.redundancy.misc.after_the_deadline are accepted with focused owner and independent 9/9 live evidence each. Current coverage is 1350 accepted cases across 139 capabilities, with 99 accepted unique rule paths and 7 unimplemented. Garner attribution is retained; after_the_deadline source provenance remains unknown and must be treated with the recorded caveat. The latest cumulative gate at 1324/1324 across 136 capabilities is historical and stale; next gate after capability #141 unless release/shared infrastructure changes require it sooner.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-    "cumulative_gate": "Historical PASS: 1324/1324 across 136 capabilities; report rust/artifacts/strict-gate-five-rules-checkpoint-20261109.json; run 20261109T164242161665Z-5e3d94ef. Stale for current 1332 accepted cases across 137 capabilities; scope_matches_current_case_set=false."
+    "cumulative_gate": "Historical PASS: 1324/1324 across 136 capabilities; report rust/artifacts/strict-gate-five-rules-checkpoint-20261109.json; run 20261109T164242161665Z-5e3d94ef. Stale for current 1350 accepted cases across 139 capabilities; scope_matches_current_case_set=false. Next gate after capability #141 unless earlier release/shared infrastructure change."
   },
   "unresolved": [
-    "9 unique rule paths remain unimplemented.",
+    "7 unique rule paths remain unimplemented.",
     "Other CLI/config behavior remains unverified, including passwd-home config-present behavior, HOME-absent no-passwd-entry config behavior (confirmed mismatch in cli.config.no_passwd_home; see harness.latest_no_passwd_home_case), other subcommands, HOME-unset platform variation, directory candidates, and traversal/decoding edges.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
     "Directory/non-UTF-8 path error formatting on non-Linux platforms remains unverified.",
@@ -702,6 +710,130 @@
     "The Linux HOME-absent/no-passwd-entry reproducer remains a confirmed mismatch: pinned Python fails during import with an installation-specific traceback while Rust completes the command; it is blocked and excluded from production_capabilities."
   ],
   "capability_states": [
+    {
+      "id": "rule.redundancy.misc.after_the_deadline",
+      "status": "independently_verified",
+      "case_ids": [
+        "redundancy_after_the_deadline_all_361_source_rows",
+        "redundancy_after_the_deadline_garner_dependency_terms",
+        "redundancy_after_the_deadline_garner_consensus_minimal",
+        "redundancy_after_the_deadline_case_and_boundaries",
+        "redundancy_after_the_deadline_duplicate_occurrence_order",
+        "redundancy_after_the_deadline_quote_suppression",
+        "redundancy_after_the_deadline_unicode_positions",
+        "redundancy_after_the_deadline_no_hit",
+        "redundancy_after_the_deadline_default_enabled"
+      ],
+      "upstream_spec": "Pinned Proselint 0.16.0; source list provenance is unknown. Reuse follows the user-authorized package-wide BSD-3-Clause policy basis with attribution/notices and explicit unknown-provenance caveat; conflicts require separate review.",
+      "red": {
+        "status": "MISMATCH",
+        "report": "rust/artifacts/redundancy-after-the-deadline-red-20261109.json",
+        "run_id": "20261109T173946224844Z-8644d819",
+        "cases": 9,
+        "mismatches": 9
+      },
+      "green": {
+        "status": "PASS",
+        "owner_report": "rust/artifacts/redundancy-after-the-deadline-owner-final-20261109.json",
+        "owner_run_id": "20261109T175531987130Z-e8bd0a2e",
+        "owner_cases_passed": 9,
+        "independent_report": "rust/artifacts/independent-redundancy-after-the-deadline-live-final.json",
+        "independent_run_id": "20261109T175714185485Z-ec402421",
+        "independent_cases_passed": 9,
+        "mismatches": 0,
+        "timeouts": 0,
+        "errors": 0,
+        "focused_rust_tests": "3/3 PASS",
+        "fmt": "PASS",
+        "comparator_self_tests": "23/23 PASS",
+        "build_attestation": "rust/artifacts/20261109T175502965300Z-build.attestation.json",
+        "candidate_sha256": "fd961f30ccc87ae6fe2f940556a9db06937faadd23c9d3c1aa5300f7c7c42b58",
+        "source_fingerprint": "f62a9e72bc5aa4764413f9b698b560f6e622e5bdc4701b6f3ec616244bf1d807",
+        "cargo_lock_sha256": "05212984084365b79c499cd3c111ceb71349e05968ff8b21316e6ec64fd76fc1"
+      },
+      "coverage_at_acceptance": {
+        "accepted_cases": 1350,
+        "manifest_cases": 1361,
+        "capabilities": 139,
+        "accepted_rule_paths": 99,
+        "unimplemented_rule_paths": 7
+      },
+      "cumulative_gate": {
+        "status": "historical_PASS_stale_current_scope_not_run",
+        "passed_cases": 1324,
+        "capabilities": 136,
+        "scope_matches_current_case_set": false,
+        "note": "Run cumulative gate after capability #141, unless a release or shared infrastructure change requires it sooner."
+      }
+    },
+    {
+      "id": "rule.redundancy.misc.garner",
+      "status": "independently_verified",
+      "case_ids": [
+        "redundancy_garner_all_88_source_rows",
+        "redundancy_garner_regex_optional_groups",
+        "redundancy_garner_case_and_order",
+        "redundancy_garner_boundaries",
+        "redundancy_garner_duplicate_occurrence_order",
+        "redundancy_garner_quote_suppression",
+        "redundancy_garner_unicode_positions",
+        "redundancy_garner_no_hit",
+        "redundancy_garner_default_enabled"
+      ],
+      "upstream_spec": "Pinned Proselint 0.16.0; Garner attribution. Reuse follows the user-authorized package-wide BSD-3-Clause policy basis with attribution/notices retained and provenance/conflicting-term caveats.",
+      "red": {
+        "status": "MISMATCH",
+        "initial_owner_report": "rust/artifacts/redundancy-misc-garner-owner-final-20261109.json",
+        "initial_owner_run_id": "20261109T173241085516Z-db741f5e",
+        "initial_owner_passed": 7,
+        "initial_owner_mismatches": 2,
+        "transient_oracle_timeouts": 2,
+        "initial_findings": [
+          "raw-prefix mismatch",
+          "after_the_deadline dependency mismatch"
+        ],
+        "unicode_retry_report": "rust/artifacts/redundancy-garner-unicode-retry-20261109.json",
+        "no_hit_retry_report": "rust/artifacts/redundancy-garner-no-hit-retry-20261109.json",
+        "retry_reports": "pass",
+        "consolidated_retry_report": "rust/artifacts/redundancy-misc-garner-owner-final-retry-20261109.json",
+        "consolidated_retry_passed": 8,
+        "consolidated_retry_mismatches": 1,
+        "remaining_mismatch": "dependency behavior before after_the_deadline implementation"
+      },
+      "green": {
+        "status": "PASS",
+        "owner_report": "rust/artifacts/redundancy-misc-garner-post-after-the-deadline-final-20261109.json",
+        "owner_run_id": "20261109T175602708280Z-f8b62b9f",
+        "owner_cases_passed": 9,
+        "independent_report": "rust/artifacts/independent-redundancy-garner-live-final.json",
+        "independent_run_id": "20261109T175745510908Z-2c8cd653",
+        "independent_cases_passed": 9,
+        "mismatches": 0,
+        "timeouts": 0,
+        "errors": 0,
+        "focused_rust_tests": "3/3 PASS",
+        "fmt": "PASS",
+        "comparator_self_tests": "23/23 PASS",
+        "build_attestation": "rust/artifacts/20261109T175502965300Z-build.attestation.json",
+        "candidate_sha256": "fd961f30ccc87ae6fe2f940556a9db06937faadd23c9d3c1aa5300f7c7c42b58",
+        "source_fingerprint": "f62a9e72bc5aa4764413f9b698b560f6e622e5bdc4701b6f3ec616244bf1d807",
+        "cargo_lock_sha256": "05212984084365b79c499cd3c111ceb71349e05968ff8b21316e6ec64fd76fc1"
+      },
+      "coverage_at_acceptance": {
+        "accepted_cases": 1341,
+        "manifest_cases": 1352,
+        "capabilities": 138,
+        "accepted_rule_paths": 98,
+        "unimplemented_rule_paths": 8
+      },
+      "cumulative_gate": {
+        "status": "historical_PASS_stale_current_scope_not_run",
+        "passed_cases": 1324,
+        "capabilities": 136,
+        "scope_matches_current_case_set": false,
+        "note": "Run cumulative gate after capability #141, unless a release or shared infrastructure change requires it sooner."
+      }
+    },
     {
       "id": "rule.misc.phrasal_adjectives.examples",
       "status": "independently_verified",
@@ -11148,15 +11280,15 @@
     },
     "comparator_self_tests": 23,
     "scope_matches_current_case_set": false,
-    "current_accepted_case_count": 1332,
-    "current_production_case_count": 1332,
-    "current_manifest_case_count": 1343,
-    "current_capability_count": 137,
+    "current_accepted_case_count": 1350,
+    "current_production_case_count": 1350,
+    "current_manifest_case_count": 1361,
+    "current_capability_count": 139,
     "current_unaccepted_manifest_case_count": 11,
     "next_gate_due": false,
     "candidate_sha256": "769cadf675d876c62ebae96ce69c18cb84b10061249d8872ffceee455a7e1a4d",
     "build_attestation": "rust/artifacts/20261109T163914412361Z-build.attestation.json",
-    "next_gate_after_capability": 136,
+    "next_gate_after_capability": 141,
     "build_attestation_sha256": "d00c80b9c42ed79eb2a0cdca06a4711e2143305c9b0d659e3ba9e60938c3ac1a",
     "next_gate_after_accepted_capabilities": 5
   },
@@ -11195,7 +11327,7 @@
     },
     "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-itoa-20261109.txt"
   },
-  "next_capability_handoff": "Continue with eligible inventory rules and unresolved CLI/config parity; check provenance and terms and retain attribution/notices. The 1324/1324 gate across 136 capabilities is historical and stale for current coverage (1332 cases, 137 capabilities); schedule another gate after 5–10 additional accepted capabilities or before release/shared infrastructure changes.",
+  "next_capability_handoff": "Continue eligible inventory rules and unresolved CLI/config parity; check provenance and retain attribution/notices. The 1324/1324 gate across 136 capabilities is historical and stale for current 1350 accepted cases across 139 capabilities; schedule the next cumulative gate after capability #141 unless release/shared infrastructure changes require it earlier.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

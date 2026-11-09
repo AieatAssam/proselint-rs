@@ -60,6 +60,17 @@ fn no_config_found_uses_default_enabled_rule() {
 }
 
 #[test]
+fn no_config_found_enables_social_awareness_preferred_forms() {
+    let output = Workspace::new().run(b"Special rights should mean equal rights.");
+    assert_eq!(output.status.code(), Some(1), "stderr: {:?}", output.stderr);
+    assert_eq!(
+        output.stdout,
+        b"<stdin>:1:1: social_awareness.lgbtq.terms: Possibly offensive term. Consider using 'equal rights' instead of 'Special rights'.\n"
+    );
+    assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
+}
+
+#[test]
 fn no_config_found_keeps_clean_input_clean() {
     let output = Workspace::new().run(b"An ordinary sentence.");
     assert_eq!(output.status.code(), Some(0), "stderr: {:?}", output.stderr);

@@ -506,6 +506,10 @@
     {
       "id": "social_awareness.lgbtq.offensive",
       "status": "recorded"
+    },
+    {
+      "id": "social_awareness.lgbtq.terms",
+      "status": "independently_verified"
     }
   ],
   "inventory": {
@@ -629,12 +633,12 @@
     }
   },
   "active_ownership": {
-    "current": "Completed cli.config.per_file_checks coverage at 98 live cases. Focused owner and independent reports pass 98/98, and the fresh cumulative gate passes 1249/1249 accepted cases across 124 capabilities. Rule-data reuse policy remains the user's package-wide BSD-3-Clause policy basis with retained attributions/notices; this is not a legal determination or guarantee of upstream rights. Unknown-provenance paths and conflicting terms require separate review.",
+    "current": "social_awareness.lgbtq.terms has focused owner and independent live acceptance (5/5 each), with its cumulative gate deferred. The preceding cumulative checkpoint remains historical at 1249/1249 cases across 124 capabilities and does not match the current 1258 accepted production cases. Rule-data reuse follows the user's package-wide BSD-3-Clause policy basis with attribution/notices and provenance/conflict caveats.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-    "cumulative_gate": "PASS: 1249/1249 across 124 accepted capabilities; report rust/artifacts/strict-gate-cli-per-file-nested-values-20261109.json; run 20261109T111530499180Z-93a5c89b; source fingerprint 98b88e68345142699776852836c8e50f8443c132eeb723a55948c704c5227c99."
+    "cumulative_gate": "Historical PASS: 1249/1249 across 124 accepted capabilities; report rust/artifacts/strict-gate-cli-per-file-nested-values-20261109.json; run 20261109T111530499180Z-93a5c89b; source fingerprint 98b88e68345142699776852836c8e50f8443c132eeb723a55948c704c5227c99. Stale for the current 1258 accepted cases and 126 capabilities; rerun at the scheduled cumulative checkpoint."
   },
   "unresolved": [
-    "22 unique rule paths remain unimplemented.",
+    "21 unique rule paths remain unimplemented.",
     "Other CLI/config behavior remains unverified, including passwd-home config-present behavior, HOME-absent no-passwd-entry config behavior (confirmed mismatch in cli.config.no_passwd_home; see harness.latest_no_passwd_home_case), other subcommands, HOME-unset platform variation, directory candidates, and traversal/decoding edges.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
     "Directory/non-UTF-8 path error formatting on non-Linux platforms remains unverified.",
@@ -654,6 +658,67 @@
     "The Linux HOME-absent/no-passwd-entry reproducer remains a confirmed mismatch: pinned Python fails during import with an installation-specific traceback while Rust completes the command; it is blocked and excluded from production_capabilities."
   ],
   "capability_states": [
+    {
+      "id": "social_awareness.lgbtq.terms",
+      "status": "independently_verified",
+      "case_ids": [
+        "social_awareness_lgbtq_terms_default_enabled",
+        "social_awareness_lgbtq_terms_all_terms",
+        "social_awareness_lgbtq_terms_controls",
+        "social_awareness_lgbtq_terms_max_errors",
+        "social_awareness_lgbtq_terms_default_dispatch"
+      ],
+      "upstream_spec": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; source data attributed to GLAAD Media Reference Guide, 9th edition. Reuse follows the user-authorized package-wide BSD-3-Clause policy basis with attribution/notices retained; provenance and conflicting-term caveats remain.",
+      "oracle": {
+        "revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "source_tree_sha256": "73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831",
+        "executable_sha256": "b5f88a67377a8f3c32e1bffc41ca96fd8c111b127427459ffb2184e74c99af77"
+      },
+      "red": {
+        "status": "MISMATCH",
+        "report": "rust/artifacts/social-awareness-lgbtq-terms-red.json",
+        "cases": 4,
+        "passes": 0,
+        "mismatches": 4,
+        "note": "A fifth default-dispatch case was added after implementation and exposed one missing default registration; adding the rule to SelectedCheck::all_implemented fixed it."
+      },
+      "green": {
+        "status": "PASS",
+        "owner_report": "rust/artifacts/social-awareness-lgbtq-terms-live-final.json",
+        "owner_run_id": "20261109T125448945019Z-ac81a9f6",
+        "owner_cases_passed": 5,
+        "owner_seconds": 16.976,
+        "independent_report": "rust/artifacts/independent-social-awareness-lgbtq-terms-live-final.json",
+        "independent_run_id": "20261109T125552609637Z-ca493430",
+        "independent_cases_passed": 5,
+        "independent_seconds": 15.923,
+        "mismatches": 0,
+        "timeouts": 0,
+        "errors": 0,
+        "focused_rust_tests": "3/3 PASS",
+        "no_config_cli_tests": "4/4 PASS",
+        "fmt_clippy_build": "PASS",
+        "build_attestation": "rust/artifacts/20261109T125439079638Z-build.attestation.json",
+        "source_fingerprint": "6d41f10d6a133646a236454e6bbb20cf093ca28d84c12ba04db93c99363082c2",
+        "binary_sha256": "7eaeb6f7e8792cbea1ac3d68a4ddb3aab4b7428e83cd343e72838c1f9a0a2723",
+        "cargo_lock_sha256": "05212984084365b79c499cd3c111ceb71349e05968ff8b21316e6ec64fd76fc1"
+      },
+      "coverage": {
+        "accepted_cases": 1258,
+        "manifest_cases": 1269,
+        "capabilities": 126,
+        "accepted_rule_paths": 85,
+        "unimplemented_rule_paths": 21
+      },
+      "cumulative_gate": {
+        "status": "scheduled_not_run",
+        "historical_report": "rust/artifacts/strict-gate-cli-per-file-nested-values-20261109.json",
+        "historical_passed_cases": 1249,
+        "historical_capabilities": 124,
+        "scope_matches_current_case_set": false,
+        "note": "Schedule the cumulative gate now because adding terms to SelectedCheck::all_implemented changed shared CLI default dispatch."
+      }
+    },
     {
       "id": "social_awareness.lgbtq.offensive",
       "status": "recorded",
@@ -10338,9 +10403,9 @@
     },
     "comparator_self_tests": 23,
     "scope_matches_current_case_set": false,
-    "current_accepted_case_count": 1253,
-    "current_production_case_count": 1253,
-    "current_manifest_case_count": 1264
+    "current_accepted_case_count": 1258,
+    "current_production_case_count": 1258,
+    "current_manifest_case_count": 1269
   },
   "rust_dependencies": {
     "status": "current",
@@ -10377,7 +10442,7 @@
     },
     "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-itoa-20261109.txt"
   },
-  "next_capability_handoff": "Inspect and implement social_awareness.lgbtq.terms from the same explicitly GLAAD-attributed source file if it has no unknown/conflicting provenance; retain the BSD-3-Clause project policy basis with attribution/notices, and review unknown/conflicting paths separately. Also continue unresolved CLI/config parity, including the confirmed HOME-absent/no-passwd mismatch.",
+  "next_capability_handoff": "Scout/select the next eligible rule from the unimplemented inventory, checking source provenance and terms before implementation; retain the package-wide BSD-3-Clause policy basis with attribution/notices and review unknown/conflicting provenance separately. Continue unresolved CLI/config parity, including the confirmed HOME-absent/no-passwd mismatch. Run the scheduled cumulative gate for social_awareness.lgbtq.terms because default CLI dispatch changed.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

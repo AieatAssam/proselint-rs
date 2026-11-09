@@ -15,6 +15,7 @@ pub mod month_year_comma;
 pub mod redundancy_ras_syndrome;
 pub mod scare_quotes;
 pub mod social_awareness_lgbtq_offensive;
+pub mod social_awareness_lgbtq_terms;
 pub mod social_nword;
 pub mod spelling_able_atable;
 pub mod spelling_able_ible;

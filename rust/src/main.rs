@@ -25,15 +25,16 @@ use proselint_rs::{
     p_equals_zero_diagnostics, phrasal_adjectives_ly_diagnostics, pretension_diagnostics,
     professions_diagnostics, redundancy_ras_syndrome_diagnostics, scare_quotes_diagnostics,
     skunked_terms_diagnostics, social_awareness_lgbtq_offensive_diagnostics,
-    social_nword_diagnostics, spelling_able_atable_diagnostics, spelling_able_ible_diagnostics,
-    spelling_ally_ly_diagnostics, spelling_ance_ence_diagnostics, spelling_athletes_diagnostics,
-    spelling_ely_ly_diagnostics, spelling_em_im_en_in_diagnostics, spelling_er_or_diagnostics,
-    spelling_in_un_diagnostics, spelling_ve_of_diagnostics, suddenly_diagnostics,
-    typography_copyright_diagnostics, typography_curly_quotes_diagnostics,
-    typography_diacritical_marks_diagnostics, typography_ellipsis_diagnostics,
-    typography_multiplication_diagnostics, typography_sentence_spacing_diagnostics,
-    typography_spacing_diagnostics, typography_trademark_diagnostics, wallace_diagnostics,
-    weasel_words_very_diagnostics, whence_diagnostics,
+    social_awareness_lgbtq_terms_diagnostics, social_nword_diagnostics,
+    spelling_able_atable_diagnostics, spelling_able_ible_diagnostics, spelling_ally_ly_diagnostics,
+    spelling_ance_ence_diagnostics, spelling_athletes_diagnostics, spelling_ely_ly_diagnostics,
+    spelling_em_im_en_in_diagnostics, spelling_er_or_diagnostics, spelling_in_un_diagnostics,
+    spelling_ve_of_diagnostics, suddenly_diagnostics, typography_copyright_diagnostics,
+    typography_curly_quotes_diagnostics, typography_diacritical_marks_diagnostics,
+    typography_ellipsis_diagnostics, typography_multiplication_diagnostics,
+    typography_sentence_spacing_diagnostics, typography_spacing_diagnostics,
+    typography_trademark_diagnostics, wallace_diagnostics, weasel_words_very_diagnostics,
+    whence_diagnostics,
 };
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -2356,7 +2357,7 @@ fn run() -> Result<ExitCode, String> {
             (None, _) | (_, Some(None)) => None,
         };
         let selected_checks = selected_checks.ok_or_else(|| {
-            "this capability supports disabled checks, annotations.misc, archaism, cliches.hell, cliches.misc.write_good, malapropisms, misc.apologizing, misc.but, misc.whence, misc.waxed, misc.illogic, misc.illogic.coin, misc.illogic.collusion, misc.tense_present, mixed_metaphors.bottleneck, mixed_metaphors.misc, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.back_formations, misc.many_a, misc.metadiscourse, misc.narcissism, misc.not_guilty, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, misc.scare_quotes, mondegreens, oxymorons, redundancy.misc.wallace, redundancy.misc.nordquist, redundancy.ras_syndrome, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, typography.symbols.curly_quotes, typography.punctuation.misplaced, typography.punctuation.exclamation, typography.punctuation.hyperbole, typography.punctuation.spacing, typography.diacritical_marks, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, dates_times.am_pm.midnight_noon, dates_times.dates.decade_apostrophes, dates_times.dates.month_of_year, spelling.able_atable, spelling.able_ible, spelling.ally_ly, spelling.ance_ence, spelling.athletes, spelling.ely_ly, spelling.em_im_en_in, spelling.er_or, spelling.in_un, spelling.ve_of, skunked_terms, social_awareness.nword, weasel_words.very, or terms.eponymous_adjectives only".to_owned()
+            "this capability supports disabled checks, annotations.misc, archaism, cliches.hell, cliches.misc.write_good, malapropisms, misc.apologizing, misc.but, misc.whence, misc.waxed, misc.illogic, misc.illogic.coin, misc.illogic.collusion, misc.tense_present, mixed_metaphors.bottleneck, mixed_metaphors.misc, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.back_formations, misc.many_a, misc.metadiscourse, misc.narcissism, misc.not_guilty, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, misc.scare_quotes, mondegreens, oxymorons, redundancy.misc.wallace, redundancy.misc.nordquist, redundancy.ras_syndrome, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, typography.symbols.curly_quotes, typography.punctuation.misplaced, typography.punctuation.exclamation, typography.punctuation.hyperbole, typography.punctuation.spacing, typography.diacritical_marks, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, dates_times.am_pm.midnight_noon, dates_times.dates.decade_apostrophes, dates_times.dates.month_of_year, spelling.able_atable, spelling.able_ible, spelling.ally_ly, spelling.ance_ence, spelling.athletes, spelling.ely_ly, spelling.em_im_en_in, spelling.er_or, spelling.in_un, spelling.ve_of, skunked_terms, social_awareness.nword, social_awareness.lgbtq.offensive, social_awareness.lgbtq.terms, weasel_words.very, or terms.eponymous_adjectives only".to_owned()
         })?;
 
         let mut diagnostics = Vec::new();
@@ -2407,6 +2408,9 @@ fn run() -> Result<ExitCode, String> {
                 SelectedCheck::SocialAwarenessNword => social_nword_diagnostics(content),
                 SelectedCheck::SocialAwarenessLgbtqOffensive => {
                     social_awareness_lgbtq_offensive_diagnostics(content)
+                }
+                SelectedCheck::SocialAwarenessLgbtqTerms => {
+                    social_awareness_lgbtq_terms_diagnostics(content)
                 }
                 SelectedCheck::TypographySymbolsCurlyQuotes => {
                     typography_curly_quotes_diagnostics(content)
@@ -2751,6 +2755,7 @@ enum SelectedCheck {
     SkunkedTerms,
     SocialAwarenessNword,
     SocialAwarenessLgbtqOffensive,
+    SocialAwarenessLgbtqTerms,
     SpellingAbleAtable,
     SpellingAbleIble,
     SpellingAllyLy,
@@ -2841,6 +2846,7 @@ impl SelectedCheck {
             SkunkedTerms,
             SocialAwarenessNword,
             SocialAwarenessLgbtqOffensive,
+            SocialAwarenessLgbtqTerms,
             SpellingAbleAtable,
             SpellingAbleIble,
             SpellingAllyLy,
@@ -2881,6 +2887,9 @@ fn supported_checks(checks: &Value) -> Option<Vec<SelectedCheck>> {
             ["social_awareness", "nword"] => Some(SelectedCheck::SocialAwarenessNword),
             ["social_awareness", "lgbtq", "offensive"] => {
                 Some(SelectedCheck::SocialAwarenessLgbtqOffensive)
+            }
+            ["social_awareness", "lgbtq", "terms"] => {
+                Some(SelectedCheck::SocialAwarenessLgbtqTerms)
             }
             ["misc", "apologizing"] => Some(SelectedCheck::MiscApologizing),
             ["misc", "phrasal_adjectives", "ly"] => Some(SelectedCheck::MiscPhrasalAdjectivesLy),
@@ -3071,6 +3080,7 @@ fn selected_check_path(check: SelectedCheck) -> &'static str {
         SelectedCheck::SkunkedTerms => "skunked_terms",
         SelectedCheck::SocialAwarenessNword => "social_awareness.nword",
         SelectedCheck::SocialAwarenessLgbtqOffensive => "social_awareness.lgbtq.offensive",
+        SelectedCheck::SocialAwarenessLgbtqTerms => "social_awareness.lgbtq.terms",
         SelectedCheck::MiscApologizing => "misc.apologizing",
         SelectedCheck::MiscPhrasalAdjectivesLy => "misc.phrasal_adjectives.ly",
         SelectedCheck::MiscBut => "misc.but",

@@ -40939,6 +40939,164 @@
             "stderr": "bytes",
             "exit_status": "exact"
         }
+    },
+    {
+        "id": "social_awareness_lgbtq_terms_all_mappings",
+        "capability_id": "social_awareness.lgbtq.terms",
+        "provenance": "Pinned Proselint 0.16.0 source proselint/checks/social_awareness/lgbtq.py::check_terms, GLAAD Media Reference Guide, all ten PreferredFormsSimple mappings; GLAAD attribution retained; package BSD-3-Clause. Exercises all ten source mappings and their exact replacement/message formatting.",
+        "input_mode": "stdin",
+        "stdin_base64": "aG9tb3NleHVhbCBtYW47IGhvbW9zZXh1YWwgbWVuOyBob21vc2V4dWFsIHdvbWFuOyBob21vc2V4dWFsIHdvbWVuOyBob21vc2V4dWFsIHBlb3BsZTsgaG9tb3NleHVhbCBjb3VwbGU7IHNleHVhbCBwcmVmZXJlbmNlOyBhZG1pdHRlZCBob21vc2V4dWFsOyBhdm93ZWQgaG9tb3NleHVhbDsgc3BlY2lhbCByaWdodHMu",
+        "files": [
+            {
+                "path": "selected.json",
+                "content_base64": "eyJjaGVja3MiOnsic29jaWFsX2F3YXJlbmVzcyI6eyJsZ2J0cSI6eyJ0ZXJtcyI6dHJ1ZX19fSwibWF4X2Vycm9ycyI6MTAwMH0="
+            }
+        ],
+        "argv": [
+            "check",
+            "--config",
+            "{file:selected.json}",
+            "--output-format",
+            "json"
+        ],
+        "output_format": "json",
+        "expected_oracle_outcome": "findings",
+        "timeout_seconds": 10,
+        "environment": {
+            "locale": "C.UTF-8"
+        },
+        "config_scenario": "explicit_selected_rule",
+        "workspace_mutates": false,
+        "comparison": {
+            "stdout": "json",
+            "stderr": "bytes",
+            "exit_status": "exact"
+        }
+    },
+    {
+        "id": "social_awareness_lgbtq_terms_case_boundary",
+        "capability_id": "social_awareness.lgbtq.terms",
+        "provenance": "Pinned Proselint 0.16.0 source proselint/checks/social_awareness/lgbtq.py::check_terms, GLAAD Media Reference Guide, all ten PreferredFormsSimple mappings; GLAAD attribution retained; package BSD-3-Clause. Checks case-insensitive matching, word boundaries, and raw-text embedding behavior.",
+        "input_mode": "stdin",
+        "stdin_base64": "SE9NT1NFWFVBTCBNQU4sIGhvbW9zZXh1YWwgd29tYW7igJlzLCBhbmQgc2V4dWFsIHByZWZlcmVuY2U7IGJ1dCBwcmVob21vc2V4dWFsIG1hbiBhbmQgaG9tb3NleHVhbCBwZW9wbGV4IGFyZSBlbWJlZGRlZC4=",
+        "files": [
+            {
+                "path": "selected.json",
+                "content_base64": "eyJjaGVja3MiOnsic29jaWFsX2F3YXJlbmVzcyI6eyJsZ2J0cSI6eyJ0ZXJtcyI6dHJ1ZX19fSwibWF4X2Vycm9ycyI6MTAwMH0="
+            }
+        ],
+        "argv": [
+            "check",
+            "--config",
+            "{file:selected.json}",
+            "--output-format",
+            "json"
+        ],
+        "output_format": "json",
+        "expected_oracle_outcome": "findings",
+        "timeout_seconds": 10,
+        "environment": {
+            "locale": "C.UTF-8"
+        },
+        "config_scenario": "explicit_selected_rule",
+        "workspace_mutates": false,
+        "comparison": {
+            "stdout": "json",
+            "stderr": "bytes",
+            "exit_status": "exact"
+        }
+    },
+    {
+        "id": "social_awareness_lgbtq_terms_quotes_unicode",
+        "capability_id": "social_awareness.lgbtq.terms",
+        "provenance": "Pinned Proselint 0.16.0 source proselint/checks/social_awareness/lgbtq.py::check_terms, GLAAD Media Reference Guide, all ten PreferredFormsSimple mappings; GLAAD attribution retained; package BSD-3-Clause. Checks paired quote suppression and Unicode code-point columns.",
+        "input_mode": "stdin",
+        "stdin_base64": "Q2Fmw6kgZmlyc3QuIFRoZSBxdW90ZWQgcGhyYXNlIOKAnHNleHVhbCBwcmVmZXJlbmNl4oCdIGlzIGV4Y2x1ZGVkOyBob21vc2V4dWFsIGNvdXBsZSBpcyBvdXRzaWRlIHF1b3Rlcy4=",
+        "files": [
+            {
+                "path": "selected.json",
+                "content_base64": "eyJjaGVja3MiOnsic29jaWFsX2F3YXJlbmVzcyI6eyJsZ2J0cSI6eyJ0ZXJtcyI6dHJ1ZX19fSwibWF4X2Vycm9ycyI6MTAwMH0="
+            }
+        ],
+        "argv": [
+            "check",
+            "--config",
+            "{file:selected.json}",
+            "--output-format",
+            "json"
+        ],
+        "output_format": "json",
+        "expected_oracle_outcome": "findings",
+        "timeout_seconds": 10,
+        "environment": {
+            "locale": "C.UTF-8"
+        },
+        "config_scenario": "explicit_selected_rule",
+        "workspace_mutates": false,
+        "comparison": {
+            "stdout": "json",
+            "stderr": "bytes",
+            "exit_status": "exact"
+        }
+    },
+    {
+        "id": "social_awareness_lgbtq_terms_max_errors",
+        "capability_id": "social_awareness.lgbtq.terms",
+        "provenance": "Pinned Proselint 0.16.0 source proselint/checks/social_awareness/lgbtq.py::check_terms, GLAAD Media Reference Guide, all ten PreferredFormsSimple mappings; GLAAD attribution retained; package BSD-3-Clause. Checks that max_errors truncates selected-rule findings at two.",
+        "input_mode": "stdin",
+        "stdin_base64": "c3BlY2lhbCByaWdodHM7IHNleHVhbCBwcmVmZXJlbmNlOyBob21vc2V4dWFsIG1hbi4=",
+        "files": [
+            {
+                "path": "selected.json",
+                "content_base64": "eyJjaGVja3MiOnsic29jaWFsX2F3YXJlbmVzcyI6eyJsZ2J0cSI6eyJ0ZXJtcyI6dHJ1ZX19fSwibWF4X2Vycm9ycyI6Mn0="
+            }
+        ],
+        "argv": [
+            "check",
+            "--config",
+            "{file:selected.json}",
+            "--output-format",
+            "json"
+        ],
+        "output_format": "json",
+        "expected_oracle_outcome": "findings",
+        "timeout_seconds": 10,
+        "environment": {
+            "locale": "C.UTF-8"
+        },
+        "config_scenario": "explicit_selected_rule",
+        "workspace_mutates": false,
+        "comparison": {
+            "stdout": "json",
+            "stderr": "bytes",
+            "exit_status": "exact"
+        }
+    },
+    {
+        "id": "social_awareness_lgbtq_terms_default_enabled",
+        "capability_id": "social_awareness.lgbtq.terms",
+        "provenance": "Pinned Proselint 0.16.0 default.json enables social_awareness; check_terms is registered in the default-enabled module. Verifies no-config dispatch through bundled DEFAULT.",
+        "input_mode": "stdin",
+        "stdin_base64": "U3BlY2lhbCByaWdodHMgc2hvdWxkIG1lYW4gZXF1YWwgcmlnaHRzLg==",
+        "files": [],
+        "argv": [
+            "check",
+            "--output-format",
+            "json"
+        ],
+        "output_format": "json",
+        "expected_oracle_outcome": "findings",
+        "timeout_seconds": 10,
+        "environment": {
+            "locale": "C.UTF-8"
+        },
+        "config_scenario": "no_config_default",
+        "workspace_mutates": false,
+        "comparison": {
+            "stdout": "json",
+            "stderr": "bytes",
+            "exit_status": "exact"
+        }
     }
   ]
 }

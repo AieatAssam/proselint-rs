@@ -35605,5 +35605,159 @@
         "normalize_workspace_uri": true
       }
     }
+,
+    {
+      "id": "cli_long_option_abbrev_root_ambiguous_ver",
+      "capability_id": "cli.long_option_abbreviation",
+      "provenance": "Pinned live Python Proselint 0.16.0 argparse root parser: --ver is ambiguous between --verbose and --version; see rust/artifacts/cli-long-option-abbrev-probes-20261109.json.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "--ver"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_long_option_abbrev_check_dem",
+      "capability_id": "cli.long_option_abbreviation",
+      "provenance": "Pinned live Python Proselint 0.16.0 argparse check parser: --dem uniquely abbreviates --demo. Reuses the existing pinned selected-rule demo Compact fixture/config to isolate option parsing.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiZGF0ZXNfdGltZXMiOnsiYW1fcG0iOnsibG93ZXJjYXNlX3BlcmlvZHMiOnRydWV9fX19"
+        }
+      ],
+      "argv": [
+        "check",
+        "--dem",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "compact"
+      ],
+      "output_format": "compact",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "",
+      "config_scenario": "demo_selected_dates_times_am_pm_lowercase_periods"
+    },
+    {
+      "id": "cli_long_option_abbrev_dump_config_def",
+      "capability_id": "cli.long_option_abbreviation",
+      "provenance": "Pinned live Python Proselint 0.16.0 argparse dump-config parser: --def uniquely abbreviates --default; see rust/artifacts/cli-long-option-abbrev-probes-20261109.json.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "dump-config",
+        "--def"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_long_option_abbrev_check_output_format_out",
+      "capability_id": "cli.long_option_abbreviation",
+      "provenance": "Pinned live Python Proselint 0.16.0 argparse check parser: --out uniquely abbreviates --output-format. Uses clean Hello world. input and Full byte output to isolate option parsing.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "input.txt",
+          "content_base64": "SGVsbG8gd29ybGQu"
+        }
+      ],
+      "argv": [
+        "check",
+        "--out",
+        "full",
+        "{file:input.txt}"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_long_option_abbrev_check_help_he",
+      "capability_id": "cli.long_option_abbreviation",
+      "provenance": "Pinned Python Proselint 0.16.0 argparse check parser adds implicit --help; --he uniquely abbreviates it and emits help. Source: rust/.cache/oracle-src/source/proselint/command_line.py.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--he"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    }
+    ,
+    {
+      "id": "cli_long_option_abbrev_global_config_con",
+      "capability_id": "cli.long_option_abbreviation",
+      "provenance": "Pinned live Python Proselint 0.16.0 argparse root parser: --con uniquely abbreviates --config before the check subcommand; raw prefix behavior appears in rust/artifacts/cli-long-option-abbrev-probes-20261109.json.",
+      "input_mode": "files",
+      "files": [
+        {"path": "config.json", "content_base64": "eyJtYXhfZXJyb3JzIjoxMH0="},
+        {"path": "input.txt", "content_base64": "SGVsbG8gd29ybGQu"}
+      ],
+      "argv": ["--con", "{file:config.json}", "check", "{file:input.txt}"],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "workspace_mutates": false,
+      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+    }
   ]
 }

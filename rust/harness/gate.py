@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+from contextlib import contextmanager
 import datetime as dt
 import hashlib
 import json
@@ -13,6 +14,7 @@ import re
 import shutil
 import subprocess
 import sys
+import tempfile
 import time
 import uuid
 from pathlib import Path
@@ -122,6 +124,34 @@ def build_commands(cargo: Path, manifest: Path, *, focused_candidate_build: bool
     ]
 
 
+@contextmanager
+def staged_artifacts(artifacts: Path):
+    """Stage reports outside the checkout; abrupt termination may leave staging for recovery."""
+    artifacts.parent.mkdir(parents=True, exist_ok=True)
+    staging = Path(tempfile.mkdtemp(prefix="proselint-artifacts-", dir=ROOT.parent))
+    previous = staging / "previous"
+    try:
+        if artifacts.exists():
+            shutil.move(str(artifacts), previous)
+        artifacts.mkdir(parents=True)
+        yield
+    finally:
+        generated = staging / "generated"
+        if artifacts.exists():
+            shutil.move(str(artifacts), generated)
+        if previous.exists():
+            shutil.move(str(previous), artifacts)
+        else:
+            artifacts.mkdir(parents=True, exist_ok=True)
+        if generated.exists():
+            for item in generated.iterdir():
+                destination = artifacts / item.name
+                if destination.exists():
+                    destination = artifacts / f"{item.name}.{uuid.uuid4().hex}.restored"
+                shutil.move(str(item), destination)
+        shutil.rmtree(staging)
+
+
 def build_and_attest(candidate_json: str | None, *, focused_candidate_build: bool = False) -> tuple[list[str], Path]:
     manifest = RUST_ROOT / "Cargo.toml"
     lockfile = RUST_ROOT / "Cargo.lock"
@@ -141,19 +171,20 @@ def build_and_attest(candidate_json: str | None, *, focused_candidate_build: boo
     artifacts = RUST_ROOT / "artifacts"
     artifacts.mkdir(parents=True, exist_ok=True)
     build_runs = []
-    for index, command in enumerate(commands):
-        command_started = time.monotonic()
-        output = subprocess.run(command, cwd=ROOT, env=env, capture_output=True, timeout=900, check=False)
-        duration_seconds = round(time.monotonic() - command_started, 6)
-        stdout_path = artifacts / f"{run_id}-{index}.stdout.bin"
-        stderr_path = artifacts / f"{run_id}-{index}.stderr.bin"
-        stdout_path.write_bytes(output.stdout)
-        stderr_path.write_bytes(output.stderr)
-        build_runs.append({"command": command, "exit_code": output.returncode, "duration_seconds": duration_seconds, "stdout_path": str(stdout_path), "stderr_path": str(stderr_path)})
-        if output.returncode != 0:
-            raise RuntimeError(f"Rust gate command failed with exit status {output.returncode}; logs: {run_id}-{index}")
-        if source_fingerprint() != before:
-            raise RuntimeError(f"Rust source tree changed during gate command {index}")
+    with staged_artifacts(artifacts):
+        for index, command in enumerate(commands):
+            command_started = time.monotonic()
+            output = subprocess.run(command, cwd=ROOT, env=env, capture_output=True, timeout=900, check=False)
+            duration_seconds = round(time.monotonic() - command_started, 6)
+            stdout_path = artifacts / f"{run_id}-{index}.stdout.bin"
+            stderr_path = artifacts / f"{run_id}-{index}.stderr.bin"
+            stdout_path.write_bytes(output.stdout)
+            stderr_path.write_bytes(output.stderr)
+            build_runs.append({"command": command, "exit_code": output.returncode, "duration_seconds": duration_seconds, "stdout_path": str(stdout_path), "stderr_path": str(stderr_path)})
+            if output.returncode != 0:
+                raise RuntimeError(f"Rust gate command failed with exit status {output.returncode}; logs: {run_id}-{index}")
+            if source_fingerprint() != before:
+                raise RuntimeError(f"Rust source tree changed during gate command {index}")
     after = source_fingerprint()
     if before != after:
         raise RuntimeError("Rust source tree changed during candidate build")

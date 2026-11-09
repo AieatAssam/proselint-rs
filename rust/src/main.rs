@@ -1698,6 +1698,106 @@ fn reset_root_options_before_subcommand(args: &mut Vec<std::ffi::OsString>) {
     }
 }
 
+fn abbreviate_long_options(args: &mut [std::ffi::OsString]) -> Option<ExitCode> {
+    let mut subcommand = None;
+    let mut index = 1;
+    while index < args.len() {
+        let Some(token) = args[index].to_str().map(str::to_owned) else {
+            index += 1;
+            continue;
+        };
+        if token == "--" {
+            break;
+        }
+        if matches!(token.as_str(), "--config" | "--output-format") {
+            index = (index + 2).min(args.len());
+            continue;
+        }
+        // shortcut: this mirrors CLI declarations, derive from Clap if options grow.
+        let options: &[&str] = match subcommand {
+            Some("check") => &[
+                "--help",
+                "--config",
+                "--output-format",
+                "--verbose",
+                "--version",
+                "--demo",
+            ],
+            Some("dump-config") => &[
+                "--help",
+                "--config",
+                "--output-format",
+                "--verbose",
+                "--version",
+                "--default",
+            ],
+            Some("version") => &[
+                "--help",
+                "--config",
+                "--output-format",
+                "--verbose",
+                "--version",
+            ],
+            _ => &[
+                "--help",
+                "--config",
+                "--output-format",
+                "--verbose",
+                "--version",
+            ],
+        };
+        if token.starts_with("--") {
+            let (option, attached) = token
+                .split_once('=')
+                .map_or((token.as_str(), false), |(name, _)| (name, true));
+            if !options.contains(&option) {
+                let matches = options
+                    .iter()
+                    .copied()
+                    .filter(|candidate| candidate.starts_with(option))
+                    .collect::<Vec<_>>();
+                if matches.len() > 1 {
+                    let help = subcommand
+                        .and_then(command_help)
+                        .unwrap_or_else(|| "usage: proselint [options] <command>".to_owned());
+                    let usage = help
+                        .split_once("\n\n")
+                        .map_or(help.as_str(), |(usage, _)| usage);
+                    let prefix = subcommand.map_or_else(
+                        || "proselint".to_owned(),
+                        |command| format!("proselint [options] <command> {command}"),
+                    );
+                    eprintln!(
+                        "{usage}\n{prefix}: error: ambiguous option: {option} could match {}",
+                        matches.join(", ")
+                    );
+                    return Some(ExitCode::from(2));
+                }
+                if let [matched] = matches.as_slice() {
+                    args[index] = if attached {
+                        format!("{matched}={}", token.split_once('=').unwrap().1).into()
+                    } else {
+                        (*matched).into()
+                    };
+                    if !attached && matches!(*matched, "--config" | "--output-format") {
+                        index = (index + 2).min(args.len());
+                        continue;
+                    }
+                }
+            }
+        }
+        if subcommand.is_none() && matches!(token.as_str(), "check" | "version" | "dump-config") {
+            subcommand = Some(match token.as_str() {
+                "check" => "check",
+                "version" => "version",
+                _ => "dump-config",
+            });
+        }
+        index += 1;
+    }
+    None
+}
+
 fn unrecognized_cli_arguments(args: &[std::ffi::OsString]) -> Option<ExitCode> {
     let mut unknown = Vec::new();
     let mut subcommand = None;
@@ -1755,6 +1855,9 @@ fn run() -> Result<ExitCode, String> {
     let standalone_version_flag = args.len() == 2 && args[1] == "--version";
     if standalone_version_flag {
         args[1] = "version".into();
+    }
+    if let Some(exit_code) = abbreviate_long_options(&mut args) {
+        return Ok(exit_code);
     }
     reset_root_options_before_subcommand(&mut args);
     if args.len() == 2 && (args[1] == "--help" || args[1] == "-h") {

@@ -18,6 +18,46 @@ spec.loader.exec_module(gate)
 
 
 class GateTests(unittest.TestCase):
+    def test_staged_artifacts_restores_old_and_new_files_after_exception(self):
+        with TemporaryDirectory() as directory:
+            artifacts = Path(directory) / "artifacts"
+            artifacts.mkdir()
+            (artifacts / "old-report.json").write_text("old", encoding="utf-8")
+
+            with self.assertRaisesRegex(RuntimeError, "command failed"):
+                with gate.staged_artifacts(artifacts):
+                    self.assertEqual(list(artifacts.iterdir()), [])
+                    (artifacts / "new-report.json").write_text("new", encoding="utf-8")
+                    raise RuntimeError("command failed")
+
+            self.assertEqual((artifacts / "old-report.json").read_text(encoding="utf-8"), "old")
+            self.assertEqual((artifacts / "new-report.json").read_text(encoding="utf-8"), "new")
+
+    def test_staged_artifacts_keeps_backup_when_restore_fails(self):
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            artifacts = root / "artifacts"
+            artifacts.mkdir()
+            (artifacts / "old-report.json").write_text("old", encoding="utf-8")
+            staging = root / "staging"
+            staging.mkdir()
+            move = gate.shutil.move
+
+            def fail_previous_restore(source, destination):
+                if Path(source) == staging / "previous":
+                    raise OSError("restore blocked")
+                return move(source, destination)
+
+            with patch.object(gate.tempfile, "mkdtemp", return_value=str(staging)), patch.object(
+                gate.shutil, "move", side_effect=fail_previous_restore
+            ):
+                with self.assertRaisesRegex(OSError, "restore blocked"):
+                    with gate.staged_artifacts(artifacts):
+                        (artifacts / "new-report.json").write_text("new", encoding="utf-8")
+
+            self.assertEqual((staging / "previous" / "old-report.json").read_text(encoding="utf-8"), "old")
+            self.assertEqual((staging / "generated" / "new-report.json").read_text(encoding="utf-8"), "new")
+
     def test_focused_candidate_build_is_locked_and_omits_unit_tests(self):
         cargo = Path("/toolchain/bin/cargo")
         manifest = Path("/checkout/rust/Cargo.toml")

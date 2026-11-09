@@ -490,6 +490,10 @@
     {
       "id": "cli.output_format.attached_values",
       "status": "recorded"
+    },
+    {
+      "id": "cli.long_option_abbreviation",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -514,13 +518,13 @@
   },
   "harness": {
     "status": "verified after metadata fingerprint changes; Markdown/ledger exclusion is covered by a discrimination test",
-    "source_fingerprint": "58d2d5b1ae63beb1214b5406e1bd7e22c87a5d57c558b0930ad033324a9db24c",
+    "source_fingerprint": "ab832a8cd38b61e24cf6e82df26f222150a0b5fff545cf5b85011c8e55655fea",
     "unit_tests": {
       "status": "PASS",
       "suite": "python3 -m unittest discover -s rust/harness/tests -p 'test_*.py'",
-      "tests_passed": 106,
-      "duration_seconds": 106.739,
-      "evidence": "rust/artifacts/harness-suite-symlink-coverage-final-20261109.log"
+      "tests_passed": 109,
+      "duration_seconds": 70.64,
+      "evidence": "rust/artifacts/harness-suite-cli-long-option-abbreviation-20261109.log"
     },
     "comparator_discriminators": {
       "passed": 23,
@@ -584,8 +588,9 @@
     }
   },
   "active_ownership": {
-    "current": "Release metadata milestone: binary `proselint-rs`, standalone version `2026.11.08.1`, tracking pinned Proselint 0.16.0. The most recent cumulative gate remains the historical 1087/1087 report across 122 accepted capabilities at fingerprint ab4fc09cbf76aeb033fcdc16b857df77052eda53193cfe602172f780e437e185; two later directory-expansion coverage cases have focused owner and independent live passes (16/16 each) at fingerprint 58d2d5b1ae63beb1214b5406e1bd7e22c87a5d57c558b0930ad033324a9db24c. The Python harness suite passes 106/106. Twenty-three rule paths remain unimplemented; permission-denied traversal and other CLI/config gaps remain open.",
-    "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
+    "current": "cli.long_option_abbreviation passed the required cumulative gate: 1095/1095 live cases across 123 accepted capabilities, source fingerprint ab832a8cd38b61e24cf6e82df26f222150a0b5fff545cf5b85011c8e55655fea. 23 data-backed rule paths remain unimplemented.",
+    "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+    "cumulative_gate": "PASS; next gate after the next 5–10 capabilities or shared CLI/config/matching infrastructure change."
   },
   "unresolved": [
     "23 unique rule paths remain unimplemented.",
@@ -9659,37 +9664,96 @@
       },
       "production_change": "none; this records already implemented attached argument forms",
       "cumulative_gate": "included in strict gate PASS 122 capabilities/1075 cases at rust/artifacts/strict-gate-unicode15-repr-20261108.json"
+    },
+    {
+      "id": "cli.long_option_abbreviation",
+      "status": "recorded",
+      "case_ids": [
+        "cli_long_option_abbrev_root_ambiguous_ver",
+        "cli_long_option_abbrev_check_dem",
+        "cli_long_option_abbrev_dump_config_def",
+        "cli_long_option_abbrev_check_output_format_out",
+        "cli_long_option_abbrev_check_help_he",
+        "cli_long_option_abbrev_global_config_con"
+      ],
+      "upstream_source": "Pinned proselint/command_line.py root parser and check/dump-config subparsers; argparse uses allow_abbrev for long options.",
+      "upstream_spec": "A unique long-option prefix is accepted in the active root or subcommand parser. Ambiguous prefixes fail with argparse’s exact ambiguous-option diagnostic. The same behavior applies to implicit --help.",
+      "specification": {
+        "live_cases": 6,
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "comparison": "Exact stdout/stderr bytes and exit status for the six pinned CLI vectors.",
+        "scope_limit": "Covers root ambiguity (--ver), unique --demo and --default subcommand options, --help, a global --output-format prefix after check, and a global --config prefix before check. Attached-value prefixes and other untested option forms remain open. --vers now resolves to the product version flag and is separately recorded as an intentional version divergence."
+      },
+      "red": {
+        "status": "behavioral_failure",
+        "live_mismatches": 4,
+        "live_report": "rust/artifacts/20261109T-cli-long-option-abbrev-red.json",
+        "live_report_scope_cases": 4,
+        "focused_rust_red": "Focused integration assertions for --dem, --def, --out, --he, and --con failed before the corresponding prefix normalization was enabled; root --con also mismatched in the pinned live probe.",
+        "raw_probe": "rust/artifacts/cli-long-option-abbrev-probes-20261109.json",
+        "source_fingerprint": "c2b5d0d7e544637fac7c02b306b4aa2a72ae1a5511c2da4511e91a0b20bdf7a4"
+      },
+      "green": {
+        "status": "PASS",
+        "focused_rust_tests_passed": 6,
+        "focused_rust_test_seconds": 6.01,
+        "focused_rust_test_command": "cargo test --locked --manifest-path rust/Cargo.toml --test cli_long_option_abbreviation",
+        "owner_live_cases_passed": 6,
+        "owner_live_seconds": 24.992023,
+        "owner_live_report": "rust/artifacts/long-option-abbreviation-owner-final2-20261109.json",
+        "independent_live_cases_passed": 6,
+        "independent_live_seconds": 21.613618,
+        "independent_live_report": "rust/artifacts/independent-cli-long-option-abbrev-final2-20261109/live-comparison.json",
+        "candidate_attestation": "rust/artifacts/20261109T015502089875Z-build.attestation.json",
+        "source_fingerprint": "ab832a8cd38b61e24cf6e82df26f222150a0b5fff545cf5b85011c8e55655fea",
+        "candidate_sha256": "9c9935f0fd343a4f7ea83c86e0d30166d4f317632eaa4c28e5965c3d7b214a7",
+        "cargo_lock_sha256": "ad88691329555e80c0c09bc4f2b86818a5d4435ecdd9c54cd2fbc94fb9622081",
+        "attestation_stages_seconds": {
+          "fmt": 1.478418,
+          "clippy": 11.238257,
+          "build": 0.410061
+        },
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "cumulative_gate": {
+          "status": "PASS",
+          "report": "rust/artifacts/strict-gate-cli-long-option-abbreviation-20261109.json",
+          "run_id": "20261109T020322105337Z-8e604edb",
+          "passed_cases": 1095,
+          "capability_count": 123,
+          "duration_seconds": 1160.980361,
+          "candidate_attestation": "rust/artifacts/20261109T020117494284Z-build.attestation.json",
+          "candidate_sha256": "9c99351e381af95961b973028174bd5b8b7a5edf197e51d30525f71cb91214a7",
+          "source_fingerprint": "ab832a8cd38b61e24cf6e82df26f222150a0b5fff545cf5b85011c8e55655fea"
+        }
+      }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/proselint-rs-version-cumulative-20261108.json",
-    "passed_cases": 1087,
-    "manifest_cases": 1097,
-    "excluded_manifest_cases": {
-      "harness.oracle_smoke": 2,
-      "cli.version.json_metadata": 5,
-      "cli.version.verbose_runtime": 1
-    },
+    "report": "rust/artifacts/strict-gate-cli-long-option-abbreviation-20261109.json",
+    "passed_cases": 1095,
+    "manifest_cases": 1095,
+    "excluded_manifest_cases": {},
     "intentional_divergence_cases": {
-      "cli.product_version_flag": 1
+      "cli.product_version_flag": 1,
+      "cli_long_option_abbrev_vers_product_divergence": 1
     },
-    "unresolved_manifest_cases": 1,
+    "unresolved_manifest_cases": 0,
     "exit_code": 0,
-    "capability_count": 122,
-    "source_fingerprint": "ab4fc09cbf76aeb033fcdc16b857df77052eda53193cfe602172f780e437e185",
-    "run_id": "20261108T235630741264Z-3c79a802",
-    "started_at_utc": "2026-11-08T23:56:30.741174+00:00",
-    "finished_at_utc": "2026-11-09T00:13:04.303188+00:00",
-    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T234203310107Z-build.attestation.json",
-    "candidate_sha256": "2fa26a83f8a7a96018b63f22494c4ffd8f1dbdc1077251ad3b9215058d7899f5",
+    "capability_count": 123,
+    "source_fingerprint": "ab832a8cd38b61e24cf6e82df26f222150a0b5fff545cf5b85011c8e55655fea",
+    "run_id": "20261109T020322105337Z-8e604edb",
+    "started_at_utc": "2026-11-09T02:03:22.105310+00:00",
+    "finished_at_utc": "2026-11-09T02:20:34.931919+00:00",
+    "candidate_attestation": "rust/artifacts/20261109T020117494284Z-build.attestation.json",
+    "candidate_sha256": "9c99351e381af95961b973028174bd5b8b7a5edf197e51d30525f71cb91214a7",
     "cargo_lock_sha256": "ad88691329555e80c0c09bc4f2b86818a5d4435ecdd9c54cd2fbc94fb9622081",
-    "duration_seconds": 1865.073903,
+    "duration_seconds": 1160.980361,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.15804,
-      "cumulative_live_comparison": 994.041053,
-      "oracle_integrity": 2.855358,
-      "rust_checks_and_build": 867.522757
+      "comparator_self_tests": 0.167741,
+      "cumulative_live_comparison": 1033.280358,
+      "oracle_integrity": 2.384341,
+      "rust_checks_and_build": 124.706769
     },
     "comparator_self_tests": 23
   },
@@ -9719,7 +9783,7 @@
     },
     "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-release-version-20261109.txt"
   },
-  "next_capability_handoff": "Continue CLI parity from pinned Proselint 0.16.0. Investigate argparse unique long-option abbreviations as the next focused candidate, then traversal-error cases. Keep the 23 data-backed rule paths held pending an explicit provenance/licensing policy decision.",
+  "next_capability_handoff": "After the due cumulative gate, continue CLI/config parity from pinned Proselint 0.16.0. Probe attached-value long prefixes and the remaining config discovery/error cases. Keep the 23 data-backed rule paths held pending an explicit provenance/licensing policy decision.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",
@@ -10045,7 +10109,9 @@
       "upstream": "Proselint 0.16.0 prints `Proselint 0.16.0\\n` for `--version`.",
       "rust": "Standalone `--version` prints `proselint-rs 2026.11.08.1 (tracks Proselint 0.16.0)\\n`.",
       "comparison": "Pinned oracle expected bytes are unchanged; the live comparator reports the expected stdout mismatch.",
-      "evidence": "rust/artifacts/product-version-flag-intentional-divergence-final-20261108.json"
+      "evidence": "rust/artifacts/product-version-flag-intentional-divergence-final-20261108.json",
+      "additional_evidence": "rust/artifacts/long-option-vers-product-divergence-20261109.json",
+      "prefix_behavior": "Unique argparse prefix --vers is accepted and resolves to the product version flag."
     }
   ],
   "release_metadata": {

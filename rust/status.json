@@ -711,12 +711,26 @@
         "unimplemented_rule_paths": 21
       },
       "cumulative_gate": {
-        "status": "scheduled_not_run",
-        "historical_report": "rust/artifacts/strict-gate-cli-per-file-nested-values-20261109.json",
-        "historical_passed_cases": 1249,
-        "historical_capabilities": 124,
-        "scope_matches_current_case_set": false,
-        "note": "Schedule the cumulative gate now because adding terms to SelectedCheck::all_implemented changed shared CLI default dispatch."
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-social-awareness-lgbtq-terms-20261109.json",
+        "passed_cases": 1258,
+        "capabilities": 126,
+        "mismatches": 0,
+        "timeouts": 0,
+        "errors": 0,
+        "run_id": "20261109T130343177872Z-c5b492ab",
+        "source_fingerprint": "6d41f10d6a133646a236454e6bbb20cf093ca28d84c12ba04db93c99363082c2",
+        "duration_seconds": 1314.014908,
+        "stage_durations_seconds": {
+          "live": 1168.309383,
+          "rust_checks_and_build": 142.855777,
+          "oracle_integrity": 2.196614,
+          "comparator_self_tests": 0.146281
+        },
+        "comparator_self_tests_passed": 23,
+        "scope_matches_current_case_set": true,
+        "manifest_cases": 1269,
+        "excluded_manifest_cases": 11
       }
     },
     {
@@ -764,12 +778,16 @@
       },
       "build_performance_observation": "After rust/build.rs tracked only build.rs and Cargo.toml, focused Cargo tests completed in 3.41s; attested fmt/clippy/build took 1.27s/15.74s/0.21s (17.22s total). The prior Cargo process had scanned about 605,484 directories / 1.4GB under rust/artifacts and remained running over 7 minutes before tests. Observed timings only, not a guarantee or speedup factor.",
       "cumulative_gate": {
-        "status": "historical_PASS_current_scope_not_run",
-        "report": "rust/artifacts/strict-gate-cli-per-file-nested-values-20261109.json",
-        "passed_cases": 1249,
-        "capabilities": 124,
-        "scope_matches_current_case_set": false,
-        "note": "This gate predates the capability. Current production cases are 1253 of 1264 manifest cases; include the capability at the next checkpoint."
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-social-awareness-lgbtq-terms-20261109.json",
+        "passed_cases": 1258,
+        "capabilities": 126,
+        "mismatches": 0,
+        "timeouts": 0,
+        "errors": 0,
+        "run_id": "20261109T130343177872Z-c5b492ab",
+        "source_fingerprint": "6d41f10d6a133646a236454e6bbb20cf093ca28d84c12ba04db93c99363082c2",
+        "scope_matches_current_case_set": true
       }
     },
     {
@@ -10374,9 +10392,9 @@
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-cli-per-file-nested-values-20261109.json",
-    "passed_cases": 1249,
-    "manifest_cases": 1260,
+    "report": "rust/artifacts/strict-gate-social-awareness-lgbtq-terms-20261109.json",
+    "passed_cases": 1258,
+    "manifest_cases": 1269,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
       "cli.product_version_flag": 1,
@@ -10390,19 +10408,19 @@
     },
     "unresolved_manifest_cases": 2,
     "exit_code": 0,
-    "capability_count": 124,
-    "source_fingerprint": "98b88e68345142699776852836c8e50f8443c132eeb723a55948c704c5227c99",
-    "run_id": "20261109T111530499180Z-93a5c89b",
+    "capability_count": 126,
+    "source_fingerprint": "6d41f10d6a133646a236454e6bbb20cf093ca28d84c12ba04db93c99363082c2",
+    "run_id": "20261109T130343177872Z-c5b492ab",
     "cargo_lock_sha256": "05212984084365b79c499cd3c111ceb71349e05968ff8b21316e6ec64fd76fc1",
-    "duration_seconds": 1270.615207,
+    "duration_seconds": 1314.014908,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.15128,
-      "cumulative_live_comparison": 1132.947975,
-      "oracle_integrity": 2.782871,
-      "rust_checks_and_build": 134.262158
+      "comparator_self_tests": 0.146281,
+      "cumulative_live_comparison": 1168.309383,
+      "oracle_integrity": 2.196614,
+      "rust_checks_and_build": 142.855777
     },
     "comparator_self_tests": 23,
-    "scope_matches_current_case_set": false,
+    "scope_matches_current_case_set": true,
     "current_accepted_case_count": 1258,
     "current_production_case_count": 1258,
     "current_manifest_case_count": 1269
@@ -10442,7 +10460,7 @@
     },
     "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-itoa-20261109.txt"
   },
-  "next_capability_handoff": "Scout/select the next eligible rule from the unimplemented inventory, checking source provenance and terms before implementation; retain the package-wide BSD-3-Clause policy basis with attribution/notices and review unknown/conflicting provenance separately. Continue unresolved CLI/config parity, including the confirmed HOME-absent/no-passwd mismatch. Run the scheduled cumulative gate for social_awareness.lgbtq.terms because default CLI dispatch changed.",
+  "next_capability_handoff": "Scout/select the next eligible rule from the unimplemented inventory, checking source provenance and terms before implementation; retain the package-wide BSD-3-Clause policy basis with attribution/notices and review unknown/conflicting provenance separately. Continue unresolved CLI/config parity, including the confirmed HOME-absent/no-passwd mismatch. The current cumulative gate passes 1258/1258 across 126 capabilities.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

@@ -315,3 +315,111 @@ fn duplicate_checks_misc_uses_last_boolean_value() {
     );
     assert!(output.stderr.is_empty());
 }
+
+fn run_dump_config(config: &[u8], format: &str, version: bool) -> std::process::Output {
+    let workspace = Workspace::new();
+    fs::write(workspace.0.join("config.json"), config).expect("write config");
+    let mut command = Command::new(env!("CARGO_BIN_EXE_proselint-rs"));
+    command
+        .current_dir(&workspace.0)
+        .args(["dump-config", "--config", "config.json"]);
+    if version {
+        command.arg("--version");
+    }
+    command
+        .args(["--output-format", format])
+        .stdin(Stdio::null())
+        .output()
+        .expect("run dump-config")
+}
+
+fn assert_dump_config_checks_attribute_error(
+    config: &[u8],
+    format: &str,
+    type_name: &str,
+    version: bool,
+) {
+    let output = run_dump_config(config, format, version);
+    let message = format!("'{type_name}' object has no attribute 'items'");
+    assert_eq!(
+        output.status.code(),
+        Some(4),
+        "format {format}, version {version}"
+    );
+    if format == "json" {
+        assert!(
+            output.stderr.is_empty(),
+            "format {format}, version {version}"
+        );
+        assert_eq!(
+            serde_json::from_slice::<Value>(&output.stdout).unwrap(),
+            json!({
+                "error": {
+                    "code": -31999,
+                    "data": "AttributeError",
+                    "message": message
+                }
+            }),
+            "format {format}, version {version}"
+        );
+    } else {
+        assert!(
+            output.stdout.is_empty(),
+            "format {format}, version {version}"
+        );
+        assert_eq!(
+            output.stderr,
+            format!("Unrecoverable error encountered while running proselint: {message}\n")
+                .as_bytes(),
+            "format {format}, version {version}"
+        );
+    }
+}
+
+#[test]
+fn dump_config_invalid_checks_values_match_python_items_errors() {
+    for (value, type_name) in [
+        ("null", "NoneType"),
+        ("[]", "list"),
+        (r#""invalid""#, "str"),
+        ("false", "bool"),
+        ("7", "int"),
+        ("1.5", "float"),
+    ] {
+        let config = format!(r#"{{"checks":{value}}}"#);
+        for format in ["json", "full", "compact"] {
+            for version in [false, true] {
+                assert_dump_config_checks_attribute_error(
+                    config.as_bytes(),
+                    format,
+                    type_name,
+                    version,
+                );
+            }
+        }
+    }
+}
+
+#[test]
+fn dump_config_accepts_empty_checks_mapping_in_all_formats() {
+    for format in ["json", "full", "compact"] {
+        let output = run_dump_config(br#"{"checks":{}}"#, format, false);
+        assert_eq!(output.status.code(), Some(0), "format {format}");
+        assert!(output.stderr.is_empty(), "format {format}");
+        assert_eq!(
+            serde_json::from_slice::<Value>(&output.stdout).unwrap(),
+            json!({"max_errors": 0, "checks": {}, "per_file_checks": {}}),
+            "format {format}"
+        );
+    }
+}
+
+#[test]
+fn dump_config_checks_error_precedes_per_file_error_before_version() {
+    assert_dump_config_checks_attribute_error(
+        br#"{"checks":[],"per_file_checks":null}"#,
+        "json",
+        "list",
+        true,
+    );
+}

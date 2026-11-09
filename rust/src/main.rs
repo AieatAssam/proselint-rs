@@ -520,7 +520,7 @@ fn project_config_fields(source: &str) -> Option<ProjectedConfig> {
                             normalized.0
                         });
                     } else {
-                        checks_error_type = None;
+                        checks_error_type = normalize_checks_value(raw_value)?.1;
                         checks_json = None;
                     }
                 }
@@ -1313,6 +1313,7 @@ fn dump_config(
         }
     };
 
+    let mut checks_error_type = None;
     let mut per_file_checks_error_type = None;
     let loaded = match config_path {
         Some(path) => {
@@ -1394,14 +1395,18 @@ fn dump_config(
                     path.display()
                 )
             })?;
-            per_file_checks_error_type = project_config_fields(&normalized)
-                .and_then(|config| config.per_file_checks_error_type);
+            let projected_config = project_config_fields(&normalized);
+            checks_error_type = projected_config
+                .as_ref()
+                .and_then(|config| config.checks_error_type);
+            per_file_checks_error_type =
+                projected_config.and_then(|config| config.per_file_checks_error_type);
             Some(loaded)
         }
         None => None,
     };
 
-    if let Some(type_name) = per_file_checks_error_type {
+    if let Some(type_name) = checks_error_type.or(per_file_checks_error_type) {
         let message = format!("'{type_name}' object has no attribute 'items'");
         if matches!(output_format, OutputFormat::Json) {
             println!(

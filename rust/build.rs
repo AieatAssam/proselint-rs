@@ -31,6 +31,8 @@ fn display_version(version: &str) -> Result<String, &'static str> {
 }
 
 fn main() {
+    println!("cargo:rerun-if-changed=build.rs");
+    println!("cargo:rerun-if-changed=Cargo.toml");
     let version = std::env::var("CARGO_PKG_VERSION").expect("Cargo package version is set");
     let display = display_version(&version).expect("Cargo version must encode YYYY.M.D+N");
     println!("cargo:rustc-env=PROSELINT_RS_RELEASE_VERSION={display}");

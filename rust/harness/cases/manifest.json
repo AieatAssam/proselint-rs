@@ -40814,6 +40814,131 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+        "id": "social_awareness_lgbtq_offensive_all_terms",
+        "capability_id": "social_awareness.lgbtq.offensive",
+        "provenance": "Pinned Proselint 0.16.0 source proselint/checks/social_awareness/lgbtq.py::check_offensive; GLAAD Media Reference Guide attribution is retained; package BSD-3-Clause. Exercises every active item in the check_terms inventory in source order.",
+        "input_mode": "stdin",
+        "stdin_base64": "ZmFnIGZhZ2dvdCBkeWtlIHNvZG9taXRlIGhvbW9zZXh1YWwgYWdlbmRhIGdheSBhZ2VuZGEgdHJhbnN2ZXN0aXRlIGhvbW9zZXh1YWwgbGlmZXN0eWxlIGdheSBsaWZlc3R5bGU=",
+        "files": [
+            {
+                "path": "selected.json",
+                "content_base64": "eyJjaGVja3MiOnsic29jaWFsX2F3YXJlbmVzcyI6eyJsZ2J0cSI6eyJvZmZlbnNpdmUiOnRydWV9fX0sIm1heF9lcnJvcnMiOjEwMDB9"
+            }
+        ],
+        "argv": [
+            "check",
+            "--config",
+            "{file:selected.json}",
+            "--output-format",
+            "json"
+        ],
+        "output_format": "json",
+        "expected_oracle_outcome": "findings",
+        "timeout_seconds": 10,
+        "environment": {
+            "locale": "C.UTF-8"
+        },
+        "config_scenario": "explicit_selected_rule",
+        "workspace_mutates": false,
+        "comparison": {
+            "stdout": "json",
+            "stderr": "bytes",
+            "exit_status": "exact"
+        }
+    },
+    {
+        "id": "social_awareness_lgbtq_offensive_controls",
+        "capability_id": "social_awareness.lgbtq.offensive",
+        "provenance": "Pinned Proselint 0.16.0 source proselint/checks/social_awareness/lgbtq.py::check_offensive; GLAAD Media Reference Guide attribution is retained; package BSD-3-Clause. Checks case-insensitive match, word boundaries, paired-quote filtering, Unicode code-point columns, and that the commented-out homo candidate is absent.",
+        "input_mode": "stdin",
+        "stdin_base64": "Q2Fmw6kgcHJlY2VkZXMgRHlrZTsgZGVmYWdnb3RpemUgaXMgZW1iZWRkZWQ7IOKAnGZhZ+KAnSBpcyBxdW90ZWQ7IGhvbW8gcmVtYWlucyBhIHNvdXJjZS1jb21tZW50ZWQgaW5hY3RpdmUgY2FuZGlkYXRlLg==",
+        "files": [
+            {
+                "path": "selected.json",
+                "content_base64": "eyJjaGVja3MiOnsic29jaWFsX2F3YXJlbmVzcyI6eyJsZ2J0cSI6eyJvZmZlbnNpdmUiOnRydWV9fX0sIm1heF9lcnJvcnMiOjEwMDB9"
+            }
+        ],
+        "argv": [
+            "check",
+            "--config",
+            "{file:selected.json}",
+            "--output-format",
+            "json"
+        ],
+        "output_format": "json",
+        "expected_oracle_outcome": "findings",
+        "timeout_seconds": 10,
+        "environment": {
+            "locale": "C.UTF-8"
+        },
+        "config_scenario": "explicit_selected_rule",
+        "workspace_mutates": false,
+        "comparison": {
+            "stdout": "json",
+            "stderr": "bytes",
+            "exit_status": "exact"
+        }
+    },
+    {
+        "id": "social_awareness_lgbtq_offensive_max_errors",
+        "capability_id": "social_awareness.lgbtq.offensive",
+        "provenance": "Pinned Proselint 0.16.0 source proselint/checks/social_awareness/lgbtq.py::check_offensive; GLAAD Media Reference Guide attribution is retained; package BSD-3-Clause. Checks selected-rule output truncation at max_errors=2.",
+        "input_mode": "stdin",
+        "stdin_base64": "ZmFnIGZhZ2dvdCBkeWtlIHNvZG9taXRl",
+        "files": [
+            {
+                "path": "selected.json",
+                "content_base64": "eyJjaGVja3MiOnsic29jaWFsX2F3YXJlbmVzcyI6eyJsZ2J0cSI6eyJvZmZlbnNpdmUiOnRydWV9fX0sIm1heF9lcnJvcnMiOjJ9"
+            }
+        ],
+        "argv": [
+            "check",
+            "--config",
+            "{file:selected.json}",
+            "--output-format",
+            "json"
+        ],
+        "output_format": "json",
+        "expected_oracle_outcome": "findings",
+        "timeout_seconds": 10,
+        "environment": {
+            "locale": "C.UTF-8"
+        },
+        "config_scenario": "explicit_selected_rule",
+        "workspace_mutates": false,
+        "comparison": {
+            "stdout": "json",
+            "stderr": "bytes",
+            "exit_status": "exact"
+        }
+    },
+    {
+        "id": "social_awareness_lgbtq_offensive_default_enabled",
+        "capability_id": "social_awareness.lgbtq.offensive",
+        "provenance": "Pinned Proselint 0.16.0 default.json enables social_awareness; check_offensive is registered in the default-enabled module. Verifies no-config dispatch through bundled DEFAULT.",
+        "input_mode": "stdin",
+        "stdin_base64": "VGhlIHRlcm0gZHlrZSBhcHBlYXJzIGhlcmUu",
+        "files": [],
+        "argv": [
+            "check",
+            "--output-format",
+            "json"
+        ],
+        "output_format": "json",
+        "expected_oracle_outcome": "findings",
+        "timeout_seconds": 10,
+        "environment": {
+            "locale": "C.UTF-8"
+        },
+        "config_scenario": "no_config_default",
+        "workspace_mutates": false,
+        "comparison": {
+            "stdout": "json",
+            "stderr": "bytes",
+            "exit_status": "exact"
+        }
     }
   ]
 }

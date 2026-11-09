@@ -502,6 +502,10 @@
     {
       "id": "cli.stdin_invalid_utf8",
       "status": "recorded"
+    },
+    {
+      "id": "social_awareness.lgbtq.offensive",
+      "status": "recorded"
     }
   ],
   "inventory": {
@@ -511,8 +515,8 @@
     "default_enabled_entries": 110,
     "default_disabled_entries": 14,
     "artifact": "rust/inventory.json",
-    "accepted_unique_paths": 83,
-    "unimplemented_unique_paths": 23,
+    "accepted_unique_paths": 84,
+    "unimplemented_unique_paths": 22,
     "last_reconciled_utc": "2026-11-07T11:44:35Z"
   },
   "oracle": {
@@ -630,7 +634,7 @@
     "cumulative_gate": "PASS: 1249/1249 across 124 accepted capabilities; report rust/artifacts/strict-gate-cli-per-file-nested-values-20261109.json; run 20261109T111530499180Z-93a5c89b; source fingerprint 98b88e68345142699776852836c8e50f8443c132eeb723a55948c704c5227c99."
   },
   "unresolved": [
-    "23 unique rule paths remain unimplemented.",
+    "22 unique rule paths remain unimplemented.",
     "Other CLI/config behavior remains unverified, including passwd-home config-present behavior, HOME-absent no-passwd-entry config behavior (confirmed mismatch in cli.config.no_passwd_home; see harness.latest_no_passwd_home_case), other subcommands, HOME-unset platform variation, directory candidates, and traversal/decoding edges.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
     "Directory/non-UTF-8 path error formatting on non-Linux platforms remains unverified.",
@@ -650,6 +654,59 @@
     "The Linux HOME-absent/no-passwd-entry reproducer remains a confirmed mismatch: pinned Python fails during import with an installation-specific traceback while Rust completes the command; it is blocked and excluded from production_capabilities."
   ],
   "capability_states": [
+    {
+      "id": "social_awareness.lgbtq.offensive",
+      "status": "recorded",
+      "case_ids": [
+        "social_awareness_lgbtq_offensive_all_terms",
+        "social_awareness_lgbtq_offensive_controls",
+        "social_awareness_lgbtq_offensive_max_errors",
+        "social_awareness_lgbtq_offensive_default_enabled"
+      ],
+      "upstream_spec": "Pinned Proselint 0.16.0; source data attributed to GLAAD Media Reference Guide, 9th edition. Reuse follows the package-wide BSD-3-Clause project policy basis with attribution/notices retained; unknown provenance and conflicting terms remain separate reviews.",
+      "oracle": {
+        "revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "source_tree_sha256": "73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831",
+        "executable_sha256": "b5f88a67377a8f3c32e1bffc41ca96fd8c111b127427459ffb2184e74c99af77"
+      },
+      "red": {
+        "status": "MISMATCH",
+        "report": "rust/artifacts/social-awareness-lgbtq-offensive-red.json",
+        "cases": 3,
+        "mismatches": 3,
+        "duration_seconds": 9.706,
+        "finding": "Pinned output includes the overlapping raw `fag` match within `faggot`; Rust unit expectations were aligned to pinned output."
+      },
+      "green": {
+        "status": "PASS",
+        "owner_report": "rust/artifacts/social-awareness-lgbtq-offensive-live-final.json",
+        "owner_run_id": "20261109T122941901671Z-ea8f9e55",
+        "owner_cases_passed": 4,
+        "owner_seconds": 15.014,
+        "independent_report": "rust/artifacts/independent-social-awareness-lgbtq-offensive-live-final.json",
+        "independent_run_id": "20261109T123017071046Z-081cdf65",
+        "independent_cases_passed": 4,
+        "independent_seconds": 14.874,
+        "mismatches": 0,
+        "timeouts": 0,
+        "errors": 0,
+        "focused_rust_tests": "3/3 PASS",
+        "fmt_clippy_build": "PASS",
+        "build_attestation": "rust/artifacts/20261109T122917942348Z-build.attestation.json",
+        "source_fingerprint": "d4f4f17469cd1bc2e3a74bd7764f676e3f33fa73558d0f3fbb92331389781880",
+        "binary_sha256": "3ca8ac8d3130f6f47cd1f72b3a15e2f595839e94cab707c047e6e95868d5cf4f",
+        "cargo_lock_sha256": "05212984084365b79c499cd3c111ceb71349e05968ff8b21316e6ec64fd76fc1"
+      },
+      "build_performance_observation": "After rust/build.rs tracked only build.rs and Cargo.toml, focused Cargo tests completed in 3.41s; attested fmt/clippy/build took 1.27s/15.74s/0.21s (17.22s total). The prior Cargo process had scanned about 605,484 directories / 1.4GB under rust/artifacts and remained running over 7 minutes before tests. Observed timings only, not a guarantee or speedup factor.",
+      "cumulative_gate": {
+        "status": "historical_PASS_current_scope_not_run",
+        "report": "rust/artifacts/strict-gate-cli-per-file-nested-values-20261109.json",
+        "passed_cases": 1249,
+        "capabilities": 124,
+        "scope_matches_current_case_set": false,
+        "note": "This gate predates the capability. Current production cases are 1253 of 1264 manifest cases; include the capability at the next checkpoint."
+      }
+    },
     {
       "id": "cli.json_no_findings",
       "status": "recorded",
@@ -10280,8 +10337,10 @@
       "rust_checks_and_build": 134.262158
     },
     "comparator_self_tests": 23,
-    "scope_matches_current_case_set": true,
-    "current_accepted_case_count": 1249
+    "scope_matches_current_case_set": false,
+    "current_accepted_case_count": 1253,
+    "current_production_case_count": 1253,
+    "current_manifest_case_count": 1264
   },
   "rust_dependencies": {
     "status": "current",
@@ -10318,7 +10377,7 @@
     },
     "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-itoa-20261109.txt"
   },
-  "next_capability_handoff": "Continue CLI/config parity against pinned Proselint. Inspect remaining user-config non-regular paths, path encoding/permission behavior, and unverified subcommand/traversal edges. Keep the confirmed HOME-absent/no-passwd mismatch blocked and the 23 rule-data paths held pending rights policy.",
+  "next_capability_handoff": "Inspect and implement social_awareness.lgbtq.terms from the same explicitly GLAAD-attributed source file if it has no unknown/conflicting provenance; retain the BSD-3-Clause project policy basis with attribution/notices, and review unknown/conflicting paths separately. Also continue unresolved CLI/config parity, including the confirmed HOME-absent/no-passwd mismatch.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

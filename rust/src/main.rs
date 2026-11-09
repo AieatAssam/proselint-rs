@@ -24,11 +24,12 @@ use proselint_rs::{
     nordquist_diagnostics, normalize_file_newlines, not_guilty_diagnostics, oxymorons_diagnostics,
     p_equals_zero_diagnostics, phrasal_adjectives_ly_diagnostics, pretension_diagnostics,
     professions_diagnostics, redundancy_ras_syndrome_diagnostics, scare_quotes_diagnostics,
-    skunked_terms_diagnostics, social_nword_diagnostics, spelling_able_atable_diagnostics,
-    spelling_able_ible_diagnostics, spelling_ally_ly_diagnostics, spelling_ance_ence_diagnostics,
-    spelling_athletes_diagnostics, spelling_ely_ly_diagnostics, spelling_em_im_en_in_diagnostics,
-    spelling_er_or_diagnostics, spelling_in_un_diagnostics, spelling_ve_of_diagnostics,
-    suddenly_diagnostics, typography_copyright_diagnostics, typography_curly_quotes_diagnostics,
+    skunked_terms_diagnostics, social_awareness_lgbtq_offensive_diagnostics,
+    social_nword_diagnostics, spelling_able_atable_diagnostics, spelling_able_ible_diagnostics,
+    spelling_ally_ly_diagnostics, spelling_ance_ence_diagnostics, spelling_athletes_diagnostics,
+    spelling_ely_ly_diagnostics, spelling_em_im_en_in_diagnostics, spelling_er_or_diagnostics,
+    spelling_in_un_diagnostics, spelling_ve_of_diagnostics, suddenly_diagnostics,
+    typography_copyright_diagnostics, typography_curly_quotes_diagnostics,
     typography_diacritical_marks_diagnostics, typography_ellipsis_diagnostics,
     typography_multiplication_diagnostics, typography_sentence_spacing_diagnostics,
     typography_spacing_diagnostics, typography_trademark_diagnostics, wallace_diagnostics,
@@ -2404,6 +2405,9 @@ fn run() -> Result<ExitCode, String> {
                 SelectedCheck::Malapropisms => malapropisms_diagnostics(content),
                 SelectedCheck::SkunkedTerms => skunked_terms_diagnostics(content),
                 SelectedCheck::SocialAwarenessNword => social_nword_diagnostics(content),
+                SelectedCheck::SocialAwarenessLgbtqOffensive => {
+                    social_awareness_lgbtq_offensive_diagnostics(content)
+                }
                 SelectedCheck::TypographySymbolsCurlyQuotes => {
                     typography_curly_quotes_diagnostics(content)
                 }
@@ -2746,6 +2750,7 @@ enum SelectedCheck {
     RedundancyRasSyndrome,
     SkunkedTerms,
     SocialAwarenessNword,
+    SocialAwarenessLgbtqOffensive,
     SpellingAbleAtable,
     SpellingAbleIble,
     SpellingAllyLy,
@@ -2835,6 +2840,7 @@ impl SelectedCheck {
             RedundancyRasSyndrome,
             SkunkedTerms,
             SocialAwarenessNword,
+            SocialAwarenessLgbtqOffensive,
             SpellingAbleAtable,
             SpellingAbleIble,
             SpellingAllyLy,
@@ -2873,6 +2879,9 @@ fn supported_checks(checks: &Value) -> Option<Vec<SelectedCheck>> {
             ["malapropisms"] => Some(SelectedCheck::Malapropisms),
             ["skunked_terms"] => Some(SelectedCheck::SkunkedTerms),
             ["social_awareness", "nword"] => Some(SelectedCheck::SocialAwarenessNword),
+            ["social_awareness", "lgbtq", "offensive"] => {
+                Some(SelectedCheck::SocialAwarenessLgbtqOffensive)
+            }
             ["misc", "apologizing"] => Some(SelectedCheck::MiscApologizing),
             ["misc", "phrasal_adjectives", "ly"] => Some(SelectedCheck::MiscPhrasalAdjectivesLy),
             ["misc", "but"] => Some(SelectedCheck::MiscBut),
@@ -3061,6 +3070,7 @@ fn selected_check_path(check: SelectedCheck) -> &'static str {
         SelectedCheck::Malapropisms => "malapropisms",
         SelectedCheck::SkunkedTerms => "skunked_terms",
         SelectedCheck::SocialAwarenessNword => "social_awareness.nword",
+        SelectedCheck::SocialAwarenessLgbtqOffensive => "social_awareness.lgbtq.offensive",
         SelectedCheck::MiscApologizing => "misc.apologizing",
         SelectedCheck::MiscPhrasalAdjectivesLy => "misc.phrasal_adjectives.ly",
         SelectedCheck::MiscBut => "misc.but",

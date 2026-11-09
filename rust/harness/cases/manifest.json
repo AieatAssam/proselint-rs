@@ -35910,6 +35910,25 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "cli_config_no_passwd_home_absent",
+      "capability_id": "cli.config.no_passwd_home",
+      "provenance": "Blocked reproducer for pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c: under a Linux unshare UID with no passwd entry and HOME absent, importing baseline proselint raises RuntimeError before CLI dispatch.",
+      "preconditions": [
+        "Run under Linux unshare --user --map-user=424242 --map-group=424242 where UID 424242 has no passwd entry."
+      ],
+      "input_mode": "files",
+      "files": [
+        {"path": "input.txt", "content_base64": "SGVsbG8gd29ybGQu"}
+      ],
+      "argv": ["check", "--output-format", "json", "{file:input.txt}"],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"HOME": null, "XDG_CONFIG_HOME": null},
+      "workspace_mutates": false,
+      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
     }
   ]
 }

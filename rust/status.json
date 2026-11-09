@@ -585,16 +585,45 @@
       "capability_count": 122,
       "comparator_self_tests": 23,
       "independent_verification": "rust/artifacts/independent-product-version-final2-20261108/verification-summary.json"
+    },
+    "latest_no_passwd_home_case": {
+      "status": "MISMATCH",
+      "accepted": false,
+      "case_id": "cli_config_no_passwd_home_absent",
+      "precondition": "Linux unshare UID 424242 has no passwd entry; HOME and XDG_CONFIG_HOME are absent.",
+      "oracle": "Pinned Proselint 0.16.0 exits 1 before dispatch with RuntimeError: Could not determine home directory.",
+      "candidate": "Rust exits 0 and emits check JSON.",
+      "focused_report": "rust/artifacts/no-passwd-entry-live-comparator-final2-20261109.json",
+      "focused_report_sha256": "d34acd7f258c7b2091a940c5afeb9a2729b7d4523dc2577fcc4ad9bd2961c17f",
+      "independent_report": "rust/artifacts/independent-cli-config-no-passwd-home-final-gate-20261109/live-comparison.json",
+      "independent_report_sha256": "ea1da5b3e32af484a79224bf832e4ea421b19efff2861a03e3db00624ec8ab83",
+      "independent_evidence": "rust/artifacts/independent-cli-config-no-passwd-home-final-gate-20261109/evidence.json",
+      "independent_evidence_sha256": "160e40ac3c75f727bf6bb382c03754a05cad111114dd3a3ad74df56d099098b9",
+      "candidate_attestation": "rust/artifacts/20261109T043649512627Z-build.attestation.json",
+      "candidate_source_fingerprint": "8fedf0a6c65e13d17abb8a89fef87152dbc567f0683836cb76da3e2d775adb4a",
+      "comparator_environment_support": "HOME:null removes HOME from the isolated subprocess environment.",
+      "precondition_enforcement": "Precondition is documentary; the focused live comparison must be invoked inside unshare. This blocked capability is not in the accepted cumulative set.",
+      "independent_agent": {
+        "requested_model": "gpt-6-luna",
+        "requested_effort": "low",
+        "runtime_model_metadata": "unavailable"
+      },
+      "harness_code_review": {
+        "requested_model": "gpt-6-luna",
+        "requested_effort": "low",
+        "runtime_model_metadata": "unavailable",
+        "finding": "Manifest preconditions are documentary; focused run must explicitly use unshare."
+      }
     }
   },
   "active_ownership": {
-    "current": "Refreshed Rust dependencies to latest Rust 1.99-compatible versions (`itoa` 1.0.18 -> 1.0.19). The post-update strict gate passed 1101/1101 across 123 accepted capabilities; both recently changed CLI/config scopes were independently reverified on the updated candidate. Continue CLI/config parity while the rule-data policy decision is pending.",
+    "current": "Added a Linux no-passwd-entry HOME-absent blocked reproducer. Shared harness changes passed the 109-test Python suite and the cumulative gate passed 1101/1101 across 123 accepted capabilities. Continue CLI/config parity; rule-data policy decision remains pending.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-    "cumulative_gate": "PASS for current Cargo.lock and source; next gate after shared behavior change, 5–10 capabilities, or before release."
+    "cumulative_gate": "PASS for current source and Cargo.lock; next gate after shared behavior change, 5–10 capabilities, or before release."
   },
   "unresolved": [
     "23 unique rule paths remain unimplemented.",
-    "Other CLI/config behavior remains unverified, including passwd-home config-present behavior, no-passwd-entry behavior, other subcommands, HOME-unset platform variation, directory candidates, and traversal/decoding edges.",
+    "Other CLI/config behavior remains unverified, including passwd-home config-present behavior, HOME-absent no-passwd-entry config behavior (confirmed mismatch in cli.config.no_passwd_home; see harness.latest_no_passwd_home_case), other subcommands, HOME-unset platform variation, directory candidates, and traversal/decoding edges.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
     "Directory/non-UTF-8 path error formatting on non-Linux platforms remains unverified.",
     "Benchmarks cover only the isolated misc.suddenly profile and the selected misc.suddenly + psychology.p_equals_zero profile on their recorded inputs; broader rule sets and default configurations remain unmeasured.",
@@ -609,7 +638,8 @@
     "Malformed UTF-8 stdin remains unverified: the pinned executable uses surrogateescape; Fast and Fancy rules differ around invalid bytes, so no lossy sentinel approximation is accepted.",
     "JSON version output differs in four tested vectors because Python includes sys.version_info[:3]; no fabricated Python version is emitted by Rust. See rust/artifacts/version-json-metadata-final-20261108.json.",
     "`version --verbose` stderr contains timestamped pinned Python runtime metadata and is not reproduced by Rust. See rust/artifacts/version-verbose-runtime-final-20261108.json.",
-    "Dangling file-symlink Compact/Full/JSON behavior is verified for the accepted cases; permission-denied traversal and symlink behavior outside the accepted cases remain unverified."
+    "Dangling file-symlink Compact/Full/JSON behavior is verified for the accepted cases; permission-denied traversal and symlink behavior outside the accepted cases remain unverified.",
+    "The Linux HOME-absent/no-passwd-entry reproducer remains a confirmed mismatch: pinned Python fails during import with an installation-specific traceback while Rust completes the command; it is blocked and excluded from production_capabilities."
   ],
   "capability_states": [
     {
@@ -9831,13 +9861,41 @@
           "candidate_sha256": "fd161b894677227709bc886b01c290bdf7c617bc4abda13eca881268366db424"
         }
       }
+    },
+    {
+      "id": "cli.config.no_passwd_home",
+      "status": "blocked",
+      "case_ids": [
+        "cli_config_no_passwd_home_absent"
+      ],
+      "upstream_source": "Pinned Proselint 0.16.0 imports proselint/config/paths.py, which calls pathlib.Path.home() before CLI dispatch.",
+      "upstream_spec": "With HOME and XDG_CONFIG_HOME absent under a UID with no passwd entry, the Python process exits 1 during import and prints RuntimeError: Could not determine home directory; the Rust CLI currently runs normally.",
+      "status_reason": "The baseline failure is a Python startup traceback with runtime and installation-path details; exact cross-installation reproduction is unresolved. The manifest precondition is documentary, so focused runs must be explicitly wrapped in the recorded Linux user namespace.",
+      "red": {
+        "status": "MISMATCH",
+        "cases": 1,
+        "report": "rust/artifacts/no-passwd-entry-live-comparator-final2-20261109.json",
+        "report_sha256": "d34acd7f258c7b2091a940c5afeb9a2729b7d4523dc2577fcc4ad9bd2961c17f"
+      },
+      "independent_verification": {
+        "status": "MISMATCH",
+        "mismatches": 1,
+        "report": "rust/artifacts/independent-cli-config-no-passwd-home-final-gate-20261109/live-comparison.json",
+        "report_sha256": "ea1da5b3e32af484a79224bf832e4ea421b19efff2861a03e3db00624ec8ab83",
+        "evidence": "rust/artifacts/independent-cli-config-no-passwd-home-final-gate-20261109/evidence.json",
+        "evidence_sha256": "160e40ac3c75f727bf6bb382c03754a05cad111114dd3a3ad74df56d099098b9",
+        "requested_model": "gpt-6-luna",
+        "requested_effort": "low",
+        "runtime_model_metadata": "unavailable"
+      },
+      "acceptance": "blocked; excluded from production_capabilities and cumulative strict gate"
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-itoa-latest-dependency-20261109.json",
+    "report": "rust/artifacts/strict-gate-no-passwd-home-final-20261109.json",
     "passed_cases": 1101,
-    "manifest_cases": 1111,
+    "manifest_cases": 1112,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
       "cli.version.json_metadata": 5,
@@ -9847,22 +9905,22 @@
     "intentional_divergence_cases": {
       "cli.product_version_flag": 1
     },
-    "unresolved_manifest_cases": 1,
+    "unresolved_manifest_cases": 2,
     "exit_code": 0,
     "capability_count": 123,
-    "source_fingerprint": "536750c6f4cdf4d05d090807ab46acb80c632d0368a9410f8d2676429cd86563",
-    "run_id": "20261109T033437013310Z-b3dea05c",
-    "started_at_utc": "2026-11-09T03:34:37.013278+00:00",
-    "finished_at_utc": "2026-11-09T03:51:00.929642+00:00",
-    "candidate_attestation": "rust/artifacts/20261109T033121774993Z-build.attestation.json",
+    "source_fingerprint": "8fedf0a6c65e13d17abb8a89fef87152dbc567f0683836cb76da3e2d775adb4a",
+    "run_id": "20261109T043904760866Z-573754eb",
+    "started_at_utc": "2026-11-09T04:39:04.760841+00:00",
+    "finished_at_utc": "2026-11-09T04:55:23.646703+00:00",
+    "candidate_attestation": "rust/artifacts/20261109T043649512627Z-build.attestation.json",
     "candidate_sha256": "fd161b894677227709bc886b01c290bdf7c617bc4abda13eca881268366db424",
     "cargo_lock_sha256": "05212984084365b79c499cd3c111ceb71349e05968ff8b21316e6ec64fd76fc1",
-    "duration_seconds": 1182.275239,
+    "duration_seconds": 1117.22416,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.146778,
-      "cumulative_live_comparison": 984.249543,
-      "oracle_integrity": 2.113836,
-      "rust_checks_and_build": 195.315238
+      "comparator_self_tests": 0.154777,
+      "cumulative_live_comparison": 979.187221,
+      "oracle_integrity": 2.135504,
+      "rust_checks_and_build": 135.324069
     },
     "comparator_self_tests": 23
   },

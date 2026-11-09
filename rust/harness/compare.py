@@ -120,10 +120,10 @@ def validate_case(case: Any) -> None:
         raise ValueError(f"{case['id']}: environment and comparison must be objects")
     if "PYTHONPYCACHEPREFIX" in case["environment"]:
         raise ValueError(f"{case['id']}: PYTHONPYCACHEPREFIX is reserved for oracle isolation")
-    if "HOME" in case["environment"] and case["environment"]["HOME"] != "":
-        raise ValueError(f"{case['id']}: HOME may only be overridden with an empty string")
-    if any(not isinstance(key, str) or (value is not None and not isinstance(value, str)) or (value is None and key != "XDG_CONFIG_HOME") for key, value in case["environment"].items()):
-        raise ValueError(f"{case['id']}: environment values must be strings; only XDG_CONFIG_HOME may be unset")
+    if "HOME" in case["environment"] and case["environment"]["HOME"] is not None and case["environment"]["HOME"] != "":
+        raise ValueError(f"{case['id']}: HOME may only be unset or overridden with an empty string")
+    if any(not isinstance(key, str) or (value is not None and not isinstance(value, str)) or (value is None and key not in {"HOME", "XDG_CONFIG_HOME"}) for key, value in case["environment"].items()):
+        raise ValueError(f"{case['id']}: environment values must be strings; only HOME and XDG_CONFIG_HOME may be unset")
     home_files = case.get("home_files", [])
     if not isinstance(home_files, list):
         raise ValueError(f"{case['id']}: home_files must be an array")
@@ -446,13 +446,11 @@ def fresh_env(home: Path, extra: dict[str, Any]) -> dict[str, str]:
     for key in ("PYTHONPATH", "PYTHONHOME", "PROSELINT_CONFIG"):
         env.pop(key, None)
     for key, value in extra.items():
-        if key == "XDG_CONFIG_HOME":
+        if key in {"HOME", "XDG_CONFIG_HOME"}:
             if value is None:
                 env.pop(key, None)
             else:
                 env[key] = value
-        elif key == "HOME":
-            env[key] = ""
         elif key not in {"HOME", "PYTHONPATH", "PYTHONHOME"}:
             env[key] = value
     env["PYTHONPYCACHEPREFIX"] = str(home / "isolated-pycache")

@@ -6,6 +6,8 @@ Each capability moves through upstream specification, behaviorally failing tests
 
 The comparator has negative self-tests that deliberately introduce output, status, schema, and harness-integrity failures. Those checks ensure that mismatches are detected instead of normalized away. Live cases use a bounded two-worker pool, keep oracle and candidate runs sequential within each case, preserve manifest order in reports, and isolate Python bytecode caches per case.
 
+Case environment overrides distinguish an absent `HOME` (`null`) from an empty `HOME` (`""`). Manifest `preconditions` are documentary, so platform-specific cases requiring a UID without a passwd entry must be run inside the stated namespace and stay outside the accepted cumulative gate until their parity is resolved.
+
 Run the Python harness unit suite with `python3 -m unittest discover -s rust/harness/tests -p 'test_*.py'`. Keep this separate from focused capability comparisons; run it with the cumulative gate after shared CLI, config, matcher, or output changes and at the scheduled 5–10-capability checkpoint. For isolated capabilities, retain focused and independent live comparisons without repeating the full cumulative gate.
 
 `gate.py` reruns pinned-oracle integrity, comparator self-tests, and the cumulative live comparison on every invocation. By default it also runs fmt, Clippy, all Rust tests, and a locked build. If an existing build attestation proves all four checks and still matches the current source fingerprint, `Cargo.lock`, binary, and pinned toolchain, those build steps can be reused with `--reuse-attestation <path>`; live comparison and oracle integrity are never reused. Any covered source or lockfile change requires a new attestation.

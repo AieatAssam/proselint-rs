@@ -36371,5 +36371,109 @@
         "exit_status": "exact"
       }
     }
+,
+    {
+      "id": "cli_user_discovery_xdg_unreadable_file",
+      "capability_id": "cli.config.user_discovery",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live oracle returns exit 4 and a structured JSON FileError when the discovered XDG config exists with mode 000.",
+      "input_mode": "stdin",
+      "stdin_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg==",
+      "files": [
+        {
+          "path": "xdg/proselint/config.json",
+          "content_base64": "e30=",
+          "mode": 0
+        }
+      ],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "XDG_CONFIG_HOME": "xdg"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "unused_files": [
+        "xdg/proselint/config.json"
+      ]
+    }
+,
+    {
+      "capability_id": "cli.config.user_discovery",
+      "provenance": "Pinned live Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; mode-000 shared XDG config produces exit 4, empty stdout, and this exact full/compact stderr byte output.",
+      "input_mode": "stdin",
+      "stdin_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg==",
+      "files": [
+        {
+          "path": "xdg/proselint/config.json",
+          "content_base64": "e30=",
+          "mode": 0
+        }
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "XDG_CONFIG_HOME": "xdg"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "unused_files": [
+        "xdg/proselint/config.json"
+      ],
+      "id": "cli_user_discovery_xdg_unreadable_full",
+      "argv": [
+        "check",
+        "--output-format",
+        "full"
+      ]
+    },
+    {
+      "capability_id": "cli.config.user_discovery",
+      "provenance": "Pinned live Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; mode-000 shared XDG config produces exit 4, empty stdout, and this exact full/compact stderr byte output.",
+      "input_mode": "stdin",
+      "stdin_base64": "T3VyIHBvbGljeSBzdGF0ZXM6IE1vcmUgcmVzZWFyY2ggaXMgbmVlZGVkLg==",
+      "files": [
+        {
+          "path": "xdg/proselint/config.json",
+          "content_base64": "e30=",
+          "mode": 0
+        }
+      ],
+      "output_format": "compact",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "XDG_CONFIG_HOME": "xdg"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "unused_files": [
+        "xdg/proselint/config.json"
+      ],
+      "id": "cli_user_discovery_xdg_unreadable_compact",
+      "argv": [
+        "check",
+        "--output-format",
+        "compact"
+      ]
+    }
   ]
 }

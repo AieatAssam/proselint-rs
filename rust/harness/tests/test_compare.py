@@ -845,6 +845,45 @@ class ComparatorTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "reserved for oracle isolation"):
             compare.validate_case(invalid)
 
+    def test_fixture_mode_applies_to_shared_workspace_and_rejects_invalid_values(self) -> None:
+        case = next(case for case in compare.load_manifest()["cases"] if case["id"] == "cli_user_discovery_xdg_unreadable_file")
+        compare.validate_case(case)
+        with tempfile.TemporaryDirectory() as temporary:
+            shared_workspace = Path(temporary) / "shared"
+            compare.materialize_files(case, shared_workspace)
+            reference_config = shared_workspace / case["files"][0]["path"]
+            candidate_config = shared_workspace / case["files"][0]["path"]
+            self.assertEqual(reference_config.resolve(), candidate_config.resolve())
+            self.assertEqual(reference_config.stat().st_mode & 0o777, 0)
+            archived_workspace = Path(temporary) / "archive"
+            compare.copy_workspace_layout(case, shared_workspace, archived_workspace)
+            self.assertEqual(reference_config.stat().st_mode & 0o777, 0)
+            self.assertEqual((archived_workspace / case["files"][0]["path"]).stat().st_mode & 0o777, 0)
+        case["files"][0]["mode"] = True
+        with self.assertRaisesRegex(ValueError, "mode must be an integer from 0 through 511"):
+            compare.validate_case(case)
+
+    def test_user_discovery_xdg_unreadable_file_fixture(self) -> None:
+        case = next(case for case in compare.load_manifest()["cases"] if case["id"] == "cli_user_discovery_xdg_unreadable_file")
+        self.assertEqual(case["capability_id"], "cli.config.user_discovery")
+        self.assertEqual(case["files"], [{"path": "xdg/proselint/config.json", "content_base64": "e30=", "mode": 0}])
+        self.assertEqual(case["unused_files"], ["xdg/proselint/config.json"])
+        self.assertEqual(case["environment"]["XDG_CONFIG_HOME"], "xdg")
+        self.assertFalse(case["workspace_mutates"])
+        self.assertEqual(case["expected_oracle_outcome"], "cli_error")
+        compare.validate_case(case)
+        for output_format in ("full", "compact"):
+            formatted = next(item for item in compare.load_manifest()["cases"]
+                             if item["id"] == f"cli_user_discovery_xdg_unreadable_{output_format}")
+            self.assertEqual(formatted["capability_id"], case["capability_id"])
+            self.assertEqual(formatted["files"], case["files"])
+            self.assertEqual(formatted["environment"], case["environment"])
+            self.assertEqual(formatted["argv"], ["check", "--output-format", output_format])
+            self.assertEqual(formatted["output_format"], output_format)
+            self.assertEqual(formatted["comparison"], {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"})
+            self.assertEqual(formatted["expected_oracle_outcome"], "cli_error")
+            compare.validate_case(formatted)
+
     def test_user_discovery_skips_xdg_directory_candidate_without_home_fallback(self) -> None:
         case = next(
             case for case in compare.load_manifest()["cases"]
@@ -1161,6 +1200,9 @@ class ComparatorTests(unittest.TestCase):
             "cli_user_discovery_cwd_precedes_user", "cli_user_discovery_ancestor_precedes_user",
             "cli_user_discovery_malformed_first_user_errors", "cli_user_discovery_explicit_overrides_user", "cli_user_discovery_xdg_relative_path",
             "cli_user_discovery_xdg_directory_does_not_fall_back_to_home",
+            "cli_user_discovery_xdg_unreadable_file",
+            "cli_user_discovery_xdg_unreadable_full",
+            "cli_user_discovery_xdg_unreadable_compact",
             "cli_config_cwd_discovers_finding",
             "cli_config_no_config_default_enabled_rule_finding",
             "cli_config_no_config_default_clean_input",
@@ -1901,7 +1943,7 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(
             {capability: sum(case["capability_id"] == capability for case in manifest["cases"])
              for capability in {case["capability_id"] for case in manifest["cases"]}},
-            {'rule.misc.debased': 15, 'rule.misc.capitalization.days': 12, 'rule.cliches.hell': 7, 'harness.oracle_smoke': 2, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.dates_times.am_pm.midnight_noon': 10, 'rule.dates_times.dates.decade_apostrophes': 10, 'rule.misc.narcissism': 9, 'rule.misc.latin': 10, 'rule.misc.back_formations': 8, 'rule.misc.capitalization.terms': 12, 'rule.industrial_language.airlinese': 12, 'cli.json_no_findings': 8, 'rule.misc.phrasal_adjectives.ly': 7, 'rule.misc.greylist': 10, 'rule.misc.many_a': 12, 'cli.output_format.full': 3, 'cli.output.compact': 4, 'cli.config.ignored_values': 5, 'rule.misc.professions': 8, 'cli.config.cwd_discovery': 3, 'cli.config.empty_home_fallback': 1, 'cli.config.no_passwd_home': 1, 'cli.config.no_config_default': 3, 'cli.config.missing_explicit_text_error': 2, 'cli.config.ancestor_discovery': 5, 'rule.misc.illogic.coin': 7, 'rule.hedging': 14, 'cli.config.invalid_utf8': 5, 'rule.misc.whence': 6, 'rule.annotations.misc': 10, 'rule.typography.symbols.sentence_spacing': 7, 'cli.config.consumed_special_values': 19, 'cli.config.non_object_root': 17, 'rule.cliches.misc.write_good': 9, 'cli.config.malformed_json': 22, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.copyright': 6, 'rule.misc.pretension': 9, 'cli.config.recursion_depth': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.misc.institution_name': 8, 'rule.misc.currency': 12, 'rule.misc.suddenly': 7, 'cli.coordinates': 6, 'rule.misc.but': 8, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.collusion': 7, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.capitalization.seasons': 12, 'cli.config.directory_path': 6, 'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 12, 'rule.misc.inferior_superior': 12, 'rule.misc.false_plurals.misc': 9, 'cli.config.per_file_checks': 7, 'rule.redundancy.misc.wallace': 10, 'rule.dates_times.am_pm.spacing': 8, 'rule.typography.symbols.ellipsis': 6, 'rule.psychology.lie_detector': 12, 'rule.industrial_language.jargon': 11, 'cli.config.user_discovery': 12, 'rule.misc.capitalization.months': 8, 'rule.psychology.p_equals_zero': 8, 'spelling.ance_ence': 10, 'rule.misc.composition': 38, 'cli.combined_checks': 3, 'rule.terms.eponymous_adjectives': 4, 'rule.spelling.ally_ly': 10, 'rule.spelling.ely_ly': 9, 'rule.spelling.ve_of': 11, 'rule.malapropisms': 10, 'rule.spelling.in_un': 10, 'rule.mondegreens': 10, 'rule.skunked_terms': 11, 'rule.oxymorons': 16, 'rule.redundancy.misc.nordquist': 11, 'rule.misc.not_guilty': 4, 'spelling.er_or': 8, 'spelling.able_ible': 9, 'spelling.able_atable': 8, 'spelling.em_im_en_in': 8, 'spelling.athletes': 29, 'rule.archaism': 13, 'rule.dates_times.dates.month_year_comma': 8, 'rule.dates_times.dates.dash_and_from': 13, 'rule.dates_times.dates.month_of_year': 3, 'rule.misc.scare_quotes': 3, 'rule.typography.punctuation.hyperbole': 3, 'rule.typography.punctuation.misplaced': 3, 'rule.typography.punctuation.exclamation': 4, 'rule.social_awareness.nword': 8, 'rule.typography.symbols.curly_quotes': 9, 'rule.weasel_words.very': 14, 'rule.misc.waxed': 7, 'rule.mixed_metaphors.bottleneck': 8, 'rule.mixed_metaphors.misc': 6, 'rule.redundancy.ras_syndrome': 8, 'rule.misc.illogic': 6, 'rule.misc.tense_present': 6, 'rule.lexical_illusions': 12, 'rule.typography.punctuation.spacing': 9, 'rule.typography.diacritical_marks': 22, 'cli.dump_config_default': 8, 'cli.version_text': 1, 'cli.product_version_flag': 1, 'cli.top_level_help': 3, 'cli.command_help': 2, 'cli.check_help': 2, 'cli.help_combined_arguments': 3, 'cli.help_argument_precedence': 4, 'cli.stdin_invalid_utf8': 13, 'cli.invalid_output_format_error': 44, 'cli.file_invalid_utf8_error': 2, 'cli.missing_path_error_after_double_dash': 3, 'cli.multiple_file_paths': 7, 'cli.check_demo_compact_selected_rules': 3, 'cli.demo.json': 1, 'cli.directory_expansion': 16, 'cli.version_argument_precedence': 7, 'cli.unrecognized_arguments': 12, 'cli.missing_option_value_before_option': 14, 'cli.missing_option_value_at_argv_end': 6, 'cli.version.json_metadata': 5, 'cli.version.verbose_runtime': 1, 'cli.dump_config.version_precedence': 3, 'cli.root_config_argument_precedence': 6, 'cli.output_format.attached_values': 8, 'cli.long_option_abbreviation': 10},
+            {'rule.misc.debased': 15, 'rule.misc.capitalization.days': 12, 'rule.cliches.hell': 7, 'harness.oracle_smoke': 2, 'rule.dates_times.am_pm.lowercase_periods': 9, 'rule.dates_times.am_pm.midnight_noon': 10, 'rule.dates_times.dates.decade_apostrophes': 10, 'rule.misc.narcissism': 9, 'rule.misc.latin': 10, 'rule.misc.back_formations': 8, 'rule.misc.capitalization.terms': 12, 'rule.industrial_language.airlinese': 12, 'cli.json_no_findings': 8, 'rule.misc.phrasal_adjectives.ly': 7, 'rule.misc.greylist': 10, 'rule.misc.many_a': 12, 'cli.output_format.full': 3, 'cli.output.compact': 4, 'cli.config.ignored_values': 5, 'rule.misc.professions': 8, 'cli.config.cwd_discovery': 3, 'cli.config.empty_home_fallback': 1, 'cli.config.no_passwd_home': 1, 'cli.config.no_config_default': 3, 'cli.config.missing_explicit_text_error': 2, 'cli.config.ancestor_discovery': 5, 'rule.misc.illogic.coin': 7, 'rule.hedging': 14, 'cli.config.invalid_utf8': 5, 'rule.misc.whence': 6, 'rule.annotations.misc': 10, 'rule.typography.symbols.sentence_spacing': 7, 'cli.config.consumed_special_values': 19, 'cli.config.non_object_root': 17, 'rule.cliches.misc.write_good': 9, 'cli.config.malformed_json': 22, 'rule.typography.symbols.trademark': 7, 'rule.typography.symbols.copyright': 6, 'rule.misc.pretension': 9, 'cli.config.recursion_depth': 12, 'rule.industrial_language.bureaucratese': 11, 'rule.misc.institution_name': 8, 'rule.misc.currency': 12, 'rule.misc.suddenly': 7, 'cli.coordinates': 6, 'rule.misc.but': 8, 'rule.psychology.mental_telepathy': 6, 'rule.misc.illogic.collusion': 7, 'rule.misc.false_plurals.kudos': 7, 'rule.typography.symbols.multiplication': 7, 'rule.misc.capitalization.seasons': 12, 'cli.config.directory_path': 6, 'rule.misc.apologizing': 7, 'rule.misc.metadiscourse': 12, 'rule.misc.inferior_superior': 12, 'rule.misc.false_plurals.misc': 9, 'cli.config.per_file_checks': 7, 'rule.redundancy.misc.wallace': 10, 'rule.dates_times.am_pm.spacing': 8, 'rule.typography.symbols.ellipsis': 6, 'rule.psychology.lie_detector': 12, 'rule.industrial_language.jargon': 11, 'cli.config.user_discovery': 15, 'rule.misc.capitalization.months': 8, 'rule.psychology.p_equals_zero': 8, 'spelling.ance_ence': 10, 'rule.misc.composition': 38, 'cli.combined_checks': 3, 'rule.terms.eponymous_adjectives': 4, 'rule.spelling.ally_ly': 10, 'rule.spelling.ely_ly': 9, 'rule.spelling.ve_of': 11, 'rule.malapropisms': 10, 'rule.spelling.in_un': 10, 'rule.mondegreens': 10, 'rule.skunked_terms': 11, 'rule.oxymorons': 16, 'rule.redundancy.misc.nordquist': 11, 'rule.misc.not_guilty': 4, 'spelling.er_or': 8, 'spelling.able_ible': 9, 'spelling.able_atable': 8, 'spelling.em_im_en_in': 8, 'spelling.athletes': 29, 'rule.archaism': 13, 'rule.dates_times.dates.month_year_comma': 8, 'rule.dates_times.dates.dash_and_from': 13, 'rule.dates_times.dates.month_of_year': 3, 'rule.misc.scare_quotes': 3, 'rule.typography.punctuation.hyperbole': 3, 'rule.typography.punctuation.misplaced': 3, 'rule.typography.punctuation.exclamation': 4, 'rule.social_awareness.nword': 8, 'rule.typography.symbols.curly_quotes': 9, 'rule.weasel_words.very': 14, 'rule.misc.waxed': 7, 'rule.mixed_metaphors.bottleneck': 8, 'rule.mixed_metaphors.misc': 6, 'rule.redundancy.ras_syndrome': 8, 'rule.misc.illogic': 6, 'rule.misc.tense_present': 6, 'rule.lexical_illusions': 12, 'rule.typography.punctuation.spacing': 9, 'rule.typography.diacritical_marks': 22, 'cli.dump_config_default': 8, 'cli.version_text': 1, 'cli.product_version_flag': 1, 'cli.top_level_help': 3, 'cli.command_help': 2, 'cli.check_help': 2, 'cli.help_combined_arguments': 3, 'cli.help_argument_precedence': 4, 'cli.stdin_invalid_utf8': 13, 'cli.invalid_output_format_error': 44, 'cli.file_invalid_utf8_error': 2, 'cli.missing_path_error_after_double_dash': 3, 'cli.multiple_file_paths': 7, 'cli.check_demo_compact_selected_rules': 3, 'cli.demo.json': 1, 'cli.directory_expansion': 16, 'cli.version_argument_precedence': 7, 'cli.unrecognized_arguments': 12, 'cli.missing_option_value_before_option': 14, 'cli.missing_option_value_at_argv_end': 6, 'cli.version.json_metadata': 5, 'cli.version.verbose_runtime': 1, 'cli.dump_config.version_precedence': 3, 'cli.root_config_argument_precedence': 6, 'cli.output_format.attached_values': 8, 'cli.long_option_abbreviation': 10},
         )
 
         archaism = [case for case in manifest["cases"] if case["capability_id"] == "rule.archaism"]

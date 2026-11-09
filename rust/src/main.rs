@@ -1974,22 +1974,20 @@ fn run() -> Result<ExitCode, String> {
         }
         None => (Vec::new(), false, version_flag, version_flag, !version_flag),
     };
-    let (config, config_is_default) = match config {
-        Some(config) => (config, false),
+    let (config, config_is_default, user_config_discovered) = match config {
+        Some(config) => (config, false, false),
         None => {
             let cwd = std::env::current_dir()
                 .map_err(|error| format!("Unable to determine current directory: {error}"))?;
             let project_config = std::iter::successors(Some(cwd.as_path()), |path| path.parent())
                 .map(|directory| directory.join("proselint.json"))
                 .find(|candidate| candidate.is_file());
-            let user_config = if project_config.is_none() {
-                user_config_path()
-            } else {
-                None
-            };
-            match project_config.or(user_config) {
-                Some(config) => (config, false),
-                None => (PathBuf::from("proselint.json"), true),
+            match project_config {
+                Some(config) => (config, false, false),
+                None => match user_config_path() {
+                    Some(config) => (config, false, true),
+                    None => (PathBuf::from("proselint.json"), true, false),
+                },
             }
         }
     };
@@ -2027,6 +2025,20 @@ fn run() -> Result<ExitCode, String> {
                     }
                     return Err(format!(
                         "Unrecoverable error encountered while running proselint: {message}"
+                    ));
+                }
+                if user_config_discovered && error.raw_os_error() == Some(13) {
+                    let permission_message =
+                        format!("[Errno 13] Permission denied: '{}'", config.display());
+                    if matches!(output_format, OutputFormat::Json) {
+                        println!(
+                            "{}",
+                            serde_json::json!({"error":{"code":-31998,"message":permission_message}})
+                        );
+                        return Ok(ExitCode::from(4));
+                    }
+                    return Err(format!(
+                        "Unrecoverable error encountered while running proselint: {permission_message}"
                     ));
                 }
                 return Err(format!("{message}: {error}"));

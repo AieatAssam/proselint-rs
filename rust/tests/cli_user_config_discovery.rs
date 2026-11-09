@@ -1,6 +1,8 @@
 use serde_json::Value;
 use std::fs;
 use std::io::Write;
+#[cfg(unix)]
+use std::os::unix::fs::PermissionsExt;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 use std::sync::atomic::{AtomicUsize, Ordering};
@@ -36,12 +38,25 @@ impl Workspace {
         home: Option<&Path>,
         explicit: Option<&str>,
     ) -> std::process::Output {
+        self.run_with_format(xdg, home, explicit, Some("json"))
+    }
+
+    fn run_with_format(
+        &self,
+        xdg: Option<&str>,
+        home: Option<&Path>,
+        explicit: Option<&str>,
+        format: Option<&str>,
+    ) -> std::process::Output {
         let mut command = Command::new(env!("CARGO_BIN_EXE_proselint-rs"));
         command
             .current_dir(self.cwd())
             .env_remove("XDG_CONFIG_HOME")
             .env_remove("HOME")
-            .args(["check", "--output-format", "json"]);
+            .arg("check");
+        if let Some(format) = format {
+            command.args(["--output-format", format]);
+        }
         if let Some(xdg) = xdg {
             command.env("XDG_CONFIG_HOME", xdg);
         }
@@ -174,4 +189,59 @@ fn relative_xdg_path_is_relative_to_process_cwd() {
         apologizing(),
     );
     assert_diagnostics(&workspace.run(Some("relative"), None, None), 1, 1);
+}
+
+#[cfg(unix)]
+#[test]
+fn unreadable_xdg_config_is_a_structured_json_error() {
+    let workspace = Workspace::new();
+    let config = workspace.0.join("xdg/proselint/config.json");
+    fs::create_dir_all(config.parent().unwrap()).unwrap();
+    fs::write(&config, disabled()).unwrap();
+    fs::set_permissions(&config, fs::Permissions::from_mode(0o0)).unwrap();
+
+    let output = workspace.run(
+        Some(workspace.0.join("xdg").to_str().unwrap()),
+        Some(&workspace.0.join("home")),
+        None,
+    );
+    assert_eq!(output.status.code(), Some(4), "stderr: {:?}", output.stderr);
+    assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
+    let value: Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert_eq!(value["error"]["code"], -31998);
+    assert_eq!(
+        value["error"]["message"],
+        format!("[Errno 13] Permission denied: '{}'", config.display())
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn unreadable_xdg_config_text_errors_match_python_for_full_and_compact() {
+    for format in ["full", "compact"] {
+        let workspace = Workspace::new();
+        let config = workspace.0.join("xdg/proselint/config.json");
+        fs::create_dir_all(config.parent().unwrap()).unwrap();
+        fs::write(&config, disabled()).unwrap();
+        fs::set_permissions(&config, fs::Permissions::from_mode(0o0)).unwrap();
+
+        let output = workspace.run_with_format(
+            Some(workspace.0.join("xdg").to_str().unwrap()),
+            Some(&workspace.0.join("home")),
+            None,
+            Some(format),
+        );
+        assert_eq!(output.status.code(), Some(4), "format {format}");
+        assert!(output.stdout.is_empty(), "format {format}");
+        assert_eq!(
+            output.stderr,
+            b"Unrecoverable error encountered while running proselint: [Errno 13] Permission denied: '"
+                .iter()
+                .copied()
+                .chain(config.display().to_string().bytes())
+                .chain(b"'\n".iter().copied())
+                .collect::<Vec<_>>(),
+            "format {format}"
+        );
+    }
 }

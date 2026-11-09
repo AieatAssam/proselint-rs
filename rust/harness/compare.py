@@ -137,6 +137,8 @@ def validate_case(case: Any) -> None:
             base64.b64decode(item["content_base64"], validate=True)
         except ValueError as exc:
             raise ValueError(f"{case['id']}: invalid home file base64 for {item['path']}") from exc
+        if "mode" in item and (type(item["mode"]) is not int or not 0 <= item["mode"] <= 0o777):
+            raise ValueError(f"{case['id']}: mode must be an integer from 0 through 511")
     for key, allowed in VALID_COMPARISON.items():
         if not isinstance(case["comparison"].get(key), str) or case["comparison"][key] not in allowed:
             raise ValueError(f"{case['id']}: comparison.{key} must be one of {sorted(allowed)}")
@@ -180,6 +182,8 @@ def validate_case(case: Any) -> None:
             base64.b64decode(file["content_base64"], validate=True)
         except ValueError as exc:
             raise ValueError(f"{case['id']}: invalid file base64 for {file['path']}") from exc
+        if "mode" in file and (type(file["mode"]) is not int or not 0 <= file["mode"] <= 0o777):
+            raise ValueError(f"{case['id']}: mode must be an integer from 0 through 511")
     symlinks = case.get("symlinks", [])
     if not isinstance(symlinks, list):
         raise ValueError(f"{case['id']}: symlinks must be an array")
@@ -462,6 +466,25 @@ def materialize_files(case: dict[str, Any], workspace: Path) -> None:
         target = workspace / item["path"]
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes(base64.b64decode(item["content_base64"], validate=True))
+        if "mode" in item:
+            target.chmod(item["mode"])
+
+
+def copy_workspace_layout(case: dict[str, Any], source: Path, destination: Path) -> None:
+    modes = [
+        (source / item["path"], item["mode"])
+        for item in case["files"]
+        if "mode" in item
+    ]
+    try:
+        for path, mode in modes:
+            path.chmod(mode | 0o400)
+        shutil.copytree(source, destination, symlinks=True)
+        for path, mode in modes:
+            (destination / path.relative_to(source)).chmod(mode)
+    finally:
+        for path, mode in modes:
+            path.chmod(mode)
 
 
 def materialize_symlinks(case: dict[str, Any], workspace: Path) -> None:
@@ -477,6 +500,8 @@ def materialize_home_files(case: dict[str, Any], home: Path) -> None:
         target = home / item["path"]
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes(base64.b64decode(item["content_base64"], validate=True))
+        if "mode" in item:
+            target.chmod(item["mode"])
 
 
 def run_case(
@@ -515,7 +540,7 @@ def run_case(
         for role, executable in (("reference", reference_argv), ("candidate", candidate_argv)):
             role_workspace = temp_base / role if case["workspace_mutates"] else temp_base / "shared"
             if not role_workspace.exists():
-                shutil.copytree(layout, role_workspace, symlinks=True)
+                copy_workspace_layout(case, layout, role_workspace)
             working_directory = role_workspace / case.get("working_directory", ".")
             working_directory.mkdir(parents=True, exist_ok=True)
             home = case_dir / role / "home"
@@ -537,7 +562,7 @@ def run_case(
             for path, role in zip(workspace_paths, ("reference", "candidate"), strict=True):
                 shutil.copytree(path, case_dir / f"{role}-input-layout", symlinks=True)
         else:
-            shutil.copytree(workspace_paths[0], case_dir / "materialized-workspace", symlinks=True)
+            copy_workspace_layout(case, workspace_paths[0], case_dir / "materialized-workspace")
     left, right = executions
     status = "PASS"
     diffs: list[dict[str, Any]] = []

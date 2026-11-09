@@ -104,6 +104,28 @@ fn no_config_found_enables_garner_denizen_labels() {
 }
 
 #[test]
+fn no_config_found_enables_nonwords() {
+    let output = Workspace::new().run(b"affrontery");
+    assert_eq!(output.status.code(), Some(1), "stderr: {:?}", output.stderr);
+    assert_eq!(
+        output.stdout,
+        b"<stdin>:1:1: nonwords: Nonword - try 'effrontery'.\n"
+    );
+    assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
+}
+
+#[test]
+fn no_config_found_enables_venery() {
+    let output = Workspace::new().run(b"There was a group of alligators.");
+    assert_eq!(output.status.code(), Some(1), "stderr: {:?}", output.stderr);
+    assert_eq!(
+        output.stdout,
+        b"<stdin>:1:13: terms.venery: The venery term is 'congregation of alligators'.\n"
+    );
+    assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
+}
+
+#[test]
 fn no_config_found_keeps_clean_input_clean() {
     let output = Workspace::new().run(b"An ordinary sentence.");
     assert_eq!(output.status.code(), Some(0), "stderr: {:?}", output.stderr);

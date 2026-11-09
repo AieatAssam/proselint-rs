@@ -2,9 +2,9 @@
 
 ## Latest cumulative gate
 
-The latest cumulative gate remains historical: it passed 1258/1258 cases across 126 capabilities, predating `rule.terms.animal_adjectives`, `rule.terms.denizen_labels.norris`, and `rule.terms.denizen_labels.garner`. Current focused coverage is 1276/1287 manifest cases across 129 capabilities; defer another full gate to the 5–10-capability cadence. The historical report is [`../artifacts/strict-gate-social-awareness-lgbtq-terms-20261109.json`](../artifacts/strict-gate-social-awareness-lgbtq-terms-20261109.json). See [`status.json`](../status.json) and [`status-history.jsonl`](../status-history.jsonl).
+The cumulative gate passes 1292/1292 accepted cases across 131 capabilities, matching the accepted current case set (1292 of 1303 manifest cases), with zero mismatches, timeouts, or errors. Run `20261109T145328835906Z-b09882d6` at fingerprint `16546bad85b3679d0407dd22144b548139b1f06be59bddd4aa8fe98cfb753de5`; report: [`../artifacts/strict-gate-five-capability-checkpoint-20261109.json`](../artifacts/strict-gate-five-capability-checkpoint-20261109.json). See [`status.json`](../status.json) and [`status-history.jsonl`](../status-history.jsonl).
 
-The cumulative gate now passes 1258/1258 accepted cases across 126 capabilities, matching the current accepted case set (1258 of 1269 manifest cases). It reports zero mismatches, timeouts, or errors. Run `20261109T130343177872Z-c5b492ab` at fingerprint `6d41f10d6a133646a236454e6bbb20cf093ca28d84c12ba04db93c99363082c2`; report: [`../artifacts/strict-gate-social-awareness-lgbtq-terms-20261109.json`](../artifacts/strict-gate-social-awareness-lgbtq-terms-20261109.json). See [`status.json`](../status.json) and [`status-history.jsonl`](../status-history.jsonl).
+The gate took 1420.515066s: live comparison 1221.257345s, Rust checks/build 196.359711s, oracle integrity 2.190627s, and 23 comparator self-tests in 0.150359s. The prior 1258/1258 checkpoint is historical; the current gate above supersedes it.
 
 The strict gate took 1314.014908s: live comparison 1168.309383s, Rust checks/build 142.855777s, oracle integrity 2.196614s, and 23 comparator self-tests in 0.146281s. Evidence: [`../artifacts/strict-gate-social-awareness-lgbtq-terms-20261109.json`](../artifacts/strict-gate-social-awareness-lgbtq-terms-20261109.json).
 
@@ -36,7 +36,15 @@ Execution cadence and evidence-reuse rules are maintained in [`MIGRATION.md`](..
 
 `cli.unrecognized_arguments` matches pinned argparse for 12 live vectors, including subcommand-specific options, unknown short/attached/multiple options, help precedence, and tokens after `--`. A 6-case RED exposed exact stderr/status differences; 11 focused Rust tests, owner and independent live comparisons (12/12 each), and the immediate shared-CLI gate passed. The option-value behavior is now covered by `cli.missing_option_value_before_option` and `cli.missing_option_value_at_argv_end`; other value-taking option contexts remain unverified. Evidence: [`../artifacts/cli-unrecognized-args-red-summary.md`](../artifacts/cli-unrecognized-args-red-summary.md), [`../artifacts/independent-cli-unrecognized-args-final-20261108.json`](../artifacts/independent-cli-unrecognized-args-final-20261108.json), [`../artifacts/strict-gate-unknown-args-final-20261108.json`](../artifacts/strict-gate-unknown-args-final-20261108.json).
 
-The pinned inventory contains 106 unique check paths. Eighty-eight rule paths are accepted and 18 remain unimplemented; 41 bounded CLI capabilities are recorded. Current focused production coverage is 1276/1287 cases across 129 capabilities. The latest cumulative gate is historical at 1258/1258 across 126 capabilities and is stale for this case set; defer another full gate to the 5–10-capability cadence. Preserve duplicate registrations as separate checks and retain unresolved CLI/config behavior in the ledger.
+The pinned inventory contains 106 unique check paths. Ninety-one rule paths are accepted and 15 remain unimplemented; 41 bounded CLI capabilities are recorded. Current accepted production coverage is 1292/1303 manifest cases across 131 capabilities. The cumulative gate passes 1292/1292 at the current source fingerprint. Preserve duplicate registrations as separate checks and retain unresolved CLI/config behavior in the ledger.
+
+### `rule.nonwords`
+
+Eight focused owner and independent live cases pass after an 8/8 RED. An intermediate owner attempt exposed a `max_errors` ordering/truncation mismatch for `thusly; affrontery; thusly; analyzation.`; the fix now matches pinned behavior, and the overwritten intermediate report is not treated as durable evidence. Preserve the pinned `irregardlessness` activation/raw occurrence quirk and literal alternative strings. Garner attribution remains under the user-authorized package-wide BSD-3-Clause policy basis with attribution/notices retained and provenance/conflict caveats. Focused tests and all evidence are recorded in [`status.json`](../status.json). The cumulative gate is stale; it is now due after capability #131.
+
+### `rule.terms.venery`
+
+Eight focused owner and independent live cases pass after an 8/8 RED. Six rule tests, seven no-config CLI tests, and 23 comparator self-tests pass. Data attribution is Oxford Dictionaries under the user-authorized package-wide BSD-3-Clause policy basis with attribution/notices retained and provenance/conflict caveats. Evidence is in [`status.json`](../status.json); the current cumulative gate passes 1292/1292 across 131 capabilities.
 
 ### `rule.terms.denizen_labels.garner`
 

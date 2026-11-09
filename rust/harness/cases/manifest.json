@@ -41676,6 +41676,520 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "nonwords_all_mappings",
+      "capability_id": "rule.nonwords",
+      "provenance": "Pinned Proselint 0.16.0 checks/nonwords.py::check; source attributed to Garner's Modern American Usage (http://bit.ly/1T4alrY), under user-authorized package BSD-3-Clause policy basis with attribution retained. Expected outputs are obtained only from the live pinned Python executable. Exercises all 32 source mappings and their literal alternative replacement phrases.",
+      "input_mode": "stdin",
+      "stdin_base64": "YWZmcm9udGVyeTsgYW5hbHl6YXRpb247IGFubm95bWVudDsgY29uZmlybWFudDsgY29uZmlybWFudHM7IGNvbnZlcnNhdGU7IGNyYWluZWQ7IGRpc2NvbWZvcnR1cmU7IGRpc3BlcnNlbWVudDsgZG91YnRsZXNzbHk7IGZvcmViZWFyYW5jZTsgaW1wcm9wcmlldG91czsgaW5jbGltYXRlOyBpbmltaWNhYmxlOyBpcnJlZ2FyZGxlc3M7IG1pbmltYWxpemU7IG1pbmltYWxpemVkOyBtaW5pbWFsaXplczsgbWluaW1hbGl6aW5nOyBvcHRpbWFsaXplOyBwYXJhbHl6YXRpb247IHBldHRpZm9nZ2VyOyBwcm9wcmlldG91czsgcmVsYXRpdmUgaW5leHBlbnNlOyBzZWxkb21seTsgc3F1ZWxjaDsgdGh1c2x5OyB1bmNhdGVnb3JpY2FsbHk7IHVuZG91YnRhYmx5OyB1bmVxdWl2b2NhYmxlOyB1bm1lcmNpbGVzc2x5OyB1bnJlbGVudGxlc3NseS4=",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsibm9ud29yZHMiOnRydWV9LCJtYXhfZXJyb3JzIjoxMDAwfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "nonwords_case_boundaries",
+      "capability_id": "rule.nonwords",
+      "provenance": "Pinned Proselint 0.16.0 checks/nonwords.py::check; source attributed to Garner's Modern American Usage (http://bit.ly/1T4alrY), under user-authorized package BSD-3-Clause policy basis with attribution retained. Expected outputs are obtained only from the live pinned Python executable. Checks case-insensitive activation, word boundaries, and raw occurrence scans for active terms.",
+      "input_mode": "stdin",
+      "stdin_base64": "QUZGUk9OVEVSWTsgeGFmZnJvbnRlcnk7IGFmZnJvbnRlcnlYOyBESVNDT01GT1JUVVJFOyBkaXNjb21mb3J0dXJlWC4=",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsibm9ud29yZHMiOnRydWV9LCJtYXhfZXJyb3JzIjoxMDAwfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "nonwords_quotes_unicode",
+      "capability_id": "rule.nonwords",
+      "provenance": "Pinned Proselint 0.16.0 checks/nonwords.py::check; source attributed to Garner's Modern American Usage (http://bit.ly/1T4alrY), under user-authorized package BSD-3-Clause policy basis with attribution retained. Expected outputs are obtained only from the live pinned Python executable. Checks quote suppression, Unicode code-point columns, case-insensitive matching, and multiword replacements.",
+      "input_mode": "stdin",
+      "stdin_base64": "w6kg4oCccmVsYXRpdmUgaW5leHBlbnNl4oCdOyBSRUxBVElWRSBJTkVYUEVOU0UsIHRoZW4gJ2Rpc3BlcnNlbWVudCcu",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsibm9ud29yZHMiOnRydWV9LCJtYXhfZXJyb3JzIjoxMDAwfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "nonwords_max_errors",
+      "capability_id": "rule.nonwords",
+      "provenance": "Pinned Proselint 0.16.0 checks/nonwords.py::check; source attributed to Garner's Modern American Usage (http://bit.ly/1T4alrY), under user-authorized package BSD-3-Clause policy basis with attribution retained. Expected outputs are obtained only from the live pinned Python executable. Checks max_errors truncation at two diagnostics.",
+      "input_mode": "stdin",
+      "stdin_base64": "dGh1c2x5OyBhZmZyb250ZXJ5OyB0aHVzbHk7IGFuYWx5emF0aW9uLg==",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsibm9ud29yZHMiOnRydWV9LCJtYXhfZXJyb3JzIjoyfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "nonwords_no_hit",
+      "capability_id": "rule.nonwords",
+      "provenance": "Pinned Proselint 0.16.0 checks/nonwords.py::check; source attributed to Garner's Modern American Usage (http://bit.ly/1T4alrY), under user-authorized package BSD-3-Clause policy basis with attribution retained. Expected outputs are obtained only from the live pinned Python executable. Checks isolated `irregardlessness` and unrelated near-matches.",
+      "input_mode": "stdin",
+      "stdin_base64": "aXJyZWdhcmRsZXNzbmVzczsgZGlzY29tZm9ydGFibGU7IG9yZGluYXJ5IHByb3NlLg==",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsibm9ud29yZHMiOnRydWV9LCJtYXhfZXJyb3JzIjoxMDAwfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "nonwords_irregardless_context",
+      "capability_id": "rule.nonwords",
+      "provenance": "Pinned Proselint 0.16.0 checks/nonwords.py::check; source attributed to Garner's Modern American Usage (http://bit.ly/1T4alrY), under user-authorized package BSD-3-Clause policy basis with attribution retained. Expected outputs are obtained only from the live pinned Python executable. Checks that an unrelated active term does not activate `irregardlessness`, while a boundary-valid `irregardless` occurrence triggers raw hits.",
+      "input_mode": "stdin",
+      "stdin_base64": "YWZmcm9udGVyeTsgaXJyZWdhcmRsZXNzbmVzczsgaXJyZWdhcmRsZXNzLg==",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsibm9ud29yZHMiOnRydWV9LCJtYXhfZXJyb3JzIjoxMDAwfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "nonwords_irregardless_raw_occurrences",
+      "capability_id": "rule.nonwords",
+      "provenance": "Pinned Proselint 0.16.0 checks/nonwords.py::check; source attributed to Garner's Modern American Usage (http://bit.ly/1T4alrY), under user-authorized package BSD-3-Clause policy basis with attribution retained. Expected outputs are obtained only from the live pinned Python executable. Checks that `irregardless` activation causes both raw occurrences to be reported.",
+      "input_mode": "stdin",
+      "stdin_base64": "aXJyZWdhcmRsZXNzLCBpcnJlZ2FyZGxlc3NuZXNzLg==",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsibm9ud29yZHMiOnRydWV9LCJtYXhfZXJyb3JzIjoxMDAwfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "nonwords_default_enabled",
+      "capability_id": "rule.nonwords",
+      "provenance": "Pinned Proselint 0.16.0 checks/nonwords.py::check; source attributed to Garner's Modern American Usage (http://bit.ly/1T4alrY), under user-authorized package BSD-3-Clause policy basis with attribution retained. Expected outputs are obtained only from the live pinned Python executable. Checks no-config default dispatch for nonwords.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhleSBjb252ZXJzYXRlIGRlc3BpdGUgdGhlIGFmZnJvbnRlcnku",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "terms_venery_all_49_animals",
+      "capability_id": "rule.terms.venery",
+      "provenance": "Pinned Proselint 0.16.0 checks/terms/venery.py::check_venery; data attributed to Oxford Dictionaries (http://www.oxforddictionaries.com/words/what-do-you-call-a-group-of), retained under user-authorized package BSD-3-Clause policy basis with attribution. Expected outputs are obtained only from live pinned Python. Exercises each of the 49 TERM_MAP animals through the group phrase.",
+      "input_mode": "stdin",
+      "stdin_base64": "Z3JvdXAgb2YgYWxsaWdhdG9yczsgZ3JvdXAgb2YgYW50ZWxvcGVzOyBncm91cCBvZiBiYWJvb25zOyBncm91cCBvZiBiYWRnZXJzOyBncm91cCBvZiBiYXRzOyBncm91cCBvZiBiZWFyczsgZ3JvdXAgb2YgYnVmZmFsbzsgZ3JvdXAgb2YgYnVsbGZpbmNoZXM7IGdyb3VwIG9mIGNhcmlib3U7IGdyb3VwIG9mIGNhdHM7IGdyb3VwIG9mIGNhdGVycGlsbGFyczsgZ3JvdXAgb2YgY29ja3JvYWNoZXM7IGdyb3VwIG9mIGNveW90ZXM7IGdyb3VwIG9mIGNyb3dzOyBncm91cCBvZiBkb2dzOyBncm91cCBvZiBlYWdsZXM7IGdyb3VwIG9mIGVtdXM7IGdyb3VwIG9mIGZsYW1pbmdvczsgZ3JvdXAgb2YgZnJvZ3M7IGdyb3VwIG9mIGdvbGRmaW5jaGVzOyBncm91cCBvZiBnb3JpbGxhczsgZ3JvdXAgb2YgZ3VpbmVhZm93bDsgZ3JvdXAgb2YgaGVkZ2Vob2dzOyBncm91cCBvZiBoZXJvbnM7IGdyb3VwIG9mIGhvZ3M7IGdyb3VwIG9mIGh5ZW5hczsgZ3JvdXAgb2YgaWJleDsgZ3JvdXAgb2YgaWd1YW5hczsgZ3JvdXAgb2YgbGlvbnM7IGdyb3VwIG9mIGxvY3VzdHM7IGdyb3VwIG9mIG1hY2tlcmVsOyBncm91cCBvZiBtYXJlczsgZ3JvdXAgb2YgbWlubm93czsgZ3JvdXAgb2YgbW9vc2U7IGdyb3VwIG9mIG1vc3F1aXRvZXM7IGdyb3VwIG9mIG5pZ2h0aW5nYWxlczsgZ3JvdXAgb2Ygb3lzdGVyczsgZ3JvdXAgb2YgcGFydHJpZGdlczsgZ3JvdXAgb2YgcGVsaWNhbnM7IGdyb3VwIG9mIHJhY2Nvb25zOyBncm91cCBvZiByYXZlbnM7IGdyb3VwIG9mIHJoaW5vY2Vyb3NlczsgZ3JvdXAgb2Ygc2VhIHVyY2hpbnM7IGdyb3VwIG9mIHN0YXJsaW5nczsgZ3JvdXAgb2YgdG9hZHM7IGdyb3VwIG9mIHdvbWJhdHM7IGdyb3VwIG9mIHdvb2Rjb2NrczsgZ3JvdXAgb2Ygd29vZHBlY2tlcnM7IGdyb3VwIG9mIHdyZW5zLg==",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsidGVybXMiOnsidmVuZXJ5Ijp0cnVlfX0sIm1heF9lcnJvcnMiOjEwMDB9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "terms_venery_bunch_case",
+      "capability_id": "rule.terms.venery",
+      "provenance": "Pinned Proselint 0.16.0 checks/terms/venery.py::check_venery; data attributed to Oxford Dictionaries (http://www.oxforddictionaries.com/words/what-do-you-call-a-group-of), retained under user-authorized package BSD-3-Clause policy basis with attribution. Expected outputs are obtained only from live pinned Python. Checks both generic phrases, case-insensitive matching, multiple findings, and multiword animal terms.",
+      "input_mode": "stdin",
+      "stdin_base64": "QlVOQ0ggT0YgV09NQkFUUzsgR1JPVVAgT0YgRE9HUzsgYnVuY2ggb2Ygc2VhIHVyY2hpbnMu",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsidGVybXMiOnsidmVuZXJ5Ijp0cnVlfX0sIm1heF9lcnJvcnMiOjEwMDB9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "terms_venery_raw_trigger_context",
+      "capability_id": "rule.terms.venery",
+      "provenance": "Pinned Proselint 0.16.0 checks/terms/venery.py::check_venery; data attributed to Oxford Dictionaries (http://www.oxforddictionaries.com/words/what-do-you-call-a-group-of), retained under user-authorized package BSD-3-Clause policy basis with attribution. Expected outputs are obtained only from live pinned Python. Checks raw generic substring triggers while phrase matching remains bounded.",
+      "input_mode": "stdin",
+      "stdin_base64": "c3ViZ3JvdXA7IGdyb3VwIG9mIGFsbGlnYXRvcnM7IGdyb3Vwd29yayBvZiB3b21iYXRzLg==",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsidGVybXMiOnsidmVuZXJ5Ijp0cnVlfX0sIm1heF9lcnJvcnMiOjEwMDB9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "terms_venery_raw_trigger_without_phrase",
+      "capability_id": "rule.terms.venery",
+      "provenance": "Pinned Proselint 0.16.0 checks/terms/venery.py::check_venery; data attributed to Oxford Dictionaries (http://www.oxforddictionaries.com/words/what-do-you-call-a-group-of), retained under user-authorized package BSD-3-Clause policy basis with attribution. Expected outputs are obtained only from live pinned Python. Checks raw generic trigger substrings without a bounded group/bunch phrase produce no finding.",
+      "input_mode": "stdin",
+      "stdin_base64": "c3ViZ3JvdXA7IGdyb3Vwd29yazsgYnVuY2hsaW5lOyBhbGxpZ2F0b3JzIGFuZCB3b21iYXRzLg==",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsidGVybXMiOnsidmVuZXJ5Ijp0cnVlfX0sIm1heF9lcnJvcnMiOjEwMDB9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "terms_venery_quote_suppression",
+      "capability_id": "rule.terms.venery",
+      "provenance": "Pinned Proselint 0.16.0 checks/terms/venery.py::check_venery; data attributed to Oxford Dictionaries (http://www.oxforddictionaries.com/words/what-do-you-call-a-group-of), retained under user-authorized package BSD-3-Clause policy basis with attribution. Expected outputs are obtained only from live pinned Python. Checks paired quote suppression and an unquoted match.",
+      "input_mode": "stdin",
+      "stdin_base64": "QSDigJxncm91cCBvZiBhbGxpZ2F0b3Jz4oCdIGJ1dCBhIGJ1bmNoIG9mIHdvbWJhdHMu",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsidGVybXMiOnsidmVuZXJ5Ijp0cnVlfX0sIm1heF9lcnJvcnMiOjEwMDB9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "terms_venery_unicode_case",
+      "capability_id": "rule.terms.venery",
+      "provenance": "Pinned Proselint 0.16.0 checks/terms/venery.py::check_venery; data attributed to Oxford Dictionaries (http://www.oxforddictionaries.com/words/what-do-you-call-a-group-of), retained under user-authorized package BSD-3-Clause policy basis with attribution. Expected outputs are obtained only from live pinned Python. Checks Unicode code-point coordinates, uppercase generic words, and multiword animal phrases.",
+      "input_mode": "stdin",
+      "stdin_base64": "w6kgR1JPVVAgT0YgU0VBIFVSQ0hJTlMsIHRoZW4gQlVOQ0ggT0YgUkhJTk9DRVJPU0VTLg==",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsidGVybXMiOnsidmVuZXJ5Ijp0cnVlfX0sIm1heF9lcnJvcnMiOjEwMDB9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "terms_venery_unsupported_animal",
+      "capability_id": "rule.terms.venery",
+      "provenance": "Pinned Proselint 0.16.0 checks/terms/venery.py::check_venery; data attributed to Oxford Dictionaries (http://www.oxforddictionaries.com/words/what-do-you-call-a-group-of), retained under user-authorized package BSD-3-Clause policy basis with attribution. Expected outputs are obtained only from live pinned Python. Checks unsupported animal names produce no findings.",
+      "input_mode": "stdin",
+      "stdin_base64": "Z3JvdXAgb2YgdW5pY29ybnM7IGJ1bmNoIG9mIGdyaWZmaW5zLg==",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsidGVybXMiOnsidmVuZXJ5Ijp0cnVlfX0sIm1heF9lcnJvcnMiOjEwMDB9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "terms_venery_default_enabled",
+      "capability_id": "rule.terms.venery",
+      "provenance": "Pinned Proselint 0.16.0 checks/terms/venery.py::check_venery; data attributed to Oxford Dictionaries (http://www.oxforddictionaries.com/words/what-do-you-call-a-group-of), retained under user-authorized package BSD-3-Clause policy basis with attribution. Expected outputs are obtained only from live pinned Python. Checks no-config default dispatch for the venery rule.",
+      "input_mode": "stdin",
+      "stdin_base64": "QSBncm91cCBvZiBhbGxpZ2F0b3JzIG1ldCBhIGJ1bmNoIG9mIHdvbWJhdHMu",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

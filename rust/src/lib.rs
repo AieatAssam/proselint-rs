@@ -10,6 +10,7 @@ pub use rules::denizen_labels_garner::diagnostics as denizen_labels_garner_diagn
 pub use rules::denizen_labels_norris::diagnostics as denizen_labels_norris_diagnostics;
 pub use rules::exclamation::diagnostics as exclamation_diagnostics;
 pub use rules::hyperbole::diagnostics as hyperbole_diagnostics;
+pub use rules::industrial_language_chatspeak::diagnostics as chatspeak_diagnostics;
 pub use rules::industrial_language_commercialese::diagnostics as commercialese_diagnostics;
 pub use rules::industrial_language_corporate_speak::diagnostics as corporate_speak_diagnostics;
 pub use rules::lexical_illusions::diagnostics as lexical_illusions_diagnostics;

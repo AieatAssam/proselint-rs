@@ -44628,6 +44628,230 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "chatspeak_all_source_entries",
+      "capability_id": "rule.industrial_language.chatspeak",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/industrial_language/chatspeak.py registers Existence(items=(2day, 4U, AFAIK, AFK, AFK, ASAP, B4, brb, btw, cya, GR8, lol, LOL, LUV, OMG, rofl, roftl, sum1, SWAK, THNX, THX, TTYL, XOXO)); message template '{}' is chatspeak. Write it out.; default enabled. Case purpose: Positive coverage for every source entry, including duplicate AFK.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJjaGF0c3BlYWsiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_chatspeak_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "MmRheSA0VSBBRkFJSyBBRksgQUZLIEFTQVAgQjQgYnJiIGJ0dyBjeWEgR1I4IGxvbCBMT0wgTFVWIE9NRyByb2ZsIHJvZnRsIHN1bTEgU1dBSyBUSE5YIFRIWCBUVFlMIFhPWE8="
+    },
+    {
+      "id": "chatspeak_case_variants",
+      "capability_id": "rule.industrial_language.chatspeak",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/industrial_language/chatspeak.py registers Existence(items=(2day, 4U, AFAIK, AFK, AFK, ASAP, B4, brb, btw, cya, GR8, lol, LOL, LUV, OMG, rofl, roftl, sum1, SWAK, THNX, THX, TTYL, XOXO)); message template '{}' is chatspeak. Write it out.; default enabled. Case purpose: Positive case-insensitive matching preserves matched casing in messages.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJjaGF0c3BlYWsiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_chatspeak_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "YWZrIEFmayBsT2wgTG9sIGFzYXAgQVNBUCBsdXYgTFVW"
+    },
+    {
+      "id": "chatspeak_word_boundaries",
+      "capability_id": "rule.industrial_language.chatspeak",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/industrial_language/chatspeak.py registers Existence(items=(2day, 4U, AFAIK, AFK, AFK, ASAP, B4, brb, btw, cya, GR8, lol, LOL, LUV, OMG, rofl, roftl, sum1, SWAK, THNX, THX, TTYL, XOXO)); message template '{}' is chatspeak. Write it out.; default enabled. Case purpose: Negative longer-word boundaries verify alphanumeric adjacency does not match.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJjaGF0c3BlYWsiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_chatspeak_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "eDJkYXkgMmRheXggeHg0VSA0VXh4IEFGQUlLaXNoIHhBRksgQUZLMg=="
+    },
+    {
+      "id": "chatspeak_quotes_order",
+      "capability_id": "rule.industrial_language.chatspeak",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/industrial_language/chatspeak.py registers Existence(items=(2day, 4U, AFAIK, AFK, AFK, ASAP, B4, brb, btw, cya, GR8, lol, LOL, LUV, OMG, rofl, roftl, sum1, SWAK, THNX, THX, TTYL, XOXO)); message template '{}' is chatspeak. Write it out.; default enabled. Case purpose: Positive hits at punctuation and inside quotes; preserve source order.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJjaGF0c3BlYWsiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_chatspeak_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "4oCcbG9s4oCdIGFuZCAoYnJiKSwgdGhlbiBPTUch"
+    },
+    {
+      "id": "chatspeak_no_hits",
+      "capability_id": "rule.industrial_language.chatspeak",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/industrial_language/chatspeak.py registers Existence(items=(2day, 4U, AFAIK, AFK, AFK, ASAP, B4, brb, btw, cya, GR8, lol, LOL, LUV, OMG, rofl, roftl, sum1, SWAK, THNX, THX, TTYL, XOXO)); message template '{}' is chatspeak. Write it out.; default enabled. Case purpose: Negative unrelated prose returns no findings.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJjaGF0c3BlYWsiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_chatspeak_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "VG9kYXkgd2Ugd2lsbCBtZWV0IGFnYWluLg=="
+    },
+    {
+      "id": "chatspeak_max_errors_one",
+      "capability_id": "rule.industrial_language.chatspeak",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/industrial_language/chatspeak.py registers Existence(items=(2day, 4U, AFAIK, AFK, AFK, ASAP, B4, brb, btw, cya, GR8, lol, LOL, LUV, OMG, rofl, roftl, sum1, SWAK, THNX, THX, TTYL, XOXO)); message template '{}' is chatspeak. Write it out.; default enabled. Case purpose: Positive capped result; max_errors=1 truncation behavior.",
+      "input_mode": "stdin",
+      "files": [
+        {
+          "path": "selected config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJjaGF0c3BlYWsiOnRydWV9fX0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_chatspeak_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "bG9sIGJyYiBvbWcgQVNBUA=="
+    },
+    {
+      "id": "chatspeak_default_dispatch",
+      "capability_id": "rule.industrial_language.chatspeak",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/industrial_language/chatspeak.py registers Existence(items=(2day, 4U, AFAIK, AFK, AFK, ASAP, B4, brb, btw, cya, GR8, lol, LOL, LUV, OMG, rofl, roftl, sum1, SWAK, THNX, THX, TTYL, XOXO)); message template '{}' is chatspeak. Write it out.; default enabled. Case purpose: Positive default dispatch without explicit rule config.",
+      "input_mode": "stdin",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "bG9s"
     }
   ]
 }

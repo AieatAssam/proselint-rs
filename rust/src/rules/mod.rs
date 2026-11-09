@@ -7,6 +7,7 @@ pub mod denizen_labels_garner;
 pub mod denizen_labels_norris;
 pub mod exclamation;
 pub mod hyperbole;
+pub mod industrial_language_chatspeak;
 pub mod industrial_language_commercialese;
 pub mod industrial_language_corporate_speak;
 pub mod lexical_illusions;

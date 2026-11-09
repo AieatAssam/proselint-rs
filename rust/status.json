@@ -570,6 +570,10 @@
     {
       "id": "rule.misc.preferred_forms",
       "status": "independently_verified"
+    },
+    {
+      "id": "rule.industrial_language.chatspeak",
+      "status": "independently_verified"
     }
   ],
   "inventory": {
@@ -693,9 +697,9 @@
     }
   },
   "active_ownership": {
-    "current": "The serial five-capability cumulative gate passes 1368/1368 across 141 accepted capabilities and matches the current accepted case set. Two prior full-gate attempts timed out on the reference and remain recorded as failed attempts; serial execution cleared the timeouts. Continue eligible inventory work and unresolved CLI/config parity; preserve attribution/notices and provenance caveats.",
+    "current": "The chatspeak cumulative gate passes 1375/1375 accepted cases across 142 capabilities and matches the current accepted case set, with zero mismatches, timeouts, or errors. Current manifest has 1386 cases, including 11 excluded. Unique-path inventory audit records 101 accepted and 5 unimplemented paths. Continue after five more accepted capabilities (checkpoint #147), or earlier if shared infrastructure/release changes require it; retain unknown chatspeak provenance and policy caveats.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-    "cumulative_gate": "PASS: 1368/1368 across 141 accepted capabilities; report rust/artifacts/strict-gate-five-capability-checkpoint-141-ascii-fast-path-serial-20261109.json; run 20261109T202239851013Z-c18c5091; source fingerprint f37b76c052f015abd93de783ffd043b24bdfb3c2099de8f9cc19c53208cfa4b1; scope matches current accepted case set. Earlier timeout attempts remain failed historical attempts."
+    "cumulative_gate": "PASS: 1375/1375 across 142 accepted capabilities; report rust/artifacts/strict-gate-chatspeak-20261109.json; run 20261109T214009003064Z-21aebd2f; fingerprint d1edd68008f3e8b34d9f630a327a722ad9436a0ead3d5f79d74f1f5cea8e1ded; scope matches current accepted case set."
   },
   "unresolved": [
     "5 unique rule paths remain unimplemented.",
@@ -718,6 +722,66 @@
     "The Linux HOME-absent/no-passwd-entry reproducer remains a confirmed mismatch: pinned Python fails during import with an installation-specific traceback while Rust completes the command; it is blocked and excluded from production_capabilities."
   ],
   "capability_states": [
+    {
+      "id": "rule.industrial_language.chatspeak",
+      "status": "independently_verified",
+      "case_ids": [
+        "chatspeak_all_source_entries",
+        "chatspeak_case_variants",
+        "chatspeak_word_boundaries",
+        "chatspeak_quotes_order",
+        "chatspeak_no_hits",
+        "chatspeak_max_errors_one",
+        "chatspeak_default_dispatch"
+      ],
+      "upstream_spec": "Pinned Proselint 0.16.0; source: ??? (unknown provenance retained). Reuse follows the user-authorized package-wide BSD-3-Clause policy basis with attribution/notices; this is not a legal guarantee and unknown/conflicting provenance requires separate review.",
+      "red": {
+        "status": "MISMATCH",
+        "report": "rust/artifacts/chatspeak-red-live-20261109.json",
+        "run_id": "20261109T211357333209Z-a6ebd6c1",
+        "cases": 7,
+        "mismatches": 7,
+        "errors": 0,
+        "notes": "Six unsupported selected-check errors and one default case missing its finding."
+      },
+      "green": {
+        "status": "PASS",
+        "owner_report": "rust/artifacts/chatspeak-live-owner-20261109.json",
+        "owner_run_id": "20261109T212845421574Z-9d9c6137",
+        "owner_cases_passed": 7,
+        "independent_report": "rust/artifacts/independent-chatspeak-live-20261109.json",
+        "independent_run_id": "20261109T213008754558Z-aef6cb78",
+        "independent_cases_passed": 7,
+        "independent_seconds": 35.605,
+        "mismatches": 0,
+        "timeouts": 0,
+        "errors": 0,
+        "build_attestation": "rust/artifacts/20261109T212837291083Z-build.attestation.json",
+        "candidate_sha256": "9041728ac99c82ca0b0994fb5049e2a9f44b28e56382a5579aa52a630a3f3766",
+        "source_fingerprint": "d1edd68008f3e8b34d9f630a327a722ad9436a0ead3d5f79d74f1f5cea8e1ded",
+        "shared_selector_default_dispatch_changed": true
+      },
+      "coverage_at_acceptance": {
+        "accepted_cases": 1375,
+        "manifest_cases": 1386,
+        "capabilities": 142,
+        "accepted_rule_paths": 101,
+        "unimplemented_rule_paths": 5
+      },
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-chatspeak-20261109.json",
+        "passed_cases": 1375,
+        "capabilities": 142,
+        "mismatches": 0,
+        "timeouts": 0,
+        "errors": 0,
+        "run_id": "20261109T214009003064Z-21aebd2f",
+        "source_fingerprint": "d1edd68008f3e8b34d9f630a327a722ad9436a0ead3d5f79d74f1f5cea8e1ded",
+        "scope_matches_current_case_set": true
+      },
+      "inventory_reconciliation": "Inventory-path mapping audited against baseline revision 37ca811; accepted unique paths are 101 and unimplemented paths are 5."
+    },
     {
       "id": "rule.misc.preferred_forms",
       "status": "independently_verified",
@@ -11416,9 +11480,9 @@
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-five-capability-checkpoint-141-ascii-fast-path-serial-20261109.json",
-    "passed_cases": 1368,
-    "manifest_cases": 1379,
+    "report": "rust/artifacts/strict-gate-chatspeak-20261109.json",
+    "passed_cases": 1375,
+    "manifest_cases": 1386,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
       "cli.product_version_flag": 1,
@@ -11432,31 +11496,31 @@
     },
     "unresolved_manifest_cases": 2,
     "exit_code": 0,
-    "capability_count": 141,
-    "source_fingerprint": "f37b76c052f015abd93de783ffd043b24bdfb3c2099de8f9cc19c53208cfa4b1",
-    "run_id": "20261109T202239851013Z-c18c5091",
+    "capability_count": 142,
+    "source_fingerprint": "d1edd68008f3e8b34d9f630a327a722ad9436a0ead3d5f79d74f1f5cea8e1ded",
+    "run_id": "20261109T214009003064Z-21aebd2f",
     "cargo_lock_sha256": "05212984084365b79c499cd3c111ceb71349e05968ff8b21316e6ec64fd76fc1",
-    "duration_seconds": 2299.208388,
+    "duration_seconds": 2488.470542,
     "gate_stage_durations_seconds": {
-      "cumulative_live_comparison": 2295.361046,
-      "oracle_integrity": 2.445234,
-      "rust_candidate_attestation_reuse": 0.588861,
-      "comparator_self_tests": 0.162365
+      "cumulative_live_comparison": 2227.902093,
+      "rust_checks_and_build": 257.37308,
+      "oracle_integrity": 2.389136,
+      "comparator_self_tests": 0.177164
     },
     "comparator_self_tests": 23,
     "scope_matches_current_case_set": true,
-    "current_accepted_case_count": 1368,
-    "current_production_case_count": 1368,
-    "current_manifest_case_count": 1379,
-    "current_capability_count": 141,
+    "current_accepted_case_count": 1375,
+    "current_production_case_count": 1375,
+    "current_manifest_case_count": 1386,
+    "current_capability_count": 142,
     "current_unaccepted_manifest_case_count": 11,
     "next_gate_due": false,
-    "candidate_sha256": "eff63f0ead8ed86b0e199acb387d2d1adae87c631c19855513769b72977c0dd3",
-    "build_attestation": "rust/artifacts/20261109T195207256184Z-build.attestation.json",
-    "next_gate_after_capability": 141,
-    "build_attestation_sha256": "09cc1b5e7ee4236db8d1e56e8b76f898bc857431e22a47fe1af036cff0df6a46",
+    "candidate_sha256": "9041728ac99c82ca0b0994fb5049e2a9f44b28e56382a5579aa52a630a3f3766",
+    "build_attestation": "rust/artifacts/20261109T213551821370Z-build.attestation.json",
+    "next_gate_after_capability": 147,
+    "build_attestation_sha256": "9eb610e2054ebf1824c2d64ae67609e4a359f9d594817ab433b51603868d5523",
     "next_gate_after_accepted_capabilities": 5,
-    "live_cases": 1368,
+    "live_cases": 1375,
     "prior_failed_attempts": [
       {
         "report": "rust/artifacts/strict-gate-five-capability-checkpoint-141-20261109.json",
@@ -11476,7 +11540,8 @@
         "mismatches": 0,
         "note": "Candidate timeouts under parallel load; preserved as failed attempt."
       }
-    ]
+    ],
+    "gate_due_reason": "Shared selector/default dispatch changed."
   },
   "rust_dependencies": {
     "status": "current",
@@ -11513,7 +11578,7 @@
     },
     "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-itoa-20261109.txt"
   },
-  "next_capability_handoff": "Continue eligible inventory rules and unresolved CLI/config parity. The current serial cumulative gate passes 1368/1368 across 141 capabilities.",
+  "next_capability_handoff": "Continue eligible inventory rules and unresolved CLI/config parity. The chatspeak gate passes 1375/1375 across 142 capabilities; next cumulative checkpoint after five more accepted capabilities (#147), or before release/shared infrastructure changes. Preserve attribution/notices and unknown-provenance caveat.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

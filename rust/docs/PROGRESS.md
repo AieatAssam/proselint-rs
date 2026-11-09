@@ -1,5 +1,9 @@
 # Migration progress
 
+## 2026-11-09: `spelling.consistency`
+
+- Accepted with eight pinned-oracle cases. Initial RED mismatched 7/7; an additional quoted-count probe mismatched 1/1. Final owner and independent live comparisons each pass 8/8. Focused Rust tests pass 5/5, no-config CLI tests 1/1, and comparator self-tests 23/23. Data attribution is Intelligent Editing Ltd. under the user-authorized package-wide BSD-3-Clause policy basis with attribution/notices retained and provenance/conflict caveats. Reports and run IDs are in [`status.json`](../status.json). Current coverage is 1318 accepted cases of 1329 manifest cases across 135 capabilities; 95 rule paths are accepted and 11 remain unimplemented. The 1292/1292 gate across 131 capabilities is historical and stale; schedule the next full gate after capability #136.
+
 ## 2026-11-09: `rule.industrial_language.commercialese`
 
 - Accepted with five focused cases. Initial RED mismatched 4/4; owner and independent live comparisons pass 5/5. Focused Rust tests pass 2/2, no-config CLI test 1/1, and comparator self-tests 23/23. Garner attribution follows the user-authorized package-wide BSD-3-Clause policy basis with attribution/notices retained and provenance/conflict caveats. Reports and run IDs are in [`status.json`](../status.json). Current coverage is 1310 accepted cases of 1321 manifest cases across 134 capabilities; 94 rule paths are accepted and 12 remain unimplemented. The 1292/1292 gate across 131 capabilities is historical and stale; schedule the next full gate after capability #136.
@@ -183,4 +187,4 @@ Full output defaults when `--output-format` is omitted for the verified stdin ca
 
 - Coverage is now 98 live cases, with 61 added to the previous 37. The focused owner report [`../artifacts/per-file-file-config-scalar-live-final.json`](../artifacts/per-file-file-config-scalar-live-final.json) and independent report [`../artifacts/independent-cli-config-per-file-checks-98-20261109T110413.json`](../artifacts/independent-cli-config-per-file-checks-98-20261109T110413.json) each pass 98/98.
 - The cumulative strict gate passes 1249/1249 across 124 accepted capabilities, with zero mismatches or timeouts, in 1270.615207s. Its stages were live comparison 1132.947975s, Rust checks/build 134.262158s, oracle integrity 2.782871s, and 23 comparator self-tests in 0.15128s. The Python harness suite passes 115/115 in 77.291s. Report: [`../artifacts/strict-gate-cli-per-file-nested-values-20261109.json`](../artifacts/strict-gate-cli-per-file-nested-values-20261109.json); run `20261109T111530499180Z-93a5c89b`, fingerprint `98b88e68345142699776852836c8e50f8443c132eeb723a55948c704c5227c99`.
-- Migration remains partial: 12 unique rule paths remain unimplemented, and unresolved CLI/config behavior remains tracked in `status.json`.
+- Migration remains partial: 11 unique rule paths remain unimplemented, and unresolved CLI/config behavior remains tracked in `status.json`.

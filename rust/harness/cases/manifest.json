@@ -42763,6 +42763,263 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "spelling_consistency_all_14_pairs",
+      "capability_id": "rule.spelling.consistency",
+      "provenance": "Pinned Proselint 0.16.0 checks/spelling/consistency.py::check; source attributed to Intelligent Editing Ltd. (http://bit.ly/1x3hYj7). Expected output comes only from the pinned live Python executable. Exercises both forms in all 14 upstream term pairs.",
+      "input_mode": "stdin",
+      "stdin_base64": "YWR2aXNvciBhbmQgYWR2aXNlcjsgYW5hbHlzZSBhbmQgYW5hbHl6ZTsgY2VudHJlIGFuZCBjZW50ZXI7IGNob2NvbGF0ZXkgYW5kIGNob2NvbGF0eTsgY29sb3VyIGFuZCBjb2xvcjsgZW1waGFzaXNlIGFuZCBlbXBoYXNpemU7IGZpbmFsaXNlIGFuZCBmaW5hbGl6ZTsgZm9jdXNzZWQgYW5kIGZvY3VzZWQ7IGxhYm91ciBhbmQgbGFib3I7IGxlYXJudCBhbmQgbGVhcm5lZDsgb3JnYW5pc2UgYW5kIG9yZ2FuaXplOyBvcmdhbmlzZWQgYW5kIG9yZ2FuaXplZDsgb3JnYW5pc2luZyBhbmQgb3JnYW5pemluZzsgcmVjb2duaXNlIGFuZCByZWNvZ25pemUu",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsic3BlbGxpbmciOnsiY29uc2lzdGVuY3kiOnRydWV9fSwibWF4X2Vycm9ycyI6MTAwMH0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "spelling_consistency_majority_minority",
+      "capability_id": "rule.spelling.consistency",
+      "provenance": "Pinned Proselint 0.16.0 checks/spelling/consistency.py::check; source attributed to Intelligent Editing Ltd. (http://bit.ly/1x3hYj7). Expected output comes only from the pinned live Python executable. Checks case-insensitive pair counts and reports minority spellings.",
+      "input_mode": "stdin",
+      "stdin_base64": "YWR2aXNvcjsgYWR2aXNlcjsgQURWSVNFUi4gYW5hbHlzZTsgYW5hbHl6ZTsgYW5hbHl6ZS4=",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsic3BlbGxpbmciOnsiY29uc2lzdGVuY3kiOnRydWV9fSwibWF4X2Vycm9ycyI6MTAwMH0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "spelling_consistency_boundaries_punctuation",
+      "capability_id": "rule.spelling.consistency",
+      "provenance": "Pinned Proselint 0.16.0 checks/spelling/consistency.py::check; source attributed to Intelligent Editing Ltd. (http://bit.ly/1x3hYj7). Expected output comes only from the pinned live Python executable. Checks case-insensitive word boundaries and punctuation-adjacent pair matches.",
+      "input_mode": "stdin",
+      "stdin_base64": "eGFkdmlzb3IgYWR2aXNvclggQURWSVNPUjsgQURWSVNFUi4=",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsic3BlbGxpbmciOnsiY29uc2lzdGVuY3kiOnRydWV9fSwibWF4X2Vycm9ycyI6MTAwMH0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "spelling_consistency_quote_suppression",
+      "capability_id": "rule.spelling.consistency",
+      "provenance": "Pinned Proselint 0.16.0 checks/spelling/consistency.py::check; source attributed to Intelligent Editing Ltd. (http://bit.ly/1x3hYj7). Expected output comes only from the pinned live Python executable. Checks paired quote suppression when counting competing spellings.",
+      "input_mode": "stdin",
+      "stdin_base64": "YWR2aXNvcjsg4oCcYWR2aXNlcuKAnTsgYWR2aXNlci4=",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsic3BlbGxpbmciOnsiY29uc2lzdGVuY3kiOnRydWV9fSwibWF4X2Vycm9ycyI6MTAwMH0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "spelling_consistency_unicode_multiline",
+      "capability_id": "rule.spelling.consistency",
+      "provenance": "Pinned Proselint 0.16.0 checks/spelling/consistency.py::check; source attributed to Intelligent Editing Ltd. (http://bit.ly/1x3hYj7). Expected output comes only from the pinned live Python executable. Checks Unicode code-point coordinates and pair counting across lines.",
+      "input_mode": "stdin",
+      "stdin_base64": "w6kgYWR2aXNvciwKdGhlbiBBRFZJU0VSOyBjb2xvdXIgYW5kIENPTE9SLg==",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsic3BlbGxpbmciOnsiY29uc2lzdGVuY3kiOnRydWV9fSwibWF4X2Vycm9ycyI6MTAwMH0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "spelling_consistency_no_hit",
+      "capability_id": "rule.spelling.consistency",
+      "provenance": "Pinned Proselint 0.16.0 checks/spelling/consistency.py::check; source attributed to Intelligent Editing Ltd. (http://bit.ly/1x3hYj7). Expected output comes only from the pinned live Python executable. Checks unrelated and partial terms produce no finding.",
+      "input_mode": "stdin",
+      "stdin_base64": "YWR2aXNvcnk7IGFuYWx5emVyOyBjZW50ZXJlZDsgb3JkaW5hcnkgcHJvc2Uu",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsic3BlbGxpbmciOnsiY29uc2lzdGVuY3kiOnRydWV9fSwibWF4X2Vycm9ycyI6MTAwMH0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "spelling_consistency_default_enabled",
+      "capability_id": "rule.spelling.consistency",
+      "provenance": "Pinned Proselint 0.16.0 checks/spelling/consistency.py::check; source attributed to Intelligent Editing Ltd. (http://bit.ly/1x3hYj7). Expected output comes only from the pinned live Python executable. Checks no-config default dispatch for spelling.consistency.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlIGFkdmlzZXIgYW5kIGFkdmlzb3IgcmV2aWV3ZWQgdGhlIHJlcG9ydC4=",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "spelling_consistency_quoted_term_count_effect",
+      "capability_id": "rule.spelling.consistency",
+      "provenance": "Pinned Proselint 0.16.0 checks/spelling/consistency.py::check; source attributed to Intelligent Editing Ltd. (http://bit.ly/1x3hYj7). Live pinned Python case distinguishes whether quoted spellings participate in consistency counts before their diagnostics are suppressed.",
+      "input_mode": "stdin",
+      "stdin_base64": "YWR2aXNvciBhZHZpc29yOyDigJxhZHZpc2Vy4oCdIGFkdmlzZXI=",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsic3BlbGxpbmciOnsiY29uc2lzdGVuY3kiOnRydWV9fSwibWF4X2Vycm9ycyI6MTAwMH0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

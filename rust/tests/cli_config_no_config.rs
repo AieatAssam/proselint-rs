@@ -159,6 +159,17 @@ fn no_config_found_enables_commercialese() {
 }
 
 #[test]
+fn no_config_found_enables_spelling_consistency() {
+    let output = Workspace::new().run(b"The adviser and advisor reviewed the report.");
+    assert_eq!(output.status.code(), Some(1), "stderr: {:?}", output.stderr);
+    assert_eq!(
+        output.stdout,
+        b"<stdin>:1:17: spelling.consistency: Inconsistent spelling of 'adviser' (vs. 'advisor').\n"
+    );
+    assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
+}
+
+#[test]
 fn no_config_found_keeps_clean_input_clean() {
     let output = Workspace::new().run(b"An ordinary sentence.");
     assert_eq!(output.status.code(), Some(0), "stderr: {:?}", output.stderr);

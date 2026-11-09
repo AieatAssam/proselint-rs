@@ -30,6 +30,7 @@ pub use rules::social_nword::diagnostics as social_nword_diagnostics;
 pub use rules::spelling_able_atable::diagnostics as spelling_able_atable_diagnostics;
 pub use rules::spelling_able_ible::diagnostics as spelling_able_ible_diagnostics;
 pub use rules::spelling_athletes::diagnostics as spelling_athletes_diagnostics;
+pub use rules::spelling_consistency::diagnostics as spelling_consistency_diagnostics;
 pub use rules::spelling_em_im_en_in::diagnostics as spelling_em_im_en_in_diagnostics;
 pub use rules::spelling_er_or::diagnostics as spelling_er_or_diagnostics;
 pub use rules::terms_venery::diagnostics as terms_venery_diagnostics;

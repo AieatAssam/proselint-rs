@@ -542,6 +542,10 @@
     {
       "id": "rule.industrial_language.commercialese",
       "status": "independently_verified"
+    },
+    {
+      "id": "rule.spelling.consistency",
+      "status": "independently_verified"
     }
   ],
   "inventory": {
@@ -665,12 +669,12 @@
     }
   },
   "active_ownership": {
-    "current": "rule.industrial_language.commercialese has focused owner and independent live acceptance (5/5 each). Current coverage is 1310 accepted production cases across 134 capabilities, with 94 accepted and 12 unimplemented rule paths. The latest cumulative gate remains historical at 1292/1292 across 131 capabilities and stale for this case set; schedule the next full gate after capability #136. Garner attribution follows the user-authorized package-wide BSD-3-Clause policy basis with attribution/notices and provenance/conflict caveats.",
+    "current": "spelling.consistency has focused owner and independent live acceptance (8/8 each), including a quote-count RED probe. Current coverage is 1318 accepted production cases across 135 capabilities, with 95 accepted and 11 unimplemented rule paths. The latest cumulative gate remains historical at 1292/1292 across 131 capabilities and stale; schedule another full gate after capability #136. Data attribution to Intelligent Editing Ltd. follows the user-authorized package-wide BSD-3-Clause policy basis with attribution/notices and provenance/conflict caveats.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-    "cumulative_gate": "Historical PASS: 1292/1292 across 131 capabilities; report rust/artifacts/strict-gate-five-capability-checkpoint-20261109.json; run 20261109T145328835906Z-b09882d6. Stale for current 1310 accepted cases across 134 capabilities; scope_matches_current_case_set=false. Defer next full gate until capability #136."
+    "cumulative_gate": "Historical PASS: 1292/1292 across 131 capabilities; report rust/artifacts/strict-gate-five-capability-checkpoint-20261109.json; run 20261109T145328835906Z-b09882d6. Stale for current 1318 accepted cases across 135 capabilities; scope_matches_current_case_set=false. Defer next full gate until capability #136."
   },
   "unresolved": [
-    "12 unique rule paths remain unimplemented.",
+    "11 unique rule paths remain unimplemented.",
     "Other CLI/config behavior remains unverified, including passwd-home config-present behavior, HOME-absent no-passwd-entry config behavior (confirmed mismatch in cli.config.no_passwd_home; see harness.latest_no_passwd_home_case), other subcommands, HOME-unset platform variation, directory candidates, and traversal/decoding edges.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
     "Directory/non-UTF-8 path error formatting on non-Linux platforms remains unverified.",
@@ -690,6 +694,64 @@
     "The Linux HOME-absent/no-passwd-entry reproducer remains a confirmed mismatch: pinned Python fails during import with an installation-specific traceback while Rust completes the command; it is blocked and excluded from production_capabilities."
   ],
   "capability_states": [
+    {
+      "id": "rule.spelling.consistency",
+      "status": "independently_verified",
+      "case_ids": [
+        "spelling_consistency_all_14_pairs",
+        "spelling_consistency_majority_minority",
+        "spelling_consistency_boundaries_punctuation",
+        "spelling_consistency_quote_suppression",
+        "spelling_consistency_unicode_multiline",
+        "spelling_consistency_no_hit",
+        "spelling_consistency_default_enabled",
+        "spelling_consistency_quoted_term_count_effect"
+      ],
+      "upstream_spec": "Pinned Proselint 0.16.0; spelling pair data attributed to Intelligent Editing Ltd. Reuse follows the user-authorized package-wide BSD-3-Clause policy basis with attribution/notices retained and provenance/conflicting-term caveats.",
+      "red": {
+        "status": "MISMATCH",
+        "report": "rust/artifacts/spelling-consistency-red-20261109.json",
+        "run_id": "20261109T161010417410Z-7a9e4423",
+        "cases": 7,
+        "mismatches": 7
+      },
+      "additional_red": {
+        "report": "rust/artifacts/spelling-consistency-quoted-count-red-20261109.json",
+        "run_id": "20261109T161252782459Z-4568e051",
+        "cases": 1,
+        "mismatches": 1
+      },
+      "green": {
+        "status": "PASS",
+        "owner_report": "rust/artifacts/spelling-consistency-live-final-20261109.json",
+        "owner_run_id": "20261109T161642493034Z-d480a97b",
+        "owner_cases_passed": 8,
+        "independent_report": "rust/artifacts/independent-spelling-consistency-live-final.json",
+        "independent_run_id": "20261109T161734100282Z-7a2f90ca",
+        "independent_cases_passed": 8,
+        "mismatches": 0,
+        "timeouts": 0,
+        "errors": 0,
+        "focused_rust_tests": "5/5 PASS",
+        "focused_no_config_cli_tests": "1/1 PASS",
+        "comparator_self_tests": "23/23 PASS"
+      },
+      "coverage_at_acceptance": {
+        "accepted_cases": 1318,
+        "manifest_cases": 1329,
+        "capabilities": 135,
+        "accepted_rule_paths": 95,
+        "unimplemented_rule_paths": 11
+      },
+      "cumulative_gate": {
+        "status": "historical_PASS_stale_current_scope_not_run",
+        "report": "rust/artifacts/strict-gate-five-capability-checkpoint-20261109.json",
+        "passed_cases": 1292,
+        "capabilities": 131,
+        "scope_matches_current_case_set": false,
+        "note": "Next cumulative checkpoint is due after capability #136."
+      }
+    },
     {
       "id": "rule.industrial_language.commercialese",
       "status": "independently_verified",
@@ -10936,10 +10998,10 @@
     },
     "comparator_self_tests": 23,
     "scope_matches_current_case_set": false,
-    "current_accepted_case_count": 1310,
-    "current_production_case_count": 1310,
-    "current_manifest_case_count": 1321,
-    "current_capability_count": 134,
+    "current_accepted_case_count": 1318,
+    "current_production_case_count": 1318,
+    "current_manifest_case_count": 1329,
+    "current_capability_count": 135,
     "current_unaccepted_manifest_case_count": 11,
     "next_gate_due": false,
     "candidate_sha256": "1135b83b15580360bc865f5a8946a5020b42577f30a88af38032f2dd0ad7547f",
@@ -10981,7 +11043,7 @@
     },
     "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-itoa-20261109.txt"
   },
-  "next_capability_handoff": "Continue with eligible inventory rules and unresolved CLI/config parity; check provenance and terms and retain attribution/notices. The 1292/1292 gate across 131 capabilities is historical and stale for current coverage (1310 cases, 134 capabilities); schedule the next cumulative checkpoint after capability #136.",
+  "next_capability_handoff": "Continue with eligible inventory rules and unresolved CLI/config parity, checking provenance and terms and retaining attribution/notices. The 1292/1292 gate across 131 capabilities is historical and stale for current coverage (1318 cases, 135 capabilities); rerun after capability #136.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

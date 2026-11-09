@@ -538,6 +538,10 @@
     {
       "id": "rule.cliches.misc.garner",
       "status": "independently_verified"
+    },
+    {
+      "id": "rule.industrial_language.commercialese",
+      "status": "independently_verified"
     }
   ],
   "inventory": {
@@ -661,12 +665,12 @@
     }
   },
   "active_ownership": {
-    "current": "The corporate_speak and cliches.misc.garner capabilities now have focused owner and independent live acceptance. Current coverage is 1305 accepted cases of 1316 manifest cases across 133 capabilities; 93 rule paths are accepted and 13 remain unimplemented. The latest cumulative gate remains historical at 1292/1292 across 131 capabilities and is stale for current coverage; defer another full gate until the next 5–10-capability checkpoint. Reused lists retain upstream attribution/notices under the user-authorized package-wide BSD-3-Clause policy basis, with provenance/conflict caveats.",
+    "current": "rule.industrial_language.commercialese has focused owner and independent live acceptance (5/5 each). Current coverage is 1310 accepted production cases across 134 capabilities, with 94 accepted and 12 unimplemented rule paths. The latest cumulative gate remains historical at 1292/1292 across 131 capabilities and stale for this case set; schedule the next full gate after capability #136. Garner attribution follows the user-authorized package-wide BSD-3-Clause policy basis with attribution/notices and provenance/conflict caveats.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-    "cumulative_gate": "Historical PASS: 1292/1292 across 131 capabilities; report rust/artifacts/strict-gate-five-capability-checkpoint-20261109.json; run 20261109T145328835906Z-b09882d6. Stale for current 1305 accepted cases across 133 capabilities; scope_matches_current_case_set=false. Defer full gate until the next 5–10-capability checkpoint."
+    "cumulative_gate": "Historical PASS: 1292/1292 across 131 capabilities; report rust/artifacts/strict-gate-five-capability-checkpoint-20261109.json; run 20261109T145328835906Z-b09882d6. Stale for current 1310 accepted cases across 134 capabilities; scope_matches_current_case_set=false. Defer next full gate until capability #136."
   },
   "unresolved": [
-    "13 unique rule paths remain unimplemented.",
+    "12 unique rule paths remain unimplemented.",
     "Other CLI/config behavior remains unverified, including passwd-home config-present behavior, HOME-absent no-passwd-entry config behavior (confirmed mismatch in cli.config.no_passwd_home; see harness.latest_no_passwd_home_case), other subcommands, HOME-unset platform variation, directory candidates, and traversal/decoding edges.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
     "Directory/non-UTF-8 path error formatting on non-Linux platforms remains unverified.",
@@ -686,6 +690,55 @@
     "The Linux HOME-absent/no-passwd-entry reproducer remains a confirmed mismatch: pinned Python fails during import with an installation-specific traceback while Rust completes the command; it is blocked and excluded from production_capabilities."
   ],
   "capability_states": [
+    {
+      "id": "rule.industrial_language.commercialese",
+      "status": "independently_verified",
+      "case_ids": [
+        "commercialese_all_26_phrases",
+        "commercialese_case_and_word_boundaries",
+        "commercialese_escaped_abbreviation_periods",
+        "commercialese_no_hit",
+        "commercialese_default_enabled_no_config"
+      ],
+      "upstream_spec": "Pinned Proselint 0.16.0; source data attributed to Garner. Reuse follows the user-authorized package-wide BSD-3-Clause policy basis with attribution/notices retained and provenance/conflicting-term caveats.",
+      "red": {
+        "status": "MISMATCH",
+        "report": "rust/artifacts/commercialese-red-20261109.json",
+        "run_id": "20261109T154858281433Z-51957e26",
+        "cases": 4,
+        "mismatches": 4
+      },
+      "green": {
+        "status": "PASS",
+        "owner_report": "rust/artifacts/commercialese-live-final-20261109.json",
+        "owner_run_id": "20261109T160342167816Z-ada62229",
+        "owner_cases_passed": 5,
+        "independent_report": "rust/artifacts/independent-commercialese-live-final.json",
+        "independent_run_id": "20261109T160440188117Z-9a5604f5",
+        "independent_cases_passed": 5,
+        "mismatches": 0,
+        "timeouts": 0,
+        "errors": 0,
+        "focused_rust_tests": "2/2 PASS",
+        "focused_no_config_cli_tests": "1/1 PASS",
+        "comparator_self_tests": "23/23 PASS"
+      },
+      "coverage_at_acceptance": {
+        "accepted_cases": 1310,
+        "manifest_cases": 1321,
+        "capabilities": 134,
+        "accepted_rule_paths": 94,
+        "unimplemented_rule_paths": 12
+      },
+      "cumulative_gate": {
+        "status": "historical_PASS_stale_current_scope_not_run",
+        "report": "rust/artifacts/strict-gate-five-capability-checkpoint-20261109.json",
+        "passed_cases": 1292,
+        "capabilities": 131,
+        "scope_matches_current_case_set": false,
+        "note": "The gate predates corporate_speak, cliches.misc.garner, and commercialese; next checkpoint is due after capability #136."
+      }
+    },
     {
       "id": "rule.cliches.misc.garner",
       "status": "independently_verified",
@@ -10883,14 +10936,15 @@
     },
     "comparator_self_tests": 23,
     "scope_matches_current_case_set": false,
-    "current_accepted_case_count": 1305,
-    "current_production_case_count": 1305,
-    "current_manifest_case_count": 1316,
-    "current_capability_count": 133,
+    "current_accepted_case_count": 1310,
+    "current_production_case_count": 1310,
+    "current_manifest_case_count": 1321,
+    "current_capability_count": 134,
     "current_unaccepted_manifest_case_count": 11,
     "next_gate_due": false,
     "candidate_sha256": "1135b83b15580360bc865f5a8946a5020b42577f30a88af38032f2dd0ad7547f",
-    "build_attestation": "rust/artifacts/20261109T145012557242Z-build.attestation.json"
+    "build_attestation": "rust/artifacts/20261109T145012557242Z-build.attestation.json",
+    "next_gate_after_capability": 136
   },
   "rust_dependencies": {
     "status": "current",
@@ -10927,7 +10981,7 @@
     },
     "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-itoa-20261109.txt"
   },
-  "next_capability_handoff": "Continue with the next eligible rule from the inventory and unresolved CLI/config parity; check provenance and terms and retain attribution/notices. The 1292/1292 gate across 131 capabilities is historical and stale for current coverage (1305 cases, 133 capabilities); rerun after the next 5–10-capability batch.",
+  "next_capability_handoff": "Continue with eligible inventory rules and unresolved CLI/config parity; check provenance and terms and retain attribution/notices. The 1292/1292 gate across 131 capabilities is historical and stale for current coverage (1310 cases, 134 capabilities); schedule the next cumulative checkpoint after capability #136.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

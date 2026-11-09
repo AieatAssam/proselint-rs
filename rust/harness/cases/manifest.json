@@ -42605,6 +42605,164 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "commercialese_all_26_phrases",
+      "capability_id": "rule.industrial_language.commercialese",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c, checks/industrial_language/commercialese.py. The registered Existence check has 26 terms, default WORDS_IN_TEXT padding and default case-insensitive engine options; message is \"'{}' is commercialese.\" Expected output is produced by the live pinned Python CLI. Case purpose: one occurrence of every upstream phrase, including overlapping \"of even date\" matches; abbreviated patterns are followed by a word character to satisfy their trailing boundary.",
+      "input_mode": "stdin",
+      "stdin_base64": "YWNrbm93bGVkZ2luZyB5b3VycyBvZjsgYmVnIHRvIGFkdmlzZTsgZW5jbG9zZWQgaGVyZXdpdGg7IGVuY2xvc2VkIHBsZWFzZSBmaW5kOyBmdXJ0aGVyIHRvIHlvdXJzIG9mOyBmdXJ0aGVyIHRvIHlvdXIgbGV0dGVyOyBpbiByZWdhcmQgdG87IGluc3QuWDsgaW4gdGhlIGFtb3VudCBvZjsgb2YgZXZlbiBkYXRlOyBwZW5kaW5nIHJlY2VpcHQgb2Y7IHBsZWFzZSBiZSBhZHZpc2VkIHRoYXQ7IHBsZWFzZSByZXR1cm4gc2FtZTsgcGxlYXN1cmUgb2YgYSByZXBseTsgcHJveC5ZOyBwdXJzdWFudCB0byB5b3VyIHJlcXVlc3Q7IHJlZ2FyZGluZyB0aGUgbWF0dGVyOyByZWdyZXQgdG8gaW5mb3JtOyB0aGFua2luZyB5b3UgaW4gYWR2YW5jZTsgdGhlIHVuZGVyc2lnbmVkOyB0aGlzIGFja25vd2xlZGdlcyB5b3VyIGxldHRlcjsgdWx0Llo7IHdlIGFyZSBwbGVhc2VkIHRvIG5vdGU7IHdpdGggcmVnYXJkIHRvOyB5b3VyIGZhdm9yIGhhcyBjb21lIHRvIGhhbmQ7IHlvdXJzIG9mIGV2ZW4gZGF0ZQ==",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJjb21tZXJjaWFsZXNlIjp0cnVlfX0sIm1heF9lcnJvcnMiOjEwMDB9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_commercialese_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "commercialese_case_and_word_boundaries",
+      "capability_id": "rule.industrial_language.commercialese",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c, checks/industrial_language/commercialese.py. The registered Existence check has 26 terms, default WORDS_IN_TEXT padding and default case-insensitive engine options; message is \"'{}' is commercialese.\" Expected output is produced by the live pinned Python CLI. Case purpose: case-insensitive phrases and WORDS_IN_TEXT padding: standalone phrases match while alphabetic embeddings do not.",
+      "input_mode": "stdin",
+      "stdin_base64": "QUNLTk9XTEVER0lORyBZT1VSUyBPRjsgWGJlZyB0byBhZHZpc2VZOyBlbmNsb3NlZCBwbGVhc2UgZmluZCwgYnV0IGVuY2xvc2VkIGhlcmV3aXRoeC4=",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJjb21tZXJjaWFsZXNlIjp0cnVlfX0sIm1heF9lcnJvcnMiOjEwMDB9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_commercialese_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "commercialese_escaped_abbreviation_periods",
+      "capability_id": "rule.industrial_language.commercialese",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c, checks/industrial_language/commercialese.py. The registered Existence check has 26 terms, default WORDS_IN_TEXT padding and default case-insensitive engine options; message is \"'{}' is commercialese.\" Expected output is produced by the live pinned Python CLI. Case purpose: literal escaped periods in all three abbreviation patterns, their trailing word-boundary quirk (a following word character activates them), and rejection of standalone/punctuation-terminated or period-less forms.",
+      "input_mode": "stdin",
+      "stdin_base64": "SW5zdC5YIHByb3guWSB1bHQuWjsgaW5zdC4gcHJveC4gdWx0LjsgaW5zdHggcHJveCB1bHR4Lg==",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJjb21tZXJjaWFsZXNlIjp0cnVlfX0sIm1heF9lcnJvcnMiOjEwMDB9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_commercialese_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "commercialese_no_hit",
+      "capability_id": "rule.industrial_language.commercialese",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c, checks/industrial_language/commercialese.py. The registered Existence check has 26 terms, default WORDS_IN_TEXT padding and default case-insensitive engine options; message is \"'{}' is commercialese.\" Expected output is produced by the live pinned Python CLI. Case purpose: unrelated prose produces no finding.",
+      "input_mode": "stdin",
+      "stdin_base64": "V2Ugc2VudCB0aGUgcmVwb3J0IHllc3RlcmRheSBhbmQgd2lsbCByZXZpZXcgdGhlIG9yZGluYXJ5IGNvbnRyYWN0IHRvbW9ycm93Lg==",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJjb21tZXJjaWFsZXNlIjp0cnVlfX0sIm1heF9lcnJvcnMiOjEwMDB9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "industrial_language_commercialese_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "commercialese_default_enabled_no_config",
+      "capability_id": "rule.industrial_language.commercialese",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c, checks/industrial_language/commercialese.py. This default-enabled check uses the 26-term Existence set and message \"'{}' is commercialese.\" Expected output comes from live pinned Python. Case purpose: no explicit config selects the default-enabled rule and produces only its diagnostic for \"Please return same.\".",
+      "input_mode": "stdin",
+      "stdin_base64": "UGxlYXNlIHJldHVybiBzYW1lLg==",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

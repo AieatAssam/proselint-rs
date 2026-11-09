@@ -148,6 +148,17 @@ fn no_config_found_enables_corporate_speak() {
 }
 
 #[test]
+fn no_config_found_enables_commercialese() {
+    let output = Workspace::new().run(b"Please return same.");
+    assert_eq!(output.status.code(), Some(1), "stderr: {:?}", output.stderr);
+    assert_eq!(
+        output.stdout,
+        b"<stdin>:1:1: industrial_language.commercialese: 'Please return same' is commercialese.\n"
+    );
+    assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
+}
+
+#[test]
 fn no_config_found_keeps_clean_input_clean() {
     let output = Workspace::new().run(b"An ordinary sentence.");
     assert_eq!(output.status.code(), Some(0), "stderr: {:?}", output.stderr);

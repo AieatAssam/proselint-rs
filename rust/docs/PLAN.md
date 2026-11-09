@@ -2,7 +2,7 @@
 
 ## Latest cumulative gate
 
-The latest cumulative gate is historical: it passed 1292/1292 accepted cases across 131 capabilities, but predates `rule.industrial_language.corporate_speak` and `rule.cliches.misc.garner`. Current accepted coverage is 1305/1316 manifest cases across 133 capabilities. The gate report is [`../artifacts/strict-gate-five-capability-checkpoint-20261109.json`](../artifacts/strict-gate-five-capability-checkpoint-20261109.json), run `20261109T145328835906Z-b09882d6`; defer another full gate until the next 5–10-capability checkpoint. See [`status.json`](../status.json) and [`status-history.jsonl`](../status-history.jsonl).
+The latest cumulative gate is historical: it passed 1292/1292 accepted cases across 131 capabilities, but predates `rule.industrial_language.corporate_speak`, `rule.cliches.misc.garner`, and `rule.industrial_language.commercialese`. Current accepted coverage is 1310/1321 manifest cases across 134 capabilities. The gate report is [`../artifacts/strict-gate-five-capability-checkpoint-20261109.json`](../artifacts/strict-gate-five-capability-checkpoint-20261109.json), run `20261109T145328835906Z-b09882d6`; schedule another full gate after capability #136. See [`status.json`](../status.json) and [`status-history.jsonl`](../status-history.jsonl).
 
 The five-capability checkpoint took 1420.515066s: live comparison 1221.257345s, Rust checks/build 196.359711s, oracle integrity 2.190627s, and 23 comparator self-tests in 0.150359s. It is historical for the current case set.
 
@@ -36,7 +36,11 @@ Execution cadence and evidence-reuse rules are maintained in [`MIGRATION.md`](..
 
 `cli.unrecognized_arguments` matches pinned argparse for 12 live vectors, including subcommand-specific options, unknown short/attached/multiple options, help precedence, and tokens after `--`. A 6-case RED exposed exact stderr/status differences; 11 focused Rust tests, owner and independent live comparisons (12/12 each), and the immediate shared-CLI gate passed. The option-value behavior is now covered by `cli.missing_option_value_before_option` and `cli.missing_option_value_at_argv_end`; other value-taking option contexts remain unverified. Evidence: [`../artifacts/cli-unrecognized-args-red-summary.md`](../artifacts/cli-unrecognized-args-red-summary.md), [`../artifacts/independent-cli-unrecognized-args-final-20261108.json`](../artifacts/independent-cli-unrecognized-args-final-20261108.json), [`../artifacts/strict-gate-unknown-args-final-20261108.json`](../artifacts/strict-gate-unknown-args-final-20261108.json).
 
-The pinned inventory contains 106 unique check paths. Ninety-three rule paths are accepted and 13 remain unimplemented; 41 bounded CLI capabilities are recorded. Current accepted production coverage is 1305/1316 manifest cases across 133 capabilities. The latest cumulative gate is historical at 1292/1292 across 131 capabilities and stale for this case set. Preserve duplicate registrations as separate checks and retain unresolved CLI/config behavior in the ledger.
+The pinned inventory contains 106 unique check paths. Ninety-four rule paths are accepted and 12 remain unimplemented; 41 bounded CLI capabilities are recorded. Current accepted production coverage is 1310/1321 manifest cases across 134 capabilities. The latest cumulative gate is historical at 1292/1292 across 131 capabilities and stale for this case set; schedule another full gate after capability #136. Preserve duplicate registrations as separate checks and retain unresolved CLI/config behavior in the ledger.
+
+### `rule.industrial_language.commercialese`
+
+Five focused owner and independent live cases pass after an initial 4/4 RED. Two focused Rust tests, one no-config CLI test, and 23 comparator self-tests pass. Data attribution is Garner under the user-authorized package-wide BSD-3-Clause policy basis with attribution/notices retained and provenance/conflict caveats. Evidence and run IDs are recorded in [`status.json`](../status.json).
 
 ### `rule.industrial_language.corporate_speak`
 

@@ -71,6 +71,17 @@ fn no_config_found_enables_social_awareness_preferred_forms() {
 }
 
 #[test]
+fn no_config_found_enables_animal_adjectives() {
+    let output = Workspace::new().run(b"It was some bird-like creature.");
+    assert_eq!(output.status.code(), Some(1), "stderr: {:?}", output.stderr);
+    assert_eq!(
+        output.stdout,
+        b"<stdin>:1:13: terms.animal_adjectives: There's a word for this: 'avine'.\n"
+    );
+    assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
+}
+
+#[test]
 fn no_config_found_keeps_clean_input_clean() {
     let output = Workspace::new().run(b"An ordinary sentence.");
     assert_eq!(output.status.code(), Some(0), "stderr: {:?}", output.stderr);

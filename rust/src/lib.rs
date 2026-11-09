@@ -1,6 +1,7 @@
 //! Native Rust implementation of Proselint.
 
 pub mod rules;
+pub use rules::animal_adjectives::diagnostics as animal_adjectives_diagnostics;
 pub use rules::archaism::diagnostics as archaism_diagnostics;
 pub use rules::cliches_write_good::diagnostics as cliches_write_good_diagnostics;
 pub use rules::dash_and_from::diagnostics as dates_times_dates_dash_and_from_diagnostics;

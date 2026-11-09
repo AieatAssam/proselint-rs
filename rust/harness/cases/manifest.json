@@ -41098,5 +41098,197 @@
             "exit_status": "exact"
         }
     }
+,
+    {
+      "id": "terms_animal_adjectives_all_mappings",
+      "capability_id": "rule.terms.animal_adjectives",
+      "provenance": "Pinned Proselint 0.16.0 source checks/terms/animal_adjectives.py::check; Garner's Modern American Usage attribution retained under the project BSD-3-Clause basis. Expected diagnostics are obtained only from the pinned live Python executable. Exercises every PreferredFormsSimple mapping.",
+      "input_mode": "stdin",
+      "stdin_base64": "aGF3ay1saWtlOyBnb29zZS1saWtlOyBlYWdsZS1saWtlOyBiaXJkLWxpa2U7IGNyYWItbGlrZTsgZ29hdC1saWtlOyBkZWVyLWxpa2U7IGNyb3ctbGlrZTsgcmF2ZW4tbGlrZTsgY3JvY29kaWxlLWxpa2U7IHJhdHRsZXNuYWtlLWxpa2U7IGZhbGNvbi1saWtlOyB3aWxkIGFuaW1hbC1saWtlOyBoaXBwb3BvdGFtdXMtbGlrZTsgc3dhbGxvdy1saWtlOyBwb3JjdXBpbmUtbGlrZTsgbGl6YXJkLWxpa2U7IGd1bGwtbGlrZTsgaGFyZS1saWtlOyBlYXJ0aHdvcm0tbGlrZTsgd29sZi1saWtlOyBtb3VzZS1saWtlOyBzaGVlcC1saWtlOyBsZW9wYXJkLWxpa2U7IHBhbnRoZXItbGlrZTsgc3BhcnJvdy1saWtlOyBwZWFjb2NrLWxpa2U7IHdvb2RwZWNrZXItbGlrZTsgZmlzaC1saWtlOyBmcm9nLWxpa2U7IGNlbnRpcGVkZS1saWtlOyBzaHJldy1saWtlOyBvc3RyaWNoLWxpa2U7IHN3aW5lLWxpa2U7IGJ1bGwtbGlrZTsgb3gtbGlrZTsgdGlnZXItbGlrZTsgd2FzcC1saWtlOyB2aXBlci1saWtlOyBjYWxmLWxpa2U7IHZlYWwtbGlrZTsgbW9uZ29vc2UtbGlrZTsgZm94LWxpa2U7IHZ1bHR1cmUtbGlrZTsgemVicmEtbGlrZTsgc2FibGUtbGlrZS4=",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsidGVybXMiOnsiYW5pbWFsX2FkamVjdGl2ZXMiOnRydWV9fSwibWF4X2Vycm9ycyI6MTAwMH0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "terms_animal_adjectives_case_boundaries",
+      "capability_id": "rule.terms.animal_adjectives",
+      "provenance": "Pinned Proselint 0.16.0 source checks/terms/animal_adjectives.py::check; Garner's Modern American Usage attribution retained under the project BSD-3-Clause basis. Expected diagnostics are obtained only from the pinned live Python executable. Checks case-insensitive matching, word boundaries, and the multiword mapping.",
+      "input_mode": "stdin",
+      "stdin_base64": "SEFXSy1MSUtFLCBiaXJkLWxpa2UhIHhoYXdrLWxpa2UgaGF3ay1saWtlWDsgd2lsZCBhbmltYWwtbGlrZS4=",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsidGVybXMiOnsiYW5pbWFsX2FkamVjdGl2ZXMiOnRydWV9fSwibWF4X2Vycm9ycyI6MTAwMH0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "terms_animal_adjectives_quotes_unicode",
+      "capability_id": "rule.terms.animal_adjectives",
+      "provenance": "Pinned Proselint 0.16.0 source checks/terms/animal_adjectives.py::check; Garner's Modern American Usage attribution retained under the project BSD-3-Clause basis. Expected diagnostics are obtained only from the pinned live Python executable. Checks paired quote suppression and Unicode code-point columns.",
+      "input_mode": "stdin",
+      "stdin_base64": "Q2Fmw6kgZmlyc3QuIFRoZSBxdW90ZWQgcGhyYXNlIOKAnHdvbGYtbGlrZeKAnSBpcyBleGNsdWRlZDsgcmF2ZW4tbGlrZSBpcyBvdXRzaWRlLg==",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsidGVybXMiOnsiYW5pbWFsX2FkamVjdGl2ZXMiOnRydWV9fSwibWF4X2Vycm9ycyI6MTAwMH0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "terms_animal_adjectives_max_errors",
+      "capability_id": "rule.terms.animal_adjectives",
+      "provenance": "Pinned Proselint 0.16.0 source checks/terms/animal_adjectives.py::check; Garner's Modern American Usage attribution retained under the project BSD-3-Clause basis. Expected diagnostics are obtained only from the pinned live Python executable. Checks max_errors truncation at two.",
+      "input_mode": "stdin",
+      "stdin_base64": "c2FibGUtbGlrZTsgd29sZi1saWtlOyBoYXdrLWxpa2Uu",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsidGVybXMiOnsiYW5pbWFsX2FkamVjdGl2ZXMiOnRydWV9fSwibWF4X2Vycm9ycyI6Mn0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "terms_animal_adjectives_no_hit",
+      "capability_id": "rule.terms.animal_adjectives",
+      "provenance": "Pinned Proselint 0.16.0 source checks/terms/animal_adjectives.py::check; Garner's Modern American Usage attribution retained under the project BSD-3-Clause basis. Expected diagnostics are obtained only from the pinned live Python executable. Checks near-miss and unrelated text produce no finding.",
+      "input_mode": "stdin",
+      "stdin_base64": "YmlyZGxpa2VzLCBoYXdrbGlrZSwgb3JkaW5hcnkgYW5pbWFsLg==",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsidGVybXMiOnsiYW5pbWFsX2FkamVjdGl2ZXMiOnRydWV9fSwibWF4X2Vycm9ycyI6MTAwMH0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "terms_animal_adjectives_default_enabled",
+      "capability_id": "rule.terms.animal_adjectives",
+      "provenance": "Pinned Proselint 0.16.0 default configuration enables terms; checks/terms/animal_adjectives.py::check is registered in that module. Exercises no-config CLI dispatch.",
+      "input_mode": "stdin",
+      "stdin_base64": "SXQgd2FzIHNvbWUgYmlyZC1saWtlIGNyZWF0dXJlLg==",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    }
   ]
 }

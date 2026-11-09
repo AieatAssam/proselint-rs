@@ -1,3 +1,4 @@
+pub mod animal_adjectives;
 pub mod archaism;
 pub mod cliches_write_good;
 pub mod dash_and_from;

@@ -510,6 +510,10 @@
     {
       "id": "social_awareness.lgbtq.terms",
       "status": "independently_verified"
+    },
+    {
+      "id": "rule.terms.animal_adjectives",
+      "status": "independently_verified"
     }
   ],
   "inventory": {
@@ -633,12 +637,12 @@
     }
   },
   "active_ownership": {
-    "current": "social_awareness.lgbtq.terms has focused owner and independent live acceptance (5/5 each), with its cumulative gate deferred. The preceding cumulative checkpoint remains historical at 1249/1249 cases across 124 capabilities and does not match the current 1258 accepted production cases. Rule-data reuse follows the user's package-wide BSD-3-Clause policy basis with attribution/notices and provenance/conflict caveats.",
+    "current": "rule.terms.animal_adjectives has focused owner and independent live acceptance (6/6 each). Current coverage is 1264 accepted production cases across 127 capabilities, with 86 accepted and 20 unimplemented rule paths. The latest cumulative gate is historical at 1258/1258 across 126 capabilities and is stale for this case set; defer the next cumulative run to the 5–10-capability cadence. Data reuse follows the user's package-wide BSD-3-Clause policy basis with attribution/notices and provenance/conflict caveats.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-    "cumulative_gate": "Historical PASS: 1249/1249 across 124 accepted capabilities; report rust/artifacts/strict-gate-cli-per-file-nested-values-20261109.json; run 20261109T111530499180Z-93a5c89b; source fingerprint 98b88e68345142699776852836c8e50f8443c132eeb723a55948c704c5227c99. Stale for the current 1258 accepted cases and 126 capabilities; rerun at the scheduled cumulative checkpoint."
+    "cumulative_gate": "Historical PASS: 1258/1258 across 126 capabilities; report rust/artifacts/strict-gate-social-awareness-lgbtq-terms-20261109.json; run 20261109T130343177872Z-c5b492ab. Stale for current 1264 accepted cases across 127 capabilities; scope_matches_current_case_set=false. Defer rerun to the 5–10-capability cadence."
   },
   "unresolved": [
-    "21 unique rule paths remain unimplemented.",
+    "20 unique rule paths remain unimplemented.",
     "Other CLI/config behavior remains unverified, including passwd-home config-present behavior, HOME-absent no-passwd-entry config behavior (confirmed mismatch in cli.config.no_passwd_home; see harness.latest_no_passwd_home_case), other subcommands, HOME-unset platform variation, directory candidates, and traversal/decoding edges.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
     "Directory/non-UTF-8 path error formatting on non-Linux platforms remains unverified.",
@@ -658,6 +662,63 @@
     "The Linux HOME-absent/no-passwd-entry reproducer remains a confirmed mismatch: pinned Python fails during import with an installation-specific traceback while Rust completes the command; it is blocked and excluded from production_capabilities."
   ],
   "capability_states": [
+    {
+      "id": "rule.terms.animal_adjectives",
+      "status": "independently_verified",
+      "case_ids": [
+        "terms_animal_adjectives_all_mappings",
+        "terms_animal_adjectives_case_boundaries",
+        "terms_animal_adjectives_quotes_unicode",
+        "terms_animal_adjectives_max_errors",
+        "terms_animal_adjectives_no_hit",
+        "terms_animal_adjectives_default_enabled"
+      ],
+      "upstream_spec": "Pinned Proselint 0.16.0 checks/terms/animal_adjectives.py; data attributed to Garner's Modern American Usage. Reuse follows the user-authorized package-wide BSD-3-Clause policy basis with attribution/notices; provenance and conflicting-term review caveats remain.",
+      "red": {
+        "status": "MISMATCH",
+        "report": "rust/artifacts/animal-adjectives-red-final-20261109.json",
+        "run_id": "20261109T133346291560Z-728c2216",
+        "cases": 6,
+        "mismatches": 6,
+        "duration_seconds": 19.865,
+        "source_fingerprint": "643be628f4fe77e245d51ddf360ece415c8dbd6893516c9a5a8064a40823b2b3"
+      },
+      "green": {
+        "status": "PASS",
+        "owner_report": "rust/artifacts/animal-adjectives-live-final-20261109.json",
+        "owner_run_id": "20261109T134444945940Z-021d1720",
+        "owner_cases_passed": 6,
+        "owner_seconds": 17.856,
+        "independent_report": "rust/artifacts/independent-terms-animal-adjectives-live-final.json",
+        "independent_run_id": "20261109T134545386659Z-fde49e37",
+        "independent_cases_passed": 6,
+        "independent_seconds": 20.994,
+        "mismatches": 0,
+        "timeouts": 0,
+        "errors": 0,
+        "focused_rule_tests": "4/4 PASS",
+        "focused_no_config_cli_tests": "5/5 PASS",
+        "build_attestation": "rust/artifacts/20261109T134428588603Z-build.attestation.json",
+        "source_fingerprint": "9ce4124cdf46688de2a5e3337fa1e2993f20601891c73f871db71b64d9ffc3f6",
+        "candidate_sha256": "f09accf4fd1b7bbe2abb63622f0558a3ebfa9c5ae2079713c5756067f89f0bc6",
+        "cargo_lock_sha256": "05212984084365b79c499cd3c111ceb71349e05968ff8b21316e6ec64fd76fc1"
+      },
+      "coverage": {
+        "accepted_cases": 1264,
+        "manifest_cases": 1275,
+        "capabilities": 127,
+        "accepted_rule_paths": 86,
+        "unimplemented_rule_paths": 20
+      },
+      "cumulative_gate": {
+        "status": "historical_PASS_stale_current_scope_not_run",
+        "report": "rust/artifacts/strict-gate-social-awareness-lgbtq-terms-20261109.json",
+        "passed_cases": 1258,
+        "capabilities": 126,
+        "scope_matches_current_case_set": false,
+        "note": "This capability adds six cases and one rule path after the gate; defer rerun to the 5–10-capability cadence."
+      }
+    },
     {
       "id": "social_awareness.lgbtq.terms",
       "status": "independently_verified",
@@ -10391,7 +10452,7 @@
     }
   ],
   "last_strict_gate": {
-    "status": "PASS",
+    "status": "historical_PASS_stale_current_scope_not_run",
     "report": "rust/artifacts/strict-gate-social-awareness-lgbtq-terms-20261109.json",
     "passed_cases": 1258,
     "manifest_cases": 1269,
@@ -10420,10 +10481,10 @@
       "rust_checks_and_build": 142.855777
     },
     "comparator_self_tests": 23,
-    "scope_matches_current_case_set": true,
-    "current_accepted_case_count": 1258,
-    "current_production_case_count": 1258,
-    "current_manifest_case_count": 1269
+    "scope_matches_current_case_set": false,
+    "current_accepted_case_count": 1264,
+    "current_production_case_count": 1264,
+    "current_manifest_case_count": 1275
   },
   "rust_dependencies": {
     "status": "current",
@@ -10460,7 +10521,7 @@
     },
     "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-itoa-20261109.txt"
   },
-  "next_capability_handoff": "Scout/select the next eligible rule from the unimplemented inventory, checking source provenance and terms before implementation; retain the package-wide BSD-3-Clause policy basis with attribution/notices and review unknown/conflicting provenance separately. Continue unresolved CLI/config parity, including the confirmed HOME-absent/no-passwd mismatch. The current cumulative gate passes 1258/1258 across 126 capabilities.",
+  "next_capability_handoff": "Scout/select another eligible rule from the unimplemented inventory, checking source provenance and terms; retain the package-wide BSD-3-Clause policy basis with attribution/notices and review unknown/conflicting provenance separately. Continue unresolved CLI/config parity. The 1258/1258 gate across 126 capabilities is historical and stale for current coverage (1264 cases, 127 capabilities); defer rerun to the 5–10-capability cadence.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

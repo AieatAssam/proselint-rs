@@ -1249,6 +1249,16 @@ fn user_config_path() -> Option<PathBuf> {
         .filter(|candidate| candidate.is_file())
 }
 
+fn config_directory_error(path: &std::path::Path) -> Option<String> {
+    if !fs::metadata(path).ok()?.is_dir() {
+        return None;
+    }
+    Some(format!(
+        "[Errno Directories not permitted - found directory %s] {}",
+        path.canonicalize().ok()?.display()
+    ))
+}
+
 fn dump_config(
     config: Option<PathBuf>,
     default: bool,
@@ -1273,6 +1283,25 @@ fn dump_config(
 
     let loaded = match config_path {
         Some(path) => {
+            if let Some(message) = config_directory_error(&path) {
+                if matches!(output_format, OutputFormat::Json) {
+                    print!(
+                        "{}",
+                        serde_json::to_string_pretty(&serde_json::json!({
+                            "error": {
+                                "code": -31999,
+                                "data": "OSError",
+                                "message": message
+                            }
+                        }))
+                        .expect("directory error JSON is serializable")
+                    );
+                    return Ok(ExitCode::from(4));
+                }
+                return Err(format!(
+                    "Unrecoverable error encountered while running proselint: {message}"
+                ));
+            }
             let source = match fs::read_to_string(&path) {
                 Ok(source) => source,
                 Err(error) if error.kind() == io::ErrorKind::NotFound => {
@@ -1940,14 +1969,7 @@ fn run() -> Result<ExitCode, String> {
         }
     };
 
-    if let Ok(metadata) = fs::metadata(&config)
-        && metadata.is_dir()
-        && let Ok(path) = config.canonicalize()
-    {
-        let message = format!(
-            "[Errno Directories not permitted - found directory %s] {}",
-            path.display()
-        );
+    if let Some(message) = config_directory_error(&config) {
         if matches!(output_format, OutputFormat::Json) {
             println!(
                 "{}",

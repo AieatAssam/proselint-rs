@@ -523,8 +523,8 @@
       "status": "PASS",
       "suite": "python3 -m unittest discover -s rust/harness/tests -p 'test_*.py'",
       "tests_passed": 109,
-      "duration_seconds": 69.583,
-      "evidence": "rust/artifacts/harness-suite-cli-attached-abbrev-20261109.log"
+      "duration_seconds": 68.365,
+      "evidence": "rust/artifacts/harness-suite-cli-directory-config-20261109.log"
     },
     "comparator_discriminators": {
       "passed": 23,
@@ -588,9 +588,9 @@
     }
   },
   "active_ownership": {
-    "current": "Attached-value long-option error handling is verified at source fingerprint 6b1c32050cfc8195fa8bb443f1637857d05d748b95554fdf4727b416677a3666: focused Rust tests 12/12, owner and independent live cases 10/10 each, and cumulative gate 1099/1099 across 123 accepted capabilities. Next focus: dump-config explicit-directory config error; 23 data-backed rule paths remain held pending provenance/licensing policy.",
+    "current": "cli.config.directory_path now covers check and dump-config explicit directory errors in all tested output formats. The post-change cumulative gate passed 1101/1101 across 123 accepted capabilities at fingerprint 52b6f5741aed22b39df12b80f7ac74a6e9683194cd8ef517d063042a7b6a4ea4. Next investigate the remaining CLI/config discovery cases; 23 data-backed rule paths remain held pending a licensing/provenance decision.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-    "cumulative_gate": "PASS after shared CLI change; next gate is required after the next shared behavior change or at the 5–10-capability checkpoint."
+    "cumulative_gate": "PASS after shared config change; next gate due after next shared matching/config/CLI/output change, after 5–10 accepted capabilities, and before release."
   },
   "unresolved": [
     "23 unique rule paths remain unimplemented.",
@@ -2835,9 +2835,11 @@
         "cli_config_directory_json_error",
         "cli_config_directory_parent_json_error",
         "cli_config_directory_full_error",
-        "cli_config_directory_compact_error"
+        "cli_config_directory_compact_error",
+        "cli_dump_config_directory_json_error",
+        "cli_dump_config_directory_full_error"
       ],
-      "upstream_spec": "When --config names an existing directory, Python resolves the path and raises OSError before reading it. JSON mode returns exit 4 with structured {code:-31999,data:OSError,message:\"[Errno Directories not permitted - found directory %s] <canonical path>\"}; Full and compact modes return exit 4, empty stdout, and the exact unrecoverable-error message on stderr. Relative parent and symlink paths resolve to the canonical directory.",
+      "upstream_spec": "When --config names an existing directory, Python resolves the path and raises OSError before reading or dispatching the subcommand. JSON mode returns exit 4 with structured {code:-31999,data:OSError,message:\"[Errno Directories not permitted - found directory %s] <canonical path>\"}; Full and Compact modes return exit 4, empty stdout, and the exact unrecoverable-error message on stderr. `dump-config` follows the same validation for explicit directories.",
       "red": {
         "behavioral_mismatches": 2,
         "total_cases": 4,
@@ -2863,14 +2865,51 @@
         "comparator_discriminators_passed": 23
       },
       "limitations": [
-        "Rust currently requires an explicit --config and --output-format; Python defaults and config discovery remain a separate CLI capability.",
-        "The symlink unit test is Unix-only; non-UTF-8 config paths, dangling symlinks, and non-Linux path/error formatting remain unverified."
+        "The symlink unit test is Unix-only; non-UTF-8 config paths, dangling symlinks, and non-Linux path/error formatting remain unverified.",
+        "This capability verifies explicit directory paths for check and dump-config. Remaining default and discovery behavior is tracked under separate CLI/config capabilities."
       ],
       "cumulative_live_parity": {
         "passed_cases": 415,
         "exit_code": 0,
         "report": "rust/artifacts/strict-gate-full-output-20261106.json",
         "source_fingerprint": "1a17920e7f6d6fd4bcd116196c605c1401fa74f1b4964449b79810f0fbc513da"
+      },
+      "coverage_extension_20261109": {
+        "status": "PASS",
+        "case_ids": [
+          "cli_dump_config_directory_json_error",
+          "cli_dump_config_directory_full_error"
+        ],
+        "upstream_source": "Pinned proselint/command_line.py:116-126,139-145,187-191; proselint/tools.py:23-47; pinned log.py JSON/full error serialization.",
+        "red": {
+          "status": "behavioral_failure",
+          "live_cases_passed_before_fix": 4,
+          "live_mismatches_before_fix": 2,
+          "report": "rust/artifacts/20261109T-dump-config-directory-red.json",
+          "focused_rust_failures": 2
+        },
+        "green": {
+          "focused_rust_tests_passed": 2,
+          "existing_check_directory_tests_passed": 5,
+          "owner_live_cases_passed": 6,
+          "owner_live_report": "rust/artifacts/20261109T-dump-config-directory-green-owner.json",
+          "independent_live_cases_passed": 6,
+          "independent_live_report": "rust/artifacts/independent-cli-config-directory-path-20261109/live-comparison.json",
+          "candidate_attestation": "rust/artifacts/20261109T030623481637Z-build.attestation.json",
+          "source_fingerprint": "52b6f5741aed22b39df12b80f7ac74a6e9683194cd8ef517d063042a7b6a4ea4",
+          "candidate_sha256": "7c9b7ea8bda3a56da75793d636ef58ec4e93b5f0618a982c9f8b81fd33055b4a",
+          "cargo_lock_sha256": "ad88691329555e80c0c09bc4f2b86818a5d4435ecdd9c54cd2fbc94fb9622081",
+          "model_routing": "Luna low requested for harness, implementation and independent verification; runtime dispatch metadata unavailable."
+        },
+        "cumulative_gate": {
+          "status": "PASS",
+          "report": "rust/artifacts/strict-gate-cli-dump-config-directory-20261109.json",
+          "run_id": "20261109T031024997688Z-a958a27e",
+          "passed_cases": 1101,
+          "capability_count": 123,
+          "duration_seconds": 1065.154306,
+          "source_fingerprint": "52b6f5741aed22b39df12b80f7ac74a6e9683194cd8ef517d063042a7b6a4ea4"
+        }
       }
     },
     {
@@ -9776,9 +9815,9 @@
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-cli-long-option-attached-values-20261109.json",
-    "passed_cases": 1099,
-    "manifest_cases": 1109,
+    "report": "rust/artifacts/strict-gate-cli-dump-config-directory-20261109.json",
+    "passed_cases": 1101,
+    "manifest_cases": 1111,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
       "cli.version.json_metadata": 5,
@@ -9791,19 +9830,19 @@
     "unresolved_manifest_cases": 1,
     "exit_code": 0,
     "capability_count": 123,
-    "source_fingerprint": "6b1c32050cfc8195fa8bb443f1637857d05d748b95554fdf4727b416677a3666",
-    "run_id": "20261109T024223654652Z-db91f0e2",
-    "started_at_utc": "2026-11-09T02:42:23.654628+00:00",
-    "finished_at_utc": "2026-11-09T02:58:18.185512+00:00",
-    "candidate_attestation": "rust/artifacts/20261109T024018499159Z-build.attestation.json",
-    "candidate_sha256": "31cc0decdc2acd7d1ddcbca40ee08ae868c1ca03c6c9bc5e9756638e3a7fb93f",
+    "source_fingerprint": "52b6f5741aed22b39df12b80f7ac74a6e9683194cd8ef517d063042a7b6a4ea4",
+    "run_id": "20261109T031024997688Z-a958a27e",
+    "started_at_utc": "2026-11-09T03:10:24.997660+00:00",
+    "finished_at_utc": "2026-11-09T03:26:26.601073+00:00",
+    "candidate_attestation": "rust/artifacts/20261109T030844568523Z-build.attestation.json",
+    "candidate_sha256": "7c9b7ea8bda3a56da75793d636ef58ec4e93b5f0618a982c9f8b81fd33055b4a",
     "cargo_lock_sha256": "ad88691329555e80c0c09bc4f2b86818a5d4435ecdd9c54cd2fbc94fb9622081",
-    "duration_seconds": 1082.633867,
+    "duration_seconds": 1065.154306,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.140889,
-      "cumulative_live_comparison": 954.869315,
-      "oracle_integrity": 2.003865,
-      "rust_checks_and_build": 125.225054
+      "comparator_self_tests": 0.144066,
+      "cumulative_live_comparison": 961.968586,
+      "oracle_integrity": 2.09858,
+      "rust_checks_and_build": 100.507123
     },
     "comparator_self_tests": 23
   },
@@ -9833,7 +9872,7 @@
     },
     "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-release-version-20261109.txt"
   },
-  "next_capability_handoff": "Implement cli.dump_config_directory_config_error from pinned proselint/command_line.py:116-126,139-145 and tools.py:23-47. Preserve exact JSON OSError and Full output behavior. Then continue unresolved CLI/config cases; do not start held data-backed paths until their provenance/licensing question is resolved.",
+  "next_capability_handoff": "Continue CLI/config parity against pinned Proselint 0.16.0. Probe remaining config discovery and path error cases (passwd-home, no passwd entry, HOME unset/platform variation, directory candidates), then unverified subcommand and traversal/decoding edges. Keep the 23 data-backed paths held pending a specific licensing/provenance policy.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",
@@ -10143,6 +10182,32 @@
         "evidence": "rust/artifacts/independent-cli-long-option-abbrev-attached-20261109/live-comparison.json"
       },
       "independent_code_review": "No concrete issue found in bounded read-only code review; runtime model metadata unavailable."
+    },
+    "latest_dump_config_directory_extension": {
+      "investigation": {
+        "requested_model": "gpt-6-luna",
+        "requested_effort": "low",
+        "runtime_model_metadata": "unavailable",
+        "evidence": "read-only pinned-source/probe handoff"
+      },
+      "harness_owner": {
+        "requested_model": "gpt-6-luna",
+        "requested_effort": "low",
+        "runtime_model_metadata": "unavailable",
+        "evidence": "rust/artifacts/20261109T-dump-config-directory-red.json"
+      },
+      "implementation": {
+        "requested_model": "gpt-6-luna",
+        "requested_effort": "low",
+        "runtime_model_metadata": "unavailable",
+        "evidence": "rust/tests/cli_dump_config_directory_error.rs"
+      },
+      "independent_verifier": {
+        "requested_model": "gpt-6-luna",
+        "requested_effort": "low",
+        "runtime_model_metadata": "unavailable",
+        "evidence": "rust/artifacts/independent-cli-config-directory-path-20261109/live-comparison.json"
+      }
     }
   },
   "rights_audit_latest": {

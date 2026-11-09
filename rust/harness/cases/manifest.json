@@ -35854,5 +35854,62 @@
         "exit_status": "exact"
       }
     }
+,
+    {
+      "id": "cli_dump_config_directory_json_error",
+      "capability_id": "cli.config.directory_path",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; dump-config validates the explicit --config directory before dispatch and reports the directory error in json output.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "dump-config",
+        "--config",
+        ".",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dump_config_directory_json_error",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_dump_config_directory_full_error",
+      "capability_id": "cli.config.directory_path",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; dump-config validates the explicit --config directory before dispatch and reports the directory error in full output.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "dump-config",
+        "--config",
+        ".",
+        "--output-format",
+        "full"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "dump_config_directory_full_error",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    }
   ]
 }

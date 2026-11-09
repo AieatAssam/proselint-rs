@@ -335,3 +335,126 @@ fn dump_config_accepts_empty_per_file_checks_mapping() {
         serde_json::json!({"max_errors":0,"checks":{},"per_file_checks":{}})
     );
 }
+
+fn assert_check_attribute_error(output: std::process::Output, format: &str, type_name: &str) {
+    let message = format!("'{type_name}' object has no attribute 'items'");
+    assert_eq!(output.status.code(), Some(4), "format {format}");
+    if format == "json" {
+        assert!(output.stderr.is_empty(), "format {format}");
+        let value: Value = serde_json::from_slice(&output.stdout).unwrap();
+        assert_eq!(
+            value["error"],
+            serde_json::json!({
+                "code": -31999,
+                "data": "AttributeError",
+                "message": message
+            }),
+            "format {format}"
+        );
+    } else {
+        assert!(output.stdout.is_empty(), "format {format}");
+        assert_eq!(
+            output.stderr,
+            format!("Unrecoverable error encountered while running proselint: {message}\n")
+                .as_bytes(),
+            "format {format}"
+        );
+    }
+}
+
+fn per_file_file_config(value: &str) -> String {
+    format!(r#"{{"checks":{{}},"per_file_checks":{{"*.zzz":{value}}}}}"#)
+}
+
+#[test]
+fn invalid_per_file_file_config_values_fail_eagerly_in_all_cli_modes() {
+    for (value, type_name) in [
+        ("null", "NoneType"),
+        ("[]", "list"),
+        (r#""bad""#, "str"),
+        ("false", "bool"),
+        ("7", "int"),
+        ("1.5", "float"),
+    ] {
+        let config = per_file_file_config(value);
+        for format in ["json", "full", "compact"] {
+            assert_check_attribute_error(
+                run_with_config_format(&config, "input.txt", "", Some(format)),
+                format,
+                type_name,
+            );
+            assert_dump_config_attribute_error(
+                run_dump_config_with_config(&config, format),
+                format,
+                type_name,
+            );
+            assert_dump_config_attribute_error(
+                run_dump_config_with_config_and_version(&config, format, true),
+                format,
+                type_name,
+            );
+        }
+    }
+}
+
+#[test]
+fn valid_per_file_file_config_mapping_remains_accepted() {
+    let config = r#"{"checks":{},"per_file_checks":{"*.txt":{"misc":{"apologizing":true}}}}"#;
+    let expected = serde_json::json!({
+        "max_errors": 0,
+        "checks": {},
+        "per_file_checks": {"*.txt": {"misc.apologizing": true}}
+    });
+    for format in ["json", "full", "compact"] {
+        let output = run_dump_config_with_config(config, format);
+        assert_eq!(
+            output.status.code(),
+            Some(0),
+            "format {format}: {:?}",
+            output.stderr
+        );
+        assert!(output.stderr.is_empty(), "format {format}");
+        assert_eq!(
+            serde_json::from_slice::<Value>(&output.stdout).unwrap(),
+            expected,
+            "format {format}"
+        );
+    }
+}
+
+#[test]
+fn nested_invalid_per_file_check_leaf_fails_before_version() {
+    let config = r#"{"checks":{},"per_file_checks":{"*.txt":{"misc":{"apologizing":null}}}}"#;
+    assert_dump_config_attribute_error(
+        run_dump_config_with_config_and_version(config, "json", true),
+        "json",
+        "NoneType",
+    );
+}
+
+#[test]
+fn duplicate_per_file_pattern_uses_last_value() {
+    let valid_after_invalid =
+        r#"{"checks":{},"per_file_checks":{"*.txt":null,"*.txt":{"misc":{"apologizing":true}}}}"#;
+    let output = run_dump_config_with_config(valid_after_invalid, "json");
+    assert_eq!(output.status.code(), Some(0), "stderr: {:?}", output.stderr);
+    assert!(output.stderr.is_empty());
+
+    let invalid_after_valid =
+        r#"{"checks":{},"per_file_checks":{"*.txt":{"misc":{"apologizing":true}},"*.txt":null}}"#;
+    assert_dump_config_attribute_error(
+        run_dump_config_with_config(invalid_after_valid, "json"),
+        "json",
+        "NoneType",
+    );
+}
+
+#[test]
+fn checks_error_precedes_nested_per_file_error_before_version() {
+    let config = r#"{"checks":[],"per_file_checks":{"*.txt":null}}"#;
+    assert_dump_config_attribute_error(
+        run_dump_config_with_config_and_version(config, "json", true),
+        "json",
+        "list",
+    );
+}

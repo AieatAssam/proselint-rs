@@ -385,7 +385,11 @@
     },
     {
       "id": "cli.config.per_file_checks",
-      "status": "recorded"
+      "status": "independently_verified",
+      "live_cases": 98,
+      "added_live_cases": 61,
+      "owner_report": "rust/artifacts/per-file-file-config-scalar-live-final.json",
+      "independent_report": "rust/artifacts/independent-cli-config-per-file-checks-98-20261109T110413.json"
     },
     {
       "id": "rule.typography.diacritical_marks",
@@ -621,9 +625,9 @@
     }
   },
   "active_ownership": {
-    "current": "Extended accepted cli.config.user_discovery coverage with a HOME-directory candidate case; focused Rust, owner, and independent checks pass. No production behavior changed. The latest cumulative gate remains a valid historical 1101-case pass but predates this case; defer the next cumulative run until its scheduled checkpoint. Rule-data rights decision remains pending.",
+    "current": "Completed cli.config.per_file_checks coverage at 98 live cases. Focused owner and independent reports pass 98/98, and the fresh cumulative gate passes 1249/1249 accepted cases across 124 capabilities. Rule-data reuse policy remains the user's package-wide BSD-3-Clause policy basis with retained attributions/notices; this is not a legal determination or guarantee of upstream rights. Unknown-provenance paths and conflicting terms require separate review.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-    "cumulative_gate": "Historical PASS: 1101/1101 across 123 capabilities. One independently verified accepted case was added afterward; the next scheduled cumulative gate must cover it."
+    "cumulative_gate": "PASS: 1249/1249 across 124 accepted capabilities; report rust/artifacts/strict-gate-cli-per-file-nested-values-20261109.json; run 20261109T111530499180Z-93a5c89b; source fingerprint 98b88e68345142699776852836c8e50f8443c132eeb723a55948c704c5227c99."
   },
   "unresolved": [
     "23 unique rule paths remain unimplemented.",
@@ -633,7 +637,7 @@
     "Benchmarks cover only the isolated misc.suddenly profile and the selected misc.suddenly + psychology.p_equals_zero profile on their recorded inputs; broader rule sets and default configurations remain unmeasured.",
     "Agent task configuration requested gpt-6-luna/low for implementation and independent review, but runtime model/effort metadata is not exposed, so routing cannot be independently audited.",
     "Unicode case folding and quote-pairing combinations beyond explicitly tested cases remain unverified.",
-    "The 23 unimplemented data-backed paths remain held under an unresolved project policy. The pinned package declares BSD-3-Clause and no file-level exclusions were found, but the audit did not establish whether the project-wide license covers separately attributed third-party-derived lists. No blanket prohibition or path-specific permission was established. Three paths have unknown provenance; see rust/status.json rights_audit_latest and rust/docs/PLAN.md.",
+    "Data-backed paths may be reused under the project's package-wide BSD-3-Clause policy basis, retaining upstream attributions and notices. This is a project policy choice, not a legal determination or guarantee of upstream rights. Unknown-provenance paths and any conflicting terms require separate review; see rust/status.json rights_audit_latest and rust/docs/PLAN.md.",
     "No-config execution now loads bundled DEFAULT for 83 implemented checks, but the 23 unimplemented unique paths include default-enabled rules, so full default-config parity and all combined-rule interactions remain incomplete.",
     "dump-config HOME-unset/platform-specific config discovery, directory user candidates, directory traversal/decoding edges outside the accepted directory cases remain unverified; explicit multi-file output for file lists is covered by the recorded cases.",
     "Other --version combined-argument orderings beyond cli.version_argument_precedence remain unverified.",
@@ -10248,9 +10252,9 @@
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-cli-checks-scalar-20261109.json",
-    "passed_cases": 1188,
-    "manifest_cases": 1199,
+    "report": "rust/artifacts/strict-gate-cli-per-file-nested-values-20261109.json",
+    "passed_cases": 1249,
+    "manifest_cases": 1260,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
       "cli.product_version_flag": 1,
@@ -10265,23 +10269,19 @@
     "unresolved_manifest_cases": 2,
     "exit_code": 0,
     "capability_count": 124,
-    "source_fingerprint": "ee227015d98372db08f2c6312434a1723a8b5aea1fd0e701bbaa41bee234050e",
-    "run_id": "20261109T101848816405Z-ed850c3e",
-    "started_at_utc": "2026-11-09T10:18:48.816376+00:00",
-    "finished_at_utc": "2026-11-09T10:36:29.806055+00:00",
-    "candidate_attestation": "rust/artifacts/20261109T101301920497Z-build.attestation.json",
-    "candidate_sha256": "3703dcbc0e4e3018e195685d1f25653cf57fc74a4fb6e3ccbb97972ad3deb501",
+    "source_fingerprint": "98b88e68345142699776852836c8e50f8443c132eeb723a55948c704c5227c99",
+    "run_id": "20261109T111530499180Z-93a5c89b",
     "cargo_lock_sha256": "05212984084365b79c499cd3c111ceb71349e05968ff8b21316e6ec64fd76fc1",
-    "duration_seconds": 1196.182133,
+    "duration_seconds": 1270.615207,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.156172,
-      "cumulative_live_comparison": 1061.312571,
-      "oracle_integrity": 2.058962,
-      "rust_checks_and_build": 132.197127
+      "comparator_self_tests": 0.15128,
+      "cumulative_live_comparison": 1132.947975,
+      "oracle_integrity": 2.782871,
+      "rust_checks_and_build": 134.262158
     },
     "comparator_self_tests": 23,
     "scope_matches_current_case_set": true,
-    "current_accepted_case_count": 1188
+    "current_accepted_case_count": 1249
   },
   "rust_dependencies": {
     "status": "current",
@@ -10688,20 +10688,20 @@
     "reviewed_unimplemented_paths": 23,
     "explicit_path_scoped_reuse_grants_found": 0,
     "eligible_paths": null,
-    "conclusion": "The repository declares BSD-3-Clause for the Proselint package and the pinned files contain no explicit list exclusions. The audit did not establish whether that project-wide grant covers all separately attributed or third-party-derived list content; it establishes neither a blanket prohibition nor path-specific grants for the 23 held paths. A project policy decision is pending.",
+    "conclusion": "User policy decision: use the package-wide BSD-3-Clause license as the project policy basis for reusing bundled attributed lists, retaining upstream attributions and notices. This records project policy only; it is not a legal determination or guarantee of upstream rights. Unknown-provenance paths and any conflicting terms require separate review.",
     "unknown_provenance_paths": [
       "industrial_language.chatspeak",
       "misc.phrasal_adjectives.examples",
       "redundancy.misc.after_the_deadline"
     ],
-    "next_step": "Resolve whether the project-wide license is the basis for reusing bundled third-party-derived lists; otherwise obtain path-specific source terms or permission. Preserve attributions and notices. Three paths still have unknown provenance.",
+    "next_step": "Apply the package-wide BSD-3-Clause project policy basis with upstream attributions and notices retained. Separately review unknown-provenance paths and any conflicting terms; three paths still have unknown provenance.",
     "repository_license": {
       "spdx": "BSD-3-Clause",
       "notice": "LICENSE.md",
       "package_metadata": "pyproject.toml declares license file LICENSE.md"
     },
     "explicit_path_scoped_exclusions_found": 0,
-    "eligibility_decision": "pending_project_policy",
+    "eligibility_decision": "project_policy_basis_bsd_3_clause_with_separate_review_for_unknown_or_conflicting_terms",
     "critical_review": {
       "reviewer": "sol_advisor",
       "configured_model": "gpt-6.1-sol",
@@ -10725,7 +10725,7 @@
       ],
       "findings": "All 23 held paths are bundled in the pinned package. The path-specific attributions and data shapes are recorded in the Luna review handoffs; no file-specific license grant or exclusion was found. Three paths remain unknown provenance.",
       "critical_advice": "Sol 6.1 low adviser concluded package-level BSD-3 is a possible documented project-policy basis, not proof of upstream authority over all attributed data. Suggested retaining attributions/notices, excluding explanatory excerpts, and clearing unknown-provenance/conflicting terms separately.",
-      "project_policy": "pending user decision",
+      "project_policy": "User decision: use package-wide BSD-3-Clause as project policy basis for bundled attributed-list reuse, preserving upstream attributions/notices; unknown provenance and conflicting terms require separate review. Not a legal determination or upstream-rights guarantee.",
       "model_routing": "Requested gpt-6-luna/low for three read-only audits and gpt-6.1-sol/low only for this licensing-policy review. Runtime dispatch metadata unavailable for Luna; Sol effort metadata unavailable."
     }
   },

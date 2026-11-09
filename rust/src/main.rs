@@ -470,6 +470,56 @@ struct CheckObjectFrame {
     state: CheckObjectState,
 }
 
+fn invalid_per_file_checks_error_type(raw: &[char]) -> Option<&'static str> {
+    let mut scanner = JsonScanner {
+        chars: raw.to_vec(),
+        offset: 0,
+    };
+    scanner.space();
+    if !scanner.take('{') {
+        let value: String = raw.iter().collect();
+        return python_json_root_type(&value);
+    }
+
+    let mut entries = Vec::<(String, Vec<char>)>::new();
+    scanner.space();
+    while !scanner.take('}') {
+        let key_start = scanner.offset;
+        scanner.string().ok()?;
+        let key_end = scanner.offset;
+        let key = config_field_name(&scanner.chars[key_start..key_end])
+            .unwrap_or_else(|| scanner.chars[key_start..key_end].iter().collect());
+        scanner.space();
+        if !scanner.take(':') {
+            return None;
+        }
+        scanner.space();
+        let value_start = scanner.offset;
+        scanner.skip_value().ok()?;
+        let value = scanner.chars[value_start..scanner.offset].to_vec();
+        if let Some((_, current)) = entries.iter_mut().find(|(name, _)| name == &key) {
+            *current = value;
+        } else {
+            entries.push((key, value));
+        }
+        scanner.space();
+        if scanner.take('}') {
+            break;
+        }
+        if !scanner.take(',') {
+            return None;
+        }
+        scanner.space();
+    }
+
+    for (_, value) in entries {
+        if let Some(type_name) = normalize_checks_value(&value)?.1 {
+            return Some(type_name);
+        }
+    }
+    None
+}
+
 fn project_config_fields(source: &str) -> Option<ProjectedConfig> {
     let mut scanner = JsonScanner::new(source);
     scanner.space();
@@ -525,8 +575,7 @@ fn project_config_fields(source: &str) -> Option<ProjectedConfig> {
                     }
                 }
                 2 => {
-                    let value: String = raw_value.iter().collect();
-                    per_file_checks_error_type = python_json_root_type(&value);
+                    per_file_checks_error_type = invalid_per_file_checks_error_type(raw_value);
                 }
                 _ => {}
             }

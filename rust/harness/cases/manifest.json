@@ -41485,6 +41485,197 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "terms_denizen_garner_all_mappings",
+      "capability_id": "rule.terms.denizen_labels.garner",
+      "provenance": "Pinned Proselint 0.16.0 checks/terms/denizen_labels.py::check_garner; source attributed to Garner's Modern American Usage (http://bit.ly/1T4alrY), retained under user-authorized package BSD-3-Clause policy basis. Expected outputs come only from live pinned Python. Exercises all 41 source mappings, including mixed-case `los Angelean` to preserve upstream lowercase-map lookup behavior.",
+      "input_mode": "stdin",
+      "stdin_base64": "YWZyaWthYW5lcjsgYWZyaWthbmRlcjsgYWxhYmFtYW47IGFsYnVxdWVycXVpYW47IGFuY2hvcmFnaXRlOyBsb3MgQW5nZWxlYW47IGFyaXpvbmlhbjsgYXJrYW5zYXd5ZXI7IGJlbGFydXNhbjsgY2F5bWFuIGlzbGFuZGVyOyBjb2xvcmFkb2FuOyBmYWlyYmFua3NpYW47IGZvcnQgd29ydGhlcjsgZ3JlbmFkaWFuOyBob25nIGtvbmdpdGU7IGhvbmcga29uZ2lhbjsgaW5kaWFuYW47IGluZGlhbmlhbjsgaWxsaW5vaXNpYW47IGlvd2VnaWFuOyBsb3Vpc2lhbmFuOyBtaWNoaWdhbml0ZTsgbWljaGlnYW5pYW47IG1pc3NvdXJhbjsgbW9uYWNhbjsgbmVvcG9saXRhbjsgbmV3IGhhbXBzaGlyZWl0ZTsgbmV3IGhhbXBzaGlyZW1hbjsgbmV3IGplcnNleWl0ZTsgbmV3IG9ybGVhbnNpYW47IGNvbm5lY3RpY3V0ZXI7IG9rbGFob21hIGNpdGlhbjsgb2tsYWhvbWlhbjsgc2VhdHRsaXRlOyBzdXJpbmFtZXI7IHRhbGxhaGFzc2VhbjsgdGVubmVzc2VlYW47IHR1c2NvbmlhbjsgdHVzY29uaXRlOyB1dGFoYW47IHNhdWRpIGFyYWJpYW4u",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsidGVybXMiOnsiZGVuaXplbl9sYWJlbHMiOnsiZ2FybmVyIjp0cnVlfX19LCJtYXhfZXJyb3JzIjoxMDAwfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "terms_denizen_garner_case_boundaries",
+      "capability_id": "rule.terms.denizen_labels.garner",
+      "provenance": "Pinned Proselint 0.16.0 checks/terms/denizen_labels.py::check_garner; source attributed to Garner's Modern American Usage (http://bit.ly/1T4alrY), retained under user-authorized package BSD-3-Clause policy basis. Expected outputs come only from live pinned Python. Checks case-insensitive matching, raw scans after activation, word boundaries, and the mixed-case source key behavior.",
+      "input_mode": "stdin",
+      "stdin_base64": "QU5DSE9SQUdFOyB4YW5jaG9yYWdpdGU7IGFuY2hvcmFnaXRlWDsgTE9TIEFOR0VMRUFOOw==",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsidGVybXMiOnsiZGVuaXplbl9sYWJlbHMiOnsiZ2FybmVyIjp0cnVlfX19LCJtYXhfZXJyb3JzIjoxMDAwfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "terms_denizen_garner_quotes_unicode",
+      "capability_id": "rule.terms.denizen_labels.garner",
+      "provenance": "Pinned Proselint 0.16.0 checks/terms/denizen_labels.py::check_garner; source attributed to Garner's Modern American Usage (http://bit.ly/1T4alrY), retained under user-authorized package BSD-3-Clause policy basis. Expected outputs come only from live pinned Python. Checks quote suppression, Unicode code-point columns, case folding, and a multiword mapping.",
+      "input_mode": "stdin",
+      "stdin_base64": "w6kg4oCcc2F1ZGkgYXJhYmlhbuKAnTsgU0FVREkgQVJBQklBTiwgdGhlbiAnY2F5bWFuIGlzbGFuZGVyJy4=",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsidGVybXMiOnsiZGVuaXplbl9sYWJlbHMiOnsiZ2FybmVyIjp0cnVlfX19LCJtYXhfZXJyb3JzIjoxMDAwfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "terms_denizen_garner_max_errors",
+      "capability_id": "rule.terms.denizen_labels.garner",
+      "provenance": "Pinned Proselint 0.16.0 checks/terms/denizen_labels.py::check_garner; source attributed to Garner's Modern American Usage (http://bit.ly/1T4alrY), retained under user-authorized package BSD-3-Clause policy basis. Expected outputs come only from live pinned Python. Checks `max_errors=2` with reverse-document and mapping order.",
+      "input_mode": "stdin",
+      "stdin_base64": "dHVzY29uaXRlOyBhbmNob3JhZ2l0ZTsgYXJpem9uaWFuOyBob25nIGtvbmdpdGUu",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsidGVybXMiOnsiZGVuaXplbl9sYWJlbHMiOnsiZ2FybmVyIjp0cnVlfX19LCJtYXhfZXJyb3JzIjoyfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "terms_denizen_garner_no_hit",
+      "capability_id": "rule.terms.denizen_labels.garner",
+      "provenance": "Pinned Proselint 0.16.0 checks/terms/denizen_labels.py::check_garner; source attributed to Garner's Modern American Usage (http://bit.ly/1T4alrY), retained under user-authorized package BSD-3-Clause policy basis. Expected outputs come only from live pinned Python. Checks nonmapped near-matches and unrelated text.",
+      "input_mode": "stdin",
+      "stdin_base64": "VG9yb250b25pYW47IFZhbmNvdXZlcml0ZTsgb3JkaW5hcnkgcHJvc2Uu",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsidGVybXMiOnsiZGVuaXplbl9sYWJlbHMiOnsiZ2FybmVyIjp0cnVlfX19LCJtYXhfZXJyb3JzIjoxMDAwfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "terms_denizen_garner_default_enabled",
+      "capability_id": "rule.terms.denizen_labels.garner",
+      "provenance": "Pinned Proselint 0.16.0 checks/terms/denizen_labels.py::check_garner; source attributed to Garner's Modern American Usage (http://bit.ly/1T4alrY), retained under user-authorized package BSD-3-Clause policy basis. Expected outputs come only from live pinned Python. Checks default configuration enables terms.denizen_labels.garner.",
+      "input_mode": "stdin",
+      "stdin_base64": "QSBIb25nIEtvbmdpdGUgbWV0IGFuIEFsYWJhbWFuIG5laWdoYm9yLg==",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

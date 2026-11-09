@@ -425,6 +425,7 @@ struct ProjectedConfig {
     json: String,
     max_errors_is_invalid: bool,
     checks_error_type: Option<&'static str>,
+    per_file_checks_error_type: Option<&'static str>,
 }
 
 struct CheckEntry {
@@ -479,6 +480,7 @@ fn project_config_fields(source: &str) -> Option<ProjectedConfig> {
     let mut fields = [None; 3];
     let mut max_errors_is_invalid = false;
     let mut checks_error_type = None;
+    let mut per_file_checks_error_type = None;
     let mut checks_json = None;
     scanner.space();
     while !scanner.take('}') {
@@ -521,6 +523,10 @@ fn project_config_fields(source: &str) -> Option<ProjectedConfig> {
                         checks_error_type = None;
                         checks_json = None;
                     }
+                }
+                2 => {
+                    let value: String = raw_value.iter().collect();
+                    per_file_checks_error_type = python_json_root_type(&value);
                 }
                 _ => {}
             }
@@ -566,6 +572,7 @@ fn project_config_fields(source: &str) -> Option<ProjectedConfig> {
         json: projected,
         max_errors_is_invalid,
         checks_error_type,
+        per_file_checks_error_type,
     })
 }
 
@@ -1390,6 +1397,23 @@ fn dump_config(
         None => None,
     };
 
+    if loaded
+        .as_ref()
+        .is_some_and(|value| value.get("per_file_checks").is_some_and(Value::is_null))
+    {
+        let message = "'NoneType' object has no attribute 'items'";
+        if matches!(output_format, OutputFormat::Json) {
+            println!(
+                "{}",
+                serde_json::json!({"error":{"code":-31999,"data":"AttributeError","message":message}})
+            );
+            return Ok(ExitCode::from(4));
+        }
+        return Err(format!(
+            "Unrecoverable error encountered while running proselint: {message}"
+        ));
+    }
+
     if version {
         println!("Proselint 0.16.0");
         return Ok(ExitCode::SUCCESS);
@@ -2170,6 +2194,22 @@ fn run() -> Result<ExitCode, String> {
             serde_json::json!({"error":{"code":-31999,"data":"AttributeError","message":format!("'{type_name}' object has no attribute 'items'")}})
         );
         return Ok(ExitCode::from(4));
+    }
+    if let Some(type_name) = projected_config
+        .as_ref()
+        .and_then(|config| config.per_file_checks_error_type)
+    {
+        let message = format!("'{type_name}' object has no attribute 'items'");
+        if matches!(output_format, OutputFormat::Json) {
+            println!(
+                "{}",
+                serde_json::json!({"error":{"code":-31999,"data":"AttributeError","message":message}})
+            );
+            return Ok(ExitCode::from(4));
+        }
+        return Err(format!(
+            "Unrecoverable error encountered while running proselint: {message}"
+        ));
     }
     let mut max_errors_is_invalid = projected_config
         .as_ref()

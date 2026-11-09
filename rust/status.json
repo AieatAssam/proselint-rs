@@ -6867,13 +6867,22 @@
         "per_file_overlap_insertion_order_precedence",
         "per_file_checks_enable_globally_disabled_annotation",
         "per_file_checks_override_merges_global_checks",
-        "per_file_checks_nonmatching_pattern_uses_global"
+        "per_file_checks_nonmatching_pattern_uses_global",
+        "per_file_checks_null_error",
+        "per_file_checks_null_error_full",
+        "per_file_checks_null_error_compact",
+        "per_file_checks_null_dump_config_json",
+        "per_file_checks_null_dump_config_full",
+        "per_file_checks_null_dump_config_compact",
+        "per_file_checks_null_dump_config_version_json",
+        "per_file_checks_null_dump_config_version_full",
+        "per_file_checks_null_dump_config_version_compact"
       ],
       "registered_entries_exercised": 0,
       "upstream_source": "proselint/config/__init__.py:42-62,78-118; proselint/tools.py:220-228",
       "upstream_spec": "Flatten global and per-file maps, deep-merge each per-file override, choose the first matching pathlib.Path.match key in insertion order; matching per-file overrides can enable supported checks disabled globally. Stdin uses global checks.",
       "specification": {
-        "live_cases": 7,
+        "live_cases": 16,
         "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
         "oracle_source_sha256": "73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831",
         "oracle_integrity": "verified before and after owner and independent comparisons",
@@ -6951,7 +6960,73 @@
         "excluded_manifest_cases": {
           "harness.oracle_smoke": 2
         }
-      }
+      },
+      "coverage_expansions": [
+        {
+          "date": "2026-11-09",
+          "added_case_ids": [
+            "per_file_checks_null_error",
+            "per_file_checks_null_error_full",
+            "per_file_checks_null_error_compact",
+            "per_file_checks_null_dump_config_json",
+            "per_file_checks_null_dump_config_full",
+            "per_file_checks_null_dump_config_compact",
+            "per_file_checks_null_dump_config_version_json",
+            "per_file_checks_null_dump_config_version_full",
+            "per_file_checks_null_dump_config_version_compact"
+          ],
+          "upstream_spec": "Python config loading iterates per_file_checks.items(); explicit null raises AttributeError before dump-config version dispatch. check and dump-config return JSON code -31999/data AttributeError/message; Full and compact emit the exact Unrecoverable error and exit 4.",
+          "red": {
+            "status": "behavioral_failure",
+            "failing_focused_rust_test": 1,
+            "owner_live_mismatches": 3,
+            "report": "rust/artifacts/per-file-null-dump-version-live.json"
+          },
+          "focused_rust": {
+            "status": "PASS",
+            "per_file_checks_tests": 8,
+            "root_config_precedence_tests": 2,
+            "first_build_seconds": 3.94,
+            "incremental_seconds": 0.54
+          },
+          "owner_live": {
+            "status": "PASS",
+            "cases": 16,
+            "duration_seconds": 24.435152,
+            "report": "rust/artifacts/per-file-checks-null-version-live-final-20261109.json"
+          },
+          "independent_verification": {
+            "status": "PASS",
+            "cases": 16,
+            "duration_seconds": 22.691399,
+            "report": "rust/artifacts/independent-cli-config-per-file-checks-16-format-20261109T091447.json",
+            "oracle_integrity": "verified before and after"
+          },
+          "cumulative_gate": {
+            "status": "PASS",
+            "report": "rust/artifacts/strict-gate-cli-per-file-null-version-20261109.json",
+            "run_id": "20261109T084301134369Z-2e65ec85",
+            "cases": 1127,
+            "capabilities": 124,
+            "duration_seconds": 1178.09944,
+            "live_comparison_seconds": 1022.100652,
+            "rust_checks_and_build_seconds": 152.852406,
+            "comparator_self_tests": 23,
+            "source_fingerprint": "4440b2c5f5e1a2365fc87f593af8626a6430848107f4690be777199143c2d5e3",
+            "candidate_sha256": "d0b6537dc58bc0f9872abd8c28f5a2fc78d4dbc7583fb721258f76663eef9bed",
+            "oracle_integrity": "verified",
+            "source_fingerprint_before_manifest_formatting": "4440b2c5f5e1a2365fc87f593af8626a6430848107f4690be777199143c2d5e3",
+            "note": "Gate ran on the same 16 parsed manifest cases before whitespace-only separator formatting; focused owner and independent live comparisons were rerun against the final manifest fingerprint."
+          },
+          "harness_suite": {
+            "status": "PASS",
+            "tests": 113,
+            "duration_seconds": 78.32
+          },
+          "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+          "source_fingerprint": "45be6d91f2307a5bcacab370c28242b254c780243f7d4e7aa6c953dd795ca61e"
+        }
+      ]
     },
     {
       "id": "rule.typography.diacritical_marks",
@@ -9931,41 +10006,25 @@
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-no-passwd-home-final-20261109.json",
-    "passed_cases": 1101,
-    "manifest_cases": 1112,
-    "excluded_manifest_cases": {
-      "harness.oracle_smoke": 2,
-      "cli.version.json_metadata": 5,
-      "cli.version.verbose_runtime": 1,
-      "cli.product_version_flag": 1
-    },
-    "intentional_divergence_cases": {
-      "cli.product_version_flag": 1
-    },
-    "unresolved_manifest_cases": 2,
-    "exit_code": 0,
-    "capability_count": 123,
-    "source_fingerprint": "8fedf0a6c65e13d17abb8a89fef87152dbc567f0683836cb76da3e2d775adb4a",
-    "run_id": "20261109T043904760866Z-573754eb",
-    "started_at_utc": "2026-11-09T04:39:04.760841+00:00",
-    "finished_at_utc": "2026-11-09T04:55:23.646703+00:00",
-    "candidate_attestation": "rust/artifacts/20261109T043649512627Z-build.attestation.json",
-    "candidate_sha256": "fd161b894677227709bc886b01c290bdf7c617bc4abda13eca881268366db424",
+    "report": "rust/artifacts/strict-gate-cli-per-file-null-version-20261109.json",
+    "passed_cases": 1127,
+    "capability_count": 124,
+    "source_fingerprint": "4440b2c5f5e1a2365fc87f593af8626a6430848107f4690be777199143c2d5e3",
+    "run_id": "20261109T084301134369Z-2e65ec85",
+    "started_at_utc": "2026-11-09T08:43:01.134345+00:00",
+    "finished_at_utc": "2026-11-09T09:00:02.900002+00:00",
+    "candidate_attestation": "rust/artifacts/20261109T084028425399Z-build.attestation.json",
+    "candidate_sha256": "d0b6537dc58bc0f9872abd8c28f5a2fc78d4dbc7583fb721258f76663eef9bed",
     "cargo_lock_sha256": "05212984084365b79c499cd3c111ceb71349e05968ff8b21316e6ec64fd76fc1",
-    "duration_seconds": 1117.22416,
+    "duration_seconds": 1178.09944,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.154777,
-      "cumulative_live_comparison": 979.187221,
-      "oracle_integrity": 2.135504,
-      "rust_checks_and_build": 135.324069
+      "comparator_self_tests": 0.165928,
+      "cumulative_live_comparison": 1022.100652,
+      "oracle_integrity": 2.45789,
+      "rust_checks_and_build": 152.852406
     },
     "comparator_self_tests": 23,
-    "scope_matches_current_case_set": false,
-    "current_accepted_case_count": 1102,
-    "pending_case_ids": [
-      "cli_user_discovery_home_directory_candidate_ignored"
-    ]
+    "scope_matches_current_case_set": true
   },
   "rust_dependencies": {
     "status": "current",

@@ -35604,8 +35604,7 @@
         "exit_status": "exact",
         "normalize_workspace_uri": true
       }
-    }
-,
+    },
     {
       "id": "cli_long_option_abbrev_root_ambiguous_ver",
       "capability_id": "cli.long_option_abbreviation",
@@ -35758,8 +35757,7 @@
       "environment": {"locale": "C.UTF-8"},
       "workspace_mutates": false,
       "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
-    }
-,
+    },
     {
       "id": "cli_long_option_abbrev_root_ambiguous_ver_attached",
       "capability_id": "cli.long_option_abbreviation",
@@ -35853,8 +35851,7 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
-    }
-,
+    },
     {
       "id": "cli_dump_config_directory_json_error",
       "capability_id": "cli.config.directory_path",
@@ -35952,8 +35949,7 @@
       "home_files": [
         {"path": ".config/proselint/config.json/marker", "content_base64": "eA=="}
       ]
-    }
-,
+    },
     {
       "id": "fast_apologizing_before_ff",
       "capability_id": "cli.stdin_invalid_utf8",
@@ -36241,8 +36237,7 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
-    }
-,
+    },
     {
       "id": "fancy_lexical_illusions_multibyte_prefix_ff",
       "capability_id": "cli.stdin_invalid_utf8",
@@ -36370,8 +36365,7 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
-    }
-,
+    },
     {
       "id": "cli_user_discovery_xdg_unreadable_file",
       "capability_id": "cli.config.user_discovery",
@@ -36405,8 +36399,7 @@
       "unused_files": [
         "xdg/proselint/config.json"
       ]
-    }
-,
+    },
     {
       "capability_id": "cli.config.user_discovery",
       "provenance": "Pinned live Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; mode-000 shared XDG config produces exit 4, empty stdout, and this exact full/compact stderr byte output.",
@@ -36474,6 +36467,297 @@
         "--output-format",
         "compact"
       ]
+    },
+    {
+      "id": "per_file_checks_null_error",
+      "capability_id": "cli.config.per_file_checks",
+      "provenance": "Pinned live Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; explicit per_file_checks null causes AttributeError while config selection calls items().",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnt9LCJwZXJfZmlsZV9jaGVja3MiOm51bGx9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "per_file_checks_null_error_full",
+      "capability_id": "cli.config.per_file_checks",
+      "provenance": "Pinned live Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; explicit per_file_checks null with full output exits 4 and emits the exact CLI error bytes.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnt9LCJwZXJfZmlsZV9jaGVja3MiOm51bGx9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "full"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "per_file_checks_null_error_compact",
+      "capability_id": "cli.config.per_file_checks",
+      "provenance": "Pinned live Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; explicit per_file_checks null with compact output exits 4 and emits the exact CLI error bytes.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnt9LCJwZXJfZmlsZV9jaGVja3MiOm51bGx9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "compact"
+      ],
+      "output_format": "compact",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "per_file_checks_null_dump_config_json",
+      "capability_id": "cli.config.per_file_checks",
+      "provenance": "Pinned live Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; dump-config with explicit per_file_checks null and json output exits 4 with the pinned config-loading error.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnt9LCJwZXJfZmlsZV9jaGVja3MiOm51bGx9"
+        }
+      ],
+      "argv": [
+        "dump-config",
+        "--output-format",
+        "json",
+        "--config",
+        "{file:config.json}"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "per_file_checks_null_dump_config_full",
+      "capability_id": "cli.config.per_file_checks",
+      "provenance": "Pinned live Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; dump-config with explicit per_file_checks null and full output exits 4 with the pinned config-loading error.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnt9LCJwZXJfZmlsZV9jaGVja3MiOm51bGx9"
+        }
+      ],
+      "argv": [
+        "dump-config",
+        "--output-format",
+        "full",
+        "--config",
+        "{file:config.json}"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "per_file_checks_null_dump_config_compact",
+      "capability_id": "cli.config.per_file_checks",
+      "provenance": "Pinned live Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; dump-config with explicit per_file_checks null and compact output exits 4 with the pinned config-loading error.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnt9LCJwZXJfZmlsZV9jaGVja3MiOm51bGx9"
+        }
+      ],
+      "argv": [
+        "dump-config",
+        "--output-format",
+        "compact",
+        "--config",
+        "{file:config.json}"
+      ],
+      "output_format": "compact",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "per_file_checks_null_dump_config_version_json",
+      "capability_id": "cli.config.per_file_checks",
+      "provenance": "Pinned live Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; dump-config loads the explicit null per_file_checks config before version dispatch, then reports the exact json error behavior.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnt9LCJwZXJfZmlsZV9jaGVja3MiOm51bGx9"
+        }
+      ],
+      "argv": [
+        "dump-config",
+        "--config",
+        "{file:config.json}",
+        "--version",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "per_file_checks_null_dump_config_version_full",
+      "capability_id": "cli.config.per_file_checks",
+      "provenance": "Pinned live Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; dump-config loads the explicit null per_file_checks config before version dispatch, then reports the exact full error behavior.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnt9LCJwZXJfZmlsZV9jaGVja3MiOm51bGx9"
+        }
+      ],
+      "argv": [
+        "dump-config",
+        "--config",
+        "{file:config.json}",
+        "--version",
+        "--output-format",
+        "full"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "per_file_checks_null_dump_config_version_compact",
+      "capability_id": "cli.config.per_file_checks",
+      "provenance": "Pinned live Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; dump-config loads the explicit null per_file_checks config before version dispatch, then reports the exact compact error behavior.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnt9LCJwZXJfZmlsZV9jaGVja3MiOm51bGx9"
+        }
+      ],
+      "argv": [
+        "dump-config",
+        "--config",
+        "{file:config.json}",
+        "--version",
+        "--output-format",
+        "compact"
+      ],
+      "output_format": "compact",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

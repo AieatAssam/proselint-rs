@@ -588,9 +588,9 @@
     }
   },
   "active_ownership": {
-    "current": "cli.config.directory_path now covers check and dump-config explicit directory errors in all tested output formats. The post-change cumulative gate passed 1101/1101 across 123 accepted capabilities at fingerprint 52b6f5741aed22b39df12b80f7ac74a6e9683194cd8ef517d063042a7b6a4ea4. Next investigate the remaining CLI/config discovery cases; 23 data-backed rule paths remain held pending a licensing/provenance decision.",
+    "current": "Refreshed Rust dependencies to latest Rust 1.99-compatible versions (`itoa` 1.0.18 -> 1.0.19). The post-update strict gate passed 1101/1101 across 123 accepted capabilities; both recently changed CLI/config scopes were independently reverified on the updated candidate. Continue CLI/config parity while the rule-data policy decision is pending.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-    "cumulative_gate": "PASS after shared config change; next gate due after next shared matching/config/CLI/output change, after 5–10 accepted capabilities, and before release."
+    "cumulative_gate": "PASS for current Cargo.lock and source; next gate after shared behavior change, 5–10 capabilities, or before release."
   },
   "unresolved": [
     "23 unique rule paths remain unimplemented.",
@@ -2892,13 +2892,13 @@
           "focused_rust_tests_passed": 2,
           "existing_check_directory_tests_passed": 5,
           "owner_live_cases_passed": 6,
-          "owner_live_report": "rust/artifacts/20261109T-dump-config-directory-green-owner.json",
+          "owner_live_report": "rust/artifacts/20261109T-dump-config-directory-green-itoa-refresh.json",
           "independent_live_cases_passed": 6,
-          "independent_live_report": "rust/artifacts/independent-cli-config-directory-path-20261109/live-comparison.json",
-          "candidate_attestation": "rust/artifacts/20261109T030623481637Z-build.attestation.json",
-          "source_fingerprint": "52b6f5741aed22b39df12b80f7ac74a6e9683194cd8ef517d063042a7b6a4ea4",
-          "candidate_sha256": "7c9b7ea8bda3a56da75793d636ef58ec4e93b5f0618a982c9f8b81fd33055b4a",
-          "cargo_lock_sha256": "ad88691329555e80c0c09bc4f2b86818a5d4435ecdd9c54cd2fbc94fb9622081",
+          "independent_live_report": "rust/artifacts/independent-cli-post-itoa-20261109/config-directory-path.json",
+          "candidate_attestation": "rust/artifacts/20261109T033121774993Z-build.attestation.json",
+          "source_fingerprint": "536750c6f4cdf4d05d090807ab46acb80c632d0368a9410f8d2676429cd86563",
+          "candidate_sha256": "fd161b894677227709bc886b01c290bdf7c617bc4abda13eca881268366db424",
+          "cargo_lock_sha256": "05212984084365b79c499cd3c111ceb71349e05968ff8b21316e6ec64fd76fc1",
           "model_routing": "Luna low requested for harness, implementation and independent verification; runtime dispatch metadata unavailable."
         },
         "cumulative_gate": {
@@ -2909,6 +2909,16 @@
           "capability_count": 123,
           "duration_seconds": 1065.154306,
           "source_fingerprint": "52b6f5741aed22b39df12b80f7ac74a6e9683194cd8ef517d063042a7b6a4ea4"
+        },
+        "post_dependency_refresh_gate": {
+          "status": "PASS",
+          "report": "rust/artifacts/strict-gate-itoa-latest-dependency-20261109.json",
+          "run_id": "20261109T033437013310Z-b3dea05c",
+          "passed_cases": 1101,
+          "capability_count": 123,
+          "duration_seconds": 1182.275239,
+          "source_fingerprint": "536750c6f4cdf4d05d090807ab46acb80c632d0368a9410f8d2676429cd86563",
+          "candidate_sha256": "fd161b894677227709bc886b01c290bdf7c617bc4abda13eca881268366db424"
         }
       }
     },
@@ -9791,14 +9801,14 @@
           "focused_rust_test_seconds": null,
           "focused_rust_test_command": "cargo test --locked --manifest-path rust/Cargo.toml --test cli_long_option_attached_values --test cli_long_option_abbreviation",
           "owner_live_cases_passed": 10,
-          "owner_live_report": "rust/artifacts/20261109T-cli-long-option-abbrev-green-owner.json",
+          "owner_live_report": "rust/artifacts/20261109T-cli-long-option-abbrev-green-itoa-refresh.json",
           "independent_live_cases_passed": 10,
-          "independent_live_report": "rust/artifacts/independent-cli-long-option-abbrev-attached-20261109/live-comparison.json",
+          "independent_live_report": "rust/artifacts/independent-cli-post-itoa-20261109/long-option-abbreviation.json",
           "independent_review": "No concrete issue found; runtime model metadata unavailable.",
-          "candidate_attestation": "rust/artifacts/20261109T023706274376Z-build.attestation.json",
-          "candidate_sha256": "31cc0decdc2acd7d1ddcbca40ee08ae868c1ca03c6c9bc5e9756638e3a7fb93f",
-          "source_fingerprint": "6b1c32050cfc8195fa8bb443f1637857d05d748b95554fdf4727b416677a3666",
-          "cargo_lock_sha256": "ad88691329555e80c0c09bc4f2b86818a5d4435ecdd9c54cd2fbc94fb9622081"
+          "candidate_attestation": "rust/artifacts/20261109T033121774993Z-build.attestation.json",
+          "candidate_sha256": "fd161b894677227709bc886b01c290bdf7c617bc4abda13eca881268366db424",
+          "source_fingerprint": "536750c6f4cdf4d05d090807ab46acb80c632d0368a9410f8d2676429cd86563",
+          "cargo_lock_sha256": "05212984084365b79c499cd3c111ceb71349e05968ff8b21316e6ec64fd76fc1"
         },
         "cumulative_gate": {
           "status": "PASS",
@@ -9809,13 +9819,23 @@
           "duration_seconds": 1082.633867,
           "source_fingerprint": "6b1c32050cfc8195fa8bb443f1637857d05d748b95554fdf4727b416677a3666",
           "candidate_sha256": "31cc0decdc2acd7d1ddcbca40ee08ae868c1ca03c6c9bc5e9756638e3a7fb93f"
+        },
+        "post_dependency_refresh_gate": {
+          "status": "PASS",
+          "report": "rust/artifacts/strict-gate-itoa-latest-dependency-20261109.json",
+          "run_id": "20261109T033437013310Z-b3dea05c",
+          "passed_cases": 1101,
+          "capability_count": 123,
+          "duration_seconds": 1182.275239,
+          "source_fingerprint": "536750c6f4cdf4d05d090807ab46acb80c632d0368a9410f8d2676429cd86563",
+          "candidate_sha256": "fd161b894677227709bc886b01c290bdf7c617bc4abda13eca881268366db424"
         }
       }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-cli-dump-config-directory-20261109.json",
+    "report": "rust/artifacts/strict-gate-itoa-latest-dependency-20261109.json",
     "passed_cases": 1101,
     "manifest_cases": 1111,
     "excluded_manifest_cases": {
@@ -9830,19 +9850,19 @@
     "unresolved_manifest_cases": 1,
     "exit_code": 0,
     "capability_count": 123,
-    "source_fingerprint": "52b6f5741aed22b39df12b80f7ac74a6e9683194cd8ef517d063042a7b6a4ea4",
-    "run_id": "20261109T031024997688Z-a958a27e",
-    "started_at_utc": "2026-11-09T03:10:24.997660+00:00",
-    "finished_at_utc": "2026-11-09T03:26:26.601073+00:00",
-    "candidate_attestation": "rust/artifacts/20261109T030844568523Z-build.attestation.json",
-    "candidate_sha256": "7c9b7ea8bda3a56da75793d636ef58ec4e93b5f0618a982c9f8b81fd33055b4a",
-    "cargo_lock_sha256": "ad88691329555e80c0c09bc4f2b86818a5d4435ecdd9c54cd2fbc94fb9622081",
-    "duration_seconds": 1065.154306,
+    "source_fingerprint": "536750c6f4cdf4d05d090807ab46acb80c632d0368a9410f8d2676429cd86563",
+    "run_id": "20261109T033437013310Z-b3dea05c",
+    "started_at_utc": "2026-11-09T03:34:37.013278+00:00",
+    "finished_at_utc": "2026-11-09T03:51:00.929642+00:00",
+    "candidate_attestation": "rust/artifacts/20261109T033121774993Z-build.attestation.json",
+    "candidate_sha256": "fd161b894677227709bc886b01c290bdf7c617bc4abda13eca881268366db424",
+    "cargo_lock_sha256": "05212984084365b79c499cd3c111ceb71349e05968ff8b21316e6ec64fd76fc1",
+    "duration_seconds": 1182.275239,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.144066,
-      "cumulative_live_comparison": 961.968586,
-      "oracle_integrity": 2.09858,
-      "rust_checks_and_build": 100.507123
+      "comparator_self_tests": 0.146778,
+      "cumulative_live_comparison": 984.249543,
+      "oracle_integrity": 2.113836,
+      "rust_checks_and_build": 195.315238
     },
     "comparator_self_tests": 23
   },
@@ -9850,14 +9870,15 @@
     "status": "current",
     "toolchain": "1.99.1",
     "registry": "crates.io",
-    "latest_checked": "2026-11-09T00:18:38Z",
+    "latest_checked": "2026-11-09T03:53:07Z",
     "locked_versions": {
       "clap": "4.6.7",
       "serde": "1.0.229",
       "serde_json": "1.0.154",
       "serde_stacker": "0.1.14",
       "regex": "1.13.1",
-      "cc": "1.11.1"
+      "cc": "1.11.1",
+      "itoa": "1.0.19"
     },
     "cargo_update_dry_run": "0 packages to update (latest Rust 1.99-compatible crates.io versions)",
     "update_dry_run": {
@@ -9865,12 +9886,20 @@
       "packages_to_update": 0,
       "command": "rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo update --dry-run --manifest-path rust/Cargo.toml",
       "rust_version_constraint": "1.99",
-      "checked_after": "2026-11-09T00:18:38Z",
-      "evidence": "rust/artifacts/rust-dependency-dry-run-release-version-20261109.txt",
-      "report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2",
-      "cargo_lock_sha256": "ad88691329555e80c0c09bc4f2b86818a5d4435ecdd9c54cd2fbc94fb9622081"
+      "checked_after": "2026-11-09T03:53:07Z",
+      "evidence": "rust/artifacts/rust-dependency-dry-run-post-itoa-20261109.txt",
+      "report_sha256": "74ed4f524bf4d88658f3f49449ee0aad18ea7583b3b2625c9fe526c7b7cd47db",
+      "cargo_lock_sha256": "05212984084365b79c499cd3c111ceb71349e05968ff8b21316e6ec64fd76fc1"
     },
-    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-release-version-20261109.txt"
+    "upgrade": {
+      "package": "itoa",
+      "from": "1.0.18",
+      "to": "1.0.19",
+      "command": "cargo update --package itoa --manifest-path rust/Cargo.toml",
+      "evidence": "rust/artifacts/rust-dependency-update-itoa-20261109.txt",
+      "cargo_lock_sha256": "05212984084365b79c499cd3c111ceb71349e05968ff8b21316e6ec64fd76fc1"
+    },
+    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-itoa-20261109.txt"
   },
   "next_capability_handoff": "Continue CLI/config parity against pinned Proselint 0.16.0. Probe remaining config discovery and path error cases (passwd-home, no passwd entry, HOME unset/platform variation, directory candidates), then unverified subcommand and traversal/decoding edges. Keep the 23 data-backed paths held pending a specific licensing/provenance policy.",
   "live_review_findings": {
@@ -10208,6 +10237,33 @@
         "runtime_model_metadata": "unavailable",
         "evidence": "rust/artifacts/independent-cli-config-directory-path-20261109/live-comparison.json"
       }
+    },
+    "latest_rule_rights_reviews_20261109": {
+      "luna_group_a": {
+        "requested_model": "gpt-6-luna",
+        "requested_effort": "low",
+        "runtime_model_metadata": "unavailable",
+        "evidence": "read-only pinned-source provenance handoff"
+      },
+      "luna_group_b": {
+        "requested_model": "gpt-6-luna",
+        "requested_effort": "low",
+        "runtime_model_metadata": "unavailable",
+        "evidence": "read-only pinned-source provenance handoff"
+      },
+      "luna_group_c": {
+        "requested_model": "gpt-6-luna",
+        "requested_effort": "low",
+        "runtime_model_metadata": "unavailable",
+        "evidence": "read-only pinned-source provenance handoff"
+      },
+      "sol_critical_adviser": {
+        "requested_model": "gpt-6.1-sol",
+        "requested_effort": "low",
+        "runtime_effort_metadata": "unavailable",
+        "scope": "critical licensing-policy resolution only",
+        "finding": "Package BSD-3 may support an internal project policy for bundled lists, but does not prove upstream rights for attributed third-party material; keep unknowns and excerpts under separate review."
+      }
     }
   },
   "rights_audit_latest": {
@@ -10242,6 +10298,18 @@
         "proselint/checks/cliches/misc.py",
         "rust/docs/PLAN.md"
       ]
+    },
+    "disjoint_review_20261109": {
+      "reviewed_paths": 23,
+      "groups": [
+        "A",
+        "B",
+        "C"
+      ],
+      "findings": "All 23 held paths are bundled in the pinned package. The path-specific attributions and data shapes are recorded in the Luna review handoffs; no file-specific license grant or exclusion was found. Three paths remain unknown provenance.",
+      "critical_advice": "Sol 6.1 low adviser concluded package-level BSD-3 is a possible documented project-policy basis, not proof of upstream authority over all attributed data. Suggested retaining attributions/notices, excluding explanatory excerpts, and clearing unknown-provenance/conflicting terms separately.",
+      "project_policy": "pending user decision",
+      "model_routing": "Requested gpt-6-luna/low for three read-only audits and gpt-6.1-sol/low only for this licensing-policy review. Runtime dispatch metadata unavailable for Luna; Sol effort metadata unavailable."
     }
   },
   "intentional_divergences": [

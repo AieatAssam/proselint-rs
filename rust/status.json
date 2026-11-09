@@ -546,6 +546,10 @@
     {
       "id": "rule.spelling.consistency",
       "status": "independently_verified"
+    },
+    {
+      "id": "rule.social_awareness.sexism",
+      "status": "independently_verified"
     }
   ],
   "inventory": {
@@ -669,12 +673,12 @@
     }
   },
   "active_ownership": {
-    "current": "spelling.consistency has focused owner and independent live acceptance (8/8 each), including a quote-count RED probe. Current coverage is 1318 accepted production cases across 135 capabilities, with 95 accepted and 11 unimplemented rule paths. The latest cumulative gate remains historical at 1292/1292 across 131 capabilities and stale; schedule another full gate after capability #136. Data attribution to Intelligent Editing Ltd. follows the user-authorized package-wide BSD-3-Clause policy basis with attribution/notices and provenance/conflict caveats.",
+    "current": "The five-rule cumulative checkpoint passes 1324/1324 across 136 accepted capabilities and matches the current accepted case set, with zero mismatches, errors, or timeouts. Current production coverage is 1324/1335 manifest cases. Continue with the next eligible rule and unresolved CLI/config parity; retain attribution/notices and provenance/conflict caveats.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-    "cumulative_gate": "Historical PASS: 1292/1292 across 131 capabilities; report rust/artifacts/strict-gate-five-capability-checkpoint-20261109.json; run 20261109T145328835906Z-b09882d6. Stale for current 1318 accepted cases across 135 capabilities; scope_matches_current_case_set=false. Defer next full gate until capability #136."
+    "cumulative_gate": "PASS: 1324/1324 across 136 accepted capabilities; report rust/artifacts/strict-gate-five-rules-checkpoint-20261109.json; run 20261109T164242161665Z-5e3d94ef; source fingerprint 9bd429b4d6952b99bf6696e24a8d804b61c1f89bf34a90ceaaefc966b4b1d4f1; scope matches current accepted case set."
   },
   "unresolved": [
-    "11 unique rule paths remain unimplemented.",
+    "10 unique rule paths remain unimplemented.",
     "Other CLI/config behavior remains unverified, including passwd-home config-present behavior, HOME-absent no-passwd-entry config behavior (confirmed mismatch in cli.config.no_passwd_home; see harness.latest_no_passwd_home_case), other subcommands, HOME-unset platform variation, directory candidates, and traversal/decoding edges.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
     "Directory/non-UTF-8 path error formatting on non-Linux platforms remains unverified.",
@@ -694,6 +698,61 @@
     "The Linux HOME-absent/no-passwd-entry reproducer remains a confirmed mismatch: pinned Python fails during import with an installation-specific traceback while Rust completes the command; it is blocked and excluded from production_capabilities."
   ],
   "capability_states": [
+    {
+      "id": "rule.social_awareness.sexism",
+      "status": "independently_verified",
+      "case_ids": [
+        "sexism_all_35_gender_bias_mappings",
+        "sexism_all_8_preferred_forms",
+        "sexism_case_boundaries_raw",
+        "sexism_quotes_unicode_multiterm",
+        "sexism_no_hit",
+        "sexism_default_enabled"
+      ],
+      "upstream_spec": "Pinned Proselint 0.16.0; source data attributed to Garner. Reuse follows the user-authorized package-wide BSD-3-Clause policy basis with attribution/notices and provenance/conflict caveats.",
+      "red": {
+        "status": "MISMATCH",
+        "report": "rust/artifacts/sexism-red-live-20261109.json",
+        "run_id": "20261109T163152035410Z-c35e5087",
+        "cases": 6,
+        "mismatches": 6,
+        "pre_capability_candidate_fingerprint_prefix": "44e683d"
+      },
+      "green": {
+        "status": "PASS",
+        "owner_report": "rust/artifacts/social-awareness-sexism-live-final-20261109.json",
+        "owner_run_id": "20261109T163605352777Z-62613dc8",
+        "owner_cases_passed": 6,
+        "independent_report": "rust/artifacts/independent-social-awareness-sexism-live-final.json",
+        "independent_run_id": "20261109T163652692021Z-929c35ec",
+        "independent_cases_passed": 6,
+        "mismatches": 0,
+        "timeouts": 0,
+        "errors": 0,
+        "focused_rule_tests": "2/2 PASS",
+        "fmt": "PASS",
+        "comparator_self_tests": "23/23 PASS"
+      },
+      "coverage_at_acceptance": {
+        "accepted_cases": 1324,
+        "manifest_cases": 1335,
+        "capabilities": 136,
+        "accepted_rule_paths": 96,
+        "unimplemented_rule_paths": 10
+      },
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-five-rules-checkpoint-20261109.json",
+        "passed_cases": 1324,
+        "capabilities": 136,
+        "mismatches": 0,
+        "timeouts": 0,
+        "errors": 0,
+        "run_id": "20261109T164242161665Z-5e3d94ef",
+        "source_fingerprint": "9bd429b4d6952b99bf6696e24a8d804b61c1f89bf34a90ceaaefc966b4b1d4f1",
+        "scope_matches_current_case_set": true
+      }
+    },
     {
       "id": "rule.spelling.consistency",
       "status": "independently_verified",
@@ -744,12 +803,16 @@
         "unimplemented_rule_paths": 11
       },
       "cumulative_gate": {
-        "status": "historical_PASS_stale_current_scope_not_run",
-        "report": "rust/artifacts/strict-gate-five-capability-checkpoint-20261109.json",
-        "passed_cases": 1292,
-        "capabilities": 131,
-        "scope_matches_current_case_set": false,
-        "note": "Next cumulative checkpoint is due after capability #136."
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-five-rules-checkpoint-20261109.json",
+        "passed_cases": 1324,
+        "capabilities": 136,
+        "mismatches": 0,
+        "timeouts": 0,
+        "errors": 0,
+        "run_id": "20261109T164242161665Z-5e3d94ef",
+        "source_fingerprint": "9bd429b4d6952b99bf6696e24a8d804b61c1f89bf34a90ceaaefc966b4b1d4f1",
+        "scope_matches_current_case_set": true
       }
     },
     {
@@ -793,12 +856,16 @@
         "unimplemented_rule_paths": 12
       },
       "cumulative_gate": {
-        "status": "historical_PASS_stale_current_scope_not_run",
-        "report": "rust/artifacts/strict-gate-five-capability-checkpoint-20261109.json",
-        "passed_cases": 1292,
-        "capabilities": 131,
-        "scope_matches_current_case_set": false,
-        "note": "The gate predates corporate_speak, cliches.misc.garner, and commercialese; next checkpoint is due after capability #136."
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-five-rules-checkpoint-20261109.json",
+        "passed_cases": 1324,
+        "capabilities": 136,
+        "mismatches": 0,
+        "timeouts": 0,
+        "errors": 0,
+        "run_id": "20261109T164242161665Z-5e3d94ef",
+        "source_fingerprint": "9bd429b4d6952b99bf6696e24a8d804b61c1f89bf34a90ceaaefc966b4b1d4f1",
+        "scope_matches_current_case_set": true
       }
     },
     {
@@ -856,6 +923,18 @@
         "capabilities": 133,
         "accepted_rule_paths": 93,
         "unimplemented_rule_paths": 13
+      },
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-five-rules-checkpoint-20261109.json",
+        "passed_cases": 1324,
+        "capabilities": 136,
+        "mismatches": 0,
+        "timeouts": 0,
+        "errors": 0,
+        "run_id": "20261109T164242161665Z-5e3d94ef",
+        "source_fingerprint": "9bd429b4d6952b99bf6696e24a8d804b61c1f89bf34a90ceaaefc966b4b1d4f1",
+        "scope_matches_current_case_set": true
       }
     },
     {
@@ -904,6 +983,18 @@
         "capabilities": 132,
         "accepted_rule_paths": 92,
         "unimplemented_rule_paths": 14
+      },
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-five-rules-checkpoint-20261109.json",
+        "passed_cases": 1324,
+        "capabilities": 136,
+        "mismatches": 0,
+        "timeouts": 0,
+        "errors": 0,
+        "run_id": "20261109T164242161665Z-5e3d94ef",
+        "source_fingerprint": "9bd429b4d6952b99bf6696e24a8d804b61c1f89bf34a90ceaaefc966b4b1d4f1",
+        "scope_matches_current_case_set": true
       }
     },
     {
@@ -10968,10 +11059,10 @@
     }
   ],
   "last_strict_gate": {
-    "status": "historical_PASS_stale_current_scope_not_run",
-    "report": "rust/artifacts/strict-gate-five-capability-checkpoint-20261109.json",
-    "passed_cases": 1292,
-    "manifest_cases": 1303,
+    "status": "PASS",
+    "report": "rust/artifacts/strict-gate-five-rules-checkpoint-20261109.json",
+    "passed_cases": 1324,
+    "manifest_cases": 1335,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
       "cli.product_version_flag": 1,
@@ -10985,28 +11076,29 @@
     },
     "unresolved_manifest_cases": 2,
     "exit_code": 0,
-    "capability_count": 131,
-    "source_fingerprint": "16546bad85b3679d0407dd22144b548139b1f06be59bddd4aa8fe98cfb753de5",
-    "run_id": "20261109T145328835906Z-b09882d6",
+    "capability_count": 136,
+    "source_fingerprint": "9bd429b4d6952b99bf6696e24a8d804b61c1f89bf34a90ceaaefc966b4b1d4f1",
+    "run_id": "20261109T164242161665Z-5e3d94ef",
     "cargo_lock_sha256": "05212984084365b79c499cd3c111ceb71349e05968ff8b21316e6ec64fd76fc1",
-    "duration_seconds": 1420.515066,
+    "duration_seconds": 1503.553135,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.150359,
-      "cumulative_live_comparison": 1221.257345,
-      "oracle_integrity": 2.190627,
-      "rust_checks_and_build": 196.359711
+      "comparator_self_tests": 0.141647,
+      "cumulative_live_comparison": 1292.626111,
+      "oracle_integrity": 2.422938,
+      "rust_checks_and_build": 207.835102
     },
     "comparator_self_tests": 23,
-    "scope_matches_current_case_set": false,
-    "current_accepted_case_count": 1318,
-    "current_production_case_count": 1318,
-    "current_manifest_case_count": 1329,
-    "current_capability_count": 135,
+    "scope_matches_current_case_set": true,
+    "current_accepted_case_count": 1324,
+    "current_production_case_count": 1324,
+    "current_manifest_case_count": 1335,
+    "current_capability_count": 136,
     "current_unaccepted_manifest_case_count": 11,
     "next_gate_due": false,
-    "candidate_sha256": "1135b83b15580360bc865f5a8946a5020b42577f30a88af38032f2dd0ad7547f",
-    "build_attestation": "rust/artifacts/20261109T145012557242Z-build.attestation.json",
-    "next_gate_after_capability": 136
+    "candidate_sha256": "769cadf675d876c62ebae96ce69c18cb84b10061249d8872ffceee455a7e1a4d",
+    "build_attestation": "rust/artifacts/20261109T163914412361Z-build.attestation.json",
+    "next_gate_after_capability": 136,
+    "build_attestation_sha256": "d00c80b9c42ed79eb2a0cdca06a4711e2143305c9b0d659e3ba9e60938c3ac1a"
   },
   "rust_dependencies": {
     "status": "current",
@@ -11043,7 +11135,7 @@
     },
     "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-itoa-20261109.txt"
   },
-  "next_capability_handoff": "Continue with eligible inventory rules and unresolved CLI/config parity, checking provenance and terms and retaining attribution/notices. The 1292/1292 gate across 131 capabilities is historical and stale for current coverage (1318 cases, 135 capabilities); rerun after capability #136.",
+  "next_capability_handoff": "Select the next eligible rule from the inventory and continue unresolved CLI/config parity; retain source attribution/notices and review provenance/conflicts. The current cumulative gate passes 1324/1324 across 136 capabilities.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

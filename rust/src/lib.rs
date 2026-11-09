@@ -26,6 +26,7 @@ pub use rules::redundancy_ras_syndrome::diagnostics as redundancy_ras_syndrome_d
 pub use rules::scare_quotes::diagnostics as scare_quotes_diagnostics;
 pub use rules::social_awareness_lgbtq_offensive::diagnostics as social_awareness_lgbtq_offensive_diagnostics;
 pub use rules::social_awareness_lgbtq_terms::diagnostics as social_awareness_lgbtq_terms_diagnostics;
+pub use rules::social_awareness_sexism::diagnostics as social_awareness_sexism_diagnostics;
 pub use rules::social_nword::diagnostics as social_nword_diagnostics;
 pub use rules::spelling_able_atable::diagnostics as spelling_able_atable_diagnostics;
 pub use rules::spelling_able_ible::diagnostics as spelling_able_ible_diagnostics;

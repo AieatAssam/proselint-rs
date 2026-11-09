@@ -514,18 +514,18 @@
   },
   "harness": {
     "status": "verified after metadata fingerprint changes; Markdown/ledger exclusion is covered by a discrimination test",
-    "source_fingerprint": "a4eacf7c8f49912604ac6335b05c5dda91876e883ca08ee6cd1ac72cb6c637b0",
+    "source_fingerprint": "58d2d5b1ae63beb1214b5406e1bd7e22c87a5d57c558b0930ad033324a9db24c",
     "unit_tests": {
       "status": "PASS",
-      "suite": "python3 -m unittest discover -s rust/harness/tests -v",
+      "suite": "python3 -m unittest discover -s rust/harness/tests -p 'test_*.py'",
       "tests_passed": 106,
-      "duration_seconds": 69.861,
-      "evidence": "rust/artifacts/harness-suite-release-version-20261109.log"
+      "duration_seconds": 106.739,
+      "evidence": "rust/artifacts/harness-suite-symlink-coverage-final-20261109.log"
     },
     "comparator_discriminators": {
       "passed": 23,
       "exit_code": 0,
-      "evidence": "rust/artifacts/independent-missing-option-value-final-luna-low-20261108/comparator-selftest.json"
+      "evidence": "rust/artifacts/comparator-selftest-dangling-symlink-final-20261109.json"
     },
     "live_oracle_self_check": {
       "passed_cases": 2,
@@ -584,7 +584,7 @@
     }
   },
   "active_ownership": {
-    "current": "Release metadata milestone: binary `proselint-rs`, standalone version `2026.11.08.1`, tracking pinned Proselint 0.16.0. The current strict gate passes 1087/1087 live cases across 122 accepted capabilities at fingerprint ab4fc09cbf76aeb033fcdc16b857df77052eda53193cfe602172f780e437e185; the standalone product --version case is separately recorded as one intentional stdout mismatch. The Python harness suite passes 106/106. Rust 1.99.1-compatible dependency dry-run found zero updates. Twenty-three rule paths remain unimplemented; explicit symlink Full/JSON output and traversal errors remain open.",
+    "current": "Release metadata milestone: binary `proselint-rs`, standalone version `2026.11.08.1`, tracking pinned Proselint 0.16.0. The most recent cumulative gate remains the historical 1087/1087 report across 122 accepted capabilities at fingerprint ab4fc09cbf76aeb033fcdc16b857df77052eda53193cfe602172f780e437e185; two later directory-expansion coverage cases have focused owner and independent live passes (16/16 each) at fingerprint 58d2d5b1ae63beb1214b5406e1bd7e22c87a5d57c558b0930ad033324a9db24c. The Python harness suite passes 106/106. Twenty-three rule paths remain unimplemented; permission-denied traversal and other CLI/config gaps remain open.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -604,7 +604,7 @@
     "Malformed UTF-8 stdin remains unverified: the pinned executable uses surrogateescape; Fast and Fancy rules differ around invalid bytes, so no lossy sentinel approximation is accepted.",
     "JSON version output differs in four tested vectors because Python includes sys.version_info[:3]; no fabricated Python version is emitted by Rust. See rust/artifacts/version-json-metadata-final-20261108.json.",
     "`version --verbose` stderr contains timestamped pinned Python runtime metadata and is not reproduced by Rust. See rust/artifacts/version-verbose-runtime-final-20261108.json.",
-    "Dangling file-symlink targets are not yet resolved to their target path for error labels/source keys; explicit dangling-link behavior remains unverified."
+    "Dangling file-symlink Compact/Full/JSON behavior is verified for the accepted cases; permission-denied traversal and symlink behavior outside the accepted cases remain unverified."
   ],
   "capability_states": [
     {
@@ -8260,15 +8260,17 @@
         "cli_directory_expansion_compact_output",
         "cli_directory_expansion_root_symlink",
         "cli_directory_expansion_explicit_file_symlink_compact",
-        "cli_directory_expansion_dangling_file_symlink_compact"
+        "cli_directory_expansion_dangling_file_symlink_compact",
+        "cli_directory_expansion_dangling_file_symlink_full",
+        "cli_directory_expansion_dangling_file_symlink_json"
       ],
       "upstream_source": "pinned proselint/tools.py:20-21,50-66 extract_files; proselint/command_line.py:149-157",
       "upstream_spec": "For each explicit argument in order, verify/resolve the path. Pass explicit non-directory paths through unchanged. Recursively expand directory paths in os.walk enumeration order and include only case-sensitive .md, .txt, .rtf, .html, .tex, .markdown suffixes. Lint each expanded file separately with the existing per-file config/max_errors/output/error handling.",
       "specification": {
-        "live_cases": 14,
+        "live_cases": 16,
         "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
         "comparison": "Exact exit status/stderr and JSON structural values including source URI keys and diagnostic arrays; no sorting normalization beyond JSON object key order.",
-        "scope_limit": "Fourteen live cases cover recursive traversal, all accepted suffixes, exact-case filtering, ignored extensions, per-file max_errors, interleaved explicit paths, JSON/Full/Compact output, a directory symlink supplied as the root, an existing file symlink in Compact output, and a dangling file symlink in Compact output. Explicit file-symlink Full/JSON output, permission-denied traversal, and cross-platform enumeration order remain unverified."
+        "scope_limit": "Sixteen live cases cover recursive traversal, all accepted suffixes, exact-case filtering, ignored extensions, per-file max_errors, interleaved explicit paths, JSON/Full/Compact output, a directory symlink supplied as the root, an existing file symlink in Compact output, and a dangling file symlink in Compact, Full, and JSON output. Permission-denied traversal and cross-platform enumeration order remain unverified."
       },
       "red": {
         "status": "behavioral_failure",
@@ -8451,9 +8453,66 @@
         "source_fingerprint": "f090eaeeabd19dc02f29a9fad09713cf9b6be94422a7d7fc59d1fb3003e2f1f8",
         "candidate_sha256": "c5e550e0947da770f51ddaf519cb934f89553ffd93576791203a33d1621d3ad2",
         "candidate_attestation": "rust/artifacts/20261108T211934052467Z-build.attestation.json",
-        "coverage_limit": "Existing file symlink in Compact mode only; dangling targets and explicit file-symlink Full/JSON output remain open."
+        "coverage_limit": "An existing file symlink is tested in Compact mode; dangling file-symlink output is tested in Compact, Full, and JSON modes. Permission-denied traversal and cross-platform enumeration order remain open."
       },
-      "harness_tests_passed": 106
+      "harness_tests_passed": 106,
+      "dangling_symlink_extension": {
+        "status": "PASS",
+        "added_cases": [
+          "cli_directory_expansion_dangling_file_symlink_full",
+          "cli_directory_expansion_dangling_file_symlink_json"
+        ],
+        "red": {
+          "status": "coverage_contract_failure_before_acceptance",
+          "details": "The manifest contract first failed because the expected ID set and capability count still described 14 cases; both exact coverage expectations were updated to include the two new IDs and count 16. Diagnostic expectations were unchanged."
+        },
+        "focused_rust_tests": {
+          "status": "PASS",
+          "passed": 4,
+          "total": 4,
+          "duration_seconds": 67.792,
+          "command": "cargo test --locked --manifest-path rust/Cargo.toml --test cli_file_symlink",
+          "evidence": "rust/artifacts/cli-symlink-focused-rust-test.log"
+        },
+        "candidate_attestation": {
+          "status": "PASS",
+          "path": "rust/artifacts/20261109T010448152895Z-build.attestation.json",
+          "source_fingerprint": "58d2d5b1ae63beb1214b5406e1bd7e22c87a5d57c558b0930ad033324a9db24c",
+          "cargo_lock_sha256": "ad88691329555e80c0c09bc4f2b86818a5d4435ecdd9c54cd2fbc94fb9622081",
+          "candidate_sha256": "2fa26a83f8a7a96018b63f22494c4ffd8f1dbdc1077251ad3b9215058d7899f5",
+          "stages_seconds": {
+            "fmt": 0.980344,
+            "clippy": 7.912874,
+            "build": 2.770108
+          }
+        },
+        "owner_live": {
+          "status": "PASS",
+          "cases_passed": 16,
+          "duration_seconds": 21.607206,
+          "report": "rust/artifacts/dangling-file-symlink-owner-final-20261109.json"
+        },
+        "independent_live": {
+          "status": "PASS",
+          "cases_passed": 16,
+          "duration_seconds": 40.460545,
+          "report": "rust/artifacts/independent-dangling-symlinks-final-20261109/live-comparison.json"
+        },
+        "comparator_self_tests": {
+          "status": "PASS",
+          "passed": 23,
+          "duration_seconds": 0.861,
+          "report": "rust/artifacts/comparator-selftest-dangling-symlink-final-20261109.json"
+        },
+        "harness_suite": {
+          "status": "PASS",
+          "passed": 106,
+          "duration_seconds": 106.739,
+          "report": "rust/artifacts/harness-suite-symlink-coverage-final-20261109.log"
+        },
+        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "cumulative_gate": "Not rerun: this was a coverage-only extension with no production or shared behavior change; the previous cumulative report remains historical."
+      }
     },
     {
       "id": "cli.invalid_output_format_error",
@@ -9660,7 +9719,7 @@
     },
     "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-release-version-20261109.txt"
   },
-  "next_capability_handoff": "Resume explicit file-symlink Full/JSON output and traversal-error cases against pinned Proselint 0.16.0 after the release-metadata milestone is committed.",
+  "next_capability_handoff": "Continue CLI parity from pinned Proselint 0.16.0. Investigate argparse unique long-option abbreviations as the next focused candidate, then traversal-error cases. Keep the 23 data-backed rule paths held pending an explicit provenance/licensing policy decision.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

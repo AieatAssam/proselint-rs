@@ -130,6 +130,48 @@
       "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
     },
     {
+      "id": "cli_directory_expansion_dangling_file_symlink_full",
+      "capability_id": "cli.directory_expansion",
+      "provenance": "Pinned Proselint 0.16.0 source proselint/tools.py:verify_path resolves explicit input paths before reading; Full output names a dangling file symlink by its resolved target path.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19LCJtYXhfZXJyb3JzIjoxMH0="
+        }
+      ],
+      "symlinks": [{"path": "alias.md", "target": "target.txt", "dangling": true}],
+      "argv": ["check", "--config", "{file:config.json}", "--output-format", "full", "alias.md"],
+      "output_format": "full",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "misc_apologizing_only",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "cli_directory_expansion_dangling_file_symlink_json",
+      "capability_id": "cli.directory_expansion",
+      "provenance": "Pinned Proselint 0.16.0 source proselint/tools.py:verify_path resolves explicit input paths before reading; JSON output keys a dangling file symlink error by its resolved target file URI.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsibWlzYyI6eyJhcG9sb2dpemluZyI6dHJ1ZX19LCJtYXhfZXJyb3JzIjoxMH0="
+        }
+      ],
+      "symlinks": [{"path": "alias.md", "target": "target.txt", "dangling": true}],
+      "argv": ["check", "--config", "{file:config.json}", "--output-format", "json", "alias.md"],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "misc_apologizing_only",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact", "normalize_workspace_uri": true}
+    },
+    {
       "id": "cli_directory_expansion_case_sensitive_extensions",
       "capability_id": "cli.directory_expansion",
       "provenance": "Pinned Python Proselint 0.16.0 source proselint/tools.py:extract_files filters with Path.suffix in ACCEPTED_EXTENSIONS, so .txt is accepted while .TXT is skipped on a case-sensitive filesystem.",

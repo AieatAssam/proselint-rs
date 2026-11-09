@@ -34,7 +34,7 @@ fn run(input: &str, max_errors: usize) -> (i32, Value) {
     let workspace = Workspace::new();
     let dir = workspace.path();
     std::fs::write(dir.join("config.json"), format!(r#"{{"max_errors":{max_errors},"checks":{{"redundancy":{{"misc":{{"nordquist":true}}}}}}}}"#)).unwrap();
-    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(dir)
         .args([
             "check",

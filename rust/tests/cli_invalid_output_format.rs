@@ -3,7 +3,7 @@ use std::process::{Command, Output, Stdio};
 const INVALID_OUTPUT_FORMAT_ERROR: &[u8] = b"usage: proselint [options] <command> check [-h] [--config CONFIG]\n                                           [--output-format {full,json,compact}]\n                                           [--verbose] [--version] [--demo]\n                                           [paths ...]\nproselint [options] <command> check: error: argument --output-format/-o: invalid OutputFormat value: 'invalid'\n";
 
 fn run(args: &[&str]) -> Output {
-    Command::new(env!("CARGO_BIN_EXE_proselint"))
+    Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .args(args)
         .stdin(Stdio::null())
         .stdout(Stdio::piped())

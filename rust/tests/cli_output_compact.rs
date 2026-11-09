@@ -32,7 +32,7 @@ impl Drop for Workspace {
 }
 
 fn run(workspace: &Workspace, input: Option<&[u8]>, file: Option<&str>) -> Output {
-    let mut command = Command::new(env!("CARGO_BIN_EXE_proselint"));
+    let mut command = Command::new(env!("CARGO_BIN_EXE_proselint-rs"));
     command
         .current_dir(&workspace.0)
         .args([

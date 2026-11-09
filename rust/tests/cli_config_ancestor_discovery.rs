@@ -36,7 +36,7 @@ impl Workspace {
     }
 
     fn run_with_input(&self, explicit: bool, input: Option<&[u8]>) -> std::process::Output {
-        let mut command = Command::new(env!("CARGO_BIN_EXE_proselint"));
+        let mut command = Command::new(env!("CARGO_BIN_EXE_proselint-rs"));
         command
             .current_dir(self.cwd())
             .args(["check", "--output-format", "json"]);

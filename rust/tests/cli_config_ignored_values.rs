@@ -29,7 +29,7 @@ impl Drop for Workspace {
 fn assert_unused_value_is_ignored(config: &[u8]) {
     let workspace = Workspace::new();
     fs::write(workspace.0.join("config.json"), config).expect("write config");
-    let output = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let output = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(&workspace.0)
         .args([
             "check",

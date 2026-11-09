@@ -34,7 +34,7 @@ fn assert_structured_error(config: &[u8], data: &str, message: &str) {
     let workspace = Workspace::new();
     fs::write(workspace.0.join("malformed config.json"), config)
         .expect("write malformed config fixture");
-    let output = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let output = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(&workspace.0)
         .args([
             "check",

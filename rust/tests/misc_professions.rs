@@ -37,7 +37,7 @@ impl Drop for Workspace {
 
 fn run_check(input: &str) -> Output {
     let workspace = Workspace::new();
-    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(workspace.path())
         .args([
             "check",

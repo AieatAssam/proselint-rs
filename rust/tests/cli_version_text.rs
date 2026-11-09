@@ -29,17 +29,20 @@ impl Drop for Workspace {
 
 #[test]
 fn version_subcommand_emits_exact_plain_text_without_config() {
-    assert_version_output("version");
+    assert_version_output("version", b"Proselint 0.16.0\n");
 }
 
 #[test]
-fn version_flag_emits_exact_plain_text_without_config() {
-    assert_version_output("--version");
+fn standalone_version_flag_reports_product_and_upstream_versions() {
+    assert_version_output(
+        "--version",
+        b"proselint-rs 2026.11.08.1 (tracks Proselint 0.16.0)\n",
+    );
 }
 
-fn assert_version_output(argument: &str) {
+fn assert_version_output(argument: &str, expected: &[u8]) {
     let workspace = Workspace::new();
-    let mut command = Command::new(env!("CARGO_BIN_EXE_proselint"));
+    let mut command = Command::new(env!("CARGO_BIN_EXE_proselint-rs"));
     command
         .current_dir(&workspace.0)
         .env("HOME", workspace.0.join("home"))
@@ -51,6 +54,6 @@ fn assert_version_output(argument: &str) {
     let output = command.output().expect("run native CLI");
 
     assert_eq!(output.status.code(), Some(0), "stderr: {:?}", output.stderr);
-    assert_eq!(output.stdout, b"Proselint 0.16.0\n");
+    assert_eq!(output.stdout, expected);
     assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
 }

@@ -40,7 +40,7 @@ fn global_config_error_is_preempted_by_check_help() {
 }
 
 fn assert_help(args: &[&str]) {
-    let output = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let output = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .args(args)
         .output()
         .expect("run native CLI");

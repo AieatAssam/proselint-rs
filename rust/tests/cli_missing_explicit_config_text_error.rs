@@ -41,7 +41,7 @@ fn assert_missing_config_stderr(compact: bool) {
     let xdg = workspace.0.join("xdg");
     fs::create_dir_all(&home).expect("create isolated home");
     fs::create_dir_all(&xdg).expect("create isolated XDG config");
-    let mut command = Command::new(env!("CARGO_BIN_EXE_proselint"));
+    let mut command = Command::new(env!("CARGO_BIN_EXE_proselint-rs"));
     command
         .current_dir(&workspace.0)
         .env("HOME", &home)

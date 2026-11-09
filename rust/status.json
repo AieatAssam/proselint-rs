@@ -519,8 +519,8 @@
       "status": "PASS",
       "suite": "python3 -m unittest discover -s rust/harness/tests -v",
       "tests_passed": 106,
-      "duration_seconds": 69.361,
-      "evidence": "rust/artifacts/harness-suite-dangling-file-symlink-20261108.log"
+      "duration_seconds": 69.861,
+      "evidence": "rust/artifacts/harness-suite-release-version-20261109.log"
     },
     "comparator_discriminators": {
       "passed": 23,
@@ -571,10 +571,20 @@
       "full_harness_suite_seconds": 44.274,
       "suite_evidence": "rust/artifacts/independent-check-help-current-20261107/harness-suite.json",
       "estimated_time_saved_seconds_vs_prior_pre_red_full_gate": 630.612
+    },
+    "latest_release_gate": {
+      "status": "PASS",
+      "report": "rust/artifacts/proselint-rs-version-cumulative-20261108.json",
+      "source_fingerprint": "ab4fc09cbf76aeb033fcdc16b857df77052eda53193cfe602172f780e437e185",
+      "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+      "case_count": 1087,
+      "capability_count": 122,
+      "comparator_self_tests": 23,
+      "independent_verification": "rust/artifacts/independent-product-version-final2-20261108/verification-summary.json"
     }
   },
   "active_ownership": {
-    "current": "The latest strict gate passes 1088/1088 accepted live cases across 122 capabilities (1097 manifest cases: eight explicitly excluded runtime/smoke cases and one unresolved demo case). Dangling file-symlink Compact output now uses the resolved target label and path. Owner and independent Luna-low runs pass 14/14 at matching fingerprint 537c9b2349cac8d4bfe1e0b6c1f56e7dfe7ce89bae5a7dfe077a4250d954b71d; the full Python harness suite passes 106/106. The cumulative gate passed in 1177.395 seconds. Rust 1.99-compatible dependency dry-run found zero updates. Twenty-three rule paths remain held pending project policy on bundled third-party-derived lists.",
+    "current": "Release metadata milestone: binary `proselint-rs`, standalone version `2026.11.08.1`, tracking pinned Proselint 0.16.0. The current strict gate passes 1087/1087 live cases across 122 accepted capabilities at fingerprint ab4fc09cbf76aeb033fcdc16b857df77052eda53193cfe602172f780e437e185; the standalone product --version case is separately recorded as one intentional stdout mismatch. The Python harness suite passes 106/106. Rust 1.99.1-compatible dependency dry-run found zero updates. Twenty-three rule paths remain unimplemented; explicit symlink Full/JSON output and traversal errors remain open.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
   },
   "unresolved": [
@@ -7311,16 +7321,16 @@
       "id": "cli.version_text",
       "status": "recorded",
       "case_ids": [
-        "cli_version_subcommand_plain_text",
-        "cli_version_flag_plain_text"
+        "cli_version_subcommand_plain_text"
       ],
       "upstream_source": "proselint/command_line.py:62-81, 128-136; proselint/log.py:179-190; proselint/version.py:1",
-      "upstream_spec": "Both `version` and `--version` print exactly `Proselint 0.16.0\\n`, exit 0, and leave stderr empty. The text version is static package metadata. JSON version output is excluded because upstream embeds Python sys.version_info.",
+      "upstream_spec": "The `version` subcommand prints exactly `Proselint 0.16.0\\n`, exits 0, and leaves stderr empty. The standalone `--version` product flag is separately classified as an explicitly requested Rust product-metadata divergence; its pinned Python output expectation remains unchanged in the manifest.",
       "specification": {
-        "live_cases": 2,
+        "live_cases": 1,
         "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
         "comparison": "exact stdout/stderr bytes and exit status",
-        "json_version": "out_of_scope_python_runtime_metadata"
+        "json_version": "out_of_scope_python_runtime_metadata",
+        "scope_limit": "Only the `version` subcommand remains in exact upstream parity for this capability. Standalone `--version` is a separate product feature and is compared against the unchanged Python output in `cli.product_version_flag`."
       },
       "red": {
         "status": "behavioral_failure",
@@ -7383,6 +7393,56 @@
         "exit_code": 0,
         "report": "rust/artifacts/strict-gate-version-text-accepted-20261107.json",
         "source_fingerprint": "5636bdc5344770698b466b73375e091b35c5fd95c28d255e3facb05b27bfb254"
+      },
+      "current_parity_cases": {
+        "status": "PASS",
+        "case_ids": [
+          "cli_version_subcommand_plain_text"
+        ]
+      },
+      "release_milestone": {
+        "status": "PASS",
+        "live_report": "rust/artifacts/product-version-subcommand-final-20261108.json",
+        "live_cases_passed": 1,
+        "independent_report": "rust/artifacts/independent-product-version-final2-20261108/verification-summary.json",
+        "source_fingerprint": "ab4fc09cbf76aeb033fcdc16b857df77052eda53193cfe602172f780e437e185"
+      }
+    },
+    {
+      "id": "cli.product_version_flag",
+      "status": "intentional_divergence",
+      "case_ids": [
+        "cli_version_flag_plain_text"
+      ],
+      "upstream_source": "Pinned Proselint 0.16.0 command_line.py and version.py; exact upstream expectation remains `Proselint 0.16.0\\n`.",
+      "product_spec": "Standalone `proselint-rs --version` prints `proselint-rs 2026.11.08.1 (tracks Proselint 0.16.0)\\n`. Cargo package version `2026.11.8+1` encodes the date and increment counter; the pinned upstream output is retained unchanged and therefore this case is expected to report a live stdout mismatch.",
+      "user_authorized": true,
+      "red": {
+        "status": "behavioral_failure",
+        "focused_rust_test": "rust/artifacts/product-version-tests-20261108.log",
+        "initial_failure": "Candidate printed upstream Proselint 0.16.0 instead of the requested Rust product string."
+      },
+      "green": {
+        "status": "PASS",
+        "focused_rust_tests_passed": 1,
+        "test_log": "rust/artifacts/product-version-tests-20261108.log",
+        "candidate_attestation": "rust/artifacts/20261108T225438595356Z-build.attestation.json",
+        "source_fingerprint": "14b9fe00612dadeb6d958fd2c4f5802b0785c232eafcdc3f9667535e881bf35c"
+      },
+      "live_comparison": {
+        "status": "EXPECTED_MISMATCH",
+        "report": "rust/artifacts/product-version-flag-intentional-divergence-final-20261108.json",
+        "case_count": 1,
+        "mismatches": 1,
+        "diff": "stdout bytes only; both exit statuses are 0; pinned oracle bytes unchanged",
+        "source_fingerprint": "ab4fc09cbf76aeb033fcdc16b857df77052eda53193cfe602172f780e437e185"
+      },
+      "acceptance": "Explicit product behavior; excluded from exact upstream accepted capabilities, with pinned expectation retained and mismatch evidence recorded.",
+      "independent_verification": {
+        "status": "PASS_WITH_EXPECTED_INTENTIONAL_DIVERGENCE",
+        "report": "rust/artifacts/independent-product-version-final2-20261108/verification-summary.json",
+        "source_fingerprint": "ab4fc09cbf76aeb033fcdc16b857df77052eda53193cfe602172f780e437e185",
+        "runtime_model_metadata": "unavailable"
       }
     },
     {
@@ -9544,30 +9604,33 @@
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/dangling-file-symlink-cumulative-20261108.json",
-    "passed_cases": 1088,
+    "report": "rust/artifacts/proselint-rs-version-cumulative-20261108.json",
+    "passed_cases": 1087,
     "manifest_cases": 1097,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
       "cli.version.json_metadata": 5,
       "cli.version.verbose_runtime": 1
     },
+    "intentional_divergence_cases": {
+      "cli.product_version_flag": 1
+    },
     "unresolved_manifest_cases": 1,
     "exit_code": 0,
     "capability_count": 122,
-    "source_fingerprint": "537c9b2349cac8d4bfe1e0b6c1f56e7dfe7ce89bae5a7dfe077a4250d954b71d",
-    "run_id": "20261108T220930931095Z-f1d7a268",
-    "started_at_utc": "2026-11-08T22:09:30.931068+00:00",
-    "finished_at_utc": "2026-11-08T22:28:02.612425+00:00",
-    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T220828354501Z-build.attestation.json",
-    "candidate_sha256": "6d87a9007d94095d162654eb3ea125862be3ec4a10d7cd9d8656391e53f96dfc",
-    "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48f8b2f8d05278b3136",
-    "duration_seconds": 1177.395234,
+    "source_fingerprint": "ab4fc09cbf76aeb033fcdc16b857df77052eda53193cfe602172f780e437e185",
+    "run_id": "20261108T235630741264Z-3c79a802",
+    "started_at_utc": "2026-11-08T23:56:30.741174+00:00",
+    "finished_at_utc": "2026-11-09T00:13:04.303188+00:00",
+    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261108T234203310107Z-build.attestation.json",
+    "candidate_sha256": "2fa26a83f8a7a96018b63f22494c4ffd8f1dbdc1077251ad3b9215058d7899f5",
+    "cargo_lock_sha256": "ad88691329555e80c0c09bc4f2b86818a5d4435ecdd9c54cd2fbc94fb9622081",
+    "duration_seconds": 1865.073903,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.151597,
-      "cumulative_live_comparison": 1111.979665,
-      "oracle_integrity": 2.180062,
-      "rust_checks_and_build": 62.653675
+      "comparator_self_tests": 0.15804,
+      "cumulative_live_comparison": 994.041053,
+      "oracle_integrity": 2.855358,
+      "rust_checks_and_build": 867.522757
     },
     "comparator_self_tests": 23
   },
@@ -9575,7 +9638,7 @@
     "status": "current",
     "toolchain": "1.99.1",
     "registry": "crates.io",
-    "latest_checked": "2026-11-08T21:21:00Z",
+    "latest_checked": "2026-11-09T00:18:38Z",
     "locked_versions": {
       "clap": "4.6.7",
       "serde": "1.0.229",
@@ -9588,24 +9651,16 @@
     "update_dry_run": {
       "status": "current",
       "packages_to_update": 0,
-      "command": "cargo update --dry-run --manifest-path rust/Cargo.toml",
+      "command": "rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo update --dry-run --manifest-path rust/Cargo.toml",
       "rust_version_constraint": "1.99",
-      "checked_after": "2026-11-08T21:21:00Z",
-      "evidence": "rust/artifacts/rust-dependency-dry-run-file-symlink-20261108.txt",
-      "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136"
-    },
-    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-file-symlink-20261108.txt",
-    "latest_dry_run": {
-      "status": "PASS",
-      "command": "cargo update --dry-run --manifest-path rust/Cargo.toml",
-      "toolchain": "1.99.1",
-      "updates": 0,
-      "report": "rust/artifacts/rust-dependency-dry-run-file-symlink-20261108.txt",
+      "checked_after": "2026-11-09T00:18:38Z",
+      "evidence": "rust/artifacts/rust-dependency-dry-run-release-version-20261109.txt",
       "report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2",
-      "cargo_lock_sha256": "2c259e8c4b7a13a83bfa7690425ad428efcc4622e7c7a1f48b2f8d05278b3136"
-    }
+      "cargo_lock_sha256": "ad88691329555e80c0c09bc4f2b86818a5d4435ecdd9c54cd2fbc94fb9622081"
+    },
+    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-release-version-20261109.txt"
   },
-  "next_capability_handoff": "Next resolve the explicitly requested executable rename, date-based product version, upstream tracking text and release artifact workflow. Preserve the pinned version parity contract as an explicit, reviewed divergence only where the user-requested product version requires it. After release wiring, resume CLI symlink coverage for explicit file-symlink Full/JSON output and traversal errors.",
+  "next_capability_handoff": "Resume explicit file-symlink Full/JSON output and traversal-error cases against pinned Proselint 0.16.0 after the release-metadata milestone is committed.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",
@@ -9882,6 +9937,12 @@
         },
         "forbidden_models": "No Astra or Terra agents were dispatched in this extension."
       }
+    },
+    "latest_product_version_independent_verification": {
+      "requested_model": "gpt-6-luna",
+      "requested_effort": "low",
+      "runtime_model_metadata": "unavailable",
+      "evidence": "rust/artifacts/independent-product-version-final2-20261108/verification-summary.json"
     }
   },
   "rights_audit_latest": {
@@ -9917,5 +9978,30 @@
         "rust/docs/PLAN.md"
       ]
     }
+  },
+  "intentional_divergences": [
+    {
+      "id": "cli.product_version_flag",
+      "user_authorized": true,
+      "upstream": "Proselint 0.16.0 prints `Proselint 0.16.0\\n` for `--version`.",
+      "rust": "Standalone `--version` prints `proselint-rs 2026.11.08.1 (tracks Proselint 0.16.0)\\n`.",
+      "comparison": "Pinned oracle expected bytes are unchanged; the live comparator reports the expected stdout mismatch.",
+      "evidence": "rust/artifacts/product-version-flag-intentional-divergence-final-20261108.json"
+    }
+  ],
+  "release_metadata": {
+    "binary_name": "proselint-rs",
+    "display_version": "2026.11.08.1",
+    "cargo_version": "2026.11.8+1",
+    "upstream_proselint_version": "0.16.0",
+    "version_counter": "increment for another release on the same date",
+    "platform_assets": [
+      "x86_64-unknown-linux-gnu",
+      "aarch64-unknown-linux-gnu",
+      "x86_64-pc-windows-msvc",
+      "aarch64-pc-windows-msvc",
+      "x86_64-apple-darwin",
+      "aarch64-apple-darwin"
+    ]
   }
 }

@@ -30,7 +30,7 @@ impl Drop for Workspace {
 }
 
 fn run(workspace: &Workspace, format: &str) -> Output {
-    Command::new(env!("CARGO_BIN_EXE_proselint"))
+    Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(&workspace.0)
         .args([
             "check",

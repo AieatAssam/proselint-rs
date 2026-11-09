@@ -34,7 +34,7 @@ impl Drop for Workspace {
 
 fn run(input: &str) -> Output {
     let workspace = Workspace::new();
-    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(workspace.path())
         .args([
             "check",
@@ -136,7 +136,7 @@ fn max_errors_keeps_source_order_before_position_sort() {
         br#"{"max_errors":1,"checks":{"cliches":{"misc":{"write_good":true}}}}"#,
     )
     .unwrap();
-    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(workspace.path())
         .args([
             "check",

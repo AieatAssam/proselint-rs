@@ -38,7 +38,7 @@ impl Drop for Workspace {
 
 fn run_stdin(input: &[u8]) -> Output {
     let workspace = Workspace::new();
-    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(workspace.path())
         .args([
             "check",
@@ -65,7 +65,7 @@ fn run_file(path: &str, input: &[u8]) -> (Output, String) {
     let workspace = Workspace::new();
     fs::write(workspace.path().join(path), input).expect("write source file");
     let uri = proselint_rs::file_uri(&workspace.path().join(path)).expect("source URI");
-    let output = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let output = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(workspace.path())
         .args([
             "check",

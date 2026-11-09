@@ -33,7 +33,7 @@ fn run(input: &str, max_errors: usize) -> (i32, Value) {
         format!(r#"{{"max_errors":{max_errors},"checks":{{"oxymorons":true}}}}"#),
     )
     .expect("write selected-check config");
-    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(&workspace.0)
         .args([
             "check",

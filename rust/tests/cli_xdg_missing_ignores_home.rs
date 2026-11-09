@@ -27,7 +27,7 @@ impl Workspace {
     }
 
     fn run(&self, args: &[&str], input: &[u8]) -> std::process::Output {
-        let mut command = Command::new(env!("CARGO_BIN_EXE_proselint"));
+        let mut command = Command::new(env!("CARGO_BIN_EXE_proselint-rs"));
         command
             .current_dir(&self.0)
             .env("HOME", self.0.join("home"))

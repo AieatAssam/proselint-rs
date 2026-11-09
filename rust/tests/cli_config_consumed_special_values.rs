@@ -30,7 +30,7 @@ impl Drop for Workspace {
 fn run_cli(config: &[u8], paths: &[&str]) -> std::process::Output {
     let workspace = Workspace::new();
     fs::write(workspace.0.join("config.json"), config).expect("write config");
-    Command::new(env!("CARGO_BIN_EXE_proselint"))
+    Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(&workspace.0)
         .args([
             "check",
@@ -139,7 +139,7 @@ fn max_errors_true_acts_as_integer_one() {
 }
 
 fn run_file(workspace: &std::path::Path) -> std::process::Output {
-    Command::new(env!("CARGO_BIN_EXE_proselint"))
+    Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(workspace)
         .args([
             "check",
@@ -155,7 +155,7 @@ fn run_file(workspace: &std::path::Path) -> std::process::Output {
 }
 
 fn run_stdin(workspace: &std::path::Path, input: &str) -> std::process::Output {
-    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(workspace)
         .args([
             "check",
@@ -230,7 +230,7 @@ fn missing_source_error_precedes_max_errors_error() {
         br#"{"checks":{},"max_errors":NaN}"#,
     )
     .expect("write config");
-    let output = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let output = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(&workspace.0)
         .args([
             "check",

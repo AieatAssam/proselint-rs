@@ -372,7 +372,7 @@ def build_release_candidate(run_dir: Path, deadline: float) -> tuple[list[str], 
     env.pop("RUSTFLAGS", None)
     env.update({"CARGO_HOME": str(RUST_ROOT / ".cache" / "cargo-home"), "RUSTUP_HOME": str(RUST_ROOT / ".cache" / "rustup-home"), "RUSTUP_TOOLCHAIN": channel})
     env["PATH"] = str(cargo_dir) + os.pathsep + env.get("PATH", "")
-    command = [str(cargo), "build", "--release", "--locked", "--bin", "proselint", "--example", "benchmark_suddenly", "--manifest-path", str(manifest)]
+    command = [str(cargo), "build", "--release", "--locked", "--bin", "proselint-rs", "--example", "benchmark_suddenly", "--manifest-path", str(manifest)]
     before = supervised_fingerprint(deadline)
     build_dir = run_dir / "release_build"
     build_dir.mkdir(parents=True, exist_ok=True)
@@ -386,7 +386,7 @@ def build_release_candidate(run_dir: Path, deadline: float) -> tuple[list[str], 
     after = supervised_fingerprint(deadline)
     if after != before:
         raise RuntimeError("Rust source fingerprint changed during release build")
-    binary = RUST_ROOT / "target" / "release" / ("proselint.exe" if os.name == "nt" else "proselint")
+    binary = RUST_ROOT / "target" / "release" / ("proselint-rs.exe" if os.name == "nt" else "proselint-rs")
     helper = RUST_HELPER
     if not binary.is_file() or not helper.is_file():
         raise RuntimeError("release build did not produce CLI and in-memory example binaries")

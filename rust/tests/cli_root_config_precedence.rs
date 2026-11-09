@@ -21,7 +21,7 @@ impl Workspace {
     }
 
     fn run(&self, args: &[&str]) -> std::process::Output {
-        Command::new(env!("CARGO_BIN_EXE_proselint"))
+        Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
             .current_dir(&self.0)
             .env("HOME", self.0.join("home"))
             .env("XDG_CONFIG_HOME", self.0.join("home/xdg"))

@@ -19,7 +19,7 @@ fn run(input: &str, max_errors: usize) -> Value {
         format!(r#"{{"max_errors":{max_errors},"checks":{{"weasel_words":{{"very":true}}}}}}"#),
     )
     .unwrap();
-    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(&dir)
         .args([
             "check",

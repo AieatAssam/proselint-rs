@@ -32,7 +32,7 @@ impl Drop for Workspace {
 
 fn check(config: &str, file: &str, content: &str) -> (i32, Value) {
     let workspace = Workspace::new(config, &[(file, content)]);
-    let output = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let output = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(&workspace.0)
         .args([
             "check",

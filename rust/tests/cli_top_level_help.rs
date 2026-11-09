@@ -42,7 +42,7 @@ fn no_arguments_prints_help_then_returns_usage_status() {
 
 fn assert_help(args: &[&str], status: i32) {
     let workspace = Workspace::new();
-    let output = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let output = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(&workspace.0)
         .env("HOME", workspace.0.join("home"))
         .env("XDG_CONFIG_HOME", workspace.0.join("home/xdg"))

@@ -36,7 +36,7 @@ impl Drop for Workspace {
 }
 
 fn run_check(workspace: &Workspace, input: Option<&[u8]>, file: Option<&str>) -> Output {
-    let mut command = Command::new(env!("CARGO_BIN_EXE_proselint"));
+    let mut command = Command::new(env!("CARGO_BIN_EXE_proselint-rs"));
     command
         .current_dir(workspace.path())
         .args([
@@ -201,7 +201,7 @@ fn missing_parent_source_uses_absolute_path_in_per_file_json_error() {
 fn invalid_config_is_a_structured_json_decode_error() {
     let workspace = Workspace::new();
     fs::write(workspace.path().join("malformed config.json"), b"{").unwrap();
-    let output = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let output = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(workspace.path())
         .args([
             "check",
@@ -234,7 +234,7 @@ fn invalid_config_is_a_structured_json_decode_error() {
 #[test]
 fn explicit_missing_config_is_a_structured_json_error() {
     let workspace = Workspace::new();
-    let output = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let output = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(workspace.path())
         .args([
             "check",

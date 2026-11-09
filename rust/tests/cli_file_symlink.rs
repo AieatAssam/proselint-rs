@@ -42,7 +42,7 @@ fn compact_output_uses_resolved_file_symlink_name() {
     std::os::unix::fs::symlink("target.txt", workspace.0.join("alias.md"))
         .expect("create file symlink");
 
-    let output = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let output = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(&workspace.0)
         .args([
             "check",
@@ -74,7 +74,7 @@ fn compact_output_uses_resolved_path_for_dangling_file_symlink() {
     std::os::unix::fs::symlink("target.txt", workspace.0.join("alias.md"))
         .expect("create dangling file symlink");
 
-    let output = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let output = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(&workspace.0)
         .args([
             "check",

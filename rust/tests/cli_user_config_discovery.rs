@@ -36,7 +36,7 @@ impl Workspace {
         home: Option<&Path>,
         explicit: Option<&str>,
     ) -> std::process::Output {
-        let mut command = Command::new(env!("CARGO_BIN_EXE_proselint"));
+        let mut command = Command::new(env!("CARGO_BIN_EXE_proselint-rs"));
         command
             .current_dir(self.cwd())
             .env_remove("XDG_CONFIG_HOME")

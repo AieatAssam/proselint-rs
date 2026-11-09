@@ -57,7 +57,7 @@ fn symlink_directory_config_uses_canonical_target_path() {
     fs::create_dir(&target).expect("create target directory");
     let link = workspace.0.join("directory-link");
     std::os::unix::fs::symlink(&target, &link).expect("create directory symlink");
-    let output = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let output = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(&workspace.0)
         .args([
             "check",
@@ -95,7 +95,7 @@ fn assert_directory_config(config: &str) {
 }
 
 fn assert_directory_config_in(workspace: Workspace, config: &str) {
-    let output = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let output = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(&workspace.0)
         .args(["check", "--config", config, "--output-format", "json"])
         .stdin(Stdio::null())
@@ -123,7 +123,7 @@ fn assert_directory_config_in(workspace: Workspace, config: &str) {
 
 fn assert_directory_config_stderr(output_format: &str) {
     let workspace = Workspace::new();
-    let output = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let output = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(&workspace.0)
         .args(["check", "--config", ".", "--output-format", output_format])
         .stdin(Stdio::null())

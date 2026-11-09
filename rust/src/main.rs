@@ -1012,6 +1012,12 @@ struct Cli {
     command: Option<Command>,
 }
 
+const PRODUCT_VERSION: &str = concat!(
+    "proselint-rs ",
+    env!("PROSELINT_RS_RELEASE_VERSION"),
+    " (tracks Proselint 0.16.0)"
+);
+
 #[derive(Debug, Subcommand)]
 enum Command {
     #[command(about = "display the current version and exit")]
@@ -1746,7 +1752,8 @@ fn unrecognized_cli_arguments(args: &[std::ffi::OsString]) -> Option<ExitCode> {
 
 fn run() -> Result<ExitCode, String> {
     let mut args = std::env::args_os().collect::<Vec<_>>();
-    if args.len() == 2 && args[1] == "--version" {
+    let standalone_version_flag = args.len() == 2 && args[1] == "--version";
+    if standalone_version_flag {
         args[1] = "version".into();
     }
     reset_root_options_before_subcommand(&mut args);
@@ -1780,13 +1787,13 @@ fn run() -> Result<ExitCode, String> {
     let output_format = parsed.output_format;
     let version_flag = parsed.version;
     let _verbose = parsed.verbose;
-    let (paths, demo, show_version, no_command) = match parsed.command {
-        Some(Command::Version) => (Vec::new(), false, true, false),
-        Some(Command::Check { paths, demo }) => (paths, demo, version_flag, false),
+    let (paths, demo, show_version, product_version, no_command) = match parsed.command {
+        Some(Command::Version) => (Vec::new(), false, true, standalone_version_flag, false),
+        Some(Command::Check { paths, demo }) => (paths, demo, version_flag, false, false),
         Some(Command::DumpConfig { default }) => {
             return dump_config(config, default, version_flag, output_format);
         }
-        None => (Vec::new(), false, version_flag, !version_flag),
+        None => (Vec::new(), false, version_flag, version_flag, !version_flag),
     };
     let (config, config_is_default) = match config {
         Some(config) => (config, false),
@@ -1949,7 +1956,14 @@ fn run() -> Result<ExitCode, String> {
         ));
     }
     if show_version {
-        println!("Proselint 0.16.0");
+        println!(
+            "{}",
+            if product_version {
+                PRODUCT_VERSION
+            } else {
+                "Proselint 0.16.0"
+            }
+        );
         return Ok(ExitCode::SUCCESS);
     }
     if no_command {

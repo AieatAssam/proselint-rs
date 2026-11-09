@@ -128,7 +128,7 @@ fn demo_config_error_occurs_before_demo_selection() {
 }
 
 fn run(workspace: &Workspace, args: &[&str]) -> std::process::Output {
-    Command::new(env!("CARGO_BIN_EXE_proselint"))
+    Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(&workspace.0)
         .env("HOME", workspace.0.join("home"))
         .env("XDG_CONFIG_HOME", workspace.0.join("home/xdg"))

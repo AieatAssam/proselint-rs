@@ -29,7 +29,7 @@ impl Drop for Workspace {
 fn invoke(config: &[u8]) -> std::process::Output {
     let workspace = Workspace::new();
     fs::write(workspace.0.join("deep config.json"), config).expect("write config");
-    Command::new(env!("CARGO_BIN_EXE_proselint"))
+    Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(&workspace.0)
         .args([
             "check",

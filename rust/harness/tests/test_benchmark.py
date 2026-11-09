@@ -32,7 +32,7 @@ class BenchmarkTests(unittest.TestCase):
             (rust_root / "artifacts").mkdir()
             (rust_root / "Cargo.toml").touch()
             (rust_root / "Cargo.lock").touch()
-            binary = rust_root / "target" / "release" / "proselint"
+            binary = rust_root / "target" / "release" / "proselint-rs"
             helper = rust_root / "target" / "release" / "examples" / "benchmark_suddenly"
 
             def run(command, **kwargs):
@@ -57,7 +57,7 @@ class BenchmarkTests(unittest.TestCase):
 
         command = attestation["build_commands"][0]["command"]
         self.assertIn("--bin", command)
-        self.assertIn("proselint", command)
+        self.assertIn("proselint-rs", command)
         self.assertIn("--example", command)
         self.assertIn("benchmark_suddenly", command)
         self.assertNotIn("--all-targets", command)
@@ -216,7 +216,7 @@ class BenchmarkTests(unittest.TestCase):
 
     def test_deadline_expiring_during_timing_keeps_parity_report(self):
         attestation = {
-            "binary_path": "/tmp/target/release/proselint",
+            "binary_path": "/tmp/target/release/proselint-rs",
             "source_fingerprint": "f" * 64,
             "cargo_lock_sha256": "a" * 64,
             "build_commands": [{"command": ["cargo", "build", "--release", "--locked"], "exit_code": 0}],
@@ -247,7 +247,7 @@ class BenchmarkTests(unittest.TestCase):
                     benchmark,
                     "build_release_candidate",
                     return_value=(
-                        ["/tmp/target/release/proselint"],
+                        ["/tmp/target/release/proselint-rs"],
                         Path(temp) / "attestation.json",
                         attestation,
                         {},
@@ -289,7 +289,7 @@ class BenchmarkTests(unittest.TestCase):
 
     def test_live_preflight_timeout_writes_blocked_report(self):
         attestation = {
-            "binary_path": "/tmp/target/release/proselint",
+            "binary_path": "/tmp/target/release/proselint-rs",
             "source_fingerprint": "f" * 64,
             "cargo_lock_sha256": "a" * 64,
             "build_commands": [{"command": ["cargo", "build", "--release", "--locked"], "exit_code": 0}],
@@ -307,7 +307,7 @@ class BenchmarkTests(unittest.TestCase):
                     benchmark,
                     "build_release_candidate",
                     return_value=(
-                        ["/tmp/target/release/proselint"],
+                        ["/tmp/target/release/proselint-rs"],
                         Path(temp) / "attestation.json",
                         attestation,
                         {},

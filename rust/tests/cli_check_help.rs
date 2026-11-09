@@ -29,7 +29,7 @@ fn check_short_help_matches_pinned_bytes() {
 }
 
 fn assert_help(args: &[&str]) {
-    let output = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let output = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .args(args)
         .output()
         .expect("run native CLI");

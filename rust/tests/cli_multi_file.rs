@@ -46,7 +46,7 @@ fn two_findings() -> &'static [u8] {
 }
 
 fn run(workspace: &Workspace, format: &str, paths: &[&str]) -> Output {
-    Command::new(env!("CARGO_BIN_EXE_proselint"))
+    Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(workspace.path())
         .args([
             "check",

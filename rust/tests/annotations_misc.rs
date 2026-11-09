@@ -42,7 +42,7 @@ fn run_check(input: &str) -> Output {
 }
 
 fn run_check_in(workspace: &Workspace, input: &str) -> Output {
-    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(workspace.path())
         .args([
             "check",
@@ -157,7 +157,7 @@ fn max_errors_one_truncates_repeated_annotation_diagnostics() {
     let workspace = Workspace::new();
     let config = r#"{"max_errors":1,"checks":{"annotations":{"misc":true}}}"#;
     fs::write(workspace.path().join("selected config.json"), config).unwrap();
-    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(workspace.path())
         .args([
             "check",

@@ -42,7 +42,7 @@ fn run(config: &str, format: &str) -> std::process::Output {
 fn run_args(config: &str, args: &[&str]) -> std::process::Output {
     let workspace = Workspace::new();
     fs::write(workspace.0.join("config.json"), config).expect("write config fixture");
-    Command::new(env!("CARGO_BIN_EXE_proselint"))
+    Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(&workspace.0)
         .args(args)
         .stdin(Stdio::null())

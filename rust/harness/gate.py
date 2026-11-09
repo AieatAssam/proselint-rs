@@ -157,7 +157,7 @@ def build_and_attest(candidate_json: str | None, *, focused_candidate_build: boo
     after = source_fingerprint()
     if before != after:
         raise RuntimeError("Rust source tree changed during candidate build")
-    binary = RUST_ROOT / "target" / "debug" / ("proselint.exe" if os.name == "nt" else "proselint")
+    binary = RUST_ROOT / "target" / "debug" / ("proselint-rs.exe" if os.name == "nt" else "proselint-rs")
     if not binary.is_file():
         raise RuntimeError(f"expected Rust CLI binary not produced: {binary}")
     if candidate_json is None:
@@ -195,7 +195,7 @@ def build_and_attest(candidate_json: str | None, *, focused_candidate_build: boo
 
 def reuse_attested_candidate(attestation_path: Path, candidate_json: str | None) -> tuple[list[str], Path]:
     cargo, channel = locked_cargo()
-    binary = RUST_ROOT / "target" / "debug" / ("proselint.exe" if os.name == "nt" else "proselint")
+    binary = RUST_ROOT / "target" / "debug" / ("proselint-rs.exe" if os.name == "nt" else "proselint-rs")
     candidate = [str(binary.resolve())]
     if candidate_json is not None:
         try:

@@ -33,7 +33,7 @@ impl Drop for Workspace {
 }
 
 fn run(workspace: &Workspace, home: &str, args: &[&str]) -> std::process::Output {
-    Command::new(env!("CARGO_BIN_EXE_proselint"))
+    Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(&workspace.0)
         .args(args)
         .env("HOME", home)

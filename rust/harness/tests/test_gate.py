@@ -41,15 +41,22 @@ class GateTests(unittest.TestCase):
     def test_focused_candidate_attestation_cannot_be_reused_by_gate(self):
         with TemporaryDirectory() as directory:
             root = Path(directory)
-            binary = root / "target" / "debug" / "proselint"
+            binary = root / "target" / "debug" / "proselint-rs"
             binary.parent.mkdir(parents=True)
             binary.write_bytes(b"test candidate")
             cargo = root / "bin" / "cargo"
+            candidate_argv = []
+
+            def read_attestation(_path, argv, _fingerprint):
+                candidate_argv.extend(argv)
+                return {"validation_scope": "focused_candidate_build"}
+
             with patch.object(gate, "RUST_ROOT", root), patch.object(gate, "locked_cargo", return_value=(cargo, "1.99.1")), patch.object(
-                gate, "read_candidate_attestation", return_value={"validation_scope": "focused_candidate_build"}
+                gate, "read_candidate_attestation", side_effect=read_attestation
             ):
                 with self.assertRaisesRegex(ValueError, "cannot be reused by the cumulative gate"):
                     gate.reuse_attested_candidate(Path("focused.attestation.json"), None)
+            self.assertEqual(candidate_argv, [str(binary.resolve())])
 
     def test_reusable_attestation_must_prove_each_locked_gate_command(self):
         cargo = Path("/toolchain/bin/cargo")

@@ -40,7 +40,7 @@ fn dump_config_subcommand_help_matches_pinned_bytes() {
 
 fn assert_help(args: &[&str], expected_stdout: &[u8]) {
     let workspace = Workspace::new();
-    let output = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let output = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(&workspace.0)
         .env("HOME", workspace.0.join("home"))
         .env("XDG_CONFIG_HOME", workspace.0.join("home/xdg"))

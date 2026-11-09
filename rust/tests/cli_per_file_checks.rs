@@ -34,7 +34,7 @@ impl Drop for Workspace {
 #[test]
 fn matching_per_file_glob_disables_globally_enabled_annotation() {
     let workspace = Workspace::new();
-    let output = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let output = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(&workspace.0)
         .args([
             "check",
@@ -65,7 +65,7 @@ fn run_with_config(config: &str, source_name: &str, source_text: &str) -> std::p
     let workspace = Workspace::new();
     fs::write(workspace.0.join("selected config.json"), config).unwrap();
     fs::write(workspace.0.join(source_name), source_text).unwrap();
-    Command::new(env!("CARGO_BIN_EXE_proselint"))
+    Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(&workspace.0)
         .args([
             "check",

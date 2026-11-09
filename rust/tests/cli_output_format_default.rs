@@ -29,7 +29,7 @@ impl Drop for Workspace {
 
 fn run(config: &str, input: &[u8], explicit_full: bool) -> std::process::Output {
     let workspace = Workspace::new(config);
-    let mut command = Command::new(env!("CARGO_BIN_EXE_proselint"));
+    let mut command = Command::new(env!("CARGO_BIN_EXE_proselint-rs"));
     command
         .current_dir(&workspace.0)
         .args(["check", "--config", "config.json"]);

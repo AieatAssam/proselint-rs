@@ -20,7 +20,7 @@ impl Workspace {
     }
 
     fn run(&self, args: &[&str]) -> Output {
-        Command::new(env!("CARGO_BIN_EXE_proselint"))
+        Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
             .current_dir(&self.0)
             .args(args)
             .output()

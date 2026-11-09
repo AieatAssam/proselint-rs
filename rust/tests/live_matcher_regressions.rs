@@ -14,7 +14,7 @@ fn run(input: &str, config: &str) -> Value {
     ));
     std::fs::create_dir(&dir).unwrap();
     std::fs::write(dir.join("config.json"), config).unwrap();
-    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint"))
+    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
         .current_dir(&dir)
         .args([
             "check",

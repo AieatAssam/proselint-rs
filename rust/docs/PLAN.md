@@ -2,7 +2,7 @@
 
 ## Latest cumulative gate
 
-The latest cumulative gate remains historical: it passed 1258/1258 cases across 126 capabilities, but predates `rule.terms.animal_adjectives`. Current focused coverage is 1264/1275 manifest cases across 127 capabilities; defer another full gate to the 5–10-capability cadence. The historical report is [`../artifacts/strict-gate-social-awareness-lgbtq-terms-20261109.json`](../artifacts/strict-gate-social-awareness-lgbtq-terms-20261109.json). See [`status.json`](../status.json) and [`status-history.jsonl`](../status-history.jsonl).
+The latest cumulative gate remains historical: it passed 1258/1258 cases across 126 capabilities, predating `rule.terms.animal_adjectives` and `rule.terms.denizen_labels.norris`. Current focused coverage is 1270/1281 manifest cases across 128 capabilities; defer another full gate to the 5–10-capability cadence. The historical report is [`../artifacts/strict-gate-social-awareness-lgbtq-terms-20261109.json`](../artifacts/strict-gate-social-awareness-lgbtq-terms-20261109.json). See [`status.json`](../status.json) and [`status-history.jsonl`](../status-history.jsonl).
 
 The cumulative gate now passes 1258/1258 accepted cases across 126 capabilities, matching the current accepted case set (1258 of 1269 manifest cases). It reports zero mismatches, timeouts, or errors. Run `20261109T130343177872Z-c5b492ab` at fingerprint `6d41f10d6a133646a236454e6bbb20cf093ca28d84c12ba04db93c99363082c2`; report: [`../artifacts/strict-gate-social-awareness-lgbtq-terms-20261109.json`](../artifacts/strict-gate-social-awareness-lgbtq-terms-20261109.json). See [`status.json`](../status.json) and [`status-history.jsonl`](../status-history.jsonl).
 
@@ -36,7 +36,11 @@ Execution cadence and evidence-reuse rules are maintained in [`MIGRATION.md`](..
 
 `cli.unrecognized_arguments` matches pinned argparse for 12 live vectors, including subcommand-specific options, unknown short/attached/multiple options, help precedence, and tokens after `--`. A 6-case RED exposed exact stderr/status differences; 11 focused Rust tests, owner and independent live comparisons (12/12 each), and the immediate shared-CLI gate passed. The option-value behavior is now covered by `cli.missing_option_value_before_option` and `cli.missing_option_value_at_argv_end`; other value-taking option contexts remain unverified. Evidence: [`../artifacts/cli-unrecognized-args-red-summary.md`](../artifacts/cli-unrecognized-args-red-summary.md), [`../artifacts/independent-cli-unrecognized-args-final-20261108.json`](../artifacts/independent-cli-unrecognized-args-final-20261108.json), [`../artifacts/strict-gate-unknown-args-final-20261108.json`](../artifacts/strict-gate-unknown-args-final-20261108.json).
 
-The pinned inventory contains 106 unique check paths. Eighty-six rule paths are accepted and 20 remain unimplemented; 41 bounded CLI capabilities are recorded. Current focused production coverage is 1264/1275 cases across 127 capabilities. The latest cumulative gate is historical at 1258/1258 across 126 capabilities and is stale for this case set; defer another full gate to the 5–10-capability cadence. Preserve duplicate registrations as separate checks and retain unresolved CLI/config behavior in the ledger.
+The pinned inventory contains 106 unique check paths. Eighty-seven rule paths are accepted and 19 remain unimplemented; 41 bounded CLI capabilities are recorded. Current focused production coverage is 1270/1281 cases across 128 capabilities. The latest cumulative gate is historical at 1258/1258 across 126 capabilities and is stale for this case set; defer another full gate to the 5–10-capability cadence. Preserve duplicate registrations as separate checks and retain unresolved CLI/config behavior in the ledger.
+
+### `rule.terms.denizen_labels.norris`
+
+This capability passes six focused owner and six independent pinned-oracle cases after an initial 6/6 RED. Four focused rule tests, six no-config CLI tests, and 23 comparator self-tests pass. Data attribution is Mary Norris under the user-authorized package-wide BSD-3-Clause policy basis with attribution/notices retained and provenance/conflict caveats. Evidence and run IDs are recorded in [`status.json`](../status.json); the cumulative gate remains historical and stale pending the next 5–10-capability checkpoint.
 
 ### Combined `check --help` arguments
 

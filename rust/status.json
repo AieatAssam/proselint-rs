@@ -514,6 +514,10 @@
     {
       "id": "rule.terms.animal_adjectives",
       "status": "independently_verified"
+    },
+    {
+      "id": "rule.terms.denizen_labels.norris",
+      "status": "independently_verified"
     }
   ],
   "inventory": {
@@ -637,12 +641,12 @@
     }
   },
   "active_ownership": {
-    "current": "rule.terms.animal_adjectives has focused owner and independent live acceptance (6/6 each). Current coverage is 1264 accepted production cases across 127 capabilities, with 86 accepted and 20 unimplemented rule paths. The latest cumulative gate is historical at 1258/1258 across 126 capabilities and is stale for this case set; defer the next cumulative run to the 5–10-capability cadence. Data reuse follows the user's package-wide BSD-3-Clause policy basis with attribution/notices and provenance/conflict caveats.",
+    "current": "rule.terms.denizen_labels.norris has focused owner and independent live acceptance (6/6 each). Current coverage is 1270 accepted production cases across 128 capabilities, with 87 accepted and 19 unimplemented rule paths. The latest cumulative gate is historical at 1258/1258 across 126 capabilities and is stale for this case set; defer the next cumulative run to the 5–10-capability cadence. Rule-data reuse follows the user's package-wide BSD-3-Clause policy basis with attribution/notices and provenance/conflict caveats.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-    "cumulative_gate": "Historical PASS: 1258/1258 across 126 capabilities; report rust/artifacts/strict-gate-social-awareness-lgbtq-terms-20261109.json; run 20261109T130343177872Z-c5b492ab. Stale for current 1264 accepted cases across 127 capabilities; scope_matches_current_case_set=false. Defer rerun to the 5–10-capability cadence."
+    "cumulative_gate": "Historical PASS: 1258/1258 across 126 capabilities; report rust/artifacts/strict-gate-social-awareness-lgbtq-terms-20261109.json; run 20261109T130343177872Z-c5b492ab. Stale for current 1270 accepted cases across 128 capabilities; scope_matches_current_case_set=false. Defer rerun to the 5–10-capability cadence."
   },
   "unresolved": [
-    "20 unique rule paths remain unimplemented.",
+    "19 unique rule paths remain unimplemented.",
     "Other CLI/config behavior remains unverified, including passwd-home config-present behavior, HOME-absent no-passwd-entry config behavior (confirmed mismatch in cli.config.no_passwd_home; see harness.latest_no_passwd_home_case), other subcommands, HOME-unset platform variation, directory candidates, and traversal/decoding edges.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
     "Directory/non-UTF-8 path error formatting on non-Linux platforms remains unverified.",
@@ -662,6 +666,64 @@
     "The Linux HOME-absent/no-passwd-entry reproducer remains a confirmed mismatch: pinned Python fails during import with an installation-specific traceback while Rust completes the command; it is blocked and excluded from production_capabilities."
   ],
   "capability_states": [
+    {
+      "id": "rule.terms.denizen_labels.norris",
+      "status": "independently_verified",
+      "case_ids": [
+        "terms_denizen_norris_all_mappings",
+        "terms_denizen_norris_boundaries_case",
+        "terms_denizen_norris_quotes_unicode",
+        "terms_denizen_norris_max_errors",
+        "terms_denizen_norris_no_hit",
+        "terms_denizen_norris_default_enabled"
+      ],
+      "upstream_spec": "Pinned Proselint 0.16.0; source attributed to Mary Norris. Reuse follows the user-authorized package-wide BSD-3-Clause policy basis with attribution/notices retained and provenance/conflicting-term caveats.",
+      "red": {
+        "status": "MISMATCH",
+        "report": "rust/artifacts/terms-denizen-norris-red-20261109.json",
+        "run_id": "20261109T140036350516Z-8723d620",
+        "cases": 6,
+        "mismatches": 6,
+        "duration_seconds": 18.2,
+        "source_fingerprint": "a9903bad82f9a57abdc452d0a0d48e01830a88b6e3080c34bb61c1910f73d6dd"
+      },
+      "green": {
+        "status": "PASS",
+        "owner_report": "rust/artifacts/terms-denizen-norris-live-final-20261109.json",
+        "owner_run_id": "20261109T140536104641Z-f68235d5",
+        "owner_cases_passed": 6,
+        "owner_seconds": 19.795,
+        "independent_report": "rust/artifacts/independent-terms-denizen-norris-live-final.json",
+        "independent_run_id": "20261109T140643972076Z-5a11f90a",
+        "independent_cases_passed": 6,
+        "independent_seconds": 17.517,
+        "mismatches": 0,
+        "timeouts": 0,
+        "errors": 0,
+        "focused_rule_tests": "4/4 PASS",
+        "focused_no_config_cli_tests": "6/6 PASS",
+        "comparator_self_tests": "23/23 PASS",
+        "build_attestation": "rust/artifacts/20261109T140513374914Z-build.attestation.json",
+        "source_fingerprint": "6fe60ea9d5dd404040020c243199b7c6472fffcc4d14d75f32977514092d1a28",
+        "candidate_sha256": "9729117a1ca8183bfcb8e4a8c000d742eca777e434dbd67fb8b818a063b1b405",
+        "cargo_lock_sha256": "05212984084365b79c499cd3c111ceb71349e05968ff8b21316e6ec64fd76fc1"
+      },
+      "coverage": {
+        "accepted_cases": 1270,
+        "manifest_cases": 1281,
+        "capabilities": 128,
+        "accepted_rule_paths": 87,
+        "unimplemented_rule_paths": 19
+      },
+      "cumulative_gate": {
+        "status": "historical_PASS_stale_current_scope_not_run",
+        "report": "rust/artifacts/strict-gate-social-awareness-lgbtq-terms-20261109.json",
+        "passed_cases": 1258,
+        "capabilities": 126,
+        "scope_matches_current_case_set": false,
+        "note": "The gate predates animal_adjectives and denizen_labels.norris; defer rerun to the 5–10-capability cadence."
+      }
+    },
     {
       "id": "rule.terms.animal_adjectives",
       "status": "independently_verified",
@@ -10482,9 +10544,10 @@
     },
     "comparator_self_tests": 23,
     "scope_matches_current_case_set": false,
-    "current_accepted_case_count": 1264,
-    "current_production_case_count": 1264,
-    "current_manifest_case_count": 1275
+    "current_accepted_case_count": 1270,
+    "current_production_case_count": 1270,
+    "current_manifest_case_count": 1281,
+    "current_capability_count": 128
   },
   "rust_dependencies": {
     "status": "current",
@@ -10521,7 +10584,7 @@
     },
     "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-itoa-20261109.txt"
   },
-  "next_capability_handoff": "Scout/select another eligible rule from the unimplemented inventory, checking source provenance and terms; retain the package-wide BSD-3-Clause policy basis with attribution/notices and review unknown/conflicting provenance separately. Continue unresolved CLI/config parity. The 1258/1258 gate across 126 capabilities is historical and stale for current coverage (1264 cases, 127 capabilities); defer rerun to the 5–10-capability cadence.",
+  "next_capability_handoff": "Scout/select another eligible rule from the unimplemented inventory, checking source provenance and terms; retain the package-wide BSD-3-Clause policy basis with attribution/notices and review unknown/conflicting provenance separately. Continue unresolved CLI/config parity. The 1258/1258 gate across 126 capabilities is historical and stale for current coverage (1270 cases, 128 capabilities); defer rerun to the 5–10-capability cadence.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

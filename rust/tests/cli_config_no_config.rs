@@ -82,6 +82,17 @@ fn no_config_found_enables_animal_adjectives() {
 }
 
 #[test]
+fn no_config_found_enables_norris_denizen_labels() {
+    let output = Workspace::new().run(b"Manchesterian");
+    assert_eq!(output.status.code(), Some(1), "stderr: {:?}", output.stderr);
+    assert_eq!(
+        output.stdout,
+        b"<stdin>:1:1: terms.denizen_labels.norris: Would you like 'Mancunian'?\n"
+    );
+    assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
+}
+
+#[test]
 fn no_config_found_keeps_clean_input_clean() {
     let output = Workspace::new().run(b"An ordinary sentence.");
     assert_eq!(output.status.code(), Some(0), "stderr: {:?}", output.stderr);

@@ -1750,13 +1750,31 @@ fn abbreviate_long_options(args: &mut [std::ffi::OsString]) -> Option<ExitCode> 
             let (option, attached) = token
                 .split_once('=')
                 .map_or((token.as_str(), false), |(name, _)| (name, true));
-            if !options.contains(&option) {
-                let matches = options
-                    .iter()
-                    .copied()
-                    .filter(|candidate| candidate.starts_with(option))
-                    .collect::<Vec<_>>();
-                if matches.len() > 1 {
+            let matches = options
+                .iter()
+                .copied()
+                .filter(|candidate| candidate.starts_with(option))
+                .collect::<Vec<_>>();
+            if matches.len() > 1 {
+                let help = subcommand
+                    .and_then(command_help)
+                    .unwrap_or_else(|| "usage: proselint [options] <command>".to_owned());
+                let usage = help
+                    .split_once("\n\n")
+                    .map_or(help.as_str(), |(usage, _)| usage);
+                let prefix = subcommand.map_or_else(
+                    || "proselint".to_owned(),
+                    |command| format!("proselint [options] <command> {command}"),
+                );
+                let option_token = if attached { token.as_str() } else { option };
+                eprintln!(
+                    "{usage}\n{prefix}: error: ambiguous option: {option_token} could match {}",
+                    matches.join(", ")
+                );
+                return Some(ExitCode::from(2));
+            }
+            if let [matched] = matches.as_slice() {
+                if attached && !matches!(*matched, "--config" | "--output-format") {
                     let help = subcommand
                         .and_then(command_help)
                         .unwrap_or_else(|| "usage: proselint [options] <command>".to_owned());
@@ -1767,22 +1785,26 @@ fn abbreviate_long_options(args: &mut [std::ffi::OsString]) -> Option<ExitCode> 
                         || "proselint".to_owned(),
                         |command| format!("proselint [options] <command> {command}"),
                     );
+                    let argument = match *matched {
+                        "--help" => "-h/--help",
+                        "--verbose" => "--verbose/-v",
+                        argument => argument,
+                    };
+                    let value = token.split_once('=').map_or("", |(_, value)| value);
                     eprintln!(
-                        "{usage}\n{prefix}: error: ambiguous option: {option} could match {}",
-                        matches.join(", ")
+                        "{usage}\n{prefix}: error: argument {argument}: ignored explicit argument {}",
+                        python_string_repr(value)
                     );
                     return Some(ExitCode::from(2));
                 }
-                if let [matched] = matches.as_slice() {
-                    args[index] = if attached {
-                        format!("{matched}={}", token.split_once('=').unwrap().1).into()
-                    } else {
-                        (*matched).into()
-                    };
-                    if !attached && matches!(*matched, "--config" | "--output-format") {
-                        index = (index + 2).min(args.len());
-                        continue;
-                    }
+                args[index] = if attached {
+                    format!("{matched}={}", token.split_once('=').unwrap().1).into()
+                } else {
+                    (*matched).into()
+                };
+                if !attached && matches!(*matched, "--config" | "--output-format") {
+                    index = (index + 2).min(args.len());
+                    continue;
                 }
             }
         }

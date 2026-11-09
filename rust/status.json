@@ -523,8 +523,8 @@
       "status": "PASS",
       "suite": "python3 -m unittest discover -s rust/harness/tests -p 'test_*.py'",
       "tests_passed": 109,
-      "duration_seconds": 70.64,
-      "evidence": "rust/artifacts/harness-suite-cli-long-option-abbreviation-20261109.log"
+      "duration_seconds": 69.583,
+      "evidence": "rust/artifacts/harness-suite-cli-attached-abbrev-20261109.log"
     },
     "comparator_discriminators": {
       "passed": 23,
@@ -588,9 +588,9 @@
     }
   },
   "active_ownership": {
-    "current": "cli.long_option_abbreviation passed the required cumulative gate: 1095/1095 live cases across 123 accepted capabilities, source fingerprint ab832a8cd38b61e24cf6e82df26f222150a0b5fff545cf5b85011c8e55655fea. 23 data-backed rule paths remain unimplemented.",
+    "current": "Attached-value long-option error handling is verified at source fingerprint 6b1c32050cfc8195fa8bb443f1637857d05d748b95554fdf4727b416677a3666: focused Rust tests 12/12, owner and independent live cases 10/10 each, and cumulative gate 1099/1099 across 123 accepted capabilities. Next focus: dump-config explicit-directory config error; 23 data-backed rule paths remain held pending provenance/licensing policy.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-    "cumulative_gate": "PASS; next gate after the next 5–10 capabilities or shared CLI/config/matching infrastructure change."
+    "cumulative_gate": "PASS after shared CLI change; next gate is required after the next shared behavior change or at the 5–10-capability checkpoint."
   },
   "unresolved": [
     "23 unique rule paths remain unimplemented.",
@@ -9674,15 +9674,19 @@
         "cli_long_option_abbrev_dump_config_def",
         "cli_long_option_abbrev_check_output_format_out",
         "cli_long_option_abbrev_check_help_he",
-        "cli_long_option_abbrev_global_config_con"
+        "cli_long_option_abbrev_global_config_con",
+        "cli_long_option_abbrev_root_ambiguous_ver_attached",
+        "cli_long_option_abbrev_root_version_attached",
+        "cli_long_option_abbrev_check_demo_attached",
+        "cli_long_option_abbrev_dump_default_attached"
       ],
       "upstream_source": "Pinned proselint/command_line.py root parser and check/dump-config subparsers; argparse uses allow_abbrev for long options.",
       "upstream_spec": "A unique long-option prefix is accepted in the active root or subcommand parser. Ambiguous prefixes fail with argparse’s exact ambiguous-option diagnostic. The same behavior applies to implicit --help.",
       "specification": {
-        "live_cases": 6,
+        "live_cases": 10,
         "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-        "comparison": "Exact stdout/stderr bytes and exit status for the six pinned CLI vectors.",
-        "scope_limit": "Covers root ambiguity (--ver), unique --demo and --default subcommand options, --help, a global --output-format prefix after check, and a global --config prefix before check. Attached-value prefixes and other untested option forms remain open. --vers now resolves to the product version flag and is separately recorded as an intentional version divergence."
+        "comparison": "Exact stdout/stderr bytes and exit status for all ten pinned CLI vectors.",
+        "scope_limit": "Covers unique and ambiguous root/subcommand long-option prefixes, including attached values on no-value flags and attached values on --config/--output-format. Other untested option forms and argument combinations remain open. --vers without an attached value resolves to the product version flag and is separately recorded as an intentional version divergence."
       },
       "red": {
         "status": "behavioral_failure",
@@ -9725,35 +9729,81 @@
           "candidate_sha256": "9c99351e381af95961b973028174bd5b8b7a5edf197e51d30525f71cb91214a7",
           "source_fingerprint": "ab832a8cd38b61e24cf6e82df26f222150a0b5fff545cf5b85011c8e55655fea"
         }
+      },
+      "coverage_extension_20261109": {
+        "status": "PASS",
+        "case_ids": [
+          "cli_long_option_abbrev_root_ambiguous_ver_attached",
+          "cli_long_option_abbrev_root_version_attached",
+          "cli_long_option_abbrev_check_demo_attached",
+          "cli_long_option_abbrev_dump_default_attached"
+        ],
+        "upstream_spec": "argparse preserves attached option tokens in ambiguity diagnostics; a unique abbreviation on a no-value flag rejects an explicit attached value with “ignored explicit argument” and Python repr formatting. Value-taking --config and --output-format accept attached values.",
+        "red": {
+          "status": "behavioral_failure",
+          "live_cases_passed_before_fix": 6,
+          "live_mismatches_before_fix": 4,
+          "report": "rust/artifacts/20261109T-cli-long-option-attached-red.json",
+          "source_fingerprint": "e78618b0346408642f712c3aaa70874c4b1f8fba31e5e9d46aaa6432ea6c9f80",
+          "focused_rust_red": "Dedicated attached-value integration test had four exact-diagnostic failures and two passing value-taking controls."
+        },
+        "green": {
+          "focused_rust_tests_passed": 12,
+          "focused_rust_test_seconds": null,
+          "focused_rust_test_command": "cargo test --locked --manifest-path rust/Cargo.toml --test cli_long_option_attached_values --test cli_long_option_abbreviation",
+          "owner_live_cases_passed": 10,
+          "owner_live_report": "rust/artifacts/20261109T-cli-long-option-abbrev-green-owner.json",
+          "independent_live_cases_passed": 10,
+          "independent_live_report": "rust/artifacts/independent-cli-long-option-abbrev-attached-20261109/live-comparison.json",
+          "independent_review": "No concrete issue found; runtime model metadata unavailable.",
+          "candidate_attestation": "rust/artifacts/20261109T023706274376Z-build.attestation.json",
+          "candidate_sha256": "31cc0decdc2acd7d1ddcbca40ee08ae868c1ca03c6c9bc5e9756638e3a7fb93f",
+          "source_fingerprint": "6b1c32050cfc8195fa8bb443f1637857d05d748b95554fdf4727b416677a3666",
+          "cargo_lock_sha256": "ad88691329555e80c0c09bc4f2b86818a5d4435ecdd9c54cd2fbc94fb9622081"
+        },
+        "cumulative_gate": {
+          "status": "PASS",
+          "report": "rust/artifacts/strict-gate-cli-long-option-attached-values-20261109.json",
+          "run_id": "20261109T024223654652Z-db91f0e2",
+          "passed_cases": 1099,
+          "capability_count": 123,
+          "duration_seconds": 1082.633867,
+          "source_fingerprint": "6b1c32050cfc8195fa8bb443f1637857d05d748b95554fdf4727b416677a3666",
+          "candidate_sha256": "31cc0decdc2acd7d1ddcbca40ee08ae868c1ca03c6c9bc5e9756638e3a7fb93f"
+        }
       }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-cli-long-option-abbreviation-20261109.json",
-    "passed_cases": 1095,
-    "manifest_cases": 1095,
-    "excluded_manifest_cases": {},
-    "intentional_divergence_cases": {
-      "cli.product_version_flag": 1,
-      "cli_long_option_abbrev_vers_product_divergence": 1
+    "report": "rust/artifacts/strict-gate-cli-long-option-attached-values-20261109.json",
+    "passed_cases": 1099,
+    "manifest_cases": 1109,
+    "excluded_manifest_cases": {
+      "harness.oracle_smoke": 2,
+      "cli.version.json_metadata": 5,
+      "cli.version.verbose_runtime": 1,
+      "cli.product_version_flag": 1
     },
-    "unresolved_manifest_cases": 0,
+    "intentional_divergence_cases": {
+      "cli.product_version_flag": 1
+    },
+    "unresolved_manifest_cases": 1,
     "exit_code": 0,
     "capability_count": 123,
-    "source_fingerprint": "ab832a8cd38b61e24cf6e82df26f222150a0b5fff545cf5b85011c8e55655fea",
-    "run_id": "20261109T020322105337Z-8e604edb",
-    "started_at_utc": "2026-11-09T02:03:22.105310+00:00",
-    "finished_at_utc": "2026-11-09T02:20:34.931919+00:00",
-    "candidate_attestation": "rust/artifacts/20261109T020117494284Z-build.attestation.json",
-    "candidate_sha256": "9c99351e381af95961b973028174bd5b8b7a5edf197e51d30525f71cb91214a7",
+    "source_fingerprint": "6b1c32050cfc8195fa8bb443f1637857d05d748b95554fdf4727b416677a3666",
+    "run_id": "20261109T024223654652Z-db91f0e2",
+    "started_at_utc": "2026-11-09T02:42:23.654628+00:00",
+    "finished_at_utc": "2026-11-09T02:58:18.185512+00:00",
+    "candidate_attestation": "rust/artifacts/20261109T024018499159Z-build.attestation.json",
+    "candidate_sha256": "31cc0decdc2acd7d1ddcbca40ee08ae868c1ca03c6c9bc5e9756638e3a7fb93f",
     "cargo_lock_sha256": "ad88691329555e80c0c09bc4f2b86818a5d4435ecdd9c54cd2fbc94fb9622081",
-    "duration_seconds": 1160.980361,
+    "duration_seconds": 1082.633867,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.167741,
-      "cumulative_live_comparison": 1033.280358,
-      "oracle_integrity": 2.384341,
-      "rust_checks_and_build": 124.706769
+      "comparator_self_tests": 0.140889,
+      "cumulative_live_comparison": 954.869315,
+      "oracle_integrity": 2.003865,
+      "rust_checks_and_build": 125.225054
     },
     "comparator_self_tests": 23
   },
@@ -9783,7 +9833,7 @@
     },
     "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-release-version-20261109.txt"
   },
-  "next_capability_handoff": "After the due cumulative gate, continue CLI/config parity from pinned Proselint 0.16.0. Probe attached-value long prefixes and the remaining config discovery/error cases. Keep the 23 data-backed rule paths held pending an explicit provenance/licensing policy decision.",
+  "next_capability_handoff": "Implement cli.dump_config_directory_config_error from pinned proselint/command_line.py:116-126,139-145 and tools.py:23-47. Preserve exact JSON OSError and Full output behavior. Then continue unresolved CLI/config cases; do not start held data-backed paths until their provenance/licensing question is resolved.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",
@@ -10066,6 +10116,33 @@
       "requested_effort": "low",
       "runtime_model_metadata": "unavailable",
       "evidence": "rust/artifacts/independent-product-version-final2-20261108/verification-summary.json"
+    },
+    "latest_attached_value_extension": {
+      "investigation": {
+        "requested_model": "gpt-6-luna",
+        "requested_effort": "low",
+        "runtime_model_metadata": "unavailable",
+        "evidence": "rust/artifacts/attached-long-option-prefix-probes-20261109.json"
+      },
+      "harness_owner": {
+        "requested_model": "gpt-6-luna",
+        "requested_effort": "low",
+        "runtime_model_metadata": "unavailable",
+        "evidence": "rust/artifacts/20261109T-cli-long-option-attached-red.json"
+      },
+      "implementation": {
+        "requested_model": "gpt-6-luna",
+        "requested_effort": "low",
+        "runtime_model_metadata": "unavailable",
+        "self_report": "Model and effort metadata not visible to agent."
+      },
+      "independent_verifier": {
+        "requested_model": "gpt-6-luna",
+        "requested_effort": "low",
+        "runtime_model_metadata": "unavailable",
+        "evidence": "rust/artifacts/independent-cli-long-option-abbrev-attached-20261109/live-comparison.json"
+      },
+      "independent_code_review": "No concrete issue found in bounded read-only code review; runtime model metadata unavailable."
     }
   },
   "rights_audit_latest": {

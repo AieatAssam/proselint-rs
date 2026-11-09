@@ -35759,5 +35759,100 @@
       "workspace_mutates": false,
       "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
     }
+,
+    {
+      "id": "cli_long_option_abbrev_root_ambiguous_ver_attached",
+      "capability_id": "cli.long_option_abbreviation",
+      "provenance": "Pinned live Python Proselint 0.16.0 argparse root parser: attached `--ver=value` remains ambiguous between --verbose and --version. Observed against the pinned executable at dbed789caae662d06c7c8a5a13dd31f1acd36f5c.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "--ver=value"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_long_option_abbrev_root_version_attached",
+      "capability_id": "cli.long_option_abbreviation",
+      "provenance": "Pinned live Python Proselint 0.16.0 argparse root parser: --vers uniquely abbreviates no-value --version, which rejects `=value`. Observed against the pinned executable at dbed789caae662d06c7c8a5a13dd31f1acd36f5c.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "--vers=value"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_long_option_abbrev_check_demo_attached",
+      "capability_id": "cli.long_option_abbreviation",
+      "provenance": "Pinned live Python Proselint 0.16.0 argparse check parser: --dem uniquely abbreviates no-value --demo, which rejects `=value`. Observed against the pinned executable at dbed789caae662d06c7c8a5a13dd31f1acd36f5c.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--dem=value"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_long_option_abbrev_dump_default_attached",
+      "capability_id": "cli.long_option_abbreviation",
+      "provenance": "Pinned live Python Proselint 0.16.0 argparse dump-config parser: --def uniquely abbreviates no-value --default, which rejects `=value`. Observed against the pinned executable at dbed789caae662d06c7c8a5a13dd31f1acd36f5c.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "dump-config",
+        "--def=value"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    }
   ]
 }

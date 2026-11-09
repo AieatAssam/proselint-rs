@@ -409,8 +409,8 @@ const VE_OF_FORMS: [(&str, &str); 3] = [
     ("would of", "would've"),
 ];
 const MESSAGE: &str = "Annotation left in text.";
-const QUOTES: [char; 6] = ['"', '\'', '“', '”', '‘', '’'];
-const SEPARATORS: &str = " ,.!?:;-\r\n";
+pub(crate) const QUOTES: [char; 6] = ['"', '\'', '“', '”', '‘', '’'];
+pub(crate) const SEPARATORS: &str = " ,.!?:;-\r\n";
 
 /// Format an absolute local path as a `file:` URI, escaping bytes as Python's
 /// `Path.as_uri()` does for the ASCII paths supported by the CLI.
@@ -3541,7 +3541,7 @@ fn is_unicode_word(ch: char) -> bool {
     ch == '_' || ch.is_alphanumeric()
 }
 
-fn quotes_match(open: char, close: char) -> bool {
+pub(crate) fn quotes_match(open: char, close: char) -> bool {
     (matches!(open, '\'' | '"') && open == close)
         || (matches!(
             (open, close),

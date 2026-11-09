@@ -38,6 +38,195 @@ pub fn diagnostics(text: &str) -> Vec<Value> {
     diagnostics
 }
 
+/// Match stdin decoded with Python's surrogateescape convention. Invalid bytes
+/// occupy one code point and therefore break words and repeated phrases.
+pub fn diagnostics_codepoints(text: &[u32]) -> Vec<Value> {
+    if text.is_empty() {
+        return Vec::new();
+    }
+    let mut padded = Vec::with_capacity(text.len() + 2);
+    padded.push('\n' as u32);
+    padded.extend_from_slice(text);
+    padded.push('\n' as u32);
+    let quote_bounds = quote_bounds_codepoints(&padded);
+    let line_bounds = splitlines_bounds_codepoints(&padded);
+    let mut diagnostics = Vec::new();
+    let mut search_from = 0;
+    while search_from < padded.len() {
+        let Some((start, end)) = find_match_codepoints(&padded, search_from) else {
+            break;
+        };
+        let surface: String = padded[start..end]
+            .iter()
+            .filter_map(|&cp| char::from_u32(cp))
+            .collect();
+        let surface = surface.trim();
+        if !is_exception(surface) {
+            let quote_index = quote_bounds.partition_point(|bound| *bound < start);
+            if quote_index % 2 == 0 {
+                let (line, column) = line_col_of(start, &line_bounds);
+                diagnostics.push(json!({"check_path":"lexical_illusions","message":format!("There's a lexical illusion in '{surface}' - a phrase is repeated."),"span":[start,end],"pos":[line,column],"replacements":null}));
+            }
+        }
+        search_from = end;
+    }
+    diagnostics
+}
+
+fn find_match_codepoints(text: &[u32], from: usize) -> Option<(usize, usize)> {
+    for start in from..text.len() {
+        if start > 0 && is_strict_boundary_cp(text[start - 1]) {
+            continue;
+        }
+        let mut ends = Vec::with_capacity(4);
+        let Some(first) = word_end_cp(text, start) else {
+            continue;
+        };
+        ends.push(first);
+        let mut cursor = first;
+        while ends.len() < 4 {
+            let ws = whitespace_end_cp(text, cursor);
+            if ws == cursor {
+                break;
+            }
+            let Some(end) = word_end_cp(text, ws) else {
+                break;
+            };
+            ends.push(end);
+            cursor = end;
+        }
+        for count in (1..=ends.len()).rev() {
+            let phrase_end = ends[count - 1];
+            if let Some(end) = repeated_phrase_end_cp(text, phrase_end, &text[start..phrase_end])
+                && !text.get(end).is_some_and(|&cp| is_strict_boundary_cp(cp))
+            {
+                return Some((start, end));
+            }
+        }
+    }
+    None
+}
+fn word_end_cp(text: &[u32], start: usize) -> Option<usize> {
+    let is_word =
+        |cp: u32| char::from_u32(cp).is_some_and(crate::rules::weasel_words_very::is_python_word);
+    if !text.get(start).is_some_and(|&cp| is_word(cp)) {
+        return None;
+    }
+    let mut end = start + 1;
+    while text.get(end).is_some_and(|&cp| is_word(cp)) {
+        end += 1;
+    }
+    Some(end)
+}
+fn whitespace_end_cp(text: &[u32], start: usize) -> usize {
+    let mut end = start;
+    while text
+        .get(end)
+        .is_some_and(|&cp| char::from_u32(cp).is_some_and(is_python_whitespace))
+    {
+        end += 1;
+    }
+    end
+}
+fn repeated_phrase_end_cp(text: &[u32], phrase_end: usize, phrase: &[u32]) -> Option<usize> {
+    let mut cursor = phrase_end;
+    let mut best = None;
+    loop {
+        let ws = whitespace_end_cp(text, cursor);
+        if ws == cursor {
+            break;
+        }
+        let Some(end) = case_insensitive_phrase_end_cp(text, ws, phrase) else {
+            break;
+        };
+        cursor = end;
+        if !text
+            .get(cursor)
+            .is_some_and(|&cp| is_strict_boundary_cp(cp))
+        {
+            best = Some(cursor);
+        }
+    }
+    best
+}
+fn case_insensitive_phrase_end_cp(text: &[u32], start: usize, phrase: &[u32]) -> Option<usize> {
+    let candidate = text.get(start..start + phrase.len())?;
+    candidate
+        .iter()
+        .zip(phrase)
+        .all(|(&a, &b)| {
+            a == b
+                || char::from_u32(a)
+                    .zip(char::from_u32(b))
+                    .is_some_and(|(a, b)| simple_lower(a) == simple_lower(b))
+        })
+        .then_some(start + phrase.len())
+}
+fn is_strict_boundary_cp(cp: u32) -> bool {
+    char::from_u32(cp).is_some_and(is_strict_boundary_char)
+}
+fn quote_bounds_codepoints(text: &[u32]) -> Vec<usize> {
+    let mut opening: Option<(char, usize)> = None;
+    let mut bounds = Vec::new();
+    for (i, &cp) in text.iter().enumerate() {
+        let Some(q) = char::from_u32(cp) else {
+            continue;
+        };
+        if !crate::QUOTES.contains(&q) {
+            continue;
+        }
+        let word = |at: usize| {
+            text.get(at)
+                .and_then(|&v| char::from_u32(v))
+                .is_some_and(|c| c == '_' || c.is_alphanumeric())
+        };
+        if i > 0 && word(i - 1) && word(i + 1) {
+            continue;
+        }
+        match opening {
+            None => {
+                if i > 0
+                    && text
+                        .get(i - 1)
+                        .and_then(|&v| char::from_u32(v))
+                        .is_some_and(|c| crate::SEPARATORS.contains(c))
+                {
+                    opening = Some((q, i));
+                }
+            }
+            Some((open, oi)) => {
+                if crate::quotes_match(open, q)
+                    && text
+                        .get(i + 1)
+                        .and_then(|&v| char::from_u32(v))
+                        .is_some_and(|c| crate::SEPARATORS.contains(c))
+                {
+                    bounds.extend([oi, i]);
+                    opening = None;
+                }
+            }
+        }
+    }
+    bounds
+}
+fn splitlines_bounds_codepoints(text: &[u32]) -> Vec<usize> {
+    let mut bounds = Vec::new();
+    let mut i = 0;
+    while i < text.len() {
+        let end = match text[i] {
+            13 if text.get(i + 1) == Some(&10) => i + 2,
+            13 | 10 | 11 | 12 | 28 | 29 | 30 | 0x85 | 0x2028 | 0x2029 => i + 1,
+            _ => {
+                i += 1;
+                continue;
+            }
+        };
+        bounds.push(end - 1);
+        i = end;
+    }
+    bounds
+}
+
 fn find_match(text: &[char], from: usize) -> Option<(usize, usize)> {
     for start in from..text.len() {
         if start > 0 && is_strict_boundary_char(text[start - 1]) {

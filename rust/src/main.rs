@@ -969,6 +969,31 @@ fn python_utf8_decode_error_message(bytes: &[u8], error: std::str::Utf8Error) ->
     format!("'utf-8' codec can't decode {span}: {reason}")
 }
 
+fn decode_surrogateescape(bytes: &[u8]) -> Vec<u32> {
+    let mut result = Vec::new();
+    let mut rest = bytes;
+    while !rest.is_empty() {
+        match std::str::from_utf8(rest) {
+            Ok(valid) => {
+                result.extend(valid.chars().map(u32::from));
+                break;
+            }
+            Err(error) => {
+                let valid = error.valid_up_to();
+                result.extend(
+                    std::str::from_utf8(&rest[..valid])
+                        .expect("valid prefix")
+                        .chars()
+                        .map(u32::from),
+                );
+                result.push(0xdc00 + u32::from(rest[valid]));
+                rest = &rest[valid + 1..];
+            }
+        }
+    }
+    result
+}
+
 #[derive(Debug, Parser)]
 #[command(
     name = "proselint",
@@ -2166,7 +2191,8 @@ fn run() -> Result<ExitCode, String> {
                           source: &str,
                           full_source: &str,
                           compact_source: &str,
-                          content: &str|
+                          content: &str,
+                          codepoints: Option<&[u32]>|
      -> Result<(Option<Value>, bool), String> {
         if max_errors_is_invalid {
             return Ok((
@@ -2226,8 +2252,44 @@ fn run() -> Result<ExitCode, String> {
         })?;
 
         let mut diagnostics = Vec::new();
+        let mut consumed = 0usize;
         for selected_check in selected_checks {
-            let check_diagnostics = match selected_check {
+            if max_errors.is_some_and(|limit| consumed >= limit) {
+                break;
+            }
+            if selected_check == SelectedCheck::MiscApologizing
+                && let Some(codepoints) = codepoints
+            {
+                let position = codepoints
+                    .iter()
+                    .position(|&cp| (0xdc80..=0xdcff).contains(&cp));
+                if let Some(position) = position {
+                    let mut end = position + 1;
+                    while end < codepoints.len() && (0xdc80..=0xdcff).contains(&codepoints[end]) {
+                        end += 1;
+                    }
+                    let message = if end == position + 1 {
+                        format!(
+                            "'utf-8' codec can't encode character '\\udc{:02x}' in position {}: surrogates not allowed",
+                            codepoints[position] - 0xdc00,
+                            position + 1
+                        )
+                    } else {
+                        format!(
+                            "'utf-8' codec can't encode characters in position {}-{}: surrogates not allowed",
+                            position + 1,
+                            end
+                        )
+                    };
+                    return Ok((
+                        Some(
+                            serde_json::json!({"error":{"code":-31999,"data":"UnicodeEncodeError","message":message}}),
+                        ),
+                        false,
+                    ));
+                }
+            }
+            let mut check_diagnostics = match selected_check {
                 SelectedCheck::AnnotationsMisc => annotation_diagnostics_in_matcher_order(content),
                 SelectedCheck::Archaism => archaism_diagnostics(content),
                 SelectedCheck::ClichesHell => cliches_hell_diagnostics(content),
@@ -2247,7 +2309,10 @@ fn run() -> Result<ExitCode, String> {
                 SelectedCheck::MiscWhence => whence_diagnostics(content),
                 SelectedCheck::MiscWaxed => misc_waxed_diagnostics(content),
                 SelectedCheck::MiscIllogic => misc_illogic_diagnostics(content),
-                SelectedCheck::LexicalIllusions => lexical_illusions_diagnostics(content),
+                SelectedCheck::LexicalIllusions => codepoints.map_or_else(
+                    || lexical_illusions_diagnostics(content),
+                    proselint_rs::rules::lexical_illusions::diagnostics_codepoints,
+                ),
                 SelectedCheck::MiscTensePresent => misc_tense_present_diagnostics(content),
                 SelectedCheck::MixedMetaphorsBottleneck => {
                     mixed_metaphors_bottleneck_diagnostics(content)
@@ -2360,10 +2425,11 @@ fn run() -> Result<ExitCode, String> {
                     typography_multiplication_diagnostics(content)
                 }
             };
+            if let Some(limit) = max_errors {
+                check_diagnostics.truncate(limit.saturating_sub(consumed));
+            }
+            consumed += check_diagnostics.len();
             diagnostics.extend(check_diagnostics);
-        }
-        if let Some(max_errors) = max_errors {
-            diagnostics.truncate(max_errors);
         }
         diagnostics.sort_by_key(|diagnostic| {
             (
@@ -2409,17 +2475,30 @@ fn run() -> Result<ExitCode, String> {
             "demo.md",
             "demo.md",
             include_str!("../data/demo.md"),
+            None,
         )?;
         if let Some(result) = result {
             file_results.insert("demo.md".to_owned(), result);
         }
         has_findings |= findings;
     } else if paths.is_empty() {
-        let mut input = String::new();
+        let mut bytes = Vec::new();
         io::stdin()
-            .read_to_string(&mut input)
+            .read_to_end(&mut bytes)
             .map_err(|error| format!("Could not read stdin: {error}"))?;
-        let (result, findings) = process_source(None, "<stdin>", "<stdin>", "<stdin>", &input)?;
+        let codepoints = decode_surrogateescape(&bytes);
+        let input: String = codepoints
+            .iter()
+            .filter_map(|&cp| char::from_u32(cp))
+            .collect();
+        let (result, findings) = process_source(
+            None,
+            "<stdin>",
+            "<stdin>",
+            "<stdin>",
+            &input,
+            Some(&codepoints),
+        )?;
         if let Some(result) = result {
             file_results.insert("<stdin>".to_owned(), result);
         }
@@ -2480,7 +2559,7 @@ fn run() -> Result<ExitCode, String> {
                 Err(error) => return Err(format!("Could not read '{}': {error}", path.display())),
             };
             let (result, findings) =
-                process_source(Some(path), &source, &full, &compact, &content)?;
+                process_source(Some(path), &source, &full, &compact, &content, None)?;
             if let Some(result) = result {
                 file_results.insert(source, result);
             }

@@ -617,9 +617,9 @@
     }
   },
   "active_ownership": {
-    "current": "Added a Linux no-passwd-entry HOME-absent blocked reproducer. Shared harness changes passed the 109-test Python suite and the cumulative gate passed 1101/1101 across 123 accepted capabilities. Continue CLI/config parity; rule-data policy decision remains pending.",
+    "current": "Extended accepted cli.config.user_discovery coverage with a HOME-directory candidate case; focused Rust, owner, and independent checks pass. No production behavior changed. The latest cumulative gate remains a valid historical 1101-case pass but predates this case; defer the next cumulative run until its scheduled checkpoint. Rule-data rights decision remains pending.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-    "cumulative_gate": "PASS for current source and Cargo.lock; next gate after shared behavior change, 5–10 capabilities, or before release."
+    "cumulative_gate": "Historical PASS: 1101/1101 across 123 capabilities. One independently verified accepted case was added afterward; the next scheduled cumulative gate must cover it."
   },
   "unresolved": [
     "23 unique rule paths remain unimplemented.",
@@ -3095,9 +3095,10 @@
         "cli_user_discovery_xdg_relative_path",
         "cli_xdg_missing_does_not_fall_back_to_home_check",
         "cli_xdg_missing_does_not_fall_back_to_home_dump_config",
-        "cli_user_discovery_xdg_directory_does_not_fall_back_to_home"
+        "cli_user_discovery_xdg_directory_does_not_fall_back_to_home",
+        "cli_user_discovery_home_directory_candidate_ignored"
       ],
-      "upstream_spec": "After explicit, cwd, and ancestor configs, use XDG_CONFIG_HOME/proselint/config.json when XDG_CONFIG_HOME is nonempty; when unset or empty, use HOME/.config/proselint/config.json. Relative XDG paths resolve from cwd. Select first regular file; malformed selected user configs error without falling through. With a nonempty XDG_CONFIG_HOME whose selected file is missing, use bundled defaults and do not fall back to an existing HOME config.",
+      "upstream_spec": "After explicit, cwd, and ancestor configs, use XDG_CONFIG_HOME/proselint/config.json when XDG_CONFIG_HOME is nonempty; when unset or empty, use HOME/.config/proselint/config.json. Relative XDG paths resolve from cwd. Select the first regular file; skip a HOME candidate that is a directory. Malformed selected user configs error without falling through. With a nonempty XDG_CONFIG_HOME whose selected file is missing, use bundled defaults and do not fall back to an existing HOME config.",
       "red": {
         "behavioral_mismatches": 5,
         "total_cases": 8,
@@ -3122,7 +3123,7 @@
       },
       "limitations": [
         "HOME-unset platform home resolution and no-passwd-entry behavior remain unverified.",
-        "A nonempty XDG candidate that is a directory is covered; HOME candidate directories and other non-regular user-config paths remain unverified.",
+        "A nonempty XDG candidate that is a directory is covered; other non-regular user-config paths remain unverified.",
         "No-config DEFAULT was independently probed in three cases; full default-config parity still depends on the 23 unimplemented rules."
       ],
       "cumulative_live_parity": {
@@ -3139,10 +3140,10 @@
         "source_fingerprint": "101c03576b211413e9fe167098e33aeeca15933e5a60752ebea64dc40a6ecd84"
       },
       "specification": {
-        "live_cases": 11,
+        "live_cases": 12,
         "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
         "comparison": "Exact status and stderr; JSON structure preserves source/diagnostic fields. No normalisation is needed for stdin source keys.",
-        "scope_limit": "Covers XDG/HOME precedence, relative XDG paths, and a nonempty XDG candidate that is a directory while a distinct HOME config exists. HOME-unset platform resolution, HOME candidate directories, and other non-regular user-config paths remain unverified."
+        "scope_limit": "Covers XDG/HOME precedence, relative XDG paths, and a nonempty XDG candidate that is a directory while a distinct HOME config exists. HOME-unset platform resolution, other non-regular user-config paths remain unverified."
       },
       "upstream_source": "Pinned proselint/config/paths.py:16-26; proselint/config/__init__.py:98-105; Rust rust/src/main.rs::user_config_path",
       "directory_candidate_coverage_extension": {
@@ -3166,6 +3167,39 @@
         "source_fingerprint": "5a474a0a5769273be1ad2d90c1733bdda0311731bd14121e2c20111f5c11b1d4",
         "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
         "cumulative_gate": "deferred; no Rust production/shared behavior change and no new-capability checkpoint due"
+      },
+      "home_directory_candidate_coverage_extension": {
+        "status": "focused_and_independent_PASS_pending_scheduled_cumulative_gate",
+        "added_cases": 1,
+        "case_id": "cli_user_discovery_home_directory_candidate_ignored",
+        "case_kind": "coverage_only_existing_behavior",
+        "upstream_source": "proselint/config/paths.py::config_paths and proselint/config/__init__.py::load_from use Path.is_file; rust/src/main.rs::user_config_path uses Path::is_file.",
+        "red_stage": "not applicable: this extends an already accepted capability; direct pinned-oracle probe and current Rust probe both selected bundled defaults, so no production defect was found.",
+        "focused_rust_test": {
+          "passed": 1,
+          "seconds": 8.89,
+          "command": "cargo test --locked --manifest-path rust/Cargo.toml --test cli_user_config_discovery directory_home_candidate_is_ignored"
+        },
+        "manifest_contract_test": {
+          "passed": 1,
+          "seconds": 0.466,
+          "test": "ComparatorTests.test_real_manifest_schema_and_unique_ids"
+        },
+        "comparator_self_tests_passed": 23,
+        "candidate_attestation": "rust/artifacts/20261109T052205200063Z-build.attestation.json",
+        "candidate_attestation_sha256": "24e87152f1384587daae2af19d9457d7743a83addd5a57e6c47a7dbb567ad619",
+        "source_fingerprint": "1c72f9bba9b5509bc1d5642972c55146cafed4571d9d5d0a00dbdd28d6bf14fc",
+        "candidate_sha256": "fd161b894677227709bc886b01c290bdf7c617bc4abda13eca881268366db424",
+        "cargo_lock_sha256": "05212984084365b79c499cd3c111ceb71349e05968ff8b21316e6ec64fd76fc1",
+        "owner_report": "rust/artifacts/home-directory-candidate-owner-final-20261109.json",
+        "owner_report_sha256": "5cc5bb6bcb31adb97a25c61da1b85648a9db83bcda61e3cf5dfb0e42b687d873",
+        "owner_cases_passed": 12,
+        "owner_seconds": 23.623549,
+        "independent_report": "rust/artifacts/independent-cli-user-discovery-final-refresh-20261109/live-comparison.json",
+        "independent_report_sha256": "768a92dcf784315198b699bfd4f52022710aac161ee4acd665d4a00dcb161948",
+        "independent_cases_passed": 12,
+        "independent_seconds": 22.231393,
+        "cumulative_gate": "deferred; coverage-only case added to an accepted capability, with no production/shared behavior change; schedule at the next gate checkpoint."
       }
     },
     {
@@ -9922,7 +9956,12 @@
       "oracle_integrity": 2.135504,
       "rust_checks_and_build": 135.324069
     },
-    "comparator_self_tests": 23
+    "comparator_self_tests": 23,
+    "scope_matches_current_case_set": false,
+    "current_accepted_case_count": 1102,
+    "pending_case_ids": [
+      "cli_user_discovery_home_directory_candidate_ignored"
+    ]
   },
   "rust_dependencies": {
     "status": "current",
@@ -9959,7 +9998,7 @@
     },
     "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-itoa-20261109.txt"
   },
-  "next_capability_handoff": "Continue CLI/config parity against pinned Proselint 0.16.0. Probe remaining config discovery and path error cases (passwd-home, no passwd entry, HOME unset/platform variation, directory candidates), then unverified subcommand and traversal/decoding edges. Keep the 23 data-backed paths held pending a specific licensing/provenance policy.",
+  "next_capability_handoff": "Continue CLI/config parity against pinned Proselint. Inspect remaining user-config non-regular paths, path encoding/permission behavior, and unverified subcommand/traversal edges. Keep the confirmed HOME-absent/no-passwd mismatch blocked and the 23 rule-data paths held pending rights policy.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

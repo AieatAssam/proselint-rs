@@ -35930,5 +35930,28 @@
       "workspace_mutates": false,
       "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"}
     }
+    ,
+    {
+      "id": "cli_user_discovery_home_directory_candidate_ignored",
+      "capability_id": "cli.config.user_discovery",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c: paths.py chooses HOME when XDG_CONFIG_HOME is unset; load_from checks Path.is_file, skips the directory candidate, and uses bundled DEFAULT.",
+      "preconditions": [
+        "No cwd or ancestor proselint.json fixture; it would take precedence over the isolated HOME candidate."
+      ],
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8", "XDG_CONFIG_HOME": null},
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"},
+      "working_directory": ".",
+      "home_files": [
+        {"path": ".config/proselint/config.json/marker", "content_base64": "eA=="}
+      ]
+    }
   ]
 }

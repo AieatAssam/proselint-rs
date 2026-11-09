@@ -117,6 +117,18 @@ fn home_fallback_when_xdg_unset_or_empty() {
 }
 
 #[test]
+fn directory_home_candidate_is_ignored() {
+    let workspace = Workspace::new();
+    let home = workspace.0.join("home");
+    let expected = workspace.run(None, Some(&home), None);
+    workspace.write("home/.config/proselint/config.json/marker", "x");
+    let actual = workspace.run(None, Some(&home), None);
+    assert_eq!(actual.status, expected.status);
+    assert_eq!(actual.stdout, expected.stdout);
+    assert_eq!(actual.stderr, expected.stderr);
+}
+
+#[test]
 fn cwd_and_ancestor_configs_precede_user_config() {
     let workspace = Workspace::new();
     workspace.write("child/grandchild/xdg/proselint/config.json", apologizing());

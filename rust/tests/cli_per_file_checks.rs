@@ -117,6 +117,32 @@ fn run_dump_config_with_config_and_version(
         .expect("run dump-config with explicit config")
 }
 
+fn assert_dump_config_attribute_error(output: std::process::Output, format: &str, type_name: &str) {
+    let message = format!("'{type_name}' object has no attribute 'items'");
+    assert_eq!(output.status.code(), Some(4), "format {format}");
+    if format == "json" {
+        assert!(output.stderr.is_empty(), "format {format}");
+        let value: Value = serde_json::from_slice(&output.stdout).unwrap();
+        assert_eq!(
+            value["error"],
+            serde_json::json!({
+                "code": -31999,
+                "data": "AttributeError",
+                "message": message
+            }),
+            "format {format}"
+        );
+    } else {
+        assert!(output.stdout.is_empty(), "format {format}");
+        assert_eq!(
+            output.stderr,
+            format!("Unrecoverable error encountered while running proselint: {message}\n")
+                .as_bytes(),
+            "format {format}"
+        );
+    }
+}
+
 #[test]
 fn parent_override_preserves_more_specific_global_child() {
     let output = run_with_config(
@@ -271,4 +297,41 @@ fn dump_config_version_does_not_override_null_per_file_checks_error() {
             );
         }
     }
+}
+
+#[test]
+fn dump_config_invalid_per_file_checks_types_match_python() {
+    for (value, type_name) in [
+        ("[]", "list"),
+        (r#""invalid""#, "str"),
+        ("true", "bool"),
+        ("17", "int"),
+        ("1.5", "float"),
+    ] {
+        let config = format!(r#"{{"checks":{{}},"per_file_checks":{value}}}"#);
+        for format in ["json", "full", "compact"] {
+            assert_dump_config_attribute_error(
+                run_dump_config_with_config(&config, format),
+                format,
+                type_name,
+            );
+        }
+        assert_dump_config_attribute_error(
+            run_dump_config_with_config_and_version(&config, "json", true),
+            "json",
+            type_name,
+        );
+    }
+}
+
+#[test]
+fn dump_config_accepts_empty_per_file_checks_mapping() {
+    let output = run_dump_config_with_config(r#"{"checks":{},"per_file_checks":{}}"#, "json");
+    assert_eq!(output.status.code(), Some(0), "stderr: {:?}", output.stderr);
+    assert!(output.stderr.is_empty());
+    let value: Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert_eq!(
+        value,
+        serde_json::json!({"max_errors":0,"checks":{},"per_file_checks":{}})
+    );
 }

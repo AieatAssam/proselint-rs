@@ -6876,13 +6876,34 @@
         "per_file_checks_null_dump_config_compact",
         "per_file_checks_null_dump_config_version_json",
         "per_file_checks_null_dump_config_version_full",
-        "per_file_checks_null_dump_config_version_compact"
+        "per_file_checks_null_dump_config_version_compact",
+        "per_file_checks_invalid_list_dump_config_json",
+        "per_file_checks_invalid_list_dump_config_full",
+        "per_file_checks_invalid_list_dump_config_compact",
+        "per_file_checks_invalid_list_version_json",
+        "per_file_checks_invalid_string_dump_config_json",
+        "per_file_checks_invalid_string_dump_config_full",
+        "per_file_checks_invalid_string_dump_config_compact",
+        "per_file_checks_invalid_string_version_json",
+        "per_file_checks_invalid_bool_dump_config_json",
+        "per_file_checks_invalid_bool_dump_config_full",
+        "per_file_checks_invalid_bool_dump_config_compact",
+        "per_file_checks_invalid_bool_version_json",
+        "per_file_checks_invalid_int_dump_config_json",
+        "per_file_checks_invalid_int_dump_config_full",
+        "per_file_checks_invalid_int_dump_config_compact",
+        "per_file_checks_invalid_int_version_json",
+        "per_file_checks_invalid_float_dump_config_json",
+        "per_file_checks_invalid_float_dump_config_full",
+        "per_file_checks_invalid_float_dump_config_compact",
+        "per_file_checks_invalid_float_version_json",
+        "per_file_checks_valid_empty_dump_config_json"
       ],
       "registered_entries_exercised": 0,
       "upstream_source": "proselint/config/__init__.py:42-62,78-118; proselint/tools.py:220-228",
       "upstream_spec": "Flatten global and per-file maps, deep-merge each per-file override, choose the first matching pathlib.Path.match key in insertion order; matching per-file overrides can enable supported checks disabled globally. Stdin uses global checks.",
       "specification": {
-        "live_cases": 16,
+        "live_cases": 37,
         "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
         "oracle_source_sha256": "73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831",
         "oracle_integrity": "verified before and after owner and independent comparisons",
@@ -7025,6 +7046,86 @@
           },
           "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
           "source_fingerprint": "45be6d91f2307a5bcacab370c28242b254c780243f7d4e7aa6c953dd795ca61e"
+        },
+        {
+          "date": "2026-11-09",
+          "added_case_ids": [
+            "per_file_checks_invalid_list_dump_config_json",
+            "per_file_checks_invalid_list_dump_config_full",
+            "per_file_checks_invalid_list_dump_config_compact",
+            "per_file_checks_invalid_list_version_json",
+            "per_file_checks_invalid_string_dump_config_json",
+            "per_file_checks_invalid_string_dump_config_full",
+            "per_file_checks_invalid_string_dump_config_compact",
+            "per_file_checks_invalid_string_version_json",
+            "per_file_checks_invalid_bool_dump_config_json",
+            "per_file_checks_invalid_bool_dump_config_full",
+            "per_file_checks_invalid_bool_dump_config_compact",
+            "per_file_checks_invalid_bool_version_json",
+            "per_file_checks_invalid_int_dump_config_json",
+            "per_file_checks_invalid_int_dump_config_full",
+            "per_file_checks_invalid_int_dump_config_compact",
+            "per_file_checks_invalid_int_version_json",
+            "per_file_checks_invalid_float_dump_config_json",
+            "per_file_checks_invalid_float_dump_config_full",
+            "per_file_checks_invalid_float_dump_config_compact",
+            "per_file_checks_invalid_float_version_json",
+            "per_file_checks_valid_empty_dump_config_json"
+          ],
+          "upstream_spec": "Pinned `load_from` calls `.items()` on `per_file_checks`; list, string, bool, int, and float values raise type-specific AttributeError. `dump-config` reports those errors in JSON/full/compact and before `--version`; an empty mapping remains valid.",
+          "red": {
+            "status": "behavioral_failure",
+            "live_mismatches": 20,
+            "live_passes": 17,
+            "duration_seconds": 37.814416,
+            "report": "rust/artifacts/per-file-scalar-live.json",
+            "focused_rust_tests_passed": 9,
+            "focused_rust_tests_failed": 1,
+            "failing_assertion": "scalar dump-config returns Rust exit 0 instead of pinned Python exit 4"
+          },
+          "focused_rust": {
+            "status": "PASS",
+            "cli_per_file_checks_tests": 10,
+            "root_config_precedence_tests": 2,
+            "format_check": "PASS"
+          },
+          "owner_live": {
+            "status": "PASS",
+            "cases": 37,
+            "duration_seconds": 36.429675,
+            "report": "rust/artifacts/per-file-scalar-live-green.json"
+          },
+          "independent_verification": {
+            "status": "PASS",
+            "cases": 37,
+            "duration_seconds": 39.82153,
+            "report": "rust/artifacts/independent-cli-config-per-file-checks-37-20261109T093035.json",
+            "oracle_integrity": "verified before and after",
+            "raw_hashes": "verified"
+          },
+          "harness_suite": {
+            "status": "PASS",
+            "tests": 113,
+            "duration_seconds": 71.414
+          },
+          "cumulative_gate": {
+            "status": "PASS",
+            "report": "rust/artifacts/strict-gate-cli-per-file-scalar-20261109.json",
+            "run_id": "20261109T093433068309Z-516b4fdf",
+            "cases": 1148,
+            "capabilities": 124,
+            "duration_seconds": 1159.252307,
+            "live_comparison_seconds": 1011.306322,
+            "rust_checks_and_build_seconds": 145.174828,
+            "oracle_integrity_seconds": 2.195047,
+            "comparator_self_tests": 23,
+            "manifest_cases": 1159,
+            "excluded_manifest_cases": 11,
+            "source_fingerprint": "20f1879566d14995f4a87d7c288905523d531e4a371a5eaf152f33bf595a2433",
+            "candidate_sha256": "2479c65991c7e054254088fc56bac75f417823c5e010aca3b6f5fe45dc8d393f",
+            "oracle_integrity": "verified"
+          },
+          "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
         }
       ]
     },
@@ -10006,25 +10107,40 @@
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-cli-per-file-null-version-20261109.json",
-    "passed_cases": 1127,
+    "report": "rust/artifacts/strict-gate-cli-per-file-scalar-20261109.json",
+    "passed_cases": 1148,
+    "manifest_cases": 1159,
+    "excluded_manifest_cases": {
+      "harness.oracle_smoke": 2,
+      "cli.product_version_flag": 1,
+      "cli.demo.json": 1,
+      "cli.version.json_metadata": 5,
+      "cli.version.verbose_runtime": 1,
+      "cli.config.no_passwd_home": 1
+    },
+    "intentional_divergence_cases": {
+      "cli.product_version_flag": 1
+    },
+    "unresolved_manifest_cases": 2,
+    "exit_code": 0,
     "capability_count": 124,
-    "source_fingerprint": "4440b2c5f5e1a2365fc87f593af8626a6430848107f4690be777199143c2d5e3",
-    "run_id": "20261109T084301134369Z-2e65ec85",
-    "started_at_utc": "2026-11-09T08:43:01.134345+00:00",
-    "finished_at_utc": "2026-11-09T09:00:02.900002+00:00",
-    "candidate_attestation": "rust/artifacts/20261109T084028425399Z-build.attestation.json",
-    "candidate_sha256": "d0b6537dc58bc0f9872abd8c28f5a2fc78d4dbc7583fb721258f76663eef9bed",
+    "source_fingerprint": "20f1879566d14995f4a87d7c288905523d531e4a371a5eaf152f33bf595a2433",
+    "run_id": "20261109T093433068309Z-516b4fdf",
+    "started_at_utc": "2026-11-09T09:34:33.068277+00:00",
+    "finished_at_utc": "2026-11-09T09:51:23.963124+00:00",
+    "candidate_attestation": "rust/artifacts/20261109T092909321900Z-build.attestation.json",
+    "candidate_sha256": "2479c65991c7e054254088fc56bac75f417823c5e010aca3b6f5fe45dc8d393f",
     "cargo_lock_sha256": "05212984084365b79c499cd3c111ceb71349e05968ff8b21316e6ec64fd76fc1",
-    "duration_seconds": 1178.09944,
+    "duration_seconds": 1159.252307,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.165928,
-      "cumulative_live_comparison": 1022.100652,
-      "oracle_integrity": 2.45789,
-      "rust_checks_and_build": 152.852406
+      "comparator_self_tests": 0.146666,
+      "cumulative_live_comparison": 1011.306322,
+      "oracle_integrity": 2.195047,
+      "rust_checks_and_build": 145.174828
     },
     "comparator_self_tests": 23,
-    "scope_matches_current_case_set": true
+    "scope_matches_current_case_set": true,
+    "current_accepted_case_count": 1148
   },
   "rust_dependencies": {
     "status": "current",

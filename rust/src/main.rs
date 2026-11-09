@@ -1313,6 +1313,7 @@ fn dump_config(
         }
     };
 
+    let mut per_file_checks_error_type = None;
     let loaded = match config_path {
         Some(path) => {
             if let Some(message) = config_directory_error(&path) {
@@ -1387,21 +1388,21 @@ fn dump_config(
             if let Some(type_name) = python_json_root_type(&normalized) {
                 return non_object_config_root_error(type_name, output_format);
             }
-            Some(serde_json::from_str::<Value>(&source).map_err(|error| {
+            let loaded = serde_json::from_str::<Value>(&source).map_err(|error| {
                 format!(
                     "Configuration file '{}' is not valid JSON: {error}",
                     path.display()
                 )
-            })?)
+            })?;
+            per_file_checks_error_type = project_config_fields(&normalized)
+                .and_then(|config| config.per_file_checks_error_type);
+            Some(loaded)
         }
         None => None,
     };
 
-    if loaded
-        .as_ref()
-        .is_some_and(|value| value.get("per_file_checks").is_some_and(Value::is_null))
-    {
-        let message = "'NoneType' object has no attribute 'items'";
+    if let Some(type_name) = per_file_checks_error_type {
+        let message = format!("'{type_name}' object has no attribute 'items'");
         if matches!(output_format, OutputFormat::Json) {
             println!(
                 "{}",

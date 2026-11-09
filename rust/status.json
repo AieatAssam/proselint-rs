@@ -566,6 +566,10 @@
     {
       "id": "rule.spelling.misc",
       "status": "independently_verified"
+    },
+    {
+      "id": "rule.misc.preferred_forms",
+      "status": "independently_verified"
     }
   ],
   "inventory": {
@@ -575,8 +579,8 @@
     "default_enabled_entries": 110,
     "default_disabled_entries": 14,
     "artifact": "rust/inventory.json",
-    "accepted_unique_paths": 100,
-    "unimplemented_unique_paths": 6,
+    "accepted_unique_paths": 101,
+    "unimplemented_unique_paths": 5,
     "last_reconciled_utc": "2026-11-07T11:44:35Z"
   },
   "oracle": {
@@ -689,12 +693,12 @@
     }
   },
   "active_ownership": {
-    "current": "rule.spelling.misc has focused owner and independent sequential live acceptance (8/8 each). Initial owner attempt had six passes and two reference timeouts; isolated quote and Unicode retries passed. The rule retains the raw regex `\\B'till?\\b`. Current coverage is 1358 accepted cases across 140 capabilities, with 100 accepted unique rule paths and 6 unimplemented. The 1324/1324 gate across 136 capabilities is historical and stale; next gate after #141 or earlier for release/shared infrastructure changes. Garner attribution follows the user-authorized package-wide BSD-3-Clause policy basis with attribution/notices and provenance/conflict caveats.",
+    "current": "The serial five-capability cumulative gate passes 1368/1368 across 141 accepted capabilities and matches the current accepted case set. Two prior full-gate attempts timed out on the reference and remain recorded as failed attempts; serial execution cleared the timeouts. Continue eligible inventory work and unresolved CLI/config parity; preserve attribution/notices and provenance caveats.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-    "cumulative_gate": "Historical PASS: 1324/1324 across 136 capabilities; report rust/artifacts/strict-gate-five-rules-checkpoint-20261109.json; run 20261109T164242161665Z-5e3d94ef. Stale for current 1358 accepted cases across 140 capabilities; scope_matches_current_case_set=false. Next gate after #141 unless release/shared infrastructure changes require it sooner."
+    "cumulative_gate": "PASS: 1368/1368 across 141 accepted capabilities; report rust/artifacts/strict-gate-five-capability-checkpoint-141-ascii-fast-path-serial-20261109.json; run 20261109T202239851013Z-c18c5091; source fingerprint f37b76c052f015abd93de783ffd043b24bdfb3c2099de8f9cc19c53208cfa4b1; scope matches current accepted case set. Earlier timeout attempts remain failed historical attempts."
   },
   "unresolved": [
-    "6 unique rule paths remain unimplemented.",
+    "5 unique rule paths remain unimplemented.",
     "Other CLI/config behavior remains unverified, including passwd-home config-present behavior, HOME-absent no-passwd-entry config behavior (confirmed mismatch in cli.config.no_passwd_home; see harness.latest_no_passwd_home_case), other subcommands, HOME-unset platform variation, directory candidates, and traversal/decoding edges.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
     "Directory/non-UTF-8 path error formatting on non-Linux platforms remains unverified.",
@@ -714,6 +718,85 @@
     "The Linux HOME-absent/no-passwd-entry reproducer remains a confirmed mismatch: pinned Python fails during import with an installation-specific traceback while Rust completes the command; it is blocked and excluded from production_capabilities."
   ],
   "capability_states": [
+    {
+      "id": "rule.misc.preferred_forms",
+      "status": "independently_verified",
+      "case_ids": [
+        "preferred_forms_all_136_main_mappings",
+        "preferred_forms_strict_ascii_boundaries",
+        "preferred_forms_strict_non_ascii_edges",
+        "preferred_forms_case_insensitive",
+        "preferred_forms_quote_suppression",
+        "preferred_forms_meantime_capital_raw",
+        "preferred_forms_meantime_clause_raw_offset",
+        "preferred_forms_mixed_order",
+        "preferred_forms_no_hit",
+        "preferred_forms_default_enabled"
+      ],
+      "upstream_spec": "Pinned Proselint 0.16.0; data attributed to Garner. Reuse follows the user-authorized package-wide BSD-3-Clause policy basis with attribution/notices retained and provenance/conflicting-term caveats.",
+      "red": {
+        "status": "MISMATCH",
+        "report": "rust/artifacts/misc-preferred-forms-red-final-20261109.json",
+        "run_id": "20261109T182304616064Z-c910d592",
+        "cases": 10,
+        "mismatches": 10,
+        "errors": 0
+      },
+      "green": {
+        "status": "PASS",
+        "owner_report": "rust/artifacts/misc-preferred-forms-owner-post-ascii-20261110.json",
+        "owner_run_id": "20261109T194950562501Z-3cbada36",
+        "owner_cases_passed": 10,
+        "independent_report": "rust/artifacts/independent-misc-preferred-forms-post-ascii-live-final.json",
+        "independent_run_id": "20261109T195055855707Z-9391fa12",
+        "independent_cases_passed": 10,
+        "mismatches": 0,
+        "timeouts": 0,
+        "errors": 0,
+        "focused_rust_tests": "3/3 PASS",
+        "fmt": "PASS",
+        "comparator_self_tests": "23/23 PASS",
+        "build_attestation": "rust/artifacts/20261109T194915735036Z-build.attestation.json",
+        "source_fingerprint": "f37b76c052f015abd93de783ffd043b24bdfb3c2099de8f9cc19c53208cfa4b1",
+        "candidate_sha256": "eff63f0ead8ed86b0e199acb387d2d1adae87c631c19855513769b72977c0dd3",
+        "build_attestation_sha256": "49909f3f64b92d0afdb3da20f9b4122d729c73f08fac54a13a6d0630aac214c7",
+        "cargo_lock_sha256": "05212984084365b79c499cd3c111ceb71349e05968ff8b21316e6ec64fd76fc1"
+      },
+      "coverage_at_acceptance": {
+        "accepted_cases": 1368,
+        "manifest_cases": 1379,
+        "capabilities": 141,
+        "accepted_rule_paths": 101,
+        "unimplemented_rule_paths": 5
+      },
+      "cumulative_gate": {
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-five-capability-checkpoint-141-ascii-fast-path-serial-20261109.json",
+        "passed_cases": 1368,
+        "capabilities": 141,
+        "scope_matches_current_case_set": true,
+        "prior_failed_attempts": [
+          {
+            "report": "rust/artifacts/strict-gate-five-capability-checkpoint-141-20261109.json",
+            "run_id": "20261109T183927922988Z-f12dbafc",
+            "status": "FAILED_MISMATCH",
+            "passed_cases": 1351,
+            "timeouts": 17,
+            "mismatches": 0,
+            "note": "Candidate timeouts under parallel load; preserved as failed attempt."
+          },
+          {
+            "report": "rust/artifacts/strict-gate-five-capability-checkpoint-141-ascii-fast-path-20261109.json",
+            "run_id": "20261109T195613717676Z-dafd5156",
+            "status": "FAILED_MISMATCH",
+            "passed_cases": 1360,
+            "timeouts": 8,
+            "mismatches": 0,
+            "note": "Candidate timeouts under parallel load; preserved as failed attempt."
+          }
+        ]
+      }
+    },
     {
       "id": "rule.spelling.misc",
       "status": "independently_verified",
@@ -770,12 +853,16 @@
         "unimplemented_rule_paths": 6
       },
       "cumulative_gate": {
-        "status": "historical_PASS_stale_current_scope_not_run",
-        "report": "rust/artifacts/strict-gate-five-rules-checkpoint-20261109.json",
-        "passed_cases": 1324,
-        "capabilities": 136,
-        "scope_matches_current_case_set": false,
-        "note": "Schedule after capability #141 (five accepted capabilities since the gate) or earlier for release/shared infrastructure changes."
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-five-capability-checkpoint-141-ascii-fast-path-serial-20261109.json",
+        "passed_cases": 1368,
+        "capabilities": 141,
+        "mismatches": 0,
+        "timeouts": 0,
+        "errors": 0,
+        "run_id": "20261109T202239851013Z-c18c5091",
+        "source_fingerprint": "f37b76c052f015abd93de783ffd043b24bdfb3c2099de8f9cc19c53208cfa4b1",
+        "scope_matches_current_case_set": true
       }
     },
     {
@@ -827,11 +914,16 @@
         "unimplemented_rule_paths": 7
       },
       "cumulative_gate": {
-        "status": "historical_PASS_stale_current_scope_not_run",
-        "passed_cases": 1324,
-        "capabilities": 136,
-        "scope_matches_current_case_set": false,
-        "note": "Run cumulative gate after capability #141, unless a release or shared infrastructure change requires it sooner."
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-five-capability-checkpoint-141-ascii-fast-path-serial-20261109.json",
+        "passed_cases": 1368,
+        "capabilities": 141,
+        "mismatches": 0,
+        "timeouts": 0,
+        "errors": 0,
+        "run_id": "20261109T202239851013Z-c18c5091",
+        "source_fingerprint": "f37b76c052f015abd93de783ffd043b24bdfb3c2099de8f9cc19c53208cfa4b1",
+        "scope_matches_current_case_set": true
       }
     },
     {
@@ -895,11 +987,16 @@
         "unimplemented_rule_paths": 8
       },
       "cumulative_gate": {
-        "status": "historical_PASS_stale_current_scope_not_run",
-        "passed_cases": 1324,
-        "capabilities": 136,
-        "scope_matches_current_case_set": false,
-        "note": "Run cumulative gate after capability #141, unless a release or shared infrastructure change requires it sooner."
+        "status": "PASS",
+        "report": "rust/artifacts/strict-gate-five-capability-checkpoint-141-ascii-fast-path-serial-20261109.json",
+        "passed_cases": 1368,
+        "capabilities": 141,
+        "mismatches": 0,
+        "timeouts": 0,
+        "errors": 0,
+        "run_id": "20261109T202239851013Z-c18c5091",
+        "source_fingerprint": "f37b76c052f015abd93de783ffd043b24bdfb3c2099de8f9cc19c53208cfa4b1",
+        "scope_matches_current_case_set": true
       }
     },
     {
@@ -11318,10 +11415,10 @@
     }
   ],
   "last_strict_gate": {
-    "status": "historical_PASS_stale_current_scope_not_run",
-    "report": "rust/artifacts/strict-gate-five-rules-checkpoint-20261109.json",
-    "passed_cases": 1324,
-    "manifest_cases": 1335,
+    "status": "PASS",
+    "report": "rust/artifacts/strict-gate-five-capability-checkpoint-141-ascii-fast-path-serial-20261109.json",
+    "passed_cases": 1368,
+    "manifest_cases": 1379,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
       "cli.product_version_flag": 1,
@@ -11335,30 +11432,51 @@
     },
     "unresolved_manifest_cases": 2,
     "exit_code": 0,
-    "capability_count": 136,
-    "source_fingerprint": "9bd429b4d6952b99bf6696e24a8d804b61c1f89bf34a90ceaaefc966b4b1d4f1",
-    "run_id": "20261109T164242161665Z-5e3d94ef",
+    "capability_count": 141,
+    "source_fingerprint": "f37b76c052f015abd93de783ffd043b24bdfb3c2099de8f9cc19c53208cfa4b1",
+    "run_id": "20261109T202239851013Z-c18c5091",
     "cargo_lock_sha256": "05212984084365b79c499cd3c111ceb71349e05968ff8b21316e6ec64fd76fc1",
-    "duration_seconds": 1503.553135,
+    "duration_seconds": 2299.208388,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.141647,
-      "cumulative_live_comparison": 1292.626111,
-      "oracle_integrity": 2.422938,
-      "rust_checks_and_build": 207.835102
+      "cumulative_live_comparison": 2295.361046,
+      "oracle_integrity": 2.445234,
+      "rust_candidate_attestation_reuse": 0.588861,
+      "comparator_self_tests": 0.162365
     },
     "comparator_self_tests": 23,
-    "scope_matches_current_case_set": false,
-    "current_accepted_case_count": 1358,
-    "current_production_case_count": 1358,
-    "current_manifest_case_count": 1369,
-    "current_capability_count": 140,
+    "scope_matches_current_case_set": true,
+    "current_accepted_case_count": 1368,
+    "current_production_case_count": 1368,
+    "current_manifest_case_count": 1379,
+    "current_capability_count": 141,
     "current_unaccepted_manifest_case_count": 11,
     "next_gate_due": false,
-    "candidate_sha256": "769cadf675d876c62ebae96ce69c18cb84b10061249d8872ffceee455a7e1a4d",
-    "build_attestation": "rust/artifacts/20261109T163914412361Z-build.attestation.json",
+    "candidate_sha256": "eff63f0ead8ed86b0e199acb387d2d1adae87c631c19855513769b72977c0dd3",
+    "build_attestation": "rust/artifacts/20261109T195207256184Z-build.attestation.json",
     "next_gate_after_capability": 141,
-    "build_attestation_sha256": "d00c80b9c42ed79eb2a0cdca06a4711e2143305c9b0d659e3ba9e60938c3ac1a",
-    "next_gate_after_accepted_capabilities": 5
+    "build_attestation_sha256": "09cc1b5e7ee4236db8d1e56e8b76f898bc857431e22a47fe1af036cff0df6a46",
+    "next_gate_after_accepted_capabilities": 5,
+    "live_cases": 1368,
+    "prior_failed_attempts": [
+      {
+        "report": "rust/artifacts/strict-gate-five-capability-checkpoint-141-20261109.json",
+        "run_id": "20261109T183927922988Z-f12dbafc",
+        "status": "FAILED_MISMATCH",
+        "passed_cases": 1351,
+        "timeouts": 17,
+        "mismatches": 0,
+        "note": "Candidate timeouts under parallel load; preserved as failed attempt."
+      },
+      {
+        "report": "rust/artifacts/strict-gate-five-capability-checkpoint-141-ascii-fast-path-20261109.json",
+        "run_id": "20261109T195613717676Z-dafd5156",
+        "status": "FAILED_MISMATCH",
+        "passed_cases": 1360,
+        "timeouts": 8,
+        "mismatches": 0,
+        "note": "Candidate timeouts under parallel load; preserved as failed attempt."
+      }
+    ]
   },
   "rust_dependencies": {
     "status": "current",
@@ -11395,7 +11513,7 @@
     },
     "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-itoa-20261109.txt"
   },
-  "next_capability_handoff": "Continue eligible inventory rules and unresolved CLI/config parity, retaining attribution/notices and review provenance/conflicts. The 1324/1324 gate across 136 capabilities is historical and stale for current coverage (1358 cases, 140 capabilities); schedule after capability #141 or earlier for release/shared infrastructure changes.",
+  "next_capability_handoff": "Continue eligible inventory rules and unresolved CLI/config parity. The current serial cumulative gate passes 1368/1368 across 141 capabilities.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

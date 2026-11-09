@@ -20,8 +20,8 @@ use proselint_rs::{
     lexical_illusions_diagnostics, lie_detector_diagnostics, malapropisms_diagnostics,
     many_a_diagnostics_in_matcher_order, mental_telepathy_diagnostics,
     metadiscourse_diagnostics_in_matcher_order, midnight_noon_diagnostics,
-    misc_illogic_diagnostics, misc_tense_present_diagnostics, misc_waxed_diagnostics,
-    misplaced_diagnostics, mixed_metaphors_bottleneck_diagnostics,
+    misc_illogic_diagnostics, misc_preferred_forms_diagnostics, misc_tense_present_diagnostics,
+    misc_waxed_diagnostics, misplaced_diagnostics, mixed_metaphors_bottleneck_diagnostics,
     mixed_metaphors_misc_diagnostics, mondegreens_diagnostics, narcissism_diagnostics,
     nonwords_diagnostics, nordquist_diagnostics, normalize_file_newlines, not_guilty_diagnostics,
     oxymorons_diagnostics, p_equals_zero_diagnostics, phrasal_adjectives_examples_diagnostics,
@@ -2363,7 +2363,7 @@ fn run() -> Result<ExitCode, String> {
             (None, _) | (_, Some(None)) => None,
         };
         let selected_checks = selected_checks.ok_or_else(|| {
-            "this capability supports disabled checks, annotations.misc, archaism, cliches.hell, cliches.misc.garner, cliches.misc.write_good, malapropisms, misc.apologizing, misc.phrasal_adjectives.examples, misc.but, misc.whence, misc.waxed, misc.illogic, misc.illogic.coin, misc.illogic.collusion, misc.tense_present, mixed_metaphors.bottleneck, mixed_metaphors.misc, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.back_formations, misc.many_a, misc.metadiscourse, misc.narcissism, misc.not_guilty, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, misc.scare_quotes, mondegreens, nonwords, oxymorons, redundancy.misc.wallace, redundancy.misc.garner, redundancy.misc.nordquist, redundancy.misc.after_the_deadline, redundancy.ras_syndrome, industrial_language.bureaucratese, industrial_language.commercialese, industrial_language.corporate_speak, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, typography.symbols.curly_quotes, typography.punctuation.misplaced, typography.punctuation.exclamation, typography.punctuation.hyperbole, typography.punctuation.spacing, typography.diacritical_marks, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, dates_times.am_pm.midnight_noon, dates_times.dates.decade_apostrophes, dates_times.dates.month_of_year, spelling.able_atable, spelling.able_ible, spelling.ally_ly, spelling.ance_ence, spelling.athletes, spelling.consistency, spelling.ely_ly, spelling.em_im_en_in, spelling.er_or, spelling.in_un, spelling.misc, spelling.ve_of, skunked_terms, social_awareness.nword, social_awareness.lgbtq.offensive, social_awareness.lgbtq.terms, social_awareness.sexism, weasel_words.very, terms.animal_adjectives, terms.denizen_labels.garner, terms.denizen_labels.norris, terms.venery, or terms.eponymous_adjectives only".to_owned()
+            "this capability supports disabled checks, annotations.misc, archaism, cliches.hell, cliches.misc.garner, cliches.misc.write_good, malapropisms, misc.apologizing, misc.phrasal_adjectives.examples, misc.preferred_forms, misc.but, misc.whence, misc.waxed, misc.illogic, misc.illogic.coin, misc.illogic.collusion, misc.tense_present, mixed_metaphors.bottleneck, mixed_metaphors.misc, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.back_formations, misc.many_a, misc.metadiscourse, misc.narcissism, misc.not_guilty, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, misc.scare_quotes, mondegreens, nonwords, oxymorons, redundancy.misc.wallace, redundancy.misc.garner, redundancy.misc.nordquist, redundancy.misc.after_the_deadline, redundancy.ras_syndrome, industrial_language.bureaucratese, industrial_language.commercialese, industrial_language.corporate_speak, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, typography.symbols.curly_quotes, typography.punctuation.misplaced, typography.punctuation.exclamation, typography.punctuation.hyperbole, typography.punctuation.spacing, typography.diacritical_marks, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, dates_times.am_pm.midnight_noon, dates_times.dates.decade_apostrophes, dates_times.dates.month_of_year, spelling.able_atable, spelling.able_ible, spelling.ally_ly, spelling.ance_ence, spelling.athletes, spelling.consistency, spelling.ely_ly, spelling.em_im_en_in, spelling.er_or, spelling.in_un, spelling.misc, spelling.ve_of, skunked_terms, social_awareness.nword, social_awareness.lgbtq.offensive, social_awareness.lgbtq.terms, social_awareness.sexism, weasel_words.very, terms.animal_adjectives, terms.denizen_labels.garner, terms.denizen_labels.norris, terms.venery, or terms.eponymous_adjectives only".to_owned()
         })?;
 
         let mut diagnostics = Vec::new();
@@ -2433,6 +2433,7 @@ fn run() -> Result<ExitCode, String> {
                 SelectedCheck::MiscPhrasalAdjectivesExamples => {
                     phrasal_adjectives_examples_diagnostics(content)
                 }
+                SelectedCheck::MiscPreferredForms => misc_preferred_forms_diagnostics(content),
                 SelectedCheck::MiscBut => but_diagnostics(content),
                 SelectedCheck::MiscWhence => whence_diagnostics(content),
                 SelectedCheck::MiscWaxed => misc_waxed_diagnostics(content),
@@ -2773,6 +2774,7 @@ enum SelectedCheck {
     MiscNotGuilty,
     MiscPhrasalAdjectivesLy,
     MiscPhrasalAdjectivesExamples,
+    MiscPreferredForms,
     MiscPretension,
     MiscProfessions,
     MiscScareQuotes,
@@ -2878,6 +2880,7 @@ impl SelectedCheck {
             MiscNotGuilty,
             MiscPhrasalAdjectivesLy,
             MiscPhrasalAdjectivesExamples,
+            MiscPreferredForms,
             MiscPretension,
             MiscProfessions,
             MiscScareQuotes,
@@ -2960,6 +2963,7 @@ fn supported_checks(checks: &Value) -> Option<Vec<SelectedCheck>> {
             ["misc", "phrasal_adjectives", "examples"] => {
                 Some(SelectedCheck::MiscPhrasalAdjectivesExamples)
             }
+            ["misc", "preferred_forms"] => Some(SelectedCheck::MiscPreferredForms),
             ["misc", "but"] => Some(SelectedCheck::MiscBut),
             ["misc", "whence"] => Some(SelectedCheck::MiscWhence),
             ["misc", "waxed"] => Some(SelectedCheck::MiscWaxed),
@@ -3170,6 +3174,7 @@ fn selected_check_path(check: SelectedCheck) -> &'static str {
         SelectedCheck::MiscApologizing => "misc.apologizing",
         SelectedCheck::MiscPhrasalAdjectivesLy => "misc.phrasal_adjectives.ly",
         SelectedCheck::MiscPhrasalAdjectivesExamples => "misc.phrasal_adjectives.examples",
+        SelectedCheck::MiscPreferredForms => "misc.preferred_forms",
         SelectedCheck::MiscBut => "misc.but",
         SelectedCheck::MiscWhence => "misc.whence",
         SelectedCheck::MiscWaxed => "misc.waxed",

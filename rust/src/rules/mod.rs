@@ -11,6 +11,7 @@ pub mod industrial_language_commercialese;
 pub mod industrial_language_corporate_speak;
 pub mod lexical_illusions;
 pub mod misc_illogic;
+pub mod misc_preferred_forms;
 pub mod misc_tense_present;
 pub mod misc_waxed;
 pub mod misplaced;

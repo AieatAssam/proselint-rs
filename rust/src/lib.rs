@@ -14,6 +14,7 @@ pub use rules::industrial_language_commercialese::diagnostics as commercialese_d
 pub use rules::industrial_language_corporate_speak::diagnostics as corporate_speak_diagnostics;
 pub use rules::lexical_illusions::diagnostics as lexical_illusions_diagnostics;
 pub use rules::misc_illogic::diagnostics as misc_illogic_diagnostics;
+pub use rules::misc_preferred_forms::diagnostics as misc_preferred_forms_diagnostics;
 pub use rules::misc_tense_present::diagnostics as misc_tense_present_diagnostics;
 pub use rules::misc_waxed::diagnostics as misc_waxed_diagnostics;
 pub use rules::misplaced::diagnostics as misplaced_diagnostics;

@@ -550,6 +550,10 @@
     {
       "id": "rule.social_awareness.sexism",
       "status": "independently_verified"
+    },
+    {
+      "id": "rule.misc.phrasal_adjectives.examples",
+      "status": "independently_verified"
     }
   ],
   "inventory": {
@@ -673,12 +677,12 @@
     }
   },
   "active_ownership": {
-    "current": "The five-rule cumulative checkpoint passes 1324/1324 across 136 accepted capabilities and matches the current accepted case set, with zero mismatches, errors, or timeouts. Current production coverage is 1324/1335 manifest cases. Continue with the next eligible rule and unresolved CLI/config parity; retain attribution/notices and provenance/conflict caveats.",
+    "current": "rule.misc.phrasal_adjectives.examples has focused owner and independent live acceptance (8/8 each), with the U.S. mapping preserved as the literal string 'None'. Current coverage is 1332 accepted production cases across 137 capabilities, with 97 accepted and 9 unimplemented rule paths. The 1324/1324 cumulative gate across 136 capabilities is historical and stale for this case set; schedule the next gate after 5–10 additional accepted capabilities or before release/shared infrastructure changes. Garner attribution follows the package-wide BSD-3-Clause policy basis with attribution/notices and provenance/conflict caveats.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-    "cumulative_gate": "PASS: 1324/1324 across 136 accepted capabilities; report rust/artifacts/strict-gate-five-rules-checkpoint-20261109.json; run 20261109T164242161665Z-5e3d94ef; source fingerprint 9bd429b4d6952b99bf6696e24a8d804b61c1f89bf34a90ceaaefc966b4b1d4f1; scope matches current accepted case set."
+    "cumulative_gate": "Historical PASS: 1324/1324 across 136 capabilities; report rust/artifacts/strict-gate-five-rules-checkpoint-20261109.json; run 20261109T164242161665Z-5e3d94ef. Stale for current 1332 accepted cases across 137 capabilities; scope_matches_current_case_set=false."
   },
   "unresolved": [
-    "10 unique rule paths remain unimplemented.",
+    "9 unique rule paths remain unimplemented.",
     "Other CLI/config behavior remains unverified, including passwd-home config-present behavior, HOME-absent no-passwd-entry config behavior (confirmed mismatch in cli.config.no_passwd_home; see harness.latest_no_passwd_home_case), other subcommands, HOME-unset platform variation, directory candidates, and traversal/decoding edges.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
     "Directory/non-UTF-8 path error formatting on non-Linux platforms remains unverified.",
@@ -698,6 +702,61 @@
     "The Linux HOME-absent/no-passwd-entry reproducer remains a confirmed mismatch: pinned Python fails during import with an installation-specific traceback while Rust completes the command; it is blocked and excluded from production_capabilities."
   ],
   "capability_states": [
+    {
+      "id": "rule.misc.phrasal_adjectives.examples",
+      "status": "independently_verified",
+      "case_ids": [
+        "phrasal_adjectives_examples_all_99",
+        "phrasal_adjectives_examples_us_none",
+        "phrasal_adjectives_examples_case_and_order",
+        "phrasal_adjectives_examples_boundaries",
+        "phrasal_adjectives_examples_quote_suppression",
+        "phrasal_adjectives_examples_unicode",
+        "phrasal_adjectives_examples_no_hit",
+        "phrasal_adjectives_examples_default_enabled"
+      ],
+      "upstream_spec": "Pinned Proselint 0.16.0; data attributed to Garner. Reuse follows the user-authorized package-wide BSD-3-Clause policy basis with attribution/notices retained and provenance/conflicting-term caveats.",
+      "red": {
+        "status": "MISMATCH",
+        "report": "rust/artifacts/phrasal-adjectives-examples-red-final-20261109.json",
+        "run_id": "20261109T171147049106Z-276fc854",
+        "cases": 8,
+        "mismatches": 8,
+        "errors": 0
+      },
+      "green": {
+        "status": "PASS",
+        "owner_report": "rust/artifacts/phrasal-adjectives-examples-live-final-20261109.json",
+        "owner_run_id": "20261109T171701921229Z-1d91a731",
+        "owner_cases_passed": 8,
+        "independent_report": "rust/artifacts/independent-phrasal-adjectives-examples-live-final.json",
+        "independent_run_id": "20261109T171748257222Z-6f1911f2",
+        "independent_cases_passed": 8,
+        "mismatches": 0,
+        "timeouts": 0,
+        "errors": 0,
+        "focused_rust_tests": "3/3 PASS",
+        "fmt": "PASS",
+        "comparator_self_tests": "23/23 PASS",
+        "build_attestation": "rust/artifacts/20261109T171627615213Z-build.attestation.json",
+        "source_quirk": "U.S. maps to the literal string 'None'."
+      },
+      "coverage_at_acceptance": {
+        "accepted_cases": 1332,
+        "manifest_cases": 1343,
+        "capabilities": 137,
+        "accepted_rule_paths": 97,
+        "unimplemented_rule_paths": 9
+      },
+      "cumulative_gate": {
+        "status": "historical_PASS_stale_current_scope_not_run",
+        "report": "rust/artifacts/strict-gate-five-rules-checkpoint-20261109.json",
+        "passed_cases": 1324,
+        "capabilities": 136,
+        "scope_matches_current_case_set": false,
+        "note": "Schedule after 5–10 additional accepted capabilities or before release/shared infrastructure changes."
+      }
+    },
     {
       "id": "rule.social_awareness.sexism",
       "status": "independently_verified",
@@ -11059,7 +11118,7 @@
     }
   ],
   "last_strict_gate": {
-    "status": "PASS",
+    "status": "historical_PASS_stale_current_scope_not_run",
     "report": "rust/artifacts/strict-gate-five-rules-checkpoint-20261109.json",
     "passed_cases": 1324,
     "manifest_cases": 1335,
@@ -11088,17 +11147,18 @@
       "rust_checks_and_build": 207.835102
     },
     "comparator_self_tests": 23,
-    "scope_matches_current_case_set": true,
-    "current_accepted_case_count": 1324,
-    "current_production_case_count": 1324,
-    "current_manifest_case_count": 1335,
-    "current_capability_count": 136,
+    "scope_matches_current_case_set": false,
+    "current_accepted_case_count": 1332,
+    "current_production_case_count": 1332,
+    "current_manifest_case_count": 1343,
+    "current_capability_count": 137,
     "current_unaccepted_manifest_case_count": 11,
     "next_gate_due": false,
     "candidate_sha256": "769cadf675d876c62ebae96ce69c18cb84b10061249d8872ffceee455a7e1a4d",
     "build_attestation": "rust/artifacts/20261109T163914412361Z-build.attestation.json",
     "next_gate_after_capability": 136,
-    "build_attestation_sha256": "d00c80b9c42ed79eb2a0cdca06a4711e2143305c9b0d659e3ba9e60938c3ac1a"
+    "build_attestation_sha256": "d00c80b9c42ed79eb2a0cdca06a4711e2143305c9b0d659e3ba9e60938c3ac1a",
+    "next_gate_after_accepted_capabilities": 5
   },
   "rust_dependencies": {
     "status": "current",
@@ -11135,7 +11195,7 @@
     },
     "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-itoa-20261109.txt"
   },
-  "next_capability_handoff": "Select the next eligible rule from the inventory and continue unresolved CLI/config parity; retain source attribution/notices and review provenance/conflicts. The current cumulative gate passes 1324/1324 across 136 capabilities.",
+  "next_capability_handoff": "Continue with eligible inventory rules and unresolved CLI/config parity; check provenance and terms and retain attribution/notices. The 1324/1324 gate across 136 capabilities is historical and stale for current coverage (1332 cases, 137 capabilities); schedule another gate after 5–10 additional accepted capabilities or before release/shared infrastructure changes.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

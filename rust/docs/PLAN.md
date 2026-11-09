@@ -2,9 +2,9 @@
 
 ## Latest cumulative gate
 
-The current cumulative gate passes 1324/1324 accepted cases across 136 capabilities, matching the current accepted case set (1324 of 1335 manifest cases), with zero mismatches, errors, or timeouts. Run `20261109T164242161665Z-5e3d94ef` at fingerprint `9bd429b4d6952b99bf6696e24a8d804b61c1f89bf34a90ceaaefc966b4b1d4f1`; report: [`../artifacts/strict-gate-five-rules-checkpoint-20261109.json`](../artifacts/strict-gate-five-rules-checkpoint-20261109.json). See [`status.json`](../status.json) and [`status-history.jsonl`](../status-history.jsonl).
+The latest cumulative gate is historical: it passed 1324/1324 accepted cases across 136 capabilities, but predates `rule.misc.phrasal_adjectives.examples`. Current accepted coverage is 1332/1343 manifest cases across 137 capabilities. Report: [`../artifacts/strict-gate-five-rules-checkpoint-20261109.json`](../artifacts/strict-gate-five-rules-checkpoint-20261109.json), run `20261109T164242161665Z-5e3d94ef`. Schedule another gate after 5–10 additional accepted capabilities or before release/shared infrastructure changes. See [`status.json`](../status.json) and [`status-history.jsonl`](../status-history.jsonl).
 
-The gate took 1503.553135s: live comparison 1292.626111s, Rust checks/build 207.835102s, oracle integrity 2.422938s, and 23 comparator self-tests in 0.141647s. Attestation: [`../artifacts/20261109T163914412361Z-build.attestation.json`](../artifacts/20261109T163914412361Z-build.attestation.json); candidate SHA-256 `d00c80b9c42ed79eb2a0cdca06a4711e2143305c9b0d659e3ba9e60938c3ac1a`.
+At that checkpoint the gate took 1503.553135s: live comparison 1292.626111s, Rust checks/build 207.835102s, oracle integrity 2.422938s, and 23 comparator self-tests in 0.141647s. Its attestation is [`../artifacts/20261109T163914412361Z-build.attestation.json`](../artifacts/20261109T163914412361Z-build.attestation.json).
 
 The strict gate took 1314.014908s: live comparison 1168.309383s, Rust checks/build 142.855777s, oracle integrity 2.196614s, and 23 comparator self-tests in 0.146281s. Evidence: [`../artifacts/strict-gate-social-awareness-lgbtq-terms-20261109.json`](../artifacts/strict-gate-social-awareness-lgbtq-terms-20261109.json).
 
@@ -36,7 +36,11 @@ Execution cadence and evidence-reuse rules are maintained in [`MIGRATION.md`](..
 
 `cli.unrecognized_arguments` matches pinned argparse for 12 live vectors, including subcommand-specific options, unknown short/attached/multiple options, help precedence, and tokens after `--`. A 6-case RED exposed exact stderr/status differences; 11 focused Rust tests, owner and independent live comparisons (12/12 each), and the immediate shared-CLI gate passed. The option-value behavior is now covered by `cli.missing_option_value_before_option` and `cli.missing_option_value_at_argv_end`; other value-taking option contexts remain unverified. Evidence: [`../artifacts/cli-unrecognized-args-red-summary.md`](../artifacts/cli-unrecognized-args-red-summary.md), [`../artifacts/independent-cli-unrecognized-args-final-20261108.json`](../artifacts/independent-cli-unrecognized-args-final-20261108.json), [`../artifacts/strict-gate-unknown-args-final-20261108.json`](../artifacts/strict-gate-unknown-args-final-20261108.json).
 
-The pinned inventory contains 106 unique check paths. Ninety-six rule paths are accepted and 10 remain unimplemented; 41 bounded CLI capabilities are recorded. Current accepted production coverage is 1324/1335 manifest cases across 136 capabilities. The current cumulative gate passes 1324/1324 across 136 capabilities and matches the accepted case set. Preserve duplicate registrations as separate checks and retain unresolved CLI/config behavior in the ledger.
+The pinned inventory contains 106 unique check paths. Ninety-seven rule paths are accepted and 9 remain unimplemented; 41 bounded CLI capabilities are recorded. Current accepted production coverage is 1332/1343 manifest cases across 137 capabilities. The 1324/1324 gate across 136 capabilities is historical and stale for this case set. Preserve duplicate registrations as separate checks and retain unresolved CLI/config behavior in the ledger.
+
+### `rule.misc.phrasal_adjectives.examples`
+
+Eight focused owner and independent cases pass after an 8/8 RED. Three focused Rust tests, fmt, and 23 comparator self-tests pass. Preserve the U.S. mapping to the literal string `None`. Garner attribution follows the user-authorized package-wide BSD-3-Clause policy basis with attribution/notices retained and provenance/conflict caveats. Evidence and run IDs are recorded in [`status.json`](../status.json).
 
 ### `rule.social_awareness.sexism`
 

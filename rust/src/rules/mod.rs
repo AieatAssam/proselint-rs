@@ -34,6 +34,7 @@ pub mod spelling_athletes;
 pub mod spelling_consistency;
 pub mod spelling_em_im_en_in;
 pub mod spelling_er_or;
+pub mod spelling_misc;
 pub mod terms_venery;
 pub mod typography_curly_quotes;
 pub mod typography_diacritical_marks;

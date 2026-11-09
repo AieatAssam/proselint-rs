@@ -37,6 +37,7 @@ pub use rules::spelling_athletes::diagnostics as spelling_athletes_diagnostics;
 pub use rules::spelling_consistency::diagnostics as spelling_consistency_diagnostics;
 pub use rules::spelling_em_im_en_in::diagnostics as spelling_em_im_en_in_diagnostics;
 pub use rules::spelling_er_or::diagnostics as spelling_er_or_diagnostics;
+pub use rules::spelling_misc::diagnostics as spelling_misc_diagnostics;
 pub use rules::terms_venery::diagnostics as terms_venery_diagnostics;
 pub use rules::typography_curly_quotes::diagnostics as typography_curly_quotes_diagnostics;
 pub use rules::typography_diacritical_marks::diagnostics as typography_diacritical_marks_diagnostics;

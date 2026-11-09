@@ -34,12 +34,13 @@ use proselint_rs::{
     spelling_ance_ence_diagnostics, spelling_athletes_diagnostics,
     spelling_consistency_diagnostics, spelling_ely_ly_diagnostics,
     spelling_em_im_en_in_diagnostics, spelling_er_or_diagnostics, spelling_in_un_diagnostics,
-    spelling_ve_of_diagnostics, suddenly_diagnostics, terms_venery_diagnostics,
-    typography_copyright_diagnostics, typography_curly_quotes_diagnostics,
-    typography_diacritical_marks_diagnostics, typography_ellipsis_diagnostics,
-    typography_multiplication_diagnostics, typography_sentence_spacing_diagnostics,
-    typography_spacing_diagnostics, typography_trademark_diagnostics, wallace_diagnostics,
-    weasel_words_very_diagnostics, whence_diagnostics,
+    spelling_misc_diagnostics, spelling_ve_of_diagnostics, suddenly_diagnostics,
+    terms_venery_diagnostics, typography_copyright_diagnostics,
+    typography_curly_quotes_diagnostics, typography_diacritical_marks_diagnostics,
+    typography_ellipsis_diagnostics, typography_multiplication_diagnostics,
+    typography_sentence_spacing_diagnostics, typography_spacing_diagnostics,
+    typography_trademark_diagnostics, wallace_diagnostics, weasel_words_very_diagnostics,
+    whence_diagnostics,
 };
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -2362,7 +2363,7 @@ fn run() -> Result<ExitCode, String> {
             (None, _) | (_, Some(None)) => None,
         };
         let selected_checks = selected_checks.ok_or_else(|| {
-            "this capability supports disabled checks, annotations.misc, archaism, cliches.hell, cliches.misc.garner, cliches.misc.write_good, malapropisms, misc.apologizing, misc.phrasal_adjectives.examples, misc.but, misc.whence, misc.waxed, misc.illogic, misc.illogic.coin, misc.illogic.collusion, misc.tense_present, mixed_metaphors.bottleneck, mixed_metaphors.misc, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.back_formations, misc.many_a, misc.metadiscourse, misc.narcissism, misc.not_guilty, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, misc.scare_quotes, mondegreens, nonwords, oxymorons, redundancy.misc.wallace, redundancy.misc.garner, redundancy.misc.nordquist, redundancy.misc.after_the_deadline, redundancy.ras_syndrome, industrial_language.bureaucratese, industrial_language.commercialese, industrial_language.corporate_speak, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, typography.symbols.curly_quotes, typography.punctuation.misplaced, typography.punctuation.exclamation, typography.punctuation.hyperbole, typography.punctuation.spacing, typography.diacritical_marks, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, dates_times.am_pm.midnight_noon, dates_times.dates.decade_apostrophes, dates_times.dates.month_of_year, spelling.able_atable, spelling.able_ible, spelling.ally_ly, spelling.ance_ence, spelling.athletes, spelling.consistency, spelling.ely_ly, spelling.em_im_en_in, spelling.er_or, spelling.in_un, spelling.ve_of, skunked_terms, social_awareness.nword, social_awareness.lgbtq.offensive, social_awareness.lgbtq.terms, social_awareness.sexism, weasel_words.very, terms.animal_adjectives, terms.denizen_labels.garner, terms.denizen_labels.norris, terms.venery, or terms.eponymous_adjectives only".to_owned()
+            "this capability supports disabled checks, annotations.misc, archaism, cliches.hell, cliches.misc.garner, cliches.misc.write_good, malapropisms, misc.apologizing, misc.phrasal_adjectives.examples, misc.but, misc.whence, misc.waxed, misc.illogic, misc.illogic.coin, misc.illogic.collusion, misc.tense_present, mixed_metaphors.bottleneck, mixed_metaphors.misc, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.back_formations, misc.many_a, misc.metadiscourse, misc.narcissism, misc.not_guilty, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, misc.scare_quotes, mondegreens, nonwords, oxymorons, redundancy.misc.wallace, redundancy.misc.garner, redundancy.misc.nordquist, redundancy.misc.after_the_deadline, redundancy.ras_syndrome, industrial_language.bureaucratese, industrial_language.commercialese, industrial_language.corporate_speak, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, typography.symbols.curly_quotes, typography.punctuation.misplaced, typography.punctuation.exclamation, typography.punctuation.hyperbole, typography.punctuation.spacing, typography.diacritical_marks, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, dates_times.am_pm.midnight_noon, dates_times.dates.decade_apostrophes, dates_times.dates.month_of_year, spelling.able_atable, spelling.able_ible, spelling.ally_ly, spelling.ance_ence, spelling.athletes, spelling.consistency, spelling.ely_ly, spelling.em_im_en_in, spelling.er_or, spelling.in_un, spelling.misc, spelling.ve_of, skunked_terms, social_awareness.nword, social_awareness.lgbtq.offensive, social_awareness.lgbtq.terms, social_awareness.sexism, weasel_words.very, terms.animal_adjectives, terms.denizen_labels.garner, terms.denizen_labels.norris, terms.venery, or terms.eponymous_adjectives only".to_owned()
         })?;
 
         let mut diagnostics = Vec::new();
@@ -2540,6 +2541,7 @@ fn run() -> Result<ExitCode, String> {
                 SelectedCheck::SpellingAthletes => spelling_athletes_diagnostics(content),
                 SelectedCheck::SpellingConsistency => spelling_consistency_diagnostics(content),
                 SelectedCheck::SpellingInUn => spelling_in_un_diagnostics(content),
+                SelectedCheck::SpellingMisc => spelling_misc_diagnostics(content),
                 SelectedCheck::SpellingVeOf => spelling_ve_of_diagnostics(content),
                 SelectedCheck::Mondegreens => mondegreens_diagnostics(content),
                 SelectedCheck::Nonwords => nonwords_diagnostics(content),
@@ -2806,6 +2808,7 @@ enum SelectedCheck {
     SpellingEmImEnIn,
     SpellingErOr,
     SpellingInUn,
+    SpellingMisc,
     SpellingVeOf,
     TermsAnimalAdjectives,
     TermsDenizenLabelsGarner,
@@ -2910,6 +2913,7 @@ impl SelectedCheck {
             SpellingEmImEnIn,
             SpellingErOr,
             SpellingInUn,
+            SpellingMisc,
             SpellingVeOf,
             TermsAnimalAdjectives,
             TermsDenizenLabelsGarner,
@@ -3053,6 +3057,7 @@ fn supported_checks(checks: &Value) -> Option<Vec<SelectedCheck>> {
             ["spelling", "athletes"] => Some(SelectedCheck::SpellingAthletes),
             ["spelling", "consistency"] => Some(SelectedCheck::SpellingConsistency),
             ["spelling", "in_un"] => Some(SelectedCheck::SpellingInUn),
+            ["spelling", "misc"] => Some(SelectedCheck::SpellingMisc),
             ["spelling", "ve_of"] => Some(SelectedCheck::SpellingVeOf),
             ["mondegreens"] => Some(SelectedCheck::Mondegreens),
             ["oxymorons"] => Some(SelectedCheck::Oxymorons),
@@ -3232,6 +3237,7 @@ fn selected_check_path(check: SelectedCheck) -> &'static str {
         SelectedCheck::SpellingAthletes => "spelling.athletes",
         SelectedCheck::SpellingConsistency => "spelling.consistency",
         SelectedCheck::SpellingInUn => "spelling.in_un",
+        SelectedCheck::SpellingMisc => "spelling.misc",
         SelectedCheck::SpellingVeOf => "spelling.ve_of",
         SelectedCheck::Mondegreens => "mondegreens",
         SelectedCheck::Nonwords => "nonwords",

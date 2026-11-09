@@ -562,6 +562,10 @@
     {
       "id": "rule.redundancy.misc.after_the_deadline",
       "status": "independently_verified"
+    },
+    {
+      "id": "rule.spelling.misc",
+      "status": "independently_verified"
     }
   ],
   "inventory": {
@@ -571,8 +575,8 @@
     "default_enabled_entries": 110,
     "default_disabled_entries": 14,
     "artifact": "rust/inventory.json",
-    "accepted_unique_paths": 99,
-    "unimplemented_unique_paths": 7,
+    "accepted_unique_paths": 100,
+    "unimplemented_unique_paths": 6,
     "last_reconciled_utc": "2026-11-07T11:44:35Z"
   },
   "oracle": {
@@ -685,12 +689,12 @@
     }
   },
   "active_ownership": {
-    "current": "rule.redundancy.misc.garner and rule.redundancy.misc.after_the_deadline are accepted with focused owner and independent 9/9 live evidence each. Current coverage is 1350 accepted cases across 139 capabilities, with 99 accepted unique rule paths and 7 unimplemented. Garner attribution is retained; after_the_deadline source provenance remains unknown and must be treated with the recorded caveat. The latest cumulative gate at 1324/1324 across 136 capabilities is historical and stale; next gate after capability #141 unless release/shared infrastructure changes require it sooner.",
+    "current": "rule.spelling.misc has focused owner and independent sequential live acceptance (8/8 each). Initial owner attempt had six passes and two reference timeouts; isolated quote and Unicode retries passed. The rule retains the raw regex `\\B'till?\\b`. Current coverage is 1358 accepted cases across 140 capabilities, with 100 accepted unique rule paths and 6 unimplemented. The 1324/1324 gate across 136 capabilities is historical and stale; next gate after #141 or earlier for release/shared infrastructure changes. Garner attribution follows the user-authorized package-wide BSD-3-Clause policy basis with attribution/notices and provenance/conflict caveats.",
     "read_only_oracle": "Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-    "cumulative_gate": "Historical PASS: 1324/1324 across 136 capabilities; report rust/artifacts/strict-gate-five-rules-checkpoint-20261109.json; run 20261109T164242161665Z-5e3d94ef. Stale for current 1350 accepted cases across 139 capabilities; scope_matches_current_case_set=false. Next gate after capability #141 unless earlier release/shared infrastructure change."
+    "cumulative_gate": "Historical PASS: 1324/1324 across 136 capabilities; report rust/artifacts/strict-gate-five-rules-checkpoint-20261109.json; run 20261109T164242161665Z-5e3d94ef. Stale for current 1358 accepted cases across 140 capabilities; scope_matches_current_case_set=false. Next gate after #141 unless release/shared infrastructure changes require it sooner."
   },
   "unresolved": [
-    "7 unique rule paths remain unimplemented.",
+    "6 unique rule paths remain unimplemented.",
     "Other CLI/config behavior remains unverified, including passwd-home config-present behavior, HOME-absent no-passwd-entry config behavior (confirmed mismatch in cli.config.no_passwd_home; see harness.latest_no_passwd_home_case), other subcommands, HOME-unset platform variation, directory candidates, and traversal/decoding edges.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
     "Directory/non-UTF-8 path error formatting on non-Linux platforms remains unverified.",
@@ -710,6 +714,70 @@
     "The Linux HOME-absent/no-passwd-entry reproducer remains a confirmed mismatch: pinned Python fails during import with an installation-specific traceback while Rust completes the command; it is blocked and excluded from production_capabilities."
   ],
   "capability_states": [
+    {
+      "id": "rule.spelling.misc",
+      "status": "independently_verified",
+      "case_ids": [
+        "spelling_misc_all_128",
+        "spelling_misc_til_regex_variants",
+        "spelling_misc_til_raw_boundaries",
+        "spelling_misc_case_capitalization",
+        "spelling_misc_quote_suppression",
+        "spelling_misc_unicode_positions",
+        "spelling_misc_no_hit",
+        "spelling_misc_default_enabled"
+      ],
+      "upstream_spec": "Pinned Proselint 0.16.0; source data attributed to Garner. Reuse follows the user-authorized package-wide BSD-3-Clause policy basis with attribution/notices retained and provenance/conflicting-term caveats.",
+      "red": {
+        "status": "MISMATCH",
+        "report": "rust/artifacts/spelling-misc-red-20261109.json",
+        "run_id": "20261109T180202911285Z-4116d5ed",
+        "cases": 8,
+        "mismatches": 8
+      },
+      "green": {
+        "status": "PASS",
+        "initial_owner_attempt": {
+          "report": "rust/artifacts/spelling-misc-owner-live-20261109.json",
+          "passed_cases": 6,
+          "total_cases": 8,
+          "reference_timeouts": 2
+        },
+        "quote_retry_report": "rust/artifacts/spelling-misc-quote-retry-20261109.json",
+        "quote_retry_status": "PASS",
+        "unicode_retry_report": "rust/artifacts/spelling-misc-unicode-retry-20261109.json",
+        "unicode_retry_status": "PASS",
+        "owner_report": "rust/artifacts/spelling-misc-owner-live-sequential-20261109.json",
+        "owner_run_id": "20261109T181443461192Z-fdf01700",
+        "owner_cases_passed": 8,
+        "independent_report": "rust/artifacts/independent-spelling-misc-live-final.json",
+        "independent_run_id": "20261109T181541046520Z-e2fe81a4",
+        "independent_cases_passed": 8,
+        "mismatches": 0,
+        "timeouts": 0,
+        "errors": 0,
+        "focused_rust_tests": "3/3 PASS",
+        "fmt": "PASS",
+        "comparator_self_tests": "23/23 PASS",
+        "build_attestation": "rust/artifacts/20261109T181211414108Z-build.attestation.json",
+        "source_quirk": "raw regex \\B'till?\\b"
+      },
+      "coverage_at_acceptance": {
+        "accepted_cases": 1358,
+        "manifest_cases": 1369,
+        "capabilities": 140,
+        "accepted_rule_paths": 100,
+        "unimplemented_rule_paths": 6
+      },
+      "cumulative_gate": {
+        "status": "historical_PASS_stale_current_scope_not_run",
+        "report": "rust/artifacts/strict-gate-five-rules-checkpoint-20261109.json",
+        "passed_cases": 1324,
+        "capabilities": 136,
+        "scope_matches_current_case_set": false,
+        "note": "Schedule after capability #141 (five accepted capabilities since the gate) or earlier for release/shared infrastructure changes."
+      }
+    },
     {
       "id": "rule.redundancy.misc.after_the_deadline",
       "status": "independently_verified",
@@ -11280,10 +11348,10 @@
     },
     "comparator_self_tests": 23,
     "scope_matches_current_case_set": false,
-    "current_accepted_case_count": 1350,
-    "current_production_case_count": 1350,
-    "current_manifest_case_count": 1361,
-    "current_capability_count": 139,
+    "current_accepted_case_count": 1358,
+    "current_production_case_count": 1358,
+    "current_manifest_case_count": 1369,
+    "current_capability_count": 140,
     "current_unaccepted_manifest_case_count": 11,
     "next_gate_due": false,
     "candidate_sha256": "769cadf675d876c62ebae96ce69c18cb84b10061249d8872ffceee455a7e1a4d",
@@ -11327,7 +11395,7 @@
     },
     "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-itoa-20261109.txt"
   },
-  "next_capability_handoff": "Continue eligible inventory rules and unresolved CLI/config parity; check provenance and retain attribution/notices. The 1324/1324 gate across 136 capabilities is historical and stale for current 1350 accepted cases across 139 capabilities; schedule the next cumulative gate after capability #141 unless release/shared infrastructure changes require it earlier.",
+  "next_capability_handoff": "Continue eligible inventory rules and unresolved CLI/config parity, retaining attribution/notices and review provenance/conflicts. The 1324/1324 gate across 136 capabilities is historical and stale for current coverage (1358 cases, 140 capabilities); schedule after capability #141 or earlier for release/shared infrastructure changes.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

@@ -1,11 +1,13 @@
 pub mod animal_adjectives;
 pub mod archaism;
+pub mod cliches_garner;
 pub mod cliches_write_good;
 pub mod dash_and_from;
 pub mod denizen_labels_garner;
 pub mod denizen_labels_norris;
 pub mod exclamation;
 pub mod hyperbole;
+pub mod industrial_language_corporate_speak;
 pub mod lexical_illusions;
 pub mod misc_illogic;
 pub mod misc_tense_present;

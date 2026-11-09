@@ -2,9 +2,9 @@
 
 ## Latest cumulative gate
 
-The cumulative gate passes 1292/1292 accepted cases across 131 capabilities, matching the accepted current case set (1292 of 1303 manifest cases), with zero mismatches, timeouts, or errors. Run `20261109T145328835906Z-b09882d6` at fingerprint `16546bad85b3679d0407dd22144b548139b1f06be59bddd4aa8fe98cfb753de5`; report: [`../artifacts/strict-gate-five-capability-checkpoint-20261109.json`](../artifacts/strict-gate-five-capability-checkpoint-20261109.json). See [`status.json`](../status.json) and [`status-history.jsonl`](../status-history.jsonl).
+The latest cumulative gate is historical: it passed 1292/1292 accepted cases across 131 capabilities, but predates `rule.industrial_language.corporate_speak` and `rule.cliches.misc.garner`. Current accepted coverage is 1305/1316 manifest cases across 133 capabilities. The gate report is [`../artifacts/strict-gate-five-capability-checkpoint-20261109.json`](../artifacts/strict-gate-five-capability-checkpoint-20261109.json), run `20261109T145328835906Z-b09882d6`; defer another full gate until the next 5–10-capability checkpoint. See [`status.json`](../status.json) and [`status-history.jsonl`](../status-history.jsonl).
 
-The gate took 1420.515066s: live comparison 1221.257345s, Rust checks/build 196.359711s, oracle integrity 2.190627s, and 23 comparator self-tests in 0.150359s. The prior 1258/1258 checkpoint is historical; the current gate above supersedes it.
+The five-capability checkpoint took 1420.515066s: live comparison 1221.257345s, Rust checks/build 196.359711s, oracle integrity 2.190627s, and 23 comparator self-tests in 0.150359s. It is historical for the current case set.
 
 The strict gate took 1314.014908s: live comparison 1168.309383s, Rust checks/build 142.855777s, oracle integrity 2.196614s, and 23 comparator self-tests in 0.146281s. Evidence: [`../artifacts/strict-gate-social-awareness-lgbtq-terms-20261109.json`](../artifacts/strict-gate-social-awareness-lgbtq-terms-20261109.json).
 
@@ -36,7 +36,15 @@ Execution cadence and evidence-reuse rules are maintained in [`MIGRATION.md`](..
 
 `cli.unrecognized_arguments` matches pinned argparse for 12 live vectors, including subcommand-specific options, unknown short/attached/multiple options, help precedence, and tokens after `--`. A 6-case RED exposed exact stderr/status differences; 11 focused Rust tests, owner and independent live comparisons (12/12 each), and the immediate shared-CLI gate passed. The option-value behavior is now covered by `cli.missing_option_value_before_option` and `cli.missing_option_value_at_argv_end`; other value-taking option contexts remain unverified. Evidence: [`../artifacts/cli-unrecognized-args-red-summary.md`](../artifacts/cli-unrecognized-args-red-summary.md), [`../artifacts/independent-cli-unrecognized-args-final-20261108.json`](../artifacts/independent-cli-unrecognized-args-final-20261108.json), [`../artifacts/strict-gate-unknown-args-final-20261108.json`](../artifacts/strict-gate-unknown-args-final-20261108.json).
 
-The pinned inventory contains 106 unique check paths. Ninety-one rule paths are accepted and 15 remain unimplemented; 41 bounded CLI capabilities are recorded. Current accepted production coverage is 1292/1303 manifest cases across 131 capabilities. The cumulative gate passes 1292/1292 at the current source fingerprint. Preserve duplicate registrations as separate checks and retain unresolved CLI/config behavior in the ledger.
+The pinned inventory contains 106 unique check paths. Ninety-three rule paths are accepted and 13 remain unimplemented; 41 bounded CLI capabilities are recorded. Current accepted production coverage is 1305/1316 manifest cases across 133 capabilities. The latest cumulative gate is historical at 1292/1292 across 131 capabilities and stale for this case set. Preserve duplicate registrations as separate checks and retain unresolved CLI/config behavior in the ledger.
+
+### `rule.industrial_language.corporate_speak`
+
+Six focused owner and independent live cases pass after a 6/6 RED. The focused Rust test set passes 15 total checks. Attribution is Travis Bradberry / Inc.com under the user-authorized package-wide BSD-3-Clause policy basis with notices retained and provenance/conflict caveats. Evidence and run IDs are recorded in [`status.json`](../status.json).
+
+### `rule.cliches.misc.garner`
+
+Seven focused owner and independent live cases pass after a 7/7 RED. An intermediate 6/7 owner attempt exposed that the unchanged default case dispatched unimplemented `corporate_speak`; its report was overwritten. The final comparison uses the shared frozen candidate after both capabilities were implemented. Four focused rule tests, ten no-config CLI tests, and 23 comparator self-tests pass. Garner attribution follows the user-authorized package-wide BSD-3-Clause policy basis with notices retained and provenance/conflict caveats. Evidence and run IDs are recorded in [`status.json`](../status.json).
 
 ### `rule.nonwords`
 

@@ -126,6 +126,28 @@ fn no_config_found_enables_venery() {
 }
 
 #[test]
+fn no_config_found_enables_garner_cliches() {
+    let output = Workspace::new().run(b"A fate worse than death.");
+    assert_eq!(output.status.code(), Some(1), "stderr: {:?}", output.stderr);
+    assert_eq!(
+        output.stdout,
+        "<stdin>:1:1: cliches.misc.garner: 'A fate worse than death' is a cliché\n".as_bytes()
+    );
+    assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
+}
+
+#[test]
+fn no_config_found_enables_corporate_speak() {
+    let output = Workspace::new().run(b"synergy");
+    assert_eq!(output.status.code(), Some(1), "stderr: {:?}", output.stderr);
+    assert_eq!(
+        output.stdout,
+        b"<stdin>:1:1: industrial_language.corporate_speak: Minimize your use of corporate catchphrases like 'synergy'.\n"
+    );
+    assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
+}
+
+#[test]
 fn no_config_found_keeps_clean_input_clean() {
     let output = Workspace::new().run(b"An ordinary sentence.");
     assert_eq!(output.status.code(), Some(0), "stderr: {:?}", output.stderr);

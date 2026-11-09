@@ -3,12 +3,14 @@
 pub mod rules;
 pub use rules::animal_adjectives::diagnostics as animal_adjectives_diagnostics;
 pub use rules::archaism::diagnostics as archaism_diagnostics;
+pub use rules::cliches_garner::diagnostics as cliches_garner_diagnostics;
 pub use rules::cliches_write_good::diagnostics as cliches_write_good_diagnostics;
 pub use rules::dash_and_from::diagnostics as dates_times_dates_dash_and_from_diagnostics;
 pub use rules::denizen_labels_garner::diagnostics as denizen_labels_garner_diagnostics;
 pub use rules::denizen_labels_norris::diagnostics as denizen_labels_norris_diagnostics;
 pub use rules::exclamation::diagnostics as exclamation_diagnostics;
 pub use rules::hyperbole::diagnostics as hyperbole_diagnostics;
+pub use rules::industrial_language_corporate_speak::diagnostics as corporate_speak_diagnostics;
 pub use rules::lexical_illusions::diagnostics as lexical_illusions_diagnostics;
 pub use rules::misc_illogic::diagnostics as misc_illogic_diagnostics;
 pub use rules::misc_tense_present::diagnostics as misc_tense_present_diagnostics;

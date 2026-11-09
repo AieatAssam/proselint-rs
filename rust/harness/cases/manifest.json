@@ -42190,6 +42190,421 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "capability_id": "rule.cliches.misc.garner",
+      "comparison": {
+        "exit_status": "exact",
+        "stderr": "bytes",
+        "stdout": "json"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "expected_oracle_outcome": "findings",
+      "files": [
+        {
+          "content_base64": "eyJjaGVja3MiOnsiY2xpY2hlcyI6eyJtaXNjIjp7Imdhcm5lciI6dHJ1ZX19fSwibWF4X2Vycm9ycyI6MTAwMH0=",
+          "path": "selected.json"
+        }
+      ],
+      "id": "cliches_garner_all_79_phrases",
+      "input_mode": "stdin",
+      "output_format": "json",
+      "provenance": "Pinned Proselint 0.16.0 checks/cliches/misc.py::check_garner using cliches/garner phrase data attributed to Garner's Modern American Usage (http://bit.ly/1T4alrY), retained under user-authorized package BSD-3-Clause policy basis. Expected outputs come only from live pinned Python. Exercises all 79 source patterns, representing the `whet (?:the|your) appetite` regex through its `the` branch.",
+      "stdin_base64": "YSBmYXRlIHdvcnNlIHRoYW4gZGVhdGg7IGFsYXMgYW5kIGFsYWNrOyBhdCB0aGUgZW5kIG9mIHRoZSBkYXk7IGJhbGQtZmFjZWQgbGllOyBiZXR3ZWVuIGEgcm9jayBhbmQgYSBoYXJkIHBsYWNlOyBiZXR3ZWVuIFNjeWxsYSBhbmQgQ2hhcnliZGlzOyBiZXR3ZWVuIHRoZSBkZXZpbCBhbmQgdGhlIGRlZXAgYmx1ZSBzZWE7IGJldHdpeHQgYW5kIGJldHdlZW47IGJsaXNzZnVsIGlnbm9yYW5jZTsgYmxvdyBhIGZ1c2U7IGJ1bGsgbGFyZ2U7IGJ1dCB0aGF0J3MgYW5vdGhlciBzdG9yeTsgY2FzdCBhc3BlcnNpb25zOyBjaGFzZSBhIHJlZCBoZXJyaW5nOyBjb21wYXJpbmcgYXBwbGVzIGFuZCBvcmFuZ2VzOyBjb21wbGVhdDsgY29uc3BpY3VvdXMgYnkgaXRzIGFic2VuY2U7IGNyeXN0YWwgY2xlYXI7IGN1dHRpbmcgZWRnZTsgZGVjaXNpb24tbWFraW5nIHByb2Nlc3M7IGR1YmlvdXMgZGlzdGluY3Rpb247IGR1bHkgYXV0aG9yaXplZDsgZXllcyBwZWVsZWQ7IGZhciBiZSBpdCBmcm9tIG1lOyBmYXN0IGFuZCBsb29zZTsgZmlsbHMgdGhlIGJpbGw7IGZpcnN0IGFuZCBmb3JlbW9zdDsgZm9yIGZyZWU7IGdldCB3aXRoIHRoZSBwcm9ncmFtOyBnaWxkaW5nIHRoZSBsaWx5OyBoYXZlIGEgc2hvcnQgZnVzZTsgaGUncyBnb3QgaGlzIGhhbmRzIGZ1bGw7IGhpcyBvd24gd29yc3QgZW5lbXk7IGhpcyB3b3JrIGN1dCBvdXQgZm9yIGhpbTsgaGl0aGVyIGFuZCB5b247IEhvYnNvbidzIGNob2ljZTsgaG9ybnMgb2YgYSBkaWxlbW1hOyBpZiB5b3UgY2F0Y2ggbXkgZHJpZnQ7IGluIGxpZ2h0IG9mOyBpbiB0aGUgZmluYWwgYW5hbHlzaXM7IGluIHRoZSBsYXN0IGFuYWx5c2lzOyBpbm5vY2VudCBieXN0YW5kZXI7IGl0J3Mgbm90IHdoYXQgeW91IGtub3csIGl0J3Mgd2hvIHlvdSBrbm93OyBsYXN0IGJ1dCBub3QgbGVhc3Q7IG1ha2UgYSBtb2NrZXJ5IG9mOyBtYWxlIGNoYXV2aW5pc207IG1vbWVudCBvZiB0cnV0aDsgbW9yZSBpbiBzb3Jyb3cgdGhhbiBpbiBhbmdlcjsgbW9yZSBzaW5uZWQgYWdhaW5zdCB0aGFuIHNpbm5pbmc7IG15IGJldHRlciBoYWxmOyBuaXAgaW4gdGhlIGJ1ZDsgb2xkZW4gZGF5czsgb24gdGhlIHNhbWUgcGFnZTsgcHJlc2lkZW50aWFsIHRpbWJlcjsgcHVsbGVkIG5vIHB1bmNoZXM7IHF1YW50dW0ganVtcDsgcXVhbnR1bSBsZWFwOyByZWRvdW5kIHRvIG9uZSdzIGNyZWRpdDsgcmVkb3VuZCB0byB0aGUgYmVuZWZpdCBvZjsgc2VhIGNoYW5nZTsgc2hpcmtlZCBoaXMgZHV0aWVzOyBzaXggb2Ygb25lLCBoYWxmIGEgZG96ZW4gb2YgdGhlIG90aGVyOyBzdHJldGNoZWQgdG8gdGhlIGJyZWFraW5nIHBvaW50OyB0aGFuIHlvdSBjYW4gc2hha2UgYSBzdGljayBhdDsgdGhlIGNyZWFtIG9mIHRoZSBjcm9wOyB0aGUgY3JlYW0gcmlzZXMgdG8gdGhlIHRvcDsgdGhlIHN0cmF3IHRoYXQgYnJva2UgdGhlIGNhbWVsJ3MgYmFjazsgdGhpY2sgYXMgdGhpZXZlczsgdGhpbmtpbmcgb3V0c2lkZSB0aGUgYm94OyB0aG91Z2h0IGxlYWRlcnM/OyB0aHJvdyB0aGUgYmFieSBvdXQgd2l0aCB0aGUgYmF0aHdhdGVyOyB2YXJpb3VzIGFuZCBzdW5kcnk7IHZpYWJsZSBhbHRlcm5hdGl2ZTsgd2F4IGVsb3F1ZW50OyB3YXggcG9ldGljOyB3ZSd2ZSBnb3QgYSBzaXR1YXRpb24gaGVyZTsgd2hldCB0aGUgYXBwZXRpdGU7IHdvb2wgcHVsbGVkIG92ZXIgb3VyIGV5ZXM7IHdyaXQgbGFyZ2Uu",
+      "timeout_seconds": 10,
+      "workspace_mutates": false
+    },
+    {
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "capability_id": "rule.cliches.misc.garner",
+      "comparison": {
+        "exit_status": "exact",
+        "stderr": "bytes",
+        "stdout": "json"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "expected_oracle_outcome": "findings",
+      "files": [
+        {
+          "content_base64": "eyJjaGVja3MiOnsiY2xpY2hlcyI6eyJtaXNjIjp7Imdhcm5lciI6dHJ1ZX19fSwibWF4X2Vycm9ycyI6MTAwMH0=",
+          "path": "selected.json"
+        }
+      ],
+      "id": "cliches_garner_boundaries_case_raw",
+      "input_mode": "stdin",
+      "output_format": "json",
+      "provenance": "Pinned Proselint 0.16.0 checks/cliches/misc.py::check_garner using cliches/garner phrase data attributed to Garner's Modern American Usage (http://bit.ly/1T4alrY), retained under user-authorized package BSD-3-Clause policy basis. Expected outputs come only from live pinned Python. Checks case-insensitive phrase matching, raw scan after valid activation, phrase boundaries, and both `whet` regex branches.",
+      "stdin_base64": "QSBGQVRFIFdPUlNFIFRIQU4gREVBVEg7IHhibG93IGEgZnVzZTsgYmxvdyBhIGZ1c2VYOyBibG93IGEgZnVzZTsgV2hlVCB5b3VyIGFwcGV0aXRlIQ==",
+      "timeout_seconds": 10,
+      "workspace_mutates": false
+    },
+    {
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "capability_id": "rule.cliches.misc.garner",
+      "comparison": {
+        "exit_status": "exact",
+        "stderr": "bytes",
+        "stdout": "json"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "expected_oracle_outcome": "findings",
+      "files": [
+        {
+          "content_base64": "eyJjaGVja3MiOnsiY2xpY2hlcyI6eyJtaXNjIjp7Imdhcm5lciI6dHJ1ZX19fSwibWF4X2Vycm9ycyI6MTAwMH0=",
+          "path": "selected.json"
+        }
+      ],
+      "id": "cliches_garner_quotes_unicode",
+      "input_mode": "stdin",
+      "output_format": "json",
+      "provenance": "Pinned Proselint 0.16.0 checks/cliches/misc.py::check_garner using cliches/garner phrase data attributed to Garner's Modern American Usage (http://bit.ly/1T4alrY), retained under user-authorized package BSD-3-Clause policy basis. Expected outputs come only from live pinned Python. Checks paired quote suppression, Unicode coordinates, punctuation, and multiple multiword phrases.",
+      "stdin_base64": "w6kg4oCccXVhbnR1bSBsZWFw4oCdIGJ1dCBhIHF1YW50dW0ganVtcDsg4oCcSG9ic29uJ3MgY2hvaWNl4oCdIGFuZCBIb2Jzb24ncyBjaG9pY2Uu",
+      "timeout_seconds": 10,
+      "workspace_mutates": false
+    },
+    {
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "capability_id": "rule.cliches.misc.garner",
+      "comparison": {
+        "exit_status": "exact",
+        "stderr": "bytes",
+        "stdout": "json"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "expected_oracle_outcome": "findings",
+      "files": [
+        {
+          "content_base64": "eyJjaGVja3MiOnsiY2xpY2hlcyI6eyJtaXNjIjp7Imdhcm5lciI6dHJ1ZX19fSwibWF4X2Vycm9ycyI6MTAwMH0=",
+          "path": "selected.json"
+        }
+      ],
+      "id": "cliches_garner_shared_prefix_order",
+      "input_mode": "stdin",
+      "output_format": "json",
+      "provenance": "Pinned Proselint 0.16.0 checks/cliches/misc.py::check_garner using cliches/garner phrase data attributed to Garner's Modern American Usage (http://bit.ly/1T4alrY), retained under user-authorized package BSD-3-Clause policy basis. Expected outputs come only from live pinned Python. Checks deterministic ordering for two distinct phrases with a shared prefix when text order reverses source-list order.",
+      "stdin_base64": "dGhlIGNyZWFtIHJpc2VzIHRvIHRoZSB0b3A7IHRoZW4gdGhlIGNyZWFtIG9mIHRoZSBjcm9wLg==",
+      "timeout_seconds": 10,
+      "workspace_mutates": false
+    },
+    {
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "capability_id": "rule.cliches.misc.garner",
+      "comparison": {
+        "exit_status": "exact",
+        "stderr": "bytes",
+        "stdout": "json"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "expected_oracle_outcome": "findings",
+      "files": [
+        {
+          "content_base64": "eyJjaGVja3MiOnsiY2xpY2hlcyI6eyJtaXNjIjp7Imdhcm5lciI6dHJ1ZX19fSwibWF4X2Vycm9ycyI6MTAwMH0=",
+          "path": "selected.json"
+        }
+      ],
+      "id": "cliches_garner_punctuation_phrases",
+      "input_mode": "stdin",
+      "output_format": "json",
+      "provenance": "Pinned Proselint 0.16.0 checks/cliches/misc.py::check_garner using cliches/garner phrase data attributed to Garner's Modern American Usage (http://bit.ly/1T4alrY), retained under user-authorized package BSD-3-Clause policy basis. Expected outputs come only from live pinned Python. Checks punctuation-adjacent and multiword matching.",
+      "stdin_base64": "QmV0d2VlbiBhIHJvY2sgYW5kIGEgaGFyZCBwbGFjZT8gRmFyIGJlIGl0IGZyb20gbWU7IGZvciBmcmVlIQ==",
+      "timeout_seconds": 10,
+      "workspace_mutates": false
+    },
+    {
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "capability_id": "rule.cliches.misc.garner",
+      "comparison": {
+        "exit_status": "exact",
+        "stderr": "bytes",
+        "stdout": "json"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "expected_oracle_outcome": "clean",
+      "files": [
+        {
+          "content_base64": "eyJjaGVja3MiOnsiY2xpY2hlcyI6eyJtaXNjIjp7Imdhcm5lciI6dHJ1ZX19fSwibWF4X2Vycm9ycyI6MTAwMH0=",
+          "path": "selected.json"
+        }
+      ],
+      "id": "cliches_garner_no_hit",
+      "input_mode": "stdin",
+      "output_format": "json",
+      "provenance": "Pinned Proselint 0.16.0 checks/cliches/misc.py::check_garner using cliches/garner phrase data attributed to Garner's Modern American Usage (http://bit.ly/1T4alrY), retained under user-authorized package BSD-3-Clause policy basis. Expected outputs come only from live pinned Python. Checks partial phrase fragments and unrelated words produce no finding.",
+      "stdin_base64": "Q2xlYXIgcGxhaW4gcHJvc2UgbWVudGlvbnMgYSBxdWFudHVtIGFuZCBhIHBhZ2UsIGJ1dCBubyBmaXhlZCBjbGljaMOpIHBocmFzZS4=",
+      "timeout_seconds": 10,
+      "workspace_mutates": false
+    },
+    {
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "capability_id": "rule.cliches.misc.garner",
+      "comparison": {
+        "exit_status": "exact",
+        "stderr": "bytes",
+        "stdout": "json"
+      },
+      "config_scenario": "no_config_default",
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "expected_oracle_outcome": "findings",
+      "files": [],
+      "id": "cliches_garner_default_enabled",
+      "input_mode": "stdin",
+      "output_format": "json",
+      "provenance": "Pinned Proselint 0.16.0 checks/cliches/misc.py::check_garner using cliches/garner phrase data attributed to Garner's Modern American Usage (http://bit.ly/1T4alrY), retained under user-authorized package BSD-3-Clause policy basis. Expected outputs come only from live pinned Python. Checks no-config default dispatch for Garner clichés.",
+      "stdin_base64": "QXQgdGhlIGVuZCBvZiB0aGUgZGF5LCBpdCB3YXMgYSBmYXRlIHdvcnNlIHRoYW4gZGVhdGgu",
+      "timeout_seconds": 10,
+      "workspace_mutates": false
+    },
+    {
+      "id": "corporate_speak_all_25_phrases",
+      "capability_id": "rule.industrial_language.corporate_speak",
+      "provenance": "Pinned Proselint 0.16.0 checks/industrial_language/corporate_speak.py::check; upstream source credits Travis Bradberry for Inc.com (http://bit.ly/1IxWnto). Data attribution retained under the user-authorized package BSD-3-Clause policy basis; expected output comes only from pinned live Python. Exercises every one of the 25 upstream phrase patterns.",
+      "input_mode": "stdin",
+      "stdin_base64": "YXQgdGhlIGVuZCBvZiB0aGUgZGF5OyBiYWNrIHRvIHRoZSBkcmF3aW5nIGJvYXJkOyBoaXQgdGhlIGdyb3VuZCBydW5uaW5nOyBnZXQgdGhlIGJhbGwgcm9sbGluZzsgbG93LWhhbmdpbmcgZnJ1aXQ7IHRocm93biB1bmRlciB0aGUgYnVzOyB0aGluayBvdXRzaWRlIHRoZSBib3g7IGxldCdzIHRvdWNoIGJhc2U7IGdldCBteSBtYW5hZ2VyJ3MgYmxlc3Npbmc7IGl0J3Mgb24gbXkgcmFkYXI7IHBpbmcgbWU7IGkgZG9uJ3QgaGF2ZSB0aGUgYmFuZHdpZHRoOyBubyBicmFpbmVyOyBwYXIgZm9yIHRoZSBjb3Vyc2U7IGJhbmcgZm9yIHlvdXIgYnVjazsgc3luZXJneTsgbW92ZSB0aGUgZ29hbCBwb3N0OyBhcHBsZXMgdG8gYXBwbGVzOyB3aW4td2luOyBjaXJjbGUgYmFjayBhcm91bmQ7IGFsbCBoYW5kcyBvbiBkZWNrOyB0YWtlIHRoaXMgb2ZmbGluZTsgZHJpbGwtZG93bjsgZWxlcGhhbnQgaW4gdGhlIHJvb207IG9uIG15IHBsYXRlLg==",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJjb3Jwb3JhdGVfc3BlYWsiOnRydWV9fSwibWF4X2Vycm9ycyI6MTAwMH0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "corporate_speak_case_boundaries_raw",
+      "capability_id": "rule.industrial_language.corporate_speak",
+      "provenance": "Pinned Proselint 0.16.0 checks/industrial_language/corporate_speak.py::check; upstream source credits Travis Bradberry for Inc.com (http://bit.ly/1IxWnto). Data attribution retained under the user-authorized package BSD-3-Clause policy basis; expected output comes only from pinned live Python. Checks case-insensitive matching, WORDS_IN_TEXT boundaries, and raw scans after a valid boundary activation.",
+      "input_mode": "stdin",
+      "stdin_base64": "VEhST1dOIFVOREVSIFRIRSBCVVM7IHhzeW5lcmd5OyBzeW5lcmd5WDsgc3luZXJneS4=",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJjb3Jwb3JhdGVfc3BlYWsiOnRydWV9fSwibWF4X2Vycm9ycyI6MTAwMH0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "corporate_speak_quotes_unicode",
+      "capability_id": "rule.industrial_language.corporate_speak",
+      "provenance": "Pinned Proselint 0.16.0 checks/industrial_language/corporate_speak.py::check; upstream source credits Travis Bradberry for Inc.com (http://bit.ly/1IxWnto). Data attribution retained under the user-authorized package BSD-3-Clause policy basis; expected output comes only from pinned live Python. Checks paired quote suppression, punctuation, Unicode coordinates, and case-insensitive multiword matching.",
+      "input_mode": "stdin",
+      "stdin_base64": "w6kg4oCcbm8gYnJhaW5lcuKAnSBidXQgYSBCQU5HIEZPUiBZT1VSIEJVQ0s7IOKAnG9uIG15IHBsYXRl4oCdLg==",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJjb3Jwb3JhdGVfc3BlYWsiOnRydWV9fSwibWF4X2Vycm9ycyI6MTAwMH0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "corporate_speak_no_hit",
+      "capability_id": "rule.industrial_language.corporate_speak",
+      "provenance": "Pinned Proselint 0.16.0 checks/industrial_language/corporate_speak.py::check; upstream source credits Travis Bradberry for Inc.com (http://bit.ly/1IxWnto). Data attribution retained under the user-authorized package BSD-3-Clause policy basis; expected output comes only from pinned live Python. Checks unrelated business prose does not produce a finding.",
+      "input_mode": "stdin",
+      "stdin_base64": "T3VyIHRlYW0gcmV2aWV3ZWQgdGhlIHJlcG9ydCBkdXJpbmcgdGhlIHJvdXRpbmUgbWVldGluZy4=",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJjb3Jwb3JhdGVfc3BlYWsiOnRydWV9fSwibWF4X2Vycm9ycyI6MTAwMH0="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "corporate_speak_selected_overlap",
+      "capability_id": "rule.industrial_language.corporate_speak",
+      "provenance": "Pinned Proselint 0.16.0 checks/industrial_language/corporate_speak.py::check; upstream source credits Travis Bradberry for Inc.com (http://bit.ly/1IxWnto). Data attribution retained under the user-authorized package BSD-3-Clause policy basis; expected output comes only from pinned live Python. Checks separate corporate_speak and Garner cliché diagnostics for the same phrase.",
+      "input_mode": "stdin",
+      "stdin_base64": "QXQgdGhlIGVuZCBvZiB0aGUgZGF5Lg==",
+      "files": [
+        {
+          "path": "selected.json",
+          "content_base64": "eyJjaGVja3MiOnsiaW5kdXN0cmlhbF9sYW5ndWFnZSI6eyJjb3Jwb3JhdGVfc3BlYWsiOnRydWV9LCJjbGljaGVzIjp7Im1pc2MiOnsiZ2FybmVyIjp0cnVlfX19LCJtYXhfZXJyb3JzIjoxMDAwfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_selected_rule",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "corporate_speak_default_enabled",
+      "capability_id": "rule.industrial_language.corporate_speak",
+      "provenance": "Pinned Proselint 0.16.0 checks/industrial_language/corporate_speak.py::check; upstream source credits Travis Bradberry for Inc.com (http://bit.ly/1IxWnto). Data attribution retained under the user-authorized package BSD-3-Clause policy basis; expected output comes only from pinned live Python. Checks default-enabled corporate_speak alongside other default checks.",
+      "input_mode": "stdin",
+      "stdin_base64": "QXQgdGhlIGVuZCBvZiB0aGUgZGF5LCB3ZSBzaG91bGQgY2lyY2xlIGJhY2su",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

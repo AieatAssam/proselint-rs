@@ -6,8 +6,9 @@ use proselint_rs::{
     bureaucratese_diagnostics, but_diagnostics, capitalization_days_diagnostics_in_matcher_order,
     capitalization_months_diagnostics_in_matcher_order,
     capitalization_seasons_diagnostics_in_matcher_order,
-    capitalization_terms_diagnostics_in_matcher_order, cliches_hell_diagnostics,
-    cliches_write_good_diagnostics, composition_diagnostics_in_matcher_order, currency_diagnostics,
+    capitalization_terms_diagnostics_in_matcher_order, cliches_garner_diagnostics,
+    cliches_hell_diagnostics, cliches_write_good_diagnostics,
+    composition_diagnostics_in_matcher_order, corporate_speak_diagnostics, currency_diagnostics,
     dates_times_dates_dash_and_from_diagnostics, dates_times_dates_month_of_year_diagnostics,
     dates_times_dates_month_year_comma_diagnostics, debased_diagnostics_in_matcher_order,
     decade_apostrophes_diagnostics, denizen_labels_garner_diagnostics,
@@ -2359,7 +2360,7 @@ fn run() -> Result<ExitCode, String> {
             (None, _) | (_, Some(None)) => None,
         };
         let selected_checks = selected_checks.ok_or_else(|| {
-            "this capability supports disabled checks, annotations.misc, archaism, cliches.hell, cliches.misc.write_good, malapropisms, misc.apologizing, misc.but, misc.whence, misc.waxed, misc.illogic, misc.illogic.coin, misc.illogic.collusion, misc.tense_present, mixed_metaphors.bottleneck, mixed_metaphors.misc, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.back_formations, misc.many_a, misc.metadiscourse, misc.narcissism, misc.not_guilty, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, misc.scare_quotes, mondegreens, nonwords, oxymorons, redundancy.misc.wallace, redundancy.misc.nordquist, redundancy.ras_syndrome, industrial_language.bureaucratese, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, typography.symbols.curly_quotes, typography.punctuation.misplaced, typography.punctuation.exclamation, typography.punctuation.hyperbole, typography.punctuation.spacing, typography.diacritical_marks, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, dates_times.am_pm.midnight_noon, dates_times.dates.decade_apostrophes, dates_times.dates.month_of_year, spelling.able_atable, spelling.able_ible, spelling.ally_ly, spelling.ance_ence, spelling.athletes, spelling.ely_ly, spelling.em_im_en_in, spelling.er_or, spelling.in_un, spelling.ve_of, skunked_terms, social_awareness.nword, social_awareness.lgbtq.offensive, social_awareness.lgbtq.terms, weasel_words.very, terms.animal_adjectives, terms.denizen_labels.garner, terms.denizen_labels.norris, terms.venery, or terms.eponymous_adjectives only".to_owned()
+            "this capability supports disabled checks, annotations.misc, archaism, cliches.hell, cliches.misc.garner, cliches.misc.write_good, malapropisms, misc.apologizing, misc.but, misc.whence, misc.waxed, misc.illogic, misc.illogic.coin, misc.illogic.collusion, misc.tense_present, mixed_metaphors.bottleneck, mixed_metaphors.misc, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.back_formations, misc.many_a, misc.metadiscourse, misc.narcissism, misc.not_guilty, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, misc.scare_quotes, mondegreens, nonwords, oxymorons, redundancy.misc.wallace, redundancy.misc.nordquist, redundancy.ras_syndrome, industrial_language.bureaucratese, industrial_language.corporate_speak, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, typography.symbols.curly_quotes, typography.punctuation.misplaced, typography.punctuation.exclamation, typography.punctuation.hyperbole, typography.punctuation.spacing, typography.diacritical_marks, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, dates_times.am_pm.midnight_noon, dates_times.dates.decade_apostrophes, dates_times.dates.month_of_year, spelling.able_atable, spelling.able_ible, spelling.ally_ly, spelling.ance_ence, spelling.athletes, spelling.ely_ly, spelling.em_im_en_in, spelling.er_or, spelling.in_un, spelling.ve_of, skunked_terms, social_awareness.nword, social_awareness.lgbtq.offensive, social_awareness.lgbtq.terms, weasel_words.very, terms.animal_adjectives, terms.denizen_labels.garner, terms.denizen_labels.norris, terms.venery, or terms.eponymous_adjectives only".to_owned()
         })?;
 
         let mut diagnostics = Vec::new();
@@ -2404,6 +2405,7 @@ fn run() -> Result<ExitCode, String> {
                 SelectedCheck::AnnotationsMisc => annotation_diagnostics_in_matcher_order(content),
                 SelectedCheck::Archaism => archaism_diagnostics(content),
                 SelectedCheck::ClichesHell => cliches_hell_diagnostics(content),
+                SelectedCheck::ClichesMiscGarner => cliches_garner_diagnostics(content),
                 SelectedCheck::ClichesMiscWriteGood => cliches_write_good_diagnostics(content),
                 SelectedCheck::Malapropisms => malapropisms_diagnostics(content),
                 SelectedCheck::SkunkedTerms => skunked_terms_diagnostics(content),
@@ -2484,6 +2486,9 @@ fn run() -> Result<ExitCode, String> {
                 SelectedCheck::MiscGreylist => greylist_diagnostics_in_matcher_order(content),
                 SelectedCheck::IndustrialLanguageBureaucratese => {
                     bureaucratese_diagnostics(content)
+                }
+                SelectedCheck::IndustrialLanguageCorporateSpeak => {
+                    corporate_speak_diagnostics(content)
                 }
                 SelectedCheck::Hedging => hedging_diagnostics(content),
                 SelectedCheck::IndustrialLanguageJargon => jargon_diagnostics(content),
@@ -2708,6 +2713,7 @@ enum SelectedCheck {
     AnnotationsMisc,
     Archaism,
     ClichesHell,
+    ClichesMiscGarner,
     ClichesMiscWriteGood,
     DatesTimesAmPmLowercasePeriods,
     DatesTimesAmPmSpacing,
@@ -2719,6 +2725,7 @@ enum SelectedCheck {
     Hedging,
     IndustrialLanguageAirlinese,
     IndustrialLanguageBureaucratese,
+    IndustrialLanguageCorporateSpeak,
     IndustrialLanguageJargon,
     LexicalIllusions,
     Malapropisms,
@@ -2804,6 +2811,7 @@ impl SelectedCheck {
             AnnotationsMisc,
             Archaism,
             ClichesHell,
+            ClichesMiscGarner,
             ClichesMiscWriteGood,
             DatesTimesAmPmLowercasePeriods,
             DatesTimesAmPmSpacing,
@@ -2815,6 +2823,7 @@ impl SelectedCheck {
             Hedging,
             IndustrialLanguageAirlinese,
             IndustrialLanguageBureaucratese,
+            IndustrialLanguageCorporateSpeak,
             IndustrialLanguageJargon,
             LexicalIllusions,
             Malapropisms,
@@ -2902,6 +2911,7 @@ fn supported_checks(checks: &Value) -> Option<Vec<SelectedCheck>> {
             ["annotations", "misc"] => Some(SelectedCheck::AnnotationsMisc),
             ["archaism"] => Some(SelectedCheck::Archaism),
             ["cliches", "hell"] => Some(SelectedCheck::ClichesHell),
+            ["cliches", "misc", "garner"] => Some(SelectedCheck::ClichesMiscGarner),
             ["cliches", "misc", "write_good"] => Some(SelectedCheck::ClichesMiscWriteGood),
             ["malapropisms"] => Some(SelectedCheck::Malapropisms),
             ["skunked_terms"] => Some(SelectedCheck::SkunkedTerms),
@@ -2973,6 +2983,9 @@ fn supported_checks(checks: &Value) -> Option<Vec<SelectedCheck>> {
             ["misc", "greylist"] => Some(SelectedCheck::MiscGreylist),
             ["industrial_language", "bureaucratese"] => {
                 Some(SelectedCheck::IndustrialLanguageBureaucratese)
+            }
+            ["industrial_language", "corporate_speak"] => {
+                Some(SelectedCheck::IndustrialLanguageCorporateSpeak)
             }
             ["hedging"] => Some(SelectedCheck::Hedging),
             ["industrial_language", "jargon"] => Some(SelectedCheck::IndustrialLanguageJargon),
@@ -3101,6 +3114,7 @@ fn selected_check_path(check: SelectedCheck) -> &'static str {
         SelectedCheck::AnnotationsMisc => "annotations.misc",
         SelectedCheck::Archaism => "archaism",
         SelectedCheck::ClichesHell => "cliches.hell",
+        SelectedCheck::ClichesMiscGarner => "cliches.misc.garner",
         SelectedCheck::ClichesMiscWriteGood => "cliches.misc.write_good",
         SelectedCheck::Malapropisms => "malapropisms",
         SelectedCheck::SkunkedTerms => "skunked_terms",
@@ -3147,6 +3161,7 @@ fn selected_check_path(check: SelectedCheck) -> &'static str {
         SelectedCheck::MiscBackFormations => "misc.back_formations",
         SelectedCheck::MiscGreylist => "misc.greylist",
         SelectedCheck::IndustrialLanguageBureaucratese => "industrial_language.bureaucratese",
+        SelectedCheck::IndustrialLanguageCorporateSpeak => "industrial_language.corporate_speak",
         SelectedCheck::Hedging => "hedging",
         SelectedCheck::IndustrialLanguageJargon => "industrial_language.jargon",
         SelectedCheck::IndustrialLanguageAirlinese => "industrial_language.airlinese",

@@ -1369,11 +1369,33 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(len(cases), 13)
         self.assertEqual({case["id"] for case in cases}, expected)
 
+    def test_surrogate_key_equality_cases_preserve_live_python_contract(self) -> None:
+        expected = {
+            "surrogate_check_key_high_false": ('{"checks":{"annotations":{"\\ud800":false}}}', "clean"),
+            "surrogate_check_key_low_false": ('{"checks":{"annotations":{"\\udfff":false}}}', "clean"),
+            "surrogate_duplicate_key_high_invalid_then_false": ('{"checks":{"annotations":{"\\ud800":"invalid","\\uD800":false}}}', "clean"),
+            "surrogate_duplicate_key_high_false_then_invalid": ('{"checks":{"annotations":{"\\uD800":false,"\\ud800":"invalid"}}}', "cli_error"),
+            "surrogate_duplicate_astral_pair_literal_invalid_then_false": ('{"checks":{"annotations":{"\\ud83d\\ude00":"invalid","😀":false}}}', "clean"),
+        }
+        cases = {
+            case["id"]: case for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "cli.config.surrogate_key_equality"
+        }
+        self.assertEqual(set(cases), set(expected))
+        for case_id, (config, outcome) in expected.items():
+            with self.subTest(case=case_id):
+                case = cases[case_id]
+                self.assertEqual(base64.b64decode(case["files"][0]["content_base64"]).decode(), config)
+                self.assertEqual(case["argv"], ["check", "--config", "{file:config.json}", "--output-format", "json"])
+                self.assertEqual(case["expected_oracle_outcome"], outcome)
+                self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
+                self.assertIn("Pinned Proselint 0.16.0 live CLI", case["provenance"])
+
     def test_real_manifest_schema_and_unique_ids(self) -> None:
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1421)
+        self.assertEqual(len(case_ids), 1426)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -1382,7 +1404,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "0ec2e6c71a1a426fd488978d2afe95359661e90611a9be519c2bdf0969dae407",
+            "b47fa3b722765ba415b6dae36d28ee904229d4dc1e0e7b087af1d41ad082514c",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),

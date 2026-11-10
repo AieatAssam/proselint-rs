@@ -1,5 +1,13 @@
 # Migration progress
 
+## 2026-11-10: surrogate config-key compatibility checkpoint
+
+- Added `cli.config.surrogate_key_equality` after a pinned live probe exposed three mismatches: lone high/low surrogate keys were rejected by Serde, and a differently escaped duplicate key did not use Python dictionary last-value semantics. The fix compares decoded JSON key code units for duplicate handling and omits lone-surrogate keys from Rust's selected-check projection while preserving Python flattening errors.
+- Five focused Rust tests pass, including the exact error case and valid escaped-pair control. Owner and independent Luna live comparisons pass 5/5 against the current release attestation; independent comparator checks pass 23/23. Runtime model identity metadata is unavailable.
+- The release cumulative gate passes 1,415/1,415 active cases across 150 capabilities, with zero mismatches, timeouts, or errors; 11 manifest cases remain excluded. It took 1,932.316s using the matching full Rust release build/test attestation. Full Rust tests pass 898/898 across 144 targets; the Python harness suite passes 123/123.
+- The separate 42.258s bounded benchmark passed its three-case parity preflight and 25 paired samples per workload. It measures only the selected `misc.suddenly` + `psychology.p_equals_zero` workloads. See [`BENCHMARKS.md`](BENCHMARKS.md), [`status.json`](../status.json), and the current gate report [`../artifacts/surrogate-key-equality-release-cumulative-final-20261110.json`](../artifacts/surrogate-key-equality-release-cumulative-final-20261110.json).
+- Compatibility remains partial. The version/runtime text divergence, installation-specific demo path, confirmed no-passwd HOME mismatch, 11 excluded cases, and runtime-independence release check remain open.
+
 ## 2026-11-09: Chatspeak cumulative gate
 
 - The cumulative gate passes 1375/1375 accepted cases across 142 capabilities, with zero mismatches, timeouts, or errors, matching 1375 accepted of 1386 manifest cases. Run `20261109T214009003064Z-21aebd2f`, fingerprint `d1edd68008f3e8b34d9f630a327a722ad9436a0ead3d5f79d74f1f5cea8e1ded`; report: [`../artifacts/strict-gate-chatspeak-20261109.json`](../artifacts/strict-gate-chatspeak-20261109.json). Duration 2488.470542s: live 2227.902093s, Rust checks/build 257.373080s, oracle integrity 2.389136s, comparator self-tests 23/23 in 0.177164s. Attestation: [`../artifacts/20261109T213551821370Z-build.attestation.json`](../artifacts/20261109T213551821370Z-build.attestation.json); candidate SHA-256 `9041728ac99c82ca0b0994fb5049e2a9f44b28e56382a5579aa52a630a3f3766`.

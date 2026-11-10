@@ -46051,6 +46051,166 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+  {
+    "id": "surrogate_check_key_high_false",
+    "capability_id": "cli.config.surrogate_key_equality",
+    "provenance": "Pinned Proselint 0.16.0 live CLI config behavior; rust/artifacts/surrogate-key-equality-probe-false-20261110.json; Python json.loads key decoding and dictionary duplicate semantics.",
+    "input_mode": "files",
+    "files": [
+      {
+        "path": "config.json",
+        "content_base64": "eyJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsiXHVkODAwIjpmYWxzZX19fQ=="
+      }
+    ],
+    "argv": [
+      "check",
+      "--config",
+      "{file:config.json}",
+      "--output-format",
+      "json"
+    ],
+    "output_format": "json",
+    "expected_oracle_outcome": "clean",
+    "timeout_seconds": 10,
+    "environment": {
+      "locale": "C.UTF-8"
+    },
+    "config_scenario": "surrogate_check_key_high_false",
+    "workspace_mutates": false,
+    "comparison": {
+      "stdout": "json",
+      "stderr": "bytes",
+      "exit_status": "exact"
     }
+  },
+  {
+    "id": "surrogate_check_key_low_false",
+    "capability_id": "cli.config.surrogate_key_equality",
+    "provenance": "Pinned Proselint 0.16.0 live CLI config behavior; rust/artifacts/surrogate-key-equality-probe-false-20261110.json; Python json.loads key decoding and dictionary duplicate semantics.",
+    "input_mode": "files",
+    "files": [
+      {
+        "path": "config.json",
+        "content_base64": "eyJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsiXHVkZmZmIjpmYWxzZX19fQ=="
+      }
+    ],
+    "argv": [
+      "check",
+      "--config",
+      "{file:config.json}",
+      "--output-format",
+      "json"
+    ],
+    "output_format": "json",
+    "expected_oracle_outcome": "clean",
+    "timeout_seconds": 10,
+    "environment": {
+      "locale": "C.UTF-8"
+    },
+    "config_scenario": "surrogate_check_key_low_false",
+    "workspace_mutates": false,
+    "comparison": {
+      "stdout": "json",
+      "stderr": "bytes",
+      "exit_status": "exact"
+    }
+  },
+  {
+    "id": "surrogate_duplicate_key_high_invalid_then_false",
+    "capability_id": "cli.config.surrogate_key_equality",
+    "provenance": "Pinned Proselint 0.16.0 live CLI config behavior; rust/artifacts/surrogate-key-equality-probe-false-20261110.json; Python json.loads key decoding and dictionary duplicate semantics.",
+    "input_mode": "files",
+    "files": [
+      {
+        "path": "config.json",
+        "content_base64": "eyJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsiXHVkODAwIjoiaW52YWxpZCIsIlx1RDgwMCI6ZmFsc2V9fX0="
+      }
+    ],
+    "argv": [
+      "check",
+      "--config",
+      "{file:config.json}",
+      "--output-format",
+      "json"
+    ],
+    "output_format": "json",
+    "expected_oracle_outcome": "clean",
+    "timeout_seconds": 10,
+    "environment": {
+      "locale": "C.UTF-8"
+    },
+    "config_scenario": "surrogate_duplicate_key_high_invalid_then_false",
+    "workspace_mutates": false,
+    "comparison": {
+      "stdout": "json",
+      "stderr": "bytes",
+      "exit_status": "exact"
+    }
+  },
+  {
+    "id": "surrogate_duplicate_key_high_false_then_invalid",
+    "capability_id": "cli.config.surrogate_key_equality",
+    "provenance": "Pinned Proselint 0.16.0 live CLI config behavior; Pinned live CLI replay on 2026-11-10 (Proselint 0.16.0; check --config config.json --output-format json); Python json.loads key decoding and dictionary duplicate semantics.",
+    "input_mode": "files",
+    "files": [
+      {
+        "path": "config.json",
+        "content_base64": "eyJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsiXHVEODAwIjpmYWxzZSwiXHVkODAwIjoiaW52YWxpZCJ9fX0="
+      }
+    ],
+    "argv": [
+      "check",
+      "--config",
+      "{file:config.json}",
+      "--output-format",
+      "json"
+    ],
+    "output_format": "json",
+    "expected_oracle_outcome": "cli_error",
+    "timeout_seconds": 10,
+    "environment": {
+      "locale": "C.UTF-8"
+    },
+    "config_scenario": "surrogate_duplicate_key_high_false_then_invalid",
+    "workspace_mutates": false,
+    "comparison": {
+      "stdout": "json",
+      "stderr": "bytes",
+      "exit_status": "exact"
+    }
+  },
+  {
+    "id": "surrogate_duplicate_astral_pair_literal_invalid_then_false",
+    "capability_id": "cli.config.surrogate_key_equality",
+    "provenance": "Pinned Proselint 0.16.0 live CLI config behavior; rust/artifacts/surrogate-key-equality-probe-false-20261110.json; Python json.loads key decoding and dictionary duplicate semantics.",
+    "input_mode": "files",
+    "files": [
+      {
+        "path": "config.json",
+        "content_base64": "eyJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnsiXHVkODNkXHVkZTAwIjoiaW52YWxpZCIsIvCfmIAiOmZhbHNlfX19"
+      }
+    ],
+    "argv": [
+      "check",
+      "--config",
+      "{file:config.json}",
+      "--output-format",
+      "json"
+    ],
+    "output_format": "json",
+    "expected_oracle_outcome": "clean",
+    "timeout_seconds": 10,
+    "environment": {
+      "locale": "C.UTF-8"
+    },
+    "config_scenario": "surrogate_duplicate_astral_pair_literal_invalid_then_false",
+    "workspace_mutates": false,
+    "comparison": {
+      "stdout": "json",
+      "stderr": "bytes",
+      "exit_status": "exact"
+    }
+  }
   ]
 }

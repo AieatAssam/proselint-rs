@@ -2,15 +2,15 @@
 
 # Latest verified release-candidate comparison (2026-11-10)
 
-This run measured source fingerprint `95018ccb34138c295e485c0e540c4a6f74696e04ce5583adc899eb52cfb60741` against pinned Proselint 0.16.0 (`dbed789caae662d06c7c8a5a13dd31f1acd36f5c`). The explicit configuration enabled `misc.suddenly` and `psychology.p_equals_zero`; this is not default-config or whole-program performance. Live CLI parity passed all three workloads before timing. The runner collected 25 paired samples per workload after one warmup pair, with a 1,800-second overall deadline; total run time was 42.995 seconds (2026-11-10 05:13:27–05:14:10 UTC).
+This run measured source fingerprint `96160ce82689b5363a896a36d09b0fa10703418c586d972e856eff24ffcc7518` against pinned Proselint 0.16.0 (`dbed789caae662d06c7c8a5a13dd31f1acd36f5c`). The explicit configuration enabled `misc.suddenly` and `psychology.p_equals_zero`; this is not default-config or whole-program performance. Live CLI parity passed all three workloads before timing. The runner collected 25 paired samples per workload after one warmup pair, with a 1,800-second overall deadline; total run time was 42.258 seconds (2026-11-10 06:54:34–06:55:16 UTC).
 
 | Workload | Input | Python median | Rust median | Python / Rust |
 |---|---:|---:|---:|---:|
-| Small authored positive example | 82 B | 227.290 ms | 4.679 ms | 48.58× |
-| Ordinary prose with sparse positive examples | 9,280 B | 246.072 ms | 7.452 ms | 33.02× |
-| Dense generated two-rule trigger stream | 6,400 B | 316.896 ms | 18.217 ms | 17.39× |
+| Small authored positive example | 82 B | 226.690 ms | 4.746 ms | 47.76× |
+| Ordinary prose with sparse positive examples | 9,280 B | 253.030 ms | 7.999 ms | 31.63× |
+| Dense generated two-rule trigger stream | 6,400 B | 316.221 ms | 17.387 ms | 18.19× |
 
-The run used Cargo.lock SHA-256 `a246342e918651174f9fcadb2a6a54a2fea0b431fe6b479bc4da263bcad0a485`, release binary SHA-256 `e28491c1348657e43c3109674af04839b3e2778180a628938ead13606b5409f1`, and build attestation [`20261110T044309545128Z-build.attestation.json`](../artifacts/20261110T044309545128Z-build.attestation.json). RSS was unavailable. The complete samples, input hashes, environment and preflight evidence are in [`release-candidate-combined-benchmark-final-20261110.json`](../artifacts/release-candidate-combined-benchmark-final-20261110.json) (SHA-256 `2fd0aef9a8482dbfbfe37b9e7cdea8a3875c380ec916a56d6db856dd2611061c`). Results apply only to these inputs, configuration, host and measurement method.
+The run used Cargo.lock SHA-256 `a246342e918651174f9fcadb2a6a54a2fea0b431fe6b479bc4da263bcad0a485`, release binary SHA-256 `e8b94ae987876a915ba15ae4781bdbcacb3fb80254b09e3a0f095b36d1401297`, and build attestation [`20261110T054820351775Z-build.attestation.json`](../artifacts/20261110T054820351775Z-build.attestation.json). RSS was unavailable. The complete samples, input hashes, environment and preflight evidence are in [`surrogate-key-equality-combined-benchmark-20261110.json`](../artifacts/surrogate-key-equality-combined-benchmark-20261110.json) (SHA-256 `466e42f6cd7210343d7ad75d62897af2b7cb064909bbeef0167e219603da931f`). Results apply only to these inputs, configuration, host and measurement method.
 
 ## Candidate freshness
 

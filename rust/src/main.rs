@@ -380,42 +380,62 @@ impl JsonScanner {
 }
 
 fn config_field_name(raw: &[char]) -> Option<String> {
-    let mut decoded = String::new();
+    config_field_key_units(raw)?
+        .into_iter()
+        .map(char::from_u32)
+        .collect()
+}
+
+fn config_field_key_units(raw: &[char]) -> Option<Vec<u32>> {
+    if raw.first() != Some(&'"') || raw.last() != Some(&'"') {
+        return None;
+    }
+    let mut decoded = Vec::new();
     let mut index = 1;
     while index + 1 < raw.len() {
         let ch = raw[index];
         index += 1;
         if ch != '\\' {
-            decoded.push(ch);
+            decoded.push(ch as u32);
             continue;
         }
         let escape = *raw.get(index)?;
         index += 1;
         match escape {
-            '"' | '\\' | '/' => decoded.push(escape),
-            'b' => decoded.push('\u{0008}'),
-            'f' => decoded.push('\u{000c}'),
-            'n' => decoded.push('\n'),
-            'r' => decoded.push('\r'),
-            't' => decoded.push('\t'),
+            '"' | '\\' | '/' => decoded.push(escape as u32),
+            'b' => decoded.push('\u{0008}' as u32),
+            'f' => decoded.push('\u{000c}' as u32),
+            'n' => decoded.push('\n' as u32),
+            'r' => decoded.push('\r' as u32),
+            't' => decoded.push('\t' as u32),
             'u' => {
                 let high = parse_hex_quad(raw, &mut index)?;
                 let scalar = match high {
                     0xd800..=0xdbff => {
-                        if raw.get(index) != Some(&'\\') || raw.get(index + 1) != Some(&'u') {
-                            return None;
+                        let low =
+                            if raw.get(index) == Some(&'\\') && raw.get(index + 1) == Some(&'u') {
+                                let mut low_index = index + 2;
+                                parse_hex_quad(raw, &mut low_index)
+                                    .filter(|value| (0xdc00..=0xdfff).contains(value))
+                                    .map(|low| {
+                                        index = low_index;
+                                        0x10000
+                                            + ((u32::from(high) - 0xd800) << 10)
+                                            + (u32::from(low) - 0xdc00)
+                                    })
+                            } else {
+                                None
+                            };
+                        if let Some(scalar) = low {
+                            scalar
+                        } else {
+                            u32::from(high)
                         }
-                        index += 2;
-                        let low = parse_hex_quad(raw, &mut index)?;
-                        if !(0xdc00..=0xdfff).contains(&low) {
-                            return None;
-                        }
-                        0x10000 + ((u32::from(high) - 0xd800) << 10) + (u32::from(low) - 0xdc00)
                     }
-                    0xdc00..=0xdfff => return None,
+                    0xdc00..=0xdfff => u32::from(high),
                     value => u32::from(value),
                 };
-                decoded.push(char::from_u32(scalar)?);
+                decoded.push(scalar);
             }
             _ => return None,
         }
@@ -440,8 +460,8 @@ struct ProjectedConfig {
 }
 
 struct CheckEntry {
-    key: String,
-    key_json: String,
+    key: Vec<u32>,
+    key_json: Option<String>,
     value: usize,
 }
 
@@ -477,7 +497,7 @@ enum CheckObjectState {
 
 struct CheckObjectFrame {
     entries: Vec<CheckEntry>,
-    pending_key: Option<(String, String)>,
+    pending_key: Option<(Vec<u32>, Option<String>)>,
     state: CheckObjectState,
 }
 
@@ -714,14 +734,13 @@ fn normalize_checks_value(raw: &[char]) -> Option<(String, Option<&'static str>)
                 scanner.string().ok()?;
                 let key_end = scanner.offset;
                 let raw_key = &scanner.chars[key_start..key_end];
-                let decoded = config_field_name(raw_key);
-                let key = decoded
-                    .clone()
-                    .unwrap_or_else(|| raw_key.iter().collect::<String>());
-                let key_json = decoded
-                    .as_ref()
-                    .and_then(|key| serde_json::to_string(key).ok())
-                    .unwrap_or_else(|| raw_key.iter().collect());
+                let key = config_field_key_units(raw_key)?;
+                let key_json = key
+                    .iter()
+                    .copied()
+                    .map(char::from_u32)
+                    .collect::<Option<String>>()
+                    .and_then(|key| serde_json::to_string(&key).ok());
                 frame.pending_key = Some((key, key_json));
                 frame.state = CheckObjectState::Colon;
             }
@@ -807,10 +826,16 @@ fn normalize_checks_value(raw: &[char]) -> Option<(String, Option<&'static str>)
                 CheckNodeKind::Object(entries) => {
                     json.push('{');
                     pending.push(EmitPart::Text("}"));
-                    for (index, entry) in entries.iter().enumerate().rev() {
+                    let entries: Vec<_> = entries
+                        .iter()
+                        .filter_map(|entry| {
+                            entry.key_json.as_ref().map(|key_json| (entry, key_json))
+                        })
+                        .collect();
+                    for (index, (entry, key_json)) in entries.iter().enumerate().rev() {
                         pending.push(EmitPart::Node(entry.value));
                         pending.push(EmitPart::Text(":"));
-                        pending.push(EmitPart::Owned(entry.key_json.clone()));
+                        pending.push(EmitPart::Owned((*key_json).clone()));
                         if index > 0 {
                             pending.push(EmitPart::Text(","));
                         }

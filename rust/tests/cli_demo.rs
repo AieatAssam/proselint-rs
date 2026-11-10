@@ -5,6 +5,7 @@ use std::sync::atomic::{AtomicUsize, Ordering};
 
 static NEXT_DIR: AtomicUsize = AtomicUsize::new(0);
 const SELECTED_RULE_OUTPUT: &[u8] = include_bytes!("fixtures/demo_compact_selected_rule.bin");
+const DEFAULT_CONFIG_OUTPUT: &[u8] = include_bytes!("fixtures/demo_default_compact.bin");
 const MISSING_CONFIG_STDERR: &[u8] =
     include_bytes!("fixtures/demo_compact_config_error.stderr.bin");
 const SELECTED_CONFIG: &str =
@@ -52,6 +53,19 @@ fn demo_compact_uses_pinned_sample_with_selected_rule() {
 
     assert_eq!(output.status.code(), Some(1));
     assert_eq!(output.stdout, SELECTED_RULE_OUTPUT);
+    assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
+}
+
+#[test]
+fn demo_compact_uses_default_configuration() {
+    let workspace = Workspace::new();
+    let output = run(
+        &workspace,
+        &["check", "--demo", "--output-format", "compact"],
+    );
+
+    assert_eq!(output.status.code(), Some(1));
+    assert_eq!(output.stdout, DEFAULT_CONFIG_OUTPUT);
     assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
 }
 

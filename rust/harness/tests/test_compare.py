@@ -1373,7 +1373,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1418)
+        self.assertEqual(len(case_ids), 1421)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -1382,7 +1382,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "47cfcca4b93f2479f674783a2ffcc4ff481ea55a8a9f748ae5631e34aba37502",
+            "0ec2e6c71a1a426fd488978d2afe95359661e90611a9be519c2bdf0969dae407",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),
@@ -2567,6 +2567,44 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(selected["expected_oracle_outcome"], "findings")
         self.assertEqual(cases["cli_demo_ignores_extra_path"]["expected_oracle_outcome"], "findings")
         self.assertEqual(cases["cli_demo_config_error_precedes_demo"]["expected_oracle_outcome"], "cli_error")
+
+    def test_demo_default_compact_uses_implicit_configuration(self) -> None:
+        cases = [
+            case
+            for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "cli.demo.default_compact"
+        ]
+        self.assertEqual(len(cases), 1)
+        case = cases[0]
+        self.assertEqual(case["id"], "cli_demo_default_compact")
+        self.assertEqual(case["argv"], ["check", "--demo", "--output-format", "compact"])
+        self.assertEqual(case["config_scenario"], "no_config_default")
+        self.assertEqual(case["files"], [])
+        self.assertEqual(case["expected_oracle_outcome"], "findings")
+        self.assertEqual(case["comparison"], {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"})
+
+    def test_missing_checks_configuration_cases_preserve_upstream_empty_mapping(self) -> None:
+        cases = {
+            case["id"]: case
+            for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "cli.config.missing_checks"
+        }
+        self.assertEqual(set(cases), {
+            "cli_config_missing_checks_max_errors_one",
+            "cli_config_missing_checks_per_file_override",
+        })
+        max_errors = cases["cli_config_missing_checks_max_errors_one"]
+        self.assertEqual(max_errors["argv"], ["check", "--demo", "--config", "{file:config.json}", "--output-format", "compact"])
+        self.assertEqual(json.loads(base64.b64decode(max_errors["files"][0]["content_base64"])), {"max_errors": 1})
+        self.assertEqual(max_errors["expected_oracle_outcome"], "clean")
+        per_file = cases["cli_config_missing_checks_per_file_override"]
+        config = json.loads(base64.b64decode(per_file["files"][0]["content_base64"]))
+        self.assertNotIn("checks", config)
+        self.assertEqual(config, {"max_errors": 1, "per_file_checks": {"draft.txt": {"misc": {"suddenly": True}}}})
+        self.assertEqual(base64.b64decode(per_file["files"][1]["content_base64"]), b"Suddenly, we launched.")
+        self.assertEqual(per_file["expected_oracle_outcome"], "findings")
+        for case in cases.values():
+            compare.validate_case(case)
 
     def test_command_help_cases_cover_only_supported_subcommands(self) -> None:
         cases = {

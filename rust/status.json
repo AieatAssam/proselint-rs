@@ -594,6 +594,14 @@
     {
       "id": "rule.restricted.elementary",
       "status": "recorded"
+    },
+    {
+      "id": "cli.demo.default_compact",
+      "status": "independently_verified"
+    },
+    {
+      "id": "cli.config.missing_checks",
+      "status": "independently_verified"
     }
   ],
   "inventory": {
@@ -618,18 +626,18 @@
   },
   "harness": {
     "status": "verified after metadata fingerprint changes; Markdown/ledger exclusion is covered by a discrimination test",
-    "source_fingerprint": "ab832a8cd38b61e24cf6e82df26f222150a0b5fff545cf5b85011c8e55655fea",
+    "source_fingerprint": "95018ccb34138c295e485c0e540c4a6f74696e04ce5583adc899eb52cfb60741",
     "unit_tests": {
       "status": "PASS",
       "suite": "python3 -m unittest discover -s rust/harness/tests -p 'test_*.py'",
-      "tests_passed": 109,
-      "duration_seconds": 68.365,
-      "evidence": "rust/artifacts/harness-suite-cli-directory-config-20261109.log"
+      "tests_passed": 122,
+      "duration_seconds": 78.668,
+      "evidence": "rust/artifacts/harness-suite-shared-config-20261110.log"
     },
     "comparator_discriminators": {
       "passed": 23,
       "exit_code": 0,
-      "evidence": "rust/artifacts/comparator-selftest-dangling-symlink-final-20261109.json"
+      "evidence": "rust/artifacts/luna-missing-checks-independent-20261110.json"
     },
     "live_oracle_self_check": {
       "passed_cases": 2,
@@ -755,7 +763,7 @@
       "evidence": "rust/artifacts/20261110T013152249843Z-build-2.stdout.bin"
     }
   },
-  "active_ownership": "Release candidate blocked at the cumulative checkpoint by intermittent pinned-reference timeouts under the eight-worker pool; focused capability evidence is preserved.",
+  "active_ownership": "Release candidate verified for the current manifest. Three rule acceptances (uncomparables, restricted.elementary, restricted.top1000) independently verified and included in the 1,410-case live PASS. Exact CLI version/runtime, demo install-path, and no-passwd HOME mismatch remain unresolved.",
   "unresolved": [
     "Other CLI/config behavior remains unverified, including passwd-home config-present behavior, HOME-absent no-passwd-entry config behavior (confirmed mismatch in cli.config.no_passwd_home; see harness.latest_no_passwd_home_case), other subcommands, HOME-unset platform variation, directory candidates, and traversal/decoding edges.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
@@ -764,7 +772,7 @@
     "Agent task configuration requested gpt-6-luna/low for implementation and independent review, but runtime model/effort metadata is not exposed, so routing cannot be independently audited.",
     "Unicode case folding and quote-pairing combinations beyond explicitly tested cases remain unverified.",
     "Data-backed paths may be reused under the project's package-wide BSD-3-Clause policy basis, retaining upstream attributions and notices. This is a project policy choice, not a legal determination or guarantee of upstream rights. Unknown-provenance paths and any conflicting terms require separate review; see rust/status.json rights_audit_latest and rust/docs/PLAN.md.",
-    "No-config execution now loads bundled DEFAULT for 83 implemented checks, but the 23 unimplemented unique paths include default-enabled rules, so full default-config parity and all combined-rule interactions remain incomplete.",
+    "The inventory records all 106 unique registered paths as accepted under targeted configurations. Exact default-config behavior is covered by the new live `check --demo --output-format compact` case (one sample); default-config corpus-wide output and all cross-rule interactions remain unverified.",
     "dump-config HOME-unset/platform-specific config discovery, directory user candidates, directory traversal/decoding edges outside the accepted directory cases remain unverified; explicit multi-file output for file lists is covered by the recorded cases.",
     "Other --version combined-argument orderings beyond cli.version_argument_precedence remain unverified.",
     "Focused live case cli_demo_json_selected_rule mismatches only on the source key: pinned Python emits its installed demo.md file URI while Rust emits demo.md. Exact parity is installation-location-specific; case remains unresolved at rust/artifacts/cli-demo-json-red-20261108.json. Full demo path behavior and default-config demo output are also unverified.",
@@ -773,8 +781,7 @@
     "JSON version output differs in four tested vectors because Python includes sys.version_info[:3]; no fabricated Python version is emitted by Rust. See rust/artifacts/version-json-metadata-final-20261108.json.",
     "`version --verbose` stderr contains timestamped pinned Python runtime metadata and is not reproduced by Rust. See rust/artifacts/version-verbose-runtime-final-20261108.json.",
     "Dangling file-symlink Compact/Full/JSON behavior is verified for the accepted cases; permission-denied traversal and symlink behavior outside the accepted cases remain unverified.",
-    "The Linux HOME-absent/no-passwd-entry reproducer remains a confirmed mismatch: pinned Python fails during import with an installation-specific traceback while Rust completes the command; it is blocked and excluded from production_capabilities.",
-    "Cumulative release gate 2026-11-10 failed: 1,346/1,407 accepted cases passed and 61 timed out in pinned Python after 10s; candidate timed out zero times, content mismatches zero. The unchanged ellipsis_quote_suppression case passed when replayed alone. Full Python harness suite passed 120/120; full Rust suite passed 890/890 across 142 test suites. Benchmark skipped because parity gate did not pass; see rust/artifacts/release-candidate-cumulative-20261110.json."
+    "The Linux HOME-absent/no-passwd-entry reproducer remains a confirmed mismatch: pinned Python fails during import with an installation-specific traceback while Rust completes the command; it is blocked and excluded from production_capabilities."
   ],
   "capability_states": [
     {
@@ -11758,6 +11765,34 @@
         "candidate_timeouts": 0,
         "content_mismatches": 0,
         "source_fingerprint": "8127aa4d4ff95197074a976cbd091f311b3fb93900d067ac67fa97f80f32723b"
+      },
+      "release_acceptance": {
+        "status": "PASS",
+        "independent_verification": {
+          "status": "PASS",
+          "report": "rust/artifacts/independent-rule-check-20261110T061500Z-uncomparables.json",
+          "run_id": "20261110T051659909152Z-57cf855f",
+          "cases_passed": 11,
+          "mismatches": 0,
+          "errors": 0,
+          "timeouts": 0,
+          "oracle_integrity": "verified",
+          "candidate_attestation": "rust/artifacts/20261110T044309545128Z-build.attestation.json",
+          "source_fingerprint": "95018ccb34138c295e485c0e540c4a6f74696e04ce5583adc899eb52cfb60741",
+          "candidate_sha256": "e28491c1348657e43c3109674af04839b3e2778180a628938ead13606b5409f1",
+          "configured_agent": "parity_verifier Luna role; runtime model metadata unavailable"
+        },
+        "cumulative_gate": {
+          "status": "PASS",
+          "report": "rust/artifacts/release-candidate-missing-checks-cumulative-20261110.json",
+          "run_id": "20261110T045109478863Z-2d84de9c",
+          "cases_passed": 1410,
+          "case_count": 1410,
+          "capability_count": 149,
+          "source_fingerprint": "95018ccb34138c295e485c0e540c4a6f74696e04ce5583adc899eb52cfb60741",
+          "candidate_sha256": "e28491c1348657e43c3109674af04839b3e2778180a628938ead13606b5409f1",
+          "build_attestation": "rust/artifacts/20261110T044309545128Z-build.attestation.json"
+        }
       }
     },
     {
@@ -11823,6 +11858,34 @@
         "candidate_timeouts": 0,
         "content_mismatches": 0,
         "source_fingerprint": "8127aa4d4ff95197074a976cbd091f311b3fb93900d067ac67fa97f80f32723b"
+      },
+      "release_acceptance": {
+        "status": "PASS",
+        "independent_verification": {
+          "status": "PASS",
+          "report": "rust/artifacts/independent-rule-check-20261110T061500Z-elementary.json",
+          "run_id": "20261110T051722576654Z-ee4d1a06",
+          "cases_passed": 3,
+          "mismatches": 0,
+          "errors": 0,
+          "timeouts": 0,
+          "oracle_integrity": "verified",
+          "candidate_attestation": "rust/artifacts/20261110T044309545128Z-build.attestation.json",
+          "source_fingerprint": "95018ccb34138c295e485c0e540c4a6f74696e04ce5583adc899eb52cfb60741",
+          "candidate_sha256": "e28491c1348657e43c3109674af04839b3e2778180a628938ead13606b5409f1",
+          "configured_agent": "parity_verifier Luna role; runtime model metadata unavailable"
+        },
+        "cumulative_gate": {
+          "status": "PASS",
+          "report": "rust/artifacts/release-candidate-missing-checks-cumulative-20261110.json",
+          "run_id": "20261110T045109478863Z-2d84de9c",
+          "cases_passed": 1410,
+          "case_count": 1410,
+          "capability_count": 149,
+          "source_fingerprint": "95018ccb34138c295e485c0e540c4a6f74696e04ce5583adc899eb52cfb60741",
+          "candidate_sha256": "e28491c1348657e43c3109674af04839b3e2778180a628938ead13606b5409f1",
+          "build_attestation": "rust/artifacts/20261110T044309545128Z-build.attestation.json"
+        }
       }
     },
     {
@@ -11888,18 +11951,152 @@
         "candidate_timeouts": 0,
         "content_mismatches": 0,
         "source_fingerprint": "8127aa4d4ff95197074a976cbd091f311b3fb93900d067ac67fa97f80f32723b"
+      },
+      "release_acceptance": {
+        "status": "PASS",
+        "independent_verification": {
+          "status": "PASS",
+          "report": "rust/artifacts/independent-rule-check-20261110T061500Z-top1000.json",
+          "run_id": "20261110T051735765341Z-a8896c28",
+          "cases_passed": 3,
+          "mismatches": 0,
+          "errors": 0,
+          "timeouts": 0,
+          "oracle_integrity": "verified",
+          "candidate_attestation": "rust/artifacts/20261110T044309545128Z-build.attestation.json",
+          "source_fingerprint": "95018ccb34138c295e485c0e540c4a6f74696e04ce5583adc899eb52cfb60741",
+          "candidate_sha256": "e28491c1348657e43c3109674af04839b3e2778180a628938ead13606b5409f1",
+          "configured_agent": "parity_verifier Luna role; runtime model metadata unavailable"
+        },
+        "cumulative_gate": {
+          "status": "PASS",
+          "report": "rust/artifacts/release-candidate-missing-checks-cumulative-20261110.json",
+          "run_id": "20261110T045109478863Z-2d84de9c",
+          "cases_passed": 1410,
+          "case_count": 1410,
+          "capability_count": 149,
+          "source_fingerprint": "95018ccb34138c295e485c0e540c4a6f74696e04ce5583adc899eb52cfb60741",
+          "candidate_sha256": "e28491c1348657e43c3109674af04839b3e2778180a628938ead13606b5409f1",
+          "build_attestation": "rust/artifacts/20261110T044309545128Z-build.attestation.json"
+        }
+      }
+    },
+    {
+      "id": "cli.demo.default_compact",
+      "status": "independently_verified",
+      "stage": "independently_verified",
+      "case_ids": [
+        "cli_demo_default_compact"
+      ],
+      "upstream_spec": "Pinned Proselint 0.16.0 default config with `check --demo --output-format compact`; exact bytes, stderr, and exit status.",
+      "red": {
+        "status": "not_applicable_coverage_expansion",
+        "note": "Existing Rust behavior passed the pinned live probe before adding coverage; no production implementation was changed. Do not manufacture a RED."
+      },
+      "focused_rust_tests": {
+        "status": "PASS",
+        "target": "rust/tests/cli_demo.rs",
+        "passed": 5,
+        "failed": 0,
+        "fixture": "rust/tests/fixtures/demo_default_compact.bin",
+        "fixture_sha256": "6b8cf5be5d08eaab57fc63ced019218ed402b44f41f6f3a0c33fb6216b655125"
+      },
+      "owner_live": {
+        "status": "PASS",
+        "cases": 1,
+        "report": "rust/artifacts/demo-default-compact-owner-live-20261110.json",
+        "run_id": "20261110T041812472659Z-e80728a6",
+        "source_fingerprint": "95018ccb34138c295e485c0e540c4a6f74696e04ce5583adc899eb52cfb60741"
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "cases": 1,
+        "report": "rust/artifacts/luna-demo-default-compact-final-independent-20261110.json",
+        "focused_rust_test_log": "rust/artifacts/luna-shared-config-independent-rust-tests-20261110.log",
+        "oracle_integrity": "verified",
+        "source_fingerprint": "95018ccb34138c295e485c0e540c4a6f74696e04ce5583adc899eb52cfb60741",
+        "candidate_sha256": "e28491c1348657e43c3109674af04839b3e2778180a628938ead13606b5409f1",
+        "runtime_model_metadata": "unavailable; configured as gpt-6-luna/low"
+      },
+      "cumulative_gate": {
+        "status": "pending_shared_config_checkpoint",
+        "note": "Included in the next 5–10 capability cumulative gate after shared CLI/config changes."
+      }
+    },
+    {
+      "id": "cli.config.missing_checks",
+      "status": "independently_verified",
+      "stage": "independently_verified",
+      "case_ids": [
+        "cli_config_missing_checks_max_errors_one",
+        "cli_config_missing_checks_per_file_override"
+      ],
+      "upstream_spec": "Pinned `proselint.config.load_from` builds checks from result.get(\"checks\", {}): an omitted checks object yields an empty global selection. A matching per_file_checks entry can independently enable a rule.",
+      "red": {
+        "status": "PASS_BEHAVIORAL_FAILURE",
+        "report": "rust/artifacts/missing-checks-red-probe-20261110.json",
+        "cases": 2,
+        "mismatches": 2,
+        "fingerprint_before_implementation": "78e4ec349e46ce89cf91fc9e4d9b18a674497dbe7349b23e49b08b8cb2dbcaac"
+      },
+      "implementation": {
+        "status": "PASS",
+        "file": "rust/src/main.rs",
+        "summary": "Missing checks now uses an empty JSON mapping; invalid explicit checks handling remains unchanged."
+      },
+      "focused_rust_tests": {
+        "status": "PASS",
+        "target": "rust/tests/cli_config_missing_checks.rs",
+        "passed": 2,
+        "failed": 0,
+        "regressions": {
+          "cli_per_file_checks": 15,
+          "cli_config_consumed_special_values": 18
+        }
+      },
+      "owner_live": {
+        "status": "PASS",
+        "cases": 2,
+        "report": "rust/artifacts/missing-checks-green-owner-serial-live-20261110.json",
+        "run_id": "20261110T043554918134Z-72bc9f16",
+        "single_case_reports": [
+          "rust/artifacts/missing-checks-green-max-errors-isolated-20261110.json",
+          "rust/artifacts/missing-checks-green-per-file-isolated-20261110.json"
+        ],
+        "note": "A two-worker owner attempt timed out on both pinned references; the same cases passed serially at one worker without changing deadlines."
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "cases": 2,
+        "report": "rust/artifacts/luna-missing-checks-independent-20261110.json",
+        "focused_rust_test_log": "rust/artifacts/luna-shared-config-independent-rust-tests-20261110.log",
+        "oracle_integrity": "verified",
+        "source_fingerprint": "95018ccb34138c295e485c0e540c4a6f74696e04ce5583adc899eb52cfb60741",
+        "candidate_sha256": "e28491c1348657e43c3109674af04839b3e2778180a628938ead13606b5409f1",
+        "runtime_model_metadata": "unavailable; configured as gpt-6-luna/low"
+      },
+      "candidate_attestation": {
+        "path": "rust/artifacts/20261110T043318400902Z-build.attestation.json",
+        "sha256": "f1a26535c27259410f7d4ed75e6623ff0cd78a305038f9d404be47612d54ef21",
+        "scope": "focused_candidate_build",
+        "source_fingerprint": "95018ccb34138c295e485c0e540c4a6f74696e04ce5583adc899eb52cfb60741",
+        "candidate_sha256": "e28491c1348657e43c3109674af04839b3e2778180a628938ead13606b5409f1"
+      },
+      "cumulative_gate": {
+        "status": "pending_shared_config_checkpoint",
+        "note": "Shared config change requires the next cumulative gate."
       }
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
     "profile": "release",
-    "report": "rust/artifacts/release-candidate-half-cpu-cumulative-20261110.json",
-    "run_id": "20261110T032918006947Z-c0633e16",
+    "report": "rust/artifacts/release-candidate-missing-checks-cumulative-20261110.json",
+    "run_id": "20261110T045109478863Z-2d84de9c",
     "exit_code": 0,
-    "capability_count": 147,
-    "accepted_case_count": 1407,
-    "manifest_case_count": 1418,
+    "capability_count": 149,
+    "accepted_case_count": 1410,
+    "manifest_case_count": 1421,
     "excluded_manifest_case_count": 11,
     "counts": {
       "BLOCKED": 0,
@@ -11907,38 +12104,41 @@
       "MISMATCH": 0,
       "NOT_IMPLEMENTED": 0,
       "ORACLE_ERROR": 0,
-      "PASS": 1407,
+      "PASS": 1410,
       "TIMEOUT": 0
     },
-    "source_fingerprint": "8127aa4d4ff95197074a976cbd091f311b3fb93900d067ac67fa97f80f32723b",
-    "candidate_sha256": "89dcdaeb3928d36068dfe59817439a765b6fe146800a6279e63d324281c392ac",
-    "build_attestation": "rust/artifacts/20261110T032527004468Z-build.attestation.json",
-    "build_attestation_sha256": "39c046854125d2f963af6dd1a2bd133af8da5d1b3f2e07f96570f0253e69f2d4",
-    "duration_seconds": 1486.750043,
+    "source_fingerprint": "95018ccb34138c295e485c0e540c4a6f74696e04ce5583adc899eb52cfb60741",
+    "candidate_sha256": "e28491c1348657e43c3109674af04839b3e2778180a628938ead13606b5409f1",
+    "build_attestation": "rust/artifacts/20261110T044309545128Z-build.attestation.json",
+    "build_attestation_sha256": "cfd36876f1d3a5220620f96b584998d6c955387e868d00b113aec301a4027313",
+    "duration_seconds": 1791.537487,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.157046,
-      "cumulative_live_comparison": 1252.848341,
-      "oracle_integrity": 2.091543,
-      "rust_checks_and_build": 231.115011
+      "comparator_self_tests": 0.148869,
+      "cumulative_live_comparison": 1308.66555,
+      "oracle_integrity": 2.094645,
+      "rust_checks_and_build": 480.048182
     },
     "comparator_self_tests": 23,
-    "rust_test_suites": 142,
-    "rust_tests_passed": 890,
+    "rust_test_targets": 143,
+    "rust_tests_passed": 893,
     "rust_tests_failed": 0,
     "python_harness_suite": {
       "status": "PASS",
-      "tests_passed": 120,
-      "duration_seconds": 78.494,
-      "report": "rust/artifacts/harness-suite-half-cpu-20261110.log",
+      "tests_passed": 122,
+      "duration_seconds": 78.668,
+      "report": "rust/artifacts/harness-suite-shared-config-20261110.log",
       "command": "python3 -m unittest discover -s rust/harness/tests -p 'test_*.py'"
     },
     "oracle_integrity": "verified",
-    "note": "Full cumulative live comparison and release checks passed. Eleven manifest cases remain excluded or unresolved; see unresolved and intentional_divergences.",
+    "scope_matches_current_manifest": true,
+    "current_manifest_case_count": 1421,
+    "current_manifest_capability_count": 149,
+    "note": "Current full release gate passes the frozen 1,421-case manifest: 1,410 active live cases passed; 11 remain explicitly excluded. Version flag/runtime metadata and installation-specific demo path differences remain unresolved; no full compatibility claim.",
     "benchmark": {
       "status": "PASS",
-      "report": "rust/artifacts/release-candidate-combined-benchmark-20261110.json",
-      "report_sha256": "6e7599b0fb85ecd27403200e929d04ece23c72e43afd5bebdea6cf7841fb51cc",
-      "run_id": "20261110T035214053968Z-benchmark-1f06e3b1",
+      "report": "rust/artifacts/release-candidate-combined-benchmark-final-20261110.json",
+      "report_sha256": "2fd0aef9a8482dbfbfe37b9e7cdea8a3875c380ec916a56d6db856dd2611061c",
+      "run_id": "20261110T051327861774Z-benchmark-6762fd5d",
       "profile": "combined_suddenly_p_equals_zero",
       "parity_preflight": {
         "BLOCKED": 0,
@@ -11949,8 +12149,34 @@
         "PASS": 3,
         "TIMEOUT": 0
       },
-      "duration_seconds": 37.131550992,
-      "claim": "Per-workload measurements only; no cross-workload or universal speed claim."
+      "duration_seconds": 42.995,
+      "sample_pairs_per_workload": 25,
+      "warmup_pairs": 1,
+      "workloads": [
+        "combined_small",
+        "combined_ordinary_generated",
+        "combined_dense_generated"
+      ],
+      "source_fingerprint": "95018ccb34138c295e485c0e540c4a6f74696e04ce5583adc899eb52cfb60741",
+      "candidate_sha256": "e28491c1348657e43c3109674af04839b3e2778180a628938ead13606b5409f1",
+      "claim": "Selected explicit combined-rule workloads only; no universal speed claim; RSS unavailable."
+    },
+    "three_rule_independent_verification": {
+      "rule.uncomparables": {
+        "report": "rust/artifacts/independent-rule-check-20261110T061500Z-uncomparables.json",
+        "run_id": "20261110T051659909152Z-57cf855f",
+        "cases_passed": 11
+      },
+      "rule.restricted.elementary": {
+        "report": "rust/artifacts/independent-rule-check-20261110T061500Z-elementary.json",
+        "run_id": "20261110T051722576654Z-ee4d1a06",
+        "cases_passed": 3
+      },
+      "rule.restricted.top1000": {
+        "report": "rust/artifacts/independent-rule-check-20261110T061500Z-top1000.json",
+        "run_id": "20261110T051735765341Z-a8896c28",
+        "cases_passed": 3
+      }
     }
   },
   "rust_dependencies": {
@@ -11999,7 +12225,7 @@
     },
     "pending_verification": "syn 3.0.10 was verified by a locked focused Rust test and focused release fmt/Clippy/build. The complete locked Rust test suite and next cumulative release gate remain pending at checkpoint #148."
   },
-  "next_capability_handoff": "Do not mark the release candidate complete or benchmark. Diagnose pinned-reference timeout pressure without changing oracle expectations, per-case deadlines, or comparisons. Keep the failed cumulative report; a later gate must be a new explicitly recorded attempt.",
+  "next_capability_handoff": "If continuing migration, probe the differently escaped lone-surrogate consumed-check key behavior with pinned Python first. Keep version-flag/runtime metadata, installation-specific demo path, and no-passwd HOME mismatch explicit; a full compatibility claim is not supported.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",
@@ -12106,29 +12332,29 @@
   },
   "latest_benchmark": {
     "status": "PASS",
-    "report": "rust/artifacts/release-candidate-combined-benchmark-20261110.json",
-    "report_sha256": "6e7599b0fb85ecd27403200e929d04ece23c72e43afd5bebdea6cf7841fb51cc",
-    "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+    "report": "rust/artifacts/release-candidate-combined-benchmark-final-20261110.json",
+    "report_sha256": "2fd0aef9a8482dbfbfe37b9e7cdea8a3875c380ec916a56d6db856dd2611061c",
+    "run_id": "20261110T051327861774Z-benchmark-6762fd5d",
     "profile": "combined_suddenly_p_equals_zero",
-    "source_fingerprint": "8127aa4d4ff95197074a976cbd091f311b3fb93900d067ac67fa97f80f32723b",
-    "candidate_sha256": "89dcdaeb3928d36068dfe59817439a765b6fe146800a6279e63d324281c392ac",
-    "candidate_attestation": "rust/artifacts/20261110T032527004468Z-build.attestation.json",
-    "candidate_attestation_sha256": "39c046854125d2f963af6dd1a2bd133af8da5d1b3f2e07f96570f0253e69f2d4",
-    "cargo_lock_sha256": "a246342e918651174f9fcadb2a6a54a2fea0b431fe6b479bc4da263bcad0a485",
     "parity_preflight": {
-      "passed": 3,
-      "mismatches": 0,
-      "errors": 0,
-      "timeouts": 0
+      "BLOCKED": 0,
+      "CANDIDATE_ERROR": 0,
+      "MISMATCH": 0,
+      "NOT_IMPLEMENTED": 0,
+      "ORACLE_ERROR": 0,
+      "PASS": 3,
+      "TIMEOUT": 0
     },
-    "paired_samples_per_workload": 25,
+    "duration_seconds": 42.995,
+    "sample_pairs_per_workload": 25,
     "warmup_pairs": 1,
-    "duration_seconds": 37.131550992,
-    "median_ratios_python_over_rust": {
-      "combined_small": 47.41264222802414,
-      "combined_ordinary_generated": 32.84804332135114,
-      "combined_dense_generated": 17.97996244577108
-    },
+    "workloads": [
+      "combined_small",
+      "combined_ordinary_generated",
+      "combined_dense_generated"
+    ],
+    "source_fingerprint": "95018ccb34138c295e485c0e540c4a6f74696e04ce5583adc899eb52cfb60741",
+    "candidate_sha256": "e28491c1348657e43c3109674af04839b3e2778180a628938ead13606b5409f1",
     "claim": "Selected explicit combined-rule workloads only; no universal speed claim; RSS unavailable."
   },
   "agent_model_verification": {

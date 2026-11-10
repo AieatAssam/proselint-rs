@@ -45953,6 +45953,104 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "cli_demo_default_compact",
+      "capability_id": "cli.demo.default_compact",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; default configuration, package demo, and Compact output. Coverage expansion only: the existing Rust implementation passed the live comparison without source changes.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [],
+      "argv": [
+        "check",
+        "--demo",
+        "--output-format",
+        "compact"
+      ],
+      "output_format": "compact",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_missing_checks_max_errors_one",
+      "capability_id": "cli.config.missing_checks",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/config/__init__.py:load_from uses result.get(\"checks\", {}) and builds an empty global mapping when omitted; command_line.py then checks that mapping. A matching per_file_checks entry may still enable a rule.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxfQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--demo",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "compact"
+      ],
+      "output_format": "compact",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_config_missing_checks_max_errors_one",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_config_missing_checks_per_file_override",
+      "capability_id": "cli.config.missing_checks",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/config/__init__.py:load_from uses result.get(\"checks\", {}) and builds an empty global mapping when omitted; command_line.py then checks that mapping. A matching per_file_checks entry may still enable a rule.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJwZXJfZmlsZV9jaGVja3MiOnsiZHJhZnQudHh0Ijp7Im1pc2MiOnsic3VkZGVubHkiOnRydWV9fX19"
+        },
+        {
+          "path": "draft.txt",
+          "content_base64": "U3VkZGVubHksIHdlIGxhdW5jaGVkLg=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "compact",
+        "{file:draft.txt}"
+      ],
+      "output_format": "compact",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "explicit_config_missing_checks_per_file_override",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

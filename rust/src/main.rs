@@ -2244,9 +2244,8 @@ fn run() -> Result<ExitCode, String> {
         print!("{}", top_level_help());
         return Ok(ExitCode::from(2));
     }
-    let checks = config_value
-        .get("checks")
-        .ok_or_else(|| "this capability requires an explicit checks configuration".to_owned())?;
+    let empty_checks = Value::Object(serde_json::Map::new());
+    let checks = config_value.get("checks").unwrap_or(&empty_checks);
     if projected_config
         .as_ref()
         .is_some_and(|config| config.checks_error_type.is_some())

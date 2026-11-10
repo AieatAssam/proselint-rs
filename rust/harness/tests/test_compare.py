@@ -203,10 +203,10 @@ class ComparatorTests(unittest.TestCase):
                 active -= 1
             return case["id"]
 
-        cases = [{"id": str(index)} for index in range(6)]
-        results = compare.run_cases_concurrently(cases, worker, max_workers=2)
+        cases = [{"id": str(index)} for index in range(compare.CASE_WORKERS * 2)]
+        results = compare.run_cases_concurrently(cases, worker)
         self.assertEqual(results, [case["id"] for case in cases])
-        self.assertEqual(peak, 2)
+        self.assertEqual(peak, compare.CASE_WORKERS)
 
     def test_focused_attestation_requires_nonempty_capability(self) -> None:
         focused = {"validation_scope": "focused_candidate_build"}

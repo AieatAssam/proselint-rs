@@ -29,14 +29,17 @@ REPORT_SCHEMA_VERSION = 1
 RUNTIME_MARKDOWN_INPUTS = {"data/demo.md"}
 EXCLUDED_TREE_PARTS = {".cache", "artifacts", "target", ".git", "__pycache__", "docs", "inventory.json", "status.json", "status-history.jsonl"}
 VALID_COMPARISON = {"stdout": {"bytes", "json"}, "stderr": {"bytes"}, "exit_status": {"exact"}}
-# Each worker runs the Python oracle and Rust candidate sequentially. Eight
-# bounded case workers reduce cumulative-gate wall time without oversubscribing
-# the machine as aggressively as unbounded per-case subprocesses would.
+# Each worker runs the Python oracle and Rust candidate sequentially.
 CASE_WORKERS = 8
 
 
-def run_cases_concurrently(cases: Sequence[dict[str, Any]], worker: Any, max_workers: int = CASE_WORKERS) -> list[Any]:
-    with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
+def case_worker_count() -> int:
+    cpu_count = getattr(os, "process_cpu_count", os.cpu_count)
+    return min(CASE_WORKERS, max(1, (cpu_count() or 1) // 2))
+
+
+def run_cases_concurrently(cases: Sequence[dict[str, Any]], worker: Any, max_workers: int | None = None) -> list[Any]:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=case_worker_count() if max_workers is None else max_workers) as executor:
         return list(executor.map(worker, cases))
 
 

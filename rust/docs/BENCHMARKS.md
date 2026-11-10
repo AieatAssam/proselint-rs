@@ -1,8 +1,20 @@
 # Python and Rust benchmark
 
+# Latest verified release-candidate comparison (2026-11-10)
+
+This run measured source fingerprint `8127aa4d4ff95197074a976cbd091f311b3fb93900d067ac67fa97f80f32723b` against pinned Proselint 0.16.0 (`dbed789caae662d06c7c8a5a13dd31f1acd36f5c`). The explicit configuration enabled `misc.suddenly` and `psychology.p_equals_zero`; this is not default-config or whole-program performance. Live CLI parity passed all three workloads before timing. The runner collected 25 paired samples per workload after one warmup pair, with a 1,800-second overall deadline; total run time was 37.132 seconds.
+
+| Workload | Input | Python median | Rust median | Python / Rust |
+|---|---:|---:|---:|---:|
+| Small authored positive example | 82 B | 228.341 ms | 4.816 ms | 47.41× |
+| Ordinary prose with sparse positive examples | 9,280 B | 239.471 ms | 7.290 ms | 32.85× |
+| Dense generated two-rule trigger stream | 6,400 B | 283.970 ms | 15.794 ms | 17.98× |
+
+The run used Cargo.lock SHA-256 `a246342e918651174f9fcadb2a6a54a2fea0b431fe6b479bc4da263bcad0a485`, release binary SHA-256 `89dcdaeb3928d36068dfe59817439a765b6fe146800a6279e63d324281c392ac`, and build attestation [`20261110T032527004468Z-build.attestation.json`](../artifacts/20261110T032527004468Z-build.attestation.json). RSS was unavailable. The complete samples, input hashes, environment and preflight evidence are in [`release-candidate-combined-benchmark-20261110.json`](../artifacts/release-candidate-combined-benchmark-20261110.json) (SHA-256 `6e7599b0fb85ecd27403200e929d04ece23c72e43afd5bebdea6cf7841fb51cc`). Results apply only to these inputs, configuration, host and measurement method.
+
 ## Candidate freshness
 
-The latest 2026-11-07 combined-profile run measures the Rust tree at source fingerprint `bd184c3775035296bb3dde5d8145e83fea429bcb43522aaa4ef5654813699770` against pinned Python Proselint 0.16.0. The earlier combined-profile run and isolated `misc.suddenly` figures later in this document are historical and use older candidates. Neither selected profile measures full default-config Proselint behavior.
+The 2026-11-07 combined-profile run measures the Rust tree at source fingerprint `bd184c3775035296bb3dde5d8145e83fea429bcb43522aaa4ef5654813699770` against pinned Python Proselint 0.16.0. The earlier combined-profile run and isolated `misc.suddenly` figures later in this document are historical and use older candidates. Neither selected profile measures full default-config Proselint behavior.
 
 Every benchmark run performs an exact live parity preflight before timing. The runner enforces an overall 30-minute deadline by default across build, preflight, and sampling (`--overall-timeout-seconds` changes the limit); expiration is reported as `BLOCKED` and produces no timing claim. On POSIX the supervisor terminates the benchmark process group and closes pipes; descendants that detach from that group are outside cleanup. The current Windows fallback terminates only the direct child and does not guarantee descendant cleanup. Correctness gates do not run benchmarks.
 
@@ -22,7 +34,7 @@ The full report contains paired samples, per-sample output hashes and environmen
 
 ## Result
 
-This comparison measures the accepted `misc.suddenly` rule with an isolated configuration. It does not measure the whole Proselint program or the Rust port as a whole. The port currently has selected compatibility coverage; most of the 124 registered rule entries are not implemented.
+This comparison measures the accepted `misc.suddenly` rule with an isolated configuration. It does not measure the whole Proselint program or the Rust port as a whole. At that earlier measurement date, the port had selected compatibility coverage and most of the 124 registered rule entries were not implemented. Current coverage and unresolved CLI cases are tracked in [`../status.json`](../status.json).
 
 All three inputs passed a live comparison against the pinned Python executable before timing. The runner then checked parity on every warmup and every measured CLI sample. The complete report, including all 25 raw paired samples per workload and measurement mode, is [`../artifacts/python-rust-benchmark-final-20261105.json`](../artifacts/python-rust-benchmark-final-20261105.json) (SHA-256 `0961da1d92b8b5215786b6095bb8d7273ecb2da64dca5464e7524c354f2574af`).
 

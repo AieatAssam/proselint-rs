@@ -188,7 +188,13 @@ class ComparatorTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "comparison.stdout"):
             compare.validate_case(invalid_policy)
 
-    def test_case_workers_overlap_are_bounded_and_preserve_input_order(self) -> None:
+    def test_case_workers_respect_half_cpu_budget_and_preserve_input_order(self) -> None:
+        cases = [{"id": str(index)} for index in range(20)]
+        expected = {None: 1, 1: 1, 3: 1, 4: 2, 5: 2, 16: 8}
+        for cpu_count, workers in expected.items():
+            with self.subTest(cpu_count=cpu_count), patch.object(os, "process_cpu_count", return_value=cpu_count, create=True):
+                self.assertEqual(compare.case_worker_count(), workers)
+
         active = 0
         peak = 0
         lock = threading.Lock()
@@ -203,10 +209,16 @@ class ComparatorTests(unittest.TestCase):
                 active -= 1
             return case["id"]
 
-        cases = [{"id": str(index)} for index in range(compare.CASE_WORKERS * 2)]
-        results = compare.run_cases_concurrently(cases, worker)
+        with patch.object(os, "process_cpu_count", return_value=4, create=True):
+            results = compare.run_cases_concurrently(cases, worker)
         self.assertEqual(results, [case["id"] for case in cases])
-        self.assertEqual(peak, compare.CASE_WORKERS)
+        self.assertEqual(peak, 2)
+
+        with patch.object(os, "process_cpu_count", create=True) as process_cpu_count:
+            del os.process_cpu_count
+            process_cpu_count.side_effect = AttributeError
+            with patch.object(os, "cpu_count", return_value=5):
+                self.assertEqual(compare.case_worker_count(), 2)
 
     def test_focused_attestation_requires_nonempty_capability(self) -> None:
         focused = {"validation_scope": "focused_candidate_build"}
@@ -1361,7 +1373,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1394)
+        self.assertEqual(len(case_ids), 1418)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -1370,7 +1382,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "26c40b58e4659fb38114322bdc7259fafaed7bd1ae95a639b5791153fa25b47f",
+            "47cfcca4b93f2479f674783a2ffcc4ff481ea55a8a9f748ae5631e34aba37502",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),
@@ -1395,6 +1407,93 @@ class ComparatorTests(unittest.TestCase):
             [json.loads(base64.b64decode(archaism_by_id[case_id]["files"][0]["content_base64"]))["max_errors"] for case_id in probe_ids],
             [1000, 1],
         )
+
+    def test_needless_variants_manifest_cases_cover_source_and_runtime_edges(self) -> None:
+        cases = {case["id"]: case for case in compare.load_manifest()["cases"] if case["capability_id"] == "rule.needless_variants"}
+        self.assertEqual(set(cases), {
+            "needless_variants_all_361_source_pairs", "needless_variants_case_surface_repetition_order",
+            "needless_variants_ascii_boundaries", "needless_variants_quote_suppression_control",
+            "needless_variants_non_ascii_boundaries", "needless_variants_default_dispatch",
+            "needless_variants_max_errors_one_across_batches",
+        })
+        pairs = Path("proselint/checks/needless-variants").read_text(encoding="utf-8").splitlines()
+        self.assertEqual(len(pairs), 361)
+        all_pairs = cases["needless_variants_all_361_source_pairs"]
+        self.assertEqual(base64.b64decode(all_pairs["files"][1]["content_base64"]).decode(), "; ".join(row.split(",", 1)[0] for row in pairs))
+        for case in cases.values():
+            self.assertEqual(case["provenance"].split("SHA-256 ", 1)[1].split(".", 1)[0].rstrip(")"), "3148f8a2f3ba09eee6a6a8284a2d709611d2f51b228afab74db37160adae3316")
+            compare.validate_case(case)
+        self.assertEqual(
+            {case_id: case["expected_oracle_outcome"] for case_id, case in cases.items()},
+            {case_id: "findings" for case_id in cases},
+        )
+        self.assertEqual(json.loads(base64.b64decode(cases["needless_variants_max_errors_one_across_batches"]["files"][0]["content_base64"]))["max_errors"], 1)
+
+    def test_uncomparables_live_case_contracts(self) -> None:
+        cases = {case["id"]: case for case in compare.load_manifest()["cases"] if case["capability_id"] == "rule.uncomparables"}
+        self.assertEqual(set(cases), {
+            "uncomparables_all_standard_combinations", "uncomparables_fancy_least_most",
+            "uncomparables_fancy_at_least_suppression", "uncomparables_documented_exceptions",
+            "uncomparables_case_and_surface", "uncomparables_word_boundaries",
+            "uncomparables_quote_behavior", "uncomparables_order_limit_one",
+            "uncomparables_default_dispatch", "uncomparables_fast_pattern_id_order_limit_one",
+            "uncomparables_fancy_text_order_limit_one",
+        })
+        expected = {
+            "uncomparables_all_standard_combinations": ("findings", 1000), "uncomparables_fancy_least_most": ("findings", 1000),
+            "uncomparables_fancy_at_least_suppression": ("clean", 1000), "uncomparables_documented_exceptions": ("clean", 1000),
+            "uncomparables_case_and_surface": ("findings", 1000), "uncomparables_word_boundaries": ("findings", 1000),
+            "uncomparables_quote_behavior": ("findings", 1000), "uncomparables_order_limit_one": ("findings", 1),
+            "uncomparables_default_dispatch": ("findings", None), "uncomparables_fast_pattern_id_order_limit_one": ("findings", 1),
+            "uncomparables_fancy_text_order_limit_one": ("findings", 1),
+        }
+        for case_id, case in cases.items():
+            with self.subTest(case=case_id):
+                self.assertEqual(case["expected_oracle_outcome"], expected[case_id][0])
+                self.assertEqual(case["provenance"].split("SHA-256 ", 1)[1].split(";", 1)[0].rstrip(")"), "e6842c6cf15f2ee47782fa9d48d04ad3a9e5b5f29b6d3c89db6d02cedfd61582")
+                self.assertEqual(len(case["files"]), 1 if expected[case_id][1] is None else 2)
+                self.assertEqual(case.get("config_scenario"), "isolated_default" if expected[case_id][1] is None else None)
+                if expected[case_id][1] is not None:
+                    config = json.loads(base64.b64decode(case["files"][0]["content_base64"]))
+                    self.assertEqual(config["checks"], {"uncomparables": True})
+                    self.assertEqual(config["max_errors"], expected[case_id][1])
+                compare.validate_case(case)
+        first_matches = {
+            "uncomparables_fast_pattern_id_order_limit_one": ("very unique; extremely absolute", "very unique"),
+            "uncomparables_fancy_text_order_limit_one": ("most unique; least absolute", "most unique"),
+        }
+        for case_id, (text, first) in first_matches.items():
+            case = cases[case_id]
+            self.assertEqual(base64.b64decode(case["files"][1]["content_base64"]).decode(), text)
+            self.assertIn(first, text)
+            self.assertEqual(json.loads(base64.b64decode(case["files"][0]["content_base64"])), {"checks": {"uncomparables": True}, "max_errors": 1})
+
+    def test_restricted_vocabulary_live_case_contracts(self) -> None:
+        all_cases = compare.load_manifest()["cases"]
+        expected = {
+            "elementary": (849, "7e793e661ec22f7f345254a5fbd6e16d4309f94a26673587f068594d681b340e", "7d7b49f39fd8afc4e01ce66b20d8d5d59889d6b7f4e08d3038a0b14b828bf8c0"),
+            "top1000": (1000, "d9e05490d10f0426e5e3ce0a720892fbeb6b8c6c6df90432f8fb4b461b5f398f", "84d32b89cfe250e10cb278e923681a8b17e28ebe22ad60e10ab85730ad02a140"),
+        }
+        for name, (word_count, data_hash, module_hash) in expected.items():
+            cases = {case["id"]: case for case in all_cases if case["capability_id"] == f"rule.restricted.{name}"}
+            self.assertEqual(set(cases), {f"restricted_{name}_all_data_terms", f"restricted_{name}_boundaries_apostrophes_duplicates", f"restricted_{name}_default_disabled"})
+            data = Path(f"proselint/checks/restricted/{name}").read_text(encoding="utf-8").splitlines()
+            self.assertEqual(len(data), word_count)
+            self.assertEqual(base64.b64decode(cases[f"restricted_{name}_all_data_terms"]["files"][1]["content_base64"]).decode(), " ".join(data))
+            for case_id, case in cases.items():
+                with self.subTest(case=case_id):
+                    self.assertIn(f"module proselint/checks/restricted/{name}.py SHA-256 {module_hash}", case["provenance"])
+                    self.assertIn(f"data proselint/checks/restricted/{name} SHA-256 {data_hash}", case["provenance"])
+                    compare.validate_case(case)
+            for kind in ("all_data_terms", "boundaries_apostrophes_duplicates"):
+                case = cases[f"restricted_{name}_{kind}"]
+                self.assertEqual(case["expected_oracle_outcome"], "findings")
+                self.assertEqual(json.loads(base64.b64decode(case["files"][0]["content_base64"]))["checks"], {"restricted": {name: True}})
+            default = cases[f"restricted_{name}_default_disabled"]
+            self.assertEqual(default["expected_oracle_outcome"], "clean")
+            self.assertEqual(default["config_scenario"], "isolated_default")
+            self.assertEqual(base64.b64decode(default["files"][0]["content_base64"]), b"xylophone")
+            self.assertNotIn("--config", default["argv"])
 
     def test_astra_low_error_ordering_regressions_are_interleaved_and_isolated(self) -> None:
         expected = {

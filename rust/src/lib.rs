@@ -24,11 +24,14 @@ pub use rules::mixed_metaphors_bottleneck::diagnostics as mixed_metaphors_bottle
 pub use rules::mixed_metaphors_misc::diagnostics as mixed_metaphors_misc_diagnostics;
 pub use rules::month_of_year::diagnostics as dates_times_dates_month_of_year_diagnostics;
 pub use rules::month_year_comma::diagnostics as dates_times_dates_month_year_comma_diagnostics;
+pub use rules::needless_variants::diagnostics as needless_variants_diagnostics;
 pub use rules::nonwords::diagnostics as nonwords_diagnostics;
 pub use rules::phrasal_adjectives_examples::diagnostics as phrasal_adjectives_examples_diagnostics;
 pub use rules::redundancy_misc_after_the_deadline::diagnostics as redundancy_misc_after_the_deadline_diagnostics;
 pub use rules::redundancy_misc_garner::diagnostics as redundancy_misc_garner_diagnostics;
 pub use rules::redundancy_ras_syndrome::diagnostics as redundancy_ras_syndrome_diagnostics;
+pub use rules::restricted::elementary_diagnostics as restricted_elementary_diagnostics;
+pub use rules::restricted::top1000_diagnostics as restricted_top1000_diagnostics;
 pub use rules::scare_quotes::diagnostics as scare_quotes_diagnostics;
 pub use rules::social_awareness_lgbtq_offensive::diagnostics as social_awareness_lgbtq_offensive_diagnostics;
 pub use rules::social_awareness_lgbtq_terms::diagnostics as social_awareness_lgbtq_terms_diagnostics;
@@ -45,6 +48,7 @@ pub use rules::terms_venery::diagnostics as terms_venery_diagnostics;
 pub use rules::typography_curly_quotes::diagnostics as typography_curly_quotes_diagnostics;
 pub use rules::typography_diacritical_marks::diagnostics as typography_diacritical_marks_diagnostics;
 pub use rules::typography_spacing::diagnostics as typography_spacing_diagnostics;
+pub use rules::uncomparables::diagnostics as uncomparables_diagnostics;
 pub use rules::weasel_words_very::diagnostics as weasel_words_very_diagnostics;
 
 use regex::{Regex, RegexBuilder};

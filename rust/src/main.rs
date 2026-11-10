@@ -24,11 +24,13 @@ use proselint_rs::{
     misc_illogic_diagnostics, misc_preferred_forms_diagnostics, misc_tense_present_diagnostics,
     misc_waxed_diagnostics, misplaced_diagnostics, mixed_metaphors_bottleneck_diagnostics,
     mixed_metaphors_misc_diagnostics, mondegreens_diagnostics, narcissism_diagnostics,
-    nonwords_diagnostics, nordquist_diagnostics, normalize_file_newlines, not_guilty_diagnostics,
-    oxymorons_diagnostics, p_equals_zero_diagnostics, phrasal_adjectives_examples_diagnostics,
+    needless_variants_diagnostics, nonwords_diagnostics, nordquist_diagnostics,
+    normalize_file_newlines, not_guilty_diagnostics, oxymorons_diagnostics,
+    p_equals_zero_diagnostics, phrasal_adjectives_examples_diagnostics,
     phrasal_adjectives_ly_diagnostics, pretension_diagnostics, professions_diagnostics,
     redundancy_misc_after_the_deadline_diagnostics, redundancy_misc_garner_diagnostics,
-    redundancy_ras_syndrome_diagnostics, scare_quotes_diagnostics, skunked_terms_diagnostics,
+    redundancy_ras_syndrome_diagnostics, restricted_elementary_diagnostics,
+    restricted_top1000_diagnostics, scare_quotes_diagnostics, skunked_terms_diagnostics,
     social_awareness_lgbtq_offensive_diagnostics, social_awareness_lgbtq_terms_diagnostics,
     social_awareness_sexism_diagnostics, social_nword_diagnostics,
     spelling_able_atable_diagnostics, spelling_able_ible_diagnostics, spelling_ally_ly_diagnostics,
@@ -40,8 +42,8 @@ use proselint_rs::{
     typography_curly_quotes_diagnostics, typography_diacritical_marks_diagnostics,
     typography_ellipsis_diagnostics, typography_multiplication_diagnostics,
     typography_sentence_spacing_diagnostics, typography_spacing_diagnostics,
-    typography_trademark_diagnostics, wallace_diagnostics, weasel_words_very_diagnostics,
-    whence_diagnostics,
+    typography_trademark_diagnostics, uncomparables_diagnostics, wallace_diagnostics,
+    weasel_words_very_diagnostics, whence_diagnostics,
 };
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -2364,7 +2366,7 @@ fn run() -> Result<ExitCode, String> {
             (None, _) | (_, Some(None)) => None,
         };
         let selected_checks = selected_checks.ok_or_else(|| {
-            "this capability supports disabled checks, annotations.misc, archaism, cliches.hell, cliches.misc.garner, cliches.misc.write_good, cliches.misc.gnu_diction, malapropisms, misc.apologizing, misc.phrasal_adjectives.examples, misc.preferred_forms, misc.but, misc.whence, misc.waxed, misc.illogic, misc.illogic.coin, misc.illogic.collusion, misc.tense_present, mixed_metaphors.bottleneck, mixed_metaphors.misc, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.back_formations, misc.many_a, misc.metadiscourse, misc.narcissism, misc.not_guilty, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, misc.scare_quotes, mondegreens, nonwords, oxymorons, redundancy.misc.wallace, redundancy.misc.garner, redundancy.misc.nordquist, redundancy.misc.after_the_deadline, redundancy.ras_syndrome, industrial_language.bureaucratese, industrial_language.chatspeak, industrial_language.commercialese, industrial_language.corporate_speak, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, typography.symbols.curly_quotes, typography.punctuation.misplaced, typography.punctuation.exclamation, typography.punctuation.hyperbole, typography.punctuation.spacing, typography.diacritical_marks, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, dates_times.am_pm.midnight_noon, dates_times.dates.decade_apostrophes, dates_times.dates.month_of_year, spelling.able_atable, spelling.able_ible, spelling.ally_ly, spelling.ance_ence, spelling.athletes, spelling.consistency, spelling.ely_ly, spelling.em_im_en_in, spelling.er_or, spelling.in_un, spelling.misc, spelling.ve_of, skunked_terms, social_awareness.nword, social_awareness.lgbtq.offensive, social_awareness.lgbtq.terms, social_awareness.sexism, weasel_words.very, terms.animal_adjectives, terms.denizen_labels.garner, terms.denizen_labels.norris, terms.venery, or terms.eponymous_adjectives only".to_owned()
+            "this capability supports disabled checks, annotations.misc, archaism, cliches.hell, cliches.misc.garner, cliches.misc.write_good, cliches.misc.gnu_diction, malapropisms, misc.apologizing, misc.phrasal_adjectives.examples, misc.preferred_forms, misc.but, misc.whence, misc.waxed, misc.illogic, misc.illogic.coin, misc.illogic.collusion, misc.tense_present, mixed_metaphors.bottleneck, mixed_metaphors.misc, misc.suddenly, misc.debased, misc.currency, misc.inferior_superior, misc.false_plurals.kudos, psychology.mental_telepathy, psychology.p_equals_zero, psychology.lie_detector, misc.back_formations, misc.many_a, misc.metadiscourse, misc.narcissism, misc.not_guilty, misc.pretension, misc.latin, misc.capitalization.seasons, misc.capitalization.terms, misc.capitalization.days, misc.capitalization.months, misc.institution_name, misc.professions, misc.greylist, misc.composition, misc.scare_quotes, mondegreens, needless_variants, nonwords, oxymorons, redundancy.misc.wallace, redundancy.misc.garner, redundancy.misc.nordquist, redundancy.misc.after_the_deadline, redundancy.ras_syndrome, restricted.elementary, restricted.top1000, industrial_language.bureaucratese, industrial_language.chatspeak, industrial_language.commercialese, industrial_language.corporate_speak, industrial_language.jargon, industrial_language.airlinese, hedging, typography.symbols.ellipsis, typography.symbols.copyright, typography.symbols.sentence_spacing, typography.symbols.trademark, typography.symbols.multiplication, typography.symbols.curly_quotes, uncomparables, typography.punctuation.misplaced, typography.punctuation.exclamation, typography.punctuation.hyperbole, typography.punctuation.spacing, typography.diacritical_marks, dates_times.am_pm.lowercase_periods, dates_times.am_pm.spacing, dates_times.am_pm.midnight_noon, dates_times.dates.decade_apostrophes, dates_times.dates.month_of_year, spelling.able_atable, spelling.able_ible, spelling.ally_ly, spelling.ance_ence, spelling.athletes, spelling.consistency, spelling.ely_ly, spelling.em_im_en_in, spelling.er_or, spelling.in_un, spelling.misc, spelling.ve_of, skunked_terms, social_awareness.nword, social_awareness.lgbtq.offensive, social_awareness.lgbtq.terms, social_awareness.sexism, weasel_words.very, terms.animal_adjectives, terms.denizen_labels.garner, terms.denizen_labels.norris, terms.venery, or terms.eponymous_adjectives only".to_owned()
         })?;
 
         let mut diagnostics = Vec::new();
@@ -2427,6 +2429,7 @@ fn run() -> Result<ExitCode, String> {
                 SelectedCheck::TypographySymbolsCurlyQuotes => {
                     typography_curly_quotes_diagnostics(content)
                 }
+                SelectedCheck::Uncomparables => uncomparables_diagnostics(content),
                 SelectedCheck::WeaselWordsVery => weasel_words_very_diagnostics(content),
                 SelectedCheck::MiscApologizing => apologizing_diagnostics(content),
                 SelectedCheck::MiscPhrasalAdjectivesLy => {
@@ -2496,6 +2499,8 @@ fn run() -> Result<ExitCode, String> {
                 SelectedCheck::RedundancyRasSyndrome => {
                     redundancy_ras_syndrome_diagnostics(content)
                 }
+                SelectedCheck::RestrictedElementary => restricted_elementary_diagnostics(content),
+                SelectedCheck::RestrictedTop1000 => restricted_top1000_diagnostics(content),
                 SelectedCheck::MiscIllogicCoin => illogic_coin_diagnostics(content),
                 SelectedCheck::MiscIllogicCollusion => illogic_collusion_diagnostics(content),
                 SelectedCheck::MiscBackFormations => back_formations_diagnostics(content),
@@ -2548,6 +2553,7 @@ fn run() -> Result<ExitCode, String> {
                 SelectedCheck::SpellingMisc => spelling_misc_diagnostics(content),
                 SelectedCheck::SpellingVeOf => spelling_ve_of_diagnostics(content),
                 SelectedCheck::Mondegreens => mondegreens_diagnostics(content),
+                SelectedCheck::NeedlessVariants => needless_variants_diagnostics(content),
                 SelectedCheck::Nonwords => nonwords_diagnostics(content),
                 SelectedCheck::Oxymorons => oxymorons_diagnostics(content),
                 SelectedCheck::MiscComposition => composition_diagnostics_in_matcher_order(content),
@@ -2790,6 +2796,7 @@ enum SelectedCheck {
     MixedMetaphorsBottleneck,
     MixedMetaphorsMisc,
     Mondegreens,
+    NeedlessVariants,
     Nonwords,
     Oxymorons,
     PsychologyLieDetector,
@@ -2800,6 +2807,8 @@ enum SelectedCheck {
     RedundancyMiscNordquist,
     RedundancyMiscAfterTheDeadline,
     RedundancyRasSyndrome,
+    RestrictedElementary,
+    RestrictedTop1000,
     SkunkedTerms,
     SocialAwarenessLgbtqTerms,
     SocialAwarenessLgbtqOffensive,
@@ -2833,6 +2842,7 @@ enum SelectedCheck {
     TypographySymbolsSentenceSpacing,
     TypographySymbolsMultiplication,
     TypographySymbolsCurlyQuotes,
+    Uncomparables,
     WeaselWordsVery,
 }
 
@@ -2898,6 +2908,7 @@ impl SelectedCheck {
             MixedMetaphorsBottleneck,
             MixedMetaphorsMisc,
             Mondegreens,
+            NeedlessVariants,
             Nonwords,
             Oxymorons,
             PsychologyLieDetector,
@@ -2908,6 +2919,8 @@ impl SelectedCheck {
             RedundancyMiscNordquist,
             RedundancyMiscAfterTheDeadline,
             RedundancyRasSyndrome,
+            RestrictedElementary,
+            RestrictedTop1000,
             SkunkedTerms,
             SocialAwarenessLgbtqTerms,
             SocialAwarenessLgbtqOffensive,
@@ -2941,6 +2954,7 @@ impl SelectedCheck {
             TypographySymbolsSentenceSpacing,
             TypographySymbolsMultiplication,
             TypographySymbolsCurlyQuotes,
+            Uncomparables,
             WeaselWordsVery,
         ]
     }
@@ -2981,6 +2995,8 @@ fn supported_checks(checks: &Value) -> Option<Vec<SelectedCheck>> {
             ["mixed_metaphors", "bottleneck"] => Some(SelectedCheck::MixedMetaphorsBottleneck),
             ["mixed_metaphors", "misc"] => Some(SelectedCheck::MixedMetaphorsMisc),
             ["redundancy", "ras_syndrome"] => Some(SelectedCheck::RedundancyRasSyndrome),
+            ["restricted", "elementary"] => Some(SelectedCheck::RestrictedElementary),
+            ["restricted", "top1000"] => Some(SelectedCheck::RestrictedTop1000),
             ["misc", "suddenly"] => Some(SelectedCheck::MiscSuddenly),
             ["misc", "debased"] => Some(SelectedCheck::MiscDebased),
             ["misc", "currency"] => Some(SelectedCheck::MiscCurrency),
@@ -3075,6 +3091,7 @@ fn supported_checks(checks: &Value) -> Option<Vec<SelectedCheck>> {
             ["spelling", "misc"] => Some(SelectedCheck::SpellingMisc),
             ["spelling", "ve_of"] => Some(SelectedCheck::SpellingVeOf),
             ["mondegreens"] => Some(SelectedCheck::Mondegreens),
+            ["needless_variants"] => Some(SelectedCheck::NeedlessVariants),
             ["oxymorons"] => Some(SelectedCheck::Oxymorons),
             ["misc", "composition"] => Some(SelectedCheck::MiscComposition),
             ["nonwords"] => Some(SelectedCheck::Nonwords),
@@ -3099,6 +3116,7 @@ fn supported_checks(checks: &Value) -> Option<Vec<SelectedCheck>> {
             ["typography", "symbols", "curly_quotes"] => {
                 Some(SelectedCheck::TypographySymbolsCurlyQuotes)
             }
+            ["uncomparables"] => Some(SelectedCheck::Uncomparables),
             ["weasel_words", "very"] => Some(SelectedCheck::WeaselWordsVery),
             _ => None,
         }
@@ -3222,6 +3240,8 @@ fn selected_check_path(check: SelectedCheck) -> &'static str {
         SelectedCheck::RedundancyMiscNordquist => "redundancy.misc.nordquist",
         SelectedCheck::RedundancyMiscAfterTheDeadline => "redundancy.misc.after_the_deadline",
         SelectedCheck::RedundancyRasSyndrome => "redundancy.ras_syndrome",
+        SelectedCheck::RestrictedElementary => "restricted.elementary",
+        SelectedCheck::RestrictedTop1000 => "restricted.top1000",
         SelectedCheck::MiscIllogicCoin => "misc.illogic.coin",
         SelectedCheck::MiscIllogicCollusion => "misc.illogic.collusion",
         SelectedCheck::MiscBackFormations => "misc.back_formations",
@@ -3258,6 +3278,7 @@ fn selected_check_path(check: SelectedCheck) -> &'static str {
         SelectedCheck::SpellingMisc => "spelling.misc",
         SelectedCheck::SpellingVeOf => "spelling.ve_of",
         SelectedCheck::Mondegreens => "mondegreens",
+        SelectedCheck::NeedlessVariants => "needless_variants",
         SelectedCheck::Nonwords => "nonwords",
         SelectedCheck::Oxymorons => "oxymorons",
         SelectedCheck::MiscComposition => "misc.composition",
@@ -3272,6 +3293,7 @@ fn selected_check_path(check: SelectedCheck) -> &'static str {
         SelectedCheck::TypographySymbolsTrademark => "typography.symbols.trademark",
         SelectedCheck::TypographySymbolsMultiplication => "typography.symbols.multiplication",
         SelectedCheck::TypographySymbolsCurlyQuotes => "typography.symbols.curly_quotes",
+        SelectedCheck::Uncomparables => "uncomparables",
         SelectedCheck::WeaselWordsVery => "weasel_words.very",
     }
 }

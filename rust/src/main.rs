@@ -2254,23 +2254,10 @@ fn run() -> Result<ExitCode, String> {
             config.display()
         ));
     }
-    if show_version {
-        println!(
-            "{}",
-            if product_version {
-                PRODUCT_VERSION
-            } else {
-                "Proselint 0.16.0"
-            }
-        );
-        return Ok(ExitCode::SUCCESS);
-    }
     if no_command {
         print!("{}", top_level_help());
         return Ok(ExitCode::from(2));
     }
-    let empty_checks = Value::Object(serde_json::Map::new());
-    let checks = config_value.get("checks").unwrap_or(&empty_checks);
     if projected_config
         .as_ref()
         .is_some_and(|config| config.checks_error_type.is_some())
@@ -2279,11 +2266,17 @@ fn run() -> Result<ExitCode, String> {
             .as_ref()
             .and_then(|config| config.checks_error_type)
             .unwrap_or("object");
-        println!(
-            "{}",
-            serde_json::json!({"error":{"code":-31999,"data":"AttributeError","message":format!("'{type_name}' object has no attribute 'items'")}})
-        );
-        return Ok(ExitCode::from(4));
+        let message = format!("'{type_name}' object has no attribute 'items'");
+        if matches!(output_format, OutputFormat::Json) {
+            println!(
+                "{}",
+                serde_json::json!({"error":{"code":-31999,"data":"AttributeError","message":message}})
+            );
+            return Ok(ExitCode::from(4));
+        }
+        return Err(format!(
+            "Unrecoverable error encountered while running proselint: {message}"
+        ));
     }
     if let Some(type_name) = projected_config
         .as_ref()
@@ -2301,6 +2294,19 @@ fn run() -> Result<ExitCode, String> {
             "Unrecoverable error encountered while running proselint: {message}"
         ));
     }
+    if show_version {
+        println!(
+            "{}",
+            if product_version {
+                PRODUCT_VERSION
+            } else {
+                "Proselint 0.16.0"
+            }
+        );
+        return Ok(ExitCode::SUCCESS);
+    }
+    let empty_checks = Value::Object(serde_json::Map::new());
+    let checks = config_value.get("checks").unwrap_or(&empty_checks);
     let mut max_errors_is_invalid = projected_config
         .as_ref()
         .is_some_and(|config| config.max_errors_is_invalid);

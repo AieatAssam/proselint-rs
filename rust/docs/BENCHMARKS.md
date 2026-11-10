@@ -1,8 +1,22 @@
 # Python and Rust benchmark
 
-# Latest verified release-candidate comparison (2026-11-10)
+## Verified candidate after passing cumulative gate (2026-11-10)
 
-This run measured source fingerprint `96160ce82689b5363a896a36d09b0fa10703418c586d972e856eff24ffcc7518` against pinned Proselint 0.16.0 (`dbed789caae662d06c7c8a5a13dd31f1acd36f5c`). The explicit configuration enabled `misc.suddenly` and `psychology.p_equals_zero`; this is not default-config or whole-program performance. Live CLI parity passed all three workloads before timing. The runner collected 25 paired samples per workload after one warmup pair, with a 1,800-second overall deadline; total run time was 42.258 seconds (2026-11-10 06:54:34–06:55:16 UTC).
+After the full release gate passed 1,421/1,421 accepted cases, the current release candidate was benchmarked against pinned Proselint 0.16.0 at revision `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`. The three-workload `misc.suddenly` + `psychology.p_equals_zero` profile passed exact live parity preflight on all 3 workloads. Each workload used 25 paired fresh-process samples after 3 excluded warmups; timings include process startup, input/config reading, linting, serialization, and output capture.
+
+| Workload | Input | Python median | Rust median | Python / Rust | Python IQR | Rust IQR |
+|---|---:|---:|---:|---:|---:|---:|
+| Small authored positive example | 82 B | 231.197 ms | 4.926 ms | 46.93× | 23.423 ms | 0.726 ms |
+| Ordinary prose with sparse positive examples | 9,280 B | 281.185 ms | 8.505 ms | 33.06× | 34.354 ms | 0.570 ms |
+| Dense generated two-rule trigger stream | 6,400 B | 325.392 ms | 18.606 ms | 17.49× | 57.538 ms | 3.403 ms |
+
+The run used source fingerprint `3f2a46f90d18544bf8067630fe5649f79a68c44e0d4f7a8f41d7587abbe6c881`, candidate SHA-256 `77c5860e3ffea208bd326b660101bc7df3a1beedb1a7b131ea696df3fd9f7c84`, and a full-gate release attestation. It ran on Linux x86_64 with Python 3.12.3 and rustc/Cargo 1.99.1. The measured section took 28.976 seconds; setup/build and parity preflight took 3.939 and 9.191 seconds respectively. Total elapsed time was about 45.4 seconds. RSS was unavailable. Full raw samples, hashes, environment, and preflight are in [`release-candidate-benchmark-20261110.json`](../artifacts/release-candidate-benchmark-20261110.json) (SHA-256 `55e9dc590ef5f6a5eb93556b07128c5e2c916239c9fa461896fff1870afc36a7`).
+
+These measurements apply only to the listed explicit selected-rule inputs and host. They do not establish whole-program, default-configuration, or general Proselint speedups.
+
+## Previous measurement (2026-11-10; prior harness fingerprint)
+
+This is the latest recorded benchmark with a passing live preflight. It measured source fingerprint `96160ce82689b5363a896a36d09b0fa10703418c586d972e856eff24ffcc7518` before the runtime-independence harness test was added. The current source fingerprint is newer and its cumulative gate had two reference timeouts, so these are not current-candidate release measurements. It used pinned Proselint 0.16.0 (`dbed789caae662d06c7c8a5a13dd31f1acd36f5c`). The explicit configuration enabled `misc.suddenly` and `psychology.p_equals_zero`; this is not default-config or whole-program performance. Live CLI parity passed all three workloads before timing. The runner collected 25 paired samples per workload after one warmup pair, with a 1,800-second overall deadline; total run time was 42.258 seconds (2026-11-10 06:54:34–06:55:16 UTC).
 
 | Workload | Input | Python median | Rust median | Python / Rust |
 |---|---:|---:|---:|---:|

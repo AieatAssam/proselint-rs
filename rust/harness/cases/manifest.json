@@ -37536,6 +37536,200 @@
       }
     },
     {
+      "id": "check_version_checks_null_default",
+      "capability_id": "cli.config.check_version_invalid_config_precedence",
+      "provenance": "Pinned live CLI Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c: check loads configuration before applying --version; load_from() raises while flattening checks=null with the default output format.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOm51bGx9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--version"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "check_version_checks_null_json",
+      "capability_id": "cli.config.check_version_invalid_config_precedence",
+      "provenance": "Pinned live CLI Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c: check loads configuration before applying --version; load_from() raises while flattening checks=null, regardless of --output-format json.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOm51bGx9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--version",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "check_version_checks_null_compact",
+      "capability_id": "cli.config.check_version_invalid_config_precedence",
+      "provenance": "Pinned live CLI Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c: check loads configuration before applying --version; load_from() raises while flattening checks=null, regardless of --output-format compact.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOm51bGx9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--version",
+        "--output-format",
+        "compact"
+      ],
+      "output_format": "compact",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "check_version_per_file_checks_null_default",
+      "capability_id": "cli.config.check_version_invalid_config_precedence",
+      "provenance": "Pinned live CLI Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c: check loads configuration before applying --version; load_from() raises while flattening per_file_checks=null with the default output format.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJwZXJfZmlsZV9jaGVja3MiOm51bGx9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--version"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "check_version_per_file_checks_null_json",
+      "capability_id": "cli.config.check_version_invalid_config_precedence",
+      "provenance": "Pinned live CLI Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c: check loads configuration before applying --version; load_from() raises while flattening per_file_checks=null, regardless of --output-format json.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJwZXJfZmlsZV9jaGVja3MiOm51bGx9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--version",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "check_version_per_file_checks_null_compact",
+      "capability_id": "cli.config.check_version_invalid_config_precedence",
+      "provenance": "Pinned live CLI Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c: check loads configuration before applying --version; load_from() raises while flattening per_file_checks=null, regardless of --output-format compact.",
+      "input_mode": "stdin",
+      "stdin_base64": "",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJwZXJfZmlsZV9jaGVja3MiOm51bGx9"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--version",
+        "--output-format",
+        "compact"
+      ],
+      "output_format": "compact",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
       "id": "cli_config_checks_invalid_null_version_json",
       "capability_id": "cli.config.consumed_special_values",
       "provenance": "Pinned live Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks null raises its `.items()` AttributeError in dump-config json even with --version.",

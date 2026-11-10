@@ -1395,7 +1395,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1426)
+        self.assertEqual(len(case_ids), 1432)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -1404,7 +1404,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "b47fa3b722765ba415b6dae36d28ee904229d4dc1e0e7b087af1d41ad082514c",
+            "1c73b16748ed5473ec36f9da75181e9daf953a694888b7a9e9cc8ae17f3b43ab",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),
@@ -2180,6 +2180,36 @@ class ComparatorTests(unittest.TestCase):
                 self.assertEqual(case["expected_oracle_outcome"], "clean")
                 self.assertEqual(case["comparison"], {
                     "stdout": "bytes", "stderr": "bytes", "exit_status": "exact",
+                })
+
+    def test_check_version_invalid_config_precedence_cases_are_exact(self) -> None:
+        cases = {
+            case["id"]: case for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "cli.config.check_version_invalid_config_precedence"
+        }
+        expected = {
+            "check_version_checks_null_default": ("checks", "full", None),
+            "check_version_checks_null_json": ("checks", "json"),
+            "check_version_checks_null_compact": ("checks", "compact"),
+            "check_version_per_file_checks_null_default": ("per_file_checks", "full", None),
+            "check_version_per_file_checks_null_json": ("per_file_checks", "json"),
+            "check_version_per_file_checks_null_compact": ("per_file_checks", "compact"),
+        }
+        self.assertEqual(set(cases), set(expected))
+        for case_id, spec in expected.items():
+            with self.subTest(case=case_id):
+                field, output_format = spec[:2]
+                format_args = [] if len(spec) == 3 else ["--output-format", output_format]
+                case = cases[case_id]
+                self.assertEqual(json.loads(base64.b64decode(case["files"][0]["content_base64"])), {field: None})
+                self.assertEqual(case["argv"], ["check", "--config", "{file:config.json}", "--version", *format_args])
+                self.assertEqual(case["output_format"], output_format)
+                self.assertEqual(case["expected_oracle_outcome"], "cli_error")
+                self.assertEqual(case["timeout_seconds"], 10)
+                self.assertEqual(case["comparison"], {
+                    "stdout": "json" if output_format == "json" else "bytes",
+                    "stderr": "bytes",
+                    "exit_status": "exact",
                 })
 
     def test_root_config_precedence_cases_distinguish_option_position(self) -> None:

@@ -1,0 +1,33 @@
+   Compiling proselint-rs v2026.11.8+1 (/home/dev/proselint-rs/rust)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.01s
+     Running tests/cli_config_check_version_precedence.rs (target/debug/deps/cli_config_check_version_precedence-a819abc28ce6bcae)
+
+running 2 tests
+test checks_null_config_error_precedes_check_version ... FAILED
+test per_file_checks_null_config_error_precedes_check_version ... FAILED
+
+failures:
+
+---- checks_null_config_error_precedes_check_version stdout ----
+
+thread 'checks_null_config_error_precedes_check_version' (3342589) panicked at tests/cli_config_check_version_precedence.rs:51:9:
+assertion `left == right` failed: stderr: []
+  left: Some(0)
+ right: Some(4)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- per_file_checks_null_config_error_precedes_check_version stdout ----
+
+thread 'per_file_checks_null_config_error_precedes_check_version' (3342590) panicked at tests/cli_config_check_version_precedence.rs:51:9:
+assertion `left == right` failed: stderr: []
+  left: Some(0)
+ right: Some(4)
+
+
+failures:
+    checks_null_config_error_precedes_check_version
+    per_file_checks_null_config_error_precedes_check_version
+
+test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+
+error: test failed, to rerun pass `--test cli_config_check_version_precedence`

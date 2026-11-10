@@ -2695,8 +2695,34 @@ fn run() -> Result<ExitCode, String> {
     } else {
         let expanded_paths = expand_input_paths(&paths);
         for path in &expanded_paths {
-            let source = file_uri_or_missing(path)
-                .map_err(|error| format!("Could not resolve '{}': {error}", path.display()))?;
+            let source = match file_uri_or_missing(path) {
+                Ok(source) => source,
+                Err(error) if error.to_string() == "symbolic link loop while resolving path" => {
+                    let absolute = if path.is_absolute() {
+                        path.to_path_buf()
+                    } else {
+                        std::env::current_dir()
+                            .map_err(|error| {
+                                format!("Could not resolve '{}': {error}", path.display())
+                            })?
+                            .join(path)
+                    };
+                    let message = format!("Symlink loop from '{}'", absolute.display());
+                    if matches!(output_format, OutputFormat::Json) {
+                        println!(
+                            "{}",
+                            serde_json::json!({"error":{"code":-31999,"data":"RuntimeError","message":message}})
+                        );
+                        return Ok(ExitCode::from(4));
+                    }
+                    return Err(format!(
+                        "Unrecoverable error encountered while running proselint: {message}"
+                    ));
+                }
+                Err(error) => {
+                    return Err(format!("Could not resolve '{}': {error}", path.display()));
+                }
+            };
             let resolved = resolved_path(path).unwrap_or_else(|_| path.to_path_buf());
             let full = resolved.display().to_string();
             let compact = resolved

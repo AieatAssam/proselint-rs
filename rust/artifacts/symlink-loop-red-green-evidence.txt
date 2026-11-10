@@ -1,0 +1,7 @@
+Pinned oracle and pre-change Rust binary; workspace=/tmp/symlink-loop-cli-r1396xm_
+python json status=4 stdout=b'{\n  "error": {\n    "code": -31999,\n    "data": "RuntimeError",\n    "message": "Symlink loop from \'/tmp/symlink-loop-cli-r1396xm_/loop.txt\'"\n  }\n}' stderr=b''
+rust-before json status=4 stdout=b'' stderr=b"Could not resolve 'loop.txt': symbolic link loop while resolving path\n"
+python full status=4 stdout=b'' stderr=b"Unrecoverable error encountered while running proselint: Symlink loop from '/tmp/symlink-loop-cli-r1396xm_/loop.txt'\n"
+rust-before full status=4 stdout=b'' stderr=b"Could not resolve 'loop.txt': symbolic link loop while resolving path\n"
+python compact status=4 stdout=b'' stderr=b"Unrecoverable error encountered while running proselint: Symlink loop from '/tmp/symlink-loop-cli-r1396xm_/loop.txt'\n"
+rust-before compact status=4 stdout=b'' stderr=b"Could not resolve 'loop.txt': symbolic link loop while resolving path\n"

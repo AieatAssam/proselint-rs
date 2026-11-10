@@ -220,7 +220,7 @@ def validate_case(case: Any) -> None:
             if target in represented:
                 raise ValueError(f"{case['id']}: dangling symlink target is represented: {target}")
             dangling_targets.add(target)
-        elif target not in represented:
+        elif target not in represented and target != path:
             raise ValueError(f"{case['id']}: symlink target is not represented by a file fixture or directory: {target}")
         declared_links.add(path)
     link_directories = {

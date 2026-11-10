@@ -61,6 +61,16 @@ class ComparatorTests(unittest.TestCase):
             self.assertFalse(alias.exists())
             self.assertEqual(os.readlink(alias), "missing.txt")
 
+    def test_symlink_fixture_allows_self_loop(self) -> None:
+        case = self._symlink_case()
+        case["symlinks"] = [{"path": "loop.txt", "target": "loop.txt"}]
+        compare.validate_case(case)
+        with tempfile.TemporaryDirectory() as tmp:
+            workspace = Path(tmp)
+            compare.materialize_symlinks(case, workspace)
+            self.assertTrue((workspace / "loop.txt").is_symlink())
+            self.assertEqual(os.readlink(workspace / "loop.txt"), "loop.txt")
+
     def test_symlink_fixture_rejects_dangling_marker_for_represented_target(self) -> None:
         for symlinks in (
             [{"path": "alias.md", "target": "tree", "dangling": True}],
@@ -1395,7 +1405,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1433)
+        self.assertEqual(len(case_ids), 1436)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -1404,7 +1414,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "413382ded28d07812debe6243c272d9b61f95146851b3c5af2e749b3fd46e3b3",
+            "2f5c79c308691fa1fa5ea2fa9af0acf4bceee69214c0b0c23454a0a38f6d6b26",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),

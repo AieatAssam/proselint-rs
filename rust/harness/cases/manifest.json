@@ -46431,6 +46431,120 @@
       "stderr": "bytes",
       "exit_status": "exact"
     }
-  }
+  },
+    {
+      "id": "cli_symlink_loop_path_json",
+      "capability_id": "cli.symlink_loop_path",
+      "provenance": "Pinned Linux live probe: Proselint 0.16.0, explicit annotations config, self-referential loop.txt -> loop.txt; compares the absolute input path exactly in each output format.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnRydWV9fQ=="
+        }
+      ],
+      "symlinks": [
+        {
+          "path": "loop.txt",
+          "target": "loop.txt"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json",
+        "loop.txt"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_symlink_loop_path_full",
+      "capability_id": "cli.symlink_loop_path",
+      "provenance": "Pinned Linux live probe: Proselint 0.16.0, explicit annotations config, self-referential loop.txt -> loop.txt; compares the absolute input path exactly in each output format.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnRydWV9fQ=="
+        }
+      ],
+      "symlinks": [
+        {
+          "path": "loop.txt",
+          "target": "loop.txt"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "full",
+        "loop.txt"
+      ],
+      "output_format": "full",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "cli_symlink_loop_path_compact",
+      "capability_id": "cli.symlink_loop_path",
+      "provenance": "Pinned Linux live probe: Proselint 0.16.0, explicit annotations config, self-referential loop.txt -> loop.txt; compares the absolute input path exactly in each output format.",
+      "input_mode": "files",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJjaGVja3MiOnsiYW5ub3RhdGlvbnMiOnRydWV9fQ=="
+        }
+      ],
+      "symlinks": [
+        {
+          "path": "loop.txt",
+          "target": "loop.txt"
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "compact",
+        "loop.txt"
+      ],
+      "output_format": "compact",
+      "expected_oracle_outcome": "cli_error",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "bytes",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    }
   ]
 }

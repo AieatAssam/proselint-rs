@@ -587,22 +587,22 @@
       "id": "rule.restricted.top1000",
       "status": "independently_verified",
       "live_cases": 3,
-      "independent_report": "rust/artifacts/independent-final-20261110/restricted-top1000.json",
-      "candidate_attestation": "rust/artifacts/20261110T084006022583Z-build.attestation.json"
+      "independent_report": "rust/artifacts/independent-final-20261110-current/rule-restricted-top1000.json",
+      "candidate_attestation": "rust/artifacts/20261110T103800522998Z-build.attestation.json"
     },
     {
       "id": "rule.uncomparables",
       "status": "independently_verified",
       "live_cases": 11,
-      "independent_report": "rust/artifacts/independent-final-20261110/uncomparables.json",
-      "candidate_attestation": "rust/artifacts/20261110T084006022583Z-build.attestation.json"
+      "independent_report": "rust/artifacts/independent-final-20261110-current/rule-uncomparables.json",
+      "candidate_attestation": "rust/artifacts/20261110T103800522998Z-build.attestation.json"
     },
     {
       "id": "rule.restricted.elementary",
       "status": "independently_verified",
       "live_cases": 3,
-      "independent_report": "rust/artifacts/independent-final-20261110/restricted-elementary.json",
-      "candidate_attestation": "rust/artifacts/20261110T084006022583Z-build.attestation.json"
+      "independent_report": "rust/artifacts/independent-final-20261110-current/rule-restricted-elementary.json",
+      "candidate_attestation": "rust/artifacts/20261110T103800522998Z-build.attestation.json"
     },
     {
       "id": "cli.demo.default_compact",
@@ -801,7 +801,7 @@
     },
     "current_manifest_capability_count": 158
   },
-  "active_ownership": "No active implementation owners. 152 capabilities / 1422 cases have focused owner and independent live evidence, including one default-config cross-rule case. The last cumulative release gate covers 151 capabilities / 1,421 cases at an earlier source fingerprint; run the next cumulative checkpoint after 5–10 new capabilities and before release.",
+  "active_ownership": "No active implementation owners. Latest strict release gate passes 1,422/1,422 accepted cases across 152 capabilities at fingerprint c1c5c7636db6004c303da59f61015abd9ec32dcb564fdc5fd3e38f0782344c94. The manifest has 1,436 cases total; 14 cases across seven excluded or pending capabilities remain outside strict scope.",
   "unresolved": [
     "Other CLI/config behavior remains unverified, including passwd-home config-present behavior, HOME-absent no-passwd-entry config behavior (confirmed mismatch in cli.config.no_passwd_home; see harness.latest_no_passwd_home_case), other subcommands, HOME-unset platform variation, directory candidates, and traversal/decoding edges.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
@@ -1215,7 +1215,7 @@
         "passed_cases": 1324,
         "capabilities": 136,
         "scope_matches_current_case_set": false,
-        "note": "Schedule after 5–10 additional accepted capabilities or before release/shared infrastructure changes."
+        "note": "Schedule after 5\u201310 additional accepted capabilities or before release/shared infrastructure changes."
       }
     },
     {
@@ -2596,7 +2596,7 @@
         "ellipsis_unicode_codepoint_spans",
         "ellipsis_selected_config_interaction"
       ],
-      "upstream_spec": "ExistenceSimple unanchored literal \\.\\.\\.; exact message \"'...' is an approximation, use the ellipsis symbol '…'.\"; nonoverlapping matches; allow_quotes=false suppresses quoted findings.",
+      "upstream_spec": "ExistenceSimple unanchored literal \\.\\.\\.; exact message \"'...' is an approximation, use the ellipsis symbol '\u2026'.\"; nonoverlapping matches; allow_quotes=false suppresses quoted findings.",
       "red": {
         "behavioral_failures": 6,
         "total_tests": 6,
@@ -2640,7 +2640,7 @@
         "copyright_unicode_codepoint_positions",
         "copyright_selected_config_interaction"
       ],
-      "upstream_spec": "ExistenceSimple unanchored, case-insensitive literal \\(c\\); message `(c) is a goofy alphabetic approximation, use the symbol ©.`; allow_quotes=false suppresses quoted findings.",
+      "upstream_spec": "ExistenceSimple unanchored, case-insensitive literal \\(c\\); message `(c) is a goofy alphabetic approximation, use the symbol \u00a9.`; allow_quotes=false suppresses quoted findings.",
       "red": {
         "behavioral_failures": 6,
         "total_tests": 6,
@@ -2775,7 +2775,7 @@
         "multiplication_unicode_codepoint_positions",
         "multiplication_selected_config_interaction"
       ],
-      "upstream_spec": "ExistenceSimple `\\d+ ?x ?\\d+`: ASCII digits, case-insensitive x, zero or one ASCII space on either side, unanchored. Exact message: `Use the multiplication symbol ×, not the letter x.`",
+      "upstream_spec": "ExistenceSimple `\\d+ ?x ?\\d+`: ASCII digits, case-insensitive x, zero or one ASCII space on either side, unanchored. Exact message: `Use the multiplication symbol \u00d7, not the letter x.`",
       "red": {
         "behavioral_failures": 7,
         "total_tests": 7,
@@ -3122,7 +3122,7 @@
         "inferior_superior_unicode_codepoint_positions",
         "inferior_superior_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.inferior_superior` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `inferior than` → `inferior to`; `superior than` → `superior to`. Default quote suppression; no exceptions or offsets. The replacement fills the message template `'Inferior' and 'superior' are not true comparatives. Use '{}'.`",
+      "upstream_spec": "Pinned `misc.inferior_superior` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `inferior than` \u2192 `inferior to`; `superior than` \u2192 `superior to`. Default quote suppression; no exceptions or offsets. The replacement fills the message template `'Inferior' and 'superior' are not true comparatives. Use '{}'.`",
       "red": {
         "behavioral_failures": 10,
         "total_tests": 10,
@@ -3437,7 +3437,7 @@
         "many_a_unicode_codepoint_positions",
         "many_a_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.many_a` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `are many a` → `is many a`; `have been many a` → `has been many a`; `were many a` → `was many a`. The static message is `'many a' requires a singular verb.`; each mapped replacement is returned. Default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `misc.many_a` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `are many a` \u2192 `is many a`; `have been many a` \u2192 `has been many a`; `were many a` \u2192 `was many a`. The static message is `'many a' requires a singular verb.`; each mapped replacement is returned. Default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 7,
         "total_tests": 7,
@@ -3602,7 +3602,7 @@
         "latin_unicode_codepoint_positions",
         "latin_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.latin` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `ceteris paribus` → `other things being equal`; `inter alia` → `among other things`; `simpliciter` → `in and of itself`; `mutatis mutandis` → `having made the necessary changes`. The message is `Use English. '{}' is the preferred form.` and interpolates the replacement. Default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `misc.latin` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `ceteris paribus` \u2192 `other things being equal`; `inter alia` \u2192 `among other things`; `simpliciter` \u2192 `in and of itself`; `mutatis mutandis` \u2192 `having made the necessary changes`. The message is `Use English. '{}' is the preferred form.` and interpolates the replacement. Default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -3650,7 +3650,7 @@
         "seasons_unicode_codepoint_positions",
         "seasons_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.capitalization.seasons` is case-sensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries. Only `Winter` → `winter` and `Summer` → `summer` are mapped; lowercase, all-uppercase, and mixed-case variants are clean, as are commented-out `Spring` and `Fall`. Message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements returned, default quote suppression.",
+      "upstream_spec": "Pinned `misc.capitalization.seasons` is case-sensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries. Only `Winter` \u2192 `winter` and `Summer` \u2192 `summer` are mapped; lowercase, all-uppercase, and mixed-case variants are clean, as are commented-out `Spring` and `Fall`. Message `Seasons shouldn't be capitalized. '{}' is the preferred form.`; replacements returned, default quote suppression.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -3709,7 +3709,7 @@
         "capitalization_terms_unicode_codepoint_positions",
         "capitalization_terms_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `misc.capitalization.terms` is case-sensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `mother nature` → `Mother Nature`, `Space Age` → `space age`, `stone age` → `Stone Age`, and `the American west` → `the American West`. Message `Incorrect capitalization. '{}' is the preferred form.`; replacements interpolate the mapped form; default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `misc.capitalization.terms` is case-sensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `mother nature` \u2192 `Mother Nature`, `Space Age` \u2192 `space age`, `stone age` \u2192 `Stone Age`, and `the American west` \u2192 `the American West`. Message `Incorrect capitalization. '{}' is the preferred form.`; replacements interpolate the mapped form; default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -3770,7 +3770,7 @@
         "lie_detector_selected_config_interaction",
         "lie_detector_fastset_activation_raw_copy"
       ],
-      "upstream_spec": "Pinned `psychology.lie_detector` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `lie detector test` → `polygraph test` and `lie detector machine` → `polygraph machine`. Message `Polygraph machines measure arousal, not lying per se. Try '{}'.`; mapped phrase is replacement and interpolation; default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `psychology.lie_detector` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `lie detector test` \u2192 `polygraph test` and `lie detector machine` \u2192 `polygraph machine`. Message `Polygraph machines measure arousal, not lying per se. Try '{}'.`; mapped phrase is replacement and interpolation; default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -3825,7 +3825,7 @@
         "wallace_unicode_codepoint_positions",
         "wallace_selected_config_interaction"
       ],
-      "upstream_spec": "Pinned `redundancy.misc.wallace` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `rectangular in shape` → `rectangular`, `audible to the ear` → `audible`. Message `Redundancy. Use '{}' instead of '{}'.`; the replacement is interpolated first and the original matched surface second. Default quote suppression; no exceptions or offsets.",
+      "upstream_spec": "Pinned `redundancy.misc.wallace` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `rectangular in shape` \u2192 `rectangular`, `audible to the ear` \u2192 `audible`. Message `Redundancy. Use '{}' instead of '{}'.`; the replacement is interpolated first and the original matched surface second. Default quote suppression; no exceptions or offsets.",
       "red": {
         "behavioral_failures": 9,
         "total_tests": 9,
@@ -4481,7 +4481,7 @@
         "cli_config_cwd_discovers_empty_checks",
         "cli_config_explicit_precedes_cwd_discovery"
       ],
-      "upstream_spec": "When --config is omitted, pinned Python checks the current working directory for proselint.json; an explicit --config path takes precedence over that discovered file. The discovered file’s checks and JSON diagnostics must match the explicit-file loading behavior.",
+      "upstream_spec": "When --config is omitted, pinned Python checks the current working directory for proselint.json; an explicit --config path takes precedence over that discovered file. The discovered file\u2019s checks and JSON diagnostics must match the explicit-file loading behavior.",
       "red": {
         "behavioral_mismatches": 2,
         "total_cases": 3,
@@ -5058,7 +5058,7 @@
         "terms_eponymous_adjectives_max_errors_one"
       ],
       "registered_entries_exercised": 1,
-      "upstream_spec": "The pinned default-enabled terms.eponymous_adjectives check is PreferredFormsSimple with Fast case-insensitive WORDS_IN_TEXT padding, quote suppression, zero offset and two mappings: mephistophelian -> Mephistophelean and shakespearian -> Shakespearean. The registered message is “'{}' is the preferred eponymous adjective.” Preserve replacement lookup, raw match output after boundary activation, quote filtering, and source coordinates.",
+      "upstream_spec": "The pinned default-enabled terms.eponymous_adjectives check is PreferredFormsSimple with Fast case-insensitive WORDS_IN_TEXT padding, quote suppression, zero offset and two mappings: mephistophelian -> Mephistophelean and shakespearian -> Shakespearean. The registered message is \u201c'{}' is the preferred eponymous adjective.\u201d Preserve replacement lookup, raw match output after boundary activation, quote filtering, and source coordinates.",
       "red": {
         "report_status": "MISMATCH",
         "mismatches": 4,
@@ -5120,7 +5120,7 @@
         "ordering_report": "rust/artifacts/ally-ly-order-red-20261106.json",
         "ordering_result": "Seven original cases passed; max_errors=1 selected the earlier raw embedded academicly instead of optimisticly, whose bounded match activated first.",
         "lookup_report": "rust/artifacts/ally-ly-sol-edge-probes-live-20261106.json",
-        "lookup_result": "Pinned Python returned message replacement None and replacements null for long-s matches baſicly / optimiſticly; pre-fix Rust returned basically. Quoted activation probe passed.",
+        "lookup_result": "Pinned Python returned message replacement None and replacements null for long-s matches ba\u017ficly / optimi\u017fticly; pre-fix Rust returned basically. Quoted activation probe passed.",
         "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
       },
       "green": {
@@ -5166,7 +5166,7 @@
         "spelling_ely_ly_quoted_activation"
       ],
       "registered_entries_exercised": 1,
-      "upstream_spec": "Pinned default-enabled PreferredFormsSimple rule at spelling.ely_ly: completly→completely, immediatly→immediately, unfortunatly→unfortunately. Uses Fast case-insensitive matching, WORDS_IN_TEXT boundaries, quote suppression, zero offset and PPM, with message -ely vs. -ly. Preserve activation-order emission, raw occurrences after activation, max_errors truncation, Unicode positions, and exact preferred lookup.",
+      "upstream_spec": "Pinned default-enabled PreferredFormsSimple rule at spelling.ely_ly: completly\u2192completely, immediatly\u2192immediately, unfortunatly\u2192unfortunately. Uses Fast case-insensitive matching, WORDS_IN_TEXT boundaries, quote suppression, zero offset and PPM, with message -ely vs. -ly. Preserve activation-order emission, raw occurrences after activation, max_errors truncation, Unicode positions, and exact preferred lookup.",
       "red": {
         "report_status": "MISMATCH",
         "mismatches": 9,
@@ -5219,7 +5219,7 @@
         "spelling_ve_of_long_s_no_activation"
       ],
       "registered_entries_exercised": 1,
-      "upstream_spec": "Pinned default-enabled PreferredFormsSimple rule spelling.ve_of with could of→could've, should of→should've, would of→would've; Fast case-insensitive WORDS_IN_TEXT matching, quote suppression, offset/PPM0. Activation requires ASCII word transitions at both match edges. A lone long-s should of is not activated; after normal should of activates the pattern, raw matching includes the later long-s surface and Python lower-key lookup returns None/null.",
+      "upstream_spec": "Pinned default-enabled PreferredFormsSimple rule spelling.ve_of with could of\u2192could've, should of\u2192should've, would of\u2192would've; Fast case-insensitive WORDS_IN_TEXT matching, quote suppression, offset/PPM0. Activation requires ASCII word transitions at both match edges. A lone long-s should of is not activated; after normal should of activates the pattern, raw matching includes the later long-s surface and Python lower-key lookup returns None/null.",
       "red": {
         "report_status": "MISMATCH",
         "mismatches": 11,
@@ -5321,7 +5321,7 @@
         "spelling_in_un_quoted_activation_limit"
       ],
       "registered_entries_exercised": 1,
-      "upstream_spec": "Pinned default-enabled PreferredFormsSimple check with unadvisable→inadvisable, unalienable→inalienable, unexpressive→inexpressive, unfeasible→infeasible. Fast case-insensitive WORDS_IN_TEXT matching, allow_quotes=false, offset 0; message \"in- vs. un-. '{}' is the preferred spelling.\" Exact lowercase lookup means long-s surfaces can yield message None and replacements null. FastSet activation order, raw occurrence emission, quote suppression before max_errors, and final positional sorting are observable.",
+      "upstream_spec": "Pinned default-enabled PreferredFormsSimple check with unadvisable\u2192inadvisable, unalienable\u2192inalienable, unexpressive\u2192inexpressive, unfeasible\u2192infeasible. Fast case-insensitive WORDS_IN_TEXT matching, allow_quotes=false, offset 0; message \"in- vs. un-. '{}' is the preferred spelling.\" Exact lowercase lookup means long-s surfaces can yield message None and replacements null. FastSet activation order, raw occurrence emission, quote suppression before max_errors, and final positional sorting are observable.",
       "red": {
         "report_status": "MISMATCH",
         "mismatches": 10,
@@ -5915,7 +5915,7 @@
         "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
         "oracle_integrity": "verified before and after",
         "candidate_sha256": "048ae012c010914b544d0140191592c8574632b1c3eec6cc79fba7f7c09a107d",
-        "cumulative_gate": "deferred; next 5–10-capability checkpoint",
+        "cumulative_gate": "deferred; next 5\u201310-capability checkpoint",
         "stage_durations_seconds": {
           "locked_build": 0.1788,
           "fmt_check": 0.605222,
@@ -6038,7 +6038,7 @@
       "additional_case_specification": {
         "case_id": "spelling_able_ible_unicode_casefolds",
         "case_count": 1,
-        "oracle_result": "combined input produced three findings: spans [1,9] and [10,18] with null replacement, then visible at [19,26]; ſensable and Cyrillic vіsable remain clean when isolated.",
+        "oracle_result": "combined input produced three findings: spans [1,9] and [10,18] with null replacement, then visible at [19,26]; \u017fensable and Cyrillic v\u0456sable remain clean when isolated.",
         "oracle_integrity": "verified before and after",
         "evidence": "rust/artifacts/able_ible_red_20261106/pinned_semantics_live_probe.json; independently reconfirmed through the pinned absolute CLI during this session."
       },
@@ -7441,7 +7441,7 @@
     },
     {
       "id": "rule.misc.waxed",
-      "upstream_source": "proselint/checks/misc/waxed.py; Fowler’s Modern English Usage attribution; source snapshot BSD-3-Clause",
+      "upstream_source": "proselint/checks/misc/waxed.py; Fowler\u2019s Modern English Usage attribution; source snapshot BSD-3-Clause",
       "source_sha256": "1422bcf67cf0ea1975f625deb546382f7c76ba60bb043634951c64618f059420",
       "case_ids": [
         "waxed_all_64_form_modifier_pairs",
@@ -8058,7 +8058,7 @@
       ],
       "registered_entries_exercised": 1,
       "upstream_source": "proselint/checks/lexical_illusions.py; source attribution: write-good; pinned repo BSD-3-Clause",
-      "upstream_spec": "Fancy ExistenceSimple: greedy 1–4 Python-Unicode-word capture, exact captured-whitespace backreference with case-insensitive comparison, strict [A-Za-z'-] padding, exceptions filtered after matching.",
+      "upstream_spec": "Fancy ExistenceSimple: greedy 1\u20134 Python-Unicode-word capture, exact captured-whitespace backreference with case-insensitive comparison, strict [A-Za-z'-] padding, exceptions filtered after matching.",
       "specification": {
         "live_cases": 12,
         "supplemental_oracle_probes": 9,
@@ -10335,7 +10335,7 @@
         "cli_invalid_output_format_dump_config_1c89"
       ],
       "upstream_source": "pinned proselint/command_line.py:get_parser and OutputFormat conversion; Rust rust/src/main.rs::invalid_cli_output_format and command_help",
-      "upstream_spec": "Invalid --output-format/-o values are rejected before lint execution. Exit status is 2, stdout is empty, and stderr uses the selected command’s exact argparse usage and invalid OutputFormat message. This includes check, version and dump-config; invalid check values precede --help. A value consumed by --config must not be mistaken for a subcommand.",
+      "upstream_spec": "Invalid --output-format/-o values are rejected before lint execution. Exit status is 2, stdout is empty, and stderr uses the selected command\u2019s exact argparse usage and invalid OutputFormat message. This includes check, version and dump-config; invalid check values precede --help. A value consumed by --config must not be mistaken for a subcommand.",
       "specification": {
         "live_cases": 44,
         "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
@@ -10804,7 +10804,7 @@
         "cli_output_format_unicode_negative_decimal_value"
       ],
       "upstream_source": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/command_line.py:get_parser() registers --config and --output-format/-o; main() calls argparse.parse_args before application handling.",
-      "upstream_spec": "For separate value-taking --config, --output-format, or -o options followed by an option token, argparse exits 2 with the parser-specific usage and `argument <option>: expected one argument`. A bare `-` and tokens matching Python argparse’s Unicode-aware negative-number grammar are values, not options; config values proceed to file loading and output-format values proceed to enum conversion. `--` ends option parsing. Help tokens following the value-taking option are diagnosed as missing values before help.",
+      "upstream_spec": "For separate value-taking --config, --output-format, or -o options followed by an option token, argparse exits 2 with the parser-specific usage and `argument <option>: expected one argument`. A bare `-` and tokens matching Python argparse\u2019s Unicode-aware negative-number grammar are values, not options; config values proceed to file loading and output-format values proceed to enum conversion. `--` ends option parsing. Help tokens following the value-taking option are diagnosed as missing values before help.",
       "specification": {
         "live_cases": 14,
         "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
@@ -11118,7 +11118,7 @@
         "cli_config_root_type_array_dump_config_json"
       ],
       "upstream_source": "proselint/config/__init__.py::load_from; proselint/command_line.py::proselint; rust/src/main.rs::dump_config and run",
-      "upstream_spec": "load_from decodes the selected config and calls .get(\"checks\") before command dispatch. A valid non-object JSON root raises AttributeError with a type-specific message: list, NoneType, bool, int, float, or str. JSON output uses error code -31999 and data AttributeError; Full and Compact report the unrecoverable message on stderr with status 4. Python accepts arbitrarily large root integers and NaN/±Infinity as numeric values before this AttributeError. The same config loading precedence applies to check, --version, and dump-config.",
+      "upstream_spec": "load_from decodes the selected config and calls .get(\"checks\") before command dispatch. A valid non-object JSON root raises AttributeError with a type-specific message: list, NoneType, bool, int, float, or str. JSON output uses error code -31999 and data AttributeError; Full and Compact report the unrecoverable message on stderr with status 4. Python accepts arbitrarily large root integers and NaN/\u00b1Infinity as numeric values before this AttributeError. The same config loading precedence applies to check, --version, and dump-config.",
       "specification": {
         "live_cases": 17,
         "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
@@ -11447,7 +11447,7 @@
         "cli_long_option_abbrev_dump_default_attached"
       ],
       "upstream_source": "Pinned proselint/command_line.py root parser and check/dump-config subparsers; argparse uses allow_abbrev for long options.",
-      "upstream_spec": "A unique long-option prefix is accepted in the active root or subcommand parser. Ambiguous prefixes fail with argparse’s exact ambiguous-option diagnostic. The same behavior applies to implicit --help.",
+      "upstream_spec": "A unique long-option prefix is accepted in the active root or subcommand parser. Ambiguous prefixes fail with argparse\u2019s exact ambiguous-option diagnostic. The same behavior applies to implicit --help.",
       "specification": {
         "live_cases": 10,
         "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
@@ -11504,7 +11504,7 @@
           "cli_long_option_abbrev_check_demo_attached",
           "cli_long_option_abbrev_dump_default_attached"
         ],
-        "upstream_spec": "argparse preserves attached option tokens in ambiguity diagnostics; a unique abbreviation on a no-value flag rejects an explicit attached value with “ignored explicit argument” and Python repr formatting. Value-taking --config and --output-format accept attached values.",
+        "upstream_spec": "argparse preserves attached option tokens in ambiguity diagnostics; a unique abbreviation on a no-value flag rejects an explicit attached value with \u201cignored explicit argument\u201d and Python repr formatting. Value-taking --config and --output-format accept attached values.",
         "red": {
           "status": "behavioral_failure",
           "live_cases_passed_before_fix": 6,
@@ -12058,7 +12058,7 @@
       },
       "cumulative_gate": {
         "status": "pending_shared_config_checkpoint",
-        "note": "Included in the next 5–10 capability cumulative gate after shared CLI/config changes."
+        "note": "Included in the next 5\u201310 capability cumulative gate after shared CLI/config changes."
       }
     },
     {
@@ -12227,20 +12227,21 @@
   "last_strict_gate": {
     "status": "PASS",
     "profile": "release",
-    "report": "rust/artifacts/release-gate-final-20261110.json",
-    "run_id": "20261110T090946491250Z-10dc8a51",
+    "report": "rust/artifacts/release-gate-final-retry-20261110.json",
+    "run_id": "20261110T115403440254Z-9c63db19",
     "exit_code": 0,
-    "capability_count": 151,
-    "accepted_case_count": 1421,
-    "manifest_case_count": 1432,
-    "excluded_manifest_case_count": 11,
+    "capability_count": 152,
+    "accepted_case_count": 1422,
+    "manifest_case_count": 1436,
+    "excluded_manifest_case_count": 14,
     "unaccepted_capability_case_counts": {
       "cli.config.no_passwd_home": 1,
       "cli.demo.json": 1,
       "cli.product_version_flag": 1,
       "cli.version.json_metadata": 5,
       "cli.version.verbose_runtime": 1,
-      "harness.oracle_smoke": 2
+      "harness.oracle_smoke": 2,
+      "cli.symlink_loop_path": 3
     },
     "counts": {
       "BLOCKED": 0,
@@ -12248,56 +12249,88 @@
       "MISMATCH": 0,
       "NOT_IMPLEMENTED": 0,
       "ORACLE_ERROR": 0,
-      "PASS": 1421,
+      "PASS": 1422,
       "TIMEOUT": 0
     },
-    "source_fingerprint": "3f2a46f90d18544bf8067630fe5649f79a68c44e0d4f7a8f41d7587abbe6c881",
-    "candidate_sha256": "77c5860e3ffea208bd326b660101bc7df3a1beedb1a7b131ea696df3fd9f7c84",
-    "build_attestation": "rust/artifacts/20261110T085920551442Z-build.attestation.json",
-    "build_attestation_sha256": "c382597b91b96d68c1adc653d894128041c1aa6ae04de6431ae802566ee39a5e",
-    "duration_seconds": 2666.676118,
+    "source_fingerprint": "c1c5c7636db6004c303da59f61015abd9ec32dcb564fdc5fd3e38f0782344c94",
+    "candidate_sha256": "f22148e8586893813cd103e54b9282a2d52624887c274e6eb4a85efcbbe837cb",
+    "build_attestation": "rust/artifacts/20261110T104755502298Z-build.attestation.json",
+    "build_attestation_sha256": "51099017538960186e3f7aa4c97d8da385724226d6c7377ec07434b055128e92",
+    "duration_seconds": 1453.767867,
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.146084,
-      "cumulative_live_comparison": 2037.698221,
-      "oracle_integrity": 2.157165,
-      "rust_checks_and_build": 626.056668
+      "comparator_self_tests": 0.141248,
+      "cumulative_live_comparison": 1450.783446,
+      "oracle_integrity": 2.126313,
+      "rust_candidate_attestation_reuse": 0.182207
     },
     "comparator_self_tests": 23,
     "rust_test_targets": 145,
-    "rust_tests_passed": 900,
+    "rust_tests_passed": 901,
     "rust_tests_failed": 0,
     "python_harness_suite": {
       "status": "PASS",
-      "tests_passed": 125,
-      "duration_seconds": 84.853,
-      "command": "PROSELINT_RS_ATTESTATION=<current-valid-release-candidate-attestation> python3 -m unittest discover -s rust/harness/tests -p test_*.py",
-      "evidence": "rust/artifacts/harness-suite-final-20261110.log",
-      "source_fingerprint": "3f2a46f90d18544bf8067630fe5649f79a68c44e0d4f7a8f41d7587abbe6c881",
-      "note": "Default invocation first failed because runtime-independence test followed stale last_strict_gate attestation. Rerun used documented current-attestation override; no test or comparison was weakened."
+      "tests_passed": 127,
+      "duration_seconds": 86.346,
+      "command": "PROSELINT_RS_ATTESTATION=<current-valid-release-candidate-attestation> python3 -m unittest discover -s rust/harness/tests -v",
+      "evidence": "rust/artifacts/harness-suite-20261110-final.log",
+      "source_fingerprint": "c1c5c7636db6004c303da59f61015abd9ec32dcb564fdc5fd3e38f0782344c94"
     },
     "oracle_integrity": "verified",
     "scope_matches_current_manifest": false,
-    "scope_matches_current_accepted_scope": false,
-    "current_manifest_case_count": 1433,
-    "current_manifest_capability_count": 158,
-    "current_excluded_manifest_case_count": 11,
-    "report_sha256": "79e490a455cff5fbc9d8cabf4544da34f382897d8b91b9f0665c9e2cdce473fe",
-    "workers_used": 1,
-    "worker_affinity_cpus": [
-      0,
-      1
-    ],
+    "scope_matches_current_accepted_scope": true,
+    "current_manifest_case_count": 1436,
+    "current_manifest_capability_count": 159,
+    "current_excluded_manifest_case_count": 14,
+    "report_sha256": "3cdfb79ae2bfcf48032dbaf4006004432b7200c29f3de94020c96d548443b0af",
+    "workers_used": 2,
+    "worker_affinity_cpus": 4,
     "benchmark": {
       "status": "PASS",
-      "report": "rust/artifacts/release-candidate-benchmark-20261110.json",
-      "report_sha256": "55e9dc590ef5f6a5eb93556b07128c5e2c916239c9fa461896fff1870afc36a7",
-      "run_id": "20261110T094447892840Z-benchmark-33e0c100"
+      "report": "rust/artifacts/release-candidate-benchmark-current-20261110.json",
+      "report_sha256": "82d96094637ada621d27c2db99d9cb3be8596c239add79d51acb0f32bba6ee0a",
+      "source_fingerprint": "c1c5c7636db6004c303da59f61015abd9ec32dcb564fdc5fd3e38f0782344c94",
+      "parity_preflight": "3/3",
+      "sample_pairs_per_workload": 25,
+      "warmup_pairs": 3,
+      "overall_deadline_seconds": 1800,
+      "total_seconds": 45.061684,
+      "performance_scope": "selected combined rules only; no universal claim"
     },
     "note": "Historical passing release gate covers 151 capabilities / 1,421 cases at the recorded source fingerprint. The current tree adds cli.config.default_cross_rule with focused owner and independent live parity; cumulative gate is pending its scheduled checkpoint. Eleven cases across six capability IDs remain unaccepted.",
-    "current_source_scope_matches_report": false,
-    "current_source_fingerprint": "a3347d3374738733387c257462d2185178049f952928d9d1789b9f2b6aa4a0d0",
+    "current_source_scope_matches_report": true,
+    "current_source_fingerprint": "c1c5c7636db6004c303da59f61015abd9ec32dcb564fdc5fd3e38f0782344c94",
     "current_accepted_capability_count": 152,
-    "current_accepted_case_count": 1422
+    "current_accepted_case_count": 1422,
+    "prior_same_scope_attempts": [
+      {
+        "run_id": "20261110T105234629482Z-2ff0ab77",
+        "report": "rust/artifacts/release-gate-current-20261110.json",
+        "status": "MISMATCH",
+        "counts": {
+          "PASS": 1420,
+          "TIMEOUT": 2,
+          "MISMATCH": 0
+        },
+        "timeout_cases": [
+          "cli_multi_file_per_file_override_json",
+          "cli_long_option_abbrev_root_ambiguous_ver"
+        ]
+      },
+      {
+        "run_id": "20261110T112511384935Z-9e75796e",
+        "report": "rust/artifacts/release-gate-retry-20261110.json",
+        "status": "MISMATCH",
+        "counts": {
+          "PASS": 1420,
+          "TIMEOUT": 2,
+          "MISMATCH": 0
+        },
+        "timeout_cases": [
+          "trademark_registered_r_positive",
+          "cli_root_config_before_dump_config_version"
+        ]
+      }
+    ]
   },
   "rust_dependencies": {
     "status": "latest_for_pinned_toolchain",
@@ -12348,7 +12381,7 @@
     "freshness_report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2",
     "cargo_lock_sha256": "a246342e918651174f9fcadb2a6a54a2fea0b431fe6b479bc4da263bcad0a485"
   },
-  "next_capability_handoff": "Continue targeted default-config and CLI coverage without changing expected outputs or comparison modes. Run a cumulative gate and full harness/Rust suites at the next 5–10-capability checkpoint, after any shared CLI/config change, and before release. The prior passing gate is not current for the added case/source fingerprint.",
+  "next_capability_handoff": "Continue CLI and default-behavior coverage; preserve the authorized version-flag divergence and remaining unresolved cases. The symlink-loop capability passed focused tests/live comparison but remains pending independent verification and cumulative acceptance. Benchmark is current for the present source but measures selected rules only.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",
@@ -12455,20 +12488,20 @@
   },
   "latest_benchmark": {
     "status": "PASS",
-    "report": "rust/artifacts/release-candidate-benchmark-20261110.json",
-    "report_sha256": "55e9dc590ef5f6a5eb93556b07128c5e2c916239c9fa461896fff1870afc36a7",
-    "run_id": "20261110T094447892840Z-benchmark-33e0c100",
+    "report": "rust/artifacts/release-candidate-benchmark-current-20261110.json",
+    "report_sha256": "82d96094637ada621d27c2db99d9cb3be8596c239add79d51acb0f32bba6ee0a",
+    "run_id": "20261110T122304592332Z-benchmark-d8a55296",
     "profile": "combined_suddenly_p_equals_zero",
     "parity_preflight": {
-      "BLOCKED": 0,
-      "CANDIDATE_ERROR": 0,
-      "MISMATCH": 0,
-      "NOT_IMPLEMENTED": 0,
-      "ORACLE_ERROR": 0,
       "PASS": 3,
-      "TIMEOUT": 0
+      "MISMATCH": 0,
+      "TIMEOUT": 0,
+      "ORACLE_ERROR": 0,
+      "CANDIDATE_ERROR": 0,
+      "BLOCKED": 0,
+      "NOT_IMPLEMENTED": 0
     },
-    "duration_seconds": 45.378697,
+    "duration_seconds": 45.061684,
     "sample_pairs_per_workload": 25,
     "warmup_pairs": 3,
     "workloads": [
@@ -12476,30 +12509,29 @@
       "combined_ordinary_generated",
       "combined_dense_generated"
     ],
-    "source_fingerprint": "3f2a46f90d18544bf8067630fe5649f79a68c44e0d4f7a8f41d7587abbe6c881",
-    "candidate_sha256": "77c5860e3ffea208bd326b660101bc7df3a1beedb1a7b131ea696df3fd9f7c84",
+    "source_fingerprint": "c1c5c7636db6004c303da59f61015abd9ec32dcb564fdc5fd3e38f0782344c94",
+    "candidate_sha256": "f22148e8586893813cd103e54b9282a2d52624887c274e6eb4a85efcbbe837cb",
     "median_ratios_python_over_rust": {
-      "combined_small": 46.93198513179586,
-      "combined_ordinary_generated": 33.06122750843977,
-      "combined_dense_generated": 17.488188120267253
+      "combined_small": 47.01,
+      "combined_ordinary_generated": 32.93,
+      "combined_dense_generated": 16.54
     },
     "medians_ms": {
       "combined_small": {
-        "python": 231.197143,
-        "rust": 4.926217
+        "python": 257.979,
+        "rust": 5.487
       },
       "combined_ordinary_generated": {
-        "python": 281.184682,
-        "rust": 8.504968
+        "python": 246.048,
+        "rust": 7.472
       },
       "combined_dense_generated": {
-        "python": 325.392136,
-        "rust": 18.606395
+        "python": 288.158,
+        "rust": 17.424
       }
     },
-    "claim": "Selected explicit combined-rule workload only; no universal speed claim; RSS unavailable.",
-    "fresh_for_current_source_fingerprint": false,
-    "note": "Benchmark is valid for its recorded source fingerprint and selected rule workload; current source fingerprint includes an added manifest/test case and must be rebuilt/rechecked before final release."
+    "claim": "Selected explicit combined-rule workloads only; no universal speed claim; RSS unavailable.",
+    "fresh_for_current_source_fingerprint": true
   },
   "agent_model_verification": {
     "initial_default_verifier_selection": {
@@ -12823,5 +12855,123 @@
     "candidate_sha256": "e8b94ae987876a915ba15ae4781bdbcacb3fb80254b09e3a0f095b36d1401297",
     "exact_output_and_exit_match": true,
     "oracle_integrity": "verified"
+  },
+  "latest_independent_rule_verification": {
+    "status": "PASS",
+    "candidate_attestation": "rust/artifacts/20261110T103800522998Z-build.attestation.json",
+    "source_fingerprint": "c1c5c7636db6004c303da59f61015abd9ec32dcb564fdc5fd3e38f0782344c94",
+    "candidate_sha256": "f22148e8586893813cd103e54b9282a2d52624887c274e6eb4a85efcbbe837cb",
+    "baseline_integrity": "verified",
+    "comparator_self_tests": {
+      "passed": 23,
+      "total": 23
+    },
+    "focused_rust_tests": {
+      "passed": 9
+    },
+    "capabilities": {
+      "rule.uncomparables": {
+        "passed": 11,
+        "total": 11,
+        "report": "rust/artifacts/independent-final-20261110-current/rule-uncomparables.json"
+      },
+      "rule.restricted.elementary": {
+        "passed": 3,
+        "total": 3,
+        "report": "rust/artifacts/independent-final-20261110-current/rule-restricted-elementary.json"
+      },
+      "rule.restricted.top1000": {
+        "passed": 3,
+        "total": 3,
+        "report": "rust/artifacts/independent-final-20261110-current/rule-restricted-top1000.json"
+      }
+    },
+    "runtime_model_metadata": "unavailable; requested Luna low"
+  },
+  "latest_focused_symlink_loop_verification": {
+    "status": "PASS",
+    "capability_id": "cli.symlink_loop_path",
+    "case_count": 3,
+    "report": "rust/artifacts/cli-symlink-loop-path-live-green-20261110.json",
+    "rust_test": "rust/tests/cli_file_symlink.rs::symlink_loop_errors_match_python_for_each_output_format",
+    "candidate_attestation": "rust/artifacts/20261110T103800522998Z-build.attestation.json",
+    "independent_verification": "pending; not included in accepted capability scope"
+  },
+  "latest_full_harness_suite": {
+    "status": "PASS",
+    "passed": 127,
+    "total": 127,
+    "duration_seconds": 86.346,
+    "report": "rust/artifacts/harness-suite-20261110-final.log",
+    "candidate_attestation": "rust/artifacts/20261110T103800522998Z-build.attestation.json"
+  },
+  "latest_release_gate_attempt": {
+    "status": "PASS",
+    "run_id": "20261110T115403440254Z-9c63db19",
+    "report": "rust/artifacts/release-gate-final-retry-20261110.json",
+    "report_sha256": "3cdfb79ae2bfcf48032dbaf4006004432b7200c29f3de94020c96d548443b0af",
+    "source_fingerprint": "c1c5c7636db6004c303da59f61015abd9ec32dcb564fdc5fd3e38f0782344c94",
+    "candidate_attestation": "rust/artifacts/20261110T104755502298Z-build.attestation.json",
+    "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+    "baseline_integrity": "verified",
+    "accepted_capabilities": 152,
+    "accepted_cases": 1422,
+    "manifest_cases": 1436,
+    "counts": {
+      "BLOCKED": 0,
+      "CANDIDATE_ERROR": 0,
+      "MISMATCH": 0,
+      "NOT_IMPLEMENTED": 0,
+      "ORACLE_ERROR": 0,
+      "PASS": 1422,
+      "TIMEOUT": 0
+    },
+    "rust_tests": {
+      "passed": 901,
+      "targets": 145,
+      "attested_in": "rust/artifacts/20261110T104755502298Z-build.attestation.json"
+    },
+    "comparator_self_tests": {
+      "passed": 23,
+      "total": 23
+    },
+    "duration_seconds": 1453.767867,
+    "stages": {
+      "comparator_self_tests": 0.141248,
+      "cumulative_live_comparison": 1450.783446,
+      "oracle_integrity": 2.126313,
+      "rust_candidate_attestation_reuse": 0.182207
+    },
+    "same_scope_prior_attempts": [
+      {
+        "run_id": "20261110T105234629482Z-2ff0ab77",
+        "report": "rust/artifacts/release-gate-current-20261110.json",
+        "status": "MISMATCH",
+        "counts": {
+          "PASS": 1420,
+          "TIMEOUT": 2,
+          "MISMATCH": 0
+        },
+        "timeout_cases": [
+          "cli_multi_file_per_file_override_json",
+          "cli_long_option_abbrev_root_ambiguous_ver"
+        ]
+      },
+      {
+        "run_id": "20261110T112511384935Z-9e75796e",
+        "report": "rust/artifacts/release-gate-retry-20261110.json",
+        "status": "MISMATCH",
+        "counts": {
+          "PASS": 1420,
+          "TIMEOUT": 2,
+          "MISMATCH": 0
+        },
+        "timeout_cases": [
+          "trademark_registered_r_positive",
+          "cli_root_config_before_dump_config_version"
+        ]
+      }
+    ],
+    "current_source_scope_matches_report": true
   }
 }

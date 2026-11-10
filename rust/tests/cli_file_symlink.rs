@@ -189,3 +189,50 @@ fn json_output_uses_resolved_uri_for_dangling_file_symlink() {
         })
     );
 }
+
+#[cfg(unix)]
+#[test]
+fn symlink_loop_errors_match_python_for_each_output_format() {
+    for (format, expected_stdout, expected_stderr) in [
+        ("json", true, false),
+        ("full", false, true),
+        ("compact", false, true),
+    ] {
+        let workspace = Workspace::new();
+        fs::remove_file(workspace.0.join("target.txt")).expect("remove target");
+        std::os::unix::fs::symlink("loop.txt", workspace.0.join("loop.txt"))
+            .expect("create self-referential symlink");
+        let output = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
+            .current_dir(&workspace.0)
+            .args([
+                "check",
+                "--config",
+                "config.json",
+                "--output-format",
+                format,
+                "loop.txt",
+            ])
+            .stdin(Stdio::null())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .output()
+            .expect("run native CLI");
+        let message = format!("Symlink loop from '{}/loop.txt'", workspace.0.display());
+        assert_eq!(output.status.code(), Some(4));
+        if expected_stdout {
+            assert_eq!(
+                serde_json::from_slice::<Value>(&output.stdout).expect("JSON error output"),
+                json!({"error":{"code":-31999,"data":"RuntimeError","message":message}})
+            );
+            assert!(output.stderr.is_empty());
+        } else {
+            assert!(output.stdout.is_empty());
+            assert_eq!(
+                output.stderr,
+                format!("Unrecoverable error encountered while running proselint: {message}\n")
+                    .as_bytes()
+            );
+        }
+        assert_eq!(expected_stderr, !output.stderr.is_empty());
+    }
+}

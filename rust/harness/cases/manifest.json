@@ -46343,6 +46343,32 @@
     }
   },
   {
+      "id": "default_config_cross_rule_mixed_findings",
+      "capability_id": "cli.config.default_cross_rule",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; ordinary stdin prose with no explicit config. Source modules proselint/checks/misc/apologizing.py and suddenly.py register the matched phrases, proselint/checks/uncomparables.py registers the standard comparator; all are enabled by proselint/config/default.json. Case purpose: cross-rule default dispatch and finding order.",
+      "input_mode": "stdin",
+      "stdin_base64": "TW9yZSByZXNlYXJjaCBpcyBuZWVkZWQuIFN1ZGRlbmx5LCB0aGUgdmVyeSB1bmlxdWUgcmVzdWx0IHN1cnByaXNlZCBldmVyeW9uZS4K",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
     "id": "surrogate_duplicate_key_high_false_then_invalid",
     "capability_id": "cli.config.surrogate_key_equality",
     "provenance": "Pinned Proselint 0.16.0 live CLI config behavior; Pinned live CLI replay on 2026-11-10 (Proselint 0.16.0; check --config config.json --output-format json); Python json.loads key decoding and dictionary duplicate semantics.",

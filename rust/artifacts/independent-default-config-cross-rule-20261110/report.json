@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "verification": "independent_live_replay",
+  "status": "PASS",
+  "capability_id": "cli.config.default_cross_rule",
+  "case_count": 1,
+  "case_id": "default_config_cross_rule_mixed_findings",
+  "case_status": "PASS",
+  "expected_oracle_outcome": "findings",
+  "counts": {
+    "BLOCKED": 0,
+    "CANDIDATE_ERROR": 0,
+    "MISMATCH": 0,
+    "NOT_IMPLEMENTED": 0,
+    "ORACLE_ERROR": 0,
+    "PASS": 1,
+    "TIMEOUT": 0
+  },
+  "source_fingerprint": "a3347d3374738733387c257462d2185178049f952928d9d1789b9f2b6aa4a0d0",
+  "candidate": {
+    "binary_path": "/home/dev/proselint-rs/rust/target/release/proselint-rs",
+    "sha256": "77c5860e3ffea208bd326b660101bc7df3a1beedb1a7b131ea696df3fd9f7c84",
+    "build_attestation": "rust/artifacts/20261110T101146390956Z-build.attestation.json"
+  },
+  "oracle_integrity": {
+    "revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+    "source_tree_sha256": "73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831",
+    "uv_lock_sha256": "149ff01d4be05c243f3fb332c971091b961c77187af5be5261ba35386d0f29a1",
+    "integrity": "verified",
+    "executable_sha256": "b5f88a67377a8f3c32e1bffc41ca96fd8c111b127427459ffb2184e74c99af77",
+    "installed_package_tree_sha256": "6e6b1a625b7bf776549975cfd2d312d21906e5e6a96173d69c7596bbcc64d849",
+    "installed_package_source_projection_matches_pinned": true,
+    "python_version": "3.12.3",
+    "dependencies": {
+      "coverage": "7.13.0",
+      "google-re2": "1.1.20251105",
+      "google-re2-stubs": "0.1.1",
+      "hypothesis": "6.148.7",
+      "iniconfig": "2.3.0",
+      "packaging": "25.0",
+      "pluggy": "1.6.0",
+      "proselint": "0.16.0",
+      "pygments": "2.19.2",
+      "pytest": "9.1.1",
+      "pytest-cov": "7.0.0",
+      "rstr": "3.2.2",
+      "sortedcontainers": "2.4.0"
+    }
+  },
+  "comparison_policy": {
+    "stdout": "json",
+    "stderr": "bytes",
+    "exit_status": "exact"
+  },
+  "comparison_policy_unchanged_vs_owner": true,
+  "same_decoded_stdout_object": true,
+  "diagnostic_check_path_order": [
+    "misc.apologizing",
+    "misc.suddenly",
+    "uncomparables",
+    "weasel_words.very"
+  ],
+  "diagnostic_count": 4,
+  "stderr_sha256_reference": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256_candidate": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "exit_codes": {
+    "reference": 1,
+    "candidate": 1
+  },
+  "limitations": [
+    "Serialized JSON object key order differs; policy compares parsed JSON semantically. All decoded fields and diagnostics array order match.",
+    "Only this capability case was replayed; no cumulative gate was run.",
+    "Integrity was checked against pinned source/runtime snapshots and hashes; no separate upstream hosting audit was performed."
+  ]
+}

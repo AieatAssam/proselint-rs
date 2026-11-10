@@ -1,8 +1,8 @@
 # Python and Rust benchmark
 
-## Verified candidate after passing cumulative gate (2026-11-10)
+## Candidate measured after passing cumulative gate (2026-11-10; prior source fingerprint)
 
-After the full release gate passed 1,421/1,421 accepted cases, the current release candidate was benchmarked against pinned Proselint 0.16.0 at revision `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`. The three-workload `misc.suddenly` + `psychology.p_equals_zero` profile passed exact live parity preflight on all 3 workloads. Each workload used 25 paired fresh-process samples after 3 excluded warmups; timings include process startup, input/config reading, linting, serialization, and output capture.
+After the full release gate passed 1,421/1,421 accepted cases, the candidate was benchmarked against pinned Proselint 0.16.0 at revision `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`. The three-workload `misc.suddenly` + `psychology.p_equals_zero` profile passed live parity preflight on all 3 workloads. Each workload used 25 paired fresh-process samples after 3 excluded warmups; timings include process startup, input/config reading, linting, serialization, and output capture. A later manifest/test-only extension added one default-config cross-rule case and changed the source fingerprint; these historical timings are not attested to the current fingerprint and must be rerun before release.
 
 | Workload | Input | Python median | Rust median | Python / Rust | Python IQR | Rust IQR |
 |---|---:|---:|---:|---:|---:|---:|

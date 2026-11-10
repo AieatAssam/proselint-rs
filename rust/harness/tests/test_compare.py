@@ -1395,7 +1395,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1432)
+        self.assertEqual(len(case_ids), 1433)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -1404,7 +1404,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "1c73b16748ed5473ec36f9da75181e9daf953a694888b7a9e9cc8ae17f3b43ab",
+            "413382ded28d07812debe6243c272d9b61f95146851b3c5af2e749b3fd46e3b3",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),
@@ -1414,7 +1414,6 @@ class ComparatorTests(unittest.TestCase):
             sum(case["capability_id"] == "cli.config.missing_explicit_text_error" for case in manifest["cases"]),
             2,
         )
-
         archaism = [case for case in manifest["cases"] if case["capability_id"] == "rule.archaism"]
         archaism_by_id = {case["id"]: case for case in archaism}
         probe_ids = [
@@ -1429,6 +1428,19 @@ class ComparatorTests(unittest.TestCase):
             [json.loads(base64.b64decode(archaism_by_id[case_id]["files"][0]["content_base64"]))["max_errors"] for case_id in probe_ids],
             [1000, 1],
         )
+
+    def test_default_config_cross_rule_case_scope(self) -> None:
+        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "cli.config.default_cross_rule"]
+        self.assertEqual(len(cases), 1)
+        case = cases[0]
+        self.assertEqual(case["id"], "default_config_cross_rule_mixed_findings")
+        self.assertEqual(case["input_mode"], "stdin")
+        self.assertEqual(base64.b64decode(case["stdin_base64"]), b"More research is needed. Suddenly, the very unique result surprised everyone.\n")
+        self.assertEqual(case["files"], [])
+        self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+        self.assertEqual(case["config_scenario"], "no_config_default")
+        self.assertEqual(case["comparison"]["stdout"], "json")
+        compare.validate_case(case)
 
     def test_needless_variants_manifest_cases_cover_source_and_runtime_edges(self) -> None:
         cases = {case["id"]: case for case in compare.load_manifest()["cases"] if case["capability_id"] == "rule.needless_variants"}

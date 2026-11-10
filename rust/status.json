@@ -624,6 +624,19 @@
       "independent_report": "rust/artifacts/independent-final-20261110/cli-version.json",
       "candidate_attestation": "rust/artifacts/20261110T084006022583Z-build.attestation.json",
       "focused_rust_tests_passed": 2
+    },
+    {
+      "id": "cli.config.default_cross_rule",
+      "status": "recorded",
+      "live_cases": 1,
+      "case_ids": [
+        "default_config_cross_rule_mixed_findings"
+      ],
+      "owner_report": "rust/artifacts/default-config-cross-rule-release-20261110.json",
+      "independent_report": "rust/artifacts/independent-default-config-cross-rule-20261110/report.json",
+      "candidate_attestation": "rust/artifacts/20261110T101146390956Z-build.attestation.json",
+      "focused_harness_tests_passed": 1,
+      "cumulative_gate_status": "pending_checkpoint"
     }
   ],
   "inventory": {
@@ -655,7 +668,11 @@
       "tests_passed": 125,
       "duration_seconds": 84.853,
       "evidence": "rust/artifacts/harness-suite-final-20261110.log",
-      "candidate_attestation": "rust/artifacts/20261110T084006022583Z-build.attestation.json"
+      "candidate_attestation": "rust/artifacts/20261110T084006022583Z-build.attestation.json",
+      "source_fingerprint": "3f2a46f90d18544bf8067630fe5649f79a68c44e0d4f7a8f41d7587abbe6c881",
+      "matches_current_source_fingerprint": false,
+      "current_source_fingerprint": "a3347d3374738733387c257462d2185178049f952928d9d1789b9f2b6aa4a0d0",
+      "current_full_suite_status": "pending_next_checkpoint"
     },
     "comparator_discriminators": {
       "passed": 23,
@@ -746,9 +763,9 @@
         "finding": "Manifest preconditions are documentary; focused run must explicitly use unshare."
       }
     },
-    "current_manifest_cases": 1432,
-    "current_manifest_id_capability_digest": "1c73b16748ed5473ec36f9da75181e9daf953a694888b7a9e9cc8ae17f3b43ab",
-    "accepted_case_count_before_release_gate": 1421,
+    "current_manifest_cases": 1433,
+    "current_manifest_id_capability_digest": "413382ded28d07812debe6243c272d9b61f95146851b3c5af2e749b3fd46e3b3",
+    "accepted_case_count_before_release_gate": 1422,
     "latest_full_unit_suite": {
       "status": "PASS",
       "suite": "python3 -m unittest discover -s rust/harness/tests -p 'test_*.py'",
@@ -757,7 +774,10 @@
       "evidence": "rust/artifacts/harness-suite-final-20261110.log",
       "source_fingerprint": "3f2a46f90d18544bf8067630fe5649f79a68c44e0d4f7a8f41d7587abbe6c881",
       "attestation": "rust/artifacts/20261110T084006022583Z-build.attestation.json",
-      "note": "Full suite passed with the current release candidate selected by the documented attestation override."
+      "note": "Full suite passed with the current release candidate selected by the documented attestation override.",
+      "matches_current_source_fingerprint": false,
+      "current_source_fingerprint": "a3347d3374738733387c257462d2185178049f952928d9d1789b9f2b6aa4a0d0",
+      "current_full_suite_status": "pending_next_checkpoint"
     },
     "latest_release_rust_suite": {
       "status": "PASS",
@@ -766,7 +786,7 @@
       "duration_seconds": 359.039279,
       "evidence": "rust/artifacts/20261110T013152249843Z-build-2.stdout.bin"
     },
-    "current_manifest_digest": "7fef343ba0e90042f609d543082d4a7c99c7430791789e22e4ecc1eff8863a4f",
+    "current_manifest_digest": "26ee06ec9a959d818e78260f24d3a484b69f193a548a3ed9aa53570e85b2795e",
     "latest_release_candidate_suite": {
       "status": "PASS",
       "tests_passed": 125,
@@ -774,11 +794,14 @@
       "command": "PROSELINT_RS_ATTESTATION=rust/artifacts/20261110T084006022583Z-build.attestation.json python3 -m unittest discover -s rust/harness/tests -p test_*.py",
       "evidence": "rust/artifacts/harness-suite-final-20261110.log",
       "source_fingerprint": "3f2a46f90d18544bf8067630fe5649f79a68c44e0d4f7a8f41d7587abbe6c881",
-      "note": "Default invocation first failed because runtime-independence test followed stale last_strict_gate attestation. Rerun used documented current-attestation override; no test or comparison was weakened."
+      "note": "Default invocation first failed because runtime-independence test followed stale last_strict_gate attestation. Rerun used documented current-attestation override; no test or comparison was weakened.",
+      "matches_current_source_fingerprint": false,
+      "current_source_fingerprint": "a3347d3374738733387c257462d2185178049f952928d9d1789b9f2b6aa4a0d0",
+      "current_full_suite_status": "pending_next_checkpoint"
     },
-    "current_manifest_capability_count": 157
+    "current_manifest_capability_count": 158
   },
-  "active_ownership": "No active implementation owners. The latest release gate passes 1,421 accepted cases across 151 capabilities; 11 cases across six capability IDs remain unaccepted and are listed in last_strict_gate.unaccepted_capability_case_counts. Maintain explicit partial-compatibility claims.",
+  "active_ownership": "No active implementation owners. 152 capabilities / 1422 cases have focused owner and independent live evidence, including one default-config cross-rule case. The last cumulative release gate covers 151 capabilities / 1,421 cases at an earlier source fingerprint; run the next cumulative checkpoint after 5–10 new capabilities and before release.",
   "unresolved": [
     "Other CLI/config behavior remains unverified, including passwd-home config-present behavior, HOME-absent no-passwd-entry config behavior (confirmed mismatch in cli.config.no_passwd_home; see harness.latest_no_passwd_home_case), other subcommands, HOME-unset platform variation, directory candidates, and traversal/decoding edges.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
@@ -787,7 +810,7 @@
     "Agent task configuration requested gpt-6-luna/low for implementation and independent review, but runtime model/effort metadata is not exposed, so routing cannot be independently audited.",
     "Unicode case folding and quote-pairing combinations beyond explicitly tested cases remain unverified.",
     "Data-backed paths may be reused under the project's package-wide BSD-3-Clause policy basis, retaining upstream attributions and notices. This is a project policy choice, not a legal determination or guarantee of upstream rights. Unknown-provenance paths and any conflicting terms require separate review; see rust/status.json rights_audit_latest and rust/docs/PLAN.md.",
-    "The inventory records all 106 unique registered paths as accepted under targeted configurations. Exact default-config behavior is covered by the new live `check --demo --output-format compact` case (one sample); default-config corpus-wide output and all cross-rule interactions remain unverified.",
+    "The inventory records all 106 unique registered paths as accepted under targeted configurations. One short default-config case now verifies four ordered findings across misc.apologizing, misc.suddenly, uncomparables, and weasel_words.very; corpus-wide output and other cross-rule interactions remain unverified.",
     "dump-config HOME-unset/platform-specific config discovery, directory user candidates, directory traversal/decoding edges outside the accepted directory cases remain unverified; explicit multi-file output for file lists is covered by the recorded cases.",
     "Other --version combined-argument orderings beyond cli.version_argument_precedence remain unverified.",
     "Focused live case cli_demo_json_selected_rule mismatches only on the source key: pinned Python emits its installed demo.md file URI while Rust emits demo.md. Exact parity is installation-location-specific; case remains unresolved at rust/artifacts/cli-demo-json-red-20261108.json. Full demo path behavior and default-config demo output are also unverified.",
@@ -12254,9 +12277,9 @@
     },
     "oracle_integrity": "verified",
     "scope_matches_current_manifest": false,
-    "scope_matches_current_accepted_scope": true,
-    "current_manifest_case_count": 1432,
-    "current_manifest_capability_count": 157,
+    "scope_matches_current_accepted_scope": false,
+    "current_manifest_case_count": 1433,
+    "current_manifest_capability_count": 158,
     "current_excluded_manifest_case_count": 11,
     "report_sha256": "79e490a455cff5fbc9d8cabf4544da34f382897d8b91b9f0665c9e2cdce473fe",
     "workers_used": 1,
@@ -12270,13 +12293,17 @@
       "report_sha256": "55e9dc590ef5f6a5eb93556b07128c5e2c916239c9fa461896fff1870afc36a7",
       "run_id": "20261110T094447892840Z-benchmark-33e0c100"
     },
-    "note": "Passing strict gate covers accepted scope only. Eleven cases across six capability IDs remain unaccepted; authorized product --version divergence and other CLI gaps remain explicit."
+    "note": "Historical passing release gate covers 151 capabilities / 1,421 cases at the recorded source fingerprint. The current tree adds cli.config.default_cross_rule with focused owner and independent live parity; cumulative gate is pending its scheduled checkpoint. Eleven cases across six capability IDs remain unaccepted.",
+    "current_source_scope_matches_report": false,
+    "current_source_fingerprint": "a3347d3374738733387c257462d2185178049f952928d9d1789b9f2b6aa4a0d0",
+    "current_accepted_capability_count": 152,
+    "current_accepted_case_count": 1422
   },
   "rust_dependencies": {
     "status": "latest_for_pinned_toolchain",
     "toolchain": "1.99.1",
     "registry": "crates.io",
-    "latest_checked": "2026-11-10T00:08:09Z",
+    "latest_checked": "2026-11-10T10:09:17Z",
     "locked_versions": {
       "clap": "4.6.7",
       "serde": "1.0.229",
@@ -12306,19 +12333,22 @@
       "evidence": "rust/artifacts/rust-dependency-update-syn-20261110.txt",
       "cargo_lock_sha256": "a246342e918651174f9fcadb2a6a54a2fea0b431fe6b479bc4da263bcad0a485"
     },
-    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-itoa-20261109.txt",
+    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-gate-20261110.txt",
     "post_update_dry_run": {
       "status": "current",
       "packages_to_update": 0,
       "command": "cargo update --dry-run --manifest-path rust/Cargo.toml",
       "rust_version_constraint": "1.99",
-      "checked_after": "2026-11-10T00:08:09Z",
-      "evidence": "rust/artifacts/rust-dependency-update-syn-20261110.txt",
+      "checked_after": "2026-11-10T10:09:17Z",
+      "evidence": "rust/artifacts/rust-dependency-dry-run-post-gate-20261110.txt",
+      "report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2",
       "cargo_lock_sha256": "a246342e918651174f9fcadb2a6a54a2fea0b431fe6b479bc4da263bcad0a485"
     },
-    "pending_verification": "syn 3.0.10 was verified by a locked focused Rust test and focused release fmt/Clippy/build. The complete locked Rust test suite and next cumulative release gate remain pending at checkpoint #148."
+    "pending_verification": "syn 3.0.10 was verified by a locked focused Rust test and focused release fmt/Clippy/build. The complete locked Rust test suite and next cumulative release gate remain pending at checkpoint #148.",
+    "freshness_report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2",
+    "cargo_lock_sha256": "a246342e918651174f9fcadb2a6a54a2fea0b431fe6b479bc4da263bcad0a485"
   },
-  "next_capability_handoff": "Review the 11 unaccepted manifest cases across the six IDs in last_strict_gate.unaccepted_capability_case_counts, retaining the authorized product --version divergence and any explicit CLI gaps. Do not claim complete Proselint compatibility.",
+  "next_capability_handoff": "Continue targeted default-config and CLI coverage without changing expected outputs or comparison modes. Run a cumulative gate and full harness/Rust suites at the next 5–10-capability checkpoint, after any shared CLI/config change, and before release. The prior passing gate is not current for the added case/source fingerprint.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",
@@ -12467,7 +12497,9 @@
         "rust": 18.606395
       }
     },
-    "claim": "Selected explicit combined-rule workload only; no universal speed claim; RSS unavailable."
+    "claim": "Selected explicit combined-rule workload only; no universal speed claim; RSS unavailable.",
+    "fresh_for_current_source_fingerprint": false,
+    "note": "Benchmark is valid for its recorded source fingerprint and selected rule workload; current source fingerprint includes an added manifest/test case and must be rebuilt/rechecked before final release."
   },
   "agent_model_verification": {
     "initial_default_verifier_selection": {

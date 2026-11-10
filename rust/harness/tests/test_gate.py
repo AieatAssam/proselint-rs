@@ -78,6 +78,27 @@ class GateTests(unittest.TestCase):
             ["cargo test --locked"],
         )
 
+    def test_release_build_command_and_attestation_check(self):
+        cargo = Path("/toolchain/bin/cargo")
+        manifest = Path("/checkout/rust/Cargo.toml")
+        expected_build = [str(cargo), "build", "--locked", "--release", "--manifest-path", str(manifest)]
+
+        self.assertEqual(
+            gate.build_commands(cargo, manifest, focused_candidate_build=False, profile="release")[-1],
+            expected_build,
+        )
+        self.assertEqual(
+            gate.build_commands(cargo, manifest, focused_candidate_build=True, profile="release")[-1],
+            [str(cargo), "--locked", "build", "--release", "--manifest-path", str(manifest)],
+        )
+        records = [{"command": command, "exit_code": 0} for command in [
+            [str(cargo), "fmt", "--manifest-path", str(manifest), "--check"],
+            [str(cargo), "clippy", "--manifest-path", str(manifest), "--all-targets", "--", "-D", "warnings"],
+            [str(cargo), "test", "--locked", "--manifest-path", str(manifest)],
+            expected_build,
+        ]]
+        self.assertEqual(gate.missing_gate_attestation_checks({"build_commands": records}, cargo, manifest, profile="release"), [])
+
     def test_focused_candidate_attestation_cannot_be_reused_by_gate(self):
         with TemporaryDirectory() as directory:
             root = Path(directory)
@@ -89,7 +110,7 @@ class GateTests(unittest.TestCase):
 
             def read_attestation(_path, argv, _fingerprint):
                 candidate_argv.extend(argv)
-                return {"validation_scope": "focused_candidate_build"}
+                return {"validation_scope": "focused_candidate_build", "profile": "dev", "binary_path": str(binary.resolve())}
 
             with patch.object(gate, "RUST_ROOT", root), patch.object(gate, "locked_cargo", return_value=(cargo, "1.99.1")), patch.object(
                 gate, "read_candidate_attestation", side_effect=read_attestation
@@ -97,6 +118,29 @@ class GateTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "cannot be reused by the cumulative gate"):
                     gate.reuse_attested_candidate(Path("focused.attestation.json"), None)
             self.assertEqual(candidate_argv, [str(binary.resolve())])
+
+    def test_reusable_attestation_rejects_profile_mismatch_and_stale_binary_path(self):
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            release_binary = root / "target" / "release" / "proselint-rs"
+            debug_binary = root / "target" / "debug" / "proselint-rs"
+            release_binary.parent.mkdir(parents=True)
+            debug_binary.parent.mkdir(parents=True)
+            release_binary.write_bytes(b"release candidate")
+            debug_binary.write_bytes(b"debug candidate")
+            cargo = root / "bin" / "cargo"
+
+            with patch.object(gate, "RUST_ROOT", root), patch.object(gate, "locked_cargo", return_value=(cargo, "1.99.1")), patch.object(
+                gate, "read_candidate_attestation", return_value={"profile": "dev", "binary_path": str(debug_binary.resolve())}
+            ):
+                with self.assertRaisesRegex(ValueError, "profile does not match"):
+                    gate.reuse_attested_candidate(Path("dev.attestation.json"), None, profile="release")
+
+            with patch.object(gate, "RUST_ROOT", root), patch.object(gate, "locked_cargo", return_value=(cargo, "1.99.1")), patch.object(
+                gate, "read_candidate_attestation", return_value={"profile": "release", "binary_path": str(debug_binary.resolve())}
+            ):
+                with self.assertRaisesRegex(ValueError, "binary path does not match"):
+                    gate.reuse_attested_candidate(Path("stale.attestation.json"), None, profile="release")
 
     def test_reusable_attestation_must_prove_each_locked_gate_command(self):
         cargo = Path("/toolchain/bin/cargo")

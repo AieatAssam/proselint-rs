@@ -44852,6 +44852,263 @@
         "exit_status": "exact"
       },
       "stdin_base64": "bG9s"
+    },
+    {
+      "id": "gnu_diction_all_27_entries",
+      "capability_id": "rule.cliches.misc.gnu_diction",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; source proselint/checks/cliches/misc.py:check_diction, data proselint/checks/cliches/diction (27 lines); Check(types.Existence(items=...), path=\"cliches.misc.gnu_diction\", message=\"'{}' is a cliché\"); default enabled. Source attribution: GNU diction (https://directory.fsf.org/wiki/Diction). Reuse basis recorded by project: package-wide BSD-3-Clause; this is not a legal guarantee, and the specific corpus provenance/possible conflicting terms remain uncertain and should be reviewed. Case purpose: Positive coverage for all 27 source data lines, in source order.",
+      "input_mode": "stdin",
+      "stdin_base64": "YSBtYXR0ZXIgb2YgY29uY2VybgphbGwgdGhpbmdzIGJlaW5nIGVxdWFsCmFzIGEgbGFzdCByZXNvcnQKYXR0YWNoZWQgaGVyZXRvCmJ5IG5vIG1lYW5zCmNvbnNwaWN1b3VzIGJ5IGl0cyBhYnNlbmNlCmVhc2llciBzYWlkIHRoYW4gZG9uZQplbmNsb3NlZCBoZXJld2l0aAppZiBhbmQgd2hlbgppbiByZWZlcmVuY2UgdG8KaW4gc2hvcnQgc3VwcGx5CmluIHRoZSBmb3Jlc2VlYWJsZSBmdXR1cmUKaW4gdGhlIGxvbmcgcnVuCmluIHRoZSBtYXR0ZXIgb2YKaXQgc3RhbmRzIHRvIHJlYXNvbgptYW55IGFuZCBkaXZlcnNlCm9uIHRoZSByaWdodCB0cmFjawpwYXIgZm9yIHRoZSBjb3Vyc2UKcGxlYXNlIGZlZWwgZnJlZSB0bwpwdXJzdWFudCB0byB5b3VyIHJlcXVlc3QKcmVnYXJkaW5nIHRoZSBtYXR0ZXIgb2YKc2xvd2x5IGJ1dCBzdXJlbHkKdGhpcyB3aWxsIGFja25vd2xlZGdlCndlIGFyZSBwbGVhc2VkIHRvIGFkdmljZQp3ZSByZWdyZXQgdG8gaW5mb3JtIHlvdQp3ZSB3aXNoIHRvIHN0YXRlCnlvdSBhcmUgaGVyZWJ5IGFkdmlzZWQgdGhhdA==",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiY2xpY2hlcyI6eyJtaXNjIjp7ImdudV9kaWN0aW9uIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 15,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cliches_misc_gnu_diction_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "gnu_diction_case_insensitive",
+      "capability_id": "rule.cliches.misc.gnu_diction",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; source proselint/checks/cliches/misc.py:check_diction, data proselint/checks/cliches/diction (27 lines); Check(types.Existence(items=...), path=\"cliches.misc.gnu_diction\", message=\"'{}' is a cliché\"); default enabled. Source attribution: GNU diction (https://directory.fsf.org/wiki/Diction). Reuse basis recorded by project: package-wide BSD-3-Clause; this is not a legal guarantee, and the specific corpus provenance/possible conflicting terms remain uncertain and should be reviewed. Case purpose: Positive case-insensitive matching and exact matched text in messages.",
+      "input_mode": "stdin",
+      "stdin_base64": "QSBNQVRURVIgT0YgQ09OQ0VSTjsgQWxsIFRoaW5ncyBCZWluZyBFcXVhbDsgUExFQVNFIEZFRUwgRlJFRSBUTyBjYWxsLg==",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiY2xpY2hlcyI6eyJtaXNjIjp7ImdudV9kaWN0aW9uIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 15,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cliches_misc_gnu_diction_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "gnu_diction_word_boundaries",
+      "capability_id": "rule.cliches.misc.gnu_diction",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; source proselint/checks/cliches/misc.py:check_diction, data proselint/checks/cliches/diction (27 lines); Check(types.Existence(items=...), path=\"cliches.misc.gnu_diction\", message=\"'{}' is a cliché\"); default enabled. Source attribution: GNU diction (https://directory.fsf.org/wiki/Diction). Reuse basis recorded by project: package-wide BSD-3-Clause; this is not a legal guarantee, and the specific corpus provenance/possible conflicting terms remain uncertain and should be reviewed. Case purpose: Negative alphanumeric adjacency should not match complete phrases.",
+      "input_mode": "stdin",
+      "stdin_base64": "eGFsbCB0aGluZ3MgYmVpbmcgZXF1YWx4OyBwcmVhdHRhY2hlZCBoZXJldG87IHJlcG9ydC1pbi1zaG9ydC1zdXBwbHl4",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiY2xpY2hlcyI6eyJtaXNjIjp7ImdudV9kaWN0aW9uIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 15,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cliches_misc_gnu_diction_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "gnu_diction_quotes_and_order",
+      "capability_id": "rule.cliches.misc.gnu_diction",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; source proselint/checks/cliches/misc.py:check_diction, data proselint/checks/cliches/diction (27 lines); Check(types.Existence(items=...), path=\"cliches.misc.gnu_diction\", message=\"'{}' is a cliché\"); default enabled. Source attribution: GNU diction (https://directory.fsf.org/wiki/Diction). Reuse basis recorded by project: package-wide BSD-3-Clause; this is not a legal guarantee, and the specific corpus provenance/possible conflicting terms remain uncertain and should be reviewed. Case purpose: Quoted and punctuated phrases test quote treatment, punctuation boundaries, and input order.",
+      "input_mode": "stdin",
+      "stdin_base64": "4oCcYnkgbm8gbWVhbnPigJ07IChpbiB0aGUgbG9uZyBydW4pLCBhbmQgcHVyc3VhbnQgdG8geW91ciByZXF1ZXN0Lg==",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiY2xpY2hlcyI6eyJtaXNjIjp7ImdudV9kaWN0aW9uIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 15,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cliches_misc_gnu_diction_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "gnu_diction_no_hits",
+      "capability_id": "rule.cliches.misc.gnu_diction",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; source proselint/checks/cliches/misc.py:check_diction, data proselint/checks/cliches/diction (27 lines); Check(types.Existence(items=...), path=\"cliches.misc.gnu_diction\", message=\"'{}' is a cliché\"); default enabled. Source attribution: GNU diction (https://directory.fsf.org/wiki/Diction). Reuse basis recorded by project: package-wide BSD-3-Clause; this is not a legal guarantee, and the specific corpus provenance/possible conflicting terms remain uncertain and should be reviewed. Case purpose: Negative unrelated prose produces no findings.",
+      "input_mode": "stdin",
+      "stdin_base64": "V2Ugd2lsbCBzZW5kIHRoZSByZXF1ZXN0ZWQgZG9jdW1lbnQgdG9tb3Jyb3cu",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxMDAwLCJjaGVja3MiOnsiY2xpY2hlcyI6eyJtaXNjIjp7ImdudV9kaWN0aW9uIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 15,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cliches_misc_gnu_diction_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "gnu_diction_max_errors_one",
+      "capability_id": "rule.cliches.misc.gnu_diction",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; source proselint/checks/cliches/misc.py:check_diction, data proselint/checks/cliches/diction (27 lines); Check(types.Existence(items=...), path=\"cliches.misc.gnu_diction\", message=\"'{}' is a cliché\"); default enabled. Source attribution: GNU diction (https://directory.fsf.org/wiki/Diction). Reuse basis recorded by project: package-wide BSD-3-Clause; this is not a legal guarantee, and the specific corpus provenance/possible conflicting terms remain uncertain and should be reviewed. Case purpose: Positive max_errors=1 truncation semantics.",
+      "input_mode": "stdin",
+      "stdin_base64": "YSBtYXR0ZXIgb2YgY29uY2VybjsgYnkgbm8gbWVhbnM7IGluIHRoZSBsb25nIHJ1bg==",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsiY2xpY2hlcyI6eyJtaXNjIjp7ImdudV9kaWN0aW9uIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 15,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cliches_misc_gnu_diction_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "gnu_diction_default_dispatch",
+      "capability_id": "rule.cliches.misc.gnu_diction",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; source proselint/checks/cliches/misc.py:check_diction, data proselint/checks/cliches/diction (27 lines); Check(types.Existence(items=...), path=\"cliches.misc.gnu_diction\", message=\"'{}' is a cliché\"); default enabled. Source attribution: GNU diction (https://directory.fsf.org/wiki/Diction). Reuse basis recorded by project: package-wide BSD-3-Clause; this is not a legal guarantee, and the specific corpus provenance/possible conflicting terms remain uncertain and should be reviewed. Case purpose: Positive default dispatch without explicit rule configuration.",
+      "input_mode": "stdin",
+      "stdin_base64": "YSBtYXR0ZXIgb2YgY29uY2Vybg==",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 15,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "gnu_diction_max_errors_reversed_source_order",
+      "capability_id": "rule.cliches.misc.gnu_diction",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; source proselint/checks/cliches/misc.py:check_diction, data proselint/checks/cliches/diction (27 lines); Check(types.Existence(items=...), path=\"cliches.misc.gnu_diction\", message=\"'{}' is a cliché\"); default enabled. Source attribution: GNU diction (https://directory.fsf.org/wiki/Diction). Reuse basis recorded by project: package-wide BSD-3-Clause; this is not a legal guarantee, and the specific corpus provenance/possible conflicting terms remain uncertain and should be reviewed. Case purpose: With max_errors=1, the later phrase in source order precedes an earlier phrase in phrase-list order; distinguishes activation/source order from phrase-list order.",
+      "input_mode": "stdin",
+      "stdin_base64": "eW91IGFyZSBoZXJlYnkgYWR2aXNlZCB0aGF0OyBhIG1hdHRlciBvZiBjb25jZXJu",
+      "files": [
+        {
+          "path": "config.json",
+          "content_base64": "eyJtYXhfZXJyb3JzIjoxLCJjaGVja3MiOnsiY2xpY2hlcyI6eyJtaXNjIjp7ImdudV9kaWN0aW9uIjp0cnVlfX19fQ=="
+        }
+      ],
+      "argv": [
+        "check",
+        "--config",
+        "{file:config.json}",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 15,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "cliches_misc_gnu_diction_only",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

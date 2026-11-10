@@ -574,6 +574,10 @@
     {
       "id": "rule.industrial_language.chatspeak",
       "status": "independently_verified"
+    },
+    {
+      "id": "rule.cliches.misc.gnu_diction",
+      "status": "independently_verified"
     }
   ],
   "inventory": {
@@ -583,9 +587,9 @@
     "default_enabled_entries": 110,
     "default_disabled_entries": 14,
     "artifact": "rust/inventory.json",
-    "accepted_unique_paths": 101,
-    "unimplemented_unique_paths": 5,
-    "last_reconciled_utc": "2026-11-07T11:44:35Z"
+    "accepted_unique_paths": 102,
+    "unimplemented_unique_paths": 4,
+    "last_reconciled_utc": "2026-11-10T00:01:21Z"
   },
   "oracle": {
     "status": "independently_verified",
@@ -11476,13 +11480,99 @@
         "runtime_model_metadata": "unavailable"
       },
       "acceptance": "blocked; excluded from production_capabilities and cumulative strict gate"
+    },
+    {
+      "id": "rule.cliches.misc.gnu_diction",
+      "status": "independently_verified",
+      "case_ids": [
+        "gnu_diction_all_27_entries",
+        "gnu_diction_case_insensitive",
+        "gnu_diction_word_boundaries",
+        "gnu_diction_quotes_and_order",
+        "gnu_diction_no_hits",
+        "gnu_diction_max_errors_one",
+        "gnu_diction_max_errors_reversed_source_order",
+        "gnu_diction_default_dispatch"
+      ],
+      "upstream_spec": "Pinned Proselint 0.16.0 dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/cliches/misc.py::check_diction uses the exact 27-line proselint/checks/cliches/diction data; Fast + Existence; default-enabled, ASCII word boundaries, quote suppression, source activation order and raw surface messages. Attributed to GNU diction; user-authorized package-wide BSD-3-Clause reuse basis, with attribution retained and provenance/conflicting-terms caveat (not a legal guarantee).",
+      "red": {
+        "status": "MISMATCH",
+        "report": "rust/artifacts/gnu-diction-red-live-20261109.json",
+        "run_id": "20261109T222332125679Z-a5d832ba",
+        "cases": 7,
+        "mismatches": 7,
+        "errors": 0,
+        "notes": "Six unsupported selected-check errors and one missing default-dispatch finding against live pinned Python; no cached expected diagnostics."
+      },
+      "green": {
+        "status": "PASS",
+        "owner_report": "rust/artifacts/gnu-diction-live-owner-20261109-final.json",
+        "owner_run_id": "20261109T223735721488Z-a3f5f057",
+        "owner_cases_passed": 8,
+        "independent_report": "rust/artifacts/independent-gnu-diction-live-20261109.json",
+        "independent_run_id": "20261109T223821551376Z-0af500e2",
+        "independent_cases_passed": 8,
+        "independent_seconds": 23.932,
+        "mismatches": 0,
+        "timeouts": 0,
+        "errors": 0,
+        "build_attestation": "rust/artifacts/20261109T223655294479Z-build.attestation.json",
+        "candidate_sha256": "9cc53c68f657fb727d8b730b25ca6269ce8769a8d353203b0f9e0940cd27c00c",
+        "source_fingerprint": "db095f974ecc50aeb73160de5e8fcf713010542f8a91cafc10a897b6063501be",
+        "data_sha256": "a0c90a8267239fa17cc97621a66f896a2ebace9e12d72240ec8244208fbb5703",
+        "shared_selector_default_dispatch_changed": true,
+        "build_attestation_sha256": "6158efe5d6996baeda68195ceb78f1612c732abfe58da987be790f182119aa51",
+        "release_independent_report": "rust/artifacts/independent-gnu-diction-release-live-20261109.json",
+        "release_independent_run_id": "20261109T235807567409Z-e87afdea",
+        "release_independent_cases_passed": 8,
+        "release_independent_seconds": 12.81,
+        "release_candidate_sha256": "6469926cce2db820c80b025881fe7d4b677cc151167e3231eb45afa60fbf4e7f",
+        "release_source_fingerprint": "a42c8c7a2dd60e080650ccb46d4283ef36a92bc869e7bf539f5976750fa48240"
+      },
+      "focused_rust_tests": {
+        "status": "PASS",
+        "tests_passed": 6,
+        "commands": "cargo fmt --check; cargo test --locked cliches_gnu_diction; cargo clippy --locked --all-targets -- -D warnings"
+      },
+      "cumulative_gate": {
+        "status": "PASS",
+        "profile": "release",
+        "report": "rust/artifacts/strict-gate-gnu-diction-release-20261109.json",
+        "passed_cases": 1383,
+        "capabilities": 143,
+        "mismatches": 0,
+        "timeouts": 0,
+        "errors": 0,
+        "run_id": "20261109T233319326108Z-cf3ae32a",
+        "source_fingerprint": "a42c8c7a2dd60e080650ccb46d4283ef36a92bc869e7bf539f5976750fa48240",
+        "candidate_sha256": "6469926cce2db820c80b025881fe7d4b677cc151167e3231eb45afa60fbf4e7f",
+        "build_attestation": "rust/artifacts/20261109T232937580431Z-build.attestation.json",
+        "build_attestation_sha256": "bb16e33487cd2b4c3ebfb1b1454d35855f6badb43330ace13b98b9c7aaa577e3",
+        "duration_seconds": 1429.377398,
+        "stage_durations_seconds": {
+          "cumulative_live_comparison": 1204.586716,
+          "rust_checks_and_build": 221.85812,
+          "oracle_integrity": 2.240111,
+          "comparator_self_tests": 0.141905
+        },
+        "scope_matches_current_case_set": true
+      },
+      "coverage_at_acceptance": {
+        "accepted_cases": 1383,
+        "manifest_cases": 1394,
+        "capabilities": 143,
+        "accepted_rule_paths": 102,
+        "unimplemented_rule_paths": 4
+      },
+      "inventory_reconciliation": "Inventory path mapping now records 102 accepted unique paths and 4 unimplemented paths after GNU diction acceptance."
     }
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/strict-gate-chatspeak-20261109.json",
-    "passed_cases": 1375,
-    "manifest_cases": 1386,
+    "profile": "release",
+    "report": "rust/artifacts/strict-gate-gnu-diction-release-20261109.json",
+    "passed_cases": 1383,
+    "manifest_cases": 1394,
     "excluded_manifest_cases": {
       "harness.oracle_smoke": 2,
       "cli.product_version_flag": 1,
@@ -11496,31 +11586,30 @@
     },
     "unresolved_manifest_cases": 2,
     "exit_code": 0,
-    "capability_count": 142,
-    "source_fingerprint": "d1edd68008f3e8b34d9f630a327a722ad9436a0ead3d5f79d74f1f5cea8e1ded",
-    "run_id": "20261109T214009003064Z-21aebd2f",
+    "capability_count": 143,
+    "source_fingerprint": "a42c8c7a2dd60e080650ccb46d4283ef36a92bc869e7bf539f5976750fa48240",
+    "run_id": "20261109T233319326108Z-cf3ae32a",
     "cargo_lock_sha256": "05212984084365b79c499cd3c111ceb71349e05968ff8b21316e6ec64fd76fc1",
-    "duration_seconds": 2488.470542,
+    "duration_seconds": 1429.377398,
     "gate_stage_durations_seconds": {
-      "cumulative_live_comparison": 2227.902093,
-      "rust_checks_and_build": 257.37308,
-      "oracle_integrity": 2.389136,
-      "comparator_self_tests": 0.177164
+      "cumulative_live_comparison": 1204.586716,
+      "rust_checks_and_build": 221.85812,
+      "oracle_integrity": 2.240111,
+      "comparator_self_tests": 0.141905
     },
     "comparator_self_tests": 23,
     "scope_matches_current_case_set": true,
-    "current_accepted_case_count": 1375,
-    "current_production_case_count": 1375,
-    "current_manifest_case_count": 1386,
-    "current_capability_count": 142,
+    "current_accepted_case_count": 1383,
+    "current_production_case_count": 1383,
+    "current_manifest_case_count": 1394,
     "current_unaccepted_manifest_case_count": 11,
     "next_gate_due": false,
-    "candidate_sha256": "9041728ac99c82ca0b0994fb5049e2a9f44b28e56382a5579aa52a630a3f3766",
-    "build_attestation": "rust/artifacts/20261109T213551821370Z-build.attestation.json",
-    "next_gate_after_capability": 147,
-    "build_attestation_sha256": "9eb610e2054ebf1824c2d64ae67609e4a359f9d594817ab433b51603868d5523",
+    "candidate_sha256": "6469926cce2db820c80b025881fe7d4b677cc151167e3231eb45afa60fbf4e7f",
+    "build_attestation": "rust/artifacts/20261109T232937580431Z-build.attestation.json",
+    "build_attestation_sha256": "bb16e33487cd2b4c3ebfb1b1454d35855f6badb43330ace13b98b9c7aaa577e3",
+    "next_gate_after_capability": 148,
     "next_gate_after_accepted_capabilities": 5,
-    "live_cases": 1375,
+    "live_cases": 1383,
     "prior_failed_attempts": [
       {
         "report": "rust/artifacts/strict-gate-five-capability-checkpoint-141-20261109.json",
@@ -11539,9 +11628,18 @@
         "timeouts": 8,
         "mismatches": 0,
         "note": "Candidate timeouts under parallel load; preserved as failed attempt."
+      },
+      {
+        "report": "rust/artifacts/strict-gate-gnu-diction-20261109.json",
+        "run_id": "20261109T225037176659Z-4bb24b1a",
+        "status": "FAILED_TIMEOUTS",
+        "passed_cases": 1373,
+        "timeouts": 10,
+        "mismatches": 0,
+        "note": "Debug profile candidate exceeded the 10s limit for ten broad default-config scans; release profile passed unchanged cases."
       }
     ],
-    "gate_due_reason": "Shared selector/default dispatch changed."
+    "gate_due_reason": "Five-capability checkpoint remains after capability #148 or any shared behavior change."
   },
   "rust_dependencies": {
     "status": "current",
@@ -11578,7 +11676,7 @@
     },
     "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-itoa-20261109.txt"
   },
-  "next_capability_handoff": "Continue eligible inventory rules and unresolved CLI/config parity. The chatspeak gate passes 1375/1375 across 142 capabilities; next cumulative checkpoint after five more accepted capabilities (#147), or before release/shared infrastructure changes. Preserve attribution/notices and unknown-provenance caveat.",
+  "next_capability_handoff": "Continue the next eligible unimplemented capability. Current release-profile cumulative gate passes 1383/1383 across 143 capabilities; next checkpoint after five more accepted capabilities (#148), or sooner after shared behavior/release changes. The debug-profile timeouts remain a recorded failed attempt; the accepted gate uses an explicitly attested release binary with unchanged deadlines and comparisons.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",

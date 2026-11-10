@@ -27,6 +27,10 @@ from setup_oracle import ROOT, RUST_ROOT, oracle_integrity
 STATUSES = ["PASS", "MISMATCH", "NOT_IMPLEMENTED", "ORACLE_ERROR", "CANDIDATE_ERROR", "TIMEOUT", "BLOCKED"]
 
 
+def candidate_binary(profile: str) -> Path:
+    return RUST_ROOT / "target" / ("debug" if profile == "dev" else "release") / ("proselint-rs.exe" if os.name == "nt" else "proselint-rs")
+
+
 def add_gate_execution(report: dict[str, Any], duration_seconds: float, stages: dict[str, dict[str, Any]], capability_count: int, case_count: int) -> None:
     report["gate_execution"] = {
         "duration_seconds": round(duration_seconds, 6),
@@ -108,19 +112,22 @@ def write_blocked_report(report_path: Path, reason: str) -> None:
     report_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
-def build_commands(cargo: Path, manifest: Path, *, focused_candidate_build: bool) -> list[list[str]]:
+def build_commands(cargo: Path, manifest: Path, *, focused_candidate_build: bool, profile: str = "dev") -> list[list[str]]:
+    if profile not in {"dev", "release"}:
+        raise ValueError(f"unsupported build profile: {profile}")
     if focused_candidate_build:
         locked = [str(cargo), "--locked"]
         return [
             [*locked, "fmt", "--manifest-path", str(manifest), "--check"],
             [*locked, "clippy", "--manifest-path", str(manifest), "--all-targets", "--", "-D", "warnings"],
-            [*locked, "build", "--manifest-path", str(manifest)],
+            [*locked, "build", *( ["--release"] if profile == "release" else []), "--manifest-path", str(manifest)],
         ]
+    build = [str(cargo), "build", "--locked", *( ["--release"] if profile == "release" else []), "--manifest-path", str(manifest)]
     return [
         [str(cargo), "fmt", "--manifest-path", str(manifest), "--check"],
         [str(cargo), "clippy", "--manifest-path", str(manifest), "--all-targets", "--", "-D", "warnings"],
         [str(cargo), "test", "--locked", "--manifest-path", str(manifest)],
-        [str(cargo), "build", "--locked", "--manifest-path", str(manifest)],
+        build,
     ]
 
 
@@ -152,7 +159,7 @@ def staged_artifacts(artifacts: Path):
         shutil.rmtree(staging)
 
 
-def build_and_attest(candidate_json: str | None, *, focused_candidate_build: bool = False) -> tuple[list[str], Path]:
+def build_and_attest(candidate_json: str | None, *, focused_candidate_build: bool = False, profile: str = "dev") -> tuple[list[str], Path]:
     manifest = RUST_ROOT / "Cargo.toml"
     lockfile = RUST_ROOT / "Cargo.lock"
     if not manifest.is_file() or not lockfile.is_file():
@@ -165,7 +172,7 @@ def build_and_attest(candidate_json: str | None, *, focused_candidate_build: boo
     env["RUSTUP_HOME"] = str(RUST_ROOT / ".cache" / "rustup-home")
     env["RUSTUP_TOOLCHAIN"] = channel
     env["PATH"] = str(cargo_dir) + os.pathsep + env.get("PATH", "")
-    commands = build_commands(cargo, manifest, focused_candidate_build=focused_candidate_build)
+    commands = build_commands(cargo, manifest, focused_candidate_build=focused_candidate_build, profile=profile)
     before = source_fingerprint()
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%S%fZ") + "-build"
     artifacts = RUST_ROOT / "artifacts"
@@ -188,7 +195,7 @@ def build_and_attest(candidate_json: str | None, *, focused_candidate_build: boo
     after = source_fingerprint()
     if before != after:
         raise RuntimeError("Rust source tree changed during candidate build")
-    binary = RUST_ROOT / "target" / "debug" / ("proselint-rs.exe" if os.name == "nt" else "proselint-rs")
+    binary = candidate_binary(profile)
     if not binary.is_file():
         raise RuntimeError(f"expected Rust CLI binary not produced: {binary}")
     if candidate_json is None:
@@ -209,6 +216,7 @@ def build_and_attest(candidate_json: str | None, *, focused_candidate_build: boo
         "schema_version": 1,
         "verified": True,
         "validation_scope": "focused_candidate_build" if focused_candidate_build else "full_gate",
+        "profile": profile,
         "source_fingerprint": after,
         "cargo_lock_sha256": lock_hash,
         "binary_path": str(binary.resolve()),
@@ -224,9 +232,11 @@ def build_and_attest(candidate_json: str | None, *, focused_candidate_build: boo
     return candidate, path
 
 
-def reuse_attested_candidate(attestation_path: Path, candidate_json: str | None) -> tuple[list[str], Path]:
+def reuse_attested_candidate(attestation_path: Path, candidate_json: str | None, *, profile: str = "dev") -> tuple[list[str], Path]:
     cargo, channel = locked_cargo()
-    binary = RUST_ROOT / "target" / "debug" / ("proselint-rs.exe" if os.name == "nt" else "proselint-rs")
+    if profile not in {"dev", "release"}:
+        raise ValueError(f"unsupported build profile: {profile}")
+    binary = candidate_binary(profile)
     candidate = [str(binary.resolve())]
     if candidate_json is not None:
         try:
@@ -236,19 +246,23 @@ def reuse_attested_candidate(attestation_path: Path, candidate_json: str | None)
         if not isinstance(candidate, list) or not candidate or not all(isinstance(value, str) for value in candidate):
             raise ValueError("candidate argv must be a non-empty JSON string array")
         if Path(candidate[0]).resolve() != binary.resolve():
-            raise ValueError("candidate argv must begin with the attested debug CLI binary")
+            raise ValueError(f"candidate argv must begin with the attested {profile} CLI binary")
     attestation = read_candidate_attestation(attestation_path, candidate, source_fingerprint())
+    if attestation.get("profile") != profile:
+        raise ValueError(f"build attestation profile does not match requested {profile} profile")
+    if Path(attestation.get("binary_path", "")).resolve() != binary.resolve():
+        raise ValueError(f"build attestation binary path does not match requested {profile} profile")
     if attestation.get("validation_scope") == "focused_candidate_build":
         raise ValueError("focused candidate-build attestation cannot be reused by the cumulative gate")
     if attestation.get("toolchain") != channel:
         raise ValueError("build attestation uses a different Rust toolchain")
-    missing = missing_gate_attestation_checks(attestation, cargo, RUST_ROOT / "Cargo.toml")
+    missing = missing_gate_attestation_checks(attestation, cargo, RUST_ROOT / "Cargo.toml", profile=profile)
     if missing:
         raise ValueError(f"build attestation does not prove successful locked gate checks: {missing}")
     return candidate, attestation_path
 
 
-def missing_gate_attestation_checks(attestation: dict[str, Any], cargo: Path, manifest: Path) -> list[str]:
+def missing_gate_attestation_checks(attestation: dict[str, Any], cargo: Path, manifest: Path, *, profile: str = "dev") -> list[str]:
     records = attestation.get("build_commands", [])
     if not isinstance(records, list) or any(not isinstance(item, dict) or item.get("exit_code") != 0 or not isinstance(item.get("command"), list) or not item["command"] for item in records):
         raise ValueError("build attestation has incomplete or unsuccessful command records")
@@ -257,7 +271,7 @@ def missing_gate_attestation_checks(attestation: dict[str, Any], cargo: Path, ma
         "fmt --check": lambda command: command == [cargo_path, "fmt", "--manifest-path", manifest_path, "--check"] or command == [cargo_path, "--locked", "fmt", "--manifest-path", manifest_path, "--check"],
         "clippy -D warnings": lambda command: command == [cargo_path, "clippy", "--manifest-path", manifest_path, "--all-targets", "--", "-D", "warnings"] or command == [cargo_path, "--locked", "clippy", "--manifest-path", manifest_path, "--all-targets", "--", "-D", "warnings"],
         "cargo test --locked": lambda command: command[0] == cargo_path and command[1:] == ["test", "--locked", "--manifest-path", manifest_path],
-        "cargo build --locked": lambda command: command == [cargo_path, "build", "--locked", "--manifest-path", manifest_path] or command == [cargo_path, "--locked", "build", "--manifest-path", manifest_path],
+        "cargo build --locked": lambda command: command == [cargo_path, "build", "--locked", *( ["--release"] if profile == "release" else []), "--manifest-path", manifest_path] or command == [cargo_path, "--locked", "build", *( ["--release"] if profile == "release" else []), "--manifest-path", manifest_path],
     }
     commands = [item["command"] for item in records]
     return [name for name, matches in requirements.items() if not any(matches(command) for command in commands)]
@@ -268,6 +282,7 @@ def main() -> int:
     parser.add_argument("--live", action="store_true")
     parser.add_argument("--report", type=Path)
     parser.add_argument("--candidate-argv-json")
+    parser.add_argument("--profile", choices=("dev", "release"), default="dev")
     parser.add_argument("--reference-argv-json")
     parser.add_argument("--reuse-attestation", type=Path, help="reuse a successful build attestation after checking current source, lockfile, binary, toolchain, and gate commands")
     parser.add_argument("--attest-candidate-for-red", action="store_true", help="run locked fmt, Clippy, and build and write an attestation for focused RED comparisons only")
@@ -276,7 +291,7 @@ def main() -> int:
         if args.live or args.reuse_attestation is not None:
             parser.error("--attest-candidate-for-red cannot be combined with --live or --reuse-attestation")
         try:
-            candidate, attestation = build_and_attest(args.candidate_argv_json, focused_candidate_build=True)
+            candidate, attestation = build_and_attest(args.candidate_argv_json, focused_candidate_build=True, profile=args.profile)
         except (OSError, RuntimeError, ValueError, subprocess.SubprocessError) as exc:
             print(f"BLOCKED: {exc}", file=sys.stderr)
             return 2
@@ -332,10 +347,10 @@ def main() -> int:
         stage_started = begin_stage()
         try:
             if args.reuse_attestation is None:
-                candidate, attestation = build_and_attest(args.candidate_argv_json)
+                candidate, attestation = build_and_attest(args.candidate_argv_json, profile=args.profile)
                 stage_name = "rust_checks_and_build"
             else:
-                candidate, attestation = reuse_attested_candidate(args.reuse_attestation, args.candidate_argv_json)
+                candidate, attestation = reuse_attested_candidate(args.reuse_attestation, args.candidate_argv_json, profile=args.profile)
                 stage_name = "rust_candidate_attestation_reuse"
         finally:
             finish_stage(stage_name, stage_started)

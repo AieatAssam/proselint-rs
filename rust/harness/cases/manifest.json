@@ -47950,5 +47950,58 @@
       "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"},
       "stdin_base64": "TW90aGVyIE5hdHVyZTsgc3BhY2UgYWdlOyBTdG9uZSBBZ2U7IHRoZSBBbWVyaWNhbiBXZXN0Lg=="
     }
+,
+    {
+      "capability_id": "rule.industrial_language.bureaucratese",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/industrial_language/bureaucratese.py registers ExistenceSimple(pattern='meets? with your approval'), default enabled. Expected output is produced by the pinned live Python CLI. Verifies default dispatch without explicit config.",
+      "input_mode": "stdin",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "id": "bureaucratese_no_config_default_dispatch",
+      "stdin_base64": "V2UgbWVldCB3aXRoIHlvdXIgYXBwcm92YWwu",
+      "expected_oracle_outcome": "findings"
+    },
+    {
+      "capability_id": "rule.industrial_language.bureaucratese",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/industrial_language/bureaucratese.py registers ExistenceSimple(pattern='meets? with your approval'), default enabled. Expected output is produced by the pinned live Python CLI. Unrelated approval wording remains clean.",
+      "input_mode": "stdin",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "id": "bureaucratese_no_config_clean_control",
+      "stdin_base64": "V2UgYXBwcm92ZSB0aGlzIG1lZXRpbmcu",
+      "expected_oracle_outcome": "clean"
+    }
   ]
 }

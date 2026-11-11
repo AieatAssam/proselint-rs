@@ -1464,7 +1464,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1453)
+        self.assertEqual(len(case_ids), 1455)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -1473,7 +1473,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "1b51abdc9a027cbdfb00b17fe9a5042d26627d0d9394f5fe8cf404e9ba95924a",
+            "87bca9f9aa1f3f03a5fd22c10f316c60d7f80f22ec27caa637a1e4985c41a699",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),
@@ -1570,6 +1570,21 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(cases["many_a_no_config_default_dispatch"]["expected_oracle_outcome"], "findings")
         self.assertEqual(cases["many_a_no_config_clean_control"]["stdin_base64"], "VGhlIHJlcG9ydCBpcyByZWFkeSBmb3IgcmV2aWV3Lg==")
         self.assertEqual(cases["many_a_no_config_clean_control"]["expected_oracle_outcome"], "clean")
+
+    def test_apologizing_default_dispatch_cases(self) -> None:
+        cases = {
+            case["id"]: case for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "rule.misc.apologizing"
+            and case.get("config_scenario") == "no_config_default"
+        }
+        self.assertEqual(set(cases), {
+            "apologizing_no_config_default_dispatch",
+            "apologizing_no_config_clean_control",
+        })
+        self.assertEqual(cases["apologizing_no_config_default_dispatch"]["stdin_base64"], "TW9yZSByZXNlYXJjaCBpcyBuZWVkZWQu")
+        self.assertEqual(cases["apologizing_no_config_default_dispatch"]["expected_oracle_outcome"], "findings")
+        self.assertEqual(cases["apologizing_no_config_clean_control"]["stdin_base64"], "VGhlIGNvbW1pdHRlZSByZXZpZXdlZCB0aGUgZHJhZnQgeWVzdGVyZGF5Lg==")
+        self.assertEqual(cases["apologizing_no_config_clean_control"]["expected_oracle_outcome"], "clean")
 
     def test_default_config_cross_rule_case_scope(self) -> None:
         cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "cli.config.default_cross_rule"]

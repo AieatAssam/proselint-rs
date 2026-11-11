@@ -2666,6 +2666,38 @@
       }
     },
     {
+      "id": "whence_no_config_default_dispatch",
+      "capability_id": "rule.misc.whence",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/whence.py registers the literal `from whence` and config/default.json enables misc. This no-config case verifies the positive finding with unrelated default checks also enabled.",
+      "input_mode": "stdin",
+      "stdin_base64": "SSBrbm93IGZyb20gd2hlbmNlIGl0IGNhbWUu",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "whence_no_config_clean_control",
+      "capability_id": "rule.misc.whence",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; the no-config control omits `from` from the phrase, so default-enabled misc.whence must not report it.",
+      "input_mode": "stdin",
+      "stdin_base64": "SSBrbm93IHdoZW5jZSBpdCBjYW1lLg==",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
       "id": "kudos_positive_context",
       "capability_id": "rule.misc.false_plurals.kudos",
       "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Positive phrase in ordinary context; the pinned CLI returns the rule diagnostic. Sources: checks/misc/false_plurals.py:check_kudos; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",

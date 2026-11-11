@@ -1464,7 +1464,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1443)
+        self.assertEqual(len(case_ids), 1445)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -1473,12 +1473,25 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "e0e40fc0a1c86d8cba4fea42db2e7f5a7440e4826d709f631c0da3b384bb8291",
+            "5f8a49cbcf78f65c75ae71e3dcbb907303f64ccba38d930a03a3a3e36dd0ff78",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),
             3,
         )
+        whence_cases = {
+            case["id"]: case for case in manifest["cases"]
+            if case["capability_id"] == "rule.misc.whence"
+            and case.get("config_scenario") == "no_config_default"
+        }
+        self.assertEqual(set(whence_cases), {
+            "whence_no_config_default_dispatch",
+            "whence_no_config_clean_control",
+        })
+        self.assertEqual(whence_cases["whence_no_config_default_dispatch"]["stdin_base64"], "SSBrbm93IGZyb20gd2hlbmNlIGl0IGNhbWUu")
+        self.assertEqual(whence_cases["whence_no_config_default_dispatch"]["expected_oracle_outcome"], "findings")
+        self.assertEqual(whence_cases["whence_no_config_clean_control"]["stdin_base64"], "SSBrbm93IHdoZW5jZSBpdCBjYW1lLg==")
+        self.assertEqual(whence_cases["whence_no_config_clean_control"]["expected_oracle_outcome"], "clean")
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.missing_explicit_text_error" for case in manifest["cases"]),
             2,

@@ -82,6 +82,32 @@ fn no_config_found_enables_archaism() {
 }
 
 #[test]
+fn no_config_found_enables_whence() {
+    let positive = Workspace::new().run(b"I know from whence it came.");
+    assert_eq!(
+        positive.status.code(),
+        Some(1),
+        "stderr: {:?}",
+        positive.stderr
+    );
+    assert_eq!(
+        positive.stdout,
+        b"<stdin>:1:8: misc.whence: The 'from' in 'from whence' is not needed.\n"
+    );
+    assert!(positive.stderr.is_empty(), "stderr: {:?}", positive.stderr);
+
+    let control = Workspace::new().run(b"I know whence it came.");
+    assert_eq!(
+        control.status.code(),
+        Some(0),
+        "stderr: {:?}",
+        control.stderr
+    );
+    assert_eq!(control.stdout, b"");
+    assert!(control.stderr.is_empty(), "stderr: {:?}", control.stderr);
+}
+
+#[test]
 fn no_config_found_enables_cliches_hell_and_hedging() {
     let cases = [
         (

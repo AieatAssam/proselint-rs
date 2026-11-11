@@ -107,3 +107,15 @@ This separate profile measures the explicit combination `misc.suddenly` and `psy
 The report contains all 25 paired samples per workload, alternating which CLI runs first. One warmup pair per workload is excluded. The measured region runs each CLI from process spawn through exit, including startup, file/config reading, checking, JSON serialization, and output capture. The complete report is [`../artifacts/combined-benchmark-full-20261106.json`](../artifacts/combined-benchmark-full-20261106.json) (SHA-256 `f5f20bc192b5962afecae69340f0927b5e828a938bf3e6d3177fc7a6139270c3`); the separate parity-only preflight is [`../artifacts/combined-benchmark-parity-only-20261106.json`](../artifacts/combined-benchmark-parity-only-20261106.json) (SHA-256 `eb3d6c973d03d8488f139d65ecfae5999c31768d96b6a446c31eb195a0fbf5f0`). Workload hashes, sizes, expected findings, generator descriptions, selected config, and positive examples are in [`../harness/benchmark_inputs/combined_workloads.json`](../harness/benchmark_inputs/combined_workloads.json).
 
 The timed run completed in about 27 seconds on 2026-11-06 (UTC) on the same four-CPU Linux x86_64 host described above. The pinned baseline is Proselint 0.16.0, Python 3.12.3, revision `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`; the candidate is a locked release build with rustc and Cargo 1.99.1. RSS was unavailable. This profile measures only fresh-process CLI behavior; the in-memory table above applies only to the isolated `misc.suddenly` rule. The speed ratios describe these inputs on this host and do not establish whole-application speed.
+
+## 2026-11-11: month/year checkpoint bounded benchmark
+
+After the current cumulative live gate passed, the combined selected-rule profile was measured against the pinned Python executable. The exact workload passed live parity preflight **3/3** and every warmup/measured invocation remained parity checked. The report contains **25 paired fresh-process samples per workload**, ran within the configured 1,800-second deadline, and took 33.207 seconds total (3.048s setup/build, 6.607s parity preflight, 23.552s measurement). Report: [`../artifacts/month-year-benchmark-combined-20261111.json`](../artifacts/month-year-benchmark-combined-20261111.json), SHA-256 `9c111b12bcde888a5105904b6c91ebb88452080088c97fb5771e10714db2ce37`.
+
+| Workload | Python median | Rust median | Samples per side |
+|---|---:|---:|---:|
+| `combined_small` | 198.124 ms | 4.454 ms | 25 |
+| `combined_ordinary_generated` | 208.985 ms | 7.449 ms | 25 |
+| `combined_dense_generated` | 237.440 ms | 15.071 ms | 25 |
+
+This is a fresh-process CLI comparison for the selected combined rules on the three listed workloads. It does not establish whole-program or universal speedup. Per-process RSS was unavailable because the harness has no process-attributed RSS sampler.

@@ -134,6 +134,32 @@ fn no_config_found_enables_false_plurals_kudos() {
 }
 
 #[test]
+fn no_config_found_enables_month_year_comma() {
+    let positive = Workspace::new().run(b"March, 2020 was busy.");
+    assert_eq!(
+        positive.status.code(),
+        Some(1),
+        "stderr: {:?}",
+        positive.stderr
+    );
+    assert_eq!(
+        positive.stdout,
+        b"<stdin>:1:1: dates_times.dates.month_year_comma: When specifying a month and year, no comma is needed.\n"
+    );
+    assert!(positive.stderr.is_empty(), "stderr: {:?}", positive.stderr);
+
+    let control = Workspace::new().run(b"March 2020 was busy.");
+    assert_eq!(
+        control.status.code(),
+        Some(0),
+        "stderr: {:?}",
+        control.stderr
+    );
+    assert_eq!(control.stdout, b"");
+    assert!(control.stderr.is_empty(), "stderr: {:?}", control.stderr);
+}
+
+#[test]
 fn no_config_found_enables_cliches_hell_and_hedging() {
     let cases = [
         (

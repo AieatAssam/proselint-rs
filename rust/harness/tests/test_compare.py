@@ -274,20 +274,77 @@ class ComparatorTests(unittest.TestCase):
 
     def test_reference_cases_use_isolated_per_case_cache_prefixes(self) -> None:
         case = {"id":"cache_probe", "capability_id":"test", "provenance":"test", "input_mode":"stdin", "stdin_base64":"", "files":[], "argv":[], "output_format":"json", "expected_oracle_outcome":"clean", "timeout_seconds":2, "environment":{}, "workspace_mutates":False, "comparison":{"stdout":"json","stderr":"bytes","exit_status":"exact"}}
-        probe = [sys.executable, "-c", "import json;print(json.dumps({'result':{'<stdin>':{'diagnostics':[]}}}))"]
-        with tempfile.TemporaryDirectory() as directory:
+        probe = [sys.executable, "-c", "ignored"]
+        stdout = b'{"result":{"<stdin>":{"diagnostics":[]}}}'
+        observed_envs = []
+
+        def fake_run(argv, *, cwd, env, stdin, timeout, role):
+            observed_envs.append((role, env["PYTHONPYCACHEPREFIX"], env.get("PYTHONDONTWRITEBYTECODE")))
+            module = cwd / "harness_cache_probe.py"
+            module.write_text("value = 1\n", encoding="utf-8")
+            subprocess.run([sys.executable, "-c", "import harness_cache_probe"], cwd=cwd, env=env, check=True)
+            if role == "reference":
+                self.assertEqual(list(Path(env["PYTHONPYCACHEPREFIX"]).rglob("*.pyc")), [])
+            return {"argv": argv, "cwd": str(cwd), "role": role, "status": "OK", "exit_code": 0, "duration_seconds": 0.0, "stdout": stdout, "stderr": b""}
+
+        with tempfile.TemporaryDirectory() as directory, patch.object(compare, "run_command", side_effect=fake_run):
             root = Path(directory)
             first = compare.run_case(case, probe, probe, root, None)
-            second_case = dict(case, id="cache_probe_2")
+            second_case = dict(case, id="cache_probe_2", environment={"PYTHONDONTWRITEBYTECODE": "1"})
             second = compare.run_case(second_case, probe, probe, root, None)
+            first_cache = first["effective_environment"]["reference"]["PYTHONPYCACHEPREFIX"]
+            second_cache = second["effective_environment"]["reference"]["PYTHONPYCACHEPREFIX"]
+            self.assertFalse(Path(first_cache).exists())
+            self.assertFalse(Path(second_cache).exists())
+            self.assertFalse((root / "cases" / "cache_probe" / "reference-pycache").exists())
+            self.assertFalse((root / "cases" / "cache_probe_2" / "reference-pycache").exists())
         self.assertEqual(first["status"], "PASS", first)
         self.assertEqual(second["status"], "PASS", second)
         first_cache = first["effective_environment"]["reference"]["PYTHONPYCACHEPREFIX"]
         second_cache = second["effective_environment"]["reference"]["PYTHONPYCACHEPREFIX"]
-        self.assertEqual(first_cache, str(root / "cases" / "cache_probe" / "reference-pycache"))
-        self.assertEqual(second_cache, str(root / "cases" / "cache_probe_2" / "reference-pycache"))
         self.assertNotEqual(first_cache, second_cache)
+        self.assertEqual([role for role, _, _ in observed_envs], ["reference", "candidate", "reference", "candidate"])
+        self.assertEqual([flag for role, _, flag in observed_envs if role == "reference"], ["1", "1"])
+        self.assertEqual([flag for role, _, flag in observed_envs if role == "candidate"], [None, "1"])
         self.assertNotEqual(first["effective_environment"]["candidate"]["PYTHONPYCACHEPREFIX"], first_cache)
+
+    def test_reference_disables_bytecode_without_changing_multiplication_output(self) -> None:
+        cases = json.loads(compare.MANIFEST.read_text(encoding="utf-8"))["cases"]
+        case = next(case for case in cases if case["id"] == "multiplication_selected_config_interaction")
+        reference = compare.default_reference_argv()
+        stdin = base64.b64decode(case["stdin_base64"])
+        outputs = []
+        with tempfile.TemporaryDirectory(prefix="multiplication bytecode ") as directory:
+            root = Path(directory)
+            layout = root / "workspace"
+            layout.mkdir()
+            compare.materialize_files(case, layout)
+            args = [arg.replace("{file:selected config.json}", "selected config.json") for arg in case["argv"]]
+            for label, disable_bytecode in (("baseline", False), ("disabled", True)):
+                home = root / label / "home"
+                for name in ("xdg", "cache", "tmp"):
+                    (home / name).mkdir(parents=True, exist_ok=True)
+                cache = root / f"{label}-pycache"
+                env = compare.fresh_env(home, case["environment"])
+                env["PYTHONPYCACHEPREFIX"] = str(cache)
+                if disable_bytecode:
+                    env["PYTHONDONTWRITEBYTECODE"] = "1"
+                result = compare.run_command(reference + args, cwd=layout, env=env, stdin=stdin, timeout=case["timeout_seconds"], role="reference")
+                outputs.append((result["status"], result["exit_code"], result["stdout"], result["stderr"]))
+                if disable_bytecode:
+                    self.assertEqual(list(cache.rglob("*.pyc")) if cache.exists() else [], [])
+                else:
+                    self.assertTrue(list(cache.rglob("*.pyc")))
+        self.assertEqual(outputs[0], outputs[1])
+
+    def test_manifest_bytecode_settings_load_and_preserve_explicit_value(self) -> None:
+        cases = compare.load_manifest()["cases"]
+        explicit = [case for case in cases if "PYTHONDONTWRITEBYTECODE" in case["environment"]]
+        self.assertEqual(len(explicit), 93)
+        self.assertTrue(all(case["environment"]["PYTHONDONTWRITEBYTECODE"] == "1" for case in explicit))
+        with tempfile.TemporaryDirectory() as directory:
+            env = compare.fresh_env(Path(directory), explicit[0]["environment"])
+        self.assertEqual(env["PYTHONDONTWRITEBYTECODE"], "1")
 
     def test_selected_check_order_matches_pinned_inventory_first_occurrence(self) -> None:
         source = (compare.RUST_ROOT / "src" / "main.rs").read_text(encoding="utf-8")
@@ -1328,6 +1385,8 @@ class ComparatorTests(unittest.TestCase):
                 "message", "rule_id", "coordinate", "replacement", "field_presence", "file_key",
                 "stderr", "exit_status", "invalid_json", "unexpected_extra_output", "spawn_failure",
                 "crash_exit", "timeout", "spaces_non_ascii_argv_path", "no_diagnostics",
+                "version_json_schema", "version_json_missing_python", "version_json_extra_field",
+                "version_json_wrong_python_type", "version_json_wrong_version", "version_json_wrong_python_value",
             }.issubset(names)
         )
 
@@ -1900,6 +1959,39 @@ class ComparatorTests(unittest.TestCase):
         invalid = {"result": {"file": {"diagnostics": [{"check": "not upstream schema"}]}}}
         self.assertIn("exactly", compare.validate_output_schema(invalid) or "")
 
+    def test_version_json_manifest_declares_upstream_schema(self) -> None:
+        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "cli.version.json_metadata"]
+        self.assertEqual(len(cases), 5)
+        for case in cases:
+            if case["comparison"]["stdout"] == "json":
+                self.assertEqual(case["comparison"]["json_schema"], "version")
+            else:
+                self.assertEqual(case["id"], "cli_version_json_metadata_precedence_control")
+                self.assertNotIn("json_schema", case["comparison"])
+
+    def test_version_json_schema_and_exact_values(self) -> None:
+        upstream = {"version": "0.16.0", "python": [3, 12, 3]}
+        expected = {"exit_code": 0, "stdout": json.dumps(upstream).encode(), "stderr": b""}
+        self.assertIsNone(compare.validate_output_schema(upstream, schema="version"))
+        for invalid in (
+            {"version": "0.16.0"},
+            {**upstream, "extra": True},
+            {"version": 0.16, "python": [3, 12, 3]},
+            {"version": "0.16.0", "python": [3, True, 3]},
+            {"version": "0.16.0", "python": [3, 12]},
+        ):
+            with self.subTest(invalid=invalid):
+                self.assertIsNotNone(compare.validate_output_schema(invalid, schema="version"))
+        for altered in (
+            {"version": "0.16.1", "python": [3, 12, 3]},
+            {"version": "0.16.0", "python": [3, 12, 4]},
+        ):
+            with self.subTest(altered=altered):
+                actual = {"exit_code": 0, "stdout": json.dumps(altered).encode(), "stderr": b""}
+                self.assertTrue(compare.compare_outputs(expected, actual, "json", json_schema="version"))
+        equal = {"exit_code": 0, "stdout": b'{ "python" : [3,12,3], "version" : "0.16.0" }', "stderr": b""}
+        self.assertEqual([], compare.compare_outputs(expected, equal, "json", json_schema="version"))
+
     def test_process_statuses_distinguish_lint_errors_from_crashes(self) -> None:
         with tempfile.TemporaryDirectory(prefix="process space-é ") as directory:
             cwd = Path(directory)
@@ -1967,6 +2059,19 @@ class ComparatorTests(unittest.TestCase):
         report["counts"]["MISMATCH"] = 1
         with self.assertRaisesRegex(ValueError, "MISMATCH case must have two successful executions"):
             compare.validate_report(report)
+
+    def test_worker_exception_produces_valid_blocked_report_and_keeps_original_error(self) -> None:
+        report = self._valid_report()
+        report.update({"status": "BLOCKED", "run_level_blocker": True, "capability_ids": ["cli.version"], "case_ids": ["case_one", "case_two"], "cases": []})
+        error = RuntimeError("worker failed while writing artifacts")
+
+        compare.record_run_error(report, error)
+        report["counts"] = {status: 0 for status in {"PASS", "MISMATCH", "NOT_IMPLEMENTED", "ORACLE_ERROR", "CANDIDATE_ERROR", "TIMEOUT", "BLOCKED"}}
+        report["counts"]["BLOCKED"] = 1
+        compare.validate_report(report)
+        self.assertEqual(report["errors"], [{"kind": "RuntimeError", "message": "worker failed while writing artifacts"}])
+        self.assertEqual(report["case_ids"], [])
+        self.assertEqual(report["capability_ids"], [])
 
     def test_report_counts_run_level_blocker_separately(self) -> None:
         report = self._valid_report()
@@ -2149,11 +2254,11 @@ class ComparatorTests(unittest.TestCase):
 
     def test_version_json_metadata_manifest_cases_are_exact(self) -> None:
         expected = {
-            "cli_version_json_metadata_subcommand": (["version", "--output-format", "json"], "json"),
-            "cli_version_json_metadata_short_attached": (["version", "-ojson"], "json"),
-            "cli_version_json_metadata_flag_before_format": (["--version", "--output-format", "json"], "json"),
-            "cli_version_json_metadata_format_before_flag": (["--output-format", "json", "--version"], "json"),
-            "cli_version_json_metadata_precedence_control": (["--output-format", "json", "version"], "bytes"),
+            "cli_version_json_metadata_subcommand": (["version", "--output-format", "json"], "json", "version"),
+            "cli_version_json_metadata_short_attached": (["version", "-ojson"], "json", "version"),
+            "cli_version_json_metadata_flag_before_format": (["--version", "--output-format", "json"], "json", "version"),
+            "cli_version_json_metadata_format_before_flag": (["--output-format", "json", "--version"], "json", "version"),
+            "cli_version_json_metadata_precedence_control": (["--output-format", "json", "version"], "bytes", None),
         }
         cases = {
             case["id"]: case
@@ -2162,7 +2267,7 @@ class ComparatorTests(unittest.TestCase):
         }
         self.assertEqual(set(cases), set(expected))
         self.assertEqual(len(cases), 5)
-        for case_id, (argv, stdout_policy) in expected.items():
+        for case_id, (argv, stdout_policy, json_schema) in expected.items():
             with self.subTest(case=case_id):
                 case = cases[case_id]
                 self.assertEqual(case["argv"], argv)
@@ -2171,9 +2276,12 @@ class ComparatorTests(unittest.TestCase):
                 self.assertEqual(case["files"], [])
                 self.assertEqual(case["config_scenario"], "no_config")
                 self.assertEqual(case["expected_oracle_outcome"], "clean")
-                self.assertEqual(case["comparison"], {
+                comparison = {
                     "stdout": stdout_policy, "stderr": "bytes", "exit_status": "exact",
-                })
+                }
+                if json_schema is not None:
+                    comparison["json_schema"] = json_schema
+                self.assertEqual(case["comparison"], comparison)
 
     def test_verbose_version_runtime_manifest_case_is_exact(self) -> None:
         cases = [

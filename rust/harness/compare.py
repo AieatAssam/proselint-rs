@@ -29,6 +29,7 @@ REPORT_SCHEMA_VERSION = 1
 RUNTIME_MARKDOWN_INPUTS = {"data/demo.md"}
 EXCLUDED_TREE_PARTS = {".cache", "artifacts", "target", ".git", "__pycache__", "docs", "inventory.json", "status.json", "status-history.jsonl"}
 VALID_COMPARISON = {"stdout": {"bytes", "json"}, "stderr": {"bytes"}, "exit_status": {"exact"}}
+VALID_JSON_SCHEMAS = {"proselint", "version"}
 # Each worker runs the Python oracle and Rust candidate sequentially.
 CASE_WORKERS = 8
 
@@ -148,6 +149,17 @@ def validate_case(case: Any) -> None:
     for key, allowed in VALID_COMPARISON.items():
         if not isinstance(case["comparison"].get(key), str) or case["comparison"][key] not in allowed:
             raise ValueError(f"{case['id']}: comparison.{key} must be one of {sorted(allowed)}")
+    json_schema = case["comparison"].get("json_schema", "proselint")
+    if not isinstance(json_schema, str) or json_schema not in VALID_JSON_SCHEMAS:
+        raise ValueError(f"{case['id']}: comparison.json_schema must be one of {sorted(VALID_JSON_SCHEMAS)}")
+    if json_schema == "version" and (
+        case["capability_id"] != "cli.version.json_metadata"
+        or case["output_format"] != "json"
+        or case["comparison"]["stdout"] != "json"
+    ):
+        raise ValueError(f"{case['id']}: version JSON schema requires cli.version.json_metadata JSON output")
+    if case["capability_id"] == "cli.version.json_metadata" and case["comparison"]["stdout"] == "json" and json_schema != "version":
+        raise ValueError(f"{case['id']}: version JSON output must declare comparison.json_schema=version")
     if not isinstance(case["comparison"].get("normalize_workspace_uri", False), bool):
         raise ValueError(f"{case['id']}: normalize_workspace_uri must be boolean")
     output_format = case["output_format"]
@@ -283,7 +295,18 @@ def reject_json_constant(value: str) -> None:
     raise ValueError(f"non-standard JSON constant {value}")
 
 
-def validate_output_schema(value: Any) -> str | None:
+def validate_output_schema(value: Any, schema: str = "proselint") -> str | None:
+    if schema == "version":
+        if not isinstance(value, dict) or set(value) != {"version", "python"}:
+            return "version JSON must contain exactly version and python"
+        if not isinstance(value["version"], str):
+            return "version JSON version must be a string"
+        python_version = value["python"]
+        if not isinstance(python_version, list) or len(python_version) != 3 or any(type(part) is not int or part < 0 for part in python_version):
+            return "version JSON python must be three non-negative integers"
+        return None
+    if schema != "proselint":
+        return f"unsupported JSON schema {schema!r}"
     if not isinstance(value, dict) or not set(value).issubset({"result", "error"}):
         return "JSON root must contain only result and/or error"
     if ("result" in value) == ("error" in value):
@@ -358,6 +381,7 @@ def compare_outputs(
     actual: dict[str, Any],
     output_policy: str,
     workspace_uris: tuple[str, str] | None = None,
+    json_schema: str = "proselint",
 ) -> list[dict[str, Any]]:
     diffs: list[dict[str, Any]] = []
     if expected["exit_code"] != actual["exit_code"]:
@@ -376,8 +400,8 @@ def compare_outputs(
         if right_error:
             diffs.append({"field": "candidate.stdout", "kind": "INVALID_JSON", "detail": right_error})
         if not left_error and not right_error:
-            schema_left = validate_output_schema(left)
-            schema_right = validate_output_schema(right)
+            schema_left = validate_output_schema(left, json_schema)
+            schema_right = validate_output_schema(right, json_schema)
             if schema_left:
                 diffs.append({"field": "reference.stdout", "kind": "JSON_SCHEMA", "detail": schema_left})
             if schema_right:
@@ -539,8 +563,6 @@ def run_case(
     commands = []
     executions = []
     environments = {}
-    reference_cache = case_dir / "reference-pycache"
-    reference_cache.mkdir(exist_ok=True)
     with tempfile.TemporaryDirectory(prefix="proselint harness space-é ") as temp_root:
         temp_base = Path(temp_root)
         for role, executable in (("reference", reference_argv), ("candidate", candidate_argv)):
@@ -556,10 +578,16 @@ def run_case(
             argv = executable + args
             env = fresh_env(home, case["environment"])
             if role == "reference":
-                env["PYTHONPYCACHEPREFIX"] = str(reference_cache)
-            environments[role] = env
-            commands.append(argv)
-            run = run_command(argv, cwd=working_directory, env=env, stdin=stdin, timeout=case["timeout_seconds"], role=role)
+                with tempfile.TemporaryDirectory(prefix="proselint-reference-pycache-") as reference_cache:
+                    env["PYTHONPYCACHEPREFIX"] = reference_cache
+                    env.setdefault("PYTHONDONTWRITEBYTECODE", "1")
+                    environments[role] = env
+                    commands.append(argv)
+                    run = run_command(argv, cwd=working_directory, env=env, stdin=stdin, timeout=case["timeout_seconds"], role=role)
+            else:
+                environments[role] = env
+                commands.append(argv)
+                run = run_command(argv, cwd=working_directory, env=env, stdin=stdin, timeout=case["timeout_seconds"], role=role)
             run["workspace"] = str(role_workspace)
             executions.append(run)
         workspace_paths = tuple(Path(run["workspace"]) for run in executions)
@@ -581,7 +609,13 @@ def run_case(
         status = right["status"]
     else:
         normalization = workspace_uris if case["comparison"].get("normalize_workspace_uri", False) else None
-        diffs = compare_outputs(left, right, case["comparison"]["stdout"], normalization)
+        diffs = compare_outputs(
+            left,
+            right,
+            case["comparison"]["stdout"],
+            normalization,
+            case["comparison"].get("json_schema", "proselint"),
+        )
         if diffs:
             status = "MISMATCH"
     for role, execution in zip(("reference", "candidate"), executions, strict=True):
@@ -998,6 +1032,15 @@ def verify_candidate_after_batch(
         read_candidate_attestation(attestation_path, candidate, source_fingerprint_before)
 
 
+def record_run_error(report: dict[str, Any], exc: Exception) -> None:
+    if report["case_ids"] and not report["cases"]:
+        report["case_ids"] = []
+        report["capability_ids"] = []
+    report["errors"].append({"kind": type(exc).__name__, "message": str(exc)})
+    report["run_level_blocker"] = True
+    report["status"] = "BLOCKED"
+
+
 def run_live(
     capability: str | None,
     report_path: Path,
@@ -1113,9 +1156,7 @@ def run_live(
             report["run_level_blocker"] = True
             report["errors"].append({"kind": "OracleChangedDuringRun", "message": "Oracle integrity metadata changed during comparison"})
     except (RuntimeError, ValueError, OSError, subprocess.SubprocessError, KeyError, TypeError) as exc:
-        report["errors"].append({"kind": type(exc).__name__, "message": str(exc)})
-        report["run_level_blocker"] = True
-        report["status"] = "BLOCKED"
+        record_run_error(report, exc)
     report["finished_at_utc"] = dt.datetime.now(dt.timezone.utc).isoformat()
     report_path.parent.mkdir(parents=True, exist_ok=True)
     report["counts"] = {status: sum(case.get("status") == status for case in report["cases"]) for status in statuses}
@@ -1178,6 +1219,22 @@ def run_self_tests() -> list[dict[str, Any]]:
     parsed_error, error = decode_json_output(error_output)
     valid_error_wire = error is None and validate_output_schema(parsed_error) is None
     checks.append({"name": "upstream_error_schema", "passed": valid_error_wire, "observed_kinds": [] if valid_error_wire else [error or "schema"]})
+    version_json = {"version": "0.16.0", "python": [3, 12, 3]}
+    version_expected = {"exit_code": 0, "stdout": json.dumps(version_json).encode(), "stderr": b""}
+    version_parsed, error = decode_json_output(version_expected["stdout"])
+    version_valid = error is None and validate_output_schema(version_parsed, "version") is None
+    checks.append({"name": "version_json_schema", "passed": version_valid, "observed_kinds": [] if version_valid else [error or "JSON_SCHEMA"]})
+    for name, altered, kind in (
+        ("version_json_missing_python", {"version": "0.16.0"}, "JSON_SCHEMA"),
+        ("version_json_extra_field", {**version_json, "extra": True}, "JSON_SCHEMA"),
+        ("version_json_wrong_python_type", {"version": "0.16.0", "python": [3, True, 3]}, "JSON_SCHEMA"),
+        ("version_json_wrong_version", {"version": "0.16.1", "python": [3, 12, 3]}, "value"),
+        ("version_json_wrong_python_value", {"version": "0.16.0", "python": [3, 12, 4]}, "value"),
+    ):
+        actual = {"exit_code": 0, "stdout": json.dumps(altered).encode(), "stderr": b""}
+        diffs = compare_outputs(version_expected, actual, "json", json_schema="version")
+        passed = any(diff.get("kind") == kind for diff in diffs)
+        checks.append({"name": name, "passed": passed, "observed_kinds": sorted({diff.get("kind", "?") for diff in diffs})})
     duplicate_key = b'{"result":{},"result":{}}'
     _, error = decode_json_output(duplicate_key)
     checks.append({"name": "duplicate_json_key", "passed": error is not None, "observed_kinds": ["INVALID_JSON"] if error else []})

@@ -1,16 +1,16 @@
 # Python and Rust benchmark
 
-## Current candidate measured after passing cumulative gate (2026-11-10)
+## Current candidate measured after passing cumulative gate (2026-11-11)
 
-The current candidate passed the 1,422-case cumulative gate before benchmarking, then passed live parity preflight on all three workloads. The benchmark used pinned Proselint 0.16.0 at revision `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`, with `misc.suddenly` and `psychology.p_equals_zero` enabled. Each workload used 25 paired fresh-process samples after 3 excluded warmups. Timings include process startup, input/config reading, linting, serialization, and output capture.
+The frozen candidate first passed the 1,425-case cumulative release gate. The benchmark then passed a live parity preflight on all three workloads against pinned Proselint 0.16.0 at revision `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`. It enabled `misc.suddenly` and `psychology.p_equals_zero`. Each workload used 25 paired fresh-process samples after 3 excluded warmups. Timings include process startup, input/config reading, linting, serialization, and output capture.
 
 | Workload | Input / findings | Python median | Rust median | Python / Rust | Python IQR | Rust IQR |
 |---|---:|---:|---:|---:|---:|---:|
-| Small authored positive example | 82 B / 2 | 257.979 ms | 5.487 ms | 47.01× | 32.186 ms | 0.928 ms |
-| Ordinary prose with sparse positive examples | 9,280 B / 128 | 246.048 ms | 7.472 ms | 32.93× | 16.399 ms | 0.911 ms |
-| Dense generated two-rule trigger stream | 6,400 B / 512 | 288.158 ms | 17.424 ms | 16.54× | 52.793 ms | 3.266 ms |
+| Small authored positive example | 82 B / 2 | 184.803 ms | 4.221 ms | 43.78× | 4.838 ms | 2.146 ms |
+| Ordinary prose with sparse positive examples | 9,280 B / 128 | 194.750 ms | 6.793 ms | 28.67× | 8.310 ms | 2.370 ms |
+| Dense generated two-rule trigger stream | 6,400 B / 512 | 224.779 ms | 14.487 ms | 15.52× | 18.143 ms | 3.296 ms |
 
-The run used source fingerprint `c1c5c7636db6004c303da59f61015abd9ec32dcb564fdc5fd3e38f0782344c94`, candidate SHA-256 `f22148e8586893813cd103e54b9282a2d52624887c274e6eb4a85efcbbe837cb`, and the matching full-gate release attestation. It ran on Linux x86_64 with Python 3.12.3 and rustc/Cargo 1.99.1. The measured section took 29.265 seconds; setup/build and parity preflight took 3.840 and 9.076 seconds. Total elapsed time was 45.062 seconds under the 1,800-second overall deadline. RSS was unavailable. Full raw samples, hashes, environment, and preflight are in [`release-candidate-benchmark-current-20261110.json`](../artifacts/release-candidate-benchmark-current-20261110.json).
+The run used source fingerprint `1d080c6ed1e73e4c4aa941cb8d730e548313181f1e214e21d767de305b3131e5`, candidate SHA-256 `2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24`, and the matching full-gate release attestation. It ran on Linux x86_64 with pinned Python 3.12.3 and rustc/Cargo 1.99.1. Measurements took 21.842 seconds; setup/build and live parity preflight took 2.823 and 5.943 seconds. Total elapsed time was 33.117 seconds under the 1,800-second overall deadline. RSS was unavailable. Full raw samples, hashes, environment, and preflight are in [`release-candidate-benchmark-final-retry-20261111.json`](../artifacts/release-candidate-benchmark-final-retry-20261111.json) (SHA-256 `04ac3ba3d7e8ccd9477c2f58d5fed463bd2730c9847f73ca88048c4f0df431a7`).
 
 These measurements apply only to the listed explicit selected-rule inputs and host. They do not establish whole-program, default-configuration, or general Proselint speedups.
 

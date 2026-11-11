@@ -33,6 +33,39 @@ fn version_subcommand_emits_exact_plain_text_without_config() {
 }
 
 #[test]
+fn version_subcommand_json_reports_upstream_version_without_python_metadata() {
+    assert_json_version_output(&["version", "--output-format", "json"], "0.16.0");
+}
+
+#[test]
+fn root_product_version_flag_json_preserves_product_version() {
+    assert_json_version_output(
+        &["--version", "--output-format", "json"],
+        "proselint-rs 2026.11.08.1 (tracks Proselint 0.16.0)",
+    );
+}
+
+fn assert_json_version_output(arguments: &[&str], expected_version: &str) {
+    let workspace = Workspace::new();
+    let output = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
+        .current_dir(&workspace.0)
+        .env("HOME", workspace.0.join("home"))
+        .env("XDG_CONFIG_HOME", workspace.0.join("home/xdg"))
+        .args(arguments)
+        .stdin(Stdio::null())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .output()
+        .expect("run native CLI");
+
+    assert_eq!(output.status.code(), Some(0), "stderr: {:?}", output.stderr);
+    let value: serde_json::Value =
+        serde_json::from_slice(&output.stdout).expect("version JSON output");
+    assert_eq!(value, serde_json::json!({"version": expected_version}));
+    assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
+}
+
+#[test]
 fn standalone_version_flag_reports_product_and_upstream_versions() {
     assert_version_output(
         "--version",

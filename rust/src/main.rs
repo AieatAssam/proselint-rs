@@ -2295,14 +2295,23 @@ fn run() -> Result<ExitCode, String> {
         ));
     }
     if show_version {
-        println!(
-            "{}",
-            if product_version {
+        if matches!(output_format, OutputFormat::Json) {
+            let version = if product_version {
                 PRODUCT_VERSION
             } else {
-                "Proselint 0.16.0"
-            }
-        );
+                "0.16.0"
+            };
+            println!("{}", serde_json::json!({"version": version}));
+        } else {
+            println!(
+                "{}",
+                if product_version {
+                    PRODUCT_VERSION
+                } else {
+                    "Proselint 0.16.0"
+                }
+            );
+        }
         return Ok(ExitCode::SUCCESS);
     }
     let empty_checks = Value::Object(serde_json::Map::new());

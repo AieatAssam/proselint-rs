@@ -436,3 +436,4 @@ Full output defaults when `--output-format` is omitted for the verified stdin ca
 - Accepted scope is **1,450/1,461** (153 capabilities, 11 excluded). Direct positive no-config evidence covers **40/93** default-enabled paths; 53 remain. The last cumulative gate is stale by four cases; three more evidence expansions remain before the next gate.
 - Evidence: [`month-of-year-default-dispatch-20261111/`](../artifacts/month-of-year-default-dispatch-20261111/) and [`independent-month-of-year-default-20261111/`](../artifacts/independent-month-of-year-default-20261111/).
 - The `dates_times.dates.month_of_year` default-dispatch evidence milestone was committed and pushed to `origin/main` as `e52c8a8`.
+- Verified milestone committed and pushed to `origin/main` as `87fd496` (`Verify current 1452-case Rust release candidate`).

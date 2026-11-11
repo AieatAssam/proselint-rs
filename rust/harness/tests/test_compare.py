@@ -1464,7 +1464,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1436)
+        self.assertEqual(len(case_ids), 1443)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -1473,7 +1473,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "2f5c79c308691fa1fa5ea2fa9af0acf4bceee69214c0b0c23454a0a38f6d6b26",
+            "e0e40fc0a1c86d8cba4fea42db2e7f5a7440e4826d709f631c0da3b384bb8291",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),
@@ -2782,6 +2782,59 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(case["expected_oracle_outcome"], "findings")
         self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
         compare.validate_case(case)
+
+    def test_archaism_default_dispatch_case_uses_implicit_configuration(self) -> None:
+        cases = [
+            case
+            for case in compare.load_manifest()["cases"]
+            if case["id"] == "archaism_no_config_default_dispatch"
+        ]
+        self.assertEqual(len(cases), 1)
+        case = cases[0]
+        self.assertEqual(case["capability_id"], "rule.archaism")
+        self.assertEqual(base64.b64decode(case["stdin_base64"]), b"Alack, then plain text.")
+        self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+        self.assertNotIn("--config", case["argv"])
+        self.assertEqual(case["config_scenario"], "no_config_default")
+        self.assertEqual(case["files"], [])
+        self.assertEqual(case["expected_oracle_outcome"], "findings")
+        self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
+        compare.validate_case(case)
+
+    def test_default_dispatch_coverage_cases_use_implicit_configuration(self) -> None:
+        expected = {
+            "cliches_hell_no_config_default_dispatch": (
+                "rule.cliches.hell", b"Then all hell broke loose again."
+            ),
+            "hedging_no_config_default_dispatch": (
+                "rule.hedging", b"I would argue that this is a good test."
+            ),
+            "am_pm_lowercase_periods_no_config_default_dispatch": (
+                "rule.dates_times.am_pm.lowercase_periods", b"Meet at 9am."
+            ),
+            "am_pm_spacing_no_config_default_dispatch": (
+                "rule.dates_times.am_pm.spacing", b"Meet at 9pm."
+            ),
+            "am_pm_midnight_noon_no_config_default_dispatch": (
+                "rule.dates_times.am_pm.midnight_noon", b"It starts at 12pm."
+            ),
+        }
+        cases = {
+            case["id"]: case
+            for case in compare.load_manifest()["cases"]
+            if case["id"] in expected
+        }
+        self.assertEqual(cases.keys(), expected.keys())
+        for case_id, (capability, stdin) in expected.items():
+            with self.subTest(case_id=case_id):
+                case = cases[case_id]
+                self.assertEqual(case["capability_id"], capability)
+                self.assertEqual(base64.b64decode(case["stdin_base64"]), stdin)
+                self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+                self.assertNotIn("--config", case["argv"])
+                self.assertEqual(case["config_scenario"], "no_config_default")
+                self.assertEqual(case["expected_oracle_outcome"], "findings")
+                compare.validate_case(case)
 
     def test_missing_checks_configuration_cases_preserve_upstream_empty_mapping(self) -> None:
         cases = {

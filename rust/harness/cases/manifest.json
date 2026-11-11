@@ -6135,6 +6135,30 @@
       "stdin_base64": "QSB2ZXJ5IGdvb2QgdGltZSBpcyA3YW0u"
     },
     {
+      "id": "am_pm_lowercase_periods_no_config_default_dispatch",
+      "capability_id": "rule.dates_times.am_pm.lowercase_periods",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; config/default.json enables dates_times.am_pm.lowercase_periods. This case runs without an explicit config to verify default dispatch.",
+      "input_mode": "stdin",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "TWVldCBhdCA5YW0u"
+    },
+    {
       "id": "am_pm_spacing_case_insensitive_optional_periods",
       "capability_id": "rule.dates_times.am_pm.spacing",
       "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path dates_times.am_pm.spacing; upstream module proselint/checks/dates_times/am_pm.py; ExistenceSimple pattern r\"\\d{1,2}[ap]\\.?m\\.?\"; Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions, ppm_threshold=0; static message \"It's standard to put a space before 'a.m.' or 'p.m.'.\"; selected config enables only this check. Case purpose: Case-insensitive AM/PM and optional periods across a, p, m, and trailing period variants.",
@@ -6397,6 +6421,30 @@
         "exit_status": "exact"
       },
       "stdin_base64": "QSB2ZXJ5IGdvb2QgdGltZSBpcyA3YW0u"
+    },
+    {
+      "id": "am_pm_spacing_no_config_default_dispatch",
+      "capability_id": "rule.dates_times.am_pm.spacing",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; config/default.json enables dates_times.am_pm.spacing. This case runs without an explicit config to verify default dispatch.",
+      "input_mode": "stdin",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "TWVldCBhdCA5cG0u"
     },
     {
       "id": "debased_phrase_not_unjustifiable",
@@ -12112,6 +12160,30 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "capability_id": "rule.cliches.hell",
+      "comparison": {
+        "exit_status": "exact",
+        "stderr": "bytes",
+        "stdout": "json"
+      },
+      "config_scenario": "no_config_default",
+      "environment": {"locale": "C.UTF-8"},
+      "expected_oracle_outcome": "findings",
+      "files": [],
+      "id": "cliches_hell_no_config_default_dispatch",
+      "input_mode": "stdin",
+      "output_format": "json",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; config/default.json enables cliches.hell. This case runs without an explicit config to verify default dispatch.",
+      "stdin_base64": "VGhlbiBhbGwgaGVsbCBicm9rZSBsb29zZSBhZ2Fpbi4=",
+      "timeout_seconds": 10,
+      "workspace_mutates": false
     },
     {
       "id": "false_plurals_talismen_long_s_mapping_lookup",
@@ -21041,6 +21113,30 @@
       "stdin_base64": "MTIgcC5tLiBpbiB0aGUgZXZlbmluZzsgeDEyIHAubS4gaW4gdGhlIGV2ZW5pbmc="
     },
     {
+      "id": "am_pm_midnight_noon_no_config_default_dispatch",
+      "capability_id": "rule.dates_times.am_pm.midnight_noon",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; config/default.json enables dates_times.am_pm.midnight_noon. This case runs without an explicit config to verify default dispatch.",
+      "input_mode": "stdin",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "SXQgc3RhcnRzIGF0IDEycG0u"
+    },
+    {
       "id": "decade_apostrophes_overlap_both_registrations",
       "capability_id": "rule.dates_times.dates.decade_apostrophes",
       "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/dates_times/dates.py; two default-enabled ExistenceSimple registrations share this path in order: r\"\\d0\\'s\" then r\"\\d\\d\\d0\\'s\"; Fast case-insensitive, no word boundaries, allow_quotes=false, message \"Apostrophes aren't needed for decades.\". Selected config enables only the shared path. Case purpose: find overlapping suffix and full-year registrations.",
@@ -24275,6 +24371,30 @@
       }
     },
     {
+      "id": "archaism_no_config_default_dispatch",
+      "capability_id": "rule.archaism",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/archaism.py registers Alack, and config/default.json enables archaism. No explicit configuration is supplied; live output is compared against the real pinned CLI.",
+      "input_mode": "stdin",
+      "stdin_base64": "QWxhY2ssIHRoZW4gcGxhaW4gdGV4dC4=",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
       "id": "month_year_comma_all_twelve_months",
       "capability_id": "rule.dates_times.dates.month_year_comma",
       "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live output from the immutable Python oracle. All twelve month alternatives in the pinned raw ExistenceSimple pattern.",
@@ -26385,6 +26505,30 @@
         "exit_status": "exact"
       },
       "stdin_base64": "SSB3b3VsZCBhcmd1ZSB0aGF0OyB0byBhIGNlcnRhaW4gZGVncmVlOyBJIHdvdWxkIGFyZ3VlIHRoYXQ="
+    },
+    {
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "capability_id": "rule.hedging",
+      "comparison": {
+        "exit_status": "exact",
+        "stderr": "bytes",
+        "stdout": "json"
+      },
+      "config_scenario": "no_config_default",
+      "environment": {"locale": "C.UTF-8"},
+      "expected_oracle_outcome": "findings",
+      "files": [],
+      "id": "hedging_no_config_default_dispatch",
+      "input_mode": "stdin",
+      "output_format": "json",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; config/default.json enables hedging. This case runs without an explicit config to verify default dispatch.",
+      "stdin_base64": "SSB3b3VsZCBhcmd1ZSB0aGF0IHRoaXMgaXMgYSBnb29kIHRlc3Qu",
+      "timeout_seconds": 10,
+      "workspace_mutates": false
     },
     {
       "id": "weasel_very_u1c89_leading",

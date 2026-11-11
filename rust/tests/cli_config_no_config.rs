@@ -71,6 +71,61 @@ fn no_config_found_enables_annotations_misc() {
 }
 
 #[test]
+fn no_config_found_enables_archaism() {
+    let output = Workspace::new().run(b"Alack, then plain text.");
+    assert_eq!(output.status.code(), Some(1), "stderr: {:?}", output.stderr);
+    assert_eq!(
+        output.stdout,
+        b"<stdin>:1:1: archaism: 'Alack' is archaic.\n"
+    );
+    assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
+}
+
+#[test]
+fn no_config_found_enables_cliches_hell_and_hedging() {
+    let cases = [
+        (
+            b"Then all hell broke loose again.".as_slice(),
+            b"<stdin>:1:6: cliches.hell: Never use the phrase 'all hell broke loose'.\n".as_slice(),
+        ),
+        (
+            b"I would argue that this is a good test.".as_slice(),
+            b"<stdin>:1:1: hedging: Hedging. Just say it.\n".as_slice(),
+        ),
+    ];
+    for (input, expected) in cases {
+        let output = Workspace::new().run(input);
+        assert_eq!(output.status.code(), Some(1), "stderr: {:?}", output.stderr);
+        assert_eq!(output.stdout, expected);
+        assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
+    }
+}
+
+#[test]
+fn no_config_found_enables_all_am_pm_checks() {
+    let cases = [
+        (
+            b"Meet at 9am.".as_slice(),
+            b"<stdin>:1:9: dates_times.am_pm.lowercase_periods: It's standard to use periods for lowercase 'a.m.' or 'p.m.'.\n<stdin>:1:9: dates_times.am_pm.spacing: It's standard to put a space before 'a.m.' or 'p.m.'.\n".as_slice(),
+        ),
+        (
+            b"Meet at 9pm.".as_slice(),
+            b"<stdin>:1:9: dates_times.am_pm.lowercase_periods: It's standard to use periods for lowercase 'a.m.' or 'p.m.'.\n<stdin>:1:9: dates_times.am_pm.spacing: It's standard to put a space before 'a.m.' or 'p.m.'.\n".as_slice(),
+        ),
+        (
+            b"It starts at 12pm.".as_slice(),
+            b"<stdin>:1:14: dates_times.am_pm.lowercase_periods: It's standard to use periods for lowercase 'a.m.' or 'p.m.'.\n<stdin>:1:14: dates_times.am_pm.spacing: It's standard to put a space before 'a.m.' or 'p.m.'.\n<stdin>:1:14: dates_times.am_pm.midnight_noon: '12 a.m.' and '12 p.m.' are ambiguous. Use 'midnight' or 'noon'.\n".as_slice(),
+        ),
+    ];
+    for (input, expected) in cases {
+        let output = Workspace::new().run(input);
+        assert_eq!(output.status.code(), Some(1), "stderr: {:?}", output.stderr);
+        assert_eq!(output.stdout, expected);
+        assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
+    }
+}
+
+#[test]
 fn no_config_found_enables_social_awareness_preferred_forms() {
     let output = Workspace::new().run(b"Special rights should mean equal rights.");
     assert_eq!(output.status.code(), Some(1), "stderr: {:?}", output.stderr);

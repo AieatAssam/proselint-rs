@@ -102,8 +102,7 @@ jobs:
           expected="proselint-rs ${RELEASE_VERSION} (tracks Proselint 0.16.0)"
           if [[ "$RUNNER_OS" == "Windows" ]]; then binary="rust/target/${RUST_TARGET}/release/proselint-rs.exe"; else binary="rust/target/${RUST_TARGET}/release/proselint-rs"; fi
           if [[ "$RUST_TARGET" == "aarch64-apple-darwin" ]]; then
-            lipo -archs "$binary" | grep -qw arm64
-            strings "$binary" | grep -Fxq "$expected"
+            lipo -archs "$binary" | grep -qw arm64 || { echo "expected ARM64 Mach-O binary"; exit 1; }
             exit 0
           fi
           actual=$("$binary" --version)

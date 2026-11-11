@@ -460,7 +460,7 @@ class ComparatorTests(unittest.TestCase):
                 "weasel_very_u05b0_leading", "weasel_very_u05b0_trailing",
             },
         }
-        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] in expected]
+        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] in expected and case["files"]]
         by_capability = {capability: {case["id"] for case in cases if case["capability_id"] == capability} for capability in expected}
         self.assertEqual(by_capability, expected)
 
@@ -1464,7 +1464,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1461)
+        self.assertEqual(len(case_ids), 1463)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -1473,7 +1473,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "d264b41dd60ca12326ff26fca724e5793f6977543fbe950eb36585d3d4e04fa3",
+            "1752b46e2618074b839476a78e3285ee4a16c3b9f9f5d4d06967cc281c66afa8",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),
@@ -1635,6 +1635,26 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(cases["month_of_year_no_config_default_dispatch"]["expected_oracle_outcome"], "findings")
         self.assertEqual(cases["month_of_year_no_config_clean_control"]["stdin_base64"], "VGhlIGNvbW1pdHRlZSByZXZpZXdlZCB0aGUgcmVwb3J0IHllc3RlcmRheS4=")
         self.assertEqual(cases["month_of_year_no_config_clean_control"]["expected_oracle_outcome"], "clean")
+        for case in cases.values():
+            self.assertEqual(case["files"], [])
+            self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+            self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
+            compare.validate_case(case)
+
+    def test_mental_telepathy_default_dispatch_cases(self) -> None:
+        cases = {
+            case["id"]: case for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "rule.psychology.mental_telepathy"
+            and case.get("config_scenario") == "no_config_default"
+        }
+        self.assertEqual(set(cases), {
+            "mental_telepathy_no_config_default_dispatch",
+            "mental_telepathy_no_config_clean_control",
+        })
+        self.assertEqual(cases["mental_telepathy_no_config_default_dispatch"]["stdin_base64"], "SSd2ZSBiZWVuIHByYWN0aWNpbmcgbWVudGFsIHRlbGVwYXRoeS4=")
+        self.assertEqual(cases["mental_telepathy_no_config_default_dispatch"]["expected_oracle_outcome"], "findings")
+        self.assertEqual(cases["mental_telepathy_no_config_clean_control"]["stdin_base64"], "VGhpcyBwYXJhZ3JhcGggY29udGFpbnMgbm8gdGFyZ2V0IHBocmFzZS4=")
+        self.assertEqual(cases["mental_telepathy_no_config_clean_control"]["expected_oracle_outcome"], "clean")
         for case in cases.values():
             self.assertEqual(case["files"], [])
             self.assertEqual(case["argv"], ["check", "--output-format", "json"])
@@ -1856,7 +1876,7 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(outcomes["oxymorons_optional_s_backtracks_at_nonword_boundary"], "findings")
 
     def test_not_guilty_cases_select_only_registered_check(self) -> None:
-        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "rule.misc.not_guilty"]
+        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "rule.misc.not_guilty" and case["files"]]
         self.assertEqual({case["id"] for case in cases}, {
             "not_guilty_optional_articles_case_variants",
             "not_guilty_near_misses_clean",

@@ -814,13 +814,13 @@
     "source_fingerprint": "cb5262bf3e58c7207879a9c8de08dfdbb40d20cd7eaf1022e75ed1054a0093e2",
     "unit_tests": {
       "status": "PASS",
-      "suite": "python3 -m unittest discover -s rust/harness/tests -p 'test_*.py'",
-      "tests_passed": 135,
-      "duration_seconds": 71.134,
-      "evidence": "rust/artifacts/harness-suite-final-20261111.log",
-      "evidence_sha256": "c6bd87087586be971cc94f233e989606bfd57a9a0226c5ddc630bd4809c77d3c",
-      "candidate_attestation": "rust/artifacts/20261111T030034832201Z-build.attestation.json",
-      "source_fingerprint": "8fc3336051164c717844c9e33fbd8a93fc81d79814a91ef6f1358074f239b12d",
+      "suite": "PROSELINT_RS_ATTESTATION=<current gate attestation> python3 -m unittest discover -s rust/harness/tests -v",
+      "tests_passed": 144,
+      "duration_seconds": 75.022,
+      "evidence": "rust/artifacts/full-harness-suite-20261111-clean.log",
+      "evidence_sha256": "5d8e1906420fc528558bd678d7a58f2c9aa474ffe23daee3f34ef2703dfb664a",
+      "candidate_attestation": "rust/artifacts/20261111T092101683349Z-build.attestation.json",
+      "source_fingerprint": "9360dfeb3bc37d2cbeb18e14e56f280754bc822905a3ba128db6c34c446cd39f",
       "matches_current_source_fingerprint": true
     },
     "comparator_discriminators": {
@@ -12854,12 +12854,12 @@
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/release-candidate-gate-20261111.json",
-    "report_sha256": "eb2bf4f058ec9cd6effc97344262c195d3ea7daeef5894fc41430f7216f54efd",
-    "run_id": "20261111T064554826400Z-fd52fe2f",
+    "report": "rust/artifacts/release-candidate-gate-20261111-clean-harness.json",
+    "report_sha256": "39c5caae429cd56f5315e03dfe93940574b248561fa2a597600ccf7aeb5f95c3",
+    "run_id": "20261111T092617951180Z-bf71cdb1",
     "capability_count": 153,
-    "accepted_case_count": 1446,
-    "manifest_case_count": 1457,
+    "accepted_case_count": 1452,
+    "manifest_case_count": 1463,
     "excluded_manifest_case_count": 11,
     "counts": {
       "BLOCKED": 0,
@@ -12867,28 +12867,28 @@
       "MISMATCH": 0,
       "NOT_IMPLEMENTED": 0,
       "ORACLE_ERROR": 0,
-      "PASS": 1446,
+      "PASS": 1452,
       "TIMEOUT": 0
     },
-    "source_fingerprint": "5d37323e3e8d891dff2d53e8929641d74cb809e111d6d36534fbb27224b501f0",
+    "source_fingerprint": "9360dfeb3bc37d2cbeb18e14e56f280754bc822905a3ba128db6c34c446cd39f",
     "candidate_sha256": "2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24",
-    "build_attestation": "rust/artifacts/20261111T063908061867Z-build.attestation.json",
-    "build_attestation_sha256": "33aa7d6d2e1baf0fd537c6693cc2dec0952a3a4748f8c6d57e87e7869015a6b9",
+    "build_attestation": "rust/artifacts/20261111T092101683349Z-build.attestation.json",
+    "build_attestation_sha256": "fde9f648b99892d20a5c9a9129fbf5a2e1d4ed5a7020644b0a81f99f5a9ccb7d",
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.13774,
-      "cumulative_live_comparison": 875.276728,
-      "oracle_integrity": 1.630669,
-      "rust_checks_and_build": 407.241013
+      "comparator_self_tests": 0.135422,
+      "cumulative_live_comparison": 904.274291,
+      "oracle_integrity": 1.619364,
+      "rust_checks_and_build": 316.336482
     },
-    "gate_total_duration_seconds": 1284.772337,
+    "gate_total_duration_seconds": 1222.79385,
     "comparator_self_tests": "29/29 PASS",
     "rust_test_targets": 145,
-    "rust_tests_passed": 914,
+    "rust_tests_passed": 917,
     "rust_tests_failed": 0,
-    "scope_matches_current_accepted_scope": false,
-    "current_accepted_case_count": 1450,
-    "current_manifest_case_count": 1461,
-    "stale_by_cases": 4,
+    "scope_matches_current_accepted_scope": true,
+    "current_accepted_case_count": 1452,
+    "current_manifest_case_count": 1463,
+    "stale_by_cases": 0,
     "current_scope_note": "The gate passed 1446/1457 before the later not_guilty and month_of_year default-dispatch pairs; both extensions independently passed focused live verification."
   },
   "rust_dependencies": {
@@ -13049,17 +13049,17 @@
   },
   "latest_benchmark": {
     "status": "PASS",
-    "run_id": "20261111T070219757982Z-benchmark-0efb904a",
-    "report": "rust/artifacts/release-candidate-benchmark-20261111.json",
-    "report_sha256": "a9837eb924f29408c1fa084ea29eba1778aff77998b114d29e014c452e91479e",
-    "source_fingerprint": "5d37323e3e8d891dff2d53e8929641d74cb809e111d6d36534fbb27224b501f0",
+    "run_id": "20261111T094454820076Z-benchmark-a3dbdb4f",
+    "report": "rust/artifacts/release-candidate-benchmark-20261111-clean-harness.json",
+    "report_sha256": "c90013b093034dfa2a27b410e1c04cadf6d9df8c23efcb3b94ffb8cc4ebe44f8",
+    "source_fingerprint": "9360dfeb3bc37d2cbeb18e14e56f280754bc822905a3ba128db6c34c446cd39f",
     "candidate_sha256": "2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24",
-    "candidate_attestation": "rust/artifacts/20261111T063908061867Z-build.attestation.json",
-    "candidate_attestation_sha256": "33aa7d6d2e1baf0fd537c6693cc2dec0952a3a4748f8c6d57e87e7869015a6b9",
+    "candidate_attestation": "rust/artifacts/20261111T092101683349Z-build.attestation.json",
+    "candidate_attestation_sha256": "fde9f648b99892d20a5c9a9129fbf5a2e1d4ed5a7020644b0a81f99f5a9ccb7d",
     "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
     "profile_id": "combined_suddenly_p_equals_zero",
     "overall_deadline_seconds": 1800,
-    "duration_seconds": 31.987260285,
+    "duration_seconds": 34.187404,
     "parity_preflight": "3/3 PASS",
     "workload_ids": [
       "combined_small",
@@ -13070,24 +13070,25 @@
     "warmup_pairs": 3,
     "fresh_process_medians": {
       "combined_small": {
-        "python_median_ms": 195.162015,
-        "rust_median_ms": 4.388794,
+        "python_median_ms": 189.419208,
+        "rust_median_ms": 4.31753,
         "sample_pairs": 25
       },
       "combined_ordinary_generated": {
-        "python_median_ms": 205.735289,
-        "rust_median_ms": 6.857553,
+        "python_median_ms": 206.944087,
+        "rust_median_ms": 7.000931,
         "sample_pairs": 25
       },
       "combined_dense_generated": {
-        "python_median_ms": 234.790008,
-        "rust_median_ms": 14.807299,
+        "python_median_ms": 231.429055,
+        "rust_median_ms": 13.649284,
         "sample_pairs": 25
-      }
+      },
+      "rss": "unavailable"
     },
     "rss": "unavailable",
-    "performance_scope": "Per-workload measurements only; no cross-workload or universal speed claim.",
-    "matches_current_source_fingerprint": false,
+    "performance_scope": "selected workloads only; no whole-program claim",
+    "matches_current_source_fingerprint": true,
     "source_scope_note": "Benchmark predates four focused default-dispatch case additions; Rust binary and production rules remain unchanged."
   },
   "agent_model_verification": {
@@ -13418,58 +13419,37 @@
     "configured_agent": "gpt-6-luna / low",
     "runtime_model_metadata": "unavailable",
     "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-    "baseline_integrity": "verified",
-    "candidate_attestation": "rust/artifacts/20261111T061906644545Z-build.attestation.json",
-    "attestation_sha256": "40299d9d403757bcaba1bf6c7b4ffddba7afe400e772931c05846f5de971ca29",
-    "candidate_source_fingerprint": "5d37323e3e8d891dff2d53e8929641d74cb809e111d6d36534fbb27224b501f0",
+    "baseline_integrity": "verified before and after",
+    "candidate_attestation": "rust/artifacts/20261111T092101683349Z-build.attestation.json",
+    "attestation_sha256": "fde9f648b99892d20a5c9a9129fbf5a2e1d4ed5a7020644b0a81f99f5a9ccb7d",
+    "candidate_source_fingerprint": "9360dfeb3bc37d2cbeb18e14e56f280754bc822905a3ba128db6c34c446cd39f",
     "binary_sha256": "2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24",
-    "total_passed": 20,
-    "total_cases": 20,
+    "total_passed": 17,
+    "total_cases": 17,
     "capabilities": {
       "rule.uncomparables": {
         "status": "PASS",
         "passed": 11,
         "total": 11,
-        "run_id": "20261111T063558475340Z-2bc3bcb5",
-        "report": "rust/artifacts/independent-false-plurals-misc-default-20261111/additional-current-scope/rule.uncomparables-report.json",
-        "report_sha256": "14f170269906d70ba893e33809bb7dd740ee0409b965ce2690e4e0519bd9e587",
-        "source_fingerprint": "5d37323e3e8d891dff2d53e8929641d74cb809e111d6d36534fbb27224b501f0",
-        "candidate_attestation": "rust/artifacts/20261111T061906644545Z-build.attestation.json",
-        "candidate_attestation_sha256": "40299d9d403757bcaba1bf6c7b4ffddba7afe400e772931c05846f5de971ca29",
-        "candidate_sha256": "2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24",
-        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-        "oracle_integrity": "verified",
-        "comparator_self_tests": "29/29 PASS"
+        "run_id": "20261111T094322498712Z-855d81d6",
+        "report": "rust/artifacts/independent-final-three-clean-20261111/rule-uncomparables.json",
+        "report_sha256": "5d8a2f6e045571d3f25ec23cd0693fbdfe2dc8ec2a80b50a9dbbb157b7d09678"
       },
       "rule.restricted.elementary": {
         "status": "PASS",
         "passed": 3,
         "total": 3,
-        "run_id": "20261111T063613647960Z-910a56c4",
-        "report": "rust/artifacts/independent-false-plurals-misc-default-20261111/additional-current-scope/rule.restricted.elementary-report.json",
-        "report_sha256": "e1f8910522adb851a98dff2aa5493563c07bb83ba0a82750e22ad6115eee03b1",
-        "source_fingerprint": "5d37323e3e8d891dff2d53e8929641d74cb809e111d6d36534fbb27224b501f0",
-        "candidate_attestation": "rust/artifacts/20261111T061906644545Z-build.attestation.json",
-        "candidate_attestation_sha256": "40299d9d403757bcaba1bf6c7b4ffddba7afe400e772931c05846f5de971ca29",
-        "candidate_sha256": "2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24",
-        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-        "oracle_integrity": "verified",
-        "comparator_self_tests": "29/29 PASS"
+        "run_id": "20261111T094335027083Z-0321b41c",
+        "report": "rust/artifacts/independent-final-three-clean-20261111/rule-restricted-elementary.json",
+        "report_sha256": "a7866543e568432d85a8cf8fc1e762a5062a535935c27b5aea2d4d0a508eb12d"
       },
       "rule.restricted.top1000": {
         "status": "PASS",
         "passed": 3,
         "total": 3,
-        "run_id": "20261111T063622411339Z-2b931d7c",
-        "report": "rust/artifacts/independent-false-plurals-misc-default-20261111/additional-current-scope/rule.restricted.top1000-report.json",
-        "report_sha256": "206cd085611aa4b1d4fc61ffd400ded62933c7d53dc7779856d3240bfd3cd1e7",
-        "source_fingerprint": "5d37323e3e8d891dff2d53e8929641d74cb809e111d6d36534fbb27224b501f0",
-        "candidate_attestation": "rust/artifacts/20261111T061906644545Z-build.attestation.json",
-        "candidate_attestation_sha256": "40299d9d403757bcaba1bf6c7b4ffddba7afe400e772931c05846f5de971ca29",
-        "candidate_sha256": "2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24",
-        "oracle_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-        "oracle_integrity": "verified",
-        "comparator_self_tests": "29/29 PASS"
+        "run_id": "20261111T094342734817Z-c93f2141",
+        "report": "rust/artifacts/independent-final-three-clean-20261111/rule-restricted-top1000.json",
+        "report_sha256": "14611f34d6e678744d1d83224e5c11de2e95c4bb366dcd246c32c306a7619155"
       }
     },
     "false_plurals_misc": {
@@ -13485,8 +13465,12 @@
     },
     "reports_directory": "rust/artifacts/independent-false-plurals-misc-default-20261111/additional-current-scope",
     "summary_report": "rust/artifacts/independent-false-plurals-misc-default-20261111/verification-summary.json",
-    "summary_sha256": "c0fafd4f5691e99fd219456d964dad93a63a814a20afec19f5ea64bc8f2ce245",
-    "matches_current_source_fingerprint": true
+    "summary_sha256": "ec9812db9fb76f0ecf569d7c64fbef7ad47d0a744146946fd5905b5163c007fa",
+    "matches_current_source_fingerprint": true,
+    "comparator_self_tests": "29/29 for each capability",
+    "focused_rust_tests": "9/9",
+    "focused_harness_tests": "2/2",
+    "summary": "rust/artifacts/independent-final-three-clean-20261111/verification-summary.json"
   },
   "latest_focused_symlink_loop_verification": {
     "status": "PASS",
@@ -13524,34 +13508,34 @@
   },
   "latest_release_gate_attempt": {
     "status": "PASS",
-    "run_id": "20261111T064554826400Z-fd52fe2f",
-    "report": "rust/artifacts/release-candidate-gate-20261111.json",
-    "report_sha256": "eb2bf4f058ec9cd6effc97344262c195d3ea7daeef5894fc41430f7216f54efd",
-    "source_fingerprint": "5d37323e3e8d891dff2d53e8929641d74cb809e111d6d36534fbb27224b501f0",
-    "candidate_attestation": "rust/artifacts/20261111T063908061867Z-build.attestation.json",
-    "candidate_attestation_sha256": "33aa7d6d2e1baf0fd537c6693cc2dec0952a3a4748f8c6d57e87e7869015a6b9",
+    "run_id": "20261111T092617951180Z-bf71cdb1",
+    "report": "rust/artifacts/release-candidate-gate-20261111-clean-harness.json",
+    "report_sha256": "39c5caae429cd56f5315e03dfe93940574b248561fa2a597600ccf7aeb5f95c3",
+    "source_fingerprint": "9360dfeb3bc37d2cbeb18e14e56f280754bc822905a3ba128db6c34c446cd39f",
+    "candidate_attestation": "rust/artifacts/20261111T092101683349Z-build.attestation.json",
+    "candidate_attestation_sha256": "fde9f648b99892d20a5c9a9129fbf5a2e1d4ed5a7020644b0a81f99f5a9ccb7d",
     "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
     "accepted_capabilities": 153,
-    "attempted_cases": 1446,
-    "manifest_cases": 1457,
+    "attempted_cases": 1452,
+    "manifest_cases": 1463,
     "counts": {
       "BLOCKED": 0,
       "CANDIDATE_ERROR": 0,
       "MISMATCH": 0,
       "NOT_IMPLEMENTED": 0,
       "ORACLE_ERROR": 0,
-      "PASS": 1446,
+      "PASS": 1452,
       "TIMEOUT": 0
     },
     "comparator_self_tests": "29/29 PASS",
     "candidate_sha256": "2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24",
-    "full_rust_suite": "914 passed / 0 failed across 145 targets",
-    "full_python_harness": "141/141 PASS (74.560s)",
+    "full_rust_suite": "917 passed / 0 failed across 145 targets",
+    "full_python_harness": "144/144 PASS (75.022s) with current gate attestation",
     "oracle_integrity": "verified",
-    "scope_matches_current_accepted_scope": false,
-    "scope_matches_current_manifest": false,
-    "current_accepted_case_count": 1450,
-    "current_manifest_case_count": 1461,
+    "scope_matches_current_accepted_scope": true,
+    "scope_matches_current_manifest": true,
+    "current_accepted_case_count": 1452,
+    "current_manifest_case_count": 1463,
     "excluded_manifest_case_count": 11,
     "gate_execution": {
       "accepted_capability_count": 153,
@@ -13592,25 +13576,25 @@
     "oracle_expectations_changed": false,
     "model_metadata": "Luna parity verifier configured; runtime model identity metadata unavailable",
     "commit_push": "pushed: 9c4922e to origin/main",
-    "current_scope_note": "PASS 1446/1457 at source fingerprint 5d37323e…; two later focused default-dispatch extensions added four cases and independently passed. Next cumulative gate is due after three more expansions.",
-    "stale_by_cases": 4
+    "current_scope_note": "Gate passed at current 1,452 accepted-case and 1,463 total-case scope; six CLI/harness capability exclusions and the product version divergence remain explicit.",
+    "stale_by_cases": 0
   },
   "current_candidate_release_readiness": {
-    "status": "FOCUSED_DEFAULT_DISPATCH_ACCEPTANCE_CUMULATIVE_GATE_STALE",
-    "compatibility": "partial; last cumulative gate passed 1,446/1,457. Current focused owner and independent verification adds four no-config cases for misc.not_guilty and dates_times.dates.month_of_year; all nine capability cases pass, but cumulative scope is stale by four cases. The date-based product version divergence and six excluded CLI/harness IDs remain.",
-    "source_fingerprint": "877971c9905f980c9a48801f02ac1cc9b74173f11788c617e1479cdffb164d98",
+    "status": "PASS_PARTIAL_COMPATIBILITY",
+    "compatibility": "partial; full cumulative live gate passes 1,452/1,452 of 1,463 manifest cases with 11 exclusions. Full compatibility is not claimed.",
+    "source_fingerprint": "9360dfeb3bc37d2cbeb18e14e56f280754bc822905a3ba128db6c34c446cd39f",
     "candidate_sha256": "2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24",
-    "candidate_attestation": "rust/artifacts/20261111T073911598021Z-build.attestation.json",
-    "candidate_attestation_sha256": "1c8cdeae7ad2c611bfcff50d54e8a288b079c430039c71cc595570a73e531ab3",
+    "candidate_attestation": "rust/artifacts/20261111T092101683349Z-build.attestation.json",
+    "candidate_attestation_sha256": "fde9f648b99892d20a5c9a9129fbf5a2e1d4ed5a7020644b0a81f99f5a9ccb7d",
     "accepted_capabilities": 153,
-    "selected_case_count": 1450,
-    "manifest_case_count": 1461,
+    "selected_case_count": 1452,
+    "manifest_case_count": 1463,
     "excluded_case_count": 11,
-    "release_gate_report": "rust/artifacts/release-candidate-gate-20261111.json",
-    "release_gate_report_sha256": "eb2bf4f058ec9cd6effc97344262c195d3ea7daeef5894fc41430f7216f54efd",
-    "release_gate_run_id": "20261111T064554826400Z-fd52fe2f",
-    "full_rust_tests": "914 passed, 0 failed across 145 targets at prior 1457-case source",
-    "full_python_harness": "141/141 passed at prior 1457-case source; current focused assertions 2/2 pass",
+    "release_gate_report": "rust/artifacts/release-candidate-gate-20261111-clean-harness.json",
+    "release_gate_report_sha256": "39c5caae429cd56f5315e03dfe93940574b248561fa2a597600ccf7aeb5f95c3",
+    "release_gate_run_id": "20261111T092617951180Z-bf71cdb1",
+    "full_rust_tests": "917 passed, 0 failed across 145 targets",
+    "full_python_harness": "144/144 passed in 75.022s against current attestation",
     "rule_acceptances": {
       "uncomparables": "11/11 independently refreshed PASS at current candidate fingerprint",
       "restricted.elementary": "3/3 independently refreshed PASS at current candidate fingerprint",
@@ -13624,19 +13608,20 @@
       "misc.false_plurals.misc": "11/11 owner and independent PASS at current candidate fingerprint",
       "rule.misc.not_guilty": "6/6 owner and independent PASS at source fingerprint 46709f9b128392b128c552217ded95d2896f9749faf9bf646f31595e6be4de50; current cumulative gate pending",
       "rule.dates_times.dates.month_of_year": "5/5 owner and independent PASS at source fingerprint 877971c9905f980c9a48801f02ac1cc9b74173f11788c617e1479cdffb164d98; current cumulative gate pending",
-      "rule.uncomparables": "11/11 independently refreshed PASS at source fingerprint 8fc3336051164c717844c9e33fbd8a93fc81d79814a91ef6f1358074f239b12d; current cumulative gate pending",
-      "rule.restricted.elementary": "3/3 independently refreshed PASS at source fingerprint 8fc3336051164c717844c9e33fbd8a93fc81d79814a91ef6f1358074f239b12d; current cumulative gate pending",
-      "rule.restricted.top1000": "3/3 independently refreshed PASS at source fingerprint 8fc3336051164c717844c9e33fbd8a93fc81d79814a91ef6f1358074f239b12d; current cumulative gate pending",
+      "rule.uncomparables": "11/11 independent Luna low PASS on current full-gate attestation",
+      "rule.restricted.elementary": "3/3 independent Luna low PASS on current full-gate attestation",
+      "rule.restricted.top1000": "3/3 independent Luna low PASS on current full-gate attestation",
       "rule.misc.false_plurals.misc": "11/11 owner and independent PASS at source fingerprint 5d37323e3e8d891dff2d53e8929641d74cb809e111d6d36534fbb27224b501f0; current cumulative gate pending",
       "rule.misc.debased": "17/17 owner and independent PASS at source fingerprint 6461751a56b867ec9af8f8228610dc69b2d6131e9041d2162656172dc95de470; current cumulative gate pending",
       "rule.misc.many_a": "14/14 owner and independent PASS at source fingerprint 2b48fb42be7fdbc4f635433a683d737643291a65693254ddd1ca54c9dca1df16; current cumulative gate pending",
-      "rule.misc.apologizing": "9/9 owner and independent PASS at source fingerprint 89fed20140ede73ea6bf6343d5d4c7415715509a6c4d3cf63042eb61c44bf381; current cumulative gate pending"
+      "rule.misc.apologizing": "9/9 owner and independent PASS at source fingerprint 89fed20140ede73ea6bf6343d5d4c7415715509a6c4d3cf63042eb61c44bf381; current cumulative gate pending",
+      "rule.psychology.mental_telepathy": "8/8 owner and independent PASS; overlapping findings retain pinned order"
     },
     "benchmark_reports": [
-      "rust/artifacts/release-candidate-benchmark-20261111.json"
+      "rust/artifacts/release-candidate-benchmark-20261111-clean-harness.json"
     ],
-    "latest_full_gate_scope": "1446/1446 at source fingerprint 5d37323e3e8d891dff2d53e8929641d74cb809e111d6d36534fbb27224b501f0",
-    "latest_full_gate_matches_current_scope": false,
+    "latest_full_gate_scope": "1452/1452 at current source fingerprint",
+    "latest_full_gate_matches_current_scope": true,
     "excluded_capabilities": [
       "cli.config.no_passwd_home",
       "cli.demo.json",
@@ -13645,9 +13630,11 @@
       "cli.version.verbose_runtime",
       "harness.oracle_smoke"
     ],
-    "default_dispatch_coverage": "37/93 unique default-enabled paths have direct positive no-config evidence; 56 remain without direct positive evidence",
+    "default_dispatch_coverage": "41/93 direct positive no-config paths; 52 remain without direct positive evidence",
     "commit_push": "pushed: 9c4922e to origin/main",
-    "latest_full_gate_case_count": 1446
+    "latest_full_gate_case_count": 1452,
+    "harness_failure_evidence": "rust/artifacts/full-harness-suite-20261111-final.log",
+    "harness_failure_count": 0
   },
   "latest_harness_storage_optimization": {
     "change": "reference Python bytecode writes disabled by default; each case retains a unique temporary cache prefix; explicit case settings are preserved",
@@ -14167,13 +14154,13 @@
         ]
       }
     },
-    "accepted_case_count": 1450,
-    "manifest_case_count": 1461,
-    "latest_full_gate_case_count": 1446,
-    "cumulative_checkpoint_due_after": "three additional default-dispatch evidence expansions",
+    "accepted_case_count": 1452,
+    "manifest_case_count": 1463,
+    "latest_full_gate_case_count": 1452,
+    "cumulative_checkpoint_due_after": "two more accepted capability expansions, or earlier for shared behavior changes or release",
     "default_enabled_unique_paths": 93,
     "paths_without_no_config_positive_finding_in_prior_scope": 69,
-    "current_paths_without_positive_no_config_evidence": 53,
+    "current_paths_without_positive_no_config_evidence": 52,
     "owner_focused_live_cases_passed": 5,
     "independent_live_cases_passed": 5,
     "candidate_attestation": "rust/artifacts/20261111T073911598021Z-build.attestation.json",
@@ -14220,5 +14207,79 @@
     "focused_build_seconds": 1.585,
     "model_metadata": "gpt-6-luna/low configured; runtime identity metadata unavailable",
     "commit_push": "pushed: e52c8a8 to origin/main"
+  },
+  "latest_final_release_candidate": {
+    "status": "PASS_PARTIAL_COMPATIBILITY",
+    "date_utc": "2026-11-11",
+    "gate_report": "rust/artifacts/release-candidate-gate-20261111-clean-harness.json",
+    "gate_report_sha256": "39c5caae429cd56f5315e03dfe93940574b248561fa2a597600ccf7aeb5f95c3",
+    "gate_run_id": "20261111T092617951180Z-bf71cdb1",
+    "source_fingerprint": "9360dfeb3bc37d2cbeb18e14e56f280754bc822905a3ba128db6c34c446cd39f",
+    "candidate_attestation": "rust/artifacts/20261111T092101683349Z-build.attestation.json",
+    "attestation_sha256": "fde9f648b99892d20a5c9a9129fbf5a2e1d4ed5a7020644b0a81f99f5a9ccb7d",
+    "candidate_sha256": "2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24",
+    "accepted_cases": 1452,
+    "manifest_cases": 1463,
+    "excluded_cases": 11,
+    "capabilities": 153,
+    "independent_rule_acceptances": {
+      "rule.uncomparables": {
+        "status": "PASS",
+        "passed": 11,
+        "total": 11,
+        "run_id": "20261111T094322498712Z-855d81d6",
+        "report": "rust/artifacts/independent-final-three-clean-20261111/rule-uncomparables.json",
+        "report_sha256": "5d8a2f6e045571d3f25ec23cd0693fbdfe2dc8ec2a80b50a9dbbb157b7d09678"
+      },
+      "rule.restricted.elementary": {
+        "status": "PASS",
+        "passed": 3,
+        "total": 3,
+        "run_id": "20261111T094335027083Z-0321b41c",
+        "report": "rust/artifacts/independent-final-three-clean-20261111/rule-restricted-elementary.json",
+        "report_sha256": "a7866543e568432d85a8cf8fc1e762a5062a535935c27b5aea2d4d0a508eb12d"
+      },
+      "rule.restricted.top1000": {
+        "status": "PASS",
+        "passed": 3,
+        "total": 3,
+        "run_id": "20261111T094342734817Z-c93f2141",
+        "report": "rust/artifacts/independent-final-three-clean-20261111/rule-restricted-top1000.json",
+        "report_sha256": "14611f34d6e678744d1d83224e5c11de2e95c4bb366dcd246c32c306a7619155"
+      }
+    },
+    "independent_verification_summary": "rust/artifacts/independent-final-three-clean-20261111/verification-summary.json",
+    "independent_verification_summary_sha256": "ec9812db9fb76f0ecf569d7c64fbef7ad47d0a744146946fd5905b5163c007fa",
+    "harness_suite": {
+      "passed": 144,
+      "failed": 0,
+      "total": 144,
+      "duration_seconds": 75.022,
+      "log": "rust/artifacts/full-harness-suite-20261111-clean.log",
+      "sha256": "5d8e1906420fc528558bd678d7a58f2c9aa474ffe23daee3f34ef2703dfb664a"
+    },
+    "rust_suite": {
+      "passed": 917,
+      "failed": 0,
+      "targets": 145,
+      "evidence": "rust/artifacts/20261111T092101683349Z-build-2.stdout.bin"
+    },
+    "benchmark": {
+      "status": "PASS",
+      "report": "rust/artifacts/release-candidate-benchmark-20261111-clean-harness.json",
+      "sha256": "c90013b093034dfa2a27b410e1c04cadf6d9df8c23efcb3b94ffb8cc4ebe44f8",
+      "duration_seconds": 34.187404,
+      "preflight": "3/3"
+    },
+    "remaining_cli_gaps": [
+      "cli.config.no_passwd_home",
+      "cli.demo.json",
+      "cli.product_version_flag",
+      "cli.version.json_metadata",
+      "cli.version.verbose_runtime",
+      "harness.oracle_smoke"
+    ],
+    "version_flag_divergence": "authorized; unresolved against exact upstream parity",
+    "model_metadata": "Luna low configured; runtime identity unavailable"
   }
 }

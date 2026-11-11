@@ -47127,6 +47127,58 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "mental_telepathy_no_config_default_dispatch",
+      "capability_id": "rule.psychology.mental_telepathy",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/psychology.py registers psychology.mental_telepathy and the bundled default config enables psychology. This no-config positive preserves the overlapping redundancy.misc.after_the_deadline finding and the pinned diagnostic order.",
+      "input_mode": "stdin",
+      "stdin_base64": "SSd2ZSBiZWVuIHByYWN0aWNpbmcgbWVudGFsIHRlbGVwYXRoeS4=",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "mental_telepathy_no_config_clean_control",
+      "capability_id": "rule.psychology.mental_telepathy",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/psychology.py registers psychology.mental_telepathy and the bundled default config enables psychology. This clean no-config control checks default dispatch without a target phrase.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhpcyBwYXJhZ3JhcGggY29udGFpbnMgbm8gdGFyZ2V0IHBocmFzZS4=",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

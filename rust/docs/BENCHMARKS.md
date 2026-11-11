@@ -1,5 +1,29 @@
 # Python and Rust benchmark
 
+## Current release candidate after harness inventory correction (2026-11-11 09:44 UTC)
+
+The current release gate passed **1,452/1,452 accepted cases across 153 capabilities**, from a 1,463-case manifest with 11 exclusions, before this bounded benchmark. Pinned Proselint 0.16.0 (revision `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`) was verified. Candidate source fingerprint: `9360dfeb3bc37d2cbeb18e14e56f280754bc822905a3ba128db6c34c446cd39f`; binary SHA-256: `2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24`. Linux x86_64, four reported CPUs; Python 3.12.3 oracle and Rust 1.99.1. The bounded run finished in **34.187s**, below the 1,800-second overall limit, with exact live preflight **3/3**, 25 paired samples and three warmups for each workload.
+
+| Workload | Input | Fresh Python median | Fresh Rust median | Python / Rust |
+|---|---:|---:|---:|---:|
+| Small authored positive example | 82 B | 189.419 ms | 4.318 ms | 43.9× |
+| Ordinary generated prose | 9,280 B | 206.944 ms | 7.001 ms | 29.6× |
+| Dense generated trigger stream | 6,400 B | 231.429 ms | 13.649 ms | 17.0× |
+
+Only `misc.suddenly` and `psychology.p_equals_zero` were enabled. This is selected-rule CLI performance, not default-config or whole-program performance. RSS was unavailable. Setup/build took 2.728s, parity preflight 6.026s, and timed samples 22.591s. Raw samples and commands are in [`release-candidate-benchmark-20261111-clean-harness.json`](../artifacts/release-candidate-benchmark-20261111-clean-harness.json), SHA-256 `c90013b093034dfa2a27b410e1c04cadf6d9df8c23efcb3b94ffb8cc4ebe44f8`. The full gate is [`release-candidate-gate-20261111-clean-harness.json`](../artifacts/release-candidate-gate-20261111-clean-harness.json), SHA-256 `39c5caae429cd56f5315e03dfe93940574b248561fa2a597600ccf7aeb5f95c3`.
+
+## Previous candidate before harness inventory correction (2026-11-11 08:19 UTC)
+
+The release candidate passed the full cumulative parity gate immediately before this benchmark: **1,452/1,452 accepted cases across 153 capabilities**, with 11 excluded cases and zero mismatches, timeouts, or process/oracle errors. The pinned baseline is Proselint 0.16.0, revision `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`; source fingerprint `277a3ddfb1d64ace2bc6817a1029d6ffbc8c9a0846b71140abe0f29ec6061d1c`; release binary SHA-256 `2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24`. The bounded run completed in 35.732s, used the exact 3/3 live preflight, 25 interleaved sample pairs and three warmups per workload, under a 1,800-second overall limit. Host: Linux x86_64, four reported CPUs; oracle Python 3.12.3; Rust 1.99.1.
+
+| Workload | Input | Fresh Python median | Fresh Rust median | Python / Rust |
+|---|---:|---:|---:|---:|
+| Small authored positive example | 82 B | 197.617 ms | 4.720 ms | 41.9× |
+| Ordinary generated prose | 9,280 B | 209.965 ms | 6.888 ms | 30.5× |
+| Dense generated trigger stream | 6,400 B | 243.020 ms | 14.997 ms | 16.2× |
+
+The comparison enables only `misc.suddenly` and `psychology.p_equals_zero`; it is not whole-program/default-config performance. Medians use 25 samples per side/workload. RSS was unavailable because the harness has no per-process sampler. Setup/build took 2.970s, live preflight 6.480s, and fresh-process measurements 23.560s. Raw durations, hashes, commands, and workload details are in [`release-candidate-benchmark-20261111-final.json`](../artifacts/release-candidate-benchmark-20261111-final.json), SHA-256 `733589697b41277a27f348a1e543599109442effa4cfb70573ae0c3cd98364f9`. The gate report is [`release-candidate-gate-20261111-final.json`](../artifacts/release-candidate-gate-20261111-final.json), SHA-256 `63a49ac73a86335c8ecebff4a830561a56f7f07035913f1d71d2876baf9dcd21`.
+
 ## Earlier release candidate (2026-11-11 03:56 UTC)
 
 This section records an earlier checkpoint and is superseded by the current verified release candidate section below. The candidate passed the accepted-scope release gate at **1,432/1,432 cases across 153 capabilities** before measurement. Both profiles passed exact live parity preflight **3/3** against pinned Proselint 0.16.0, revision `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`. Source fingerprint: `cb5262bf3e58c7207879a9c8de08dfdbb40d20cd7eaf1022e75ed1054a0093e2`; binary SHA-256: `2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24`; build attestation: [`20261111T035653523505Z-build.attestation.json`](../artifacts/20261111T035653523505Z-build.attestation.json), SHA-256 `2309de6623947a0e5c64b7957486d9c96faabd88c42ca1193b8cf853df7d0692`. Host: Linux x86_64, four reported CPUs; pinned Python 3.12.3. Each profile used 25 paired samples per workload, 3 warmups, and a 1,800-second overall deadline.

@@ -318,6 +318,32 @@ fn no_config_found_enables_month_of_year() {
 }
 
 #[test]
+fn no_config_found_enables_mental_telepathy_and_preserves_overlap_order() {
+    let positive = Workspace::new().run("I’ve been practicing mental telepathy.".as_bytes());
+    assert_eq!(
+        positive.status.code(),
+        Some(1),
+        "stderr: {:?}",
+        positive.stderr
+    );
+    assert_eq!(
+        positive.stdout,
+        b"<stdin>:1:22: psychology.mental_telepathy: This is redundant because all purported telepathy is mental.\n<stdin>:1:22: redundancy.misc.after_the_deadline: Redundancy. Use 'telepathy' instead of 'mental telepathy'.\n"
+    );
+    assert!(positive.stderr.is_empty(), "stderr: {:?}", positive.stderr);
+
+    let control = Workspace::new().run(b"This paragraph contains no target phrase.");
+    assert_eq!(
+        control.status.code(),
+        Some(0),
+        "stderr: {:?}",
+        control.stderr
+    );
+    assert!(control.stdout.is_empty(), "stdout: {:?}", control.stdout);
+    assert!(control.stderr.is_empty(), "stderr: {:?}", control.stderr);
+}
+
+#[test]
 fn no_config_found_enables_cliches_hell_and_hedging() {
     let cases = [
         (

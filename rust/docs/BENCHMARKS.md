@@ -1,5 +1,19 @@
 # Python and Rust benchmark
 
+## Latest verified candidate (2026-11-11 UTC)
+
+The release-profile live gate passed **1,464/1,464 accepted cases across 153 capabilities**, with 11 explicit exclusions from the 1,475-case manifest and zero timeouts or mismatches. The reference is the immutable Proselint 0.16.0 baseline at revision `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`. Candidate source fingerprint: `8fc5bb76d0770f62dd3800ec07f1699d3f0f86eb8ca7a7d58056534e0d457c69`; release binary SHA-256: `2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24`; Cargo.lock SHA-256: `71e0eaa2629ee98f770a155cd73dad9a6dd31947cc9ea9e5312b533fd70a6a03`. The current lock resolves `ar_archive_writer` 0.5.5. The gate passed **923 Rust tests across 145 targets**, and the full harness suite passed **147/147** with the current attestation.
+
+After that gate, a bounded comparison passed its exact live parity preflight **3/3** and completed in about **35.8 seconds** under the 1,800-second overall limit. It used 25 paired fresh-process samples and three warmups per workload. The workloads enabled only `misc.suddenly` and `psychology.p_equals_zero`; these measurements do not represent default configuration or whole-program performance.
+
+| Workload | Input | Python median | Rust median | Python / Rust | Paired samples |
+|---|---:|---:|---:|---:|---:|
+| Small authored positive example | 82 B | 198.858 ms | 4.550 ms | 43.7× | 25 |
+| Ordinary generated prose | 9,280 B | 219.586 ms | 7.291 ms | 30.1× | 25 |
+| Dense generated trigger stream | 6,400 B | 261.394 ms | 16.134 ms | 16.2× | 25 |
+
+The runner was Linux x86_64 with four reported CPUs. The oracle used Python 3.12.3 and Rust used toolchain 1.99.1. Setup/build took 3.301s, parity preflight 6.682s, and fresh-process samples 24.240s. RSS was unavailable because the harness has no per-process sampler. The gate report SHA-256 is `74d98416f86e536aa4150768e20f00f18b48caf778bd87dd3d34ccdea5810b14`; the benchmark report SHA-256 is `5a6a8b965cbd88ab6e12a592ee733da5c1dad57404a557d21ba97429a10abcbc`. These are selected-rule results on one host, not a universal speed claim.
+
 ## Current release candidate with collusion default dispatch (2026-11-11 11:12 UTC)
 
 The release-profile cumulative gate passed **1,454/1,454 accepted cases across 153 capabilities**, from a **1,465-case manifest with 11 exclusions**, before this bounded benchmark. The pinned Python baseline is Proselint 0.16.0 at revision `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`. Candidate source fingerprint: `6ba1f33c62cf4592fb946b95ad0d6356390ac88c17273c3299173f3fe40f9264`; release binary SHA-256: `2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24`. Linux x86_64, four reported CPUs; Python 3.12.3 oracle and Rust 1.99.1. The run finished in **37.182s**, below the 1,800-second cap, with live parity preflight **3/3**, 25 paired samples, and three warmups per workload.

@@ -1088,7 +1088,7 @@
       "candidate_attestation": "rust/artifacts/20261111T045345885404Z-build.attestation.json"
     }
   },
-  "active_ownership": "No workers active. Release workflow configuration is local and validated; GitHub CD remains disabled and no binary release was published because the current full gate had two pinned-reference timeouts.",
+  "active_ownership": "No subagents active. Release workflow and compatibility documentation are being finalized against the latest locked Rust dependencies; accepted rule scope remains 1464/1475.",
   "unresolved": [
     "Other CLI/config behavior remains unverified, including passwd-home config-present behavior, HOME-absent no-passwd-entry config behavior (confirmed mismatch in cli.config.no_passwd_home; see harness.latest_no_passwd_home_case), other subcommands, HOME-unset platform variation, directory candidates, and traversal/decoding edges.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
@@ -12960,13 +12960,13 @@
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/release-candidate-gate-20261111-default-dispatch.json",
-    "report_sha256": "3b4a456cfed18bc78b33d2c43ffa9640fa996d92240b6dcebacdf73a53679568",
-    "run_id": "20261111T120825363195Z-5977368f",
+    "report": "rust/artifacts/release-workflow-latest-deps-gate-20261112.json",
+    "report_sha256": "74d98416f86e536aa4150768e20f00f18b48caf778bd87dd3d34ccdea5810b14",
+    "run_id": "20261111T143708432188Z-61b4e9d4",
     "profile": "release",
     "capability_count": 153,
-    "accepted_case_count": 1458,
-    "manifest_case_count": 1469,
+    "accepted_case_count": 1464,
+    "manifest_case_count": 1475,
     "excluded_manifest_case_count": 11,
     "counts": {
       "BLOCKED": 0,
@@ -12974,34 +12974,35 @@
       "MISMATCH": 0,
       "NOT_IMPLEMENTED": 0,
       "ORACLE_ERROR": 0,
-      "PASS": 1458,
+      "PASS": 1464,
       "TIMEOUT": 0
     },
-    "source_fingerprint": "bc01cacf2b2725dd92e6e9bb38347e9a50370abff94ecb7c94596c7ec0ce7a2a",
-    "candidate_sha256": "2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24",
-    "build_attestation": "rust/artifacts/20261111T115449157874Z-build.attestation.json",
-    "build_attestation_sha256": "fffcef63d4a6872e4d37938e0ee5915c0cdd80ee0bf9c34bc4c1ff3daf942ec5",
+    "source_fingerprint": "8fc5bb76d0770f62dd3800ec07f1699d3f0f86eb8ca7a7d58056534e0d457c69",
+    "candidate_sha256": "db84fad888596055f13c5dd21b00de393ca3e0e2e5a01e43ba00ef6a9a07ac20",
+    "cargo_lock_sha256": "71e0eaa2629ee98f770a155cd73dad9a6dd31947cc9ea9e5312b533fd70a6a03",
+    "build_attestation": "rust/artifacts/20261111T142450476975Z-build.attestation.json",
+    "build_attestation_sha256": "b96ec1c5ecd55c2338a98ee2fe189c2b9db1fa827930a33f936cea4e4a406051",
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.134915,
-      "cumulative_live_comparison": 969.345718,
-      "oracle_integrity": 1.733103,
-      "rust_checks_and_build": 816.284167
+      "comparator_self_tests": 0.121691,
+      "cumulative_live_comparison": 940.601911,
+      "oracle_integrity": 1.594548,
+      "rust_checks_and_build": 738.02309
     },
-    "gate_total_duration_seconds": 1787.937437,
+    "gate_total_duration_seconds": 1680.789618,
     "comparator_self_tests": "29/29 PASS",
     "rust_test_targets": 145,
-    "rust_tests_passed": 920,
+    "rust_tests_passed": 923,
     "rust_tests_failed": 0,
-    "scope_matches_current_accepted_scope": false,
+    "scope_matches_current_accepted_scope": true,
     "current_accepted_case_count": 1464,
     "current_manifest_case_count": 1475,
-    "current_scope_note": "This report passed 1458/1469 before six subsequently owner- and independently-verified direct-dispatch cases; cumulative gate due after two more expansions."
+    "current_scope_note": "All current accepted cases passed live against the pinned Python baseline; 11 explicitly excluded cases remain outside the accepted scope."
   },
   "rust_dependencies": {
     "status": "latest_for_pinned_toolchain",
     "toolchain": "1.99.1",
     "registry": "crates.io",
-    "latest_checked": "2026-11-11T06:10:00Z",
+    "latest_checked": "2026-11-11T14:59:20Z",
     "locked_versions": {
       "clap": "4.6.7",
       "serde": "1.0.229",
@@ -13010,45 +13011,46 @@
       "regex": "1.13.1",
       "cc": "1.11.1",
       "itoa": "1.0.19",
-      "syn": "3.0.10"
+      "syn": "3.0.10",
+      "ar_archive_writer": "0.5.5"
     },
     "cargo_update_dry_run": "0 packages to update (latest Rust 1.99-compatible crates.io versions)",
     "update_dry_run": {
       "status": "current",
       "packages_to_update": 0,
-      "command": "rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo update --dry-run --manifest-path rust/Cargo.toml",
+      "command": "CARGO_HOME=rust/.cache/cargo-home RUSTUP_HOME=rust/.cache/rustup-home cargo +1.99.1 update --dry-run --manifest-path rust/Cargo.toml",
       "rust_version_constraint": "1.99",
-      "checked_after": "2026-11-09T03:53:07Z",
-      "evidence": "rust/artifacts/rust-dependency-dry-run-post-itoa-20261109.txt",
-      "report_sha256": "74ed4f524bf4d88658f3f49449ee0aad18ea7583b3b2625c9fe526c7b7cd47db",
-      "cargo_lock_sha256": "05212984084365b79c499cd3c111ceb71349e05968ff8b21316e6ec64fd76fc1"
+      "checked_after": "2026-11-11T14:59:20Z",
+      "evidence": "rust/artifacts/rust-dependency-dry-run-post-ar-archive-writer-20261111.txt",
+      "report_sha256": "fa8f7e27cfa03ecc4b12c02882409643aa620cd89b2e0567a538f00c4e21ac5c",
+      "cargo_lock_sha256": "71e0eaa2629ee98f770a155cd73dad9a6dd31947cc9ea9e5312b533fd70a6a03"
     },
     "upgrade": {
-      "package": "syn",
-      "from": "3.0.9",
-      "to": "3.0.10",
-      "command": "cargo update --manifest-path rust/Cargo.toml",
-      "evidence": "rust/artifacts/rust-dependency-update-syn-20261110.txt",
-      "cargo_lock_sha256": "a246342e918651174f9fcadb2a6a54a2fea0b431fe6b479bc4da263bcad0a485"
+      "package": "ar_archive_writer",
+      "from": "0.5.3",
+      "to": "0.5.5",
+      "command": "cargo +1.99.1 update --manifest-path rust/Cargo.toml",
+      "evidence": "rust/artifacts/rust-dependency-dry-run-post-ar-archive-writer-20261111.txt",
+      "cargo_lock_sha256": "71e0eaa2629ee98f770a155cd73dad9a6dd31947cc9ea9e5312b533fd70a6a03"
     },
-    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-current-20261111T0610.txt",
+    "freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-ar-archive-writer-20261111.txt",
     "post_update_dry_run": {
       "status": "current",
       "packages_to_update": 0,
-      "command": "cargo update --dry-run --manifest-path rust/Cargo.toml",
+      "command": "CARGO_HOME=rust/.cache/cargo-home RUSTUP_HOME=rust/.cache/rustup-home cargo +1.99.1 update --dry-run --manifest-path rust/Cargo.toml",
       "rust_version_constraint": "1.99",
-      "checked_after": "2026-11-11T06:10:00Z",
-      "evidence": "rust/artifacts/rust-dependency-dry-run-current-20261111T0610.txt",
-      "report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2",
-      "cargo_lock_sha256": "a246342e918651174f9fcadb2a6a54a2fea0b431fe6b479bc4da263bcad0a485"
+      "checked_after": "2026-11-11T14:59:20Z",
+      "evidence": "rust/artifacts/rust-dependency-dry-run-post-ar-archive-writer-20261111.txt",
+      "report_sha256": "fa8f7e27cfa03ecc4b12c02882409643aa620cd89b2e0567a538f00c4e21ac5c",
+      "cargo_lock_sha256": "71e0eaa2629ee98f770a155cd73dad9a6dd31947cc9ea9e5312b533fd70a6a03"
     },
-    "pending_verification": "syn 3.0.10 was incorporated in Cargo.lock; current-source release gate passed 903 Rust tests across 145 targets on 2026-11-11. Latest freshness check found zero compatible updates.",
-    "freshness_report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2",
-    "cargo_lock_sha256": "a246342e918651174f9fcadb2a6a54a2fea0b431fe6b479bc4da263bcad0a485",
-    "latest_freshness_evidence": "rust/artifacts/rust-dependency-dry-run-current-20261111T0610.txt",
-    "latest_freshness_report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2"
+    "pending_verification": "The ar_archive_writer 0.5.5 update passed the release-profile gate: 923 Rust tests across 145 targets and 1464/1464 accepted live cases.",
+    "freshness_report_sha256": "fa8f7e27cfa03ecc4b12c02882409643aa620cd89b2e0567a538f00c4e21ac5c",
+    "cargo_lock_sha256": "71e0eaa2629ee98f770a155cd73dad9a6dd31947cc9ea9e5312b533fd70a6a03",
+    "latest_freshness_evidence": "rust/artifacts/rust-dependency-dry-run-post-ar-archive-writer-20261111.txt",
+    "latest_freshness_report_sha256": "fa8f7e27cfa03ecc4b12c02882409643aa620cd89b2e0567a538f00c4e21ac5c"
   },
-  "next_capability_handoff": "Three default-dispatch expansions (misc.suddenly, misc.professions, psychology.p_equals_zero) remain owner- and independently-verified; current scope 1464/1475, 11 exclusions. Latest cumulative gate attempt had 1462 PASS and two pinned-Python TIMEOUTs for the composition matcher-order limit cases. Do not treat the gate as passing, do not benchmark or publish from it. Exact replay may diagnose transient reference timeouts but cannot replace a green cumulative gate. The release workflow is locally prepared for Linux x86_64/ARM64, Windows x86_64/ARM64, and macOS Intel/ARM64; remote workflow remains disabled and no release exists.",
+  "next_capability_handoff": "Latest release gate passed 1464/1464 accepted cases across 153 capabilities, with 11 explicit exclusions; benchmark passed after live parity preflight. The latest compatible Rust dependency update is ar_archive_writer 0.5.5. Next, run the active six-platform GitHub Actions release matrix for version 2026.11.08.1 as a prerelease; then continue independent rule coverage (planned misc.illogic.coin and misc.capitalization.days). Do not claim full compatibility while the 11 CLI/harness cases remain excluded.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",
@@ -14594,62 +14596,183 @@
     ]
   },
   "latest_release_validation_attempt": {
-    "status": "FAIL_TIMEOUT",
-    "report": "rust/artifacts/release-workflow-current-gate-20261112.json",
-    "run_id": "20261111T133422660248Z-3ce14c28",
-    "report_sha256": "92cabecade77bd5395086b819269191f0c7cee5c16d5aec71aa3096c862b9aca",
-    "source_fingerprint": "cdcf727aa07344020c90ca2877f5a26989421525079ca21fbef152aa0da80ed4",
+    "status": "PASS",
+    "report": "rust/artifacts/release-workflow-latest-deps-gate-20261112.json",
+    "report_sha256": "74d98416f86e536aa4150768e20f00f18b48caf778bd87dd3d34ccdea5810b14",
+    "run_id": "20261111T143708432188Z-61b4e9d4",
+    "source_fingerprint": "8fc5bb76d0770f62dd3800ec07f1699d3f0f86eb8ca7a7d58056534e0d457c69",
     "accepted_capability_count": 153,
     "accepted_case_count": 1464,
     "manifest_case_count": 1475,
     "excluded_case_count": 11,
     "counts": {
-      "PASS": 1462,
-      "TIMEOUT": 2,
-      "MISMATCH": 0,
-      "CANDIDATE_ERROR": 0,
-      "ORACLE_ERROR": 0,
       "BLOCKED": 0,
-      "NOT_IMPLEMENTED": 0
+      "CANDIDATE_ERROR": 0,
+      "MISMATCH": 0,
+      "NOT_IMPLEMENTED": 0,
+      "ORACLE_ERROR": 0,
+      "PASS": 1464,
+      "TIMEOUT": 0
     },
-    "timed_out_cases": [
-      "composition_matcher_order_regex_overlap_before_other_simple_limit_1",
-      "composition_matcher_order_regex_overlap_before_other_simple_limit_2"
-    ],
-    "timeout_role": "pinned Python reference",
-    "per_case_timeout_seconds": 10,
+    "candidate_attestation": "rust/artifacts/20261111T142450476975Z-build.attestation.json",
+    "candidate_attestation_sha256": "b96ec1c5ecd55c2338a98ee2fe189c2b9db1fa827930a33f936cea4e4a406051",
+    "cargo_lock_sha256": "71e0eaa2629ee98f770a155cd73dad9a6dd31947cc9ea9e5312b533fd70a6a03",
     "rust_tests_passed": 923,
     "rust_test_targets": 145,
     "rust_test_failures": 0,
     "comparator_self_tests": "29/29 PASS",
     "stage_durations_seconds": {
-      "rust_checks_and_build": 847.319804,
-      "cumulative_live_comparison": 1039.940482,
-      "oracle_integrity": 2.340793,
-      "comparator_self_tests": 0.152231,
-      "total": 1890.319277
+      "rust_checks_and_build": 738.02309,
+      "cumulative_live_comparison": 940.601911,
+      "oracle_integrity": 1.594548,
+      "comparator_self_tests": 0.121691,
+      "total": 1680.789618
     },
-    "candidate_attestation": "rust/artifacts/20261111T132015438007Z-build.attestation.json",
-    "benchmark": "SKIPPED_GATE_FAILED",
-    "release": "NOT_PUBLISHED_GATE_FAILED"
+    "previous_reference_timeout_attempt": "rust/artifacts/release-workflow-current-gate-20261112.json",
+    "exact_timed_out_case_replay": "rust/artifacts/release-timeout-diagnostic-20261112.json",
+    "benchmark": "PASS",
+    "benchmark_report": "rust/artifacts/release-workflow-latest-deps-benchmark-20261112.json",
+    "benchmark_report_sha256": "5a6a8b965cbd88ab6e12a592ee733da5c1dad57404a557d21ba97429a10abcbc",
+    "release": "READY_FOR_GITHUB_ACTIONS_MATRIX"
   },
   "latest_release_support_checks": {
     "python_harness_suite": {
       "status": "PASS",
       "tests": 147,
-      "duration_seconds": 69.758,
-      "log": "rust/artifacts/release-workflow-harness-suite-current-attestation-20261112.log",
-      "note": "Explicit current attestation override; an initial run used stale status.json attestation and failed only runtime-independence freshness check.",
-      "sha256": "616d7514f6c28a0ce2a1a4cf4135288a5b4dcac57594a46ca47ce0f42c7e0038"
+      "duration_seconds": 79.432,
+      "log": "rust/artifacts/release-workflow-latest-deps-harness-20261112.log",
+      "attestation": "rust/artifacts/20261111T142450476975Z-build.attestation.json",
+      "attestation_sha256": "b96ec1c5ecd55c2338a98ee2fe189c2b9db1fa827930a33f936cea4e4a406051",
+      "sha256": "61b52fc62918d872adfebe66bf22326b79c54f72d1944dcd7779841e68366ad3"
     },
     "pinned_upstream_pytest": {
       "status": "PASS",
       "tests": 337,
       "duration_seconds": 24.02,
       "log": "rust/artifacts/release-workflow-pinned-upstream-pytest-20261112.log",
-      "sha256": "8211783cca11963cfe4147bf7e14abd7ea16fda16ab138bfdffcc3766503f862"
+      "sha256": "8211783cca11963cfe4147bf7e14abd7ea16fda16ab138bfdffcc3766503f862",
+      "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c"
     },
     "release_workflow_yaml_prettier": "PASS",
-    "release_workflow_diff_check": "PASS"
+    "release_workflow_diff_check": "PASS",
+    "rust_dependency_update": {
+      "status": "PASS",
+      "package": "ar_archive_writer",
+      "from": "0.5.3",
+      "to": "0.5.5",
+      "check": "cargo +1.99.1 update --dry-run --manifest-path rust/Cargo.toml",
+      "lockfile_sha256": "71e0eaa2629ee98f770a155cd73dad9a6dd31947cc9ea9e5312b533fd70a6a03"
+    },
+    "release_workflow_review": {
+      "status": "PASS",
+      "review": "sol_advisor read-only review resolved Windows dist directory and macOS checksum tool issues",
+      "yaml_prettier": "PASS",
+      "diff_check": "PASS"
+    },
+    "release_workflow_github_state": {
+      "status": "ACTIVE",
+      "workflow": "CD: Build & Publish",
+      "dispatch_type": "workflow_dispatch",
+      "python_ci": "disabled_manually",
+      "release_exists": false,
+      "platform_matrix_run": "NOT_YET_RUN"
+    }
+  },
+  "release_validation_history": [
+    {
+      "status": "FAIL_TIMEOUT",
+      "report": "rust/artifacts/release-workflow-current-gate-20261112.json",
+      "report_sha256": "92cabecade77bd5395086b819269191f0c7cee5c16d5aec71aa3096c862b9aca",
+      "run_id": "20261111T133422660248Z-3ce14c28",
+      "timed_out_cases": [
+        "composition_matcher_order_regex_overlap_before_other_simple_limit_1",
+        "composition_matcher_order_regex_overlap_before_other_simple_limit_2"
+      ],
+      "timeout_role": "pinned Python reference",
+      "per_case_timeout_seconds": 10
+    },
+    {
+      "status": "PASS_FOCUSED_DIAGNOSTIC",
+      "report": "rust/artifacts/release-timeout-diagnostic-20261112.json",
+      "report_sha256": "1cc614a830b1a0ba14e3d2fe211ca0316d6e50500075b22f3a9d417531eaa833",
+      "run_id": "20261111T140411288524Z-7408bf66",
+      "counts": {
+        "PASS": 2,
+        "TIMEOUT": 0
+      }
+    },
+    {
+      "status": "PASS",
+      "report": "rust/artifacts/release-workflow-retry-gate-20261112.json",
+      "report_sha256": "7d52256a2c6edc9c650f28f4f465689e3188079bfee0734b3c303f6fd94f493c",
+      "run_id": "20261111T140437738965Z-729bc058",
+      "source_fingerprint": "cdcf727aa07344020c90ca2877f5a26989421525079ca21fbef152aa0da80ed4",
+      "counts": {
+        "PASS": 1464,
+        "TIMEOUT": 0
+      }
+    }
+  ],
+  "latest_release_benchmark": {
+    "status": "PASS",
+    "report": "rust/artifacts/release-workflow-latest-deps-benchmark-20261112.json",
+    "report_sha256": "5a6a8b965cbd88ab6e12a592ee733da5c1dad57404a557d21ba97429a10abcbc",
+    "run_id": "20261111T145458919391Z-benchmark-5382f53c",
+    "source_fingerprint": "8fc5bb76d0770f62dd3800ec07f1699d3f0f86eb8ca7a7d58056534e0d457c69",
+    "capability_id": "cli.combined_checks",
+    "profile_id": "combined_suddenly_p_equals_zero",
+    "parity_preflight": {
+      "BLOCKED": 0,
+      "CANDIDATE_ERROR": 0,
+      "MISMATCH": 0,
+      "NOT_IMPLEMENTED": 0,
+      "ORACLE_ERROR": 0,
+      "PASS": 3,
+      "TIMEOUT": 0
+    },
+    "sample_pairs": 25,
+    "warmup_pairs": 3,
+    "overall_timeout_seconds": 1800,
+    "measurement_scope": "fresh_process_cli_combined_selected_rules_only",
+    "rss": {
+      "method": null,
+      "reason": "No per-process RSS sampler is configured; ru_maxrss is cumulative across children and would not attribute a sample reliably.",
+      "status": "unavailable"
+    },
+    "stage_durations_seconds": {
+      "setup_and_build": 3.300962078,
+      "parity_preflight": 6.682418514,
+      "fresh_process_benchmark": 24.239578432
+    },
+    "workloads": [
+      {
+        "id": "combined_small",
+        "input_bytes": 82,
+        "input_sha256": "50e73cf2080050cac88f67b97e7441b62281b95a8c842995d80ca32ab073e899",
+        "python_median_ms": 198.85808,
+        "rust_median_ms": 4.549558,
+        "median_ratio": 43.709318575562726,
+        "sample_pairs": 25
+      },
+      {
+        "id": "combined_ordinary_generated",
+        "input_bytes": 9280,
+        "input_sha256": "9769ed177eaf82360def0740a1d9fa1855ce03a7ba993ba57532c392e96615a5",
+        "python_median_ms": 219.586209,
+        "rust_median_ms": 7.290753,
+        "median_ratio": 30.118454019769974,
+        "sample_pairs": 25
+      },
+      {
+        "id": "combined_dense_generated",
+        "input_bytes": 6400,
+        "input_sha256": "3153a44dc5f14269f34443af2564808a42c7a894d4455972c7b95b820e7f00c1",
+        "python_median_ms": 261.394128,
+        "rust_median_ms": 16.133983,
+        "median_ratio": 16.201462961749744,
+        "sample_pairs": 25
+      }
+    ],
+    "claim_limit": "Selected rules and three workloads on one Linux x86_64 host; not whole-program or universal performance."
   }
 }

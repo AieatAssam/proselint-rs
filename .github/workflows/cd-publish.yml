@@ -116,7 +116,11 @@ jobs:
           mkdir -p dist "$name"
           install -m 755 "$binary" "$name/proselint-rs"
           tar -czf "dist/${name}.tar.gz" "$name/proselint-rs"
-          (cd dist && sha256sum "${name}.tar.gz" > "${name}.tar.gz.sha256")
+          if [[ "$RUNNER_OS" == "macOS" ]]; then
+            (cd dist && shasum -a 256 "${name}.tar.gz" > "${name}.tar.gz.sha256")
+          else
+            (cd dist && sha256sum "${name}.tar.gz" > "${name}.tar.gz.sha256")
+          fi
       - name: Package Windows executable and checksum
         if: runner.os == 'Windows'
         env:
@@ -125,6 +129,7 @@ jobs:
         shell: pwsh
         run: |
           $name = "proselint-rs-v$env:RELEASE_VERSION-$env:RUST_TARGET"
+          New-Item -ItemType Directory -Path dist -Force | Out-Null
           New-Item -ItemType Directory -Path $name -Force | Out-Null
           Copy-Item "rust/target/$env:RUST_TARGET/release/proselint-rs.exe" "$name/proselint-rs.exe"
           Compress-Archive -Path "$name/proselint-rs.exe" -DestinationPath "dist/$name.zip" -Force
@@ -203,6 +208,9 @@ jobs:
           prerelease: ${{ inputs.prerelease }}
           generate_release_notes: true
           body: >-
-            Preview release of proselint-rs with partial compatibility. It tracks
-            Python Proselint 0.16.0 and is not a full replacement for Proselint.
+            Preview release tracking Python Proselint 0.16.0. The current live
+            compatibility suite passes 1,464 accepted cases; 11 reference cases
+            remain excluded. Compatibility is partial, not a full replacement.
+            See the compatibility notes for known CLI differences:
+            https://github.com/AieatAssam/proselint-rs/blob/main/rust/docs/COMPATIBILITY.md
           files: dist/*

@@ -87,6 +87,52 @@ fn assert_result(input: &str, expected_exit: i32, diagnostics: Vec<Value>) {
     );
 }
 
+fn run_default_check(input: &str) -> Output {
+    let workspace = Workspace::new();
+    let home = workspace.path().join("home");
+    let xdg = workspace.path().join("xdg");
+    std::fs::create_dir_all(&home).expect("create isolated HOME");
+    std::fs::create_dir_all(&xdg).expect("create isolated XDG_CONFIG_HOME");
+    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
+        .current_dir(workspace.path())
+        .env("HOME", home)
+        .env("XDG_CONFIG_HOME", xdg)
+        .args(["check", "--output-format", "json"])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .expect("start native CLI");
+    child
+        .stdin
+        .take()
+        .expect("piped stdin")
+        .write_all(input.as_bytes())
+        .expect("write input");
+    child.wait_with_output().expect("wait for native CLI")
+}
+
+fn assert_default_result(input: &str, expected_exit: i32, diagnostics: Vec<Value>) {
+    let output = run_default_check(input);
+    assert_eq!(
+        output.status.code(),
+        Some(expected_exit),
+        "stderr: {:?}",
+        output.stderr
+    );
+    assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
+    let actual: Value = serde_json::from_slice(&output.stdout).expect("valid JSON output");
+    assert_eq!(
+        actual,
+        json!({"result":{"<stdin>":{"diagnostics":diagnostics}}})
+    );
+}
+
+#[test]
+fn enabled_by_default_without_config_and_ignores_non_p_values() {
+    assert_default_result("p = 0.00; q = 0.00", 1, vec![diagnostic([1, 9], 1)]);
+}
+
 #[test]
 fn ordinary_and_uppercase_inputs_match_case_insensitively() {
     assert_result(

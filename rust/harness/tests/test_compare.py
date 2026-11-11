@@ -154,6 +154,43 @@ class ComparatorTests(unittest.TestCase):
                 self.assertEqual(case["expected_oracle_outcome"], outcome)
                 self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
 
+    def test_default_dispatch_suddenly_professions_and_p_equals_zero_manifest_cases(self) -> None:
+        expected = {
+            "suddenly_no_config_default_dispatch": (
+                "rule.misc.suddenly", "Suddenly, the lights went out.", "findings",
+            ),
+            "suddenly_no_config_clean_control": (
+                "rule.misc.suddenly", "suddenly, the lights went out.", "clean",
+            ),
+            "professions_no_config_default_dispatch": (
+                "rule.misc.professions", "I need a shoe repair guy.", "findings",
+            ),
+            "professions_no_config_clean_control": (
+                "rule.misc.professions", "A shoe repair shop opened.", "clean",
+            ),
+            "p_equals_zero_no_config_default_dispatch": (
+                "rule.psychology.p_equals_zero", "We observed p = 0.00 in the sample.", "findings",
+            ),
+            "p_equals_zero_no_config_clean_control": (
+                "rule.psychology.p_equals_zero", "We observed p = 0.0 in the sample.", "clean",
+            ),
+        }
+        cases = {
+            case["id"]: case
+            for case in compare.load_manifest()["cases"]
+            if case["id"] in expected
+        }
+        self.assertEqual(set(cases), set(expected))
+        for case_id, (capability, text, outcome) in expected.items():
+            with self.subTest(case=case_id):
+                case = cases[case_id]
+                self.assertEqual(case["capability_id"], capability)
+                self.assertEqual(base64.b64decode(case["stdin_base64"]).decode(), text)
+                self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+                self.assertEqual(case["config_scenario"], "no_config_default")
+                self.assertEqual(case["expected_oracle_outcome"], outcome)
+                self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
+
     def test_unicode_repr_invalid_output_format_manifest_cases(self) -> None:
         cases = [case for case in compare.load_manifest()["cases"] if case["id"].startswith("cli_invalid_output_format_") and case["id"].endswith(("u2028", "u2029", "u200b", "00a0", "1c89"))]
         expected = {
@@ -1495,7 +1532,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1469)
+        self.assertEqual(len(case_ids), 1475)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -1504,7 +1541,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "f4e461b307ee1a00a1f055dceae02d9fe551c3cf6f0ab8d63a912b453e5cbb1e",
+            "c8001b03b2229914a42653847597d1e28207f6164bb808797d00ded4c7574561",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),

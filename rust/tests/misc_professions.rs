@@ -27,6 +27,26 @@ impl Workspace {
     fn path(&self) -> &Path {
         &self.0
     }
+
+    fn run_default(&self, input: &str) -> Output {
+        let mut child = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
+            .current_dir(self.path())
+            .env("HOME", self.path().join("home"))
+            .env("XDG_CONFIG_HOME", self.path().join("xdg"))
+            .args(["check"])
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .spawn()
+            .expect("start native CLI without config");
+        child
+            .stdin
+            .take()
+            .expect("piped stdin")
+            .write_all(input.as_bytes())
+            .expect("write input");
+        child.wait_with_output().expect("wait for native CLI")
+    }
 }
 
 impl Drop for Workspace {
@@ -162,4 +182,26 @@ fn unicode_casefold_regression_professions() {
             json!({"check_path":"misc.professions","message":"'cobbler' is the name of that job.","pos":[1,17],"replacements":"cobbler","span":[17,32]}),
         ],
     );
+}
+
+#[test]
+fn default_dispatch_enables_professions_and_keeps_clean_input_clean() {
+    let workspace = Workspace::new();
+    for name in ["home", "xdg"] {
+        std::fs::create_dir(workspace.path().join(name)).expect("create isolated config home");
+    }
+
+    let output =
+        workspace.run_default("I really need a shoe repair guy.\nA geometrist joined the team.\n");
+    assert_eq!(output.status.code(), Some(1), "stderr: {:?}", output.stderr);
+    assert_eq!(
+        output.stdout,
+        b"<stdin>:1:17: misc.professions: 'cobbler' is the name of that job.\n<stdin>:2:3: misc.professions: 'geometer' is the name of that job.\n"
+    );
+    assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
+
+    let clean = workspace.run_default("Ordinary prose.\n");
+    assert_eq!(clean.status.code(), Some(0), "stderr: {:?}", clean.stderr);
+    assert!(clean.stdout.is_empty(), "stdout: {:?}", clean.stdout);
+    assert!(clean.stderr.is_empty(), "stderr: {:?}", clean.stderr);
 }

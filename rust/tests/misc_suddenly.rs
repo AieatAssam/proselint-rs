@@ -61,6 +61,33 @@ fn run_check(input: &str) -> Output {
     child.wait_with_output().expect("wait for native CLI")
 }
 
+fn run_default_check(input: &str) -> Output {
+    let workspace = Workspace::new();
+    std::fs::remove_file(workspace.path().join("selected config.json"))
+        .expect("remove rule-selection config");
+    let home = workspace.path().join("home");
+    let xdg = workspace.path().join("xdg");
+    std::fs::create_dir_all(&home).expect("create isolated HOME");
+    std::fs::create_dir_all(&xdg).expect("create isolated XDG_CONFIG_HOME");
+    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
+        .current_dir(workspace.path())
+        .env("HOME", home)
+        .env("XDG_CONFIG_HOME", xdg)
+        .args(["check", "--output-format", "json"])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .expect("start native CLI without config");
+    child
+        .stdin
+        .take()
+        .expect("piped stdin")
+        .write_all(input.as_bytes())
+        .expect("write input");
+    child.wait_with_output().expect("wait for native CLI")
+}
+
 fn diagnostic(span: [usize; 2], column: usize) -> Value {
     json!({
         "check_path": "misc.suddenly",
@@ -136,4 +163,27 @@ fn selected_config_does_not_enable_other_rules() {
         1,
         vec![diagnostic([13, 22], 13)],
     );
+}
+
+#[test]
+fn default_config_dispatches_suddenly_and_keeps_clean_control() {
+    let positive = run_default_check("Suddenly, we launched.");
+    assert_eq!(
+        positive.status.code(),
+        Some(1),
+        "stderr: {:?}",
+        positive.stderr
+    );
+    assert!(positive.stderr.is_empty(), "stderr: {:?}", positive.stderr);
+    let actual: Value = serde_json::from_slice(&positive.stdout).expect("valid JSON output");
+    assert_eq!(
+        actual,
+        json!({"result": {"<stdin>": {"diagnostics": [diagnostic([1, 10], 1)]}}})
+    );
+
+    let clean = run_default_check("The crew launched.");
+    assert_eq!(clean.status.code(), Some(0), "stderr: {:?}", clean.stderr);
+    assert!(clean.stderr.is_empty(), "stderr: {:?}", clean.stderr);
+    let actual: Value = serde_json::from_slice(&clean.stdout).expect("valid JSON output");
+    assert_eq!(actual, json!({"result": {"<stdin>": {"diagnostics": []}}}));
 }

@@ -9715,6 +9715,58 @@
       "stdin_base64": "QSB2ZXJ5IGdvb2Qgc2VudGVuY2U6IHRoZXJlIGFyZSBtYW55IGEgcmVhc29uIGFuZCBUT0RPLg=="
     },
     {
+      "capability_id": "rule.misc.metadiscourse",
+      "input_mode": "stdin",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "id": "metadiscourse_no_config_default_dispatch",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.metadiscourse; upstream module proselint/checks/misc/metadiscourse.py; Existence items `The preceeding discussion` (upstream misspelling preserved), `The rest of this article`, `This chapter discusses`, `The preceding paragraph demonstrated`, `The previous section analyzed`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `Excessive metadiscourse.`, null replacement. Bundled default config enables misc. Case purpose: metadiscourse no-config default dispatch.",
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "config_scenario": "no_config_default",
+      "stdin_base64": "VGhlIHByZWNlZWRpbmcgZGlzY3Vzc2lvbjsgVGhlIHJlc3Qgb2YgdGhpcyBhcnRpY2xlOyBUaGlzIGNoYXB0ZXIgZGlzY3Vzc2VzOyBUaGUgcHJlY2VkaW5nIHBhcmFncmFwaCBkZW1vbnN0cmF0ZWQ7IFRoZSBwcmV2aW91cyBzZWN0aW9uIGFuYWx5emVkLg==",
+      "files": []
+    },
+    {
+      "capability_id": "rule.misc.metadiscourse",
+      "input_mode": "stdin",
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "id": "metadiscourse_no_config_clean_control",
+      "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.metadiscourse; upstream module proselint/checks/misc/metadiscourse.py; Existence items `The preceeding discussion` (upstream misspelling preserved), `The rest of this article`, `This chapter discusses`, `The preceding paragraph demonstrated`, `The previous section analyzed`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `Excessive metadiscourse.`, null replacement. Bundled default config enables misc. Case purpose: metadiscourse no-config clean boundary control.",
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "config_scenario": "no_config_default",
+      "stdin_base64": "eFRoZSBwcmVjZWVkaW5nIGRpc2N1c3Npb247IFRoZSBwcmVjZWVkaW5nIGRpc2N1c3Npb254OyBUaGUgcmVzdCBvZiB0aGlzIGFydGljbGV4OyB4VGhpcyBjaGFwdGVyIGRpc2N1c3Nlcy4=",
+      "files": []
+    },
+    {
       "id": "metadiscourse_all_five_phrases",
       "capability_id": "rule.misc.metadiscourse",
       "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path misc.metadiscourse; upstream module proselint/checks/misc/metadiscourse.py; Existence items `The preceeding discussion` (upstream misspelling preserved), `The rest of this article`, `This chapter discusses`, `The preceding paragraph demonstrated`, `The previous section analyzed`; WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; static message `Excessive metadiscourse.`, null replacement. Selected config enables only misc.metadiscourse. Case purpose: metadiscourse all five phrases.",

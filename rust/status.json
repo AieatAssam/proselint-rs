@@ -13113,9 +13113,9 @@
     "scope_matches_current_accepted_scope": false,
     "current_tree_fingerprint_matches_gate": false,
     "compatibility_claim": "Partial only; 11 explicit exclusions remain.",
-    "current_accepted_case_count": 1482,
-    "current_manifest_case_count": 1493,
-    "current_scope_note": "Latest cumulative gate passed 1478/1489 before focused currency, back_formations, and inferior_superior coverage. Current accepted focused-live scope is 1482/1493 with 11 explicit exclusions. A test-only case inventory count/digest assertion was updated from 1493 to 1495 during verification; the latest full harness suite predates this invariant-only change and will be rerun at the next checkpoint."
+    "current_accepted_case_count": 1484,
+    "current_manifest_case_count": 1497,
+    "current_scope_note": "Latest cumulative gate passed 1478/1489 before four focused additions: currency, back_formations, inferior_superior, and metadiscourse. Current accepted focused-live scope is 1484/1497 with 11 explicit exclusions. Test-only count/digest assertions now match the 1497-case manifest; the next cumulative checkpoint will rerun the full harness suite."
   },
   "rust_dependencies": {
     "status": "latest_for_pinned_toolchain",
@@ -14849,7 +14849,7 @@
     ],
     "claim_limit": "Selected rules and three workloads on one Linux x86_64 host; not whole-program or universal performance."
   },
-  "next_task": "Continue focused direct no-config coverage for default-enabled `misc.metadiscourse`, then `misc.pretension`, before the next cumulative gate/full harness checkpoint.",
+  "next_task": "Continue direct no-config coverage with misc.pretension, then run cumulative gate and full harness suite after the fifth capability.",
   "latest_default_dispatch_extension": {
     "status": "independently_verified",
     "scope": "Added one no-config default-enabled positive and one title-case clean control to the already-recorded rule; no production Rust change.",
@@ -15463,6 +15463,69 @@
       "runtime_model_metadata": "unavailable",
       "expectations_or_comparison_changed": false,
       "cumulative_gate": "NOT_DUE; three focused direct-dispatch capabilities added since 1478/1489 checkpoint"
+    },
+    {
+      "status": "independently_verified_after_manifest_invariant_fix",
+      "scope": "Added two direct no-config default-dispatch cases to already implemented `rule.misc.metadiscourse`; no production Rust change.",
+      "case_ids": [
+        "metadiscourse_no_config_default_dispatch",
+        "metadiscourse_no_config_clean_control"
+      ],
+      "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+      "red": {
+        "status": "FAIL_EXPECTED_MISSING_CASES",
+        "focused_contract": "failed before new IDs were added"
+      },
+      "green": {
+        "status": "PASS",
+        "focused_contract": "1/1"
+      },
+      "manifest_identity_failure_and_fix": {
+        "failure": "Inventory assertion expected 1495 cases, actual manifest had 1497.",
+        "fix": "Updated only invariant count and exact ID/capability digest to 1497 / 6b175abd627a0485756e86c18ba99f3bc0214138cb6d1ada398cbe1d92826111.",
+        "focused_test": "PASS 1/1 in 0.298s",
+        "output_expectations_or_comparison_policy_changed": false
+      },
+      "owner_initial_live": {
+        "status": "PASS",
+        "cases": "14/14",
+        "duration_seconds": 13.322,
+        "report": "rust/artifacts/metadiscourse-no-config-default-live-20261111.json",
+        "source_fingerprint": "d06a75ba5f5d532fb4b8efdc0e79831f302791a1d483db4f4dca3274a610854a"
+      },
+      "final_fingerprint_live": {
+        "status": "PASS",
+        "cases": "14/14",
+        "mismatches": 0,
+        "timeouts": 0,
+        "report": "rust/artifacts/metadiscourse-final-after-inventory-20261111.json",
+        "sha256": "26d1aaef4f956b2940bef1c922043ab0d3f221aca65a4e726e63e50f4a3a35d6",
+        "duration_seconds": 12.766
+      },
+      "focused_rust_test": {
+        "status": "PASS",
+        "cases": "8/8",
+        "command": "cargo test --locked --manifest-path rust/Cargo.toml --test misc_metadiscourse"
+      },
+      "candidate_attestation": "rust/artifacts/20261111T185507846998Z-build.attestation.json",
+      "candidate_attestation_sha256": "556114bf051413d24b74660879600c839c95d872e2e62c89dcd2f1d074f013a0",
+      "source_fingerprint": "cf8239e82e327755e5a64cbaeb28d5d3dcbd3a77ad325af69ca73655efb3eac1",
+      "candidate_sha256": "db84fad888596055f13c5dd21b00de393ca3e0e2e5a01e43ba00ef6a9a07ac20",
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases": "14/14 in 12.766s",
+        "live_report": "rust/artifacts/independent-metadiscourse-final-20261111/live.json",
+        "live_report_sha256": "768a3dc5568f246a09896073c17e480157a45b204f5195116d09e637bff04901",
+        "focused_harness_test": "1/1 in 0.657s",
+        "rust_test": "8/8; Cargo command 21.63s, tests 0.07s",
+        "comparator_self_tests": "29/29",
+        "oracle_integrity": "PASS; tree SHA 73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831",
+        "evidence_dir": "rust/artifacts/independent-metadiscourse-final-20261111/"
+      },
+      "requested_model": "gpt-6-luna / low",
+      "runtime_model_metadata": "unavailable",
+      "expectations_or_comparison_changed": false,
+      "cumulative_gate": "NOT_DUE; four direct-dispatch capabilities added since 1478/1489 checkpoint"
     }
   ],
   "latest_full_harness_suite_failed_attempt": {
@@ -15480,11 +15543,11 @@
   "current_source_attestation": {
     "status": "PASS",
     "validation_scope": "focused_candidate_build",
-    "source_fingerprint": "cb695df8425ea46865463e7c98d8450b6dc303da5c0b045639be7b5253eb716d",
-    "attestation": "rust/artifacts/20261111T183616986170Z-build.attestation.json",
-    "attestation_sha256": "f03b2f3b6319a8f436ac77f4be6d1b6ebc331e5c0e293836739b5ca33dd8360e",
+    "source_fingerprint": "cf8239e82e327755e5a64cbaeb28d5d3dcbd3a77ad325af69ca73655efb3eac1",
+    "attestation": "rust/artifacts/20261111T185507846998Z-build.attestation.json",
+    "attestation_sha256": "556114bf051413d24b74660879600c839c95d872e2e62c89dcd2f1d074f013a0",
     "binary_sha256": "db84fad888596055f13c5dd21b00de393ca3e0e2e5a01e43ba00ef6a9a07ac20",
-    "runtime_independence": "PASS 1/1 on prior full-gate fingerprint; only manifest identity test invariant changed afterward"
+    "runtime_independence": "PASS 1/1 on previous cumulative-gate fingerprint; only inventory assertions changed after"
   },
   "latest_no_passwd_home_blocker_review": {
     "capability_id": "cli.config.no_passwd_home",
@@ -15932,5 +15995,68 @@
     "runtime_model_metadata": "unavailable",
     "expectations_or_comparison_changed": false,
     "cumulative_gate": "NOT_DUE; three focused direct-dispatch capabilities added since 1478/1489 checkpoint"
+  },
+  "latest_metadiscourse_default_dispatch_acceptance": {
+    "status": "independently_verified_after_manifest_invariant_fix",
+    "scope": "Added two direct no-config default-dispatch cases to already implemented `rule.misc.metadiscourse`; no production Rust change.",
+    "case_ids": [
+      "metadiscourse_no_config_default_dispatch",
+      "metadiscourse_no_config_clean_control"
+    ],
+    "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+    "red": {
+      "status": "FAIL_EXPECTED_MISSING_CASES",
+      "focused_contract": "failed before new IDs were added"
+    },
+    "green": {
+      "status": "PASS",
+      "focused_contract": "1/1"
+    },
+    "manifest_identity_failure_and_fix": {
+      "failure": "Inventory assertion expected 1495 cases, actual manifest had 1497.",
+      "fix": "Updated only invariant count and exact ID/capability digest to 1497 / 6b175abd627a0485756e86c18ba99f3bc0214138cb6d1ada398cbe1d92826111.",
+      "focused_test": "PASS 1/1 in 0.298s",
+      "output_expectations_or_comparison_policy_changed": false
+    },
+    "owner_initial_live": {
+      "status": "PASS",
+      "cases": "14/14",
+      "duration_seconds": 13.322,
+      "report": "rust/artifacts/metadiscourse-no-config-default-live-20261111.json",
+      "source_fingerprint": "d06a75ba5f5d532fb4b8efdc0e79831f302791a1d483db4f4dca3274a610854a"
+    },
+    "final_fingerprint_live": {
+      "status": "PASS",
+      "cases": "14/14",
+      "mismatches": 0,
+      "timeouts": 0,
+      "report": "rust/artifacts/metadiscourse-final-after-inventory-20261111.json",
+      "sha256": "26d1aaef4f956b2940bef1c922043ab0d3f221aca65a4e726e63e50f4a3a35d6",
+      "duration_seconds": 12.766
+    },
+    "focused_rust_test": {
+      "status": "PASS",
+      "cases": "8/8",
+      "command": "cargo test --locked --manifest-path rust/Cargo.toml --test misc_metadiscourse"
+    },
+    "candidate_attestation": "rust/artifacts/20261111T185507846998Z-build.attestation.json",
+    "candidate_attestation_sha256": "556114bf051413d24b74660879600c839c95d872e2e62c89dcd2f1d074f013a0",
+    "source_fingerprint": "cf8239e82e327755e5a64cbaeb28d5d3dcbd3a77ad325af69ca73655efb3eac1",
+    "candidate_sha256": "db84fad888596055f13c5dd21b00de393ca3e0e2e5a01e43ba00ef6a9a07ac20",
+    "independent_verification": {
+      "status": "PASS",
+      "live_cases": "14/14 in 12.766s",
+      "live_report": "rust/artifacts/independent-metadiscourse-final-20261111/live.json",
+      "live_report_sha256": "768a3dc5568f246a09896073c17e480157a45b204f5195116d09e637bff04901",
+      "focused_harness_test": "1/1 in 0.657s",
+      "rust_test": "8/8; Cargo command 21.63s, tests 0.07s",
+      "comparator_self_tests": "29/29",
+      "oracle_integrity": "PASS; tree SHA 73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831",
+      "evidence_dir": "rust/artifacts/independent-metadiscourse-final-20261111/"
+    },
+    "requested_model": "gpt-6-luna / low",
+    "runtime_model_metadata": "unavailable",
+    "expectations_or_comparison_changed": false,
+    "cumulative_gate": "NOT_DUE; four direct-dispatch capabilities added since 1478/1489 checkpoint"
   }
 }

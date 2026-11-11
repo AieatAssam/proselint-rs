@@ -123,6 +123,37 @@ class ComparatorTests(unittest.TestCase):
                 self.assertEqual(case["comparison"]["stderr"], "bytes")
                 self.assertEqual(case["comparison"]["exit_status"], "exact")
 
+    def test_default_dispatch_seasons_and_institution_manifest_cases(self) -> None:
+        expected = {
+            "capitalization_seasons_no_config_default_dispatch": (
+                "rule.misc.capitalization.seasons", "The Winter is cold.", "findings",
+            ),
+            "capitalization_seasons_no_config_clean_control": (
+                "rule.misc.capitalization.seasons", "The weather is cold.", "clean",
+            ),
+            "institution_name_no_config_default_dispatch": (
+                "rule.misc.institution_name", "Virginia polytechnic and state university.", "findings",
+            ),
+            "institution_name_no_config_clean_control": (
+                "rule.misc.institution_name", "Virginia Tech has a campus.", "clean",
+            ),
+        }
+        cases = {
+            case["id"]: case
+            for case in compare.load_manifest()["cases"]
+            if case["id"] in expected
+        }
+        self.assertEqual(set(cases), set(expected))
+        for case_id, (capability, text, outcome) in expected.items():
+            with self.subTest(case=case_id):
+                case = cases[case_id]
+                self.assertEqual(case["capability_id"], capability)
+                self.assertEqual(base64.b64decode(case["stdin_base64"]).decode(), text)
+                self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+                self.assertEqual(case["config_scenario"], "no_config_default")
+                self.assertEqual(case["expected_oracle_outcome"], outcome)
+                self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
+
     def test_unicode_repr_invalid_output_format_manifest_cases(self) -> None:
         cases = [case for case in compare.load_manifest()["cases"] if case["id"].startswith("cli_invalid_output_format_") and case["id"].endswith(("u2028", "u2029", "u200b", "00a0", "1c89"))]
         expected = {
@@ -1464,7 +1495,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1465)
+        self.assertEqual(len(case_ids), 1469)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -1473,7 +1504,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "36a10c04068e25e540782fd80e6e81ec1923cc9c77011b335ce18e31eccfc9e6",
+            "f4e461b307ee1a00a1f055dceae02d9fe551c3cf6f0ab8d63a912b453e5cbb1e",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),

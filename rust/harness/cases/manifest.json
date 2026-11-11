@@ -47211,6 +47211,70 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "capitalization_seasons_no_config_default_dispatch",
+      "capability_id": "rule.misc.capitalization.seasons",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/capitalization.py maps exact-case `Winter` to `winter`, and config/default.json enables it. This no-config input isolates the default-dispatched season finding.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlIFdpbnRlciBpcyBjb2xkLg==",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "capitalization_seasons_no_config_clean_control",
+      "capability_id": "rule.misc.capitalization.seasons",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; no-config control has no capitalized season, so misc.capitalization.seasons must emit no finding.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlIHdlYXRoZXIgaXMgY29sZC4=",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "institution_name_no_config_default_dispatch",
+      "capability_id": "rule.misc.institution_name",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/institution_name.py maps `virginia polytechnic and state university` to the official name, and config/default.json enables it. This no-config input isolates its default-dispatched finding.",
+      "input_mode": "stdin",
+      "stdin_base64": "VmlyZ2luaWEgcG9seXRlY2huaWMgYW5kIHN0YXRlIHVuaXZlcnNpdHku",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "institution_name_no_config_clean_control",
+      "capability_id": "rule.misc.institution_name",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; no-config control omits the misspelled institution name, so misc.institution_name must emit no finding.",
+      "input_mode": "stdin",
+      "stdin_base64": "VmlyZ2luaWEgVGVjaCBoYXMgYSBjYW1wdXMu",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
     }
   ]
 }

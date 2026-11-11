@@ -20,6 +20,16 @@ impl Workspace {
         .expect("write selected config");
         Self(path)
     }
+    fn without_config() -> Self {
+        let serial = NEXT_DIR.fetch_add(1, Ordering::Relaxed);
+        let path = std::env::temp_dir().join(format!(
+            "proselint-rs-seasons-default-{}-{serial}",
+            std::process::id()
+        ));
+        std::fs::create_dir_all(path.join("home")).expect("create isolated HOME");
+        std::fs::create_dir_all(path.join("xdg")).expect("create isolated XDG config");
+        Self(path)
+    }
     fn path(&self) -> &Path {
         &self.0
     }
@@ -40,6 +50,26 @@ fn run_check(input: &str) -> Output {
             "--output-format",
             "json",
         ])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .expect("start native CLI");
+    child
+        .stdin
+        .take()
+        .expect("piped stdin")
+        .write_all(input.as_bytes())
+        .expect("write input");
+    child.wait_with_output().expect("wait for CLI")
+}
+fn run_default_check(input: &str) -> Output {
+    let workspace = Workspace::without_config();
+    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
+        .current_dir(workspace.path())
+        .env("HOME", workspace.path().join("home"))
+        .env("XDG_CONFIG_HOME", workspace.path().join("xdg"))
+        .args(["check", "--output-format", "json"])
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
         .stderr(Stdio::piped())
@@ -160,4 +190,22 @@ fn fastset_activation_preserves_embedded_raw_copy() {
             diagnostic([9, 15], 9, "winter"),
         ],
     );
+}
+
+#[test]
+fn default_configuration_dispatches_seasons_and_keeps_clean_control_empty() {
+    let out = run_default_check("Winter.\n");
+    assert_eq!(out.status.code(), Some(1), "stderr: {:?}", out.stderr);
+    assert!(out.stderr.is_empty(), "stderr: {:?}", out.stderr);
+    let actual: Value = serde_json::from_slice(&out.stdout).expect("valid JSON");
+    assert_eq!(
+        actual,
+        json!({"result":{"<stdin>":{"diagnostics":[diagnostic([1, 7], 1, "winter")]}}})
+    );
+
+    let out = run_default_check("ordinary prose.\n");
+    assert_eq!(out.status.code(), Some(0), "stderr: {:?}", out.stderr);
+    assert!(out.stderr.is_empty(), "stderr: {:?}", out.stderr);
+    let actual: Value = serde_json::from_slice(&out.stdout).expect("valid JSON");
+    assert_eq!(actual, json!({"result":{"<stdin>":{"diagnostics":[]}}}));
 }

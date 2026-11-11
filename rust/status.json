@@ -10062,13 +10062,16 @@
         "diff": "stdout bytes only; both exit statuses are 0; pinned oracle bytes unchanged",
         "source_fingerprint": "ab4fc09cbf76aeb033fcdc16b857df77052eda53193cfe602172f780e437e185"
       },
-      "acceptance": "Explicit product behavior; excluded from exact upstream accepted capabilities, with pinned expectation retained and mismatch evidence recorded.",
+      "acceptance": "User-accepted product metadata divergence. The manifest retains the pinned Python expectation and exact stdout mismatch; this divergence is excluded from exact-output parity and does not block release acceptance.",
       "independent_verification": {
         "status": "PASS_WITH_EXPECTED_INTENTIONAL_DIVERGENCE",
         "report": "rust/artifacts/independent-product-version-final2-20261108/verification-summary.json",
         "source_fingerprint": "ab4fc09cbf76aeb033fcdc16b857df77052eda53193cfe602172f780e437e185",
         "runtime_model_metadata": "unavailable"
-      }
+      },
+      "accepted_by_user": true,
+      "accepted_as_intentional_divergence": true,
+      "release_blocker": false
     },
     {
       "id": "cli.top_level_help",
@@ -13664,7 +13667,11 @@
       "comparison": "Pinned oracle expected bytes are unchanged; the live comparator reports the expected stdout mismatch.",
       "evidence": "rust/artifacts/product-version-flag-intentional-divergence-final-20261108.json",
       "additional_evidence": "rust/artifacts/long-option-vers-product-divergence-20261109.json",
-      "prefix_behavior": "Unique argparse prefix --vers is accepted and resolves to the product version flag."
+      "prefix_behavior": "Unique argparse prefix --vers is accepted and resolves to the product version flag.",
+      "accepted_by_user": true,
+      "acceptance_date": "2026-11-11",
+      "acceptance": "User accepts this engine-specific product version string as an intentional divergence; the exact pinned Python output mismatch remains documented and does not block compatibility/release completion.",
+      "release_blocker": false
     }
   ],
   "release_metadata": {
@@ -14528,14 +14535,16 @@
     "remaining_cli_gaps": [
       "cli.config.no_passwd_home",
       "cli.demo.json",
-      "cli.product_version_flag",
       "cli.version.json_metadata",
       "cli.version.verbose_runtime",
       "harness.oracle_smoke"
     ],
-    "version_flag_divergence": "authorized; unresolved against exact upstream parity",
+    "version_flag_divergence": "accepted intentional divergence; exact output difference remains explicit and is not a release blocker",
     "model_metadata": "gpt-6-luna / low configured; runtime identity unavailable",
-    "commit_push": "verified 1,458-case release candidate pushed to origin/main as fd60f13"
+    "commit_push": "verified 1,458-case release candidate pushed to origin/main as fd60f13",
+    "accepted_intentional_divergences": [
+      "cli.product_version_flag"
+    ]
   },
   "latest_collusion_default_dispatch_acceptance": {
     "status": "PASS",
@@ -14679,13 +14688,15 @@
     "remaining_cli_gaps": [
       "cli.config.no_passwd_home",
       "cli.demo.json",
-      "cli.product_version_flag",
       "cli.version.json_metadata",
       "cli.version.verbose_runtime",
       "harness.oracle_smoke"
     ],
-    "version_flag_divergence": "authorized; unresolved against exact upstream parity",
-    "commit_push": "verified 1,458-case release candidate pushed to origin/main as fd60f13"
+    "version_flag_divergence": "accepted intentional divergence; exact output difference remains explicit and is not a release blocker",
+    "commit_push": "verified 1,458-case release candidate pushed to origin/main as fd60f13",
+    "accepted_intentional_divergences": [
+      "cli.product_version_flag"
+    ]
   },
   "latest_default_dispatch_batch": {
     "status": "PASS",
@@ -16922,5 +16933,19 @@
     "expectations_or_comparison_changed": false,
     "requested_model": "gpt-6-luna / low",
     "runtime_model_metadata": "unavailable"
+  },
+  "version_output_divergence_acceptance": {
+    "capability_id": "cli.product_version_flag",
+    "status": "accepted_intentional_divergence",
+    "accepted_by_user": true,
+    "accepted_date": "2026-11-11",
+    "release_blocker": false,
+    "upstream": "Pinned Proselint 0.16.0 emits its Python product version.",
+    "rust": "proselint-rs emits its date-based product version and tracked Proselint version.",
+    "comparison": "Keep pinned oracle bytes unchanged and report this exact stdout difference explicitly; do not count it as an unresolved blocker.",
+    "separate_open_version_gaps": [
+      "cli.version.json_metadata",
+      "cli.version.verbose_runtime"
+    ]
   }
 }

@@ -47423,6 +47423,38 @@
       "config_scenario": "no_config_default",
       "workspace_mutates": false,
       "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "capitalization_days_no_config_default_positive",
+      "capability_id": "rule.misc.capitalization.days",
+      "provenance": "Pinned Python Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; `proselint/checks/misc/capitalization.py::check_days` maps lowercase weekday names to title case and is enabled by the bundled default config. This no-config case uses the live pinned CLI outcome.",
+      "input_mode": "stdin",
+      "stdin_base64": "V2Ugd2lsbCBtZWV0IG1vbmRheS4=",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "capitalization_days_no_config_default_clean",
+      "capability_id": "rule.misc.capitalization.days",
+      "provenance": "Pinned Python Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; `proselint/checks/misc/capitalization.py::check_days` maps lowercase weekday names to title case and is enabled by the bundled default config. This no-config case uses the live pinned CLI outcome.",
+      "input_mode": "stdin",
+      "stdin_base64": "V2Ugd2lsbCBtZWV0IE1vbmRheS4=",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
     }
   ]
 }

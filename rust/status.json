@@ -1088,7 +1088,7 @@
       "candidate_attestation": "rust/artifacts/20261111T045345885404Z-build.attestation.json"
     }
   },
-  "active_ownership": "No active file owners. Next: add direct default-dispatch coverage for rule.misc.capitalization.days; run cumulative gate after that checkpoint.",
+  "active_ownership": "No active file owners. Cumulative gate and full harness suite passed; next default-dispatch coverage candidate is misc.capitalization.months.",
   "unresolved": [
     "Other CLI/config behavior remains unverified, including passwd-home config-present behavior, HOME-absent no-passwd-entry config behavior (confirmed mismatch in cli.config.no_passwd_home; see harness.latest_no_passwd_home_case), other subcommands, HOME-unset platform variation, directory candidates, and traversal/decoding edges.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
@@ -4558,7 +4558,9 @@
         "capitalization_days_max_errors_first_source_order",
         "capitalization_days_unicode_codepoint_positions",
         "capitalization_days_fastset_activation_raw_copy",
-        "capitalization_days_selected_config_interaction"
+        "capitalization_days_selected_config_interaction",
+        "capitalization_days_no_config_default_positive",
+        "capitalization_days_no_config_default_clean"
       ],
       "upstream_spec": "Pinned `misc.capitalization.days` uses PreferredFormsSimple with lowercase monday through sunday mapped to title case; case-sensitive Fast matching with word-boundary activation followed by raw matches, paired-quote suppression, source ordering, Python code-point coordinates, and configured max_errors.",
       "red": {
@@ -4608,6 +4610,65 @@
         "live_suite_passed": 15,
         "source_fingerprint": "2385f025e0e07bc8dbc59f5fa8c068632a5493ab587c8bbf56cff0ab71b2ea0e",
         "cumulative_gate": "rust/artifacts/strict-gate-astra-order-repair-20261107.json"
+      },
+      "default_dispatch_extension": {
+        "status": "independently_verified",
+        "scope": "Added one no-config default-enabled positive and one title-case clean control to the already-recorded rule; no production Rust change.",
+        "case_ids": [
+          "capitalization_days_no_config_default_positive",
+          "capitalization_days_no_config_default_clean"
+        ],
+        "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "red": {
+          "command": "python3 -m unittest rust/harness/tests/test_compare.py -k capitalization_days_default_dispatch_cases_use_implicit_configuration -v",
+          "exit_code": 1,
+          "duration_seconds": null,
+          "duration_note": "not captured",
+          "failure": "Expected case IDs were absent; test observed dict_keys([]) versus the two new IDs."
+        },
+        "green": {
+          "command": "python3 -m unittest rust/harness/tests/test_compare.py -k capitalization_days_default_dispatch_cases_use_implicit_configuration -v",
+          "exit_code": 0,
+          "duration_seconds": 0.374,
+          "focused_contract_tests": "1 PASS"
+        },
+        "owner_live": {
+          "status": "PASS",
+          "passed_cases": 14,
+          "mismatch_cases": 0,
+          "timeout_cases": 0,
+          "duration_seconds": 14.3,
+          "report": "rust/artifacts/capitalization-days-default-dispatch-final2.json",
+          "report_sha256": "b6c6a3c2877b8cf9a478b4c6c4dbc9344f1b800007056e27248ce516aa2f7f12"
+        },
+        "focused_rust_test": {
+          "status": "PASS",
+          "passed": "10/10",
+          "command": "cargo test --locked --manifest-path rust/Cargo.toml --test capitalization_days",
+          "duration_seconds": 32.54
+        },
+        "candidate_attestation": "rust/artifacts/20261111T155357595741Z-build.attestation.json",
+        "candidate_attestation_sha256": "fbd4f2ad59309c6665c4ab598b7c62393f130c68d51a88ce3377cb8245865bd8",
+        "source_fingerprint": "4e40ba078c62e15207eb66ad97d7c0e59070449205588e243077c4e65e81d330",
+        "candidate_sha256": "db84fad888596055f13c5dd21b00de393ca3e0e2e5a01e43ba00ef6a9a07ac20",
+        "independent_verification": {
+          "status": "PASS",
+          "passed_cases": 14,
+          "mismatches": 0,
+          "timeouts": 0,
+          "live_seconds": 19.443,
+          "rust_test": "10/10 PASS",
+          "rust_test_command_seconds": 0.14,
+          "focused_harness_test": "1/1 PASS",
+          "focused_harness_command_seconds": 1.17,
+          "evidence_dir": "rust/artifacts/independent-days-default-20261111/",
+          "live_report_sha256": "7bd47e5ca8d02e9b33cc3e64ecac4f54da2a0df8e0b1402ad7876bc8413b5bd5"
+        },
+        "oracle_integrity": "verified before and after independent verification",
+        "cumulative_gate": "DUE_AFTER_THIS_EXPANSION",
+        "requested_model": "gpt-6-luna",
+        "requested_effort": "low",
+        "runtime_model_metadata": "unavailable"
       }
     },
     {
@@ -13017,13 +13078,13 @@
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "report": "rust/artifacts/release-workflow-latest-deps-gate-20261112.json",
-    "report_sha256": "74d98416f86e536aa4150768e20f00f18b48caf778bd87dd3d34ccdea5810b14",
-    "run_id": "20261111T143708432188Z-61b4e9d4",
+    "report": "rust/artifacts/default-dispatch-checkpoint-20261111.json",
+    "report_sha256": "80aa68daefa6e5e5c4003acf14b897c6d96404ac4990f11201dc07d57e42f070",
+    "run_id": "20261111T161457339966Z-1497cad5",
     "profile": "release",
     "capability_count": 153,
-    "accepted_case_count": 1464,
-    "manifest_case_count": 1475,
+    "accepted_case_count": 1468,
+    "manifest_case_count": 1479,
     "excluded_manifest_case_count": 11,
     "counts": {
       "BLOCKED": 0,
@@ -13031,29 +13092,31 @@
       "MISMATCH": 0,
       "NOT_IMPLEMENTED": 0,
       "ORACLE_ERROR": 0,
-      "PASS": 1464,
+      "PASS": 1468,
       "TIMEOUT": 0
     },
-    "source_fingerprint": "8fc5bb76d0770f62dd3800ec07f1699d3f0f86eb8ca7a7d58056534e0d457c69",
+    "source_fingerprint": "4e40ba078c62e15207eb66ad97d7c0e59070449205588e243077c4e65e81d330",
     "candidate_sha256": "db84fad888596055f13c5dd21b00de393ca3e0e2e5a01e43ba00ef6a9a07ac20",
     "cargo_lock_sha256": "71e0eaa2629ee98f770a155cd73dad9a6dd31947cc9ea9e5312b533fd70a6a03",
-    "build_attestation": "rust/artifacts/20261111T142450476975Z-build.attestation.json",
-    "build_attestation_sha256": "b96ec1c5ecd55c2338a98ee2fe189c2b9db1fa827930a33f936cea4e4a406051",
+    "build_attestation": "rust/artifacts/20261111T160021409206Z-build.attestation.json",
+    "build_attestation_sha256": "eeb4107c2e9ab548f9686c378dc59978a9ca52a6a80245b26fd6e31ec102a962",
     "gate_stage_durations_seconds": {
-      "comparator_self_tests": 0.121691,
-      "cumulative_live_comparison": 940.601911,
-      "oracle_integrity": 1.594548,
-      "rust_checks_and_build": 738.02309
+      "comparator_self_tests": 0.140222,
+      "cumulative_live_comparison": 1129.074147,
+      "oracle_integrity": 2.208829,
+      "rust_checks_and_build": 876.027701
     },
-    "gate_total_duration_seconds": 1680.789618,
+    "gate_total_duration_seconds": 2008.000717,
     "comparator_self_tests": "29/29 PASS",
     "rust_test_targets": 145,
     "rust_tests_passed": 923,
     "rust_tests_failed": 0,
     "scope_matches_current_accepted_scope": true,
-    "current_accepted_case_count": 1464,
-    "current_manifest_case_count": 1475,
-    "current_scope_note": "All current accepted cases passed live against the pinned Python baseline; 11 explicitly excluded cases remain outside the accepted scope."
+    "current_accepted_case_count": 1468,
+    "current_manifest_case_count": 1479,
+    "current_tree_fingerprint_matches_gate": false,
+    "post_gate_source_change": "Only rust/harness/tests/test_compare.py manifest-size and case-ID digest invariants were updated from the prior 1475-case manifest to the new 1479-case manifest; no oracle outputs, comparator policy, manifest, or Rust behavior changed.",
+    "current_scope_note": "All 1468 accepted cases passed live against the pinned Python baseline; 11 explicit exclusions remain. The gate source fingerprint precedes the test-only inventory assertion update and is retained as historical evidence."
   },
   "rust_dependencies": {
     "status": "latest_for_pinned_toolchain",
@@ -13644,17 +13707,19 @@
   },
   "latest_full_harness_suite": {
     "status": "PASS",
-    "duration_seconds": 76.152,
-    "test_count": 146,
-    "tests_passed": 146,
-    "source_fingerprint": "bc01cacf2b2725dd92e6e9bb38347e9a50370abff94ecb7c94596c7ec0ce7a2a",
-    "attestation": "rust/artifacts/20261111T115449157874Z-build.attestation.json",
-    "evidence": "rust/artifacts/full-harness-suite-20261111-default-dispatch.log",
-    "evidence_sha256": "f675567f2d50fa6205d1c9f07e0c0065aee49cddbf697ae5cbc8c8a69c86c651",
-    "matches_current_source_fingerprint": true,
-    "runtime_independence": "PASS",
-    "runtime_independence_report": "rust/artifacts/runtime-independence-20261111T122619Z-3777773.json",
-    "runtime_independence_report_sha256": "ffc574541e1e525ffbc26e92ada9ebe4e8f4ad58f07183120ebaf0d0563e1dec"
+    "test_count": 149,
+    "failed": 0,
+    "duration_seconds": 74.484,
+    "command": "python3 -m unittest discover -s rust/harness/tests -p 'test_*.py' -v",
+    "log": "rust/artifacts/default-dispatch-checkpoint-harness-20261111/unittest-rerun.log",
+    "log_sha256": "c89e442dbf978e526365853e6f606abbe01a10bb685a57a975168e1605381fe4",
+    "timing": "rust/artifacts/default-dispatch-checkpoint-harness-20261111/timing-rerun.txt",
+    "timing_sha256": "80cd264c90dbf2a30005a518dec7ca32814a36645cec7078ea8416aab3ea74de",
+    "runtime_independence": "PASS 1/1 using current-source focused build attestation",
+    "runtime_independence_report": "rust/artifacts/runtime-independence-20261111T164222Z-3912075.json",
+    "current_source_fingerprint": "082fbee513e6196edc058eeca512194df7ae948a8db613197c6690bc24d46d74",
+    "focused_build_attestation": "rust/artifacts/20261111T164045722664Z-build.attestation.json",
+    "focused_build_attestation_sha256": "05e178b6e912e0311f20a1248f3a480c2bb0d91fcd534cb824f0b5530141d436"
   },
   "latest_release_gate_attempt": {
     "status": "PASS",
@@ -14371,26 +14436,39 @@
         "report_sha256": "b838350cc404baeae334b49aa54973a2264643b4bc251fe2d34d63ecbb46f08a",
         "source_fingerprint": "500e7e6657f27cb9261f9dd6197afd0ffce68c203d8357ec663844a9c09c63f0",
         "candidate_attestation": "rust/artifacts/20261111T153959923393Z-build.attestation.json"
+      },
+      "rule.misc.capitalization.days": {
+        "status": "PASS",
+        "passed": 2,
+        "total": 2,
+        "case_ids": [
+          "capitalization_days_no_config_default_positive",
+          "capitalization_days_no_config_default_clean"
+        ],
+        "report": "rust/artifacts/independent-days-default-20261111/live-report.json",
+        "report_sha256": "7bd47e5ca8d02e9b33cc3e64ecac4f54da2a0df8e0b1402ad7876bc8413b5bd5",
+        "source_fingerprint": "4e40ba078c62e15207eb66ad97d7c0e59070449205588e243077c4e65e81d330",
+        "candidate_attestation": "rust/artifacts/20261111T155357595741Z-build.attestation.json"
       }
     },
-    "accepted_case_count": 1466,
-    "manifest_case_count": 1477,
-    "latest_full_gate_case_count": 1464,
-    "cumulative_checkpoint_due_after": "one more accepted default-dispatch expansion; then run the full cumulative gate",
+    "accepted_case_count": 1468,
+    "manifest_case_count": 1479,
+    "latest_full_gate_case_count": 1468,
+    "cumulative_checkpoint_due_after": "checkpoint passed at 1468/1479; continue next default-dispatch expansion",
     "default_enabled_unique_paths": 93,
-    "paths_without_no_config_positive_finding_in_prior_scope": 68,
-    "current_paths_without_positive_no_config_evidence": 45,
-    "owner_focused_live_cases_passed": 9,
-    "independent_live_cases_passed": 9,
-    "candidate_attestation": "rust/artifacts/20261111T153959923393Z-build.attestation.json",
+    "paths_without_no_config_positive_finding_in_prior_scope": 67,
+    "current_paths_without_positive_no_config_evidence": 44,
+    "owner_focused_live_cases_passed": 14,
+    "independent_live_cases_passed": 14,
+    "candidate_attestation": "rust/artifacts/20261111T155357595741Z-build.attestation.json",
     "candidate_sha256": "db84fad888596055f13c5dd21b00de393ca3e0e2e5a01e43ba00ef6a9a07ac20",
-    "source_fingerprint": "500e7e6657f27cb9261f9dd6197afd0ffce68c203d8357ec663844a9c09c63f0",
-    "current_candidate_gate": "Last full cumulative gate passed 1464/1475; after this independently verified direct-dispatch expansion, accepted scope is 1466/1477 (11 excluded).",
+    "source_fingerprint": "4e40ba078c62e15207eb66ad97d7c0e59070449205588e243077c4e65e81d330",
+    "current_candidate_gate": "PASS: 1468/1468 accepted cases, 153 capabilities, 11 excluded; 923 Rust tests passed.",
     "independent_summary_report": "individual current-fingerprint reports listed in latest_independent_rule_verification",
     "independent_summary_sha256": "701808ac3d7807a848ab131051290a26be2dda56bcd3afee17e7d32a2c0c2eb9",
-    "last_gate_report": "rust/artifacts/release-candidate-gate-20261111-default-dispatch.json",
-    "last_gate_report_sha256": "3b4a456cfed18bc78b33d2c43ffa9640fa996d92240b6dcebacdf73a53679568",
-    "direct_positive_default_enabled_paths": 48
+    "last_gate_report": "rust/artifacts/default-dispatch-checkpoint-20261111.json",
+    "last_gate_report_sha256": "80aa68daefa6e5e5c4003acf14b897c6d96404ac4990f11201dc07d57e42f070",
+    "direct_positive_default_enabled_paths": 49
   },
   "latest_focused_default_dispatch_acceptance": {
     "status": "PASS",
@@ -14860,59 +14938,213 @@
     ],
     "claim_limit": "Selected rules and three workloads on one Linux x86_64 host; not whole-program or universal performance."
   },
-  "next_task": "Add no-config positive and clean-control coverage for rule.misc.capitalization.days. If focused owner and independent live checks pass, run the due cumulative release gate (accepted scope should be 1468/1479). Preserve the pinned baseline and 11 existing exclusions.",
+  "next_task": "Investigate and add direct no-config positive/clean-control coverage for the already implemented default-enabled misc.capitalization.months path. Continue the 5\u201310 capability checkpoint cadence and preserve the 11 explicit exclusions.",
   "latest_default_dispatch_extension": {
     "status": "independently_verified",
-    "scope": "Added two direct no-config default-dispatch cases to the already-recorded rule; no production Rust change.",
+    "scope": "Added one no-config default-enabled positive and one title-case clean control to the already-recorded rule; no production Rust change.",
     "case_ids": [
-      "misc_illogic_coin_no_config_default_dispatch",
-      "misc_illogic_coin_no_config_clean_control"
+      "capitalization_days_no_config_default_positive",
+      "capitalization_days_no_config_default_clean"
     ],
     "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
     "red": {
-      "command": "python3 -m unittest rust/harness/tests/test_compare.py -k illogic_coin_default_dispatch_cases_use_implicit_configuration",
+      "command": "python3 -m unittest rust/harness/tests/test_compare.py -k capitalization_days_default_dispatch_cases_use_implicit_configuration -v",
       "exit_code": 1,
-      "duration_seconds": 0.353,
-      "failure": "Both expected new manifest case IDs absent."
+      "duration_seconds": null,
+      "duration_note": "not captured",
+      "failure": "Expected case IDs were absent; test observed dict_keys([]) versus the two new IDs."
     },
     "green": {
-      "command": "python3 -m unittest rust/harness/tests/test_compare.py -k illogic_coin_default_dispatch_cases_use_implicit_configuration",
+      "command": "python3 -m unittest rust/harness/tests/test_compare.py -k capitalization_days_default_dispatch_cases_use_implicit_configuration -v",
       "exit_code": 0,
-      "duration_seconds": 0.466,
-      "focused_contract_tests": "2 PASS"
-    },
-    "superseded_attempt": {
-      "profile": "dev",
-      "status": "7 PASS, 2 candidate TIMEOUT",
-      "note": "Rerun with release profile; manifest deadlines remained 10 seconds."
+      "duration_seconds": 0.374,
+      "focused_contract_tests": "1 PASS"
     },
     "owner_live": {
       "status": "PASS",
-      "passed_cases": 9,
+      "passed_cases": 14,
+      "mismatch_cases": 0,
       "timeout_cases": 0,
-      "duration_seconds": 12.001012,
-      "report": "rust/artifacts/coin-default-dispatch-release-live-20261111.json",
-      "report_sha256": "6c3d4a40d56dda119772bcf449dc85306d808ff80843b68bff4dd5fb5f77045d"
+      "duration_seconds": 14.3,
+      "report": "rust/artifacts/capitalization-days-default-dispatch-final2.json",
+      "report_sha256": "b6c6a3c2877b8cf9a478b4c6c4dbc9344f1b800007056e27248ce516aa2f7f12"
     },
-    "candidate_attestation": "rust/artifacts/20261111T153959923393Z-build.attestation.json",
-    "candidate_attestation_sha256": "6f3b5fddd19130daca64b9ea833d9fd960d97860390682071c5afd1f88d7e984",
-    "source_fingerprint": "500e7e6657f27cb9261f9dd6197afd0ffce68c203d8357ec663844a9c09c63f0",
+    "focused_rust_test": {
+      "status": "PASS",
+      "passed": "10/10",
+      "command": "cargo test --locked --manifest-path rust/Cargo.toml --test capitalization_days",
+      "duration_seconds": 32.54
+    },
+    "candidate_attestation": "rust/artifacts/20261111T155357595741Z-build.attestation.json",
+    "candidate_attestation_sha256": "fbd4f2ad59309c6665c4ab598b7c62393f130c68d51a88ce3377cb8245865bd8",
+    "source_fingerprint": "4e40ba078c62e15207eb66ad97d7c0e59070449205588e243077c4e65e81d330",
     "candidate_sha256": "db84fad888596055f13c5dd21b00de393ca3e0e2e5a01e43ba00ef6a9a07ac20",
     "independent_verification": {
       "status": "PASS",
-      "passed_cases": 9,
+      "passed_cases": 14,
+      "mismatches": 0,
       "timeouts": 0,
-      "live_seconds": 12.718475,
-      "rust_test": "7/7 PASS in 111.939s",
-      "focused_harness_test": "1/1 PASS in 10.844s",
-      "evidence_dir": "rust/artifacts/independent-coin-default-20261111/",
-      "execution_summary_sha256": "fc374981306734fab49288a13b523dfe157384136093de7821658be77de7a9df",
-      "live_report_sha256": "b838350cc404baeae334b49aa54973a2264643b4bc251fe2d34d63ecbb46f08a"
+      "live_seconds": 19.443,
+      "rust_test": "10/10 PASS",
+      "rust_test_command_seconds": 0.14,
+      "focused_harness_test": "1/1 PASS",
+      "focused_harness_command_seconds": 1.17,
+      "evidence_dir": "rust/artifacts/independent-days-default-20261111/",
+      "live_report_sha256": "7bd47e5ca8d02e9b33cc3e64ecac4f54da2a0df8e0b1402ad7876bc8413b5bd5"
     },
     "oracle_integrity": "verified before and after independent verification",
-    "cumulative_gate": "SKIPPED_NOT_DUE",
-    "runtime_model_metadata": "unavailable",
+    "cumulative_gate": "DUE_AFTER_THIS_EXPANSION",
     "requested_model": "gpt-6-luna",
-    "requested_effort": "low"
+    "requested_effort": "low",
+    "runtime_model_metadata": "unavailable"
+  },
+  "latest_demo_json_blocker_review": {
+    "capability_id": "cli.demo.json",
+    "case_id": "cli_demo_json_selected_rule",
+    "status": "BLOCKED_EXACT_PATH_CONTRACT",
+    "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+    "observed_difference": "Pinned Python JSON source key is the installed package demo.md file URI; Rust reports demo.md for embedded input. Diagnostic payload and exit status match.",
+    "review": "Sol low-effort bounded review confirms there is no portable exact solution from current inputs without querying Python installation metadata, hardcoding a host path, or changing the output contract.",
+    "requested_model": "gpt-6.1-sol",
+    "requested_effort": "low",
+    "runtime_model_metadata": "unavailable",
+    "required_evidence": "Fresh live oracle output and source analysis of config/paths.py, command_line.py and log.py; Rust embeds rust/data/demo.md.",
+    "expectations_or_normalizers_changed": false
+  },
+  "default_dispatch_extension_history": [
+    {
+      "status": "independently_verified",
+      "scope": "Added two direct no-config default-dispatch cases to the already-recorded rule; no production Rust change.",
+      "case_ids": [
+        "misc_illogic_coin_no_config_default_dispatch",
+        "misc_illogic_coin_no_config_clean_control"
+      ],
+      "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+      "red": {
+        "command": "python3 -m unittest rust/harness/tests/test_compare.py -k illogic_coin_default_dispatch_cases_use_implicit_configuration",
+        "exit_code": 1,
+        "duration_seconds": 0.353,
+        "failure": "Both expected new manifest case IDs absent."
+      },
+      "green": {
+        "command": "python3 -m unittest rust/harness/tests/test_compare.py -k illogic_coin_default_dispatch_cases_use_implicit_configuration",
+        "exit_code": 0,
+        "duration_seconds": 0.466,
+        "focused_contract_tests": "2 PASS"
+      },
+      "superseded_attempt": {
+        "profile": "dev",
+        "status": "7 PASS, 2 candidate TIMEOUT",
+        "note": "Rerun with release profile; manifest deadlines remained 10 seconds."
+      },
+      "owner_live": {
+        "status": "PASS",
+        "passed_cases": 9,
+        "timeout_cases": 0,
+        "duration_seconds": 12.001012,
+        "report": "rust/artifacts/coin-default-dispatch-release-live-20261111.json",
+        "report_sha256": "6c3d4a40d56dda119772bcf449dc85306d808ff80843b68bff4dd5fb5f77045d"
+      },
+      "candidate_attestation": "rust/artifacts/20261111T153959923393Z-build.attestation.json",
+      "candidate_attestation_sha256": "6f3b5fddd19130daca64b9ea833d9fd960d97860390682071c5afd1f88d7e984",
+      "source_fingerprint": "500e7e6657f27cb9261f9dd6197afd0ffce68c203d8357ec663844a9c09c63f0",
+      "candidate_sha256": "db84fad888596055f13c5dd21b00de393ca3e0e2e5a01e43ba00ef6a9a07ac20",
+      "independent_verification": {
+        "status": "PASS",
+        "passed_cases": 9,
+        "timeouts": 0,
+        "live_seconds": 12.718475,
+        "rust_test": "7/7 PASS in 111.939s",
+        "focused_harness_test": "1/1 PASS in 10.844s",
+        "evidence_dir": "rust/artifacts/independent-coin-default-20261111/",
+        "execution_summary_sha256": "fc374981306734fab49288a13b523dfe157384136093de7821658be77de7a9df",
+        "live_report_sha256": "b838350cc404baeae334b49aa54973a2264643b4bc251fe2d34d63ecbb46f08a"
+      },
+      "oracle_integrity": "verified before and after independent verification",
+      "cumulative_gate": "SKIPPED_NOT_DUE",
+      "runtime_model_metadata": "unavailable",
+      "requested_model": "gpt-6-luna",
+      "requested_effort": "low"
+    },
+    {
+      "status": "independently_verified",
+      "scope": "Added one no-config default-enabled positive and one title-case clean control to the already-recorded rule; no production Rust change.",
+      "case_ids": [
+        "capitalization_days_no_config_default_positive",
+        "capitalization_days_no_config_default_clean"
+      ],
+      "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+      "red": {
+        "command": "python3 -m unittest rust/harness/tests/test_compare.py -k capitalization_days_default_dispatch_cases_use_implicit_configuration -v",
+        "exit_code": 1,
+        "duration_seconds": null,
+        "duration_note": "not captured",
+        "failure": "Expected case IDs were absent; test observed dict_keys([]) versus the two new IDs."
+      },
+      "green": {
+        "command": "python3 -m unittest rust/harness/tests/test_compare.py -k capitalization_days_default_dispatch_cases_use_implicit_configuration -v",
+        "exit_code": 0,
+        "duration_seconds": 0.374,
+        "focused_contract_tests": "1 PASS"
+      },
+      "owner_live": {
+        "status": "PASS",
+        "passed_cases": 14,
+        "mismatch_cases": 0,
+        "timeout_cases": 0,
+        "duration_seconds": 14.3,
+        "report": "rust/artifacts/capitalization-days-default-dispatch-final2.json",
+        "report_sha256": "b6c6a3c2877b8cf9a478b4c6c4dbc9344f1b800007056e27248ce516aa2f7f12"
+      },
+      "focused_rust_test": {
+        "status": "PASS",
+        "passed": "10/10",
+        "command": "cargo test --locked --manifest-path rust/Cargo.toml --test capitalization_days",
+        "duration_seconds": 32.54
+      },
+      "candidate_attestation": "rust/artifacts/20261111T155357595741Z-build.attestation.json",
+      "candidate_attestation_sha256": "fbd4f2ad59309c6665c4ab598b7c62393f130c68d51a88ce3377cb8245865bd8",
+      "source_fingerprint": "4e40ba078c62e15207eb66ad97d7c0e59070449205588e243077c4e65e81d330",
+      "candidate_sha256": "db84fad888596055f13c5dd21b00de393ca3e0e2e5a01e43ba00ef6a9a07ac20",
+      "independent_verification": {
+        "status": "PASS",
+        "passed_cases": 14,
+        "mismatches": 0,
+        "timeouts": 0,
+        "live_seconds": 19.443,
+        "rust_test": "10/10 PASS",
+        "rust_test_command_seconds": 0.14,
+        "focused_harness_test": "1/1 PASS",
+        "focused_harness_command_seconds": 1.17,
+        "evidence_dir": "rust/artifacts/independent-days-default-20261111/",
+        "live_report_sha256": "7bd47e5ca8d02e9b33cc3e64ecac4f54da2a0df8e0b1402ad7876bc8413b5bd5"
+      },
+      "oracle_integrity": "verified before and after independent verification",
+      "cumulative_gate": "DUE_AFTER_THIS_EXPANSION",
+      "requested_model": "gpt-6-luna",
+      "requested_effort": "low",
+      "runtime_model_metadata": "unavailable"
+    }
+  ],
+  "latest_full_harness_suite_failed_attempt": {
+    "status": "FAIL_THEN_FIXED",
+    "tests": 149,
+    "failed": 2,
+    "duration_seconds": 73.43,
+    "log": "rust/artifacts/default-dispatch-checkpoint-harness-20261111/unittest.log",
+    "log_sha256": "e3d3185f939175f592f97c4d9ddc58ad685d9e83039fc1fe887c16a0ce13060c",
+    "causes": [
+      "manifest count/digest assertion retained 1475-case inventory after four accepted cases were added",
+      "runtime independence selected stale last_strict_gate attestation; rerun used a fresh focused candidate build attestation"
+    ]
+  },
+  "current_source_attestation": {
+    "status": "PASS",
+    "validation_scope": "focused_candidate_build",
+    "source_fingerprint": "082fbee513e6196edc058eeca512194df7ae948a8db613197c6690bc24d46d74",
+    "attestation": "rust/artifacts/20261111T164045722664Z-build.attestation.json",
+    "attestation_sha256": "05e178b6e912e0311f20a1248f3a480c2bb0d91fcd534cb824f0b5530141d436",
+    "binary_sha256": "db84fad888596055f13c5dd21b00de393ca3e0e2e5a01e43ba00ef6a9a07ac20",
+    "runtime_independence": "PASS 1/1"
   }
 }

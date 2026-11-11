@@ -264,6 +264,34 @@ fn no_config_found_enables_false_plurals_misc() {
 }
 
 #[test]
+fn no_config_found_enables_not_guilty() {
+    let positive =
+        Workspace::new().run(b"A jury found the defendant not guilty beyond a reasonable doubt.");
+    assert_eq!(
+        positive.status.code(),
+        Some(1),
+        "stderr: {:?}",
+        positive.stderr
+    );
+    assert_eq!(
+        positive.stdout,
+        b"<stdin>:1:28: misc.not_guilty: 'not guilty beyond a reasonable doubt' is an ambiguous phrasing.\n"
+    );
+    assert!(positive.stderr.is_empty(), "stderr: {:?}", positive.stderr);
+
+    let control =
+        Workspace::new().run(b"The jury returned its verdict after reviewing the evidence.");
+    assert_eq!(
+        control.status.code(),
+        Some(0),
+        "stderr: {:?}",
+        control.stderr
+    );
+    assert!(control.stdout.is_empty(), "stdout: {:?}", control.stdout);
+    assert!(control.stderr.is_empty(), "stderr: {:?}", control.stderr);
+}
+
+#[test]
 fn no_config_found_enables_cliches_hell_and_hedging() {
     let cases = [
         (

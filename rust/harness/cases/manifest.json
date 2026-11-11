@@ -47023,6 +47023,58 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "not_guilty_no_config_default_dispatch",
+      "capability_id": "rule.misc.not_guilty",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/not_guilty.py registers misc.not_guilty and the bundled default config enables misc. Positive and clean-control outputs were probed live against the pinned Python executable and attested Rust release candidate.",
+      "input_mode": "stdin",
+      "stdin_base64": "QSBqdXJ5IGZvdW5kIHRoZSBkZWZlbmRhbnQgbm90IGd1aWx0eSBiZXlvbmQgYSByZWFzb25hYmxlIGRvdWJ0Lg==",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "not_guilty_no_config_clean_control",
+      "capability_id": "rule.misc.not_guilty",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/not_guilty.py registers misc.not_guilty and the bundled default config enables misc. Positive and clean-control outputs were probed live against the pinned Python executable and attested Rust release candidate.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlIGp1cnkgcmV0dXJuZWQgaXRzIHZlcmRpY3QgYWZ0ZXIgcmV2aWV3aW5nIHRoZSBldmlkZW5jZS4=",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

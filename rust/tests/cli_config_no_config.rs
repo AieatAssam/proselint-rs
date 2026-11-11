@@ -238,6 +238,32 @@ fn no_config_found_enables_apologizing() {
 }
 
 #[test]
+fn no_config_found_enables_false_plurals_misc() {
+    let positive = Workspace::new().run(b"There were several phenomenons.");
+    assert_eq!(
+        positive.status.code(),
+        Some(1),
+        "stderr: {:?}",
+        positive.stderr
+    );
+    assert_eq!(
+        positive.stdout,
+        b"<stdin>:1:20: misc.false_plurals.misc: The correct plural is 'phenomena'.\n"
+    );
+    assert!(positive.stderr.is_empty(), "stderr: {:?}", positive.stderr);
+
+    let control = Workspace::new().run(b"There were several phenomena.");
+    assert_eq!(
+        control.status.code(),
+        Some(0),
+        "stderr: {:?}",
+        control.stderr
+    );
+    assert_eq!(control.stdout, b"");
+    assert!(control.stderr.is_empty(), "stderr: {:?}", control.stderr);
+}
+
+#[test]
 fn no_config_found_enables_cliches_hell_and_hedging() {
     let cases = [
         (

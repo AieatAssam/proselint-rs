@@ -1,8 +1,8 @@
 # Python and Rust benchmark
 
-## Current release candidate (2026-11-11)
+## Earlier release candidate (2026-11-11 03:56 UTC)
 
-The candidate passed the accepted-scope release gate at **1,432/1,432 cases across 153 capabilities** before measurement. Both profiles passed exact live parity preflight **3/3** against pinned Proselint 0.16.0, revision `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`. Source fingerprint: `cb5262bf3e58c7207879a9c8de08dfdbb40d20cd7eaf1022e75ed1054a0093e2`; binary SHA-256: `2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24`; build attestation: [`20261111T035653523505Z-build.attestation.json`](../artifacts/20261111T035653523505Z-build.attestation.json), SHA-256 `2309de6623947a0e5c64b7957486d9c96faabd88c42ca1193b8cf853df7d0692`. Host: Linux x86_64, four reported CPUs; pinned Python 3.12.3. Each profile used 25 paired samples per workload, 3 warmups, and a 1,800-second overall deadline.
+This section records an earlier checkpoint and is superseded by the current verified release candidate section below. The candidate passed the accepted-scope release gate at **1,432/1,432 cases across 153 capabilities** before measurement. Both profiles passed exact live parity preflight **3/3** against pinned Proselint 0.16.0, revision `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`. Source fingerprint: `cb5262bf3e58c7207879a9c8de08dfdbb40d20cd7eaf1022e75ed1054a0093e2`; binary SHA-256: `2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24`; build attestation: [`20261111T035653523505Z-build.attestation.json`](../artifacts/20261111T035653523505Z-build.attestation.json), SHA-256 `2309de6623947a0e5c64b7957486d9c96faabd88c42ca1193b8cf853df7d0692`. Host: Linux x86_64, four reported CPUs; pinned Python 3.12.3. Each profile used 25 paired samples per workload, 3 warmups, and a 1,800-second overall deadline.
 
 ### Isolated `misc.suddenly`
 
@@ -119,3 +119,15 @@ After the current cumulative live gate passed, the combined selected-rule profil
 | `combined_dense_generated` | 237.440 ms | 15.071 ms | 25 |
 
 This is a fresh-process CLI comparison for the selected combined rules on the three listed workloads. It does not establish whole-program or universal speedup. Per-process RSS was unavailable because the harness has no process-attributed RSS sampler.
+
+## 2026-11-11: current verified release candidate
+
+The accepted-scope cumulative release gate passed **1,446/1,446 cases across 153 capabilities** before timing. Candidate fingerprint: `5d37323e3e8d891dff2d53e8929641d74cb809e111d6d36534fbb27224b501f0`; release binary SHA-256: `2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24`. Baseline: Proselint 0.16.0, revision `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`, Python 3.12.3. Host: Linux x86_64, four reported CPUs. Rust toolchain: 1.99.1. The selected combined CLI workload passed exact live parity preflight **3/3**. The benchmark completed in 34.745s under the 1,800-second overall deadline, with 25 paired fresh-process samples and three warmups per workload. Fresh-process timing includes process startup, configuration and file reads, scanning, serialization, and output capture.
+
+| Workload | Input | Python median | Rust median | Paired samples |
+|---|---:|---:|---:|---:|
+| `combined_small` | benchmark profile input | 195.162 ms | 4.389 ms | 25 |
+| `combined_ordinary_generated` | benchmark profile input | 205.735 ms | 6.858 ms | 25 |
+| `combined_dense_generated` | benchmark profile input | 234.790 ms | 14.807 ms | 25 |
+
+The full report includes raw paired samples, workload hashes, exact commands, environment, and spread: [`release-candidate-benchmark-20261111.json`](../artifacts/release-candidate-benchmark-20261111.json), SHA-256 `a9837eb924f29408c1fa084ea29eba1778aff77998b114d29e014c452e91479e`. RSS was unavailable because the harness has no per-process sampler. These are selected configurations and workloads; no whole-program or universal speed claim follows.

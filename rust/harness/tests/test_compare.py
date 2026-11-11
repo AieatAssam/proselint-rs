@@ -22,6 +22,30 @@ import setup_oracle
 
 
 class ComparatorTests(unittest.TestCase):
+    def test_back_formations_no_config_default_dispatch_contract(self) -> None:
+        expected = {
+            "back_formations_no_config_default_dispatch": (
+                "It is an improprietous use.", "findings",
+            ),
+            "back_formations_no_config_clean_control": (
+                "x_improprietous improprietousish", "clean",
+            ),
+        }
+        cases = {
+            case["id"]: case for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "rule.misc.back_formations"
+            and case.get("config_scenario") == "no_config_default"
+        }
+        self.assertEqual(set(cases), set(expected))
+        for case_id, (text, outcome) in expected.items():
+            with self.subTest(case=case_id):
+                case = cases[case_id]
+                self.assertEqual(base64.b64decode(case["stdin_base64"]).decode(), text)
+                self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+                self.assertEqual(case["expected_oracle_outcome"], outcome)
+                self.assertEqual(case["timeout_seconds"], 10)
+                self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
+
     def test_currency_no_config_default_dispatch_cases(self) -> None:
         expected = {
             "currency_no_config_default_dispatch": ("The price is $1 usd.", "findings"),
@@ -1663,7 +1687,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1489)
+        self.assertEqual(len(case_ids), 1493)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -1672,7 +1696,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "680c065eb10b078781cadfd4d34b2fe1a158ed089f3c30373a0cd7aa9712cd64",
+            "fe436255879386bb2f29e4d031887576e66d7f63324a84801529831ec2d07949",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),

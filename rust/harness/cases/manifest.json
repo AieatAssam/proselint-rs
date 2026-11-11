@@ -3720,6 +3720,38 @@
       }
     },
     {
+      "id": "back_formations_no_config_default_dispatch",
+      "capability_id": "rule.misc.back_formations",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/back_formations.py; the positive dispatches from the bundled default config, where other enabled rules also report this nonword. Exact output captured from the pinned Python CLI without an explicit config.",
+      "input_mode": "stdin",
+      "stdin_base64": "SXQgaXMgYW4gaW1wcm9wcmlldG91cyB1c2Uu",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "back_formations_no_config_clean_control",
+      "capability_id": "rule.misc.back_formations",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/back_formations.py; underscore and adjacent letters prevent a back_formations match under bundled defaults. Exact output captured from the pinned Python CLI without an explicit config.",
+      "input_mode": "stdin",
+      "stdin_base64": "eF9pbXByb3ByaWV0b3VzIGltcHJvcHJpZXRvdXNpc2g=",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
       "id": "institution_name_positive_context",
       "capability_id": "rule.misc.institution_name",
       "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Positive upstream example in ordinary context; the CLI returns the preferred institutional name and exact span. Sources: checks/misc/institution_name.py; registry/checks/types.py:PreferredFormsSimple; registry/checks/engine.py:Padding.WORDS_IN_TEXT and Fast.",

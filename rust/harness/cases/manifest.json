@@ -47760,6 +47760,58 @@
         "exit_status": "exact"
       },
       "stdin_base64": "SW4gcmVjZW50IHllYXJzLCBhbiBpbmNyZWFzaW5nIG51bWJlciBvZiBBSSBzY2llbnRpc3RzIGhhdmUgYXBwZWFyZWQu"
+    },
+    {
+      "id": "inferior_superior_no_config_default_dispatch",
+      "capability_id": "rule.misc.inferior_superior",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/inferior_superior.py registers this check and the bundled default config enables misc. The pinned live CLI reports the exact no-config outcome for this input.",
+      "input_mode": "stdin",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "QSBpcyBpbmZlcmlvciB0aGFuIEIu"
+    },
+    {
+      "id": "inferior_superior_no_config_clean_control",
+      "capability_id": "rule.misc.inferior_superior",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/inferior_superior.py registers this check and the bundled default config enables misc. The pinned live CLI returns no findings for the preferred forms without explicit config.",
+      "input_mode": "stdin",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "aW5mZXJpb3IgdG87IHN1cGVyaW9yIHRvLg=="
     }
   ]
 }

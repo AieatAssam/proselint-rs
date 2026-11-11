@@ -22,6 +22,26 @@ import setup_oracle
 
 
 class ComparatorTests(unittest.TestCase):
+    def test_inferior_superior_no_config_default_dispatch_cases(self) -> None:
+        expected = {
+            "inferior_superior_no_config_default_dispatch": ("A is inferior than B.", "findings"),
+            "inferior_superior_no_config_clean_control": ("inferior to; superior to.", "clean"),
+        }
+        cases = {
+            case["id"]: case for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "rule.misc.inferior_superior"
+            and case.get("config_scenario") == "no_config_default"
+        }
+        self.assertEqual(set(cases), set(expected))
+        for case_id, (text, outcome) in expected.items():
+            with self.subTest(case=case_id):
+                case = cases[case_id]
+                self.assertEqual(base64.b64decode(case["stdin_base64"]).decode(), text)
+                self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+                self.assertEqual(case["expected_oracle_outcome"], outcome)
+                self.assertEqual(case["timeout_seconds"], 10)
+                self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
+
     def test_back_formations_no_config_default_dispatch_contract(self) -> None:
         expected = {
             "back_formations_no_config_default_dispatch": (
@@ -1687,7 +1707,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1493)
+        self.assertEqual(len(case_ids), 1495)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -1696,7 +1716,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "fe436255879386bb2f29e4d031887576e66d7f63324a84801529831ec2d07949",
+            "6cac7e138837d6edf3ec60038e40c8f5996ab8bd13e8539c6b11d4e14e4cc122",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),

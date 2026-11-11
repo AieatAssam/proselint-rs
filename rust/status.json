@@ -13111,11 +13111,11 @@
     },
     "oracle_integrity": "verified; executable SHA b5f88a67377a8f3c32e1bffc41ca96fd8c111b127427459ffb2184e74c99af77; installed projection 6e6b1a625b7bf776549975cfd2d312d21906e5e6a96173d69c7596bbcc64d849",
     "scope_matches_current_accepted_scope": false,
-    "current_tree_fingerprint_matches_gate": true,
+    "current_tree_fingerprint_matches_gate": false,
     "compatibility_claim": "Partial only; 11 explicit exclusions remain.",
     "current_accepted_case_count": 1482,
     "current_manifest_case_count": 1493,
-    "current_scope_note": "The latest cumulative gate passed 1478/1489. Currency and back_formations have since independently passed focused live parity; current accepted focused-live scope is 1482/1493 with 11 explicit exclusions."
+    "current_scope_note": "Latest cumulative gate passed 1478/1489 before focused currency, back_formations, and inferior_superior coverage. Current accepted focused-live scope is 1482/1493 with 11 explicit exclusions. A test-only case inventory count/digest assertion was updated from 1493 to 1495 during verification; the latest full harness suite predates this invariant-only change and will be rerun at the next checkpoint."
   },
   "rust_dependencies": {
     "status": "latest_for_pinned_toolchain",
@@ -14849,7 +14849,7 @@
     ],
     "claim_limit": "Selected rules and three workloads on one Linux x86_64 host; not whole-program or universal performance."
   },
-  "next_task": "Continue no-config default-dispatch coverage for an implemented, default-enabled capability absent from direct coverage; next candidate misc.inferior_superior.",
+  "next_task": "Continue focused direct no-config coverage for default-enabled `misc.metadiscourse`, then `misc.pretension`, before the next cumulative gate/full harness checkpoint.",
   "latest_default_dispatch_extension": {
     "status": "independently_verified",
     "scope": "Added one no-config default-enabled positive and one title-case clean control to the already-recorded rule; no production Rust change.",
@@ -15402,6 +15402,67 @@
       "runtime_model_metadata": "unavailable",
       "expectations_or_comparison_changed": false,
       "cumulative_gate": "NOT_DUE; two focused direct-dispatch capabilities added since the 1478/1489 cumulative checkpoint"
+    },
+    {
+      "status": "independently_verified_after_manifest_invariant_fix",
+      "scope": "Added two direct no-config default-dispatch cases to already implemented `rule.misc.inferior_superior`; no production Rust change.",
+      "case_ids": [
+        "inferior_superior_no_config_default_dispatch",
+        "inferior_superior_no_config_clean_control"
+      ],
+      "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+      "red": {
+        "status": "FAIL_EXPECTED_MISSING_CASES",
+        "focused_contract": "initially failed because both new case IDs were absent"
+      },
+      "green": {
+        "status": "PASS",
+        "focused_contract": "1/1"
+      },
+      "manifest_identity_failure_and_fix": {
+        "failure": "Independent full comparator module found stale test_real_manifest_schema_and_unique_ids expecting 1493 cases while manifest had 1495.",
+        "fix": "Updated only invariant count and exact case-ID/capability digest to 1495 / 6cac7e138837d6edf3ec60038e40c8f5996ab8bd13e8539c6b11d4e14e4cc122.",
+        "focused_test": "PASS 1/1 in 0.384s",
+        "behavior_expectations_or_comparison_policy_changed": false
+      },
+      "owner_initial_live": {
+        "status": "PASS",
+        "cases": "14/14",
+        "report": "rust/artifacts/inferior-superior-default-dispatch-live.json",
+        "source_fingerprint": "7cb9534746953aabb233d86d781f0a607a8c4799085b61583a4737811e57d9e6"
+      },
+      "final_fingerprint_live": {
+        "status": "PASS",
+        "cases": "14/14",
+        "mismatches": 0,
+        "timeouts": 0,
+        "report": "rust/artifacts/inferior-superior-focused-final-20261111.json",
+        "sha256": "842317e8e0cc6b2c9e278cbb78ed45314ec9ad1513c80db372ac74b914cc4f4d",
+        "duration_seconds": 14.63
+      },
+      "focused_rust_test": {
+        "status": "PASS",
+        "cases": "12/12",
+        "command": "cargo test --locked --manifest-path rust/Cargo.toml --test misc_inferior_superior"
+      },
+      "candidate_attestation": "rust/artifacts/20261111T183616986170Z-build.attestation.json",
+      "candidate_attestation_sha256": "f03b2f3b6319a8f436ac77f4be6d1b6ebc331e5c0e293836739b5ca33dd8360e",
+      "source_fingerprint": "cb695df8425ea46865463e7c98d8450b6dc303da5c0b045639be7b5253eb716d",
+      "candidate_sha256": "db84fad888596055f13c5dd21b00de393ca3e0e2e5a01e43ba00ef6a9a07ac20",
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases": "14/14 in 14.63s",
+        "focused_harness_test": "1/1 PASS",
+        "rust_test": "12/12 PASS",
+        "comparator_self_tests": "29/29 PASS",
+        "oracle_integrity": "PASS",
+        "evidence_dir": "rust/artifacts/independent-inferior-superior-final-20261111/",
+        "oracle_source_sha256": "73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831"
+      },
+      "requested_model": "gpt-6-luna / low",
+      "runtime_model_metadata": "unavailable",
+      "expectations_or_comparison_changed": false,
+      "cumulative_gate": "NOT_DUE; three focused direct-dispatch capabilities added since 1478/1489 checkpoint"
     }
   ],
   "latest_full_harness_suite_failed_attempt": {
@@ -15418,12 +15479,12 @@
   },
   "current_source_attestation": {
     "status": "PASS",
-    "validation_scope": "full_gate_build",
-    "source_fingerprint": "6197e868ef69806a4b8924f1e0e0d9a5cec90ace4cb44a5a9322045aff56e75b",
-    "attestation": "rust/artifacts/20261111T173052453355Z-build.attestation.json",
-    "attestation_sha256": "6c363ef4a1add7a8313135be4eecd254a64e0fab61cec29849d1bfa8e6d19251",
+    "validation_scope": "focused_candidate_build",
+    "source_fingerprint": "cb695df8425ea46865463e7c98d8450b6dc303da5c0b045639be7b5253eb716d",
+    "attestation": "rust/artifacts/20261111T183616986170Z-build.attestation.json",
+    "attestation_sha256": "f03b2f3b6319a8f436ac77f4be6d1b6ebc331e5c0e293836739b5ca33dd8360e",
     "binary_sha256": "db84fad888596055f13c5dd21b00de393ca3e0e2e5a01e43ba00ef6a9a07ac20",
-    "runtime_independence": "PASS 1/1"
+    "runtime_independence": "PASS 1/1 on prior full-gate fingerprint; only manifest identity test invariant changed afterward"
   },
   "latest_no_passwd_home_blocker_review": {
     "capability_id": "cli.config.no_passwd_home",
@@ -15810,5 +15871,66 @@
     "runtime_model_metadata": "unavailable",
     "expectations_or_comparison_changed": false,
     "cumulative_gate": "NOT_DUE; two focused direct-dispatch capabilities added since the 1478/1489 cumulative checkpoint"
+  },
+  "latest_inferior_superior_default_dispatch_acceptance": {
+    "status": "independently_verified_after_manifest_invariant_fix",
+    "scope": "Added two direct no-config default-dispatch cases to already implemented `rule.misc.inferior_superior`; no production Rust change.",
+    "case_ids": [
+      "inferior_superior_no_config_default_dispatch",
+      "inferior_superior_no_config_clean_control"
+    ],
+    "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+    "red": {
+      "status": "FAIL_EXPECTED_MISSING_CASES",
+      "focused_contract": "initially failed because both new case IDs were absent"
+    },
+    "green": {
+      "status": "PASS",
+      "focused_contract": "1/1"
+    },
+    "manifest_identity_failure_and_fix": {
+      "failure": "Independent full comparator module found stale test_real_manifest_schema_and_unique_ids expecting 1493 cases while manifest had 1495.",
+      "fix": "Updated only invariant count and exact case-ID/capability digest to 1495 / 6cac7e138837d6edf3ec60038e40c8f5996ab8bd13e8539c6b11d4e14e4cc122.",
+      "focused_test": "PASS 1/1 in 0.384s",
+      "behavior_expectations_or_comparison_policy_changed": false
+    },
+    "owner_initial_live": {
+      "status": "PASS",
+      "cases": "14/14",
+      "report": "rust/artifacts/inferior-superior-default-dispatch-live.json",
+      "source_fingerprint": "7cb9534746953aabb233d86d781f0a607a8c4799085b61583a4737811e57d9e6"
+    },
+    "final_fingerprint_live": {
+      "status": "PASS",
+      "cases": "14/14",
+      "mismatches": 0,
+      "timeouts": 0,
+      "report": "rust/artifacts/inferior-superior-focused-final-20261111.json",
+      "sha256": "842317e8e0cc6b2c9e278cbb78ed45314ec9ad1513c80db372ac74b914cc4f4d",
+      "duration_seconds": 14.63
+    },
+    "focused_rust_test": {
+      "status": "PASS",
+      "cases": "12/12",
+      "command": "cargo test --locked --manifest-path rust/Cargo.toml --test misc_inferior_superior"
+    },
+    "candidate_attestation": "rust/artifacts/20261111T183616986170Z-build.attestation.json",
+    "candidate_attestation_sha256": "f03b2f3b6319a8f436ac77f4be6d1b6ebc331e5c0e293836739b5ca33dd8360e",
+    "source_fingerprint": "cb695df8425ea46865463e7c98d8450b6dc303da5c0b045639be7b5253eb716d",
+    "candidate_sha256": "db84fad888596055f13c5dd21b00de393ca3e0e2e5a01e43ba00ef6a9a07ac20",
+    "independent_verification": {
+      "status": "PASS",
+      "live_cases": "14/14 in 14.63s",
+      "focused_harness_test": "1/1 PASS",
+      "rust_test": "12/12 PASS",
+      "comparator_self_tests": "29/29 PASS",
+      "oracle_integrity": "PASS",
+      "evidence_dir": "rust/artifacts/independent-inferior-superior-final-20261111/",
+      "oracle_source_sha256": "73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831"
+    },
+    "requested_model": "gpt-6-luna / low",
+    "runtime_model_metadata": "unavailable",
+    "expectations_or_comparison_changed": false,
+    "cumulative_gate": "NOT_DUE; three focused direct-dispatch capabilities added since 1478/1489 checkpoint"
   }
 }

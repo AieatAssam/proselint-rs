@@ -13110,9 +13110,12 @@
       "total": 1697.756028
     },
     "oracle_integrity": "verified; executable SHA b5f88a67377a8f3c32e1bffc41ca96fd8c111b127427459ffb2184e74c99af77; installed projection 6e6b1a625b7bf776549975cfd2d312d21906e5e6a96173d69c7596bbcc64d849",
-    "scope_matches_current_accepted_scope": true,
+    "scope_matches_current_accepted_scope": false,
     "current_tree_fingerprint_matches_gate": true,
-    "compatibility_claim": "Partial only; 11 explicit exclusions remain."
+    "compatibility_claim": "Partial only; 11 explicit exclusions remain.",
+    "current_accepted_case_count": 1480,
+    "current_manifest_case_count": 1491,
+    "current_scope_note": "The latest cumulative gate passed 1478/1489. Currency has since independently passed focused live parity, so current accepted focused-live scope is 1480/1491 with 11 explicit exclusions."
   },
   "rust_dependencies": {
     "status": "latest_for_pinned_toolchain",
@@ -14846,7 +14849,7 @@
     ],
     "claim_limit": "Selected rules and three workloads on one Linux x86_64 host; not whole-program or universal performance."
   },
-  "next_task": "Choose the next safe implemented default-enabled rule lacking direct no-config coverage; preserve exact comparisons and 11 exclusions. Run the next cumulative checkpoint after a further 5\u201310 accepted capabilities.",
+  "next_task": "Continue direct no-config coverage for another implemented default-enabled rule, next candidate misc.back_formations.",
   "latest_default_dispatch_extension": {
     "status": "independently_verified",
     "scope": "Added one no-config default-enabled positive and one title-case clean control to the already-recorded rule; no production Rust change.",
@@ -15297,6 +15300,57 @@
       "runtime_model_metadata": "unavailable",
       "expectations_or_comparison_changed": false,
       "cumulative_gate": "DUE_AFTER_THIS_EXTENSION; fifth direct-dispatch capability since the 1468/1479 gate"
+    },
+    {
+      "status": "independently_verified",
+      "scope": "Added two direct no-config default-dispatch cases to implemented `rule.misc.currency`; no production Rust change.",
+      "case_ids": [
+        "currency_no_config_default_dispatch",
+        "currency_no_config_clean_control"
+      ],
+      "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+      "red": {
+        "status": "FAIL_EXPECTED_MISSING_CASES",
+        "focused_contract": "failed because both IDs were absent"
+      },
+      "green": {
+        "status": "PASS",
+        "focused_contract": "1/1"
+      },
+      "owner_live": {
+        "status": "PASS",
+        "cases": "14/14",
+        "duration_seconds": 8.0,
+        "report": "rust/artifacts/currency-no-config-live.json",
+        "sha256": "8507cca75105171d2e1a453169e02df26a75830985ec6c312c5715833471f043"
+      },
+      "focused_rust_test": {
+        "status": "PASS",
+        "cases": "12/12",
+        "command": "cargo test --locked --manifest-path rust/Cargo.toml --test misc_currency",
+        "compile_and_test_seconds": 79.0
+      },
+      "candidate_attestation": "rust/artifacts/20261111T180839506430Z-build.attestation.json",
+      "candidate_attestation_sha256": "08b8bdf23ca7b20d6ef37c941e4eeea4f01ad05c00da42c3f20a6e6bf68d0b75",
+      "source_fingerprint": "e70bfe542f92e580cd2d9b8dce16f0cbd9ac95983cdcd07c16bc3ff3404c4ead",
+      "candidate_sha256": "db84fad888596055f13c5dd21b00de393ca3e0e2e5a01e43ba00ef6a9a07ac20",
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases": "14/14",
+        "live_seconds": 13.02,
+        "live_report": "rust/artifacts/independent-currency-default-20261111/live-currency.json",
+        "live_report_sha256": "b2110ccec72860f88a9358f0ff583ab9455603e53c87fb962082d670f1f49423",
+        "focused_harness_test": "PASS in 0.74s",
+        "rust_test": "12/12 in 0.11s",
+        "comparator_self_tests": "29/29",
+        "oracle_integrity": "PASS",
+        "oracle_integrity_report_sha256": "9668fc2213d22cb0777739ff9fbf512c61c994190488552f4e4da065d6bf49f8",
+        "evidence_dir": "rust/artifacts/independent-currency-default-20261111/"
+      },
+      "requested_model": "gpt-6-luna / low",
+      "runtime_model_metadata": "unavailable",
+      "expectations_or_comparison_changed": false,
+      "cumulative_gate": "NOT_DUE; one focused capability added after the 1478/1489 cumulative checkpoint"
     }
   ],
   "latest_full_harness_suite_failed_attempt": {
@@ -15603,5 +15657,56 @@
     "runtime_model_metadata": "unavailable",
     "expectations_or_comparison_changed": false,
     "cumulative_gate": "DUE_AFTER_THIS_EXTENSION; fifth direct-dispatch capability since the 1468/1479 gate"
+  },
+  "latest_currency_default_dispatch_acceptance": {
+    "status": "independently_verified",
+    "scope": "Added two direct no-config default-dispatch cases to implemented `rule.misc.currency`; no production Rust change.",
+    "case_ids": [
+      "currency_no_config_default_dispatch",
+      "currency_no_config_clean_control"
+    ],
+    "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+    "red": {
+      "status": "FAIL_EXPECTED_MISSING_CASES",
+      "focused_contract": "failed because both IDs were absent"
+    },
+    "green": {
+      "status": "PASS",
+      "focused_contract": "1/1"
+    },
+    "owner_live": {
+      "status": "PASS",
+      "cases": "14/14",
+      "duration_seconds": 8.0,
+      "report": "rust/artifacts/currency-no-config-live.json",
+      "sha256": "8507cca75105171d2e1a453169e02df26a75830985ec6c312c5715833471f043"
+    },
+    "focused_rust_test": {
+      "status": "PASS",
+      "cases": "12/12",
+      "command": "cargo test --locked --manifest-path rust/Cargo.toml --test misc_currency",
+      "compile_and_test_seconds": 79.0
+    },
+    "candidate_attestation": "rust/artifacts/20261111T180839506430Z-build.attestation.json",
+    "candidate_attestation_sha256": "08b8bdf23ca7b20d6ef37c941e4eeea4f01ad05c00da42c3f20a6e6bf68d0b75",
+    "source_fingerprint": "e70bfe542f92e580cd2d9b8dce16f0cbd9ac95983cdcd07c16bc3ff3404c4ead",
+    "candidate_sha256": "db84fad888596055f13c5dd21b00de393ca3e0e2e5a01e43ba00ef6a9a07ac20",
+    "independent_verification": {
+      "status": "PASS",
+      "live_cases": "14/14",
+      "live_seconds": 13.02,
+      "live_report": "rust/artifacts/independent-currency-default-20261111/live-currency.json",
+      "live_report_sha256": "b2110ccec72860f88a9358f0ff583ab9455603e53c87fb962082d670f1f49423",
+      "focused_harness_test": "PASS in 0.74s",
+      "rust_test": "12/12 in 0.11s",
+      "comparator_self_tests": "29/29",
+      "oracle_integrity": "PASS",
+      "oracle_integrity_report_sha256": "9668fc2213d22cb0777739ff9fbf512c61c994190488552f4e4da065d6bf49f8",
+      "evidence_dir": "rust/artifacts/independent-currency-default-20261111/"
+    },
+    "requested_model": "gpt-6-luna / low",
+    "runtime_model_metadata": "unavailable",
+    "expectations_or_comparison_changed": false,
+    "cumulative_gate": "NOT_DUE; one focused capability added after the 1478/1489 cumulative checkpoint"
   }
 }

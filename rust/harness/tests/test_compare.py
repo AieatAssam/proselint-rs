@@ -22,6 +22,28 @@ import setup_oracle
 
 
 class ComparatorTests(unittest.TestCase):
+    def test_currency_no_config_default_dispatch_cases(self) -> None:
+        expected = {
+            "currency_no_config_default_dispatch": ("The price is $1 usd.", "findings"),
+            "currency_no_config_clean_control": ('Quoted: "$10 dollars".', "clean"),
+        }
+        cases = {
+            case["id"]: case
+            for case in compare.load_manifest()["cases"]
+            if case["id"] in expected
+        }
+        self.assertEqual(set(cases), set(expected))
+        for case_id, (text, outcome) in expected.items():
+            with self.subTest(case=case_id):
+                case = cases[case_id]
+                self.assertEqual(case["capability_id"], "rule.misc.currency")
+                self.assertEqual(base64.b64decode(case["stdin_base64"]).decode(), text)
+                self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+                self.assertEqual(case["config_scenario"], "no_config_default")
+                self.assertEqual(case["expected_oracle_outcome"], outcome)
+                self.assertEqual(case["timeout_seconds"], 10)
+                self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
+
     def test_but_no_config_default_dispatch_cases(self) -> None:
         expected = {
             "but_no_config_default_dispatch": (

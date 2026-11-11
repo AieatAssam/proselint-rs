@@ -1464,7 +1464,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1463)
+        self.assertEqual(len(case_ids), 1465)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -1473,7 +1473,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "1752b46e2618074b839476a78e3285ee4a16c3b9f9f5d4d06967cc281c66afa8",
+            "36a10c04068e25e540782fd80e6e81ec1923cc9c77011b335ce18e31eccfc9e6",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),
@@ -2963,6 +2963,27 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(case["expected_oracle_outcome"], "findings")
         self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
         compare.validate_case(case)
+
+    def test_collusion_default_dispatch_cases_use_implicit_configuration(self) -> None:
+        cases = {
+            case["id"]: case
+            for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "rule.misc.illogic.collusion"
+            and case["id"].startswith("misc_illogic_collusion_no_config_default_")
+        }
+        expected = {
+            "misc_illogic_collusion_no_config_default_positive": (b"They acted without your collusion.", "findings"),
+            "misc_illogic_collusion_no_config_default_clean": (b"without-your collusion; without  your collusion; without our collusion", "clean"),
+        }
+        self.assertEqual(set(cases), set(expected))
+        for case_id, (stdin, outcome) in expected.items():
+            with self.subTest(case_id=case_id):
+                case = cases[case_id]
+                self.assertEqual(base64.b64decode(case["stdin_base64"]), stdin)
+                self.assertEqual(case["argv"], ["check"])
+                self.assertEqual(case["config_scenario"], "no_config_default")
+                self.assertEqual(case["expected_oracle_outcome"], outcome)
+                compare.validate_case(case)
 
     def test_default_dispatch_coverage_cases_use_implicit_configuration(self) -> None:
         expected = {

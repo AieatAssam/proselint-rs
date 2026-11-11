@@ -1,5 +1,17 @@
 # Python and Rust benchmark
 
+## Current release candidate with collusion default dispatch (2026-11-11 11:12 UTC)
+
+The release-profile cumulative gate passed **1,454/1,454 accepted cases across 153 capabilities**, from a **1,465-case manifest with 11 exclusions**, before this bounded benchmark. The pinned Python baseline is Proselint 0.16.0 at revision `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`. Candidate source fingerprint: `6ba1f33c62cf4592fb946b95ad0d6356390ac88c17273c3299173f3fe40f9264`; release binary SHA-256: `2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24`. Linux x86_64, four reported CPUs; Python 3.12.3 oracle and Rust 1.99.1. The run finished in **37.182s**, below the 1,800-second cap, with live parity preflight **3/3**, 25 paired samples, and three warmups per workload.
+
+| Workload | Fresh Python median | Fresh Rust median | Python / Rust |
+|---|---:|---:|---:|
+| Small authored positive example | 197.016 ms | 4.691 ms | 42.0× |
+| Ordinary generated prose | 209.986 ms | 6.835 ms | 30.7× |
+| Dense generated trigger stream | 240.602 ms | 15.121 ms | 15.9× |
+
+Only `misc.suddenly` and `psychology.p_equals_zero` were enabled. These results describe three selected-rule CLI workloads, not default-config or whole-program performance. RSS was unavailable. The release gate is [`release-candidate-gate-20261111-collusion-release.json`](../artifacts/release-candidate-gate-20261111-collusion-release.json), SHA-256 `6b6df8172de5daa4de04a2dcaa5f4471e4cf5df04afed10f91446df1460c3675`; the benchmark report is [`release-candidate-benchmark-20261111-collusion.json`](../artifacts/release-candidate-benchmark-20261111-collusion.json), SHA-256 `ff9abac679aeb3634a6b00dc139f6e880fa5afc297ea4d6efd20de1cb641443d`.
+
 ## Current release candidate after harness inventory correction (2026-11-11 09:44 UTC)
 
 The current release gate passed **1,452/1,452 accepted cases across 153 capabilities**, from a 1,463-case manifest with 11 exclusions, before this bounded benchmark. Pinned Proselint 0.16.0 (revision `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`) was verified. Candidate source fingerprint: `9360dfeb3bc37d2cbeb18e14e56f280754bc822905a3ba128db6c34c446cd39f`; binary SHA-256: `2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24`. Linux x86_64, four reported CPUs; Python 3.12.3 oracle and Rust 1.99.1. The bounded run finished in **34.187s**, below the 1,800-second overall limit, with exact live preflight **3/3**, 25 paired samples and three warmups for each workload.

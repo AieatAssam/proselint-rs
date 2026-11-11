@@ -31391,6 +31391,38 @@
       "expected_oracle_outcome": "clean"
     },
     {
+      "capability_id": "rule.misc.illogic.collusion",
+      "provenance": "Pinned Proselint 0.16.0 source proselint/checks/misc/illogic.py:43-47 registers the literal phrase “without your collusion” as misc.illogic.collusion; with no explicit config, DEFAULT enables the rule. Positive and near-match control text verified against the pinned live CLI.",
+      "input_mode": "stdin",
+      "output_format": "full",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"},
+      "files": [],
+      "argv": ["check"],
+      "id": "misc_illogic_collusion_no_config_default_positive",
+      "stdin_base64": "VGhleSBhY3RlZCB3aXRob3V0IHlvdXIgY29sbHVzaW9uLg==",
+      "expected_oracle_outcome": "findings"
+    },
+    {
+      "capability_id": "rule.misc.illogic.collusion",
+      "provenance": "Pinned Proselint 0.16.0 source proselint/checks/misc/illogic.py:43-47 registers the literal phrase “without your collusion” as misc.illogic.collusion; with no explicit config, DEFAULT enables the rule. Positive and near-match control text verified against the pinned live CLI.",
+      "input_mode": "stdin",
+      "output_format": "full",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"},
+      "files": [],
+      "argv": ["check"],
+      "id": "misc_illogic_collusion_no_config_default_clean",
+      "stdin_base64": "d2l0aG91dC15b3VyIGNvbGx1c2lvbjsgd2l0aG91dCAgeW91ciBjb2xsdXNpb247IHdpdGhvdXQgb3VyIGNvbGx1c2lvbg==",
+      "expected_oracle_outcome": "clean"
+    },
+    {
       "capability_id": "cli.config.missing_explicit_text_error",
       "provenance": "Pinned live Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; explicit --config names a missing path containing a space. The pinned CLI returns status 4, empty stdout, and the same exact stderr in default full and compact modes.",
       "input_mode": "stdin",

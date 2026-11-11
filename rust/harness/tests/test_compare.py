@@ -217,6 +217,32 @@ class ComparatorTests(unittest.TestCase):
                 self.assertEqual(case["expected_oracle_outcome"], outcome)
                 self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
 
+    def test_airlinese_no_config_default_dispatch_cases(self) -> None:
+        expected = {
+            "airlinese_no_config_default_dispatch": (
+                "rule.industrial_language.airlinese", "The aircraft is taking off momentarily.", "findings",
+            ),
+            "airlinese_no_config_clean_control": (
+                "rule.industrial_language.airlinese", "The aircraft is climbing steadily.", "clean",
+            ),
+        }
+        cases = {
+            case["id"]: case
+            for case in compare.load_manifest()["cases"]
+            if case["id"] in expected
+        }
+        self.assertEqual(set(cases), set(expected))
+        for case_id, (capability, text, outcome) in expected.items():
+            with self.subTest(case=case_id):
+                case = cases[case_id]
+                self.assertEqual(case["capability_id"], capability)
+                self.assertEqual(base64.b64decode(case["stdin_base64"]).decode(), text)
+                self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+                self.assertEqual(case["config_scenario"], "no_config_default")
+                self.assertEqual(case["expected_oracle_outcome"], outcome)
+                self.assertEqual(case["timeout_seconds"], 10)
+                self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
+
     def test_default_dispatch_weasel_very_manifest_cases(self) -> None:
         expected = {
             "weasel_very_no_config_default_dispatch": (
@@ -610,12 +636,17 @@ class ComparatorTests(unittest.TestCase):
             "weasel_very_quote_suppression", "weasel_very_max_errors_one", "weasel_very_combining_mark_and_ascii_boundaries",
             "weasel_very_multiline_position",
             "weasel_very_u1c89_leading", "weasel_very_u1c89_trailing",
+            "weasel_very_no_config_default_dispatch", "weasel_very_no_config_clean_control",
             "weasel_very_u0345_leading", "weasel_very_u0345_trailing",
             "weasel_very_u05b0_leading", "weasel_very_u05b0_trailing",
         }
         cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "rule.weasel_words.very"]
         self.assertEqual({case["id"] for case in cases}, expected)
         for case in cases:
+            if case.get("config_scenario") == "no_config_default":
+                self.assertEqual(case["files"], [])
+                self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+                continue
             config = json.loads(base64.b64decode(case["files"][0]["content_base64"]))
             self.assertEqual(config["checks"], {"weasel_words": {"very": True}})
             self.assertEqual(case["argv"], ["check", "--config", "{file:" + case["files"][0]["path"] + "}", "--output-format", "json"])
@@ -1584,7 +1615,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1479)
+        self.assertEqual(len(case_ids), 1485)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -1593,7 +1624,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "92da89a48a9243e8994587e38c0bbd6d3f42116b35b2aedf6c6f0bc2888fd6e8",
+            "98a03edad10865128c4ccf47f0cefba34160d584673226b28dc26d3e6ff9d02c",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),

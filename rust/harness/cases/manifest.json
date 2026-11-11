@@ -9019,6 +9019,58 @@
       "stdin_base64": "RGlkIHRoYXQgY2FyIGp1c3QgaHlkcm9wbGFuZT8gSSBrbm93IGhvdyB0byBvcGVyYXRlIGEgcGxhbmluZyBtaWxsLg=="
     },
     {
+      "id": "airlinese_no_config_default_dispatch",
+      "capability_id": "rule.industrial_language.airlinese",
+      "provenance": "Pinned Python Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/industrial_language/airlinese.py registers industrial_language.airlinese and the bundled default config enables it. Exact no-config outcomes were captured from the live pinned CLI. This positive verifies default dispatch of \u201ctaking off momentarily\u201d.",
+      "input_mode": "stdin",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "VGhlIGFpcmNyYWZ0IGlzIHRha2luZyBvZmYgbW9tZW50YXJpbHku"
+    },
+    {
+      "id": "airlinese_no_config_clean_control",
+      "capability_id": "rule.industrial_language.airlinese",
+      "provenance": "Pinned Python Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/industrial_language/airlinese.py registers industrial_language.airlinese and the bundled default config enables it. Exact no-config outcomes were captured from the live pinned CLI. This clean control omits every airlinese pattern.",
+      "input_mode": "stdin",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "VGhlIGFpcmNyYWZ0IGlzIGNsaW1iaW5nIHN0ZWFkaWx5Lg=="
+    },
+    {
       "id": "airlinese_longer_word_boundary_negatives",
       "capability_id": "rule.industrial_language.airlinese",
       "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; registered check_path industrial_language.airlinese; upstream module proselint/checks/industrial_language/airlinese.py; Existence patterns in order `enplan(?:e|ed|ing|ement)`, `deplan(?:e|ed|ing|ement)`, `taking off momentarily`, WORDS_IN_TEXT padding, Fast case-insensitive, default_enabled=true, allow_quotes=false, no exceptions/offset, ppm_threshold=0; message `'{}' is airlinese.` interpolates exact matched surface text. Regex alternatives are ordered and raw iteration can report `enplane` for activated `enplaned`/`enplanement` inputs, and similarly `deplane` for `deplaned`/`deplanement`; preserve live results. Selected config enables only this rule. Case purpose: Longer words immediately surrounding each pattern are rejected by WORDS_IN_TEXT.",

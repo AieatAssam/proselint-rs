@@ -47213,6 +47213,58 @@
       }
     },
     {
+      "id": "misc_illogic_coin_no_config_default_dispatch",
+      "capability_id": "rule.misc.illogic.coin",
+      "input_mode": "stdin",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/illogic.py registers misc.illogic.coin and the bundled default config enables misc. The positive also triggers cliches.misc.write_good. Exact diagnostics and offsets were captured with the isolated pinned Python CLI. No-config default-dispatch positive; oracle returns both write_good and illogic.coin diagnostics.",
+      "stdin_base64": "SGUgbGlrZXMgdG8gY29pbiBhIHBocmFzZSBmcm9tIG9sZCBzb25ncy4=",
+      "expected_oracle_outcome": "findings"
+    },
+    {
+      "id": "misc_illogic_coin_no_config_clean_control",
+      "capability_id": "rule.misc.illogic.coin",
+      "input_mode": "stdin",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/illogic.py registers misc.illogic.coin and the bundled default config enables misc. The positive also triggers cliches.misc.write_good. Exact diagnostics and offsets were captured with the isolated pinned Python CLI. No-config clean control contains no matching coin phrase.",
+      "stdin_base64": "SGUgYm9ycm93cyBhbiBleGlzdGluZyBwaHJhc2UgZnJvbSBvbGQgc29uZ3Mu",
+      "expected_oracle_outcome": "clean"
+    },
+    {
       "id": "capitalization_seasons_no_config_default_dispatch",
       "capability_id": "rule.misc.capitalization.seasons",
       "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/capitalization.py maps exact-case `Winter` to `winter`, and config/default.json enables it. This no-config input isolates the default-dispatched season finding.",

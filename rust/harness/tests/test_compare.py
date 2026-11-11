@@ -22,6 +22,30 @@ import setup_oracle
 
 
 class ComparatorTests(unittest.TestCase):
+    def test_pretension_no_config_default_dispatch_cases(self) -> None:
+        expected = {
+            "pretension_no_config_default_dispatch": (
+                "reconceptualize; demassification; attitudinally; judgmentally.", "findings",
+            ),
+            "pretension_no_config_clean_control": (
+                "xreconceptualize; reconceptualizex; demassifications; attitudinallyx; xjudgmentally.", "clean",
+            ),
+        }
+        cases = {
+            case["id"]: case for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "rule.misc.pretension"
+            and case.get("config_scenario") == "no_config_default"
+        }
+        self.assertEqual(set(cases), set(expected))
+        for case_id, (text, outcome) in expected.items():
+            with self.subTest(case=case_id):
+                case = cases[case_id]
+                self.assertEqual(base64.b64decode(case["stdin_base64"]).decode(), text)
+                self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+                self.assertEqual(case["expected_oracle_outcome"], outcome)
+                self.assertEqual(case["timeout_seconds"], 10)
+                self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
+
     def test_metadiscourse_no_config_default_dispatch_contract(self) -> None:
         expected = {
             "metadiscourse_no_config_default_dispatch": (
@@ -1733,7 +1757,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1497)
+        self.assertEqual(len(case_ids), 1499)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -1742,7 +1766,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "6b175abd627a0485756e86c18ba99f3bc0214138cb6d1ada398cbe1d92826111",
+            "193402f1847f72492959a46efbcf3a3b3aea8158c9a5a6a0968b96911f95fe8e",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),

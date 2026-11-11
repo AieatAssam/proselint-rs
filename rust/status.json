@@ -266,7 +266,17 @@
     },
     {
       "id": "rule.misc.latin",
-      "status": "recorded"
+      "status": "independently_verified",
+      "latest_default_dispatch_acceptance": {
+        "case_ids": [
+          "latin_no_config_default_dispatch",
+          "latin_no_config_clean_control"
+        ],
+        "source_fingerprint": "6b69a91a9317b02c2e6894cc99846f9f3dba52ced05d2845f9ba5e5dc0c915ae",
+        "owner_report": "rust/artifacts/latin-default-dispatch-live-final-20261111.json",
+        "independent_report": "rust/artifacts/independent-latin-20261111/live-comparison.json",
+        "status": "independently_verified"
+      }
     },
     {
       "id": "rule.misc.capitalization.seasons",
@@ -407,7 +417,17 @@
     },
     {
       "id": "rule.mondegreens",
-      "status": "recorded"
+      "status": "independently_verified",
+      "latest_default_dispatch_acceptance": {
+        "case_ids": [
+          "mondegreens_no_config_default_dispatch",
+          "mondegreens_no_config_clean_control"
+        ],
+        "source_fingerprint": "7acf95e655106286ea2d93ddcd478a810583e1abf9531cb193cfcbf5fceff86b",
+        "owner_report": "rust/artifacts/mondegreens-default-dispatch-live-20261111.json",
+        "independent_report": "rust/artifacts/independent-mondegreens-20261111/live-comparison.json",
+        "candidate_attestation": "rust/artifacts/20261111T215548325210Z-build.attestation.json"
+      }
     },
     {
       "id": "rule.skunked_terms",
@@ -907,7 +927,7 @@
   },
   "harness": {
     "status": "verified after current case identity update; oracle, CLI comparison and comparator discrimination remain live requirements",
-    "source_fingerprint": "6b69a91a9317b02c2e6894cc99846f9f3dba52ced05d2845f9ba5e5dc0c915ae",
+    "source_fingerprint": "7acf95e655106286ea2d93ddcd478a810583e1abf9531cb193cfcbf5fceff86b",
     "unit_tests": {
       "status": "PASS",
       "suite": "PROSELINT_RS_ATTESTATION=<current gate attestation> python3 -m unittest discover -s rust/harness/tests -v",
@@ -1020,8 +1040,8 @@
         "finding": "Manifest preconditions are documentary; focused run must explicitly use unshare."
       }
     },
-    "current_manifest_cases": 1508,
-    "current_manifest_id_capability_digest": "0ac81ed9a7fdaa2fe9cb1fa6fc9f013ec322c50188a1e35a10459013c407b88d",
+    "current_manifest_cases": 1510,
+    "current_manifest_id_capability_digest": "517600ed6ae96aa7f0e8363718f08968bfcb0c9bf11a8b8529e6e850a3b88290",
     "accepted_case_count_before_release_gate": 1436,
     "latest_full_unit_suite": {
       "status": "PASS",
@@ -1045,7 +1065,7 @@
       "source_fingerprint": "cb5262bf3e58c7207879a9c8de08dfdbb40d20cd7eaf1022e75ed1054a0093e2",
       "attestation": "rust/artifacts/20261111T035653523505Z-build.attestation.json"
     },
-    "current_manifest_digest": "94527054f3f22a4c5382a2a18d382c414ff966251b37247febdc297b7b343ea7",
+    "current_manifest_digest": "5f0a039718d38a4829e145c9c2a572656f569ae48b9a090bdd37d7a880385b4b",
     "latest_release_candidate_suite": {
       "status": "PASS",
       "tests_passed": 135,
@@ -1087,8 +1107,8 @@
       "source_fingerprint": "cf042003504952139ad443f28ff756acbdf04c8e708a8bd84eecfb11669b9a5a",
       "candidate_attestation": "rust/artifacts/20261111T045345885404Z-build.attestation.json"
     },
-    "focused_live_scope_after_latest_extension": "1497 accepted / 1508 manifest / 11 excluded; one more capability before the cumulative gate",
-    "latest_full_unit_suite_currentness": "Historical PASS 159/159 at the 1499-case manifest; stale by nine cases and due at the five-capability cumulative checkpoint."
+    "focused_live_scope_after_latest_extension": "1499 accepted / 1510 manifest / 11 excluded; five-capability cumulative checkpoint due",
+    "latest_full_unit_suite_currentness": "Historical PASS 159/159 at the 1499-case manifest; stale by eleven cases; run the full harness suite at this now-due five-capability checkpoint."
   },
   "active_ownership": "No active file owners. rule.industrial_language.bureaucratese default-dispatch extension independently verified; next candidate rule.misc.scare_quotes.",
   "unresolved": [
@@ -4192,7 +4212,9 @@
         "latin_quote_suppression_with_unquoted",
         "latin_repeated_mixed_source_order",
         "latin_unicode_codepoint_positions",
-        "latin_selected_config_interaction"
+        "latin_selected_config_interaction",
+        "latin_no_config_default_dispatch",
+        "latin_no_config_clean_control"
       ],
       "upstream_spec": "Pinned `misc.latin` is case-insensitive `PreferredFormsSimple` with WORDS_IN_TEXT boundaries: `ceteris paribus` \u2192 `other things being equal`; `inter alia` \u2192 `among other things`; `simpliciter` \u2192 `in and of itself`; `mutatis mutandis` \u2192 `having made the necessary changes`. The message is `Use English. '{}' is the preferred form.` and interpolates the replacement. Default quote suppression; no exceptions or offsets.",
       "red": {
@@ -4219,13 +4241,23 @@
         "frozen_source_fingerprint": "1d80ca3a17239baf34d0c48ff243158871a3fd7df59e429cfa8bec4571fe0434"
       },
       "limitations": [
-        "selected misc.latin config only",
-        "default and combined-check behavior remain unverified"
+        "other default-config phrase combinations remain unverified",
+        "combined-check behavior remains unverified"
       ],
       "cumulative_live_parity": {
         "passed_cases": 265,
         "exit_code": 0,
         "report": "rust/artifacts/strict-gate-latin-final-20261105.json"
+      },
+      "latest_default_dispatch_acceptance": {
+        "case_ids": [
+          "latin_no_config_default_dispatch",
+          "latin_no_config_clean_control"
+        ],
+        "source_fingerprint": "6b69a91a9317b02c2e6894cc99846f9f3dba52ced05d2845f9ba5e5dc0c915ae",
+        "owner_report": "rust/artifacts/latin-default-dispatch-live-final-20261111.json",
+        "independent_report": "rust/artifacts/independent-latin-20261111/live-comparison.json",
+        "status": "independently_verified"
       }
     },
     {
@@ -6014,7 +6046,7 @@
     },
     {
       "id": "rule.mondegreens",
-      "status": "recorded",
+      "status": "independently_verified",
       "case_ids": [
         "mondegreens_all_mappings",
         "mondegreens_mixed_case_and_repetition",
@@ -6025,7 +6057,9 @@
         "mondegreens_unicode_positions",
         "mondegreens_max_errors_activation_order",
         "mondegreens_punctuation_context",
-        "mondegreens_quoted_activation_limit_one"
+        "mondegreens_quoted_activation_limit_one",
+        "mondegreens_no_config_default_dispatch",
+        "mondegreens_no_config_clean_control"
       ],
       "registered_entries_exercised": 1,
       "upstream_spec": "Pinned default-enabled PreferredFormsSimple check with eight literal Fast, case-insensitive WORDS_IN_TEXT mappings from proselint/checks/mondegreens.py. Quotes are suppressed; replacement forms appear in the exact message `'{replacement}' is the preferred form.` and replacements field. Preserve source matcher activation/raw iteration and document-position output behavior.",
@@ -6063,6 +6097,16 @@
         "agent_reasoning_effort": "low requested",
         "agent_runtime_metadata": "unavailable",
         "cli_supported_check_list_assertion": "passed: mondegreens between misc.composition and redundancy.misc.wallace"
+      },
+      "latest_default_dispatch_acceptance": {
+        "case_ids": [
+          "mondegreens_no_config_default_dispatch",
+          "mondegreens_no_config_clean_control"
+        ],
+        "source_fingerprint": "7acf95e655106286ea2d93ddcd478a810583e1abf9531cb193cfcbf5fceff86b",
+        "owner_report": "rust/artifacts/mondegreens-default-dispatch-live-20261111.json",
+        "independent_report": "rust/artifacts/independent-mondegreens-20261111/live-comparison.json",
+        "candidate_attestation": "rust/artifacts/20261111T215548325210Z-build.attestation.json"
       }
     },
     {
@@ -13115,7 +13159,7 @@
     "scope_matches_current_accepted_scope": false,
     "current_tree_fingerprint_matches_gate": false,
     "compatibility_claim": "Partial only; 11 explicit exclusions remain.",
-    "staleness_note": "Historical PASS 1488/1499. Nine focused accepted cases have been independently added since then; one more isolated capability remains before the five-capability checkpoint."
+    "staleness_note": "Historical PASS 1488/1499. Eleven additional focused cases across five direct-dispatch extensions have been independently accepted; cumulative gate now due."
   },
   "rust_dependencies": {
     "status": "latest_for_pinned_toolchain",
@@ -13176,7 +13220,7 @@
       "result": "0 packages to update; Cargo.lock unchanged"
     }
   },
-  "next_capability_handoff": "Latest cumulative release gate passed 1488/1488 accepted cases from a 1499-case manifest, with 11 explicit exclusions. Current focused scope is 1497/1508. Four direct default-dispatch extensions are independently verified since the gate. Next candidate rule.mondegreens is the fifth capability; run the full release gate and harness suite after its acceptance. Keep partial compatibility and the version divergence/CLI exclusions explicit.",
+  "next_capability_handoff": "The five isolated direct default-dispatch extensions since the last cumulative gate are independently accepted. Current focused scope is 1499/1510 with 11 exclusions across 153 capabilities. Run the release-profile cumulative gate and full harness/Rust suites now; benchmark only after parity passes. Keep partial compatibility, version divergence and CLI exclusions explicit.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",
@@ -13763,18 +13807,18 @@
     "scope_matches_current_accepted_scope": false,
     "current_tree_fingerprint_matches_gate": false,
     "compatibility_claim": "Partial only; 11 explicit exclusions remain.",
-    "staleness_note": "Historical PASS 1488/1499. Nine focused accepted cases have been independently added since then; one more isolated capability remains before the five-capability checkpoint."
+    "staleness_note": "Historical PASS 1488/1499. Eleven additional focused cases across five direct-dispatch extensions have been independently accepted; cumulative gate now due."
   },
   "current_candidate_release_readiness": {
     "status": "STALE_AFTER_FOCUSED_CASE_ADDITION",
-    "compatibility": "Partial only. Last cumulative gate passed 1488/1488 accepted cases at 1499 manifest cases; current focused scope is 1497/1508 with 11 exclusions. Run after one more isolated capability.",
-    "source_fingerprint": "6b69a91a9317b02c2e6894cc99846f9f3dba52ced05d2845f9ba5e5dc0c915ae",
+    "compatibility": "Partial only. Last cumulative gate passed 1488/1488 accepted cases at 1499 manifest cases; current focused scope is 1499/1510 with 11 exclusions. Five focused extensions since that gate; cumulative checkpoint now due.",
+    "source_fingerprint": "7acf95e655106286ea2d93ddcd478a810583e1abf9531cb193cfcbf5fceff86b",
     "candidate_sha256": "db84fad888596055f13c5dd21b00de393ca3e0e2e5a01e43ba00ef6a9a07ac20",
-    "candidate_attestation": "rust/artifacts/20261111T214221897667Z-build.attestation.json",
-    "candidate_attestation_sha256": "a300f141e552c4ac81d80cde3bfd833a93d8db57b883cd59583c4ba618f1e8c6",
+    "candidate_attestation": "rust/artifacts/20261111T215548325210Z-build.attestation.json",
+    "candidate_attestation_sha256": "4f1f7c3751fb0d19ab1adaf40473bf53feed766057d745c20350f828bc7c4588",
     "accepted_capabilities": 153,
-    "selected_case_count": 1497,
-    "manifest_case_count": 1508,
+    "selected_case_count": 1499,
+    "manifest_case_count": 1510,
     "excluded_case_count": 11,
     "release_gate_report": "rust/artifacts/pretension-default-release-20261111.json",
     "release_gate_report_sha256": "c6e8a55d0c6c105711e417785d448ae7bc8f41c318e26f19cb17ffdb732e9aaf",
@@ -13782,7 +13826,7 @@
     "full_rust_tests": "923/923 across 145 targets",
     "full_harness_tests": "159/159 in 73.746s",
     "benchmark": "PASS after 3/3 exact parity preflight; selected combined-rule workloads only",
-    "cumulative_gate_currentness": "STALE_BY_9_CASES; last passing report rust/artifacts/pretension-default-release-20261111.json"
+    "cumulative_gate_currentness": "STALE_BY_11_CASES; five-capability checkpoint due"
   },
   "latest_harness_storage_optimization": {
     "change": "reference Python bytecode writes disabled by default; each case retains a unique temporary cache prefix; explicit case settings are preserved",
@@ -14841,76 +14885,72 @@
     ],
     "claim_limit": "Selected rules and three workloads on one Linux x86_64 host; not whole-program or universal performance."
   },
-  "next_task": "Continue with a focused, independently verified default-dispatch capability for rule.mondegreens; then run the cumulative release gate and full harness suite.",
+  "next_task": "Run the release-profile cumulative live gate and full Rust/harness test suites at the five-capability checkpoint; run the bounded benchmark only after parity passes.",
   "latest_default_dispatch_extension": {
     "status": "independently_verified",
-    "scope": "Added two no-config default-dispatch cases to already implemented default-enabled rule.misc.latin; no Rust production code changed.",
+    "scope": "Added two direct no-config default-dispatch cases to already implemented default-enabled rule.mondegreens; no production Rust code changed.",
     "case_ids": [
-      "latin_no_config_default_dispatch",
-      "latin_no_config_clean_control"
+      "mondegreens_no_config_default_dispatch",
+      "mondegreens_no_config_clean_control"
     ],
     "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
     "red": {
       "status": "FAIL_EXPECTED_MISSING_CASES",
-      "command": "python -m unittest rust.harness.tests.test_compare.ComparatorTests.test_latin_no_config_default_cases -v",
-      "exit_code": 1,
-      "test_duration_seconds": 0.38,
-      "wall_duration_seconds": 1.397,
-      "failure": "Both expected case IDs absent."
+      "failed_case_ids": 2,
+      "duration_seconds": 0.265,
+      "failure": "Both new contract case IDs absent; no production mismatch."
     },
     "green": {
       "status": "PASS",
-      "contract_and_manifest_identity": "2/2",
-      "duration_seconds": 0.799,
-      "manifest_case_count": 1508,
-      "manifest_id_capability_digest": "0ac81ed9a7fdaa2fe9cb1fa6fc9f013ec322c50188a1e35a10459013c407b88d"
+      "focused_contract_and_manifest_identity": "2/2",
+      "manifest_case_count": 1510,
+      "manifest_id_capability_digest": "517600ed6ae96aa7f0e8363718f08968bfcb0c9bf11a8b8529e6e850a3b88290"
     },
     "focused_rust_test": {
       "status": "PASS",
-      "cases": "10/10",
-      "command": "cargo +1.99.1 test --locked --manifest-path rust/Cargo.toml --test misc_latin",
-      "command_duration_seconds": 2.59,
-      "test_duration_seconds": 0.1
-    },
-    "candidate_attestation": "rust/artifacts/20261111T214221897667Z-build.attestation.json",
-    "candidate_attestation_sha256": "a300f141e552c4ac81d80cde3bfd833a93d8db57b883cd59583c4ba618f1e8c6",
-    "attestation_stages_seconds": {
-      "fmt": 2.021,
-      "clippy": 42.236,
-      "release_build": 0.225
+      "cases": "4/4",
+      "command": "cargo +1.99.1 test --locked --manifest-path rust/Cargo.toml --lib mondegreens_tests"
     },
     "owner_live": {
       "status": "PASS",
       "cases": "12/12",
       "timeouts": 0,
-      "duration_seconds": 12.529,
-      "report": "rust/artifacts/latin-default-dispatch-live-final-20261111.json",
-      "report_sha256": "0340b98cc87884dd8298bf0ee0c3b1074a814bbb5bcf0d11f803798677212804"
+      "duration_seconds": 11.298,
+      "report": "rust/artifacts/mondegreens-default-dispatch-live-20261111.json",
+      "report_sha256": "d1834355f677ac925357e18329c4e260324837302ff2bd756c565a955c896c04"
+    },
+    "candidate_attestation": "rust/artifacts/20261111T215548325210Z-build.attestation.json",
+    "candidate_attestation_sha256": "4f1f7c3751fb0d19ab1adaf40473bf53feed766057d745c20350f828bc7c4588",
+    "attestation_stages_seconds": {
+      "fmt": 2.939192,
+      "clippy": 22.862,
+      "release_build": 0.119545
     },
     "independent_verification": {
       "status": "PASS",
       "cases": "12/12",
-      "duration_seconds": 12.339,
-      "report": "rust/artifacts/independent-latin-20261111/live-comparison.json",
-      "report_sha256": "ec7e070eaa4b687f5cdbcf186bda00deeb5530765fe6657d6da1d55819ed4589",
-      "summary": "rust/artifacts/independent-latin-20261111/verification-summary.json",
-      "summary_sha256": "054c800dcb81c7a6ea836c1a4d33e3cdbf09a71cf19ae51d424874ee8dd8e97c",
-      "focused_rust_test": "10/10 (48.687s independent command, first compile on independent runner)",
-      "contract_and_identity": "2/2 in 0.920s",
-      "comparator_self_tests": "29/29 in 0.456s",
-      "oracle_integrity": "verified before/after"
+      "duration_seconds": 10.275,
+      "report": "rust/artifacts/independent-mondegreens-20261111/live-comparison.json",
+      "report_sha256": "aad04a1b6cccfc89e9fcf14151901009d6464b457f4d1ee183aa28ab46aaf1ee",
+      "summary": "rust/artifacts/independent-mondegreens-20261111/verification-summary.json",
+      "summary_sha256": "657d647e54d426e751e433e47bef527f0632f65f7a30ff14cf6719c6c4e7f7bb",
+      "focused_contract_and_identity": "2/2 in 0.894s",
+      "focused_rust_test": "4/4 in 0.102s warm retry",
+      "initial_test_command_error": "`--test mondegreens` named a nonexistent integration target (exit 101 before execution); corrected to `--lib mondegreens_tests`, which passed. Both attempts are recorded.",
+      "comparator_self_tests": "29/29 in 0.432s",
+      "oracle_integrity": "verified before/after; identical reports"
     },
-    "source_fingerprint": "6b69a91a9317b02c2e6894cc99846f9f3dba52ced05d2845f9ba5e5dc0c915ae",
+    "source_fingerprint": "7acf95e655106286ea2d93ddcd478a810583e1abf9531cb193cfcbf5fceff86b",
     "candidate_sha256": "db84fad888596055f13c5dd21b00de393ca3e0e2e5a01e43ba00ef6a9a07ac20",
-    "oracle_integrity": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; tree SHA 73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831",
-    "cumulative_gate": "NOT_DUE; four isolated capabilities accepted since 1488/1499 checkpoint; one more before gate",
+    "oracle_integrity": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; source tree 73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831; independent before/after checks match.",
+    "cumulative_gate": "DUE_AFTER_THIS_CAPABILITY; five direct default-dispatch extensions accepted since 1488/1499; next action full release-profile gate and full harness suite.",
     "current_focused_scope": {
-      "accepted_cases": 1497,
-      "manifest_cases": 1508,
+      "accepted_cases": 1499,
+      "manifest_cases": 1510,
       "excluded_cases": 11,
       "capabilities": 153
     },
-    "default_dispatch_positive_paths": "58/93 direct no-config evidence paths",
+    "default_dispatch_positive_paths": "59/93 direct no-config evidence paths",
     "expectations_or_comparison_changed": false,
     "requested_model": "gpt-6-luna / low",
     "runtime_model_metadata": "unavailable"
@@ -15872,6 +15912,75 @@
       "expectations_or_comparison_changed": false,
       "requested_model": "gpt-6-luna / low",
       "runtime_model_metadata": "unavailable"
+    },
+    {
+      "status": "independently_verified",
+      "scope": "Added two direct no-config default-dispatch cases to already implemented default-enabled rule.mondegreens; no production Rust code changed.",
+      "case_ids": [
+        "mondegreens_no_config_default_dispatch",
+        "mondegreens_no_config_clean_control"
+      ],
+      "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+      "red": {
+        "status": "FAIL_EXPECTED_MISSING_CASES",
+        "failed_case_ids": 2,
+        "duration_seconds": 0.265,
+        "failure": "Both new contract case IDs absent; no production mismatch."
+      },
+      "green": {
+        "status": "PASS",
+        "focused_contract_and_manifest_identity": "2/2",
+        "manifest_case_count": 1510,
+        "manifest_id_capability_digest": "517600ed6ae96aa7f0e8363718f08968bfcb0c9bf11a8b8529e6e850a3b88290"
+      },
+      "focused_rust_test": {
+        "status": "PASS",
+        "cases": "4/4",
+        "command": "cargo +1.99.1 test --locked --manifest-path rust/Cargo.toml --lib mondegreens_tests"
+      },
+      "owner_live": {
+        "status": "PASS",
+        "cases": "12/12",
+        "timeouts": 0,
+        "duration_seconds": 11.298,
+        "report": "rust/artifacts/mondegreens-default-dispatch-live-20261111.json",
+        "report_sha256": "d1834355f677ac925357e18329c4e260324837302ff2bd756c565a955c896c04"
+      },
+      "candidate_attestation": "rust/artifacts/20261111T215548325210Z-build.attestation.json",
+      "candidate_attestation_sha256": "4f1f7c3751fb0d19ab1adaf40473bf53feed766057d745c20350f828bc7c4588",
+      "attestation_stages_seconds": {
+        "fmt": 2.939192,
+        "clippy": 22.862,
+        "release_build": 0.119545
+      },
+      "independent_verification": {
+        "status": "PASS",
+        "cases": "12/12",
+        "duration_seconds": 10.275,
+        "report": "rust/artifacts/independent-mondegreens-20261111/live-comparison.json",
+        "report_sha256": "aad04a1b6cccfc89e9fcf14151901009d6464b457f4d1ee183aa28ab46aaf1ee",
+        "summary": "rust/artifacts/independent-mondegreens-20261111/verification-summary.json",
+        "summary_sha256": "657d647e54d426e751e433e47bef527f0632f65f7a30ff14cf6719c6c4e7f7bb",
+        "focused_contract_and_identity": "2/2 in 0.894s",
+        "focused_rust_test": "4/4 in 0.102s warm retry",
+        "initial_test_command_error": "`--test mondegreens` named a nonexistent integration target (exit 101 before execution); corrected to `--lib mondegreens_tests`, which passed. Both attempts are recorded.",
+        "comparator_self_tests": "29/29 in 0.432s",
+        "oracle_integrity": "verified before/after; identical reports"
+      },
+      "source_fingerprint": "7acf95e655106286ea2d93ddcd478a810583e1abf9531cb193cfcbf5fceff86b",
+      "candidate_sha256": "db84fad888596055f13c5dd21b00de393ca3e0e2e5a01e43ba00ef6a9a07ac20",
+      "oracle_integrity": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; source tree 73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831; independent before/after checks match.",
+      "cumulative_gate": "DUE_AFTER_THIS_CAPABILITY; five direct default-dispatch extensions accepted since 1488/1499; next action full release-profile gate and full harness suite.",
+      "current_focused_scope": {
+        "accepted_cases": 1499,
+        "manifest_cases": 1510,
+        "excluded_cases": 11,
+        "capabilities": 153
+      },
+      "default_dispatch_positive_paths": "59/93 direct no-config evidence paths",
+      "expectations_or_comparison_changed": false,
+      "requested_model": "gpt-6-luna / low",
+      "runtime_model_metadata": "unavailable"
     }
   ],
   "latest_full_harness_suite_failed_attempt": {
@@ -16741,6 +16850,75 @@
       "capabilities": 153
     },
     "default_dispatch_positive_paths": "58/93 direct no-config evidence paths",
+    "expectations_or_comparison_changed": false,
+    "requested_model": "gpt-6-luna / low",
+    "runtime_model_metadata": "unavailable"
+  },
+  "latest_mondegreens_default_dispatch_acceptance": {
+    "status": "independently_verified",
+    "scope": "Added two direct no-config default-dispatch cases to already implemented default-enabled rule.mondegreens; no production Rust code changed.",
+    "case_ids": [
+      "mondegreens_no_config_default_dispatch",
+      "mondegreens_no_config_clean_control"
+    ],
+    "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+    "red": {
+      "status": "FAIL_EXPECTED_MISSING_CASES",
+      "failed_case_ids": 2,
+      "duration_seconds": 0.265,
+      "failure": "Both new contract case IDs absent; no production mismatch."
+    },
+    "green": {
+      "status": "PASS",
+      "focused_contract_and_manifest_identity": "2/2",
+      "manifest_case_count": 1510,
+      "manifest_id_capability_digest": "517600ed6ae96aa7f0e8363718f08968bfcb0c9bf11a8b8529e6e850a3b88290"
+    },
+    "focused_rust_test": {
+      "status": "PASS",
+      "cases": "4/4",
+      "command": "cargo +1.99.1 test --locked --manifest-path rust/Cargo.toml --lib mondegreens_tests"
+    },
+    "owner_live": {
+      "status": "PASS",
+      "cases": "12/12",
+      "timeouts": 0,
+      "duration_seconds": 11.298,
+      "report": "rust/artifacts/mondegreens-default-dispatch-live-20261111.json",
+      "report_sha256": "d1834355f677ac925357e18329c4e260324837302ff2bd756c565a955c896c04"
+    },
+    "candidate_attestation": "rust/artifacts/20261111T215548325210Z-build.attestation.json",
+    "candidate_attestation_sha256": "4f1f7c3751fb0d19ab1adaf40473bf53feed766057d745c20350f828bc7c4588",
+    "attestation_stages_seconds": {
+      "fmt": 2.939192,
+      "clippy": 22.862,
+      "release_build": 0.119545
+    },
+    "independent_verification": {
+      "status": "PASS",
+      "cases": "12/12",
+      "duration_seconds": 10.275,
+      "report": "rust/artifacts/independent-mondegreens-20261111/live-comparison.json",
+      "report_sha256": "aad04a1b6cccfc89e9fcf14151901009d6464b457f4d1ee183aa28ab46aaf1ee",
+      "summary": "rust/artifacts/independent-mondegreens-20261111/verification-summary.json",
+      "summary_sha256": "657d647e54d426e751e433e47bef527f0632f65f7a30ff14cf6719c6c4e7f7bb",
+      "focused_contract_and_identity": "2/2 in 0.894s",
+      "focused_rust_test": "4/4 in 0.102s warm retry",
+      "initial_test_command_error": "`--test mondegreens` named a nonexistent integration target (exit 101 before execution); corrected to `--lib mondegreens_tests`, which passed. Both attempts are recorded.",
+      "comparator_self_tests": "29/29 in 0.432s",
+      "oracle_integrity": "verified before/after; identical reports"
+    },
+    "source_fingerprint": "7acf95e655106286ea2d93ddcd478a810583e1abf9531cb193cfcbf5fceff86b",
+    "candidate_sha256": "db84fad888596055f13c5dd21b00de393ca3e0e2e5a01e43ba00ef6a9a07ac20",
+    "oracle_integrity": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; source tree 73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831; independent before/after checks match.",
+    "cumulative_gate": "DUE_AFTER_THIS_CAPABILITY; five direct default-dispatch extensions accepted since 1488/1499; next action full release-profile gate and full harness suite.",
+    "current_focused_scope": {
+      "accepted_cases": 1499,
+      "manifest_cases": 1510,
+      "excluded_cases": 11,
+      "capabilities": 153
+    },
+    "default_dispatch_positive_paths": "59/93 direct no-config evidence paths",
     "expectations_or_comparison_changed": false,
     "requested_model": "gpt-6-luna / low",
     "runtime_model_metadata": "unavailable"

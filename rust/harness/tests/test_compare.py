@@ -1852,7 +1852,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1508)
+        self.assertEqual(len(case_ids), 1510)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -1861,7 +1861,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "0ac81ed9a7fdaa2fe9cb1fa6fc9f013ec322c50188a1e35a10459013c407b88d",
+            "517600ed6ae96aa7f0e8363718f08968bfcb0c9bf11a8b8529e6e850a3b88290",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),
@@ -2207,6 +2207,26 @@ class ComparatorTests(unittest.TestCase):
             [json.loads(base64.b64decode(case["files"][0]["content_base64"]))["max_errors"] for case in cases],
             [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1, 1000, 1],
         )
+
+    def test_mondegreens_no_config_default_cases(self) -> None:
+        expected = {
+            "mondegreens_no_config_default_dispatch": ("She was at his beckon call.", "findings"),
+            "mondegreens_no_config_clean_control": ("She was at his beck and call.", "clean"),
+        }
+        cases = {
+            case["id"]: case for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "rule.mondegreens"
+            and case.get("config_scenario") == "no_config_default"
+        }
+        self.assertEqual(set(cases), set(expected))
+        for case_id, (text, outcome) in expected.items():
+            with self.subTest(case=case_id):
+                case = cases[case_id]
+                self.assertEqual(base64.b64decode(case["stdin_base64"]).decode(), text)
+                self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+                self.assertEqual(case["expected_oracle_outcome"], outcome)
+                self.assertEqual(case["timeout_seconds"], 10)
+                self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
 
     def test_skunked_terms_cases_select_only_registered_check(self) -> None:
         cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "rule.skunked_terms"]

@@ -48132,6 +48132,58 @@
         "exit_status": "exact"
       },
       "stdin_base64": "b3RoZXIgdGhpbmdzIGJlaW5nIGVxdWFsOyBhbW9uZyBvdGhlciB0aGluZ3M7IGluIGFuZCBvZiBpdHNlbGY7IGhhdmluZyBtYWRlIHRoZSBuZWNlc3NhcnkgY2hhbmdlcy4="
+    },
+    {
+      "id": "mondegreens_no_config_default_dispatch",
+      "capability_id": "rule.mondegreens",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/mondegreens.py defines the case-insensitive PreferredFormsSimple mapping 'beckon call' to 'beck and call' with quote suppression disabled; config/default.json enables mondegreens. Exact no-config behavior is checked against the pinned live CLI.",
+      "input_mode": "stdin",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "U2hlIHdhcyBhdCBoaXMgYmVja29uIGNhbGwu"
+    },
+    {
+      "id": "mondegreens_no_config_clean_control",
+      "capability_id": "rule.mondegreens",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; the preferred form 'beck and call' emits no mondegreens diagnostic in the pinned live CLI with no config.",
+      "input_mode": "stdin",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "U2hlIHdhcyBhdCBoaXMgYmVjayBhbmQgY2FsbC4="
     }
   ]
 }

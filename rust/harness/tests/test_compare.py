@@ -2765,6 +2765,24 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(case["expected_oracle_outcome"], "findings")
         self.assertEqual(case["comparison"], {"stdout": "bytes", "stderr": "bytes", "exit_status": "exact"})
 
+    def test_annotations_default_dispatch_case_uses_implicit_configuration(self) -> None:
+        cases = [
+            case
+            for case in compare.load_manifest()["cases"]
+            if case["id"] == "annotations_misc_no_config_default_dispatch"
+        ]
+        self.assertEqual(len(cases), 1)
+        case = cases[0]
+        self.assertEqual(case["capability_id"], "rule.annotations.misc")
+        self.assertEqual(base64.b64decode(case["stdin_base64"]), b"TODO")
+        self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+        self.assertNotIn("--config", case["argv"])
+        self.assertEqual(case["config_scenario"], "no_config_default")
+        self.assertEqual(case["files"], [])
+        self.assertEqual(case["expected_oracle_outcome"], "findings")
+        self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
+        compare.validate_case(case)
+
     def test_missing_checks_configuration_cases_preserve_upstream_empty_mapping(self) -> None:
         cases = {
             case["id"]: case

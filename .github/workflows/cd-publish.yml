@@ -22,18 +22,10 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: "[INIT] Get privileged app token"
-        id: app-token
-        uses: actions/create-github-app-token@v3
-        with:
-          app-id: ${{ vars.APP_ID }}
-          private-key: ${{ secrets.APP_KEY }}
-
       - name: "[INIT] Checkout"
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
-          token: ${{ steps.app-token.outputs.token }}
 
       - name: "[INPUT] Validate release version"
         id: validate
@@ -104,7 +96,6 @@ jobs:
         env:
           RELEASE_VERSION: ${{ steps.validate.outputs.release_version }}
         run: |
-          nix develop --command uv version "$RELEASE_VERSION"
           nix develop --command git-cliff -c cliff.toml -u \
           --tag "v${RELEASE_VERSION}" \
           -p CHANGELOG.md
@@ -119,7 +110,7 @@ jobs:
           git push origin HEAD --tags
 
   build:
-    name: Build Artifacts
+    name: Build Release Notes
     runs-on: ubuntu-latest
     needs: [version]
     permissions:
@@ -144,20 +135,9 @@ jobs:
           name: amperser
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
 
-      - name: "[BUILD] Wheel"
-        run: |
-          mkdir -p dist
-          nix build -L .#wheel
-          cp result/*.whl dist/
-
-
-      - name: "[BUILD] Source dist"
-        run: |
-          nix build -L .#sdist
-          cp result/*.tar.gz dist/
-
       - name: "[CHANGELOG] Generate release notes"
         run: |
+          mkdir -p dist
           nix develop --command git-cliff -c cliff.toml \
             --latest --verbose \
             -o dist/RELEASE_NOTES.md
@@ -288,23 +268,3 @@ jobs:
           prerelease: ${{ steps.input.outputs.prerelease }}
           body_path: ./RELEASE_NOTES.md
           files: dist/*
-
-  pypi-publish:
-    name: Publish to PyPI
-    runs-on: ubuntu-latest
-    needs: [build]
-    environment: release
-    permissions:
-      id-token: write
-    steps:
-      - name: "[DOWNLOAD] Artifacts"
-        uses: actions/download-artifact@v8
-        with:
-          name: dist-artifacts
-          path: dist/
-
-      - name: "[INIT] Remove release notes"
-        run: rm dist/RELEASE_NOTES.md
-
-      - name: "[PUBLISH] PyPI"
-        uses: pypa/gh-action-pypi-publish@release/v1

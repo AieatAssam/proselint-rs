@@ -60,6 +60,17 @@ fn no_config_found_uses_default_enabled_rule() {
 }
 
 #[test]
+fn no_config_found_enables_annotations_misc() {
+    let output = Workspace::new().run(b"TODO");
+    assert_eq!(output.status.code(), Some(1), "stderr: {:?}", output.stderr);
+    assert_eq!(
+        output.stdout,
+        b"<stdin>:1:1: annotations.misc: Annotation left in text.\n"
+    );
+    assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
+}
+
+#[test]
 fn no_config_found_enables_social_awareness_preferred_forms() {
     let output = Workspace::new().run(b"Special rights should mean equal rights.");
     assert_eq!(output.status.code(), Some(1), "stderr: {:?}", output.stderr);

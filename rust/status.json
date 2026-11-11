@@ -2045,12 +2045,16 @@
       "status": "recorded",
       "case_ids": [
         "annotations_positive_todo",
+        "annotations_misc_no_config_default_dispatch",
         "annotations_negative_mixed_case",
         "annotations_case_sensitive_multiple_order",
         "annotations_boundary_negative",
         "annotations_quote_suppression",
         "annotations_unicode_boundaries_positions",
-        "annotations_selected_config_interaction"
+        "annotations_selected_config_interaction",
+        "annotations_max_errors_one",
+        "annotations_fastset_activation_raw_copy",
+        "annotations_max_errors_first_source_order"
       ],
       "red": {
         "result": "7 behavioral test failures because selected annotations config was rejected",
@@ -2079,9 +2083,32 @@
         "frozen_source_fingerprint": "f1644d864072cfca0a938357196a30f6e274779b2ec4255f53809bbfa9ce42dc"
       },
       "limitations": [
-        "explicit config selecting annotations.misc only",
-        "default config and other rules are not claimed"
-      ]
+        "Default dispatch was verified for a live no-config TODO case; broader default interactions and other config shapes remain unverified."
+      ],
+      "default_dispatch_expansion": {
+        "status": "independently_verified",
+        "case_id": "annotations_misc_no_config_default_dispatch",
+        "case_count": 1,
+        "upstream_case": "Pinned Proselint 0.16.0 default.json enables annotations.misc; TODO reports Annotation left in text.",
+        "red": "No Rust implementation change was needed: an initial exact live probe passed before the regression test was added; behavior was already present.",
+        "focused_rust_test": "rust/tests/cli_config_no_config.rs::no_config_found_enables_annotations_misc PASS 1/1",
+        "annotations_rust_target": "PASS 10/10",
+        "harness_manifest_test": "PASS 1/1",
+        "comparator_self_tests": "PASS 29/29",
+        "owner_report": "rust/artifacts/annotations-misc-default-dispatch-current-20261111.json",
+        "owner_cases": "11/11 PASS",
+        "owner_duration_seconds": 10.602,
+        "owner_fingerprint": "2e3ad0e98e67fd761c57264c52cf6b47ce073057072fef0e6a6eb6a56b3b530e",
+        "independent_report": "rust/artifacts/independent-annotations-default-20261111-low/live-comparison-final.json",
+        "independent_report_sha256": "4e6a6391ccd77d95143b5449f749aa93ebd1e79e95f06f27525c31eebe9ca2e5",
+        "independent_cases": "11/11 PASS",
+        "independent_duration_seconds": 20.019,
+        "build_attestation": "rust/artifacts/20261111T015620436691Z-build.attestation.json",
+        "candidate_sha256": "2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24",
+        "source_fingerprint": "2e3ad0e98e67fd761c57264c52cf6b47ce073057072fef0e6a6eb6a56b3b530e",
+        "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "runtime_model_metadata": "unavailable; Luna low requested"
+      }
     },
     {
       "id": "cli.coordinates",
@@ -12318,7 +12345,7 @@
     },
     "oracle_integrity": "verified",
     "scope_matches_current_manifest": false,
-    "scope_matches_current_accepted_scope": true,
+    "scope_matches_current_accepted_scope": false,
     "report_sha256": "d6945c6b133d2206bcc0a5bfd549d163a273ba82905f16cf94ab16feb31a6ae1",
     "benchmark": {
       "status": "PASS",
@@ -12341,13 +12368,17 @@
       "harness.oracle_smoke"
     ],
     "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-    "baseline_version": "0.16.0"
+    "baseline_version": "0.16.0",
+    "current_source_fingerprint": "2e3ad0e98e67fd761c57264c52cf6b47ce073057072fef0e6a6eb6a56b3b530e",
+    "current_accepted_case_count": 1426,
+    "current_manifest_case_count": 1437,
+    "checkpoint_note": "Historical full gate passed 1,425 cases; one independently verified default-dispatch case has been added since. Run next cumulative gate at the scheduled checkpoint or before release."
   },
   "rust_dependencies": {
     "status": "latest_for_pinned_toolchain",
     "toolchain": "1.99.1",
     "registry": "crates.io",
-    "latest_checked": "2026-11-10T12:39:31Z",
+    "latest_checked": "2026-11-11T01:44:00Z",
     "locked_versions": {
       "clap": "4.6.7",
       "serde": "1.0.229",
@@ -12383,18 +12414,18 @@
       "packages_to_update": 0,
       "command": "cargo update --dry-run --manifest-path rust/Cargo.toml",
       "rust_version_constraint": "1.99",
-      "checked_after": "2026-11-10T10:09:17Z",
-      "evidence": "rust/artifacts/rust-dependency-dry-run-post-gate-20261110.txt",
+      "checked_after": "2026-11-11T01:44:00Z",
+      "evidence": "rust/artifacts/rust-dependency-dry-run-current-20261111.txt",
       "report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2",
       "cargo_lock_sha256": "a246342e918651174f9fcadb2a6a54a2fea0b431fe6b479bc4da263bcad0a485"
     },
-    "pending_verification": "syn 3.0.10 has focused verification; the 2026-11-10 release gate passed 901 Rust tests across 145 targets. The current dependency freshness check found zero compatible updates.",
+    "pending_verification": "syn 3.0.10 was incorporated in Cargo.lock; current-source release gate passed 903 Rust tests across 145 targets on 2026-11-11. Latest freshness check found zero compatible updates.",
     "freshness_report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2",
     "cargo_lock_sha256": "a246342e918651174f9fcadb2a6a54a2fea0b431fe6b479bc4da263bcad0a485",
-    "latest_freshness_evidence": "rust/artifacts/rust-dependency-dry-run-current-20261110.txt",
-    "latest_freshness_report_sha256": "72706d113e6085034ed6fa5ae59b70f717a9347ded8f94e59c96968952ac62eb"
+    "latest_freshness_evidence": "rust/artifacts/rust-dependency-dry-run-current-20261111.txt",
+    "latest_freshness_report_sha256": "ccb74acaa5e2458d0b5a47887252ea47501cf5b6e40526884881a3f2f0d090c2"
   },
-  "next_capability_handoff": "Continue investigating product CLI/default behavior beyond the accepted 153 capabilities / 1,425 cases. Current-candidate rechecks confirm the remaining exact comparison blockers: installation-specific demo JSON source URI, Python runtime metadata in version JSON/verbose stderr, the user-requested product --version divergence, and the no-passwd import traceback. Do not fabricate runtime details, hardcode installation paths, or alter comparisons. The two harness.oracle_smoke cases pass but remain harness-only. Symlink-loop cases are included in the current passing cumulative gate; refresh focused independent evidence for the current attestation if required.",
+  "next_capability_handoff": "Continue auditing default-config dispatch beyond selected-config parity. `annotations.misc` now has one independently verified no-config positive case; next proposed path is archaism, followed by other missing default-enabled probes. Current accepted scope is 153 capabilities / 1,426 cases, while the latest full cumulative gate remains 1,425 cases at the prior fingerprint; run the full gate at the next 5–10 acceptance checkpoint and before release. Known exact CLI exclusions remain unchanged.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",
@@ -12968,13 +12999,13 @@
     "commit_push": "pushed: 2f68f32 to origin/main"
   },
   "current_candidate_release_readiness": {
-    "status": "PASS_WITH_EXPLICIT_GAPS",
+    "status": "PREVIOUS_GATE_PASS; NEXT_CUMULATIVE_CHECKPOINT_PENDING",
     "compatibility": "partial; release gate passes accepted scope only; version-flag divergence and six excluded CLI/harness capability IDs remain explicit",
-    "source_fingerprint": "1d080c6ed1e73e4c4aa941cb8d730e548313181f1e214e21d767de305b3131e5",
+    "source_fingerprint": "2e3ad0e98e67fd761c57264c52cf6b47ce073057072fef0e6a6eb6a56b3b530e",
     "candidate_sha256": "2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24",
     "accepted_capabilities": 153,
-    "selected_case_count": 1425,
-    "manifest_case_count": 1436,
+    "selected_case_count": 1426,
+    "manifest_case_count": 1437,
     "excluded_case_count": 11,
     "release_gate_report": "rust/artifacts/release-gate-current-candidate-final-20261111.json",
     "release_gate_report_sha256": "d6945c6b133d2206bcc0a5bfd549d163a273ba82905f16cf94ab16feb31a6ae1",
@@ -12987,7 +13018,10 @@
       "restricted.top1000": "3/3"
     },
     "benchmark": "rust/artifacts/release-candidate-benchmark-final-retry-20261111.json",
-    "commit_push": "pushed: 2f68f32 to origin/main"
+    "commit_push": "pushed: 2f68f32 to origin/main",
+    "latest_full_gate_scope": "1425/1425 at 1d080c6ed1e73e4c4aa941cb8d730e548313181f1e214e21d767de305b3131e5",
+    "latest_full_gate_matches_current_scope": false,
+    "new_accepted_case": "annotations_misc_no_config_default_dispatch"
   },
   "latest_harness_storage_optimization": {
     "change": "reference Python bytecode writes disabled by default; each case retains a unique temporary cache prefix; explicit case settings are preserved",
@@ -13189,5 +13223,45 @@
       "included_in_production_gate": false,
       "runtime_model_metadata": "unavailable; gpt-6-luna/low configured"
     }
+  },
+  "latest_sol_runtime_metadata_conflict": {
+    "configured_agent": "sol_advisor",
+    "configured_model": "gpt-6.1-sol",
+    "configured_effort": "low",
+    "runtime_dispatch_metadata": "unavailable",
+    "status": "exact parity infeasible under current contract",
+    "finding": "Python version JSON reports sys.version_info and verbose output reports Python runtime/timestamp details. Rust may not invoke Python or fabricate Python identity; timestamped verbose stderr is nondeterministic. Keep both exact cases blocked and unaccepted unless user explicitly revises product scope; do not change oracle expectations or comparison rules.",
+    "evidence": [
+      "rust/artifacts/current-candidate-gap-1-20261111.json",
+      "rust/artifacts/current-candidate-gap-2-20261111.json",
+      "rust/MIGRATION.md"
+    ]
+  },
+  "fork_release_workflow": {
+    "workflow": ".github/workflows/cd-publish.yml",
+    "trigger": "workflow_dispatch only",
+    "rust_release_targets": [
+      "x86_64-unknown-linux-gnu",
+      "aarch64-unknown-linux-gnu",
+      "x86_64-pc-windows-msvc",
+      "aarch64-pc-windows-msvc",
+      "x86_64-apple-darwin",
+      "aarch64-apple-darwin"
+    ],
+    "python_package_builds": "disabled",
+    "pypi_publish": "disabled",
+    "python_project_version_bump": "disabled",
+    "release": "Rust binaries and release notes only",
+    "validation": "structural workflow assertions and git diff --check passed; no YAML parser/actionlint installed"
+  },
+  "latest_default_dispatch_coverage": {
+    "capability": "rule.annotations.misc",
+    "new_case": "annotations_misc_no_config_default_dispatch",
+    "case_count": 1,
+    "owner_report": "rust/artifacts/annotations-misc-default-dispatch-current-20261111.json",
+    "independent_report": "rust/artifacts/independent-annotations-default-20261111-low/live-comparison-final.json",
+    "status": "PASS 11/11 at current focused attestation",
+    "source_fingerprint": "2e3ad0e98e67fd761c57264c52cf6b47ce073057072fef0e6a6eb6a56b3b530e",
+    "runtime_model_metadata": "unavailable; Luna low configured"
   }
 }

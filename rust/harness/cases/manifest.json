@@ -1646,6 +1646,32 @@
       }
     },
     {
+      "id": "annotations_misc_no_config_default_dispatch",
+      "capability_id": "rule.annotations.misc",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/annotations.py registers TODO as an Existence term and config/default.json enables annotations.misc. This case reuses the exact TODO input without an explicit config to verify default dispatch.",
+      "input_mode": "stdin",
+      "stdin_base64": "VE9ETw==",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
       "id": "annotations_negative_mixed_case",
       "capability_id": "rule.annotations.misc",
       "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; mixed-case near miss verifies case-sensitive Fast engine. Sources: checks/annotations.py; registry/checks/engine.py:RegexOptions.",

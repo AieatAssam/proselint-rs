@@ -123,6 +123,32 @@ class ComparatorTests(unittest.TestCase):
                 self.assertEqual(case["comparison"]["stderr"], "bytes")
                 self.assertEqual(case["comparison"]["exit_status"], "exact")
 
+    def test_default_dispatch_months_manifest_cases(self) -> None:
+        expected = {
+            "capitalization_months_no_config_default_dispatch": (
+                "rule.misc.capitalization.months", "january is the first month.", "findings",
+            ),
+            "capitalization_months_no_config_clean_control": (
+                "rule.misc.capitalization.months", "January arrives after march and may.", "clean",
+            ),
+        }
+        cases = {
+            case["id"]: case
+            for case in compare.load_manifest()["cases"]
+            if case["id"] in expected
+        }
+        self.assertEqual(set(cases), set(expected))
+        for case_id, (capability, text, outcome) in expected.items():
+            with self.subTest(case=case_id):
+                case = cases[case_id]
+                self.assertEqual(case["capability_id"], capability)
+                self.assertEqual(base64.b64decode(case["stdin_base64"]).decode(), text)
+                self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+                self.assertEqual(case["config_scenario"], "no_config_default")
+                self.assertEqual(case["expected_oracle_outcome"], outcome)
+                self.assertEqual(case["timeout_seconds"], 10)
+                self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
+
     def test_default_dispatch_seasons_and_institution_manifest_cases(self) -> None:
         expected = {
             "capitalization_seasons_no_config_default_dispatch": (

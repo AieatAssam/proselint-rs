@@ -1,0 +1,64 @@
+{
+  "verification": "rule.misc.many_a frozen default-dispatch independent verification",
+  "run_id": "20261111T060346967669Z-4ae09990",
+  "started_at_utc": "2026-11-11T06:03:46.967636+00:00",
+  "finished_at_utc": "2026-11-11T06:04:00.627627+00:00",
+  "live_elapsed_seconds": 13.659991,
+  "source_fingerprint": "2b48fb42be7fdbc4f635433a683d737643291a65693254ddd1ca54c9dca1df16",
+  "attestation_source_fingerprint": "2b48fb42be7fdbc4f635433a683d737643291a65693254ddd1ca54c9dca1df16",
+  "source_fingerprint_matches": true,
+  "binary_path": "/home/dev/proselint-rs/rust/target/release/proselint-rs",
+  "binary_sha256": "2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24",
+  "attestation_binary_sha256": "2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24",
+  "binary_matches_attestation": true,
+  "build_attestation": "rust/artifacts/20261111T060129590540Z-build.attestation.json",
+  "build_attestation_sha256": "e1b42eec0032479d5e28879d8ef6cd046825a6151573b22419a1ac894a8ba359",
+  "oracle": {
+    "integrity": "verified",
+    "revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+    "package_version_from_oracle_lock": "0.16.0",
+    "source_tree_sha256": "73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831",
+    "installed_package_tree_sha256": "6e6b1a625b7bf776549975cfd2d312d21906e5e6a96173d69c7596bbcc64d849",
+    "executable_sha256": "b5f88a67377a8f3c32e1bffc41ca96fd8c111b127427459ffb2184e74c99af77"
+  },
+  "live_comparison": {
+    "command": "python3 rust/harness/compare.py --capability rule.misc.many_a --live --candidate-argv-json '[\"/home/dev/proselint-rs/rust/target/release/proselint-rs\"]' --candidate-attestation rust/artifacts/20261111T060129590540Z-build.attestation.json --report rust/artifacts/independent-many-a-default-20261111/live.json",
+    "exit_code": 0,
+    "status": "PASS",
+    "counts": {"PASS": 14, "MISMATCH": 0, "ORACLE_ERROR": 0, "CANDIDATE_ERROR": 0, "TIMEOUT": 0, "NOT_IMPLEMENTED": 0, "BLOCKED": 0},
+    "case_ids": [
+      "many_a_all_three_forms",
+      "many_a_case_variants_replacements_order",
+      "many_a_punctuation_boundaries",
+      "many_a_longer_word_boundary_negatives",
+      "many_a_correct_forms_clean",
+      "many_a_quote_suppression_with_unquoted_match",
+      "many_a_repeated_mixed_source_order",
+      "many_a_unicode_codepoint_positions",
+      "many_a_selected_config_interaction",
+      "many_a_fastset_activation_raw_copy",
+      "astra_ordering_many_a_limit_two",
+      "astra_ordering_many_a_reversed_limit_two",
+      "many_a_no_config_default_dispatch",
+      "many_a_no_config_clean_control"
+    ]
+  },
+  "comparator_self_tests": {"command": "python3 rust/harness/compare.py --self-test", "exit_code": 0, "status": "PASS", "checks": 29},
+  "oracle_self_check": {"command": "python3 rust/harness/compare.py --oracle-self-check --live --report rust/artifacts/independent-many-a-default-20261111/oracle-self-check.json", "exit_code": 0, "status": "PASS", "counts": {"PASS": 2, "MISMATCH": 0, "ORACLE_ERROR": 0, "CANDIDATE_ERROR": 0, "TIMEOUT": 0, "NOT_IMPLEMENTED": 0, "BLOCKED": 0}},
+  "focused_rust_test": {
+    "command": "CARGO_HOME=rust/.cache/cargo-home RUSTUP_HOME=rust/.cache/rustup-home RUSTUP_TOOLCHAIN=1.99.1 PATH=\"/home/dev/proselint-rs/rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin:$PATH\" cargo test --locked --manifest-path rust/Cargo.toml --test cli_config_no_config no_config_found_enables_many_a",
+    "exit_code": 0,
+    "result": "1 passed; 0 failed; 0 ignored; 21 filtered out",
+    "test_elapsed_seconds": 20.90
+  },
+  "inspection": {
+    "test_changes": "The diff adds the focused Rust test and two capability cases plus comparator assertions; no existing assertion was removed or weakened in the inspected files.",
+    "runtime_python_fallback": "No Rust runtime Python executable invocation or Python binding was found in rust/src or Cargo.toml; matches for python* are compatibility helper names only."
+  },
+  "model_metadata": {
+    "assigned_model": "gpt-6-luna",
+    "assigned_effort": "low",
+    "recorded_by_comparator_or_attestation": false,
+    "limit": "Model and effort are supplied by task context; the evidence report schema does not attest sampling metadata."
+  }
+}

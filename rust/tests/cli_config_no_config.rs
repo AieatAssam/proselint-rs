@@ -186,6 +186,32 @@ fn no_config_found_enables_debased() {
 }
 
 #[test]
+fn no_config_found_enables_many_a() {
+    let positive = Workspace::new().run(b"There are many a reason.");
+    assert_eq!(
+        positive.status.code(),
+        Some(1),
+        "stderr: {:?}",
+        positive.stderr
+    );
+    assert_eq!(
+        positive.stdout,
+        b"<stdin>:1:7: misc.many_a: 'many a' requires a singular verb.\n"
+    );
+    assert!(positive.stderr.is_empty(), "stderr: {:?}", positive.stderr);
+
+    let control = Workspace::new().run(b"The report is ready for review.");
+    assert_eq!(
+        control.status.code(),
+        Some(0),
+        "stderr: {:?}",
+        control.stderr
+    );
+    assert_eq!(control.stdout, b"");
+    assert!(control.stderr.is_empty(), "stderr: {:?}", control.stderr);
+}
+
+#[test]
 fn no_config_found_enables_cliches_hell_and_hedging() {
     let cases = [
         (

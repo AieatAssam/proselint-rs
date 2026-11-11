@@ -48002,6 +48002,84 @@
       "id": "bureaucratese_no_config_clean_control",
       "stdin_base64": "V2UgYXBwcm92ZSB0aGlzIG1lZXRpbmcu",
       "expected_oracle_outcome": "clean"
+    },
+    {
+      "capability_id": "rule.misc.scare_quotes",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/misc/scare_quotes.py registers ExistenceSimple(pattern=r\"\\bthe 'take-home message'\\B\"), default enabled. Verified with the pinned live Python CLI; exercises default dispatch, terminal \\B boundary, and quote suppression.",
+      "input_mode": "stdin",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "id": "scare_quotes_no_config_default_dispatch",
+      "stdin_base64": "VGhlICd0YWtlLWhvbWUgbWVzc2FnZScgaXMgY2xlYXIu",
+      "expected_oracle_outcome": "findings"
+    },
+    {
+      "capability_id": "rule.misc.scare_quotes",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/misc/scare_quotes.py registers ExistenceSimple(pattern=r\"\\bthe 'take-home message'\\B\"), default enabled. Verified with the pinned live Python CLI; exercises default dispatch, terminal \\B boundary, and quote suppression.",
+      "input_mode": "stdin",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "id": "scare_quotes_no_config_clean_boundary_control",
+      "stdin_base64": "VGhlICd0YWtlLWhvbWUgbWVzc2FnZSd4IGlzIGNsZWFyOyBvdGhlcnRoZSAndGFrZS1ob21lIG1lc3NhZ2UnIGlzIGNsZWFyLg==",
+      "expected_oracle_outcome": "clean"
+    },
+    {
+      "capability_id": "rule.misc.scare_quotes",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/misc/scare_quotes.py registers ExistenceSimple(pattern=r\"\\bthe 'take-home message'\\B\"), default enabled. Verified with the pinned live Python CLI; exercises default dispatch, terminal \\B boundary, and quote suppression.",
+      "input_mode": "stdin",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "id": "scare_quotes_no_config_quote_suppression",
+      "stdin_base64": "4oCcdGhlICd0YWtlLWhvbWUgbWVzc2FnZSfigJ0=",
+      "expected_oracle_outcome": "clean"
     }
   ]
 }

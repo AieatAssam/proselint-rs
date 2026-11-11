@@ -1464,7 +1464,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1445)
+        self.assertEqual(len(case_ids), 1447)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -1473,7 +1473,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "5f8a49cbcf78f65c75ae71e3dcbb907303f64ccba38d930a03a3a3e36dd0ff78",
+            "eb0e1663325d840d0aafba7529c9b45044ae60e1a9b30e38c8db06d6c0f71970",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),
@@ -1511,6 +1511,20 @@ class ComparatorTests(unittest.TestCase):
             [1000, 1],
         )
 
+    def test_false_plurals_kudos_default_dispatch_cases(self) -> None:
+        cases = {
+            case["id"]: case for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "rule.misc.false_plurals.kudos"
+            and case.get("config_scenario") == "no_config_default"
+        }
+        self.assertEqual(set(cases), {
+            "false_plurals_kudos_no_config_default_dispatch",
+            "false_plurals_kudos_no_config_clean_control",
+        })
+        self.assertEqual(cases["false_plurals_kudos_no_config_default_dispatch"]["stdin_base64"], "U2hlIHJlY2VpdmVkIG1hbnkga3Vkb3Mu")
+        self.assertEqual(cases["false_plurals_kudos_no_config_default_dispatch"]["expected_oracle_outcome"], "findings")
+        self.assertEqual(cases["false_plurals_kudos_no_config_clean_control"]["stdin_base64"], "U2hlIHJlY2VpdmVkIGt1ZG9zLg==")
+        self.assertEqual(cases["false_plurals_kudos_no_config_clean_control"]["expected_oracle_outcome"], "clean")
     def test_default_config_cross_rule_case_scope(self) -> None:
         cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "cli.config.default_cross_rule"]
         self.assertEqual(len(cases), 1)

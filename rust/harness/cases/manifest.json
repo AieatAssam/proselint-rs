@@ -2896,6 +2896,38 @@
       }
     },
     {
+      "id": "false_plurals_kudos_no_config_default_dispatch",
+      "capability_id": "rule.misc.false_plurals.kudos",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/false_plurals.py registers check_kudos for `many kudos`, and config/default.json enables misc. This no-config case checks default dispatch with other default rules active.",
+      "input_mode": "stdin",
+      "stdin_base64": "U2hlIHJlY2VpdmVkIG1hbnkga3Vkb3Mu",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "false_plurals_kudos_no_config_clean_control",
+      "capability_id": "rule.misc.false_plurals.kudos",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; this no-config control omits `many` from the literal trigger and should remain clean.",
+      "input_mode": "stdin",
+      "stdin_base64": "U2hlIHJlY2VpdmVkIGt1ZG9zLg==",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
       "id": "mental_telepathy_positive_context",
       "capability_id": "rule.psychology.mental_telepathy",
       "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Positive phrase from upstream check examples in ordinary context; live CLI supplies message and span. Sources: checks/psychology.py:check_mental_telepathy; registry/checks/types.py:ExistenceSimple; registry/checks/engine.py:Fast.",

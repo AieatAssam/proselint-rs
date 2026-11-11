@@ -108,6 +108,32 @@ fn no_config_found_enables_whence() {
 }
 
 #[test]
+fn no_config_found_enables_false_plurals_kudos() {
+    let positive = Workspace::new().run(b"She received many kudos.");
+    assert_eq!(
+        positive.status.code(),
+        Some(1),
+        "stderr: {:?}",
+        positive.stderr
+    );
+    assert_eq!(
+        positive.stdout,
+        b"<stdin>:1:14: misc.false_plurals.kudos: Kudos is singular.\n"
+    );
+    assert!(positive.stderr.is_empty(), "stderr: {:?}", positive.stderr);
+
+    let control = Workspace::new().run(b"She received kudos.");
+    assert_eq!(
+        control.status.code(),
+        Some(0),
+        "stderr: {:?}",
+        control.stderr
+    );
+    assert_eq!(control.stdout, b"");
+    assert!(control.stderr.is_empty(), "stderr: {:?}", control.stderr);
+}
+
+#[test]
 fn no_config_found_enables_cliches_hell_and_hedging() {
     let cases = [
         (

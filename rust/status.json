@@ -13112,11 +13112,11 @@
     "rust_tests_passed": 923,
     "rust_tests_failed": 0,
     "scope_matches_current_accepted_scope": false,
-    "current_accepted_case_count": 1476,
-    "current_manifest_case_count": 1487,
+    "current_accepted_case_count": 1478,
+    "current_manifest_case_count": 1489,
     "current_tree_fingerprint_matches_gate": false,
     "post_gate_source_change": "Only rust/harness/tests/test_compare.py manifest-size and case-ID digest invariants were updated from the prior 1475-case manifest to the new 1479-case manifest; no oracle outputs, comparator policy, manifest, or Rust behavior changed.",
-    "current_scope_note": "Historical cumulative gate passed 1468/1479 before focused no-config extensions for months, weasel_words.very, airlinese, and narcissism. Current accepted focused-live scope is 1476/1487 with 11 explicit exclusions. Run the cumulative checkpoint after one more isolated capability."
+    "current_scope_note": "Historical cumulative gate passed 1468/1479 before five focused no-config extensions: months, weasel_words.very, airlinese, narcissism, and misc.but. Current accepted focused-live scope is 1478/1489 with 11 explicit exclusions. The cumulative checkpoint is due now."
   },
   "rust_dependencies": {
     "status": "latest_for_pinned_toolchain",
@@ -14938,7 +14938,7 @@
     ],
     "claim_limit": "Selected rules and three workloads on one Linux x86_64 host; not whole-program or universal performance."
   },
-  "next_task": "Add direct no-config positive/clean-control coverage to already implemented default-enabled rule.misc.but (or an equivalent safe candidate), then run the cumulative checkpoint and full harness suite.",
+  "next_task": "Run the cumulative live gate for the 1478 accepted cases and full harness suite; preserve all 11 exclusions and do not claim full compatibility.",
   "latest_default_dispatch_extension": {
     "status": "independently_verified",
     "scope": "Added one no-config default-enabled positive and one title-case clean control to the already-recorded rule; no production Rust change.",
@@ -15337,6 +15337,58 @@
       "runtime_model_metadata": "unavailable",
       "expectations_or_comparison_changed": false,
       "cumulative_gate": "NOT_DUE; four isolated direct-dispatch capabilities added since the 1468/1479 gate"
+    },
+    {
+      "status": "independently_verified",
+      "scope": "Added two direct no-config default-dispatch cases to already implemented rule.misc.but; no production Rust change.",
+      "case_ids": [
+        "but_no_config_default_dispatch",
+        "but_no_config_clean_control"
+      ],
+      "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+      "red": {
+        "status": "FAIL_EXPECTED_MISSING_CASES",
+        "contract": "failed because both expected case IDs were absent"
+      },
+      "green": {
+        "status": "PASS",
+        "focused_contract_and_inventory": "2/2",
+        "duration_seconds": 1.03
+      },
+      "owner_live": {
+        "status": "PASS",
+        "cases": "10/10",
+        "duration_seconds": 11.07,
+        "report": "rust/artifacts/but-default-focused.json"
+      },
+      "focused_rust_test": {
+        "status": "PASS",
+        "cases": "7/7",
+        "duration_seconds": 35.53,
+        "command": "cargo test --locked --manifest-path rust/Cargo.toml --test misc_but"
+      },
+      "candidate_attestation": "rust/artifacts/20261111T172601170624Z-build.attestation.json",
+      "candidate_attestation_sha256": "a7a71a47922df31c11f88ea378325e1e50dc1e5991961215accd52a9379a3a93",
+      "source_fingerprint": "6197e868ef69806a4b8924f1e0e0d9a5cec90ace4cb44a5a9322045aff56e75b",
+      "candidate_sha256": "db84fad888596055f13c5dd21b00de393ca3e0e2e5a01e43ba00ef6a9a07ac20",
+      "independent_verification": {
+        "status": "PASS",
+        "live_cases": "10/10",
+        "live_seconds": 11.20328,
+        "live_report": "rust/artifacts/independent-but-default-20261111/live-compare.json",
+        "live_report_sha256": "030e6b033bfa094a099cfbd74b23ad71c197132c1a2c37fa37b9471e97eacf0d",
+        "focused_harness_test": "1/1 in 0.296s",
+        "comparator_self_tests": "28/28 PASS",
+        "rust_test": "7/7 PASS",
+        "oracle_self_check": "2/2 PASS in 6.849787s",
+        "oracle_integrity": "verified; source SHA 73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831",
+        "attestation_sha256": "96a8834dfa4217cf2f95c23d11f0b812c47a72a8aafe3146108304e102a8cba1",
+        "evidence_dir": "rust/artifacts/independent-but-default-20261111/"
+      },
+      "requested_model": "gpt-6-luna / low",
+      "runtime_model_metadata": "unavailable",
+      "expectations_or_comparison_changed": false,
+      "cumulative_gate": "DUE_AFTER_THIS_EXTENSION; fifth direct-dispatch capability since the 1468/1479 gate"
     }
   ],
   "latest_full_harness_suite_failed_attempt": {
@@ -15591,5 +15643,57 @@
     "runtime_model_metadata": "unavailable",
     "expectations_or_comparison_changed": false,
     "cumulative_gate": "NOT_DUE; four isolated direct-dispatch capabilities added since the 1468/1479 gate"
+  },
+  "latest_but_default_dispatch_acceptance": {
+    "status": "independently_verified",
+    "scope": "Added two direct no-config default-dispatch cases to already implemented rule.misc.but; no production Rust change.",
+    "case_ids": [
+      "but_no_config_default_dispatch",
+      "but_no_config_clean_control"
+    ],
+    "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+    "red": {
+      "status": "FAIL_EXPECTED_MISSING_CASES",
+      "contract": "failed because both expected case IDs were absent"
+    },
+    "green": {
+      "status": "PASS",
+      "focused_contract_and_inventory": "2/2",
+      "duration_seconds": 1.03
+    },
+    "owner_live": {
+      "status": "PASS",
+      "cases": "10/10",
+      "duration_seconds": 11.07,
+      "report": "rust/artifacts/but-default-focused.json"
+    },
+    "focused_rust_test": {
+      "status": "PASS",
+      "cases": "7/7",
+      "duration_seconds": 35.53,
+      "command": "cargo test --locked --manifest-path rust/Cargo.toml --test misc_but"
+    },
+    "candidate_attestation": "rust/artifacts/20261111T172601170624Z-build.attestation.json",
+    "candidate_attestation_sha256": "a7a71a47922df31c11f88ea378325e1e50dc1e5991961215accd52a9379a3a93",
+    "source_fingerprint": "6197e868ef69806a4b8924f1e0e0d9a5cec90ace4cb44a5a9322045aff56e75b",
+    "candidate_sha256": "db84fad888596055f13c5dd21b00de393ca3e0e2e5a01e43ba00ef6a9a07ac20",
+    "independent_verification": {
+      "status": "PASS",
+      "live_cases": "10/10",
+      "live_seconds": 11.20328,
+      "live_report": "rust/artifacts/independent-but-default-20261111/live-compare.json",
+      "live_report_sha256": "030e6b033bfa094a099cfbd74b23ad71c197132c1a2c37fa37b9471e97eacf0d",
+      "focused_harness_test": "1/1 in 0.296s",
+      "comparator_self_tests": "28/28 PASS",
+      "rust_test": "7/7 PASS",
+      "oracle_self_check": "2/2 PASS in 6.849787s",
+      "oracle_integrity": "verified; source SHA 73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831",
+      "attestation_sha256": "96a8834dfa4217cf2f95c23d11f0b812c47a72a8aafe3146108304e102a8cba1",
+      "evidence_dir": "rust/artifacts/independent-but-default-20261111/"
+    },
+    "requested_model": "gpt-6-luna / low",
+    "runtime_model_metadata": "unavailable",
+    "expectations_or_comparison_changed": false,
+    "cumulative_gate": "DUE_AFTER_THIS_EXTENSION; fifth direct-dispatch capability since the 1468/1479 gate"
   }
 }

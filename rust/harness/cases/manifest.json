@@ -47488,5 +47488,58 @@
       "workspace_mutates": false,
       "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
     }
+    ,
+    {
+      "id": "weasel_very_no_config_default_dispatch",
+      "capability_id": "rule.weasel_words.very",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; `proselint/checks/weasel_words.py::check_very` is enabled through bundled default group `weasel_words`. The pinned live CLI returns the stated exact outcome with no config.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhpcyBpcyB2ZXJ5IHVzZWZ1bC4=",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "weasel_very_no_config_clean_control",
+      "capability_id": "rule.weasel_words.very",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; `proselint/checks/weasel_words.py::check_very` is enabled through bundled default group `weasel_words`. The pinned live CLI returns the stated exact outcome with no config.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhpcyBpcyBhIHVzZWZ1bCBzZW50ZW5jZS4=",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    }
   ]
 }

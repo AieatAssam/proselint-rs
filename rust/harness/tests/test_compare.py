@@ -217,6 +217,32 @@ class ComparatorTests(unittest.TestCase):
                 self.assertEqual(case["expected_oracle_outcome"], outcome)
                 self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
 
+    def test_default_dispatch_weasel_very_manifest_cases(self) -> None:
+        expected = {
+            "weasel_very_no_config_default_dispatch": (
+                "rule.weasel_words.very", "This is very useful.", "findings",
+            ),
+            "weasel_very_no_config_clean_control": (
+                "rule.weasel_words.very", "This is a useful sentence.", "clean",
+            ),
+        }
+        cases = {
+            case["id"]: case
+            for case in compare.load_manifest()["cases"]
+            if case["id"] in expected
+        }
+        self.assertEqual(set(cases), set(expected))
+        for case_id, (capability, text, outcome) in expected.items():
+            with self.subTest(case=case_id):
+                case = cases[case_id]
+                self.assertEqual(case["capability_id"], capability)
+                self.assertEqual(base64.b64decode(case["stdin_base64"]).decode(), text)
+                self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+                self.assertEqual(case["config_scenario"], "no_config_default")
+                self.assertEqual(case["expected_oracle_outcome"], outcome)
+                self.assertEqual(case["timeout_seconds"], 10)
+                self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
+
     def test_unicode_repr_invalid_output_format_manifest_cases(self) -> None:
         cases = [case for case in compare.load_manifest()["cases"] if case["id"].startswith("cli_invalid_output_format_") and case["id"].endswith(("u2028", "u2029", "u200b", "00a0", "1c89"))]
         expected = {

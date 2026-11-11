@@ -1464,7 +1464,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1459)
+        self.assertEqual(len(case_ids), 1461)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -1473,7 +1473,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "e356978c4bb8113c51523baab17a8a8860db17c32b85bc9aa71cfbdfc29aada5",
+            "d264b41dd60ca12326ff26fca724e5793f6977543fbe950eb36585d3d4e04fa3",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),
@@ -1615,6 +1615,26 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(cases["not_guilty_no_config_default_dispatch"]["expected_oracle_outcome"], "findings")
         self.assertEqual(cases["not_guilty_no_config_clean_control"]["stdin_base64"], "VGhlIGp1cnkgcmV0dXJuZWQgaXRzIHZlcmRpY3QgYWZ0ZXIgcmV2aWV3aW5nIHRoZSBldmlkZW5jZS4=")
         self.assertEqual(cases["not_guilty_no_config_clean_control"]["expected_oracle_outcome"], "clean")
+        for case in cases.values():
+            self.assertEqual(case["files"], [])
+            self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+            self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
+            compare.validate_case(case)
+
+    def test_month_of_year_default_dispatch_cases(self) -> None:
+        cases = {
+            case["id"]: case for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "rule.dates_times.dates.month_of_year"
+            and case.get("config_scenario") == "no_config_default"
+        }
+        self.assertEqual(set(cases), {
+            "month_of_year_no_config_default_dispatch",
+            "month_of_year_no_config_clean_control",
+        })
+        self.assertEqual(cases["month_of_year_no_config_default_dispatch"]["stdin_base64"], "V2UgbWV0IGluIEphbnVhcnkgb2YgMjAyNC4=")
+        self.assertEqual(cases["month_of_year_no_config_default_dispatch"]["expected_oracle_outcome"], "findings")
+        self.assertEqual(cases["month_of_year_no_config_clean_control"]["stdin_base64"], "VGhlIGNvbW1pdHRlZSByZXZpZXdlZCB0aGUgcmVwb3J0IHllc3RlcmRheS4=")
+        self.assertEqual(cases["month_of_year_no_config_clean_control"]["expected_oracle_outcome"], "clean")
         for case in cases.values():
             self.assertEqual(case["files"], [])
             self.assertEqual(case["argv"], ["check", "--output-format", "json"])

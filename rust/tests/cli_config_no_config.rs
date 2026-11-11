@@ -292,6 +292,32 @@ fn no_config_found_enables_not_guilty() {
 }
 
 #[test]
+fn no_config_found_enables_month_of_year() {
+    let positive = Workspace::new().run(b"We met in January of 2024.");
+    assert_eq!(
+        positive.status.code(),
+        Some(1),
+        "stderr: {:?}",
+        positive.stderr
+    );
+    assert_eq!(
+        positive.stdout,
+        b"<stdin>:1:11: dates_times.dates.month_of_year: When specifying a month and year, 'of' is unnecessary.\n"
+    );
+    assert!(positive.stderr.is_empty(), "stderr: {:?}", positive.stderr);
+
+    let control = Workspace::new().run(b"The committee reviewed the report yesterday.");
+    assert_eq!(
+        control.status.code(),
+        Some(0),
+        "stderr: {:?}",
+        control.stderr
+    );
+    assert!(control.stdout.is_empty(), "stdout: {:?}", control.stdout);
+    assert!(control.stderr.is_empty(), "stderr: {:?}", control.stderr);
+}
+
+#[test]
 fn no_config_found_enables_cliches_hell_and_hedging() {
     let cases = [
         (

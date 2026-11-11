@@ -47075,6 +47075,58 @@
         "stderr": "bytes",
         "exit_status": "exact"
       }
+    },
+    {
+      "id": "month_of_year_no_config_default_dispatch",
+      "capability_id": "rule.dates_times.dates.month_of_year",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/dates_times/dates.py registers dates_times.dates.month_of_year and the bundled default config enables dates_times. Positive and clean-control outputs were probed live against the pinned Python executable and attested Rust release candidate.",
+      "input_mode": "stdin",
+      "stdin_base64": "V2UgbWV0IGluIEphbnVhcnkgb2YgMjAyNC4=",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "month_of_year_no_config_clean_control",
+      "capability_id": "rule.dates_times.dates.month_of_year",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/dates_times/dates.py registers dates_times.dates.month_of_year and the bundled default config enables dates_times. Positive and clean-control outputs were probed live against the pinned Python executable and attested Rust release candidate.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlIGNvbW1pdHRlZSByZXZpZXdlZCB0aGUgcmVwb3J0IHllc3RlcmRheS4=",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
     }
   ]
 }

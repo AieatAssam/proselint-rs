@@ -1,0 +1,448 @@
+{
+  "schema_version": 1,
+  "task": "Independent verification of default dispatch for rule.misc.debased",
+  "status": "PASS",
+  "attestation": {
+    "path": "rust/artifacts/20261111T054516823228Z-build.attestation.json",
+    "source_fingerprint": "6461751a56b867ec9af8f8228610dc69b2d6131e9041d2162656172dc95de470",
+    "current_source_fingerprint_after": "6461751a56b867ec9af8f8228610dc69b2d6131e9041d2162656172dc95de470",
+    "source_matches": true,
+    "cargo_lock_sha256_attested": "a246342e918651174f9fcadb2a6a54a2fea0b431fe6b479bc4da263bcad0a485",
+    "cargo_lock_sha256_current": "a246342e918651174f9fcadb2a6a54a2fea0b431fe6b479bc4da263bcad0a485",
+    "binary_path": "/home/dev/proselint-rs/rust/target/release/proselint-rs",
+    "binary_sha256_attested": "2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24",
+    "binary_sha256_current": "2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24",
+    "binary_matches": true
+  },
+  "oracle": {
+    "integrity": "verified",
+    "revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+    "source_tree_sha256": "73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831",
+    "executable": "/home/dev/proselint-rs/rust/.cache/oracle-src/source/.venv/bin/proselint",
+    "executable_sha256": "b5f88a67377a8f3c32e1bffc41ca96fd8c111b127427459ffb2184e74c99af77",
+    "installed_package_tree_sha256": "6e6b1a625b7bf776549975cfd2d312d21906e5e6a96173d69c7596bbcc64d849",
+    "installed_package_source_projection_matches_pinned": true,
+    "python_version": "3.12.3",
+    "dependencies": {
+      "coverage": "7.13.0",
+      "google-re2": "1.1.20251105",
+      "google-re2-stubs": "0.1.1",
+      "hypothesis": "6.148.7",
+      "iniconfig": "2.3.0",
+      "packaging": "25.0",
+      "pluggy": "1.6.0",
+      "proselint": "0.16.0",
+      "pygments": "2.19.2",
+      "pytest": "9.1.1",
+      "pytest-cov": "7.0.0",
+      "rstr": "3.2.2",
+      "sortedcontainers": "2.4.0"
+    }
+  },
+  "runs": {
+    "comparator_selftest": {
+      "command": "python3 rust/harness/compare.py --self-test",
+      "exit_code": 0,
+      "status": "PASS",
+      "checks": 29,
+      "passed": 29,
+      "report": "rust/artifacts/independent-debased-default-20261111/comparator-selftest.json"
+    },
+    "focused_rust_test": {
+      "command": "env CARGO_HOME=rust/.cache/cargo-home RUSTUP_HOME=rust/.cache/rustup-home RUSTUP_TOOLCHAIN=1.99.1 PATH=rust/.cache/rustup-home/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin:$PATH cargo --locked test --manifest-path rust/Cargo.toml --test cli_config_no_config no_config_found_enables_debased",
+      "exit_code": 0,
+      "elapsed_seconds": 19.916,
+      "passed": 1,
+      "failed": 0,
+      "result_line": "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 20 filtered out",
+      "log": "rust/artifacts/independent-debased-default-20261111/rust-focused-test.log"
+    },
+    "live_first_attempt": {
+      "command": "python3 rust/harness/compare.py --capability rule.misc.debased --live --candidate-argv-json [\"/home/dev/proselint-rs/rust/target/release/proselint-rs\"] --candidate-attestation rust/artifacts/20261111T054516823228Z-build.attestation.json --report rust/artifacts/independent-debased-default-20261111/live-report.json",
+      "exit_code": 0,
+      "run_id": "20261111T055112442717Z-3d203268",
+      "status": "MISMATCH",
+      "counts": {
+        "BLOCKED": 0,
+        "CANDIDATE_ERROR": 0,
+        "MISMATCH": 0,
+        "NOT_IMPLEMENTED": 0,
+        "ORACLE_ERROR": 0,
+        "PASS": 15,
+        "TIMEOUT": 2
+      },
+      "timed_out_case_ids": [
+        "debased_phrase_serve_no_purpose",
+        "debased_phrase_consideration_bear_in_mind"
+      ],
+      "note": "Not accepted. Ran concurrently with initial full debug test target compilation; two timeout statuses resulted."
+    },
+    "live_retry": {
+      "command": "python3 rust/harness/compare.py --capability rule.misc.debased --live --candidate-argv-json [\"/home/dev/proselint-rs/rust/target/release/proselint-rs\"] --candidate-attestation rust/artifacts/20261111T054516823228Z-build.attestation.json --report rust/artifacts/independent-debased-default-20261111/live-report-retry.json",
+      "exit_code": 0,
+      "elapsed_seconds": 12.91,
+      "run_id": "20261111T055533832475Z-a06e27a9",
+      "status": "PASS",
+      "counts": {
+        "BLOCKED": 0,
+        "CANDIDATE_ERROR": 0,
+        "MISMATCH": 0,
+        "NOT_IMPLEMENTED": 0,
+        "ORACLE_ERROR": 0,
+        "PASS": 17,
+        "TIMEOUT": 0
+      },
+      "case_ids": [
+        "debased_phrase_not_unjustifiable",
+        "debased_phrase_leaves_desired",
+        "debased_phrase_serve_no_purpose",
+        "debased_phrase_consideration_bear_in_mind",
+        "debased_case_variants_all_phrases_order",
+        "debased_word_boundary_negatives",
+        "debased_spacing_negatives",
+        "debased_punctuation_boundaries_all_phrases",
+        "debased_multiple_occurrences_order",
+        "debased_quote_suppression",
+        "debased_unicode_codepoint_positions",
+        "debased_selected_config_interaction",
+        "debased_casefold_long_s",
+        "astra_ordering_debased_limit_two",
+        "astra_ordering_debased_reversed_limit_two",
+        "debased_no_config_default_dispatch",
+        "debased_no_config_clean_control"
+      ],
+      "mismatches": [],
+      "source_fingerprint": "6461751a56b867ec9af8f8228610dc69b2d6131e9041d2162656172dc95de470",
+      "baseline_integrity": "verified",
+      "report": "rust/artifacts/independent-debased-default-20261111/live-report-retry.json"
+    },
+    "broad_filtered_rust_test": {
+      "command": "cargo --locked test --manifest-path rust/Cargo.toml misc_debased",
+      "status": "INTERRUPTED",
+      "note": "Interrupt sent after observing it compiling all integration-test targets; no test result is claimed. Replaced with the narrowly selected cli_config_no_config test above."
+    }
+  },
+  "cases": [
+    {
+      "id": "debased_phrase_not_unjustifiable",
+      "expected_oracle_outcome": "findings",
+      "stdin_utf8": "A not unjustifiable assumption.",
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "normalization": null
+    },
+    {
+      "id": "debased_phrase_leaves_desired",
+      "expected_oracle_outcome": "findings",
+      "stdin_utf8": "It leaves much to be desired.",
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "normalization": null
+    },
+    {
+      "id": "debased_phrase_serve_no_purpose",
+      "expected_oracle_outcome": "findings",
+      "stdin_utf8": "This would serve no purpose.",
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "normalization": null
+    },
+    {
+      "id": "debased_phrase_consideration_bear_in_mind",
+      "expected_oracle_outcome": "findings",
+      "stdin_utf8": "A consideration which we should do well to bear in mind.",
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "normalization": null
+    },
+    {
+      "id": "debased_case_variants_all_phrases_order",
+      "expected_oracle_outcome": "findings",
+      "stdin_utf8": "A NOT UNJUSTIFIABLE ASSUMPTION!; LEAVES MUCH TO BE DESIRED?; Would Serve No Purpose; A Consideration Which We Should Do Well To Bear In Mind.",
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "normalization": null
+    },
+    {
+      "id": "debased_word_boundary_negatives",
+      "expected_oracle_outcome": "clean",
+      "stdin_utf8": "xleaves much to be desiredx; xwould serve no purposex; xa not unjustifiable assumptionx; xa consideration which we should do well to bear in mindx",
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "normalization": null
+    },
+    {
+      "id": "debased_spacing_negatives",
+      "expected_oracle_outcome": "clean",
+      "stdin_utf8": "leaves  much to be desired; would serve  no purpose; a  not unjustifiable assumption; a consideration  which we should do well to bear in mind",
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "normalization": null
+    },
+    {
+      "id": "debased_punctuation_boundaries_all_phrases",
+      "expected_oracle_outcome": "findings",
+      "stdin_utf8": "(a not unjustifiable assumption)! [leaves much to be desired]? {would serve no purpose}; (a consideration which we should do well to bear in mind).",
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "normalization": null
+    },
+    {
+      "id": "debased_multiple_occurrences_order",
+      "expected_oracle_outcome": "findings",
+      "stdin_utf8": "leaves much to be desired, then leaves much to be desired.",
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "normalization": null
+    },
+    {
+      "id": "debased_quote_suppression",
+      "expected_oracle_outcome": "clean",
+      "stdin_utf8": "Quote: \"leaves much to be desired\".",
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "normalization": null
+    },
+    {
+      "id": "debased_unicode_codepoint_positions",
+      "expected_oracle_outcome": "findings",
+      "stdin_utf8": "é before leaves much to be desired.",
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "normalization": null
+    },
+    {
+      "id": "debased_selected_config_interaction",
+      "expected_oracle_outcome": "findings",
+      "stdin_utf8": "A very good document says leaves much to be desired and TODO.",
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "normalization": null
+    },
+    {
+      "id": "debased_casefold_long_s",
+      "expected_oracle_outcome": "findings",
+      "stdin_utf8": "leaveſ much to be desired",
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "normalization": null
+    },
+    {
+      "id": "astra_ordering_debased_limit_two",
+      "expected_oracle_outcome": "findings",
+      "stdin_utf8": "leaves much to be desired; would serve no purpose; leaves much to be desired",
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "normalization": null
+    },
+    {
+      "id": "astra_ordering_debased_reversed_limit_two",
+      "expected_oracle_outcome": "findings",
+      "stdin_utf8": "would serve no purpose; would serve no purpose; leaves much to be desired",
+      "argv": [
+        "check",
+        "--config",
+        "{file:selected config.json}",
+        "--output-format",
+        "json"
+      ],
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "normalization": null
+    },
+    {
+      "id": "debased_no_config_default_dispatch",
+      "expected_oracle_outcome": "findings",
+      "stdin_utf8": "Leaves much to be desired.",
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "normalization": null
+    },
+    {
+      "id": "debased_no_config_clean_control",
+      "expected_oracle_outcome": "clean",
+      "stdin_utf8": "Leaves much to be said.",
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "normalization": null
+    }
+  ],
+  "comparison_review": {
+    "all_case_ids_match_current_manifest": true,
+    "all_strict_policy": true,
+    "diagnostic_order_duplicates_fields_and_positions_preserved_by_comparator": "Comparator strict JSON comparison, confirmed by 29/29 passing comparator self-tests including drop/add/reorder/duplicate/message/rule/coordinate/replacement/null-vs-empty/field-presence/file-key checks. No case-specific normalization is configured."
+  },
+  "inspection": {
+    "relevant_test_assertions": "Exact process status, exact stdout bytes, empty stderr for positive and clean control in tests/cli_config_no_config.rs.",
+    "production_python_fallback_search": "No Command::new/process-spawn reference or Python executable fallback was found under rust/src or Cargo.toml; Python-named helper symbols model upstream formatting/semantics.",
+    "comparison_test_diff": "Test count and manifest digest were updated to account for two new cases; focused test asserts both exact inputs/outcomes. No relaxed comparison policy observed."
+  },
+  "model_metadata_limitations": "The attestation and comparator report record toolchain/binary/source fingerprints, not assistant model or reasoning effort. Session model metadata is not independently exposed in this filesystem evidence; Luna low-effort routing therefore cannot be audited from this report.",
+  "written_files": [
+    "rust/artifacts/independent-debased-default-20261111/comparator-selftest.json",
+    "rust/artifacts/independent-debased-default-20261111/rust-focused-test.log",
+    "rust/artifacts/independent-debased-default-20261111/live-command.log",
+    "rust/artifacts/independent-debased-default-20261111/live-report.json",
+    "rust/artifacts/independent-debased-default-20261111/live-command-retry.log",
+    "rust/artifacts/independent-debased-default-20261111/live-report-retry.json"
+  ]
+}

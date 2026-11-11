@@ -29300,6 +29300,58 @@
       }
     },
     {
+      "id": "debased_no_config_default_dispatch",
+      "capability_id": "rule.misc.debased",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/debased.py registers misc.debased and config/default.json enables misc. This case runs without an explicit config to verify bundled default dispatch. Positive and clean-control outputs were probed live against the pinned Python executable and current release binary.",
+      "input_mode": "stdin",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "TGVhdmVzIG11Y2ggdG8gYmUgZGVzaXJlZC4="
+    },
+    {
+      "id": "debased_no_config_clean_control",
+      "capability_id": "rule.misc.debased",
+      "provenance": "Pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/debased.py registers misc.debased and config/default.json enables misc. This case runs without an explicit config to verify bundled default dispatch. Positive and clean-control outputs were probed live against the pinned Python executable and current release binary.",
+      "input_mode": "stdin",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "stdin_base64": "TGVhdmVzIG11Y2ggdG8gYmUgc2FpZC4="
+    },
+    {
       "id": "astra_ordering_metadiscourse_reversed_limit_two",
       "capability_id": "rule.misc.metadiscourse",
       "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; reversed pattern activation and repeated occurrences, selected only misc.metadiscourse with max_errors=2. Verify ordered truncation against the live oracle.",

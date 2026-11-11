@@ -3215,6 +3215,24 @@ class ComparatorTests(unittest.TestCase):
                 self.assertEqual(case["expected_oracle_outcome"], outcome)
                 compare.validate_case(case)
 
+    def test_narcissism_default_dispatch_cases_use_implicit_configuration(self) -> None:
+        expected = {
+            "narcissism_no_config_default_dispatch": (b"In recent years, an increasing number of scientists have appeared.", "findings"),
+            "narcissism_no_config_clean_control": (b"In recent years, an increasing number of AI scientists have appeared.", "clean"),
+        }
+        cases = {case["id"]: case for case in compare.load_manifest()["cases"] if case["id"] in expected}
+        self.assertEqual(set(cases), set(expected))
+        for case_id, (stdin, outcome) in expected.items():
+            with self.subTest(case_id=case_id):
+                case = cases[case_id]
+                self.assertEqual(case["capability_id"], "rule.misc.narcissism")
+                self.assertEqual(base64.b64decode(case["stdin_base64"]), stdin)
+                self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+                self.assertNotIn("--config", case["argv"])
+                self.assertEqual(case["config_scenario"], "no_config_default")
+                self.assertEqual(case["expected_oracle_outcome"], outcome)
+                compare.validate_case(case)
+
     def test_missing_checks_configuration_cases_preserve_upstream_empty_mapping(self) -> None:
         cases = {
             case["id"]: case

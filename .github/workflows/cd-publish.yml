@@ -62,7 +62,7 @@ jobs:
             target: aarch64-pc-windows-msvc
           - os: macos-15-intel
             target: x86_64-apple-darwin
-          - os: macos-15
+          - os: macos-15-intel
             target: aarch64-apple-darwin
     steps:
       - uses: actions/checkout@v7
@@ -101,6 +101,11 @@ jobs:
           set -euo pipefail
           expected="proselint-rs ${RELEASE_VERSION} (tracks Proselint 0.16.0)"
           if [[ "$RUNNER_OS" == "Windows" ]]; then binary="rust/target/${RUST_TARGET}/release/proselint-rs.exe"; else binary="rust/target/${RUST_TARGET}/release/proselint-rs"; fi
+          if [[ "$RUST_TARGET" == "aarch64-apple-darwin" ]]; then
+            lipo -archs "$binary" | grep -qw arm64
+            strings "$binary" | grep -Fxq "$expected"
+            exit 0
+          fi
           actual=$("$binary" --version)
           [[ "$actual" == "$expected" ]] || { printf 'expected: %s\nactual: %s\n' "$expected" "$actual"; exit 1; }
       - name: Package Unix executable and checksum

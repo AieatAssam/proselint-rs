@@ -48192,6 +48192,70 @@
         "exit_status": "exact"
       },
       "stdin_base64": "U2hlIHdhcyBhdCBoaXMgYmVjayBhbmQgY2FsbC4="
+    },
+    {
+      "id": "decade_apostrophes_no_config_overlapping_positive",
+      "capability_id": "rule.dates_times.dates.decade_apostrophes",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/dates_times/dates.py registers two default-enabled decade_apostrophes patterns in order (`\\d0\\'s`, then `\\d\\d\\d0\\'s`) and config/default.json enables dates_times. These no-config CLI cases cover overlapping full/short matches, clean ASCII decades, case-insensitive matching, and curly-apostrophe suppression; expected outcomes were confirmed with the pinned executable.",
+      "input_mode": "stdin",
+      "stdin_base64": "SW4gdGhlIDE5OTAncy4=",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "decade_apostrophes_no_config_clean_control",
+      "capability_id": "rule.dates_times.dates.decade_apostrophes",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/dates_times/dates.py registers two default-enabled decade_apostrophes patterns in order (`\\d0\\'s`, then `\\d\\d\\d0\\'s`) and config/default.json enables dates_times. These no-config CLI cases cover overlapping full/short matches, clean ASCII decades, case-insensitive matching, and curly-apostrophe suppression; expected outcomes were confirmed with the pinned executable.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlIGRlY2FkZSB3YXMgMTk5MHMu",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "decade_apostrophes_no_config_case_insensitive_positive",
+      "capability_id": "rule.dates_times.dates.decade_apostrophes",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/dates_times/dates.py registers two default-enabled decade_apostrophes patterns in order (`\\d0\\'s`, then `\\d\\d\\d0\\'s`) and config/default.json enables dates_times. These no-config CLI cases cover overlapping full/short matches, clean ASCII decades, case-insensitive matching, and curly-apostrophe suppression; expected outcomes were confirmed with the pinned executable.",
+      "input_mode": "stdin",
+      "stdin_base64": "SXQgd2FzIHRoZSAyMDAwJ1Mu",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "decade_apostrophes_no_config_curly_apostrophe_clean",
+      "capability_id": "rule.dates_times.dates.decade_apostrophes",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/dates_times/dates.py registers two default-enabled decade_apostrophes patterns in order (`\\d0\\'s`, then `\\d\\d\\d0\\'s`) and config/default.json enables dates_times. These no-config CLI cases cover overlapping full/short matches, clean ASCII decades, case-insensitive matching, and curly-apostrophe suppression; expected outcomes were confirmed with the pinned executable.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlIGRlY2FkZSB3YXMgMjAwMOKAmXMu",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
     }
   ]
 }

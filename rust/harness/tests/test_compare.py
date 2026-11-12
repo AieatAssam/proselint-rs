@@ -1991,6 +1991,32 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(cases["month_year_comma_no_config_clean_control"]["stdin_base64"], "TWFyY2ggMjAyMCB3YXMgYnVzeS4=")
         self.assertEqual(cases["month_year_comma_no_config_clean_control"]["expected_oracle_outcome"], "clean")
 
+    def test_decade_apostrophes_default_dispatch_cases(self) -> None:
+        cases = {
+            case["id"]: case for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "rule.dates_times.dates.decade_apostrophes"
+            and case.get("config_scenario") == "no_config_default"
+        }
+        self.assertEqual(set(cases), {
+            "decade_apostrophes_no_config_overlapping_positive",
+            "decade_apostrophes_no_config_clean_control",
+            "decade_apostrophes_no_config_case_insensitive_positive",
+            "decade_apostrophes_no_config_curly_apostrophe_clean",
+        })
+        for case in cases.values():
+            self.assertEqual(case["input_mode"], "stdin")
+            self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+            self.assertEqual(case["config_scenario"], "no_config_default")
+            self.assertNotIn("config", " ".join(case["argv"]))
+        self.assertEqual(cases["decade_apostrophes_no_config_overlapping_positive"]["expected_oracle_outcome"], "findings")
+        self.assertEqual(cases["decade_apostrophes_no_config_clean_control"]["expected_oracle_outcome"], "clean")
+        self.assertEqual(cases["decade_apostrophes_no_config_case_insensitive_positive"]["expected_oracle_outcome"], "findings")
+        self.assertEqual(cases["decade_apostrophes_no_config_curly_apostrophe_clean"]["expected_oracle_outcome"], "clean")
+        self.assertEqual(cases["decade_apostrophes_no_config_overlapping_positive"]["stdin_base64"], "SW4gdGhlIDE5OTAncy4=")
+        self.assertEqual(cases["decade_apostrophes_no_config_clean_control"]["stdin_base64"], "VGhlIGRlY2FkZSB3YXMgMTk5MHMu")
+        self.assertEqual(cases["decade_apostrophes_no_config_case_insensitive_positive"]["stdin_base64"], "SXQgd2FzIHRoZSAyMDAwJ1Mu")
+        self.assertEqual(cases["decade_apostrophes_no_config_curly_apostrophe_clean"]["stdin_base64"], "VGhlIGRlY2FkZSB3YXMgMjAwMOKAmXMu")
+
     def test_debased_default_dispatch_cases(self) -> None:
         cases = {
             case["id"]: case for case in compare.load_manifest()["cases"]

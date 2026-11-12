@@ -1,6 +1,58 @@
 #[path = "../src/rules/spelling_er_or.rs"]
 mod spelling_er_or;
 
+use std::io::Write;
+use std::path::PathBuf;
+use std::process::{Command, Output, Stdio};
+use std::sync::atomic::{AtomicUsize, Ordering};
+
+static NEXT_DIR: AtomicUsize = AtomicUsize::new(0);
+
+struct Workspace(PathBuf);
+
+impl Workspace {
+    fn new() -> Self {
+        let serial = NEXT_DIR.fetch_add(1, Ordering::Relaxed);
+        let path = std::env::temp_dir().join(format!(
+            "proselint-rs-er-or-{}-{serial}",
+            std::process::id()
+        ));
+        std::fs::create_dir(&path).expect("create isolated workspace");
+        Self(path)
+    }
+}
+
+impl Drop for Workspace {
+    fn drop(&mut self) {
+        let _ = std::fs::remove_dir_all(&self.0);
+    }
+}
+
+fn run_default_check(input: &str) -> Output {
+    let workspace = Workspace::new();
+    let home = workspace.0.join("home");
+    let xdg = workspace.0.join("xdg");
+    std::fs::create_dir_all(&home).expect("create isolated HOME");
+    std::fs::create_dir_all(&xdg).expect("create isolated XDG_CONFIG_HOME");
+    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
+        .current_dir(&workspace.0)
+        .env("HOME", home)
+        .env("XDG_CONFIG_HOME", xdg)
+        .args(["check", "--output-format", "json"])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .expect("start native CLI without config");
+    child
+        .stdin
+        .take()
+        .expect("piped stdin")
+        .write_all(input.as_bytes())
+        .expect("write input");
+    child.wait_with_output().expect("wait for native CLI")
+}
+
 #[test]
 fn matches_the_frozen_er_or_cases() {
     let all = "abducter abbeter acquiror adaptor collecter conjuror corruptor digestor dispensor distributer endorsor erasor idolator imposter infiltrater invester manipulater mortgager persecuter promotor purveyer requestor revisor surveyer";
@@ -89,4 +141,32 @@ fn matches_the_frozen_er_or_cases() {
         "-er vs. -or. 'None' is the preferred spelling."
     );
     assert!(long_s[0]["replacements"].is_null());
+}
+
+#[test]
+fn default_config_dispatches_er_or_and_keeps_preferred_form_clean() {
+    let positive = run_default_check("abducter");
+    assert_eq!(
+        positive.status.code(),
+        Some(1),
+        "stderr: {:?}",
+        positive.stderr
+    );
+    assert!(positive.stderr.is_empty());
+    let actual: serde_json::Value =
+        serde_json::from_slice(&positive.stdout).expect("valid JSON output");
+    assert_eq!(
+        actual,
+        serde_json::json!({"result":{"<stdin>":{"diagnostics":[{"check_path":"spelling.er_or","message":"-er vs. -or. 'abductor' is the preferred spelling.","pos":[1,1],"replacements":"abductor","span":[1,9]}]}}})
+    );
+
+    let clean = run_default_check("abductor");
+    assert_eq!(clean.status.code(), Some(0), "stderr: {:?}", clean.stderr);
+    assert!(clean.stderr.is_empty());
+    let actual: serde_json::Value =
+        serde_json::from_slice(&clean.stdout).expect("valid JSON output");
+    assert_eq!(
+        actual,
+        serde_json::json!({"result":{"<stdin>":{"diagnostics":[]}}})
+    );
 }

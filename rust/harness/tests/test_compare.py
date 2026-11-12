@@ -2006,7 +2006,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1540)
+        self.assertEqual(len(case_ids), 1542)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -2015,7 +2015,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "3813ad56e41fcfb7f6dc799802cdcebfda75e20d03c356330e949faabfdde16a",
+            "6475de1f8ebd8def28de1990041f2f31e985e089b8dd06032b3eb649ea8612b4",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),
@@ -4025,6 +4025,24 @@ class ComparatorTests(unittest.TestCase):
             with self.subTest(case_id=case_id):
                 case = cases[case_id]
                 self.assertEqual(case["capability_id"], "spelling.able_ible")
+                self.assertEqual(base64.b64decode(case["stdin_base64"]), stdin)
+                self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+                self.assertNotIn("--config", case["argv"])
+                self.assertEqual(case["config_scenario"], "no_config_default")
+                self.assertEqual(case["expected_oracle_outcome"], outcome)
+                compare.validate_case(case)
+
+    def test_er_or_default_dispatch_cases_use_implicit_configuration(self) -> None:
+        expected = {
+            "spelling_er_or_no_config_default_dispatch": (b"abducter", "findings"),
+            "spelling_er_or_no_config_clean_control": (b"abductor", "clean"),
+        }
+        cases = {case["id"]: case for case in compare.load_manifest()["cases"] if case["id"] in expected}
+        self.assertEqual(set(cases), set(expected))
+        for case_id, (stdin, outcome) in expected.items():
+            with self.subTest(case_id=case_id):
+                case = cases[case_id]
+                self.assertEqual(case["capability_id"], "spelling.er_or")
                 self.assertEqual(base64.b64decode(case["stdin_base64"]), stdin)
                 self.assertEqual(case["argv"], ["check", "--output-format", "json"])
                 self.assertNotIn("--config", case["argv"])

@@ -13083,6 +13083,60 @@
       }
     },
     {
+      "id": "lie_detector_no_config_default_dispatch",
+      "capability_id": "rule.psychology.lie_detector",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; default config enables psychology and checks/psychology.py maps “lie detector test” to “polygraph test”. The pinned repository is BSD-3-Clause.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlIGxpZSBkZXRlY3RvciB0ZXN0IGNvbXBsZXRlZC4=",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "lie_detector_no_config_clean_control",
+      "capability_id": "rule.psychology.lie_detector",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; default config enables psychology and the preferred form “polygraph test” is clean. The pinned repository is BSD-3-Clause.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlIHBvbHlncmFwaCB0ZXN0IGNvbXBsZXRlZC4=",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
       "id": "wallace_casefold_long_s",
       "capability_id": "rule.redundancy.misc.wallace",
       "provenance": "Pinned oracle revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Fast RE2 case-insensitive matching exercises Unicode folding in rule.redundancy.misc.wallace; exact diagnostic fields captured from the live oracle.",

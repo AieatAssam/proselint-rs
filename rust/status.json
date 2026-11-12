@@ -302,7 +302,54 @@
     },
     {
       "id": "rule.psychology.lie_detector",
-      "status": "recorded"
+      "status": "recorded",
+      "latest_refresh_status": "PASS",
+      "latest_refresh_live_cases": 14,
+      "latest_refresh_candidate_attestation": "rust/artifacts/20261112T065707192646Z-build.attestation.json",
+      "latest_refresh_source_fingerprint": "61f1ec2eae2752422842c0c2f637a85ffe449ac4341e86c4e26122b77e508892",
+      "latest_default_dispatch_acceptance": {
+        "status": "PASS",
+        "capability_id": "rule.psychology.lie_detector",
+        "case_ids": [
+          "lie_detector_no_config_default_dispatch",
+          "lie_detector_no_config_clean_control"
+        ],
+        "cases_passed": 14,
+        "total_cases": 14,
+        "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "source_fingerprint": "61f1ec2eae2752422842c0c2f637a85ffe449ac4341e86c4e26122b77e508892",
+        "candidate_attestation": "rust/artifacts/20261112T065707192646Z-build.attestation.json",
+        "candidate_attestation_sha256": "9007963ead4d9440d22181afe42b177699da0c4f17f71fb7dc4c7c5432a05215",
+        "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
+        "owner_report": "rust/artifacts/luna-lie-detector-default-20261112/owner-live-release-comparison.json",
+        "owner_report_sha256": "082c6f68fbede3654ebabb4eb66f4e4dfe51e5716abca30fb69c780d5898c0e4",
+        "owner_evidence": "rust/artifacts/luna-lie-detector-default-20261112/evidence.md",
+        "owner_evidence_sha256": "210f18332e3186a31db045678c439e5952e5130a3f80e4e47a2d5dbf6fcbbc1f",
+        "independent_report": "rust/artifacts/independent-lie-detector-default-20261112/full-capability-retry.json",
+        "independent_report_sha256": "b51b6ce4905986100f22b6ec395ff9503052a5a8f9e05ff7c81d4854ecc4c169",
+        "independent_evidence": "rust/artifacts/independent-lie-detector-default-20261112/verification.md",
+        "independent_evidence_sha256": "ecc3a189af810214c758bfe2adf3202ad560970d24c8d5a2fb80803c17844d5f",
+        "independent_new_cases_report": "rust/artifacts/independent-lie-detector-default-20261112/new-cases-comparison.json",
+        "independent_new_cases_report_sha256": "8e19ccbe556acebb1edb334f524f53576a4f3e4f3e6cb3ecbedc4b7d9f6a8dc5",
+        "independent_timeout_replay_report": "rust/artifacts/independent-lie-detector-default-20261112/timeout-replay.json",
+        "independent_timeout_replay_report_sha256": "0ba404d6df1c0a729ddf34bc5c8e3c92aec0686c63cdf441d133793121144a60",
+        "focused_rust_tests": "13/13 owner and independent",
+        "focused_harness_contracts": "3/3 owner; 2/2 independent",
+        "comparator_self_tests": "29/29 owner and independent",
+        "oracle_integrity": "pinned revision, source and executable verified before/after",
+        "red_green": "missing case-ID contract failed before case addition; no production code change or oracle-output/comparison alteration",
+        "initial_timeouts": "Owner debug candidate timed out on two new implicit-default scans; independent first full run had two pinned-Python timeouts on existing cases. Unchanged-deadline release-profile run, isolated Python replays, and independent full retry all passed.",
+        "accepted_scope_after_extension": {
+          "capabilities": 158,
+          "cases": 1532,
+          "manifest_cases": 1534,
+          "excluded_cases": 2
+        },
+        "direct_default_dispatch_positive_paths": "70/93",
+        "cumulative_gate": "Next full release-profile gate after four more independently verified default-dispatch extensions; no shared runtime behavior changed.",
+        "requested_model": "gpt-6-luna / low",
+        "runtime_model_metadata": "unavailable"
+      }
     },
     {
       "id": "rule.redundancy.misc.wallace",
@@ -4551,14 +4598,56 @@
         "frozen_source_fingerprint": "9b589195705201ae1d84af162a80b5c0467b21e7fb3bc8d2e81bf7066df6a42a"
       },
       "limitations": [
-        "selected psychology.lie_detector config only",
-        "default and combined-check behavior remain unverified"
+        "No-config default dispatch is now directly covered by the two recorded cases; broader default-config corpus and cross-rule interactions remain unverified."
       ],
       "cumulative_live_parity": {
         "passed_cases": 293,
         "exit_code": 0,
         "report": "rust/artifacts/strict-gate-psychology-lie-detector-final-20261105.json",
         "source_fingerprint": "b361610843c8ed26e47c8f6856e1a2e81f133e97c25daf5f3b83d4c26ae0f68d"
+      },
+      "latest_default_dispatch_extension": {
+        "status": "PASS",
+        "capability_id": "rule.psychology.lie_detector",
+        "case_ids": [
+          "lie_detector_no_config_default_dispatch",
+          "lie_detector_no_config_clean_control"
+        ],
+        "cases_passed": 14,
+        "total_cases": 14,
+        "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+        "source_fingerprint": "61f1ec2eae2752422842c0c2f637a85ffe449ac4341e86c4e26122b77e508892",
+        "candidate_attestation": "rust/artifacts/20261112T065707192646Z-build.attestation.json",
+        "candidate_attestation_sha256": "9007963ead4d9440d22181afe42b177699da0c4f17f71fb7dc4c7c5432a05215",
+        "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
+        "owner_report": "rust/artifacts/luna-lie-detector-default-20261112/owner-live-release-comparison.json",
+        "owner_report_sha256": "082c6f68fbede3654ebabb4eb66f4e4dfe51e5716abca30fb69c780d5898c0e4",
+        "owner_evidence": "rust/artifacts/luna-lie-detector-default-20261112/evidence.md",
+        "owner_evidence_sha256": "210f18332e3186a31db045678c439e5952e5130a3f80e4e47a2d5dbf6fcbbc1f",
+        "independent_report": "rust/artifacts/independent-lie-detector-default-20261112/full-capability-retry.json",
+        "independent_report_sha256": "b51b6ce4905986100f22b6ec395ff9503052a5a8f9e05ff7c81d4854ecc4c169",
+        "independent_evidence": "rust/artifacts/independent-lie-detector-default-20261112/verification.md",
+        "independent_evidence_sha256": "ecc3a189af810214c758bfe2adf3202ad560970d24c8d5a2fb80803c17844d5f",
+        "independent_new_cases_report": "rust/artifacts/independent-lie-detector-default-20261112/new-cases-comparison.json",
+        "independent_new_cases_report_sha256": "8e19ccbe556acebb1edb334f524f53576a4f3e4f3e6cb3ecbedc4b7d9f6a8dc5",
+        "independent_timeout_replay_report": "rust/artifacts/independent-lie-detector-default-20261112/timeout-replay.json",
+        "independent_timeout_replay_report_sha256": "0ba404d6df1c0a729ddf34bc5c8e3c92aec0686c63cdf441d133793121144a60",
+        "focused_rust_tests": "13/13 owner and independent",
+        "focused_harness_contracts": "3/3 owner; 2/2 independent",
+        "comparator_self_tests": "29/29 owner and independent",
+        "oracle_integrity": "pinned revision, source and executable verified before/after",
+        "red_green": "missing case-ID contract failed before case addition; no production code change or oracle-output/comparison alteration",
+        "initial_timeouts": "Owner debug candidate timed out on two new implicit-default scans; independent first full run had two pinned-Python timeouts on existing cases. Unchanged-deadline release-profile run, isolated Python replays, and independent full retry all passed.",
+        "accepted_scope_after_extension": {
+          "capabilities": 158,
+          "cases": 1532,
+          "manifest_cases": 1534,
+          "excluded_cases": 2
+        },
+        "direct_default_dispatch_positive_paths": "70/93",
+        "cumulative_gate": "Next full release-profile gate after four more independently verified default-dispatch extensions; no shared runtime behavior changed.",
+        "requested_model": "gpt-6-luna / low",
+        "runtime_model_metadata": "unavailable"
       }
     },
     {
@@ -13662,7 +13751,7 @@
       "result": "0 packages to update; Cargo.lock unchanged"
     }
   },
-  "next_capability_handoff": "Five default-dispatch extensions passed. Release-profile gate PASS 1530/1530, Rust 931/931 across 146 targets, full harness 179/179 after repairing three stale exact-ID assertions (test-only; no expected oracle output/comparison change), bounded benchmark PASS 3/3 preflight under 600s. Gate source fingerprint is be4508c3; current source fingerprint eec3c018 after test-only repairs, with same binary SHA. Compatibility remains partial; version divergence, CLI gaps and two excluded cases stay explicit.",
+  "next_capability_handoff": "`psychology.lie_detector` default-dispatch extension accepted: owner and independent live scope 14/14, current fp 61f1ec2e, binary SHA 19801fa7. Accepted scope 1532/1534 with 2 excluded; default-positive no-config coverage 70/93. Four more independently verified extensions before the next full release-profile gate/full Rust and harness suites. Preserve the pinned oracle and explicit version/CLI divergences; compatibility remains partial.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",
@@ -14224,7 +14313,7 @@
     "accepted_case_count": 1530,
     "manifest_case_count": 1532,
     "excluded_case_count": 2,
-    "scope_matches_current_accepted_scope": true,
+    "scope_matches_current_accepted_scope": false,
     "current_tree_fingerprint_matches_gate": false,
     "current_source_fingerprint_after_harness_assertion_repair": "eec3c0183e91016ef743a56e2d4d57883f063395e83affbde3b844e846d850a2",
     "post_gate_test_repair": "The full harness suite initially failed three exact manifest-ID assertions after the five new cases were added. The assertions were corrected to scope selected-config checks to selected-config cases; separate no-config contract tests remain. No manifest, comparator, normalizer, oracle output, Rust source, or binary changed. Full harness suite then passed 179/179 against a current-source focused build attestation. The gate PASS remains live evidence for the same 1530 case IDs and identical binary SHA.",
@@ -14258,26 +14347,28 @@
       }
     },
     "duration_seconds": 1691.682334,
-    "compatibility_claim": "Partial only; intentional version-flag divergence, remaining CLI gaps, and two excluded oracle-smoke cases remain explicit."
+    "compatibility_claim": "Partial only; intentional version-flag divergence, remaining CLI gaps, and two excluded oracle-smoke cases remain explicit.",
+    "current_source_fingerprint_after_lie_detector_extension": "61f1ec2eae2752422842c0c2f637a85ffe449ac4341e86c4e26122b77e508892",
+    "staleness_note": "The gate passed 1530/1530 at its recorded fingerprint. This subsequent independently verified extension adds two accepted no-config cases; current accepted scope is 1532 cases in a 1534-case manifest with two exclusions. No production Rust behavior changed."
   },
   "current_candidate_release_readiness": {
     "status": "PASS_PARTIAL_COMPATIBILITY",
-    "source_fingerprint": "eec3c0183e91016ef743a56e2d4d57883f063395e83affbde3b844e846d850a2",
+    "source_fingerprint": "61f1ec2eae2752422842c0c2f637a85ffe449ac4341e86c4e26122b77e508892",
     "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
-    "candidate_attestation": "rust/artifacts/20261112T063204639719Z-build.attestation.json",
-    "candidate_attestation_sha256": "2e4d76879e94116dd6c31ec8fb473ad61b8cfa3c7eaac0dd51b1ae91bacbb9fd",
+    "candidate_attestation": "rust/artifacts/20261112T065707192646Z-build.attestation.json",
+    "candidate_attestation_sha256": "9007963ead4d9440d22181afe42b177699da0c4f17f71fb7dc4c7c5432a05215",
     "accepted_capabilities": 158,
-    "selected_case_count": 1530,
-    "manifest_case_count": 1532,
+    "selected_case_count": 1532,
+    "manifest_case_count": 1534,
     "excluded_case_count": 2,
     "release_gate_report": "rust/artifacts/five-default-dispatch-extension-gate-20261112-final.json",
     "release_gate_report_sha256": "6304910dae7d74599f04453506b2f4c5227303bdc64660f799316dd75c644b32",
     "release_gate_run_id": "20261112T061147498821Z-1e163014",
     "release_gate_source_fingerprint": "be4508c32c77c7bfb077c4f535d083a4e276d0785a1ee19e6d1dce66fd05d9f8",
     "current_tree_fingerprint_matches_gate": false,
-    "post_gate_source_delta": "Harness unit-test exact-ID assertions only; no manifest cases, comparator, expected oracle outputs, normalizers, or Rust source changed. Full current-source harness suite passes.",
-    "full_rust_tests": "931/931 across 146 targets",
-    "full_harness_tests": "179/179 in 88.709s",
+    "post_gate_source_delta": "Two no-config manifest cases, the focused Rust integration test, and manifest identity bookkeeping; no production Rust source, comparator, normalizer, or oracle output changed.",
+    "full_rust_tests": "931/931 at prior cumulative checkpoint; current extension focused target 13/13, full suite due at next checkpoint",
+    "full_harness_tests": "179/179 at prior checkpoint; current focused contracts 3/3 owner and 2/2 independent, full suite due at next checkpoint",
     "benchmark": {
       "status": "PASS",
       "report": "rust/artifacts/benchmark-five-default-dispatch-extension-20261112.json",
@@ -14931,29 +15022,41 @@
           "illogic_no_config_default_positive",
           "illogic_no_config_clean_control"
         ]
+      },
+      "rule.psychology.lie_detector": {
+        "status": "PASS",
+        "passed": 14,
+        "total": 14,
+        "report": "rust/artifacts/luna-lie-detector-default-20261112/owner-live-release-comparison.json",
+        "report_sha256": "082c6f68fbede3654ebabb4eb66f4e4dfe51e5716abca30fb69c780d5898c0e4",
+        "independent_report": "rust/artifacts/independent-lie-detector-default-20261112/full-capability-retry.json",
+        "independent_report_sha256": "b51b6ce4905986100f22b6ec395ff9503052a5a8f9e05ff7c81d4854ecc4c169",
+        "source_fingerprint": "61f1ec2eae2752422842c0c2f637a85ffe449ac4341e86c4e26122b77e508892",
+        "candidate_attestation": "rust/artifacts/20261112T065707192646Z-build.attestation.json",
+        "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb"
       }
     },
-    "accepted_case_count": 1530,
-    "manifest_case_count": 1532,
-    "latest_full_gate_case_count": 1468,
-    "cumulative_checkpoint_due_after": "checkpoint passed at 1468/1479; continue next default-dispatch expansion",
+    "accepted_case_count": 1532,
+    "manifest_case_count": 1534,
+    "latest_full_gate_case_count": 1530,
+    "cumulative_checkpoint_due_after": "four more independently verified default-dispatch extensions; latest full gate passed 1530/1530 before these two accepted cases",
     "default_enabled_unique_paths": 93,
-    "paths_without_no_config_positive_finding_in_prior_scope": 67,
-    "current_paths_without_positive_no_config_evidence": 44,
+    "paths_without_no_config_positive_finding_in_prior_scope": 23,
+    "current_paths_without_positive_no_config_evidence": 23,
     "owner_focused_live_cases_passed": 14,
     "independent_live_cases_passed": 14,
-    "candidate_attestation": "rust/artifacts/20261112T055013897364Z-build.attestation.json",
+    "candidate_attestation": "rust/artifacts/20261112T065707192646Z-build.attestation.json",
     "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
-    "source_fingerprint": "be4508c32c77c7bfb077c4f535d083a4e276d0785a1ee19e6d1dce66fd05d9f8",
-    "current_candidate_gate": "PASS: 1468/1468 accepted cases, 153 capabilities, 11 excluded; 923 Rust tests passed.",
+    "source_fingerprint": "61f1ec2eae2752422842c0c2f637a85ffe449ac4341e86c4e26122b77e508892",
+    "current_candidate_gate": "Latest release-profile gate PASS 1530/1530 across 158 capabilities; this extension adds two cases beyond that gate, so the current accepted scope is 1532/1534 with two exclusions.",
     "independent_summary_report": "individual current-fingerprint reports listed in latest_independent_rule_verification",
     "independent_summary_sha256": "701808ac3d7807a848ab131051290a26be2dda56bcd3afee17e7d32a2c0c2eb9",
-    "last_gate_report": "rust/artifacts/default-dispatch-checkpoint-20261111.json",
-    "last_gate_report_sha256": "80aa68daefa6e5e5c4003acf14b897c6d96404ac4990f11201dc07d57e42f070",
+    "last_gate_report": "rust/artifacts/five-default-dispatch-extension-gate-20261112-final.json",
+    "last_gate_report_sha256": "6304910dae7d74599f04453506b2f4c5227303bdc64660f799316dd75c644b32",
     "direct_positive_default_enabled_paths": 49,
     "positive_default_dispatch_paths": "63/93",
-    "latest_direct_default_dispatch_acceptance": "rule.misc.illogic",
-    "default_dispatch_positive_paths": "69/93"
+    "latest_direct_default_dispatch_acceptance": "rule.psychology.lie_detector",
+    "default_dispatch_positive_paths": "70/93"
   },
   "latest_focused_default_dispatch_acceptance": {
     "status": "PASS",
@@ -15426,73 +15529,16 @@
   },
   "next_task": "Select and independently verify the next focused capability; continue partial migration after this cumulative gate while preserving explicit CLI gaps and version divergence.",
   "latest_default_dispatch_extension": {
-    "status": "independently_verified",
-    "scope": "Added two direct no-config default-dispatch cases to already implemented default-enabled rule.mondegreens; no production Rust code changed.",
-    "case_ids": [
-      "mondegreens_no_config_default_dispatch",
-      "mondegreens_no_config_clean_control"
-    ],
-    "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-    "red": {
-      "status": "FAIL_EXPECTED_MISSING_CASES",
-      "failed_case_ids": 2,
-      "duration_seconds": 0.265,
-      "failure": "Both new contract case IDs absent; no production mismatch."
-    },
-    "green": {
-      "status": "PASS",
-      "focused_contract_and_manifest_identity": "2/2",
-      "manifest_case_count": 1510,
-      "manifest_id_capability_digest": "517600ed6ae96aa7f0e8363718f08968bfcb0c9bf11a8b8529e6e850a3b88290"
-    },
-    "focused_rust_test": {
-      "status": "PASS",
-      "cases": "4/4",
-      "command": "cargo +1.99.1 test --locked --manifest-path rust/Cargo.toml --lib mondegreens_tests"
-    },
-    "owner_live": {
-      "status": "PASS",
-      "cases": "12/12",
-      "timeouts": 0,
-      "duration_seconds": 11.298,
-      "report": "rust/artifacts/mondegreens-default-dispatch-live-20261111.json",
-      "report_sha256": "d1834355f677ac925357e18329c4e260324837302ff2bd756c565a955c896c04"
-    },
-    "candidate_attestation": "rust/artifacts/20261111T215548325210Z-build.attestation.json",
-    "candidate_attestation_sha256": "4f1f7c3751fb0d19ab1adaf40473bf53feed766057d745c20350f828bc7c4588",
-    "attestation_stages_seconds": {
-      "fmt": 2.939192,
-      "clippy": 22.862,
-      "release_build": 0.119545
-    },
-    "independent_verification": {
-      "status": "PASS",
-      "cases": "12/12",
-      "duration_seconds": 10.275,
-      "report": "rust/artifacts/independent-mondegreens-20261111/live-comparison.json",
-      "report_sha256": "aad04a1b6cccfc89e9fcf14151901009d6464b457f4d1ee183aa28ab46aaf1ee",
-      "summary": "rust/artifacts/independent-mondegreens-20261111/verification-summary.json",
-      "summary_sha256": "657d647e54d426e751e433e47bef527f0632f65f7a30ff14cf6719c6c4e7f7bb",
-      "focused_contract_and_identity": "2/2 in 0.894s",
-      "focused_rust_test": "4/4 in 0.102s warm retry",
-      "initial_test_command_error": "`--test mondegreens` named a nonexistent integration target (exit 101 before execution); corrected to `--lib mondegreens_tests`, which passed. Both attempts are recorded.",
-      "comparator_self_tests": "29/29 in 0.432s",
-      "oracle_integrity": "verified before/after; identical reports"
-    },
-    "source_fingerprint": "7acf95e655106286ea2d93ddcd478a810583e1abf9531cb193cfcbf5fceff86b",
-    "candidate_sha256": "db84fad888596055f13c5dd21b00de393ca3e0e2e5a01e43ba00ef6a9a07ac20",
-    "oracle_integrity": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; source tree 73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831; independent before/after checks match.",
-    "cumulative_gate": "DUE_AFTER_THIS_CAPABILITY; five direct default-dispatch extensions accepted since 1488/1499; next action full release-profile gate and full harness suite.",
-    "current_focused_scope": {
-      "accepted_cases": 1499,
-      "manifest_cases": 1510,
-      "excluded_cases": 11,
-      "capabilities": 153
-    },
-    "default_dispatch_positive_paths": "59/93 direct no-config evidence paths",
-    "expectations_or_comparison_changed": false,
-    "requested_model": "gpt-6-luna / low",
-    "runtime_model_metadata": "unavailable"
+    "capability": "rule.psychology.lie_detector",
+    "case_count": 2,
+    "accepted_case_count": 1532,
+    "manifest_case_count": 1534,
+    "default_dispatch_positive_paths": "70/93",
+    "owner_report": "rust/artifacts/luna-lie-detector-default-20261112/owner-live-release-comparison.json",
+    "independent_report": "rust/artifacts/independent-lie-detector-default-20261112/full-capability-retry.json",
+    "source_fingerprint": "61f1ec2eae2752422842c0c2f637a85ffe449ac4341e86c4e26122b77e508892",
+    "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
+    "cumulative_gate_due_after": 4
   },
   "latest_demo_json_blocker_review": {
     "capability_id": "cli.demo.json",
@@ -16513,6 +16559,67 @@
         "capabilities": 153
       },
       "default_dispatch_positive_paths": "59/93 direct no-config evidence paths",
+      "expectations_or_comparison_changed": false,
+      "requested_model": "gpt-6-luna / low",
+      "runtime_model_metadata": "unavailable"
+    },
+    {
+      "status": "independently_verified",
+      "scope": "Added two direct no-config default-dispatch cases and an isolated-HOME Rust CLI assertion for already implemented default-enabled rule.psychology.lie_detector; no production Rust code changed.",
+      "case_ids": [
+        "lie_detector_no_config_default_dispatch",
+        "lie_detector_no_config_clean_control"
+      ],
+      "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+      "red": {
+        "status": "FAIL_EXPECTED_MISSING_CASES",
+        "failed_case_ids": 2,
+        "duration_seconds": 0.2,
+        "failure": "Focused contract required both no-config case IDs before addition."
+      },
+      "green": {
+        "status": "PASS",
+        "focused_harness_contracts": "3/3 owner; 2/2 independent",
+        "manifest_case_count": 1534
+      },
+      "focused_rust_test": {
+        "status": "PASS",
+        "cases": "13/13 owner and independent",
+        "command": "cargo test --locked --test psychology_lie_detector"
+      },
+      "owner_live": {
+        "status": "PASS",
+        "cases": "14/14",
+        "timeouts": 0,
+        "duration_seconds": 35.593,
+        "report": "rust/artifacts/luna-lie-detector-default-20261112/owner-live-release-comparison.json",
+        "report_sha256": "082c6f68fbede3654ebabb4eb66f4e4dfe51e5716abca30fb69c780d5898c0e4"
+      },
+      "candidate_attestation": "rust/artifacts/20261112T065707192646Z-build.attestation.json",
+      "candidate_attestation_sha256": "9007963ead4d9440d22181afe42b177699da0c4f17f71fb7dc4c7c5432a05215",
+      "independent_verification": {
+        "status": "PASS",
+        "new_cases": "2/2",
+        "full_capability_retry": "14/14",
+        "initial_retry": "12 PASS, 2 pinned-Python timeouts; exact timeout cases passed isolated 2/2 and full retry 14/14",
+        "report": "rust/artifacts/independent-lie-detector-default-20261112/full-capability-retry.json",
+        "report_sha256": "b51b6ce4905986100f22b6ec395ff9503052a5a8f9e05ff7c81d4854ecc4c169",
+        "timeout_replay": "rust/artifacts/independent-lie-detector-default-20261112/timeout-replay.json",
+        "timeout_replay_sha256": "0ba404d6df1c0a729ddf34bc5c8e3c92aec0686c63cdf441d133793121144a60",
+        "evidence": "rust/artifacts/independent-lie-detector-default-20261112/verification.md",
+        "evidence_sha256": "ecc3a189af810214c758bfe2adf3202ad560970d24c8d5a2fb80803c17844d5f"
+      },
+      "source_fingerprint": "61f1ec2eae2752422842c0c2f637a85ffe449ac4341e86c4e26122b77e508892",
+      "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
+      "oracle_integrity": "Pinned Proselint 0.16.0 revision/source/executable verified before and after owner and independent runs.",
+      "cumulative_gate": "Deferred until four more accepted extensions; no shared runtime behavior changed.",
+      "accepted_scope_after_extension": {
+        "capabilities": 158,
+        "cases": 1532,
+        "manifest_cases": 1534,
+        "excluded_cases": 2
+      },
+      "direct_default_dispatch_positive_paths": "70/93",
       "expectations_or_comparison_changed": false,
       "requested_model": "gpt-6-luna / low",
       "runtime_model_metadata": "unavailable"
@@ -17832,6 +17939,49 @@
     },
     "direct_default_dispatch_positive_paths": "69/93",
     "cumulative_gate": "Five accepted default-dispatch extensions since the prior gate; full release-profile gate and full harness/Rust suites due now. Benchmark only after the live gate passes.",
+    "requested_model": "gpt-6-luna / low",
+    "runtime_model_metadata": "unavailable"
+  },
+  "latest_lie_detector_default_dispatch_acceptance": {
+    "status": "PASS",
+    "capability_id": "rule.psychology.lie_detector",
+    "case_ids": [
+      "lie_detector_no_config_default_dispatch",
+      "lie_detector_no_config_clean_control"
+    ],
+    "cases_passed": 14,
+    "total_cases": 14,
+    "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+    "source_fingerprint": "61f1ec2eae2752422842c0c2f637a85ffe449ac4341e86c4e26122b77e508892",
+    "candidate_attestation": "rust/artifacts/20261112T065707192646Z-build.attestation.json",
+    "candidate_attestation_sha256": "9007963ead4d9440d22181afe42b177699da0c4f17f71fb7dc4c7c5432a05215",
+    "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
+    "owner_report": "rust/artifacts/luna-lie-detector-default-20261112/owner-live-release-comparison.json",
+    "owner_report_sha256": "082c6f68fbede3654ebabb4eb66f4e4dfe51e5716abca30fb69c780d5898c0e4",
+    "owner_evidence": "rust/artifacts/luna-lie-detector-default-20261112/evidence.md",
+    "owner_evidence_sha256": "210f18332e3186a31db045678c439e5952e5130a3f80e4e47a2d5dbf6fcbbc1f",
+    "independent_report": "rust/artifacts/independent-lie-detector-default-20261112/full-capability-retry.json",
+    "independent_report_sha256": "b51b6ce4905986100f22b6ec395ff9503052a5a8f9e05ff7c81d4854ecc4c169",
+    "independent_evidence": "rust/artifacts/independent-lie-detector-default-20261112/verification.md",
+    "independent_evidence_sha256": "ecc3a189af810214c758bfe2adf3202ad560970d24c8d5a2fb80803c17844d5f",
+    "independent_new_cases_report": "rust/artifacts/independent-lie-detector-default-20261112/new-cases-comparison.json",
+    "independent_new_cases_report_sha256": "8e19ccbe556acebb1edb334f524f53576a4f3e4f3e6cb3ecbedc4b7d9f6a8dc5",
+    "independent_timeout_replay_report": "rust/artifacts/independent-lie-detector-default-20261112/timeout-replay.json",
+    "independent_timeout_replay_report_sha256": "0ba404d6df1c0a729ddf34bc5c8e3c92aec0686c63cdf441d133793121144a60",
+    "focused_rust_tests": "13/13 owner and independent",
+    "focused_harness_contracts": "3/3 owner; 2/2 independent",
+    "comparator_self_tests": "29/29 owner and independent",
+    "oracle_integrity": "pinned revision, source and executable verified before/after",
+    "red_green": "missing case-ID contract failed before case addition; no production code change or oracle-output/comparison alteration",
+    "initial_timeouts": "Owner debug candidate timed out on two new implicit-default scans; independent first full run had two pinned-Python timeouts on existing cases. Unchanged-deadline release-profile run, isolated Python replays, and independent full retry all passed.",
+    "accepted_scope_after_extension": {
+      "capabilities": 158,
+      "cases": 1532,
+      "manifest_cases": 1534,
+      "excluded_cases": 2
+    },
+    "direct_default_dispatch_positive_paths": "70/93",
+    "cumulative_gate": "Next full release-profile gate after four more independently verified default-dispatch extensions; no shared runtime behavior changed.",
     "requested_model": "gpt-6-luna / low",
     "runtime_model_metadata": "unavailable"
   }

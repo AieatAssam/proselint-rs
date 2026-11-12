@@ -53,6 +53,26 @@ fn run_check(input: &str) -> Output {
         .expect("write input");
     child.wait_with_output().expect("wait for CLI")
 }
+fn run_default_check(input: &str) -> Output {
+    let workspace = Workspace::new();
+    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
+        .current_dir(workspace.path())
+        .env("HOME", workspace.path())
+        .env("XDG_CONFIG_HOME", workspace.path().join("xdg"))
+        .args(["check", "--output-format", "json"])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .expect("start native CLI with default config");
+    child
+        .stdin
+        .take()
+        .expect("piped stdin")
+        .write_all(input.as_bytes())
+        .expect("write input");
+    child.wait_with_output().expect("wait for CLI")
+}
 fn diagnostic(span: [usize; 2], column: usize, replacement: &str) -> Value {
     json!({"check_path":"psychology.lie_detector","message":format!("Polygraph machines measure arousal, not lying per se. Try '{replacement}'."),"pos":[1,column],"replacements":replacement,"span":span})
 }
@@ -157,6 +177,24 @@ fn selected_config_excludes_unrelated_default_checks() {
         1,
         vec![diagnostic([23, 40], 23, "polygraph test")],
     );
+}
+
+#[test]
+fn default_config_dispatches_lie_detector() {
+    let out = run_default_check("The lie detector test completed.");
+    assert_eq!(out.status.code(), Some(1), "stderr: {:?}", out.stderr);
+    assert!(out.stderr.is_empty(), "stderr: {:?}", out.stderr);
+    let actual: Value = serde_json::from_slice(&out.stdout).expect("valid JSON");
+    assert_eq!(
+        actual,
+        json!({"result":{"<stdin>":{"diagnostics":[diagnostic([5,22],5,"polygraph test")]}}})
+    );
+
+    let out = run_default_check("The polygraph test completed.");
+    assert_eq!(out.status.code(), Some(0), "stderr: {:?}", out.stderr);
+    assert!(out.stderr.is_empty(), "stderr: {:?}", out.stderr);
+    let actual: Value = serde_json::from_slice(&out.stdout).expect("valid JSON");
+    assert_eq!(actual, json!({"result":{"<stdin>":{"diagnostics":[]}}}));
 }
 
 #[test]

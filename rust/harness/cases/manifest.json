@@ -18328,6 +18328,58 @@
       ]
     },
     {
+      "id": "spelling_ally_ly_no_config_accidently_default",
+      "capability_id": "rule.spelling.ally_ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/spelling/ally_ly.py maps accidently to accidentally, and tests/examples.py:424 uses “She was accidently fired.” This no-config case verifies default spelling dispatch through the real CLI.",
+      "input_mode": "stdin",
+      "stdin_base64": "U2hlIHdhcyBhY2NpZGVudGx5IGZpcmVkLg==",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "spelling_ally_ly_no_config_accidentally_control",
+      "capability_id": "rule.spelling.ally_ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/spelling/ally_ly.py maps accidently to accidentally, and tests/examples.py:424 uses “She was accidently fired.” This no-config case verifies default spelling dispatch through the real CLI.",
+      "input_mode": "stdin",
+      "stdin_base64": "U2hlIHdhcyBhY2NpZGVudGFsbHkgZmlyZWQu",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
       "id": "spelling_ely_ly_all_mappings",
       "capability_id": "rule.spelling.ely_ly",
       "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/ely_ly.py registers PreferredFormsSimple with three source→preferred mappings, Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, PPM 0, and message \"-ely vs. -ly. '{}' is the correct spelling.\" Mappings: completly → completely, immediatly → immediately, unfortunatly → unfortunately. Exercises all registered spellings and their exact replacements.",

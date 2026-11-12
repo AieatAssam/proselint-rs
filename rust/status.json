@@ -1522,7 +1522,7 @@
       "sha256": "58184ae0ec5edbeb119c28daa396c2b91ace23ad3c6cb91035fdc45a17634f8f"
     }
   },
-  "active_ownership": "No worker owns files. Two coverage-only extensions (spelling.ally_ly and spelling.ve_of) passed owner and independent verification after the 1,550-case gate; current accepted scope is 1,554/1,556. No production behavior changed.",
+  "active_ownership": "No worker owns files. Three coverage-only default-dispatch extensions (spelling.ally_ly, spelling.ve_of, and rule.redundancy.misc.wallace) passed owner and independent verification after the 1,550-case gate; current scope is 1,556/1,558. No production behavior changed.",
   "unresolved": [
     "Other CLI/config behavior remains unverified, including passwd-home config-present behavior, HOME-absent/no-passwd-entry behavior outside cli_config_no_passwd_home_absent, other subcommands, HOME-unset platform variation, directory candidates, and traversal/decoding edges.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
@@ -14091,7 +14091,7 @@
     "cargo_test_opt_level": "2",
     "python_harness_tests": "189/189 passed in 91.172s; runtime-independence included",
     "cargo_dependency_dry_run": "PASS; 0 compatible Rust dependency updates; lockfile unchanged",
-    "post_gate_tree_delta": "Two independently verified coverage-only spelling extensions, ally_ly and ve_of, added four manifest cases and two CLI tests; production Rust behavior and release binary are unchanged."
+    "post_gate_tree_delta": "Three independently verified coverage-only extensions (ally_ly, ve_of, Wallace) added six manifest cases and three CLI tests; production Rust behavior and release binary are unchanged."
   },
   "rust_dependencies": {
     "status": "latest_for_pinned_toolchain",
@@ -15573,58 +15573,70 @@
         "source_fingerprint": "70cc938c6d0c88c0c8cda87451a77ab6839802afaaf5369accf40d2793c000b7",
         "candidate_attestation": "rust/artifacts/20261112T123918453568Z-build.attestation.json",
         "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb"
+      },
+      "rule.redundancy.misc.wallace": {
+        "status": "PASS",
+        "passed": 12,
+        "total": 12,
+        "owner_report": "rust/artifacts/luna-wallace-default-20261112/focused-live-comparison.json",
+        "owner_report_sha256": "9cabbb6e39070c4c69ecb2abda77958b8d30a0832d8e1566b740112d392bfe7a",
+        "independent_report": "rust/artifacts/independent-wallace-default-20261112/focused-live-comparison.json",
+        "independent_report_sha256": "3df8b51259e7b55847291f69f347d066ee48fb2a8fb0d786a1058ebedbbd4ee8",
+        "source_fingerprint": "b5d2cfc1397f683c43218aa8d5f82012c160828bd0d2271ff71d0bf9a9a984d9",
+        "candidate_attestation": "rust/artifacts/20261112T130129359809Z-build.attestation.json",
+        "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb"
       }
     },
-    "accepted_case_count": 1554,
-    "manifest_case_count": 1556,
+    "accepted_case_count": 1556,
+    "manifest_case_count": 1558,
     "latest_full_gate_case_count": 1550,
-    "cumulative_checkpoint_due_after": "Run the next full release-profile cumulative gate after three more independently verified default-dispatch extensions, or immediately after shared behavior changes.",
+    "cumulative_checkpoint_due_after": "Run next full release-profile cumulative gate after two more independently verified default-dispatch extensions, or immediately after shared behavior changes.",
     "default_enabled_unique_paths": 93,
     "paths_without_no_config_positive_finding_in_prior_scope": 14,
-    "current_paths_without_positive_no_config_evidence": 12,
-    "owner_focused_live_cases_passed": 13,
-    "independent_live_cases_passed": 13,
-    "candidate_attestation": "rust/artifacts/20261112T123918453568Z-build.attestation.json",
+    "current_paths_without_positive_no_config_evidence": 11,
+    "owner_focused_live_cases_passed": 12,
+    "independent_live_cases_passed": 12,
+    "candidate_attestation": "rust/artifacts/20261112T130129359809Z-build.attestation.json",
     "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
-    "source_fingerprint": "70cc938c6d0c88c0c8cda87451a77ab6839802afaaf5369accf40d2793c000b7",
-    "current_candidate_gate": "Latest cumulative gate passed 1,550/1,550 before two subsequent extensions. Independently verified ally_ly and ve_of add four cases; current scope is 1,554/1,556 with two exclusions. Gate after three more extensions or shared behavior changes.",
+    "source_fingerprint": "b5d2cfc1397f683c43218aa8d5f82012c160828bd0d2271ff71d0bf9a9a984d9",
+    "current_candidate_gate": "Latest cumulative gate passed 1,550/1,550 before three subsequent coverage-only extensions. ally_ly, ve_of, and Wallace add six cases; current scope is 1,556/1,558 with two exclusions. Gate after two more extensions or shared behavior changes.",
     "independent_summary_report": "individual current-fingerprint reports listed in latest_independent_rule_verification",
     "independent_summary_sha256": "701808ac3d7807a848ab131051290a26be2dda56bcd3afee17e7d32a2c0c2eb9",
     "last_gate_report": "rust/artifacts/five-default-dispatch-extension-gate-20261112-final.json",
     "last_gate_report_sha256": "bd11b987d0ae9df2e50c516eb47aedc36c1b1da39b511ceff1706a2588ed8c06",
     "direct_positive_default_enabled_paths": 54,
     "positive_default_dispatch_paths": "63/93",
-    "latest_direct_default_dispatch_acceptance": "rule.spelling.ve_of",
-    "default_dispatch_positive_paths": "81/93"
+    "latest_direct_default_dispatch_acceptance": "rule.redundancy.misc.wallace",
+    "default_dispatch_positive_paths": "82/93"
   },
   "latest_focused_default_dispatch_acceptance": {
     "status": "PASS",
-    "capability_id": "rule.spelling.ve_of",
+    "capability_id": "rule.redundancy.misc.wallace",
     "case_ids": [
-      "spelling_ve_of_no_config_could_of_default",
-      "spelling_ve_of_no_config_couldve_control"
+      "wallace_no_config_rectangular_in_shape_default",
+      "wallace_no_config_rectangular_control"
     ],
-    "cases_passed": 13,
-    "total_cases": 13,
+    "cases_passed": 12,
+    "total_cases": 12,
     "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-    "source_fingerprint": "70cc938c6d0c88c0c8cda87451a77ab6839802afaaf5369accf40d2793c000b7",
-    "candidate_attestation": "rust/artifacts/20261112T123918453568Z-build.attestation.json",
-    "candidate_attestation_sha256": "d826fb3bbff113f44f588835c45c3c82ae1b8f69368191a17d3cc4a5905fd4f2",
+    "source_fingerprint": "b5d2cfc1397f683c43218aa8d5f82012c160828bd0d2271ff71d0bf9a9a984d9",
+    "candidate_attestation": "rust/artifacts/20261112T130129359809Z-build.attestation.json",
+    "candidate_attestation_sha256": "cd38968cd56858fdca48baa3399322c2cd993e88c6e1534f9c81047aaa799da3",
     "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
-    "owner_report": "rust/artifacts/luna-ve-of-default-20261112/focused-live-comparison.json",
-    "owner_report_sha256": "96c3fc56ba0c70ea46d32b55017256b3280d03a239f7169efe81ce7fee070914",
-    "independent_report": "rust/artifacts/independent-ve-of-default-20261112/focused-live-comparison.json",
-    "independent_report_sha256": "14be2c4f66e35f3eadc6dd10ee0598ccfb916fadd08f755877b83f7b2dc98971",
+    "owner_report": "rust/artifacts/luna-wallace-default-20261112/focused-live-comparison.json",
+    "owner_report_sha256": "9cabbb6e39070c4c69ecb2abda77958b8d30a0832d8e1566b740112d392bfe7a",
+    "independent_report": "rust/artifacts/independent-wallace-default-20261112/focused-live-comparison.json",
+    "independent_report_sha256": "3df8b51259e7b55847291f69f347d066ee48fb2a8fb0d786a1058ebedbbd4ee8",
     "focused_rust_test": "1/1 PASS",
     "focused_harness_tests": "2/2 PASS; 29/29 self-tests",
     "oracle_integrity": "verified before/after",
     "accepted_scope_after_extension": {
       "capabilities": 158,
-      "cases": 1554,
-      "manifest_cases": 1556,
+      "cases": 1556,
+      "manifest_cases": 1558,
       "excluded_cases": 2
     },
-    "cumulative_gate": "Prior gate passes 1,550 cases; two extensions since; next gate after three more or shared behavior change."
+    "cumulative_gate": "Prior gate passes 1,550 cases; three extensions since; next gate after two more or shared behavior change."
   },
   "latest_final_release_candidate": {
     "status": "PASS_PARTIAL_COMPATIBILITY",
@@ -16059,28 +16071,28 @@
       }
     ]
   },
-  "next_task": "Complete three more independently verified default-dispatch extensions before the next cumulative checkpoint; run the full release-profile gate sooner after shared behavior changes. Preserve expectations and comparisons.",
+  "next_task": "Complete two more independently verified default-dispatch extensions before the next cumulative checkpoint; run the full release-profile gate sooner after shared behavior changes. Preserve expectations and comparisons.",
   "latest_default_dispatch_extension": {
-    "capability": "rule.spelling.ve_of",
+    "capability": "rule.redundancy.misc.wallace",
     "case_count": 2,
-    "capability_total_case_count": 13,
-    "accepted_case_count": 1554,
-    "manifest_case_count": 1556,
+    "capability_total_case_count": 12,
+    "accepted_case_count": 1556,
+    "manifest_case_count": 1558,
     "excluded_cases": 2,
-    "default_dispatch_positive_paths": "81/93",
-    "owner_report": "rust/artifacts/luna-ve-of-default-20261112/focused-live-comparison.json",
-    "owner_report_sha256": "96c3fc56ba0c70ea46d32b55017256b3280d03a239f7169efe81ce7fee070914",
-    "owner_evidence": "rust/artifacts/luna-ve-of-default-20261112/evidence.md",
-    "owner_evidence_sha256": "f7f9f173c19154243e96814ed561e34b03cb30b2892037683f75c195077b837c",
-    "independent_report": "rust/artifacts/independent-ve-of-default-20261112/focused-live-comparison.json",
-    "independent_report_sha256": "14be2c4f66e35f3eadc6dd10ee0598ccfb916fadd08f755877b83f7b2dc98971",
-    "independent_evidence": "rust/artifacts/independent-ve-of-default-20261112/verification.md",
-    "independent_evidence_sha256": "96a5db662bf6b8f78861aa8d5bdde908cdc32bfcfec107cb930d656d7cdcd66b",
-    "source_fingerprint": "70cc938c6d0c88c0c8cda87451a77ab6839802afaaf5369accf40d2793c000b7",
-    "candidate_attestation": "rust/artifacts/20261112T123918453568Z-build.attestation.json",
-    "candidate_attestation_sha256": "d826fb3bbff113f44f588835c45c3c82ae1b8f69368191a17d3cc4a5905fd4f2",
+    "default_dispatch_positive_paths": "82/93",
+    "owner_report": "rust/artifacts/luna-wallace-default-20261112/focused-live-comparison.json",
+    "owner_report_sha256": "9cabbb6e39070c4c69ecb2abda77958b8d30a0832d8e1566b740112d392bfe7a",
+    "owner_evidence": "rust/artifacts/luna-wallace-default-20261112/evidence.md",
+    "owner_evidence_sha256": "d07358950cdef64bd858f13adc0b78f8bac2c148cc317396b7d457af4ed3e751",
+    "independent_report": "rust/artifacts/independent-wallace-default-20261112/focused-live-comparison.json",
+    "independent_report_sha256": "3df8b51259e7b55847291f69f347d066ee48fb2a8fb0d786a1058ebedbbd4ee8",
+    "independent_evidence": "rust/artifacts/independent-wallace-default-20261112/verification.md",
+    "independent_evidence_sha256": "a6d298f0e6f2d0840851c6b2510f65b96baa69a43e5e77648d650be47f20d1ee",
+    "source_fingerprint": "b5d2cfc1397f683c43218aa8d5f82012c160828bd0d2271ff71d0bf9a9a984d9",
+    "candidate_attestation": "rust/artifacts/20261112T130129359809Z-build.attestation.json",
+    "candidate_attestation_sha256": "cd38968cd56858fdca48baa3399322c2cd993e88c6e1534f9c81047aaa799da3",
     "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
-    "cumulative_gate": "Prior gate passed 1,550 cases before two subsequent coverage extensions; current scope 1,554. Run next full gate after three more independently verified extensions, or sooner after shared behavior changes."
+    "cumulative_gate": "Prior gate passed 1,550 cases before three subsequent coverage extensions; current scope 1,556. Run next full gate after two more independently verified extensions, or sooner after shared behavior changes."
   },
   "latest_demo_json_blocker_review": {
     "capability_id": "cli.demo.json",
@@ -17844,6 +17856,66 @@
       "expectations_or_comparison_changed": false,
       "requested_model": "gpt-6-luna / low",
       "runtime_model_metadata": "unavailable"
+    },
+    {
+      "status": "independently_verified",
+      "capability": "rule.redundancy.misc.wallace",
+      "scope": "Coverage-only default-dispatch extension for already implemented rule.redundancy.misc.wallace; added positive and clean no-config cases plus CLI test. No production behavior changed.",
+      "case_ids": [
+        "wallace_no_config_rectangular_in_shape_default",
+        "wallace_no_config_rectangular_control"
+      ],
+      "capability_case_count": 12,
+      "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+      "red": {
+        "status": "FAIL_EXPECTED_MISSING_CASES",
+        "failed_case_ids": 2
+      },
+      "green": {
+        "status": "PASS",
+        "focused_harness_contract": "2/2",
+        "manifest_identity": "PASS",
+        "comparator_self_tests": "29/29"
+      },
+      "focused_rust_test": {
+        "status": "PASS",
+        "cases": "1/1",
+        "duration_seconds": 18.69,
+        "test_source_sha256": "cdae5ca4fa31ed44dc92bdba104e82f21b453739e315ba786e024bf95d3dd01a"
+      },
+      "owner_live": {
+        "status": "PASS",
+        "cases": "12/12",
+        "report": "rust/artifacts/luna-wallace-default-20261112/focused-live-comparison.json",
+        "report_sha256": "9cabbb6e39070c4c69ecb2abda77958b8d30a0832d8e1566b740112d392bfe7a"
+      },
+      "candidate_attestation": "rust/artifacts/20261112T130129359809Z-build.attestation.json",
+      "candidate_attestation_sha256": "cd38968cd56858fdca48baa3399322c2cd993e88c6e1534f9c81047aaa799da3",
+      "independent_verification": {
+        "status": "PASS",
+        "cases": "12/12",
+        "report": "rust/artifacts/independent-wallace-default-20261112/focused-live-comparison.json",
+        "report_sha256": "3df8b51259e7b55847291f69f347d066ee48fb2a8fb0d786a1058ebedbbd4ee8",
+        "evidence": "rust/artifacts/independent-wallace-default-20261112/verification.md",
+        "evidence_sha256": "a6d298f0e6f2d0840851c6b2510f65b96baa69a43e5e77648d650be47f20d1ee"
+      },
+      "owner_evidence": "rust/artifacts/luna-wallace-default-20261112/evidence.md",
+      "owner_evidence_sha256": "d07358950cdef64bd858f13adc0b78f8bac2c148cc317396b7d457af4ed3e751",
+      "source_fingerprint": "b5d2cfc1397f683c43218aa8d5f82012c160828bd0d2271ff71d0bf9a9a984d9",
+      "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
+      "cargo_lock_sha256": "f8e4ad390ee6793c9e7e90d70c91ec8a6da39eb00cc87fe464dba1c91e1068fd",
+      "manifest_sha256": "163070d5c1f2559794b1fd6fc5171a30dcdda78bdf37c0bf7c959db9ed7fe8ad",
+      "oracle_integrity": "Pinned Proselint 0.16.0 revision/source/executable hashes verified before/after owner and independent live runs.",
+      "accepted_scope_after_extension": {
+        "capabilities": 158,
+        "cases": 1556,
+        "manifest_cases": 1558,
+        "excluded_cases": 2
+      },
+      "direct_default_dispatch_positive_paths": "82/93",
+      "expectations_or_comparison_changed": false,
+      "requested_model": "gpt-6-luna / low",
+      "runtime_model_metadata": "unavailable"
     }
   ],
   "latest_full_harness_suite_failed_attempt": {
@@ -19390,9 +19462,9 @@
     "gate_report": "rust/artifacts/five-default-dispatch-extension-gate-20261112-final.json",
     "gate_report_sha256": "bd11b987d0ae9df2e50c516eb47aedc36c1b1da39b511ceff1706a2588ed8c06",
     "gate_source_fingerprint": "ab4439de79976ce941a6868acdf06ef6d2acaa49e6315e7128680f372aa73d18",
-    "current_source_fingerprint": "70cc938c6d0c88c0c8cda87451a77ab6839802afaaf5369accf40d2793c000b7",
+    "current_source_fingerprint": "b5d2cfc1397f683c43218aa8d5f82012c160828bd0d2271ff71d0bf9a9a984d9",
     "current_tree_fingerprint_matches_gate": false,
-    "post_gate_delta": "Two subsequent independently verified spelling default-dispatch extensions (ally_ly and ve_of), four added accepted cases; no production behavior or release binary changed.",
+    "post_gate_delta": "Three subsequent independently verified coverage-only extensions (ally_ly, ve_of, Wallace), six added accepted cases; no production behavior or release binary changed.",
     "accepted_cases": 1550,
     "manifest_cases": 1552,
     "excluded_cases": 2,

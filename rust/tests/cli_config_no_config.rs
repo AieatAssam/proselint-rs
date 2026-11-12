@@ -680,6 +680,32 @@ fn no_config_found_enables_spelling_ve_of() {
 }
 
 #[test]
+fn no_config_found_enables_wallace() {
+    let positive = Workspace::new().run(b"The room was rectangular in shape.");
+    assert_eq!(
+        positive.status.code(),
+        Some(1),
+        "stderr: {:?}",
+        positive.stderr
+    );
+    assert_eq!(
+        positive.stdout,
+        b"<stdin>:1:14: redundancy.misc.wallace: Redundancy. Use 'rectangular' instead of 'rectangular in shape'.\n"
+    );
+    assert!(positive.stderr.is_empty(), "stderr: {:?}", positive.stderr);
+
+    let control = Workspace::new().run(b"The room was rectangular.");
+    assert_eq!(
+        control.status.code(),
+        Some(0),
+        "stderr: {:?}",
+        control.stderr
+    );
+    assert!(control.stdout.is_empty(), "stdout: {:?}", control.stdout);
+    assert!(control.stderr.is_empty(), "stderr: {:?}", control.stderr);
+}
+
+#[test]
 fn no_config_found_enables_illogic_collusion_and_ignores_near_matches() {
     let positive = Workspace::new().run(b"They acted without your collusion.");
     assert_eq!(

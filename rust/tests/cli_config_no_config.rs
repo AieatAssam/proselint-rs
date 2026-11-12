@@ -742,3 +742,29 @@ fn no_config_found_keeps_default_disabled_curly_quotes_check_disabled() {
     assert!(output.stdout.is_empty(), "stdout: {:?}", output.stdout);
     assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
 }
+
+#[test]
+fn no_config_found_enables_malapropisms() {
+    let positive = Workspace::new().run(b"Found in the Infinitesimal Universe.");
+    assert_eq!(
+        positive.status.code(),
+        Some(1),
+        "stderr: {:?}",
+        positive.stderr
+    );
+    assert_eq!(
+        positive.stdout,
+        b"<stdin>:1:10: malapropisms: 'the Infinitesimal Universe' is a malapropism.\n"
+    );
+    assert!(positive.stderr.is_empty(), "stderr: {:?}", positive.stderr);
+
+    let control = Workspace::new().run(b"There are many stars in the universe.");
+    assert_eq!(
+        control.status.code(),
+        Some(0),
+        "stderr: {:?}",
+        control.stderr
+    );
+    assert!(control.stdout.is_empty(), "stdout: {:?}", control.stdout);
+    assert!(control.stderr.is_empty(), "stderr: {:?}", control.stderr);
+}

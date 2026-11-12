@@ -19504,6 +19504,58 @@
       ]
     },
     {
+      "id": "malapropisms_no_config_default_dispatch",
+      "capability_id": "rule.malapropisms",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/malapropisms.py registers 'the infinitesimal universe' and config/default.json enables malapropisms. The upstream example uses 'Found in the Infinitesimal Universe.' This case verifies the rule through default no-config dispatch.",
+      "input_mode": "stdin",
+      "stdin_base64": "Rm91bmQgaW4gdGhlIEluZmluaXRlc2ltYWwgVW5pdmVyc2Uu",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "malapropisms_no_config_clean_control",
+      "capability_id": "rule.malapropisms",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; clean control for proselint/checks/malapropisms.py under default no-config dispatch.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlcmUgYXJlIG1hbnkgc3RhcnMgaW4gdGhlIHVuaXZlcnNlLg==",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
       "id": "spelling_in_un_all_mappings",
       "capability_id": "rule.spelling.in_un",
       "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/in_un.py registers PreferredFormsSimple with four mappings (unadvisable→inadvisable, unalienable→inalienable, unexpressive→inexpressive, unfeasible→infeasible), Fast case-insensitive WORDS_IN_TEXT matching, zero offsets, quote suppression, and message \"in- vs. un-. '{}' is the preferred spelling.\" All four upstream preferred-form mappings.",

@@ -2088,7 +2088,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1558)
+        self.assertEqual(len(case_ids), 1560)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -2097,7 +2097,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "2ded8c75649f462ce99b6e95d8bdcbb02526ca772d3373ba72624c6dfa9bffea",
+            "ae1b51f11262273fe837c14585fdd8325710f01c3432c5bbe33d2dc6249ef8ec",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),
@@ -4090,6 +4090,28 @@ class ComparatorTests(unittest.TestCase):
             with self.subTest(case_id=case_id):
                 case = cases[case_id]
                 self.assertEqual(case["capability_id"], "rule.misc.capitalization.days")
+                self.assertEqual(base64.b64decode(case["stdin_base64"]), stdin)
+                self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+                self.assertNotIn("--config", case["argv"])
+                self.assertEqual(case["config_scenario"], "no_config_default")
+                self.assertEqual(case["expected_oracle_outcome"], outcome)
+                compare.validate_case(case)
+
+    def test_malapropisms_no_config_default_dispatch_cases(self) -> None:
+        expected = {
+            "malapropisms_no_config_default_dispatch": (b"Found in the Infinitesimal Universe.", "findings"),
+            "malapropisms_no_config_clean_control": (b"There are many stars in the universe.", "clean"),
+        }
+        cases = {
+            case["id"]: case
+            for case in compare.load_manifest()["cases"]
+            if case["id"] in expected
+        }
+        self.assertEqual(cases.keys(), expected.keys())
+        for case_id, (stdin, outcome) in expected.items():
+            with self.subTest(case_id=case_id):
+                case = cases[case_id]
+                self.assertEqual(case["capability_id"], "rule.malapropisms")
                 self.assertEqual(base64.b64decode(case["stdin_base64"]), stdin)
                 self.assertEqual(case["argv"], ["check", "--output-format", "json"])
                 self.assertNotIn("--config", case["argv"])

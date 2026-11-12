@@ -1261,23 +1261,24 @@
     "independent_evidence": "rust/artifacts/independent-harness-verification-final/verification.json"
   },
   "harness": {
-    "status": "PASS on current manifest; live pinned-oracle comparison and 29 comparator discriminators passed in current release gate",
-    "source_fingerprint": "185380ae00ea809bfe674f11c7d3757c50ce6a0743579a9504eb291cb887369f",
+    "status": "PASS on current accepted manifest; cumulative gate 1540/1540, comparator discriminators 29/29, and full Python harness suite 184/184.",
+    "source_fingerprint": "f6cb0e28272bda3edf7b413628e25cfb2494957e3559ebbb41d56bd3c8c67e28",
     "unit_tests": {
       "status": "PASS",
-      "suite": "PROSELINT_RS_ATTESTATION=<current gate attestation> python3 -m unittest discover -s rust/harness/tests -v",
-      "tests_passed": 144,
-      "duration_seconds": 75.022,
-      "evidence": "rust/artifacts/full-harness-suite-20261111-clean.log",
-      "evidence_sha256": "5d8e1906420fc528558bd678d7a58f2c9aa474ffe23daee3f34ef2703dfb664a",
-      "candidate_attestation": "rust/artifacts/20261111T092101683349Z-build.attestation.json",
-      "source_fingerprint": "9360dfeb3bc37d2cbeb18e14e56f280754bc822905a3ba128db6c34c446cd39f",
+      "suite": "PROSELINT_RS_ATTESTATION=<current release attestation> python3 -m unittest discover -s rust/harness/tests -p 'test_*.py'",
+      "tests_passed": 184,
+      "duration_seconds": 83.628,
+      "evidence": "rust/artifacts/full-harness-suite-optimized-gate-20261112.log",
+      "evidence_sha256": "3b5f79f0f1a4171082c2dcaac6e97687299f752689452ac060e6cd9d5a06d896",
+      "candidate_attestation": "rust/artifacts/20261112T091257283181Z-build.attestation.json",
+      "candidate_attestation_sha256": "35d48d4570ed3f39844d385c9024c850976a66d43b37de1e3598697ffb53174e",
+      "source_fingerprint": "f6cb0e28272bda3edf7b413628e25cfb2494957e3559ebbb41d56bd3c8c67e28",
       "matches_current_source_fingerprint": true
     },
     "comparator_discriminators": {
-      "passed": 23,
+      "passed": 29,
       "exit_code": 0,
-      "evidence": "rust/artifacts/luna-missing-checks-independent-20261110.json"
+      "evidence": "rust/artifacts/optimized-test-profile-cumulative-gate-20261112.json"
     },
     "live_oracle_self_check": {
       "passed_cases": 2,
@@ -1454,9 +1455,14 @@
       "namespace_case": "cli_config_no_passwd_home_absent is executed through unshare per case"
     },
     "latest_full_unit_suite_currentness": "PASS: current tree harness suite 179/179 in 88.709s against current focused release build attestation. Three stale selected-case-ID assertions were scoped to selected-config cases; their corresponding no-config contract tests remain active. No oracle expectations or comparator policies changed.",
-    "current_manifest_digest_algorithm": "SHA-256 of rust/harness/cases/manifest.json raw bytes"
+    "current_manifest_digest_algorithm": "SHA-256 of rust/harness/cases/manifest.json raw bytes",
+    "runtime_independence": {
+      "status": "PASS",
+      "evidence": "rust/artifacts/runtime-independence-20261112T091434Z-143970.json",
+      "sha256": "58184ae0ec5edbeb119c28daa396c2b91ace23ad3c6cb91035fdc45a17634f8f"
+    }
   },
-  "active_ownership": "No worker owns files; all five scheduled extensions are independently verified. Full release-profile cumulative gate and full harness suite are due now.",
+  "active_ownership": "No worker owns files. Five default-dispatch extensions have passed owner, independent, and cumulative verification; full harness suite and post-gate benchmarks passed.",
   "unresolved": [
     "Other CLI/config behavior remains unverified, including passwd-home config-present behavior, HOME-absent/no-passwd-entry behavior outside cli_config_no_passwd_home_absent, other subcommands, HOME-unset platform variation, directory candidates, and traversal/decoding edges.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
@@ -13975,19 +13981,19 @@
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "run_id": "20261112T020651913594Z-12bce607",
-    "report": "rust/artifacts/current-version-full-gate-20261112.json",
-    "report_sha256": "c7714d65d16b111df797017650c9eb2b67f50333395ad07482d3d6d7b2a5efda",
-    "source_fingerprint": "4e0157d2b820f6aa65d91bc30299a0a21180840c788d7c99ae9a2916fadbae9f",
-    "candidate_attestation": "rust/artifacts/20261112T015356075606Z-build.attestation.json",
-    "build_attestation": "rust/artifacts/20261112T015356075606Z-build.attestation.json",
-    "candidate_attestation_sha256": "70b114fb5f18bf0c8af5d0f472437db3c35eadb6d82124dd79ff40d78804bf4b",
+    "run_id": "20261112T084539908702Z-ff469821",
+    "report": "rust/artifacts/optimized-test-profile-cumulative-gate-20261112.json",
+    "report_sha256": "a938e0f8fce4786e2aeff55294df7c4944e697907032fd4f8677fa73129ace60",
+    "source_fingerprint": "659b54b6f7562d189cdf8ac8bb36b5f76320bf76ffe1757f1e191c518f8f6de2",
+    "candidate_attestation": "rust/artifacts/20261112T083050457311Z-build.attestation.json",
+    "build_attestation": "rust/artifacts/20261112T083050457311Z-build.attestation.json",
+    "candidate_attestation_sha256": "fecbff5ccd1253f085565dbaf4e1c58dc87e9fe135610c3839b49ec1f1144c59",
     "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
     "cargo_lock_sha256": "f8e4ad390ee6793c9e7e90d70c91ec8a6da39eb00cc87fe464dba1c91e1068fd",
     "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
     "accepted_capability_count": 158,
-    "accepted_case_count": 1508,
-    "manifest_case_count": 1510,
+    "accepted_case_count": 1540,
+    "manifest_case_count": 1542,
     "excluded_case_count": 2,
     "counts": {
       "BLOCKED": 0,
@@ -13995,39 +14001,41 @@
       "MISMATCH": 0,
       "NOT_IMPLEMENTED": 0,
       "ORACLE_ERROR": 0,
-      "PASS": 1508,
+      "PASS": 1540,
       "TIMEOUT": 0
     },
     "comparator_self_tests": "29/29 PASS",
-    "rust_tests": "923/923 across 145 targets",
+    "rust_tests": "936/936 across 146 targets",
+    "oracle_integrity": "PASS; pinned Proselint 0.16.0 source and executable hashes verified",
     "stage_durations_seconds": {
       "comparator_self_tests": {
         "check_count": 29,
-        "duration_seconds": 0.133463
+        "duration_seconds": 0.142905
       },
       "cumulative_live_comparison": {
         "capability_count": 158,
-        "case_count": 1508,
-        "duration_seconds": 969.329652
+        "case_count": 1540,
+        "duration_seconds": 1060.157553
       },
       "oracle_integrity": {
-        "duration_seconds": 1.858929
+        "duration_seconds": 2.477577
       },
       "rust_checks_and_build": {
-        "duration_seconds": 775.916615
+        "duration_seconds": 889.670987
       }
     },
-    "oracle_integrity": "verified; source tree SHA 73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831; executable SHA b5f88a67377a8f3c32e1bffc41ca96fd8c111b127427459ffb2184e74c99af77",
-    "scope_matches_current_accepted_scope": false,
+    "duration_seconds": 1953.047612,
+    "scope_matches_current_accepted_scope": true,
     "current_tree_fingerprint_matches_gate": false,
-    "compatibility_claim": "Partial only; two oracle smoke cases remain excluded, and CLI representation/version divergences remain explicit.",
-    "staleness_note": "Current manifest adds ten independently verified default-dispatch cases across four paths; gate covers 1508 cases at the prior fingerprint."
+    "post_gate_tree_delta": "Harness contract test assertions only; manifest, live comparator, Rust production source and release binary unchanged. Current-tree build attestation is recorded separately.",
+    "compatibility_claim": "Partial only; version-flag divergence, remaining CLI gaps, and two excluded oracle-smoke cases remain explicit.",
+    "cargo_test_opt_level": "2"
   },
   "rust_dependencies": {
     "status": "latest_for_pinned_toolchain",
     "toolchain": "1.99.1",
     "registry": "crates.io",
-    "latest_checked": "2026-11-12T07:50:37Z",
+    "latest_checked": "2026-11-12T09:38:45Z",
     "locked_versions": {
       "clap": "4.6.7",
       "serde": "1.0.229",
@@ -14039,7 +14047,7 @@
       "syn": "3.0.10",
       "ar_archive_writer": "0.5.5"
     },
-    "cargo_update_dry_run": "0 packages to update (highest crates.io versions compatible with Rust 1.99.1)",
+    "cargo_update_dry_run": "0 packages to update; lockfile unchanged.",
     "update_dry_run": {
       "status": "current",
       "packages_to_update": 0,
@@ -14090,7 +14098,7 @@
       "exit_code": 0
     }
   },
-  "next_capability_handoff": "Five default-dispatch extensions since the last gate are accepted: psychology.lie_detector 14/14, cliches.misc.write_good 11/11, spelling.able_atable 10/10, spelling.able_ible 11/11, spelling.er_or 10/10. Current fp a34e1938, binary SHA 19801fa7; accepted scope 1540/1542, two exclusions; direct positives 74/93. Run the full release-profile gate and full Rust/harness suites now. Preserve explicit version/CLI divergence and partial compatibility.",
+  "next_capability_handoff": "The five independently verified default-dispatch extensions since the previous checkpoint passed the full cumulative gate: 1,540/1,540 cases across 158 capabilities; two oracle-smoke cases remain excluded. The full Rust suite passed 936/936 across 146 targets, and the Python harness suite passed 184/184. Next capability: spelling.em_im_en_in. The strict gate fingerprint predates only harness test-contract corrections; the current-source focused release attestation is rust/artifacts/20261112T091257283181Z-build.attestation.json at f6cb0e28272bda3edf7b413628e25cfb2494957e3559ebbb41d56bd3c8c67e28. Keep the version-flag divergence and remaining CLI gaps explicit.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",
@@ -14197,40 +14205,89 @@
   },
   "latest_benchmark": {
     "status": "PASS",
-    "report": "rust/artifacts/benchmark-five-default-dispatch-extension-20261112.json",
-    "report_sha256": "3c60a0d6cae7684db321486ad1994b8a2f53d79bbd5f471f2979222fa1f8962a",
-    "run_id": "20261112T063408918808Z-benchmark-a7dabf03",
-    "profile": "combined_suddenly_p_equals_zero",
-    "parity_preflight": "3/3 PASS",
-    "overall_timeout_seconds": 600,
-    "elapsed_seconds": 35.054712,
-    "sample_pairs_per_workload": 25,
+    "report": "rust/artifacts/benchmark-misc-suddenly-100-repetitions-gate-20261112.json",
+    "report_sha256": "c713450c3e2a2377b29142e7f7b651ec802bf8e824ab04477b43a02f49453ad2",
+    "run_id": "20261112T092715809294Z-benchmark-33a5d7ec",
+    "source_fingerprint": "f6cb0e28272bda3edf7b413628e25cfb2494957e3559ebbb41d56bd3c8c67e28",
+    "capability_id": "rule.misc.suddenly",
+    "profile_id": "misc_suddenly",
+    "parity_preflight": {
+      "BLOCKED": 0,
+      "CANDIDATE_ERROR": 0,
+      "MISMATCH": 0,
+      "NOT_IMPLEMENTED": 0,
+      "ORACLE_ERROR": 0,
+      "PASS": 3,
+      "TIMEOUT": 0
+    },
+    "sample_pairs": 25,
     "warmup_pairs": 3,
-    "source_fingerprint": "eec3c0183e91016ef743a56e2d4d57883f063395e83affbde3b844e846d850a2",
+    "overall_timeout_seconds": 600,
+    "measurement_scope": "fresh_process_cli_and_in_memory_isolated_rule",
     "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
-    "release_attestation": "rust/artifacts/20261112T063204639719Z-build.attestation.json",
+    "release_attestation": "rust/artifacts/20261112T091257283181Z-build.attestation.json",
+    "release_attestation_sha256": "35d48d4570ed3f39844d385c9024c850976a66d43b37de1e3598697ffb53174e",
     "rss": "unavailable",
+    "stage_durations_seconds": {
+      "setup_and_build": 2.76635635,
+      "parity_preflight": 6.141390027,
+      "fresh_process_benchmark": 22.315557664,
+      "in_memory_benchmark": 87.143342172
+    },
     "workloads": [
       {
-        "id": "combined_small",
-        "input_bytes": 82,
-        "python_median_ns": 193469722,
-        "rust_median_ns": 4355103,
-        "python_over_rust_median_speedup": 44.42368458334969
+        "id": "upstream_proselint_demo",
+        "input_bytes": 6095,
+        "python_median_ms": 186.186843,
+        "rust_median_ms": 3.438071,
+        "median_ratio": 54.154449689956955,
+        "python_iqr_ms": 10.148823,
+        "rust_iqr_ms": 0.272365,
+        "sample_pairs": 25,
+        "in_memory_100_scans": {
+          "python_median_ms": 98.98062,
+          "rust_median_ms": 9.915994,
+          "median_ratio": 9.981916084257414,
+          "python_iqr_ms": 2.014394,
+          "rust_iqr_ms": 1.392768,
+          "sample_pairs": 25
+        }
       },
       {
-        "id": "combined_ordinary_generated",
-        "input_bytes": 9280,
-        "python_median_ns": 206916291,
-        "rust_median_ns": 7051516,
-        "python_over_rust_median_speedup": 29.34351861358607
+        "id": "ordinary_generated",
+        "input_bytes": 28531,
+        "python_median_ms": 188.593733,
+        "rust_median_ms": 4.058673,
+        "median_ratio": 46.46684593708338,
+        "python_iqr_ms": 4.670863,
+        "rust_iqr_ms": 0.401813,
+        "sample_pairs": 25,
+        "in_memory_100_scans": {
+          "python_median_ms": 305.721495,
+          "rust_median_ms": 42.783564,
+          "median_ratio": 7.145769693240142,
+          "python_iqr_ms": 15.105603,
+          "rust_iqr_ms": 5.244039,
+          "sample_pairs": 25
+        }
       },
       {
-        "id": "combined_dense_generated",
-        "input_bytes": 6400,
-        "python_median_ns": 237329243,
-        "rust_median_ns": 14670976,
-        "python_over_rust_median_speedup": 16.17678626152752
+        "id": "dense_adversarial_generated",
+        "input_bytes": 21504,
+        "python_median_ms": 225.213325,
+        "rust_median_ms": 12.895636,
+        "median_ratio": 17.464305366559664,
+        "python_iqr_ms": 10.389011,
+        "rust_iqr_ms": 2.324758,
+        "sample_pairs": 25,
+        "in_memory_100_scans": {
+          "python_median_ms": 2096.026945,
+          "rust_median_ms": 207.63867,
+          "median_ratio": 10.094588570616446,
+          "python_iqr_ms": 230.83717,
+          "rust_iqr_ms": 10.468529,
+          "sample_pairs": 25
+        }
       }
     ]
   },
@@ -14625,74 +14682,71 @@
   },
   "latest_full_harness_suite": {
     "status": "PASS",
-    "command": "python3 -m unittest discover -s rust/harness/tests -p 'test_*.py'",
-    "test_count": 179,
-    "passed": 179,
+    "command": "PROSELINT_RS_ATTESTATION=<current release attestation> python3 -m unittest discover -s rust/harness/tests -p 'test_*.py'",
+    "test_count": 184,
+    "passed": 184,
     "failed": 0,
-    "duration_seconds": 88.709,
-    "log": "rust/artifacts/full-harness-suite-five-default-dispatch-extension-final-20261112.log",
-    "log_sha256": "57368925cfb275d36759a42433492cf5b6f7c5ff2c2c99a7e9c2a5b713328f05",
-    "candidate_attestation": "rust/artifacts/20261112T063204639719Z-build.attestation.json",
-    "candidate_attestation_sha256": "2e4d76879e94116dd6c31ec8fb473ad61b8cfa3c7eaac0dd51b1ae91bacbb9fd",
-    "source_fingerprint": "eec3c0183e91016ef743a56e2d4d57883f063395e83affbde3b844e846d850a2",
-    "runtime_independence": "No separate runtime-independence test was run at this checkpoint; existing harness tests include runtime checks."
+    "duration_seconds": 83.628,
+    "log": "rust/artifacts/full-harness-suite-optimized-gate-20261112.log",
+    "log_sha256": "3b5f79f0f1a4171082c2dcaac6e97687299f752689452ac060e6cd9d5a06d896",
+    "candidate_attestation": "rust/artifacts/20261112T091257283181Z-build.attestation.json",
+    "candidate_attestation_sha256": "35d48d4570ed3f39844d385c9024c850976a66d43b37de1e3598697ffb53174e",
+    "source_fingerprint": "f6cb0e28272bda3edf7b413628e25cfb2494957e3559ebbb41d56bd3c8c67e28",
+    "runtime_independence": "PASS",
+    "runtime_independence_evidence": "rust/artifacts/runtime-independence-20261112T091434Z-143970.json",
+    "runtime_independence_evidence_sha256": "58184ae0ec5edbeb119c28daa396c2b91ace23ad3c6cb91035fdc45a17634f8f"
   },
   "latest_release_gate_attempt": {
     "status": "PASS",
-    "report": "rust/artifacts/five-default-dispatch-extension-gate-20261112-final.json",
-    "report_sha256": "6304910dae7d74599f04453506b2f4c5227303bdc64660f799316dd75c644b32",
-    "run_id": "20261112T061147498821Z-1e163014",
-    "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-    "source_fingerprint": "be4508c32c77c7bfb077c4f535d083a4e276d0785a1ee19e6d1dce66fd05d9f8",
+    "run_id": "20261112T084539908702Z-ff469821",
+    "report": "rust/artifacts/optimized-test-profile-cumulative-gate-20261112.json",
+    "report_sha256": "a938e0f8fce4786e2aeff55294df7c4944e697907032fd4f8677fa73129ace60",
+    "source_fingerprint": "659b54b6f7562d189cdf8ac8bb36b5f76320bf76ffe1757f1e191c518f8f6de2",
+    "candidate_attestation": "rust/artifacts/20261112T083050457311Z-build.attestation.json",
+    "build_attestation": "rust/artifacts/20261112T083050457311Z-build.attestation.json",
+    "candidate_attestation_sha256": "fecbff5ccd1253f085565dbaf4e1c58dc87e9fe135610c3839b49ec1f1144c59",
     "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
-    "candidate_attestation": "/home/dev/proselint-rs/rust/artifacts/20261112T060006709790Z-build.attestation.json",
-    "candidate_attestation_sha256": "96b001adc4cc772d8e553c83706960dbca5ff7a5a11188c3edd619224112ecf1",
     "cargo_lock_sha256": "f8e4ad390ee6793c9e7e90d70c91ec8a6da39eb00cc87fe464dba1c91e1068fd",
+    "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
     "accepted_capability_count": 158,
-    "accepted_case_count": 1530,
-    "manifest_case_count": 1532,
+    "accepted_case_count": 1540,
+    "manifest_case_count": 1542,
     "excluded_case_count": 2,
-    "scope_matches_current_accepted_scope": false,
-    "current_tree_fingerprint_matches_gate": false,
-    "current_source_fingerprint_after_harness_assertion_repair": "eec3c0183e91016ef743a56e2d4d57883f063395e83affbde3b844e846d850a2",
-    "post_gate_test_repair": "The full harness suite initially failed three exact manifest-ID assertions after the five new cases were added. The assertions were corrected to scope selected-config checks to selected-config cases; separate no-config contract tests remain. No manifest, comparator, normalizer, oracle output, Rust source, or binary changed. Full harness suite then passed 179/179 against a current-source focused build attestation. The gate PASS remains live evidence for the same 1530 case IDs and identical binary SHA.",
     "counts": {
       "BLOCKED": 0,
       "CANDIDATE_ERROR": 0,
       "MISMATCH": 0,
       "NOT_IMPLEMENTED": 0,
       "ORACLE_ERROR": 0,
-      "PASS": 1530,
+      "PASS": 1540,
       "TIMEOUT": 0
     },
-    "rust_tests": "931/931 across 146 targets",
     "comparator_self_tests": "29/29 PASS",
-    "oracle_integrity": "PASS; pinned Proselint 0.16.0 revision dbed789caae662d06c7c8a5a13dd31f1acd36f5c; source tree SHA 73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831; executable SHA b5f88a67377a8f3c32e1bffc41ca96fd8c111b127427459ffb2184e74c99af77",
+    "rust_tests": "936/936 across 146 targets",
+    "oracle_integrity": "PASS; pinned Proselint 0.16.0 source and executable hashes verified",
     "stage_durations_seconds": {
       "comparator_self_tests": {
         "check_count": 29,
-        "duration_seconds": 0.124301
+        "duration_seconds": 0.142905
       },
       "cumulative_live_comparison": {
         "capability_count": 158,
-        "case_count": 1530,
-        "duration_seconds": 988.698655
+        "case_count": 1540,
+        "duration_seconds": 1060.157553
       },
       "oracle_integrity": {
-        "duration_seconds": 1.531584
+        "duration_seconds": 2.477577
       },
       "rust_checks_and_build": {
-        "duration_seconds": 700.855088
+        "duration_seconds": 889.670987
       }
     },
-    "duration_seconds": 1691.682334,
-    "compatibility_claim": "Partial only; intentional version-flag divergence, remaining CLI gaps, and two excluded oracle-smoke cases remain explicit.",
-    "current_source_fingerprint_after_lie_detector_extension": "61f1ec2eae2752422842c0c2f637a85ffe449ac4341e86c4e26122b77e508892",
-    "staleness_note": "The gate passed 1530/1530 at its recorded fingerprint. Five subsequent default-dispatch extensions added ten accepted no-config cases; current accepted scope is 1540 cases in a 1542-case manifest with two exclusions. Cumulative checkpoint due now.",
-    "current_source_fingerprint_after_write_good_extension": "3864ceb9249d728fe6c50d5643b9931a1e70f979353137910c1d640f69579e96",
-    "current_source_fingerprint_after_able_atable_extension": "f3d2b14069f0bf7f94080cee5d4c38c82cdff64e319aa75ecc5902d5aa4481b7",
-    "current_source_fingerprint_after_able_ible_extension": "f31d789be8b272a73d3441d886838b665a929299a351bcc0ce769be2f1af9449",
-    "current_source_fingerprint_after_er_or_extension": "a34e1938e16d48d3def41074783c194b7669cc5f0141005bc942a4c88b663e3e"
+    "duration_seconds": 1953.047612,
+    "scope_matches_current_accepted_scope": true,
+    "current_tree_fingerprint_matches_gate": false,
+    "post_gate_tree_delta": "Harness contract test assertions only; manifest, live comparator, Rust production source and release binary unchanged. Current-tree build attestation is recorded separately.",
+    "compatibility_claim": "Partial only; version-flag divergence, remaining CLI gaps, and two excluded oracle-smoke cases remain explicit.",
+    "cargo_test_opt_level": "2"
   },
   "current_candidate_release_readiness": {
     "status": "PASS_PARTIAL_COMPATIBILITY",
@@ -15637,24 +15691,24 @@
   "latest_release_checkpoint": {
     "status": "PASS_PARTIAL_COMPATIBILITY",
     "date_utc": "2026-11-12",
-    "gate_report": "rust/artifacts/five-default-dispatch-extension-gate-20261112-final.json",
-    "gate_report_sha256": "6304910dae7d74599f04453506b2f4c5227303bdc64660f799316dd75c644b32",
-    "gate_run_id": "20261112T061147498821Z-1e163014",
-    "source_fingerprint": "eec3c0183e91016ef743a56e2d4d57883f063395e83affbde3b844e846d850a2",
-    "candidate_attestation": "rust/artifacts/20261112T063204639719Z-build.attestation.json",
-    "attestation_sha256": "2e4d76879e94116dd6c31ec8fb473ad61b8cfa3c7eaac0dd51b1ae91bacbb9fd",
+    "gate_report": "rust/artifacts/optimized-test-profile-cumulative-gate-20261112.json",
+    "gate_report_sha256": "a938e0f8fce4786e2aeff55294df7c4944e697907032fd4f8677fa73129ace60",
+    "gate_run_id": "20261112T084539908702Z-ff469821",
+    "source_fingerprint": "659b54b6f7562d189cdf8ac8bb36b5f76320bf76ffe1757f1e191c518f8f6de2",
+    "candidate_attestation": "rust/artifacts/20261112T083050457311Z-build.attestation.json",
+    "attestation_sha256": "fecbff5ccd1253f085565dbaf4e1c58dc87e9fe135610c3839b49ec1f1144c59",
     "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
-    "accepted_cases": 1530,
-    "manifest_cases": 1532,
+    "accepted_cases": 1540,
+    "manifest_cases": 1542,
     "excluded_cases": 2,
     "capabilities": 158,
     "release_tag": "v2026.11.12.1",
     "release_url": "https://github.com/AieatAssam/proselint-rs/releases/tag/v2026.11.12.1",
     "rust_suite": {
-      "passed": 923,
+      "passed": 936,
       "failed": 0,
-      "targets": 145,
-      "attestation": "rust/artifacts/20261112T015356075606Z-build.attestation.json"
+      "targets": 146,
+      "attestation": "rust/artifacts/20261112T083050457311Z-build.attestation.json"
     },
     "independent_rule_acceptances": {
       "rule.uncomparables": {
@@ -15695,36 +15749,35 @@
     "version_flag_divergence": "Accepted intentional divergence; strict output comparison retained.",
     "harness_suite": {
       "status": "PASS",
-      "total": 179,
-      "passed": 179,
+      "total": 184,
+      "passed": 184,
       "failed": 0,
-      "duration_seconds": 88.709,
-      "report": "rust/artifacts/full-harness-suite-five-default-dispatch-extension-final-20261112.log",
-      "sha256": "57368925cfb275d36759a42433492cf5b6f7c5ff2c2c99a7e9c2a5b713328f05"
+      "duration_seconds": 83.628,
+      "report": "rust/artifacts/full-harness-suite-optimized-gate-20261112.log",
+      "sha256": "3b5f79f0f1a4171082c2dcaac6e97687299f752689452ac060e6cd9d5a06d896"
     },
     "benchmark": {
       "status": "PASS",
-      "report": "rust/artifacts/benchmark-five-default-dispatch-extension-20261112.json",
-      "report_sha256": "3c60a0d6cae7684db321486ad1994b8a2f53d79bbd5f471f2979222fa1f8962a",
-      "run_id": "20261112T063408918808Z-benchmark-a7dabf03",
+      "report": "rust/artifacts/benchmark-combined-profile-gate-20261112.json",
+      "report_sha256": "9c3e114789d207d1bf6acfab61c25f45d29f6fdc1f8609d139608ca1a3d2fe48",
       "profile": "combined_suddenly_p_equals_zero",
       "parity_preflight": "3/3 PASS",
       "overall_deadline_seconds": 600,
-      "duration_seconds": 35.054712,
+      "duration_seconds": 34.124723,
       "sample_pairs": 25,
       "warmups": 3
     },
-    "currentness": "Full release-profile parity gate PASS 1530/1530 over 158 capabilities; same binary SHA. Full Rust 931/931 across 146 targets; current harness suite 179/179; bounded benchmark PASS after 3/3 parity preflight. Gate fingerprint predates three harness test-ID assertion repairs only; current focused build attestation fingerprint is current and the binary is unchanged.",
+    "currentness": "Full gate PASS 1540/1540 across 158 capabilities; Rust suite 936/936 across 146 targets; current harness suite 184/184; post-gate bounded benchmarks PASS. The strict gate fingerprint predates harness-test-only contract repairs; current source attestation is recorded separately, and the Rust binary is unchanged.",
     "latest_focused_capability": {
-      "id": "rule.redundancy.ras_syndrome",
+      "id": "spelling.er_or",
       "owner_cases": "10/10",
-      "independent_no_config_cases": "2/2",
-      "rust_target": "9/9",
+      "independent_cases": "10/10",
+      "rust_target": "2/2",
       "harness_contract": "PASS",
       "comparator": "29/29 PASS",
-      "attestation": "rust/artifacts/20261112T055013897364Z-build.attestation.json",
-      "owner_report": "rust/artifacts/ras-syndrome-final-owner-current-20261112.json",
-      "independent_summary": "rust/artifacts/independent-ras-syndrome-20261112/final-current-summary.json"
+      "attestation": "rust/artifacts/20261112T075400688846Z-build.attestation.json",
+      "owner_report": "rust/artifacts/luna-er-or-default-20261112/owner-live-comparison.json",
+      "independent_report": "rust/artifacts/independent-er-or-default-20261112/live-comparison.json"
     }
   },
   "latest_default_dispatch_batch": {
@@ -15858,10 +15911,10 @@
   ],
   "latest_release_benchmark": {
     "status": "PASS",
-    "report": "rust/artifacts/release-workflow-latest-deps-benchmark-20261112.json",
-    "report_sha256": "5a6a8b965cbd88ab6e12a592ee733da5c1dad57404a557d21ba97429a10abcbc",
-    "run_id": "20261111T145458919391Z-benchmark-5382f53c",
-    "source_fingerprint": "8fc5bb76d0770f62dd3800ec07f1699d3f0f86eb8ca7a7d58056534e0d457c69",
+    "report": "rust/artifacts/benchmark-combined-profile-gate-20261112.json",
+    "report_sha256": "9c3e114789d207d1bf6acfab61c25f45d29f6fdc1f8609d139608ca1a3d2fe48",
+    "run_id": "20261112T092537032335Z-benchmark-a95233f1",
+    "source_fingerprint": "f6cb0e28272bda3edf7b413628e25cfb2494957e3559ebbb41d56bd3c8c67e28",
     "capability_id": "cli.combined_checks",
     "profile_id": "combined_suddenly_p_equals_zero",
     "parity_preflight": {
@@ -15875,50 +15928,51 @@
     },
     "sample_pairs": 25,
     "warmup_pairs": 3,
-    "overall_timeout_seconds": 1800,
+    "overall_timeout_seconds": 600,
     "measurement_scope": "fresh_process_cli_combined_selected_rules_only",
-    "rss": {
-      "method": null,
-      "reason": "No per-process RSS sampler is configured; ru_maxrss is cumulative across children and would not attribute a sample reliably.",
-      "status": "unavailable"
-    },
+    "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
+    "release_attestation": "rust/artifacts/20261112T091257283181Z-build.attestation.json",
+    "release_attestation_sha256": "35d48d4570ed3f39844d385c9024c850976a66d43b37de1e3598697ffb53174e",
+    "rss": "unavailable",
     "stage_durations_seconds": {
-      "setup_and_build": 3.300962078,
-      "parity_preflight": 6.682418514,
-      "fresh_process_benchmark": 24.239578432
+      "setup_and_build": 2.815607172,
+      "parity_preflight": 6.275632273,
+      "fresh_process_benchmark": 22.484931841
     },
     "workloads": [
       {
         "id": "combined_small",
         "input_bytes": 82,
-        "input_sha256": "50e73cf2080050cac88f67b97e7441b62281b95a8c842995d80ca32ab073e899",
-        "python_median_ms": 198.85808,
-        "rust_median_ms": 4.549558,
-        "median_ratio": 43.709318575562726,
+        "python_median_ms": 191.021436,
+        "rust_median_ms": 4.158268,
+        "median_ratio": 45.93774042461909,
+        "python_iqr_ms": 10.152655,
+        "rust_iqr_ms": 0.490361,
         "sample_pairs": 25
       },
       {
         "id": "combined_ordinary_generated",
         "input_bytes": 9280,
-        "input_sha256": "9769ed177eaf82360def0740a1d9fa1855ce03a7ba993ba57532c392e96615a5",
-        "python_median_ms": 219.586209,
-        "rust_median_ms": 7.290753,
-        "median_ratio": 30.118454019769974,
+        "python_median_ms": 203.532006,
+        "rust_median_ms": 6.862312,
+        "median_ratio": 29.659392636184425,
+        "python_iqr_ms": 16.850138,
+        "rust_iqr_ms": 1.094846,
         "sample_pairs": 25
       },
       {
         "id": "combined_dense_generated",
         "input_bytes": 6400,
-        "input_sha256": "3153a44dc5f14269f34443af2564808a42c7a894d4455972c7b95b820e7f00c1",
-        "python_median_ms": 261.394128,
-        "rust_median_ms": 16.133983,
-        "median_ratio": 16.201462961749744,
+        "python_median_ms": 230.704254,
+        "rust_median_ms": 14.362512,
+        "median_ratio": 16.062945952630013,
+        "python_iqr_ms": 10.571197,
+        "rust_iqr_ms": 5.574018,
         "sample_pairs": 25
       }
-    ],
-    "claim_limit": "Selected rules and three workloads on one Linux x86_64 host; not whole-program or universal performance."
+    ]
   },
-  "next_task": "Select and independently verify the next focused capability; continue partial migration after this cumulative gate while preserving explicit CLI gaps and version divergence.",
+  "next_task": "Run the mandatory cycle for spelling.em_im_en_in with the pinned Python Proselint baseline; preserve current gates, exact expectations, explicit CLI gaps, and version divergence.",
   "latest_default_dispatch_extension": {
     "capability": "spelling.er_or",
     "case_count": 2,
@@ -15929,7 +15983,9 @@
     "independent_report": "rust/artifacts/independent-er-or-default-20261112/live-comparison.json",
     "source_fingerprint": "a34e1938e16d48d3def41074783c194b7669cc5f0141005bc942a4c88b663e3e",
     "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
-    "cumulative_gate_due_after": 0
+    "cumulative_gate": "PASS 1540/1540",
+    "cumulative_gate_report": "rust/artifacts/optimized-test-profile-cumulative-gate-20261112.json",
+    "cumulative_gate_sha256": "a938e0f8fce4786e2aeff55294df7c4944e697907032fd4f8677fa73129ace60"
   },
   "latest_demo_json_blocker_review": {
     "capability_id": "cli.demo.json",
@@ -17242,23 +17298,34 @@
   ],
   "latest_full_harness_suite_failed_attempt": {
     "status": "FAIL_THEN_FIXED",
-    "test_count": 169,
-    "failed": 2,
-    "duration_seconds": 171.303,
-    "causes": [
-      "pinned oracle timed out once on ras_syndrome_all_twenty_mappings; focused isolated replay passed 1/1 without changing timeout",
-      "runtime independence exposed explicit --config with no HOME mismatch; fixed, focused owner and independent runs passed 1/1"
+    "test_count": 184,
+    "failed": 5,
+    "errors": 1,
+    "duration_seconds": 100.374,
+    "failed_tests": [
+      "test_able_atable_cases_select_only_registered_check",
+      "test_able_ible_cases_select_only_registered_check",
+      "test_er_or_cases_select_only_registered_check",
+      "test_manifest_bytecode_settings_load_and_preserve_explicit_value",
+      "test_write_good_and_max_errors_live_case_contracts"
     ],
-    "runtime_mismatch_report": "rust/artifacts/runtime-independence-20261112T005257Z-4106476.json",
-    "focused_timeout_replay": "PYTHONPATH=rust/harness/tests python3 -m unittest test_compare.ComparatorTests.test_ras_syndrome_cases_match_pinned_oracle (1/1 PASS)"
+    "error_test": "test_release_cli_runs_without_repository_or_python_in_chroot",
+    "causes": [
+      "Selected-config case assertions included newly added no-config cases; they now select only cases with explicit configuration files.",
+      "The explicit PYTHONDONTWRITEBYTECODE contract now counts 115 current manifest cases.",
+      "Runtime-independence read the old missing attestation from last_strict_gate; it was rerun against the current-source attestation."
+    ],
+    "repair_scope": "Harness test contracts and current attestation status pointer only; no manifest, oracle output, comparator, normalizer, Rust production source or release binary changes.",
+    "superseded_by": "rust/artifacts/full-harness-suite-optimized-gate-20261112.log"
   },
   "current_source_attestation": {
     "status": "PASS",
-    "validation_scope": "focused_candidate_build_after_harness_assertion_repair",
-    "source_fingerprint": "eec3c0183e91016ef743a56e2d4d57883f063395e83affbde3b844e846d850a2",
-    "attestation": "rust/artifacts/20261112T063204639719Z-build.attestation.json",
-    "attestation_sha256": "2e4d76879e94116dd6c31ec8fb473ad61b8cfa3c7eaac0dd51b1ae91bacbb9fd",
-    "binary_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb"
+    "validation_scope": "focused_candidate_build after harness-test repairs",
+    "source_fingerprint": "f6cb0e28272bda3edf7b413628e25cfb2494957e3559ebbb41d56bd3c8c67e28",
+    "attestation": "rust/artifacts/20261112T091257283181Z-build.attestation.json",
+    "attestation_sha256": "35d48d4570ed3f39844d385c9024c850976a66d43b37de1e3598697ffb53174e",
+    "binary_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
+    "matches_current_source_fingerprint": true
   },
   "latest_no_passwd_home_blocker_review": {
     "capability_id": "cli.config.no_passwd_home",
@@ -18752,5 +18819,45 @@
     "cumulative_gate": "Due now after five independently verified default-dispatch extensions.",
     "requested_model": "gpt-6-luna / low",
     "runtime_model_metadata": "unavailable"
+  },
+  "latest_benchmark_blocked_attempt": {
+    "status": "BLOCKED",
+    "report": "rust/artifacts/benchmark-optimized-test-profile-gate-20261112.json",
+    "report_sha256": "30aba104efa32755d55969b2e379732e621de1a5ba12cf6b3fe7f1fab5464d20",
+    "overall_timeout_seconds": 600,
+    "profile": "misc_suddenly",
+    "in_memory_repetitions": 1000,
+    "blocked_stage": "dense generated Python in-memory workload",
+    "performance_claim": "none",
+    "superseded_by": "rust/artifacts/benchmark-misc-suddenly-100-repetitions-gate-20261112.json",
+    "superseding_run_status": "PASS"
+  },
+  "latest_five_extension_checkpoint": {
+    "status": "PASS_PARTIAL_COMPATIBILITY",
+    "date_utc": "2026-11-12",
+    "capabilities_since_previous_gate": 5,
+    "capabilities": 158,
+    "gate_report": "rust/artifacts/optimized-test-profile-cumulative-gate-20261112.json",
+    "gate_report_sha256": "a938e0f8fce4786e2aeff55294df7c4944e697907032fd4f8677fa73129ace60",
+    "gate_source_fingerprint": "659b54b6f7562d189cdf8ac8bb36b5f76320bf76ffe1757f1e191c518f8f6de2",
+    "current_source_fingerprint": "f6cb0e28272bda3edf7b413628e25cfb2494957e3559ebbb41d56bd3c8c67e28",
+    "current_tree_fingerprint_matches_gate": false,
+    "post_gate_delta": "Harness test contract assertions only; no case, comparator, oracle, production Rust, or binary changes.",
+    "accepted_cases": 1540,
+    "manifest_cases": 1542,
+    "excluded_cases": 2,
+    "rust_tests": "936/936 across 146 targets",
+    "harness_tests": "184/184",
+    "combined_benchmark": "rust/artifacts/benchmark-combined-profile-gate-20261112.json",
+    "isolated_rule_benchmark": "rust/artifacts/benchmark-misc-suddenly-100-repetitions-gate-20261112.json",
+    "initial_1000_repetition_attempt": "rust/artifacts/benchmark-optimized-test-profile-gate-20261112.json",
+    "compatibility_claim": "Partial only; version-flag divergence, remaining CLI gaps, and two excluded oracle-smoke cases remain explicit.",
+    "capability_ids": [
+      "rule.psychology.lie_detector",
+      "rule.cliches.misc.write_good",
+      "spelling.able_atable",
+      "spelling.able_ible",
+      "spelling.er_or"
+    ]
   }
 }

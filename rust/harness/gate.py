@@ -172,6 +172,8 @@ def build_and_attest(candidate_json: str | None, *, focused_candidate_build: boo
     env["RUSTUP_HOME"] = str(RUST_ROOT / ".cache" / "rustup-home")
     env["RUSTUP_TOOLCHAIN"] = channel
     env["PATH"] = str(cargo_dir) + os.pathsep + env.get("PATH", "")
+    # Default-profile CLI integration tests scan the full rule set in debug mode.
+    env["CARGO_PROFILE_TEST_OPT_LEVEL"] = "2"
     commands = build_commands(cargo, manifest, focused_candidate_build=focused_candidate_build, profile=profile)
     before = source_fingerprint()
     run_id = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%S%fZ") + "-build"
@@ -224,6 +226,7 @@ def build_and_attest(candidate_json: str | None, *, focused_candidate_build: boo
         "cargo_version": version,
         "rustc_version": rustc,
         "toolchain": channel,
+        "cargo_test_opt_level": env["CARGO_PROFILE_TEST_OPT_LEVEL"],
         "build_commands": build_runs,
         "build_exit_code": 0,
     }

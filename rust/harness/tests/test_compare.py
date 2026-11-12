@@ -785,7 +785,7 @@ class ComparatorTests(unittest.TestCase):
     def test_manifest_bytecode_settings_load_and_preserve_explicit_value(self) -> None:
         cases = compare.load_manifest()["cases"]
         explicit = [case for case in cases if "PYTHONDONTWRITEBYTECODE" in case["environment"]]
-        self.assertEqual(len(explicit), 105)
+        self.assertEqual(len(explicit), 115)
         self.assertTrue(all(case["environment"]["PYTHONDONTWRITEBYTECODE"] == "1" for case in explicit))
         with tempfile.TemporaryDirectory() as directory:
             env = compare.fresh_env(Path(directory), explicit[0]["environment"])
@@ -1952,7 +1952,7 @@ class ComparatorTests(unittest.TestCase):
             self.assertEqual(config["checks"], {"annotations": {"misc": True}})
             self.assertEqual(case["expected_oracle_outcome"], outcome)
 
-        write_good = [case for case in cases.values() if case["capability_id"] == "rule.cliches.misc.write_good"]
+        write_good = [case for case in cases.values() if case["capability_id"] == "rule.cliches.misc.write_good" and case["files"]]
         self.assertEqual(len(write_good), 9)
         corpus = Path(compare.RUST_ROOT / "data/third_party/no_cliches_write_good.txt").read_bytes()
         all_items = cases["cliches_write_good_all_items"]
@@ -2555,7 +2555,7 @@ class ComparatorTests(unittest.TestCase):
         )
 
     def test_er_or_cases_select_only_registered_check(self) -> None:
-        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "spelling.er_or"]
+        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "spelling.er_or" and case["files"]]
         self.assertEqual({case["id"] for case in cases}, {
             "spelling_er_or_all_mappings", "spelling_er_or_clean_forms_and_negative_controls",
             "spelling_er_or_mixed_case_repetition", "spelling_er_or_boundaries", "spelling_er_or_quotes",
@@ -2569,7 +2569,7 @@ class ComparatorTests(unittest.TestCase):
                          [1000, 1000, 1000, 1000, 1000, 1000, 1, 2])
 
     def test_able_ible_cases_select_only_registered_check(self) -> None:
-        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "spelling.able_ible"]
+        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "spelling.able_ible" and case["files"]]
         self.assertEqual({case["id"] for case in cases}, {
             "spelling_able_ible_all_mappings", "spelling_able_ible_clean_forms_and_negative_controls",
             "spelling_able_ible_mixed_case_repetition", "spelling_able_ible_boundaries", "spelling_able_ible_quotes",
@@ -2584,7 +2584,7 @@ class ComparatorTests(unittest.TestCase):
                          [1000, 1000, 1000, 1000, 1000, 1000, 1, 2, 1000])
 
     def test_able_atable_cases_select_only_registered_check(self) -> None:
-        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "spelling.able_atable"]
+        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "spelling.able_atable" and case["files"]]
         self.assertEqual({case["id"] for case in cases}, {
             "spelling_able_atable_representative_mappings", "spelling_able_atable_clean_controls",
             "spelling_able_atable_case_and_repetition", "spelling_able_atable_ascii_boundaries",

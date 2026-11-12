@@ -2579,7 +2579,11 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual([json.loads(base64.b64decode(case["files"][0]["content_base64"]))["max_errors"] for case in cases], [1, 1000, 2])
 
     def test_phrasal_adjective_cases_select_only_the_registered_check(self) -> None:
-        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "rule.misc.phrasal_adjectives.ly"]
+        cases = [
+            case for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "rule.misc.phrasal_adjectives.ly"
+            and case["config_scenario"] == "phrasal_adjectives_only"
+        ]
         self.assertEqual({case["id"] for case in cases}, {
             f"rule_misc_phrasal_adjectives_ly_{name}"
             for name in ("positive", "negative", "whitespace", "nbsp", "unicode", "quoted", "config_only")
@@ -2588,6 +2592,28 @@ class ComparatorTests(unittest.TestCase):
             self.assertEqual(len(case["files"]), 1)
             config = json.loads(base64.b64decode(case["files"][0]["content_base64"]))
             self.assertEqual(config["checks"], {"misc": {"phrasal_adjectives": {"ly": True}}})
+
+    def test_phrasal_adjectives_default_dispatch_cases_use_implicit_configuration(self) -> None:
+        expected = {
+            "phrasal_adjectives_ly_no_config_default_positive": (b"The carefully-written report arrived.", "findings"),
+            "phrasal_adjectives_ly_no_config_clean_control": (b"The carefully written report arrived.", "clean"),
+        }
+        cases = {
+            case["id"]: case
+            for case in compare.load_manifest()["cases"]
+            if case["id"] in expected
+        }
+        self.assertEqual(set(cases), set(expected))
+        for case_id, (stdin, outcome) in expected.items():
+            with self.subTest(case_id=case_id):
+                case = cases[case_id]
+                self.assertEqual(case["capability_id"], "rule.misc.phrasal_adjectives.ly")
+                self.assertEqual(base64.b64decode(case["stdin_base64"]), stdin)
+                self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+                self.assertNotIn("--config", case["argv"])
+                self.assertEqual(case["config_scenario"], "no_config_default")
+                self.assertEqual(case["expected_oracle_outcome"], outcome)
+                compare.validate_case(case)
 
 
     def test_manifest_rejects_duplicate_id_and_bad_base64(self) -> None:

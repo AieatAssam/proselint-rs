@@ -1110,9 +1110,9 @@
         "finding": "Manifest preconditions are documentary; focused run must explicitly use unshare."
       }
     },
-    "current_manifest_cases": 1514,
-    "current_manifest_id_capability_digest": "1cdde18704bb7e6dd27aa173604c61bce55fd2dbb701fae7e43354d5c798f18c",
-    "accepted_case_count_before_release_gate": 1512,
+    "current_manifest_cases": 1516,
+    "current_manifest_id_capability_digest": "d3f88d201f2a3ac58fb54b01a978c63e8b133fb8613a58bb2e28a4c225bf53b0",
+    "accepted_case_count_before_release_gate": 1514,
     "latest_full_unit_suite": {
       "status": "PASS",
       "tests_passed": 135,
@@ -1135,7 +1135,7 @@
       "source_fingerprint": "cb5262bf3e58c7207879a9c8de08dfdbb40d20cd7eaf1022e75ed1054a0093e2",
       "attestation": "rust/artifacts/20261111T035653523505Z-build.attestation.json"
     },
-    "current_manifest_digest": "85e3dac56a534c8dd79231714bdfb3aa945dddeada0a80911b2171d19694f521",
+    "current_manifest_digest": "bf871ad6081d9ad8f29e7fd8a29ff46cb820a7cf8f4fbe7e22edc4845fad346d",
     "latest_release_candidate_suite": {
       "status": "PASS",
       "tests_passed": 135,
@@ -1188,10 +1188,10 @@
       "candidate_attestation": "rust/artifacts/20261112T001330334660Z-build.attestation.json",
       "namespace_case": "cli_config_no_passwd_home_absent is executed through unshare per case"
     },
-    "latest_full_unit_suite_currentness": "Historical PASS 169/169 at the 1510-case manifest; stale by four accepted default-dispatch cases. Run full harness suite at the next cumulative checkpoint.",
+    "latest_full_unit_suite_currentness": "Historical PASS 169/169 at the 1510-case manifest. Current manifest has six further accepted cases and two new contract tests; rerun full harness suite at the next cumulative checkpoint.",
     "current_manifest_digest_algorithm": "SHA-256 of rust/harness/cases/manifest.json raw bytes"
   },
-  "active_ownership": "No worker currently owns files. Next scoped task is rule.misc.phrasal_adjectives.ly default-dispatch evidence; rust/harness/cases/manifest.json and rust/harness/tests/test_compare.py need one writer at a time.",
+  "active_ownership": "No worker owns source files; phrasal-adjectives default-dispatch extension is independently verified at fingerprint d2e10ace3702d981eb79c8a897f6bc5b4a504ff3dd3cd6ee93eddbd4db40ed1a. A Luna scout is selecting the next disjoint case-coverage gap.",
   "unresolved": [
     "Other CLI/config behavior remains unverified, including passwd-home config-present behavior, HOME-absent/no-passwd-entry behavior outside cli_config_no_passwd_home_absent, other subcommands, HOME-unset platform variation, directory candidates, and traversal/decoding edges.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
@@ -5451,7 +5451,9 @@
         "rule_misc_phrasal_adjectives_ly_nbsp",
         "rule_misc_phrasal_adjectives_ly_unicode",
         "rule_misc_phrasal_adjectives_ly_quoted",
-        "rule_misc_phrasal_adjectives_ly_config_only"
+        "rule_misc_phrasal_adjectives_ly_config_only",
+        "phrasal_adjectives_ly_no_config_default_positive",
+        "phrasal_adjectives_ly_no_config_clean_control"
       ],
       "upstream_spec": "Pinned Fast ExistenceSimple rule uses a case-insensitive ASCII-whitespace pattern with offset (1, 0), repeated left-to-right matches, quote suppression, and Python code-point coordinates.",
       "red": {
@@ -5486,7 +5488,65 @@
         "passed_cases": 438,
         "manifest_cases": 444,
         "report": "rust/artifacts/strict-gate-phrasal-adjectives-accepted-20261106.json"
-      }
+      },
+      "latest_default_dispatch_extension": {
+        "status": "independently_verified",
+        "case_ids": [
+          "phrasal_adjectives_ly_no_config_default_positive",
+          "phrasal_adjectives_ly_no_config_clean_control"
+        ],
+        "case_count": 9,
+        "red": {
+          "status": "EXPECTED_MISSING_CASES",
+          "command": "python3 -m unittest rust/harness/tests/test_compare.py -k phrasal_adjectives_ly_default_dispatch_cases",
+          "exit_code": 1,
+          "duration_seconds": 1.192,
+          "failure": "Both no-config case IDs were absent."
+        },
+        "green": {
+          "status": "PASS",
+          "command": "python3 -m unittest rust/harness/tests/test_compare.py -k phrasal_adjectives_ly_default_dispatch_cases",
+          "exit_code": 0,
+          "test_count": "1/1",
+          "test_body_seconds": 0.292,
+          "wall_seconds": 0.683
+        },
+        "owner_live": {
+          "status": "PASS",
+          "passed": 9,
+          "total": 9,
+          "duration_seconds": 32.775,
+          "report": "rust/artifacts/phrasal-adjectives-default-owner-live-20261112.json",
+          "report_sha256": "0a152cec1c8910926ec06f7c9a5ad974817f6dfb09dc0cb394b5ed963e24f46f",
+          "run_id": "20261112T030517835581Z-d56ad792"
+        },
+        "independent_live": {
+          "status": "PASS",
+          "passed": 9,
+          "total": 9,
+          "duration_seconds": 11.163,
+          "report": "rust/artifacts/independent-phrasal-adjectives-20261112/live-comparison.json",
+          "report_sha256": "2eda5e0bbc27259b59db40080fd37fc501cf914b468db7490a4f8ef81fcfde7f",
+          "run_id": "20261112T030835711362Z-d8230b98"
+        },
+        "focused_rust_test": {
+          "independent": "PASS; target misc_phrasal_adjectives; 1.888s",
+          "owner": "not run; coverage-only change"
+        },
+        "comparator_self_tests": {
+          "owner": "29/29 PASS in 0.479s",
+          "independent": "29/29 PASS in 0.425s"
+        },
+        "candidate_attestation": "rust/artifacts/20261112T030427616948Z-build.attestation.json",
+        "candidate_attestation_sha256": "21711df11bd93871643212d09483125a8e493b3e340fdf8b3f1da182617360a9",
+        "source_fingerprint": "d2e10ace3702d981eb79c8a897f6bc5b4a504ff3dd3cd6ee93eddbd4db40ed1a",
+        "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
+        "cargo_lock_sha256": "f8e4ad390ee6793c9e7e90d70c91ec8a6da39eb00cc87fe464dba1c91e1068fd",
+        "oracle_integrity": "verified before/after; pinned source/executable unchanged",
+        "cumulative_gate": "STALE_BY_6_ACCEPTED_CASES; next checkpoint after three more verified default-dispatch extensions",
+        "runtime_model_metadata": "unavailable"
+      },
+      "acceptance": "Selected-config implementation plus no-config default dispatch independently verified; current cumulative gate predates both recent default-dispatch extensions."
     },
     {
       "id": "rule.misc.capitalization.months",
@@ -13361,7 +13421,7 @@
     "scope_matches_current_accepted_scope": false,
     "current_tree_fingerprint_matches_gate": false,
     "compatibility_claim": "Partial only; two oracle smoke cases remain excluded, and CLI representation/version divergences remain explicit.",
-    "staleness_note": "Current manifest adds four independently verified decade-apostrophes default-dispatch cases; this gate covers 1508 cases at the prior source fingerprint."
+    "staleness_note": "Current manifest adds six independently verified default-dispatch cases across two paths; gate covers 1508 cases at the prior fingerprint."
   },
   "rust_dependencies": {
     "status": "latest_for_pinned_toolchain",
@@ -13422,7 +13482,7 @@
       "result": "0 packages to update; Cargo.lock unchanged"
     }
   },
-  "next_capability_handoff": "Current strict gate is stale by four accepted cases after independently verified decade-apostrophes default-dispatch coverage. Continue focused cycles; run the next full release-profile gate and full harness suite after four more accepted extensions unless shared runtime behavior changes.",
+  "next_capability_handoff": "Current strict gate is stale by six accepted cases after two independently verified default-dispatch extensions. Continue focused cycles and run the next full release-profile gate plus full harness suite after three more accepted extensions unless shared CLI/config behavior changes.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",
@@ -13603,7 +13663,7 @@
     "rss": "unavailable",
     "performance_scope": "fresh_process_cli_combined_selected_rules_only",
     "matches_current_source_fingerprint": false,
-    "source_scope_note": "Benchmark remains valid for the unchanged candidate binary; the behavioral fingerprint differs because four default-dispatch cases and their contract test were added after timing."
+    "source_scope_note": "The benchmark used the unchanged release binary before six no-config cases and two harness contract tests were added; its behavioral fingerprint is not the current harness fingerprint."
   },
   "agent_model_verification": {
     "initial_default_verifier_selection": {
@@ -14058,26 +14118,26 @@
     "scope_matches_current_accepted_scope": false,
     "current_tree_fingerprint_matches_gate": false,
     "compatibility_claim": "Partial only; two oracle smoke cases remain excluded, and CLI representation/version divergences remain explicit.",
-    "staleness_note": "Current manifest adds four independently verified decade-apostrophes default-dispatch cases; this gate covers 1508 cases at the prior source fingerprint."
+    "staleness_note": "Current manifest adds six independently verified default-dispatch cases across two paths; gate covers 1508 cases at the prior fingerprint."
   },
   "current_candidate_release_readiness": {
     "status": "STALE_AFTER_FOCUSED_CASE_ADDITION",
-    "compatibility": "Partial. Version and CLI representation policies remain explicit; two oracle-smoke cases remain excluded.",
-    "source_fingerprint": "38d575afbb08b9eecfca7682c3f8a0464c6b1fa581c8c23d2d971c1007462b45",
+    "compatibility": "Partial; version and CLI representation policies remain explicit; two oracle-smoke cases remain excluded.",
+    "source_fingerprint": "d2e10ace3702d981eb79c8a897f6bc5b4a504ff3dd3cd6ee93eddbd4db40ed1a",
     "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
-    "candidate_attestation": "rust/artifacts/20261112T024514401734Z-build.attestation.json",
-    "candidate_attestation_sha256": "36b3b916ee9ea98d7d28ebf580d996237d38fac92b4814b10897436ce9b42a43",
+    "candidate_attestation": "rust/artifacts/20261112T030427616948Z-build.attestation.json",
+    "candidate_attestation_sha256": "21711df11bd93871643212d09483125a8e493b3e340fdf8b3f1da182617360a9",
     "accepted_capabilities": 158,
-    "selected_case_count": 1512,
-    "manifest_case_count": 1514,
+    "selected_case_count": 1514,
+    "manifest_case_count": 1516,
     "excluded_case_count": 2,
     "release_gate_report": "rust/artifacts/current-version-full-gate-20261112.json",
     "release_gate_report_sha256": "c7714d65d16b111df797017650c9eb2b67f50333395ad07482d3d6d7b2a5efda",
     "release_gate_run_id": "20261112T020651913594Z-12bce607",
     "full_rust_tests": "923/923 across 145 targets at prior fingerprint",
-    "full_harness_tests": "169/169 at prior 1510-case manifest; one focused contract test added after",
-    "benchmark": "PASS after 3/3 exact parity preflight; unchanged binary, source fingerprint predates four no-config cases",
-    "cumulative_gate_currentness": "STALE_BY_4_CASES; schedule after four more verified default-dispatch extensions"
+    "full_harness_tests": "169/169 at prior manifest; two contract tests added since",
+    "benchmark": "PASS after 3/3 live preflight; same candidate binary, older behavioral fingerprint",
+    "cumulative_gate_currentness": "STALE_BY_6_CASES; schedule after three more verified default-dispatch extensions"
   },
   "latest_harness_storage_optimization": {
     "change": "reference Python bytecode writes disabled by default; each case retains a unique temporary cache prefix; explicit case settings are preserved",
@@ -14680,6 +14740,20 @@
           "decade_apostrophes_no_config_case_insensitive_positive",
           "decade_apostrophes_no_config_curly_apostrophe_clean"
         ]
+      },
+      "rule.misc.phrasal_adjectives.ly": {
+        "status": "PASS",
+        "passed": 9,
+        "total": 9,
+        "report": "rust/artifacts/independent-phrasal-adjectives-20261112/live-comparison.json",
+        "report_sha256": "2eda5e0bbc27259b59db40080fd37fc501cf914b468db7490a4f8ef81fcfde7f",
+        "source_fingerprint": "d2e10ace3702d981eb79c8a897f6bc5b4a504ff3dd3cd6ee93eddbd4db40ed1a",
+        "candidate_attestation": "rust/artifacts/20261112T030427616948Z-build.attestation.json",
+        "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
+        "cases": [
+          "phrasal_adjectives_ly_no_config_default_positive",
+          "phrasal_adjectives_ly_no_config_clean_control"
+        ]
       }
     },
     "accepted_case_count": 1468,
@@ -14700,44 +14774,42 @@
     "last_gate_report": "rust/artifacts/default-dispatch-checkpoint-20261111.json",
     "last_gate_report_sha256": "80aa68daefa6e5e5c4003acf14b897c6d96404ac4990f11201dc07d57e42f070",
     "direct_positive_default_enabled_paths": 49,
-    "positive_default_dispatch_paths": "60/93",
-    "latest_direct_default_dispatch_acceptance": "rule.dates_times.dates.decade_apostrophes"
+    "positive_default_dispatch_paths": "61/93",
+    "latest_direct_default_dispatch_acceptance": "rule.misc.phrasal_adjectives.ly"
   },
   "latest_focused_default_dispatch_acceptance": {
     "status": "PASS",
-    "capability_id": "rule.dates_times.dates.decade_apostrophes",
+    "capability_id": "rule.misc.phrasal_adjectives.ly",
     "case_ids": [
-      "decade_apostrophes_no_config_overlapping_positive",
-      "decade_apostrophes_no_config_clean_control",
-      "decade_apostrophes_no_config_case_insensitive_positive",
-      "decade_apostrophes_no_config_curly_apostrophe_clean"
+      "phrasal_adjectives_ly_no_config_default_positive",
+      "phrasal_adjectives_ly_no_config_clean_control"
     ],
-    "cases_passed": 14,
-    "total_cases": 14,
+    "cases_passed": 9,
+    "total_cases": 9,
     "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-    "source_fingerprint": "38d575afbb08b9eecfca7682c3f8a0464c6b1fa581c8c23d2d971c1007462b45",
-    "candidate_attestation": "rust/artifacts/20261112T024514401734Z-build.attestation.json",
-    "candidate_attestation_sha256": "36b3b916ee9ea98d7d28ebf580d996237d38fac92b4814b10897436ce9b42a43",
+    "source_fingerprint": "d2e10ace3702d981eb79c8a897f6bc5b4a504ff3dd3cd6ee93eddbd4db40ed1a",
+    "candidate_attestation": "rust/artifacts/20261112T030427616948Z-build.attestation.json",
+    "candidate_attestation_sha256": "21711df11bd93871643212d09483125a8e493b3e340fdf8b3f1da182617360a9",
     "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
-    "owner_report": "rust/artifacts/decade-apostrophes-default-dispatch-owner-current-20261112.json",
-    "owner_report_sha256": "7f8c0f0d90fc418e9c66dd336ec1100aa52a5db1945eeb0020a314785ca8072d",
-    "owner_duration_seconds": 16.873,
-    "independent_report": "rust/artifacts/independent-decade-apostrophes-default-20261112/live-comparison.json",
-    "independent_report_sha256": "9ffe18428f865909d89b4c059295c86c42e3d23d433bf202cd2904407eb7164d",
-    "independent_summary": "rust/artifacts/independent-decade-apostrophes-default-20261112/verification-summary.json",
-    "independent_summary_sha256": "eed8224f912ba89fe16e1bb26ae68544138315408c054d0e083febea81fa6707",
-    "independent_duration_seconds": 23.371,
-    "focused_rust_tests": "4/4 owner and independent",
-    "focused_harness_test": "1/1 PASS; red missing-ID contract observed",
-    "comparator_self_tests": "29/29 PASS owner and independent",
-    "oracle_integrity": "verified before/after; pinned source and executable hashes match oracle.lock.json",
+    "owner_report": "rust/artifacts/phrasal-adjectives-default-owner-live-20261112.json",
+    "owner_report_sha256": "0a152cec1c8910926ec06f7c9a5ad974817f6dfb09dc0cb394b5ed963e24f46f",
+    "owner_duration_seconds": 32.775,
+    "independent_report": "rust/artifacts/independent-phrasal-adjectives-20261112/live-comparison.json",
+    "independent_report_sha256": "2eda5e0bbc27259b59db40080fd37fc501cf914b468db7490a4f8ef81fcfde7f",
+    "independent_summary": "rust/artifacts/independent-phrasal-adjectives-20261112/verification-summary.json",
+    "independent_summary_sha256": "135b8fde011c9b10e7583f28f1f4659a2447534ee22c718ed13b7345b69e5c32",
+    "independent_duration_seconds": 11.163,
+    "focused_rust_test": "1/1 target passed independently in 1.888s",
+    "focused_harness_test": "1/1 PASS after 2-ID RED",
+    "comparator_self_tests": "29/29 owner and independent",
+    "oracle_integrity": "verified before/after",
     "accepted_scope_after_extension": {
       "capabilities": 158,
-      "cases": 1512,
-      "manifest_cases": 1514,
+      "cases": 1514,
+      "manifest_cases": 1516,
       "excluded_cases": 2
     },
-    "cumulative_gate": "STALE_BY_4_ACCEPTED_CASES; scheduled after four more verified default-dispatch extensions",
+    "cumulative_gate": "STALE_BY_6_ACCEPTED_CASES; scheduled after three more verified default-dispatch extensions",
     "requested_model": "gpt-6-luna / low",
     "runtime_model_metadata": "unavailable"
   },
@@ -14972,7 +15044,7 @@
       "performance_scope": "fresh_process_cli_combined_selected_rules_only",
       "rss": "unavailable"
     },
-    "currentness": "Historical cumulative gate PASS 1508/1508; current accepted scope has 1512 cases after four independently verified no-config additions."
+    "currentness": "Historical cumulative gate PASS 1508/1508. Current accepted scope is 1514/1516; stale by six cases across two independently verified default-dispatch extensions."
   },
   "latest_default_dispatch_batch": {
     "status": "PASS",
@@ -15165,7 +15237,7 @@
     ],
     "claim_limit": "Selected rules and three workloads on one Linux x86_64 host; not whole-program or universal performance."
   },
-  "next_task": "Start default-dispatch coverage for rule.misc.phrasal_adjectives.ly. Pinned upstream proselint/checks/misc/phrasal_adjectives.py registers the already implemented default-enabled check; begin with a missing-ID contract RED, then live-derived positive and clean no-config cases. Keep owner and independent Luna runs focused. The cumulative gate is scheduled after four more accepted default-dispatch extensions.",
+  "next_task": "Record and push the independently verified phrasal-adjectives default-dispatch milestone. Then start the next no-config default-dispatch case cycle; the cumulative release gate and full harness suite are scheduled after three more accepted extensions unless shared behavior changes.",
   "latest_default_dispatch_extension": {
     "status": "independently_verified",
     "scope": "Added two direct no-config default-dispatch cases to already implemented default-enabled rule.mondegreens; no production Rust code changed.",
@@ -16274,9 +16346,9 @@
   "current_source_attestation": {
     "status": "PASS",
     "validation_scope": "focused_candidate_build",
-    "source_fingerprint": "38d575afbb08b9eecfca7682c3f8a0464c6b1fa581c8c23d2d971c1007462b45",
-    "attestation": "rust/artifacts/20261112T024514401734Z-build.attestation.json",
-    "attestation_sha256": "36b3b916ee9ea98d7d28ebf580d996237d38fac92b4814b10897436ce9b42a43",
+    "source_fingerprint": "d2e10ace3702d981eb79c8a897f6bc5b4a504ff3dd3cd6ee93eddbd4db40ed1a",
+    "attestation": "rust/artifacts/20261112T030427616948Z-build.attestation.json",
+    "attestation_sha256": "21711df11bd93871643212d09483125a8e493b3e340fdf8b3f1da182617360a9",
     "binary_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb"
   },
   "latest_no_passwd_home_blocker_review": {
@@ -17237,6 +17309,42 @@
       "excluded_cases": 2
     },
     "cumulative_gate": "STALE_BY_4_ACCEPTED_CASES; scheduled after four more verified default-dispatch extensions",
+    "requested_model": "gpt-6-luna / low",
+    "runtime_model_metadata": "unavailable"
+  },
+  "latest_phrasal_adjectives_ly_default_dispatch_acceptance": {
+    "status": "PASS",
+    "capability_id": "rule.misc.phrasal_adjectives.ly",
+    "case_ids": [
+      "phrasal_adjectives_ly_no_config_default_positive",
+      "phrasal_adjectives_ly_no_config_clean_control"
+    ],
+    "cases_passed": 9,
+    "total_cases": 9,
+    "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+    "source_fingerprint": "d2e10ace3702d981eb79c8a897f6bc5b4a504ff3dd3cd6ee93eddbd4db40ed1a",
+    "candidate_attestation": "rust/artifacts/20261112T030427616948Z-build.attestation.json",
+    "candidate_attestation_sha256": "21711df11bd93871643212d09483125a8e493b3e340fdf8b3f1da182617360a9",
+    "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
+    "owner_report": "rust/artifacts/phrasal-adjectives-default-owner-live-20261112.json",
+    "owner_report_sha256": "0a152cec1c8910926ec06f7c9a5ad974817f6dfb09dc0cb394b5ed963e24f46f",
+    "owner_duration_seconds": 32.775,
+    "independent_report": "rust/artifacts/independent-phrasal-adjectives-20261112/live-comparison.json",
+    "independent_report_sha256": "2eda5e0bbc27259b59db40080fd37fc501cf914b468db7490a4f8ef81fcfde7f",
+    "independent_summary": "rust/artifacts/independent-phrasal-adjectives-20261112/verification-summary.json",
+    "independent_summary_sha256": "135b8fde011c9b10e7583f28f1f4659a2447534ee22c718ed13b7345b69e5c32",
+    "independent_duration_seconds": 11.163,
+    "focused_rust_test": "1/1 target passed independently in 1.888s",
+    "focused_harness_test": "1/1 PASS after 2-ID RED",
+    "comparator_self_tests": "29/29 owner and independent",
+    "oracle_integrity": "verified before/after",
+    "accepted_scope_after_extension": {
+      "capabilities": 158,
+      "cases": 1514,
+      "manifest_cases": 1516,
+      "excluded_cases": 2
+    },
+    "cumulative_gate": "STALE_BY_6_ACCEPTED_CASES; scheduled after three more verified default-dispatch extensions",
     "requested_model": "gpt-6-luna / low",
     "runtime_model_metadata": "unavailable"
   }

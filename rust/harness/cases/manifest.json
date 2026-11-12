@@ -48256,6 +48256,38 @@
       "config_scenario": "no_config_default",
       "workspace_mutates": false,
       "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "phrasal_adjectives_ly_no_config_default_positive",
+      "capability_id": "rule.misc.phrasal_adjectives.ly",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/phrasal_adjectives.py registers the default-enabled Fast `\\s[^\\s-]+ly-` check at misc.phrasal_adjectives.ly with offset (1, 0). The expected finding for `The carefully-written report arrived.` was observed from the pinned executable with no explicit config.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlIGNhcmVmdWxseS13cml0dGVuIHJlcG9ydCBhcnJpdmVkLg==",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "phrasal_adjectives_ly_no_config_clean_control",
+      "capability_id": "rule.misc.phrasal_adjectives.ly",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/phrasal_adjectives.py registers the default-enabled Fast `\\s[^\\s-]+ly-` check at misc.phrasal_adjectives.ly with offset (1, 0). The expected clean output for `The carefully written report arrived.` was observed from the pinned executable with no explicit config.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlIGNhcmVmdWxseSB3cml0dGVuIHJlcG9ydCBhcnJpdmVkLg==",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
     }
   ]
 }

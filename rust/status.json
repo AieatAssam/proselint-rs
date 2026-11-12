@@ -562,7 +562,15 @@
     },
     {
       "id": "rule.misc.waxed",
-      "status": "recorded"
+      "status": "independently_verified",
+      "latest_refresh_status": "PASS",
+      "live_cases": 9,
+      "owner_report": "rust/artifacts/waxed-final-owner-current-20261112.json",
+      "owner_report_sha256": "5d6d43e7b648edcf81495e20752b5cc03452accbd8ae5f11abd9e6f7d5421d24",
+      "independent_report": "rust/artifacts/independent-waxed-20261112/final-current-live-report.json",
+      "independent_report_sha256": "9ca82893d52be9b1b6f2023c80bc23a02b0803a6d55afa925211711d1c981240",
+      "candidate_attestation": "rust/artifacts/20261112T052805518390Z-build.attestation.json",
+      "current_candidate_source_fingerprint": "e8df0b11d67f4b9a063c29d9dfb9fdfd0816da5a05cde4764b352241f2df60b8"
     },
     {
       "id": "rule.mixed_metaphors.bottleneck",
@@ -1135,9 +1143,9 @@
         "finding": "Manifest preconditions are documentary; focused run must explicitly use unshare."
       }
     },
-    "current_manifest_cases": 1526,
-    "current_manifest_id_capability_digest": "5bfae36e5b48891583cb4a89d193933009381c2b8bab7f0c5620e2e7faa2ae88",
-    "accepted_case_count_before_release_gate": 1524,
+    "current_manifest_cases": 1528,
+    "current_manifest_id_capability_digest": "f7514df6cd0466778fdbe31b477c02c0966b26bc0465b9e790a2d0d335940203",
+    "accepted_case_count_before_release_gate": 1526,
     "latest_full_unit_suite": {
       "status": "PASS",
       "tests_passed": 135,
@@ -1160,7 +1168,7 @@
       "source_fingerprint": "cb5262bf3e58c7207879a9c8de08dfdbb40d20cd7eaf1022e75ed1054a0093e2",
       "attestation": "rust/artifacts/20261111T035653523505Z-build.attestation.json"
     },
-    "current_manifest_digest": "2c92d57d700eec0c09c51196f2875168966ad45bcb6a6eb06a222475e2cc1f25",
+    "current_manifest_digest": "b82ebbabeca889c9432d10e8aecd33f35ef199821f2529eb6b36e3acf984c721",
     "latest_release_candidate_suite": {
       "status": "PASS",
       "tests_passed": 135,
@@ -1213,7 +1221,7 @@
       "candidate_attestation": "rust/artifacts/20261112T001330334660Z-build.attestation.json",
       "namespace_case": "cli_config_no_passwd_home_absent is executed through unshare per case"
     },
-    "latest_full_unit_suite_currentness": "Historical PASS 174/174 at 1,522 manifest cases; two later extensions add four cases and focused harness tests. Current contract/identity checks pass. Rerun the complete suite at the next cumulative gate.",
+    "latest_full_unit_suite_currentness": "Historical PASS 174/174 at 1,522 manifest cases; three later extensions add six live cases and three focused contract tests. Focused contracts/identity checks pass; complete suite due at the next cumulative gate.",
     "current_manifest_digest_algorithm": "SHA-256 of rust/harness/cases/manifest.json raw bytes"
   },
   "active_ownership": "No worker owns source files; misc.illogic default-dispatch extension independently verified at fingerprint ee5db41947d2424a0d0c28b3b12bcaf9eb59936fc9c193206b5c7251b29278e7. Select the final focused extension before the next scheduled cumulative gate.",
@@ -13638,7 +13646,7 @@
       "result": "0 packages to update; Cargo.lock unchanged"
     }
   },
-  "next_capability_handoff": "Current accepted scope is 1524/1526 across 158 capabilities, 66/93 direct no-config paths. Latest `misc.tense_present` owner capability live 8/8, independent new cases 2/2, focused Rust 6/6, harness contract and comparator 29/29 pass on fingerprint 49108b4c. Two independently verified extensions have passed since the prior cumulative gate; run the next full gate and suites after three more. Preserve explicit version divergence, CLI gaps and two oracle-smoke exclusions.",
+  "next_capability_handoff": "Current scope 1526/1528 across 158 capabilities and 67/93 direct no-config paths. Latest misc.waxed owner live 9/9; independent new cases 2/2; focused Rust 8/8, harness and comparator 29/29, oracle integrity passed at fingerprint e8df0b11. Three capability extensions have passed since the last full gate; run gate and complete harness/Rust suites after two more. Preserve version divergence, CLI gaps and two excluded oracle-smoke cases.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",
@@ -14272,26 +14280,26 @@
     },
     "duration_seconds": 1368.547323,
     "compatibility_claim": "Partial only; version-output divergence and remaining CLI gaps are explicit; two oracle-smoke cases remain excluded.",
-    "staleness_note": "Historical gate PASS 1520/1520; current accepted scope adds four live cases across two independently verified default-dispatch paths, current manifest 1526."
+    "staleness_note": "Historical gate PASS 1520/1520; current accepted scope adds six live cases across three independently verified default-dispatch paths; manifest 1528."
   },
   "current_candidate_release_readiness": {
     "status": "STALE_AFTER_FOCUSED_CASE_ADDITIONS",
-    "source_fingerprint": "49108b4c99807a8756b5fd10c48e9918451226d1c5a095f677297dc1ccd60c1f",
+    "source_fingerprint": "e8df0b11d67f4b9a063c29d9dfb9fdfd0816da5a05cde4764b352241f2df60b8",
     "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
-    "candidate_attestation": "rust/artifacts/20261112T051927744043Z-build.attestation.json",
-    "candidate_attestation_sha256": "06cde753fa739361c5fd53da1a7cc893ab7c742a8fd5c842df2434791a573c57",
+    "candidate_attestation": "rust/artifacts/20261112T052805518390Z-build.attestation.json",
+    "candidate_attestation_sha256": "f469775eb1d8099199b0ab6e9ed8819b4f3468a4e84e8315318dd69e9f4a5687",
     "accepted_capabilities": 158,
-    "selected_case_count": 1524,
-    "manifest_case_count": 1526,
+    "selected_case_count": 1526,
+    "manifest_case_count": 1528,
     "excluded_case_count": 2,
     "release_gate_report": "rust/artifacts/five-default-dispatch-extension-gate-20261112-final.json",
     "release_gate_report_sha256": "03b85d5c28014ecfae366a0b4658b29c82c2a0cd30457de13e88e004c6d7f6ce",
     "release_gate_run_id": "20261112T042856321397Z-9b769f50",
-    "full_rust_tests": "926/926 across 146 targets at prior gate; two focused Rust targets passed 5/5 and 6/6",
-    "full_harness_tests": "174/174 at prior gate; current focused contract and manifest identity checks pass; full suite due at next checkpoint",
+    "full_rust_tests": "926/926 across 146 targets at prior gate; focused targets passed 5/5, 6/6, and 8/8",
+    "full_harness_tests": "174/174 at prior gate; focused current contracts and manifest identity checks pass; full suite due at next gate",
     "compatibility": "Partial; intentional version-flag divergence and remaining CLI gaps remain explicit; two oracle-smoke cases are excluded.",
     "benchmark": "Existing bounded benchmark passed on same candidate binary with older behavior fingerprint; no benchmark rerun after this gate.",
-    "cumulative_gate_currentness": "STALE_BY_4_ACCEPTED_CASES; schedule full gate and complete harness suite after three more accepted capability extensions or sooner if shared behavior changes."
+    "cumulative_gate_currentness": "STALE_BY_6_ACCEPTED_CASES; run full gate and suites after two more accepted capability extensions, or earlier if shared behavior changes."
   },
   "latest_harness_storage_optimization": {
     "change": "reference Python bytecode writes disabled by default; each case retains a unique temporary cache prefix; explicit case settings are preserved",
@@ -14938,8 +14946,8 @@
         ]
       }
     },
-    "accepted_case_count": 1524,
-    "manifest_case_count": 1526,
+    "accepted_case_count": 1526,
+    "manifest_case_count": 1528,
     "latest_full_gate_case_count": 1468,
     "cumulative_checkpoint_due_after": "checkpoint passed at 1468/1479; continue next default-dispatch expansion",
     "default_enabled_unique_paths": 93,
@@ -14947,9 +14955,9 @@
     "current_paths_without_positive_no_config_evidence": 44,
     "owner_focused_live_cases_passed": 14,
     "independent_live_cases_passed": 14,
-    "candidate_attestation": "rust/artifacts/20261112T051927744043Z-build.attestation.json",
+    "candidate_attestation": "rust/artifacts/20261112T052805518390Z-build.attestation.json",
     "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
-    "source_fingerprint": "49108b4c99807a8756b5fd10c48e9918451226d1c5a095f677297dc1ccd60c1f",
+    "source_fingerprint": "e8df0b11d67f4b9a063c29d9dfb9fdfd0816da5a05cde4764b352241f2df60b8",
     "current_candidate_gate": "PASS: 1468/1468 accepted cases, 153 capabilities, 11 excluded; 923 Rust tests passed.",
     "independent_summary_report": "individual current-fingerprint reports listed in latest_independent_rule_verification",
     "independent_summary_sha256": "701808ac3d7807a848ab131051290a26be2dda56bcd3afee17e7d32a2c0c2eb9",
@@ -14958,7 +14966,7 @@
     "direct_positive_default_enabled_paths": 49,
     "positive_default_dispatch_paths": "63/93",
     "latest_direct_default_dispatch_acceptance": "rule.misc.illogic",
-    "default_dispatch_positive_paths": "66/93"
+    "default_dispatch_positive_paths": "67/93"
   },
   "latest_focused_default_dispatch_acceptance": {
     "status": "PASS",
@@ -15151,12 +15159,12 @@
     "gate_report": "rust/artifacts/five-default-dispatch-extension-gate-20261112-final.json",
     "gate_report_sha256": "03b85d5c28014ecfae366a0b4658b29c82c2a0cd30457de13e88e004c6d7f6ce",
     "gate_run_id": "20261112T042856321397Z-9b769f50",
-    "source_fingerprint": "49108b4c99807a8756b5fd10c48e9918451226d1c5a095f677297dc1ccd60c1f",
-    "candidate_attestation": "rust/artifacts/20261112T051927744043Z-build.attestation.json",
-    "attestation_sha256": "06cde753fa739361c5fd53da1a7cc893ab7c742a8fd5c842df2434791a573c57",
+    "source_fingerprint": "e8df0b11d67f4b9a063c29d9dfb9fdfd0816da5a05cde4764b352241f2df60b8",
+    "candidate_attestation": "rust/artifacts/20261112T052805518390Z-build.attestation.json",
+    "attestation_sha256": "f469775eb1d8099199b0ab6e9ed8819b4f3468a4e84e8315318dd69e9f4a5687",
     "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
-    "accepted_cases": 1524,
-    "manifest_cases": 1526,
+    "accepted_cases": 1526,
+    "manifest_cases": 1528,
     "excluded_cases": 2,
     "capabilities": 158,
     "release_tag": "v2026.11.12.1",
@@ -15214,32 +15222,33 @@
       "sha256": "73801920aef57ab3ce6f52b7def88e8eac6411b89ff0014e8d61109936c4d4e4"
     },
     "benchmark": "Not rerun at this checkpoint; existing benchmark is bound to the same binary but older source fingerprint.",
-    "currentness": "Historical gate PASS 1520/1520; current accepted scope 1524/1526 is stale by four cases after two focused extensions. Both owner/independent focused verifications passed; full gate and suites due after three more capabilities. Version divergence, CLI gaps and two excluded oracle-smoke cases remain explicit.",
+    "currentness": "Historical gate PASS 1520/1520; current accepted scope 1526/1528 is stale by six cases after three extensions. Owner and independent focused verification passed; full gate and suites due after two more capabilities. Version divergence, CLI gaps, and two oracle-smoke exclusions remain explicit.",
     "latest_focused_capability": {
-      "id": "rule.misc.tense_present",
-      "owner_cases": "8/8",
+      "id": "rule.misc.waxed",
+      "owner_cases": "9/9",
       "independent_no_config_cases": "2/2",
-      "rust_target": "6/6",
+      "rust_target": "8/8",
       "harness_contract": "PASS",
       "comparator": "29/29 PASS",
-      "attestation": "rust/artifacts/20261112T051927744043Z-build.attestation.json",
-      "owner_report": "rust/artifacts/tense-present-final-owner-current-20261112.json",
-      "independent_summary": "rust/artifacts/independent-tense-present-20261112/final-current-verification-summary.json"
+      "attestation": "rust/artifacts/20261112T052805518390Z-build.attestation.json",
+      "owner_report": "rust/artifacts/waxed-final-owner-current-20261112.json",
+      "independent_summary": "rust/artifacts/independent-waxed-20261112/final-current-summary.json"
     }
   },
   "latest_default_dispatch_batch": {
     "status": "PASS",
-    "accepted_since_cumulative_gate": 2,
+    "accepted_since_cumulative_gate": 3,
     "capabilities": [
       "rule.mixed_metaphors.misc",
-      "rule.misc.tense_present"
+      "rule.misc.tense_present",
+      "rule.misc.waxed"
     ],
-    "accepted_cases": 4,
-    "manifest_cases": 1526,
+    "accepted_cases": 6,
+    "manifest_cases": 1528,
     "excluded_cases": 2,
-    "direct_default_dispatch_positive_paths": "66/93",
-    "cumulative_gate_currentness": "STALE_BY_4_ACCEPTED_CASES; checkpoint after three more verified extensions",
-    "latest_source_fingerprint": "49108b4c99807a8756b5fd10c48e9918451226d1c5a095f677297dc1ccd60c1f"
+    "direct_default_dispatch_positive_paths": "67/93",
+    "cumulative_gate_currentness": "STALE_BY_6_ACCEPTED_CASES; run gate after two more verified extensions",
+    "latest_source_fingerprint": "e8df0b11d67f4b9a063c29d9dfb9fdfd0816da5a05cde4764b352241f2df60b8"
   },
   "latest_release_validation_attempt": {
     "status": "PASS",
@@ -15412,7 +15421,7 @@
     ],
     "claim_limit": "Selected rules and three workloads on one Linux x86_64 host; not whole-program or universal performance."
   },
-  "next_task": "Select and accept three more focused no-config default-dispatch capabilities, then run the full release-profile cumulative gate and complete harness/Rust test suites.",
+  "next_task": "Accept two more focused no-config default-dispatch capabilities, then run full release-profile cumulative gate, full harness suite, and full Rust suite.",
   "latest_default_dispatch_extension": {
     "status": "independently_verified",
     "scope": "Added two direct no-config default-dispatch cases to already implemented default-enabled rule.mondegreens; no production Rust code changed.",
@@ -16521,9 +16530,9 @@
   "current_source_attestation": {
     "status": "PASS",
     "validation_scope": "focused_candidate_build",
-    "source_fingerprint": "49108b4c99807a8756b5fd10c48e9918451226d1c5a095f677297dc1ccd60c1f",
-    "attestation": "rust/artifacts/20261112T051927744043Z-build.attestation.json",
-    "attestation_sha256": "06cde753fa739361c5fd53da1a7cc893ab7c742a8fd5c842df2434791a573c57",
+    "source_fingerprint": "e8df0b11d67f4b9a063c29d9dfb9fdfd0816da5a05cde4764b352241f2df60b8",
+    "attestation": "rust/artifacts/20261112T052805518390Z-build.attestation.json",
+    "attestation_sha256": "f469775eb1d8099199b0ab6e9ed8819b4f3468a4e84e8315318dd69e9f4a5687",
     "binary_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb"
   },
   "latest_no_passwd_home_blocker_review": {
@@ -17704,6 +17713,44 @@
     },
     "direct_default_dispatch_positive_paths": "66/93",
     "cumulative_gate": "Historical gate PASS 1520/1520; now stale by four accepted cases after two extensions; next checkpoint after three more accepted capabilities.",
+    "requested_model": "gpt-6-luna / low",
+    "runtime_model_metadata": "unavailable"
+  },
+  "latest_waxed_default_dispatch_acceptance": {
+    "status": "PASS",
+    "capability_id": "rule.misc.waxed",
+    "case_ids": [
+      "waxed_no_config_default_dispatch",
+      "waxed_no_config_clean_control"
+    ],
+    "cases_passed": 9,
+    "total_cases": 9,
+    "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+    "source_fingerprint": "e8df0b11d67f4b9a063c29d9dfb9fdfd0816da5a05cde4764b352241f2df60b8",
+    "candidate_attestation": "rust/artifacts/20261112T052805518390Z-build.attestation.json",
+    "candidate_attestation_sha256": "f469775eb1d8099199b0ab6e9ed8819b4f3468a4e84e8315318dd69e9f4a5687",
+    "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
+    "owner_report": "rust/artifacts/waxed-final-owner-current-20261112.json",
+    "owner_report_sha256": "5d6d43e7b648edcf81495e20752b5cc03452accbd8ae5f11abd9e6f7d5421d24",
+    "owner_evidence": "rust/artifacts/waxed-no-config-20261112/evidence.txt",
+    "independent_report": "rust/artifacts/independent-waxed-20261112/final-current-live-report.json",
+    "independent_report_sha256": "9ca82893d52be9b1b6f2023c80bc23a02b0803a6d55afa925211711d1c981240",
+    "independent_summary": "rust/artifacts/independent-waxed-20261112/final-current-summary.json",
+    "independent_summary_sha256": "54e0b18ffef7e6fbd0f859c84645c32102faaf61f43f0bb30e85a5d7fa5d93d0",
+    "independent_live_cases": "2/2 in 13.867s",
+    "focused_rust_tests": "8/8 owner and independent; independent run 74.869s including build",
+    "focused_harness_contract": "PASS owner and independent; manifest identity checks pass",
+    "comparator_self_tests": "29/29 PASS owner and independent",
+    "oracle_integrity": "pinned Python baseline verified before and after; exact immutable hashes match",
+    "red_green": "missing-ID contract failed before adding cases; live oracle confirms one expected positive finding and clean preferred-form control",
+    "accepted_scope_after_extension": {
+      "capabilities": 158,
+      "cases": 1526,
+      "manifest_cases": 1528,
+      "excluded_cases": 2
+    },
+    "direct_default_dispatch_positive_paths": "67/93",
+    "cumulative_gate": "Historical current-tree gate PASS 1520/1520; now stale by six accepted cases after three extensions; full gate due after two more accepted capabilities.",
     "requested_model": "gpt-6-luna / low",
     "runtime_model_metadata": "unavailable"
   }

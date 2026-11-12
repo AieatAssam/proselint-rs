@@ -182,3 +182,45 @@ fn unicode_prefix_uses_python_character_columns() {
         vec![diagnostic([4, 25], "waxed philosophical")],
     );
 }
+
+fn run_default(input: &str) -> Output {
+    let workspace = Workspace::new(1000);
+    std::fs::remove_file(workspace.path().join("selected config.json"))
+        .expect("remove selected config to exercise built-in defaults");
+    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
+        .current_dir(workspace.path())
+        .args(["check", "--output-format", "json"])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .expect("start native CLI");
+    child
+        .stdin
+        .take()
+        .expect("piped stdin")
+        .write_all(input.as_bytes())
+        .expect("write stdin");
+    child.wait_with_output().expect("wait for CLI")
+}
+
+#[test]
+fn default_config_dispatches_misc_waxed() {
+    let output = run_default("He waxed enthusiastically.");
+    assert_eq!(output.status.code(), Some(1));
+    assert!(output.stderr.is_empty());
+    let actual: Value = serde_json::from_slice(&output.stdout).expect("valid JSON");
+    assert_eq!(
+        actual,
+        json!({"result":{"<stdin>":{"diagnostics":[diagnostic(
+            [4, 26],
+            "waxed enthusiastic",
+        )]}}})
+    );
+
+    let output = run_default("He waxed enthusiastic.");
+    assert_eq!(output.status.code(), Some(0));
+    assert!(output.stderr.is_empty());
+    let actual: Value = serde_json::from_slice(&output.stdout).expect("valid JSON");
+    assert_eq!(actual, json!({"result":{"<stdin>":{"diagnostics":[]}}}));
+}

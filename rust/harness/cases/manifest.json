@@ -27675,6 +27675,38 @@
       }
     },
     {
+      "id": "waxed_no_config_default_dispatch",
+      "capability_id": "rule.misc.waxed",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; default config enables misc and checks/misc/waxed.py maps “waxed enthusiastically” to “waxed enthusiastic”. The pinned repository is BSD-3-Clause.",
+      "input_mode": "stdin",
+      "stdin_base64": "SGUgd2F4ZWQgZW50aHVzaWFzdGljYWxseS4=",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8", "PYTHONDONTWRITEBYTECODE": "1"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "waxed_no_config_clean_control",
+      "capability_id": "rule.misc.waxed",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; default config enables misc and checks/misc/waxed.py maps “waxed enthusiastically” to “waxed enthusiastic”. The pinned repository is BSD-3-Clause.",
+      "input_mode": "stdin",
+      "stdin_base64": "SGUgd2F4ZWQgZW50aHVzaWFzdGljLg==",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8", "PYTHONDONTWRITEBYTECODE": "1"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
       "id": "bottleneck_pattern_group_truncation",
       "capability_id": "rule.mixed_metaphors.bottleneck",
       "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live interleaved repeated patterns probe max_errors truncation relative to match/pattern grouping.",

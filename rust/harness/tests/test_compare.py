@@ -785,7 +785,7 @@ class ComparatorTests(unittest.TestCase):
     def test_manifest_bytecode_settings_load_and_preserve_explicit_value(self) -> None:
         cases = compare.load_manifest()["cases"]
         explicit = [case for case in cases if "PYTHONDONTWRITEBYTECODE" in case["environment"]]
-        self.assertEqual(len(explicit), 99)
+        self.assertEqual(len(explicit), 101)
         self.assertTrue(all(case["environment"]["PYTHONDONTWRITEBYTECODE"] == "1" for case in explicit))
         with tempfile.TemporaryDirectory() as directory:
             env = compare.fresh_env(Path(directory), explicit[0]["environment"])
@@ -1096,6 +1096,29 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(cases["waxed_quote_suppression"]["expected_oracle_outcome"], "clean")
         self.assertEqual(cases["waxed_max_errors_one"]["expected_oracle_outcome"], "findings")
         self.assertEqual(cases["bottleneck_max_errors_one"]["expected_oracle_outcome"], "findings")
+
+    def test_waxed_no_config_default_dispatch_contract(self) -> None:
+        expected = {
+            "waxed_no_config_default_dispatch": ("He waxed enthusiastically.", "findings"),
+            "waxed_no_config_clean_control": ("He waxed enthusiastic.", "clean"),
+        }
+        cases = {
+            case["id"]: case for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "rule.misc.waxed"
+            and case.get("config_scenario") == "no_config_default"
+        }
+        self.assertEqual(set(cases), set(expected))
+        for case_id, (text, outcome) in expected.items():
+            with self.subTest(case=case_id):
+                case = cases[case_id]
+                self.assertEqual(base64.b64decode(case["stdin_base64"]).decode(), text)
+                self.assertEqual(case["input_mode"], "stdin")
+                self.assertEqual(case["files"], [])
+                self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+                self.assertEqual(case["config_scenario"], "no_config_default")
+                self.assertEqual(case["expected_oracle_outcome"], outcome)
+                self.assertEqual(case["timeout_seconds"], 10)
+                self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
 
     def test_interleaved_max_errors_pattern_group_truncation_matches_oracle(self) -> None:
         cases = {case["id"]: case for case in compare.load_manifest()["cases"]}
@@ -1937,7 +1960,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1526)
+        self.assertEqual(len(case_ids), 1528)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -1946,7 +1969,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "5bfae36e5b48891583cb4a89d193933009381c2b8bab7f0c5620e2e7faa2ae88",
+            "f7514df6cd0466778fdbe31b477c02c0966b26bc0465b9e790a2d0d335940203",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),

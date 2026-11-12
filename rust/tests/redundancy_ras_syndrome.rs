@@ -208,3 +208,47 @@ fn plural_form_activates_without_the_singular_raw_overlap() {
         vec![diagnostic(1, 13, "abm missiles", Some("ABMs"))],
     );
 }
+
+fn run_default(input: &str) -> Output {
+    let workspace = Workspace::new(1000);
+    std::fs::remove_file(workspace.path().join("selected config.json"))
+        .expect("remove selected config to exercise built-in defaults");
+    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
+        .current_dir(workspace.path())
+        .args(["check", "--output-format", "json"])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .expect("start native CLI");
+    child
+        .stdin
+        .take()
+        .expect("piped stdin")
+        .write_all(input.as_bytes())
+        .expect("write stdin");
+    child.wait_with_output().expect("wait for native CLI")
+}
+
+#[test]
+fn default_config_dispatches_redundancy_ras_syndrome() {
+    let output = run_default("Please enter your PIN number.");
+    assert_eq!(output.status.code(), Some(1));
+    assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
+    let actual: Value = serde_json::from_slice(&output.stdout).expect("valid JSON");
+    assert_eq!(
+        actual,
+        json!({"result":{"<stdin>":{"diagnostics":[diagnostic(
+            19,
+            29,
+            "PIN number",
+            Some("PIN"),
+        )]}}})
+    );
+
+    let output = run_default("Please enter your PIN.");
+    assert_eq!(output.status.code(), Some(0));
+    assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
+    let actual: Value = serde_json::from_slice(&output.stdout).expect("valid JSON");
+    assert_eq!(actual, json!({"result":{"<stdin>":{"diagnostics":[]}}}));
+}

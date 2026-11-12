@@ -785,7 +785,7 @@ class ComparatorTests(unittest.TestCase):
     def test_manifest_bytecode_settings_load_and_preserve_explicit_value(self) -> None:
         cases = compare.load_manifest()["cases"]
         explicit = [case for case in cases if "PYTHONDONTWRITEBYTECODE" in case["environment"]]
-        self.assertEqual(len(explicit), 103)
+        self.assertEqual(len(explicit), 105)
         self.assertTrue(all(case["environment"]["PYTHONDONTWRITEBYTECODE"] == "1" for case in explicit))
         with tempfile.TemporaryDirectory() as directory:
             env = compare.fresh_env(Path(directory), explicit[0]["environment"])
@@ -1045,12 +1045,12 @@ class ComparatorTests(unittest.TestCase):
             },
         }
         by_capability = {
-            capability: {case_id for case_id, case in cases.items() if case["capability_id"] == capability}
+            capability: {case_id for case_id, case in cases.items() if case["capability_id"] == capability and case.get("config_scenario") != "no_config_default"}
             for capability in expected_ids
         }
         self.assertEqual(by_capability, expected_ids)
         for case_id, case in cases.items():
-            if case["capability_id"] not in expected_ids:
+            if case["capability_id"] not in expected_ids or case.get("config_scenario") == "no_config_default":
                 continue
             with self.subTest(case=case_id):
                 self.assertEqual(case["input_mode"], "stdin")
@@ -1196,7 +1196,7 @@ class ComparatorTests(unittest.TestCase):
             ),
         }
         self.assertEqual(
-            {case_id for case_id, case in cases.items() if case["capability_id"] == "rule.mixed_metaphors.misc"},
+            {case_id for case_id, case in cases.items() if case["capability_id"] == "rule.mixed_metaphors.misc" and case.get("config_scenario") != "no_config_default"},
             set(cases_expected),
         )
         with tempfile.TemporaryDirectory() as directory:
@@ -1269,6 +1269,29 @@ class ComparatorTests(unittest.TestCase):
                 self.assertEqual(case["timeout_seconds"], 10)
                 self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
 
+    def test_ras_syndrome_no_config_default_dispatch_contract(self) -> None:
+        expected = {
+            "ras_syndrome_no_config_default_dispatch": ("Please enter your PIN number.", "findings"),
+            "ras_syndrome_no_config_clean_control": ("Please enter your PIN.", "clean"),
+        }
+        cases = {
+            case["id"]: case for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "rule.redundancy.ras_syndrome"
+            and case.get("config_scenario") == "no_config_default"
+        }
+        self.assertEqual(set(cases), set(expected))
+        for case_id, (text, outcome) in expected.items():
+            with self.subTest(case=case_id):
+                case = cases[case_id]
+                self.assertEqual(base64.b64decode(case["stdin_base64"]).decode(), text)
+                self.assertEqual(case["input_mode"], "stdin")
+                self.assertEqual(case["files"], [])
+                self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+                self.assertEqual(case["config_scenario"], "no_config_default")
+                self.assertEqual(case["expected_oracle_outcome"], outcome)
+                self.assertEqual(case["timeout_seconds"], 10)
+                self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
+
     def test_ras_syndrome_cases_match_pinned_oracle(self) -> None:
         cases = {case["id"]: case for case in compare.load_manifest()["cases"]}
         all_twenty = "abm missile; act test; abm missiles; abs braking system; atm machine; cd disc; cpi Index; gps system; gui interface; hiv virus; isbn number; lcd display; pdf format; pin number; ras syndrome; rip in peace; please RSVP; salT talks; sat test; upc codes."
@@ -1323,7 +1346,7 @@ class ComparatorTests(unittest.TestCase):
         }
         expected_ids = set(outcomes)
         self.assertEqual(
-            {case_id for case_id, case in cases.items() if case["capability_id"] == "rule.redundancy.ras_syndrome"},
+            {case_id for case_id, case in cases.items() if case["capability_id"] == "rule.redundancy.ras_syndrome" and case.get("config_scenario") != "no_config_default"},
             expected_ids,
         )
         with tempfile.TemporaryDirectory() as directory:
@@ -1983,7 +2006,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1530)
+        self.assertEqual(len(case_ids), 1532)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -1992,7 +2015,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "f676dbcd7d06cc0a89c56978355553eeb4bf692f9c0b1d4b3f86b0a70bbc350b",
+            "491cbcb41a52babe843f6f480e03288169e6328509693cd2b8516bbac18e54c6",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),

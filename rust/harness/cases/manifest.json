@@ -28266,6 +28266,38 @@
       }
     },
     {
+      "id": "ras_syndrome_no_config_default_dispatch",
+      "capability_id": "rule.redundancy.ras_syndrome",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; default config enables redundancy and checks/redundancy/ras_syndrome.py maps “pin number” to “PIN”. The pinned repository is BSD-3-Clause; no separate list-specific grant was found.",
+      "input_mode": "stdin",
+      "stdin_base64": "UGxlYXNlIGVudGVyIHlvdXIgUElOIG51bWJlci4=",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8", "PYTHONDONTWRITEBYTECODE": "1"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "ras_syndrome_no_config_clean_control",
+      "capability_id": "rule.redundancy.ras_syndrome",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; default config enables redundancy and checks/redundancy/ras_syndrome.py maps “pin number” to “PIN”. The pinned repository is BSD-3-Clause; no separate list-specific grant was found.",
+      "input_mode": "stdin",
+      "stdin_base64": "UGxlYXNlIGVudGVyIHlvdXIgUElOLg==",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8", "PYTHONDONTWRITEBYTECODE": "1"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
       "id": "illogic_all_nine_patterns_parent_only",
       "capability_id": "rule.misc.illogic",
       "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI oracle; source module proselint/checks/misc/illogic.py; upstream BSD-3-Clause. expect-findings Covers all nine source-ordered active patterns in one parent-only configuration.",

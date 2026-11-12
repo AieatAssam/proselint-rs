@@ -185,3 +185,51 @@ fn correct_forms_near_misses_and_quoted_phrases_are_clean() {
         vec![],
     );
 }
+
+fn run_default(input: &str) -> (i32, Value, Vec<u8>) {
+    let serial = NEXT_DIR.fetch_add(1, Ordering::Relaxed);
+    let dir = std::env::temp_dir().join(format!(
+        "proselint-rs-mixed-metaphors-default-{}-{serial}",
+        std::process::id()
+    ));
+    std::fs::create_dir(&dir).expect("create isolated default-config test workspace");
+    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
+        .current_dir(&dir)
+        .args(["check", "--output-format", "json"])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .expect("start native CLI");
+    child
+        .stdin
+        .take()
+        .expect("piped stdin")
+        .write_all(input.as_bytes())
+        .expect("write input");
+    let output = child.wait_with_output().expect("wait for CLI");
+    let _ = std::fs::remove_dir_all(dir);
+    let value = serde_json::from_slice(&output.stdout).unwrap_or(Value::Null);
+    (output.status.code().unwrap_or(-1), value, output.stderr)
+}
+
+#[test]
+fn default_config_dispatches_misc_mixed_metaphors() {
+    let (exit, findings, stderr) = run_default("This is not rocket surgery.");
+    assert_eq!(exit, 1);
+    assert!(stderr.is_empty());
+    assert_eq!(
+        findings,
+        json!({"result":{"<stdin>":{"diagnostics":[diagnostic(
+            [9, 27],
+            9,
+            "Mixed metaphor. Try 'not rocket science'.",
+            json!("not rocket science"),
+        )]}}})
+    );
+
+    let (exit, clean, stderr) = run_default("This is not rocket science.");
+    assert_eq!(exit, 0);
+    assert!(stderr.is_empty());
+    assert_eq!(clean, json!({"result":{"<stdin>":{"diagnostics":[]}}}));
+}

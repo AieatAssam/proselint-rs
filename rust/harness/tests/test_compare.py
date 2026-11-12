@@ -785,7 +785,7 @@ class ComparatorTests(unittest.TestCase):
     def test_manifest_bytecode_settings_load_and_preserve_explicit_value(self) -> None:
         cases = compare.load_manifest()["cases"]
         explicit = [case for case in cases if "PYTHONDONTWRITEBYTECODE" in case["environment"]]
-        self.assertEqual(len(explicit), 95)
+        self.assertEqual(len(explicit), 97)
         self.assertTrue(all(case["environment"]["PYTHONDONTWRITEBYTECODE"] == "1" for case in explicit))
         with tempfile.TemporaryDirectory() as directory:
             env = compare.fresh_env(Path(directory), explicit[0]["environment"])
@@ -1199,6 +1199,29 @@ class ComparatorTests(unittest.TestCase):
                         for replacement, span in expected
                     ]
                     self.assertEqual(actual, expected_diagnostics)
+
+    def test_mixed_metaphors_misc_no_config_default_contract(self) -> None:
+        expected = {
+            "mixed_misc_no_config_default_dispatch": ("This is not rocket surgery.", "findings"),
+            "mixed_misc_no_config_clean_control": ("This is not rocket science.", "clean"),
+        }
+        cases = {
+            case["id"]: case for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "rule.mixed_metaphors.misc"
+            and case.get("config_scenario") == "no_config_default"
+        }
+        self.assertEqual(set(cases), set(expected))
+        for case_id, (text, outcome) in expected.items():
+            with self.subTest(case=case_id):
+                case = cases[case_id]
+                self.assertEqual(base64.b64decode(case["stdin_base64"]).decode(), text)
+                self.assertEqual(case["input_mode"], "stdin")
+                self.assertEqual(case["files"], [])
+                self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+                self.assertEqual(case["config_scenario"], "no_config_default")
+                self.assertEqual(case["expected_oracle_outcome"], outcome)
+                self.assertEqual(case["timeout_seconds"], 10)
+                self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
 
     def test_ras_syndrome_cases_match_pinned_oracle(self) -> None:
         cases = {case["id"]: case for case in compare.load_manifest()["cases"]}
@@ -1914,7 +1937,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1522)
+        self.assertEqual(len(case_ids), 1524)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -1923,7 +1946,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "6c3b0f98f34bf530af550ff43e057ed99c050d3f19827b4fdeeb97418891c804",
+            "eaf0d66c8c81a4c7ad563bbf195de7536ce16cbd5499c89824ad44d1c1c47ebc",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),

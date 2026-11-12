@@ -18,7 +18,7 @@ Gate report: [`five-default-dispatch-extension-gate-20261112-final.json`](../art
 
 These are per-workload selected-rule observations. They do not establish a whole-program or universal speed improvement. Compatibility remains partial: preserve the version-flag divergence, remaining CLI gaps, and two exclusions.
 
-After that gate and benchmark, the `spelling.ally_ly` default-dispatch test extension added two accepted cases without changing production Rust behavior or the release binary. It passed owner and independent live comparisons (12/12 each); current accepted scope is 1,552/1,554. The gate and benchmark above retain their exact 1,550-case scope and source fingerprint. The next cumulative gate is due after four additional independently verified extensions, or sooner after shared behavior changes.
+After that gate and benchmark, the `spelling.ally_ly` and `spelling.ve_of` default-dispatch test extensions added four accepted cases without changing production Rust behavior or the release binary. Both passed owner and independent live comparisons (12/12 for ally_ly and 13/13 for ve_of); current accepted scope is 1,554/1,556. The gate and benchmark above retain their exact 1,550-case scope and source fingerprint. The next cumulative gate is due after three additional independently verified extensions, or sooner after shared behavior changes.
 
 ## Previous verified candidate benchmark (2026-11-12 before five-extension checkpoint)
 

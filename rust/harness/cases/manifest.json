@@ -19112,6 +19112,58 @@
       ]
     },
     {
+      "id": "spelling_ve_of_no_config_could_of_default",
+      "capability_id": "rule.spelling.ve_of",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/ve_of.py maps could of to could've, is imported by the spelling registry, and config/default.json enables spelling. tests/examples.py:464 uses ‘This could of been the third test.’ This no-config case checks default dispatch through the real CLI.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhpcyBjb3VsZCBvZiBiZWVuIHRoZSB0aGlyZCB0ZXN0Lg==",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "spelling_ve_of_no_config_couldve_control",
+      "capability_id": "rule.spelling.ve_of",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/ve_of.py maps could of to could've, is imported by the spelling registry, and config/default.json enables spelling. tests/examples.py:464 uses ‘This could of been the third test.’ This no-config case checks the correct form remains clean through the real CLI.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhpcyBjb3VsZCd2ZSBiZWVuIHRoZSB0aGlyZCB0ZXN0Lg==",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
       "id": "malapropisms_all_phrases",
       "capability_id": "rule.malapropisms",
       "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/malapropisms.py registers default-enabled Existence with Fast case-insensitive WORDS_IN_TEXT matching, no exceptions, zero offset/PPM, quote suppression, and message \"'{}' is a malapropism.\" Phrases: the infinitesimal universe, a serial experience, attack my voracity. Exercises all registered phrases and exact messages, null replacements, spans, and ordering.",

@@ -22,6 +22,32 @@ import setup_oracle
 
 
 class ComparatorTests(unittest.TestCase):
+    def test_ve_of_no_config_default_dispatch_contract(self) -> None:
+        expected = {
+            "spelling_ve_of_no_config_could_of_default": ("This could of been the third test.", "findings"),
+            "spelling_ve_of_no_config_couldve_control": ("This could've been the third test.", "clean"),
+        }
+        cases = {
+            case["id"]: case for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "rule.spelling.ve_of"
+            and case.get("config_scenario") == "no_config_default"
+        }
+        self.assertEqual(set(cases), set(expected))
+        for case_id, (text, outcome) in expected.items():
+            with self.subTest(case=case_id):
+                case = cases[case_id]
+                self.assertEqual(case["input_mode"], "stdin")
+                self.assertEqual(base64.b64decode(case["stdin_base64"]).decode(), text)
+                self.assertEqual(case["files"], [])
+                self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+                self.assertNotIn("--config", case["argv"])
+                self.assertEqual(case["config_scenario"], "no_config_default")
+                self.assertEqual(case["expected_oracle_outcome"], outcome)
+                self.assertEqual(case["timeout_seconds"], 10)
+                self.assertEqual(case["environment"], {"locale": "C.UTF-8"})
+                self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
+                compare.validate_case(case)
+
     def test_ally_ly_no_config_default_dispatch_contract(self) -> None:
         expected = {
             "spelling_ally_ly_no_config_accidently_default": ("She was accidently fired.", "findings"),
@@ -2032,7 +2058,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1554)
+        self.assertEqual(len(case_ids), 1556)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -2041,7 +2067,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "5c3143400504ec6d2344c6bbc5e672101ced149ecc961dddad69359607ff5518",
+            "93ccb0785b17257659c74998df656aa656dd7a42b4257628d1f1e80c056683e0",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),

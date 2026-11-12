@@ -2,29 +2,21 @@
 
 ## Current verified candidate (2026-11-12 UTC)
 
-The cumulative release-profile gate passed **1,540/1,540 live cases across 158 capabilities**, with no mismatches, timeouts, oracle errors, candidate errors, or blocked cases. The manifest has 1,542 cases; two oracle-smoke cases remain excluded. The pinned baseline is Proselint 0.16.0 at revision `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`. Candidate release binary SHA-256: `19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb`. The gate passed **936 Rust tests across 146 targets**. Five stale harness assertions were corrected and the status pointer was refreshed to the current attestation; the full harness suite then passed **184/184** in **83.628s**, including runtime-independence. Its current-source release build attestation is [`20261112T091257283181Z-build.attestation.json`](../artifacts/20261112T091257283181Z-build.attestation.json), fingerprint `f6cb0e28272bda3edf7b413628e25cfb2494957e3559ebbb41d56bd3c8c67e28`; the strict gate ran immediately before those test-only corrections at fingerprint `659b54b6f7562d189cdf8ac8bb36b5f76320bf76ffe1757f1e191c518f8f6de2`. The test corrections changed no manifest cases, comparisons, candidate source, or binary.
+The full release-profile cumulative gate passed **1,550/1,550 accepted cases across 158 capabilities** with zero mismatches, candidate/oracle errors, timeouts, or blocked cases. The manifest contains 1,552 cases, including two explicit oracle-smoke exclusions. The gate passed **941 Rust tests across 146 test-result groups** and all **29 comparator self-tests**. The full harness suite passed **189/189** in **91.172s**, including runtime-independence. The pinned baseline is Proselint 0.16.0 at revision `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`. Candidate release binary SHA-256: `19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb`; source fingerprint: `ab4439de79976ce941a6868acdf06ef6d2acaa49e6315e7128680f372aa73d18`.
 
-Two bounded benchmark profiles completed after the gate. Both used live pinned-Python parity preflights (**3/3**), 25 paired fresh-process samples per workload, three warmups, and a 600-second overall limit. The combined profile enables only `misc.suddenly` and `psychology.p_equals_zero`; it measures fresh CLI runs. The separate `misc.suddenly` profile additionally measures 100 repeated in-memory checks per sample. Neither result represents bundled defaults or whole-program behavior.
+A bounded combined selected-rule benchmark followed the parity gate. Its live preflight passed **3/3**; it ran 25 paired fresh-process samples per workload after three warmups, with a 600-second overall deadline. It covers only `misc.suddenly` and `psychology.p_equals_zero`, not bundled defaults or the full program.
 
-| Combined CLI workload | Input | Findings | Python median | Rust median | Python / Rust | Python IQR | Rust IQR |
-|---|---:|---:|---:|---:|---:|---:|
-| Small authored positive | 82 B | 2 | 191.021 ms | 4.158 ms | 45.9× | 10.153 ms | 0.490 ms |
-| Ordinary generated prose | 9,280 B | 128 | 203.532 ms | 6.862 ms | 29.7× | 16.850 ms | 1.095 ms |
-| Dense generated triggers | 6,400 B | 512 | 230.704 ms | 14.363 ms | 16.1× | 10.571 ms | 5.574 ms |
+| Workload | Input | Python median | Rust median | Paired median ratio |
+| --- | ---: | ---: | ---: | ---: |
+| Small authored positive | 82 B | 188.440 ms | 4.339 ms | 43.27× |
+| Ordinary generated | 9,280 B | 201.022 ms | 6.779 ms | 29.79× |
+| Dense generated | 6,400 B | 232.637 ms | 14.114 ms | 16.76× |
 
-The isolated-rule measurements report fresh-process medians and then 100-scan in-memory medians. In-memory timing excludes helper startup, file reads, setup, result hashing, and JSON output; each Python/Rust output and checksum matched.
+Gate stages took 2.405s for oracle integrity, 0.149s for comparator self-tests, 327.979s for Rust checks/tests/build, and 1,045.384s for live comparison. Benchmark stages took 3.317s for setup/build, 10.068s for exact parity preflight, and 22.669s for measurements. The baseline executable uses Python 3.12.3; the host was Linux x86_64 with four reported CPUs; Rust toolchain was 1.99.1. Per-process RSS was unavailable. `cargo update --dry-run` reported zero compatible dependency updates and left the lockfile unchanged.
 
-| `misc.suddenly` workload | Input | Fresh Python | Fresh Rust | Fresh ratio | 100 scans Python | 100 scans Rust | In-memory ratio |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| Pinned upstream demo | 6,095 B | 186.187 ms | 3.438 ms | 54.2× | 98.981 ms | 9.916 ms | 10.0× |
-| Ordinary generated prose | 28,531 B | 188.594 ms | 4.059 ms | 46.5× | 305.721 ms | 42.784 ms | 7.1× |
-| Dense generated input | 21,504 B | 225.213 ms | 12.896 ms | 17.5× | 2,096.027 ms | 207.639 ms | 10.1× |
+Gate report: [`five-default-dispatch-extension-gate-20261112-final.json`](../artifacts/five-default-dispatch-extension-gate-20261112-final.json), SHA-256 `bd11b987d0ae9df2e50c516eb47aedc36c1b1da39b511ceff1706a2588ed8c06`. Benchmark report: [`five-default-dispatch-combined-benchmark-20261112.json`](../artifacts/five-default-dispatch-combined-benchmark-20261112.json), SHA-256 `3bb270e4721f4178e1b0d1cdd365e2c9ac9444165506d70ae84f50a1a03cdfd3`.
 
-The strict gate took **1,953.048s**: candidate checks/tests/build **889.671s**, cumulative live comparison **1,060.158s**, oracle integrity **2.478s**, and comparator self-tests **0.143s**. The combined benchmark took **34.125s** (setup/build 2.816s, preflight 6.276s, fresh-process samples 22.485s). The isolated-rule benchmark took **121.087s** (setup/build 2.766s, preflight 6.141s, fresh-process samples 22.316s, in-memory samples 87.143s). Host: Linux x86_64, four CPUs reported; oracle Python 3.12.3; Rust 1.99.1. RSS was unavailable because no per-process sampler is configured.
-
-One initial attempt at the isolated-rule profile used 1,000 in-memory repetitions and reached its **600s** limit during the dense Python workload. It is `BLOCKED`, with no performance claim; the successful rerun used the profile's 100-repetition setting. Evidence: [cumulative gate](../artifacts/optimized-test-profile-cumulative-gate-20261112.json), SHA-256 `a938e0f8fce4786e2aeff55294df7c4944e697907032fd4f8677fa73129ace60`; [harness log](../artifacts/full-harness-suite-optimized-gate-20261112.log), SHA-256 `3b5f79f0f1a4171082c2dcaac6e97687299f752689452ac060e6cd9d5a06d896`; [combined benchmark](../artifacts/benchmark-combined-profile-gate-20261112.json), SHA-256 `9c3e114789d207d1bf6acfab61c25f45d29f6fdc1f8609d139608ca1a3d2fe48`; [isolated-rule benchmark](../artifacts/benchmark-misc-suddenly-100-repetitions-gate-20261112.json), SHA-256 `c713450c3e2a2377b29142e7f7b651ec802bf8e824ab04477b43a02f49453ad2`; [bounded-out attempt](../artifacts/benchmark-optimized-test-profile-gate-20261112.json), SHA-256 `30aba104efa32755d55969b2e379732e621de1a5ba12cf6b3fe7f1fab5464d20`.
-
-These results describe the stated selected rules, inputs, configuration, and host. They are not default-config or universal speed claims.
+These are per-workload selected-rule observations. They do not establish a whole-program or universal speed improvement. Compatibility remains partial: preserve the version-flag divergence, remaining CLI gaps, and two exclusions.
 
 ## Previous verified candidate benchmark (2026-11-12 before five-extension checkpoint)
 
@@ -237,3 +229,16 @@ The accepted-scope cumulative release gate passed **1,446/1,446 cases across 153
 | `combined_dense_generated` | benchmark profile input | 234.790 ms | 14.807 ms | 25 |
 
 The full report includes raw paired samples, workload hashes, exact commands, environment, and spread: [`release-candidate-benchmark-20261111.json`](../artifacts/release-candidate-benchmark-20261111.json), SHA-256 `a9837eb924f29408c1fa084ea29eba1778aff77998b114d29e014c452e91479e`. RSS was unavailable because the harness has no per-process sampler. These are selected configurations and workloads; no whole-program or universal speed claim follows.
+## 2026-11-12: combined selected-rule benchmark
+
+After the release-profile cumulative gate passed 1,550/1,550 accepted cases, the combined selected-rule benchmark passed its exact live parity preflight **3/3** and completed under a **600-second overall deadline**. It collected **25 interleaved fresh-process pairs per workload** after three warm-up pairs. The workloads cover `misc.suddenly` and `psychology.p_equals_zero`; this does not measure bundled default behavior or the full program.
+
+| Workload | Input | Python median | Rust median | Paired median ratio |
+| --- | ---: | ---: | ---: | ---: |
+| Small authored positive | 82 B | 188.440 ms | 4.339 ms | 43.27× |
+| Ordinary generated | 9,280 B | 201.022 ms | 6.779 ms | 29.79× |
+| Dense generated | 6,400 B | 232.637 ms | 14.114 ms | 16.76× |
+
+Setup/build took 3.317 s, parity preflight 10.068 s, and fresh-process measurements 22.669 s; the report completed in 38.752 s. Host: Linux x86_64, four reported CPUs. Baseline: pinned Proselint 0.16.0 at revision `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`, Python 3.12.3. Candidate: Rust 1.99.1, binary SHA-256 `19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb`, source fingerprint `ab4439de79976ce941a6868acdf06ef6d2acaa49e6315e7128680f372aa73d18`. Per-process RSS was unavailable. These are per-workload fresh-process observations and do not support a universal speed claim.
+
+Report: [`five-default-dispatch-combined-benchmark-20261112.json`](../artifacts/five-default-dispatch-combined-benchmark-20261112.json), SHA-256 `3bb270e4721f4178e1b0d1cdd365e2c9ac9444165506d70ae84f50a1a03cdfd3`.

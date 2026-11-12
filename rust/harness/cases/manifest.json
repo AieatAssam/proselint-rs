@@ -19740,6 +19740,58 @@
       ]
     },
     {
+      "id": "spelling_in_un_no_config_unfeasible_default",
+      "capability_id": "rule.spelling.in_un",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/spelling/in_un.py maps unfeasible to infeasible, and tests/examples.py uses “The plan was unfeasible.” This no-config case verifies default dispatch through the real CLI.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlIHBsYW4gd2FzIHVuZmVhc2libGUu",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "spelling_in_un_no_config_infeasible_control",
+      "capability_id": "rule.spelling.in_un",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/spelling/in_un.py maps unfeasible to infeasible, and tests/examples.py uses “The plan was unfeasible.” This no-config case verifies default dispatch through the real CLI.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlIHBsYW4gd2FzIGluZmVhc2libGUu",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
       "id": "mondegreens_all_mappings",
       "capability_id": "rule.mondegreens",
       "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/mondegreens.py registers PreferredFormsSimple with eight literal source→preferred mappings, Fast case-insensitive WORDS_IN_TEXT matching, allow_quotes=false, offset zero, and message \"'{}' is the preferred form.\" Live cases cover all mappings, boundaries, raw matches after activation, quote suppression, codepoint positions, max_errors ordering, and punctuation.",

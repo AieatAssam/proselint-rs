@@ -2006,7 +2006,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1550)
+        self.assertEqual(len(case_ids), 1552)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -2015,7 +2015,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "f34881addf63f845158187e10d20af1b14a92a704fdeac965f7399427694947f",
+            "846475f1047d0af34977d2c3821d5cff031c527ef9058bbb721ee6286c673f35",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),
@@ -2740,6 +2740,32 @@ class ComparatorTests(unittest.TestCase):
         cases = {
             case["id"]: case for case in compare.load_manifest()["cases"]
             if case["capability_id"] == "rule.spelling.ely_ly"
+            and case.get("config_scenario") == "no_config_default"
+        }
+        self.assertEqual(set(cases), set(expected))
+        for case_id, (text, outcome) in expected.items():
+            with self.subTest(case=case_id):
+                case = cases[case_id]
+                self.assertEqual(case["input_mode"], "stdin")
+                self.assertEqual(base64.b64decode(case["stdin_base64"]), text)
+                self.assertEqual(case["files"], [])
+                self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+                self.assertNotIn("--config", case["argv"])
+                self.assertEqual(case["config_scenario"], "no_config_default")
+                self.assertEqual(case["expected_oracle_outcome"], outcome)
+                self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
+                self.assertEqual(case["environment"], {"locale": "C.UTF-8"})
+                self.assertEqual(case["timeout_seconds"], 10)
+                compare.validate_case(case)
+
+    def test_in_un_default_dispatch_cases_use_isolated_no_config_contract(self) -> None:
+        expected = {
+            "spelling_in_un_no_config_unfeasible_default": (b"The plan was unfeasible.", "findings"),
+            "spelling_in_un_no_config_infeasible_control": (b"The plan was infeasible.", "clean"),
+        }
+        cases = {
+            case["id"]: case for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "rule.spelling.in_un"
             and case.get("config_scenario") == "no_config_default"
         }
         self.assertEqual(set(cases), set(expected))

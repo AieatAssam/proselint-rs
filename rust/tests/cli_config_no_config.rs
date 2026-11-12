@@ -602,6 +602,32 @@ fn no_config_found_enables_spelling_ely_ly() {
 }
 
 #[test]
+fn no_config_found_enables_spelling_in_un() {
+    let positive = Workspace::new().run(b"The plan was unfeasible.");
+    assert_eq!(
+        positive.status.code(),
+        Some(1),
+        "stderr: {:?}",
+        positive.stderr
+    );
+    assert_eq!(
+        positive.stdout,
+        b"<stdin>:1:14: spelling.in_un: in- vs. un-. 'infeasible' is the preferred spelling.\n"
+    );
+    assert!(positive.stderr.is_empty(), "stderr: {:?}", positive.stderr);
+
+    let control = Workspace::new().run(b"The plan was infeasible.");
+    assert_eq!(
+        control.status.code(),
+        Some(0),
+        "stderr: {:?}",
+        control.stderr
+    );
+    assert!(control.stdout.is_empty(), "stdout: {:?}", control.stdout);
+    assert!(control.stderr.is_empty(), "stderr: {:?}", control.stderr);
+}
+
+#[test]
 fn no_config_found_enables_illogic_collusion_and_ignores_near_matches() {
     let positive = Workspace::new().run(b"They acted without your collusion.");
     assert_eq!(

@@ -785,7 +785,7 @@ class ComparatorTests(unittest.TestCase):
     def test_manifest_bytecode_settings_load_and_preserve_explicit_value(self) -> None:
         cases = compare.load_manifest()["cases"]
         explicit = [case for case in cases if "PYTHONDONTWRITEBYTECODE" in case["environment"]]
-        self.assertEqual(len(explicit), 101)
+        self.assertEqual(len(explicit), 103)
         self.assertTrue(all(case["environment"]["PYTHONDONTWRITEBYTECODE"] == "1" for case in explicit))
         with tempfile.TemporaryDirectory() as directory:
             env = compare.fresh_env(Path(directory), explicit[0]["environment"])
@@ -1231,6 +1231,29 @@ class ComparatorTests(unittest.TestCase):
         cases = {
             case["id"]: case for case in compare.load_manifest()["cases"]
             if case["capability_id"] == "rule.mixed_metaphors.misc"
+            and case.get("config_scenario") == "no_config_default"
+        }
+        self.assertEqual(set(cases), set(expected))
+        for case_id, (text, outcome) in expected.items():
+            with self.subTest(case=case_id):
+                case = cases[case_id]
+                self.assertEqual(base64.b64decode(case["stdin_base64"]).decode(), text)
+                self.assertEqual(case["input_mode"], "stdin")
+                self.assertEqual(case["files"], [])
+                self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+                self.assertEqual(case["config_scenario"], "no_config_default")
+                self.assertEqual(case["expected_oracle_outcome"], outcome)
+                self.assertEqual(case["timeout_seconds"], 10)
+                self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
+
+    def test_mixed_metaphors_bottleneck_no_config_default_contract(self) -> None:
+        expected = {
+            "bottleneck_no_config_default_dispatch": ("The project has a big bottleneck.", "findings"),
+            "bottleneck_no_config_clean_control": ("The project has a serious delay.", "clean"),
+        }
+        cases = {
+            case["id"]: case for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "rule.mixed_metaphors.bottleneck"
             and case.get("config_scenario") == "no_config_default"
         }
         self.assertEqual(set(cases), set(expected))
@@ -1960,7 +1983,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1528)
+        self.assertEqual(len(case_ids), 1530)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -1969,7 +1992,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "f7514df6cd0466778fdbe31b477c02c0966b26bc0465b9e790a2d0d335940203",
+            "f676dbcd7d06cc0a89c56978355553eeb4bf692f9c0b1d4b3f86b0a70bbc350b",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),

@@ -139,3 +139,49 @@ fn max_errors_preserves_pinned_phrase_group_order() {
         vec![diagnostic([1, 19], 1)],
     );
 }
+
+fn run_default(input: &str) -> (i32, Value, Vec<u8>) {
+    let serial = NEXT_DIR.fetch_add(1, Ordering::Relaxed);
+    let dir = std::env::temp_dir().join(format!(
+        "proselint-rs-bottleneck-default-{}-{serial}",
+        std::process::id()
+    ));
+    std::fs::create_dir(&dir).expect("create default-config test workspace");
+    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
+        .current_dir(&dir)
+        .args(["check", "--output-format", "json"])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .expect("start native CLI");
+    child
+        .stdin
+        .take()
+        .expect("piped stdin")
+        .write_all(input.as_bytes())
+        .expect("write stdin");
+    let output = child.wait_with_output().expect("wait for native CLI");
+    let _ = std::fs::remove_dir_all(dir);
+    (
+        output.status.code().unwrap_or(-1),
+        serde_json::from_slice(&output.stdout).expect("valid JSON output"),
+        output.stderr,
+    )
+}
+
+#[test]
+fn default_config_dispatches_mixed_metaphors_bottleneck() {
+    let (exit, actual, stderr) = run_default("The project has a big bottleneck.");
+    assert_eq!(exit, 1, "stderr: {:?}", stderr);
+    assert!(stderr.is_empty(), "stderr: {:?}", stderr);
+    assert_eq!(
+        actual,
+        json!({"result":{"<stdin>":{"diagnostics":[diagnostic([19, 33], 19)]}}})
+    );
+
+    let (exit, actual, stderr) = run_default("The project has a serious delay.");
+    assert_eq!(exit, 0, "stderr: {:?}", stderr);
+    assert!(stderr.is_empty(), "stderr: {:?}", stderr);
+    assert_eq!(actual, json!({"result":{"<stdin>":{"diagnostics":[]}}}));
+}

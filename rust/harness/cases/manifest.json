@@ -25508,6 +25508,38 @@
       ]
     },
     {
+      "id": "dash_and_from_no_config_default_dispatch",
+      "capability_id": "rule.dates_times.dates.dash_and_from",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; dates_times is enabled by the pinned default config and the dash_and_from check is registered by the dates_times package. This implicit-config positive was confirmed with the pinned executable and emits one target diagnostic.",
+      "input_mode": "stdin",
+      "stdin_base64": "V2Ugd29ya2VkIGZyb20gMTk5MC0xOTkxLg==",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "dash_and_from_no_config_clean_control",
+      "capability_id": "rule.dates_times.dates.dash_and_from",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; dates_times is enabled by the pinned default config and the dash_and_from check is registered by the dates_times package. This implicit-config from/to control was confirmed with the pinned executable and emits no diagnostics.",
+      "input_mode": "stdin",
+      "stdin_base64": "V2Ugd29ya2VkIGZyb20gMTk5MCB0byAxOTkxLg==",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
       "id": "month_of_year_all_months",
       "capability_id": "rule.dates_times.dates.month_of_year",
       "provenance": "Pinned live Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; CLI used explicit config enabling only the target rule. All twelve month names are probed in calendar order with mixed year widths; enabled by default upstream.",

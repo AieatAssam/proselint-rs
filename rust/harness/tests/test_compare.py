@@ -1991,6 +1991,26 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(cases["month_year_comma_no_config_clean_control"]["stdin_base64"], "TWFyY2ggMjAyMCB3YXMgYnVzeS4=")
         self.assertEqual(cases["month_year_comma_no_config_clean_control"]["expected_oracle_outcome"], "clean")
 
+    def test_dash_and_from_default_dispatch_cases(self) -> None:
+        cases = {
+            case["id"]: case for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "rule.dates_times.dates.dash_and_from"
+            and case.get("config_scenario") == "no_config_default"
+        }
+        self.assertEqual(set(cases), {
+            "dash_and_from_no_config_default_dispatch",
+            "dash_and_from_no_config_clean_control",
+        })
+        for case in cases.values():
+            self.assertEqual(case["input_mode"], "stdin")
+            self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+            self.assertEqual(case["config_scenario"], "no_config_default")
+            self.assertNotIn("config", " ".join(case["argv"]))
+        self.assertEqual(cases["dash_and_from_no_config_default_dispatch"]["expected_oracle_outcome"], "findings")
+        self.assertEqual(cases["dash_and_from_no_config_default_dispatch"]["stdin_base64"], "V2Ugd29ya2VkIGZyb20gMTk5MC0xOTkxLg==")
+        self.assertEqual(cases["dash_and_from_no_config_clean_control"]["expected_oracle_outcome"], "clean")
+        self.assertEqual(cases["dash_and_from_no_config_clean_control"]["stdin_base64"], "V2Ugd29ya2VkIGZyb20gMTk5MCB0byAxOTkxLg==")
+
     def test_decade_apostrophes_default_dispatch_cases(self) -> None:
         cases = {
             case["id"]: case for case in compare.load_manifest()["cases"]

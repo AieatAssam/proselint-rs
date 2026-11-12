@@ -48630,6 +48630,38 @@
       "config_scenario": "no_config_default",
       "workspace_mutates": false,
       "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "spelling_able_atable_no_config_default_dispatch",
+      "capability_id": "spelling.able_atable",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/spelling/able_atable.py maps `abbreviatable` to `abbreviable`, and config/default.json enables spelling. Exact no-config output was observed from the pinned executable.",
+      "input_mode": "stdin",
+      "stdin_base64": "YWJicmV2aWF0YWJsZQ==",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8", "PYTHONDONTWRITEBYTECODE": "1"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "spelling_able_atable_no_config_clean_control",
+      "capability_id": "spelling.able_atable",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; `abbreviable` is the preferred form and produces no finding under the implicit default config.",
+      "input_mode": "stdin",
+      "stdin_base64": "YWJicmV2aWFibGU=",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8", "PYTHONDONTWRITEBYTECODE": "1"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
     }
   ]
 }

@@ -785,7 +785,7 @@ class ComparatorTests(unittest.TestCase):
     def test_manifest_bytecode_settings_load_and_preserve_explicit_value(self) -> None:
         cases = compare.load_manifest()["cases"]
         explicit = [case for case in cases if "PYTHONDONTWRITEBYTECODE" in case["environment"]]
-        self.assertEqual(len(explicit), 93)
+        self.assertEqual(len(explicit), 95)
         self.assertTrue(all(case["environment"]["PYTHONDONTWRITEBYTECODE"] == "1" for case in explicit))
         with tempfile.TemporaryDirectory() as directory:
             env = compare.fresh_env(Path(directory), explicit[0]["environment"])
@@ -1914,7 +1914,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1510)
+        self.assertEqual(len(case_ids), 1522)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -1923,7 +1923,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "517600ed6ae96aa7f0e8363718f08968bfcb0c9bf11a8b8529e6e850a3b88290",
+            "6c3b0f98f34bf530af550ff43e057ed99c050d3f19827b4fdeeb97418891c804",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),
@@ -2010,6 +2010,24 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(cases["dash_and_from_no_config_default_dispatch"]["stdin_base64"], "V2Ugd29ya2VkIGZyb20gMTk5MC0xOTkxLg==")
         self.assertEqual(cases["dash_and_from_no_config_clean_control"]["expected_oracle_outcome"], "clean")
         self.assertEqual(cases["dash_and_from_no_config_clean_control"]["stdin_base64"], "V2Ugd29ya2VkIGZyb20gMTk5MCB0byAxOTkxLg==")
+
+    def test_eponymous_adjectives_no_config_default_dispatch_cases(self) -> None:
+        cases = {
+            case["id"]: case for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "rule.terms.eponymous_adjectives"
+            and case.get("config_scenario") == "no_config_default"
+        }
+        self.assertEqual(set(cases), {
+            "eponymous_adjectives_no_config_default_dispatch",
+            "eponymous_adjectives_no_config_clean_control",
+        })
+        for case in cases.values():
+            self.assertEqual(case["input_mode"], "stdin")
+            self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+            self.assertEqual(case["config_scenario"], "no_config_default")
+            self.assertNotIn("config", " ".join(case["argv"]))
+        self.assertEqual(cases["eponymous_adjectives_no_config_default_dispatch"]["expected_oracle_outcome"], "findings")
+        self.assertEqual(cases["eponymous_adjectives_no_config_clean_control"]["expected_oracle_outcome"], "clean")
 
     def test_decade_apostrophes_default_dispatch_cases(self) -> None:
         cases = {
@@ -2428,7 +2446,7 @@ class ComparatorTests(unittest.TestCase):
         self.assertEqual(outcomes["nordquist_escaped_dot_alternates_clean"], "clean")
 
     def test_eponymous_adjectives_cases_select_only_registered_check(self) -> None:
-        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "rule.terms.eponymous_adjectives"]
+        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "rule.terms.eponymous_adjectives" and case.get("config_scenario") != "no_config_default"]
         self.assertEqual({case["id"] for case in cases}, {
             "terms_eponymous_adjectives_simple_forms",
             "terms_eponymous_adjectives_clean_boundaries",

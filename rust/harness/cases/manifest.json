@@ -17850,6 +17850,38 @@
       ]
     },
     {
+      "id": "eponymous_adjectives_no_config_default_dispatch",
+      "capability_id": "rule.terms.eponymous_adjectives",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; the default-enabled PreferredFormsSimple mapping in checks/terms/eponymous_adjectives.py reports the preferred form for mephistophelian.",
+      "input_mode": "stdin",
+      "stdin_base64": "SGUgdXNlZCBhIG1lcGhpc3RvcGhlbGlhbiBzdHJhdGVneS4=",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8", "PYTHONDONTWRITEBYTECODE": "1"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "eponymous_adjectives_no_config_clean_control",
+      "capability_id": "rule.terms.eponymous_adjectives",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; Mephistophelean is the preferred form from checks/terms/eponymous_adjectives.py and must remain clean under default dispatch.",
+      "input_mode": "stdin",
+      "stdin_base64": "SGUgdXNlZCBhIE1lcGhpc3RvcGhlbGVhbiBzdHJhdGVneS4=",
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8", "PYTHONDONTWRITEBYTECODE": "1"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
       "id": "spelling_ally_ly_all_mappings",
       "capability_id": "rule.spelling.ally_ly",
       "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/spelling/ally_ly.py registers PreferredFormsSimple with eight source→preferred mappings, Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, and message \"-ally vs. -ly. '{}' is the correct spelling.\" Exercises all eight mappings and confirms exact messages, replacement values, spans, and result order against the live CLI.",

@@ -57,6 +57,27 @@ fn run(input: &str) -> Output {
     child.wait_with_output().unwrap()
 }
 
+fn run_default(input: &str) -> Output {
+    let workspace = Workspace::new();
+    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
+        .current_dir(workspace.path())
+        .env("HOME", workspace.path())
+        .env("XDG_CONFIG_HOME", workspace.path().join("xdg"))
+        .args(["check", "--output-format", "json"])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .unwrap();
+    child
+        .stdin
+        .take()
+        .unwrap()
+        .write_all(input.as_bytes())
+        .unwrap();
+    child.wait_with_output().unwrap()
+}
+
 fn diagnostic(span: [usize; 2], phrase: &str) -> Value {
     json!({"check_path":"cliches.misc.write_good","message":format!("'{phrase}' is a cliché"),"pos":[1,span[0]],"replacements":null,"span":span})
 }
@@ -125,6 +146,30 @@ fn raw_question_mark_quantifies_final_e_in_will_wonders_phrase() {
     assert_findings(
         "will wonders never ceas",
         vec![diagnostic([1, 24], "will wonders never ceas")],
+    );
+}
+
+#[test]
+fn default_config_dispatches_write_good_and_preserves_exception() {
+    let positive = run_default("A CLEAN SLATE");
+    assert_eq!(
+        positive.status.code(),
+        Some(1),
+        "stderr: {:?}",
+        positive.stderr
+    );
+    assert!(positive.stderr.is_empty());
+    assert_eq!(
+        serde_json::from_slice::<Value>(&positive.stdout).unwrap(),
+        json!({"result":{"<stdin>":{"diagnostics":[diagnostic([1,14], "A CLEAN SLATE")]}}})
+    );
+
+    let clean = run_default("like the plague");
+    assert_eq!(clean.status.code(), Some(0), "stderr: {:?}", clean.stderr);
+    assert!(clean.stderr.is_empty());
+    assert_eq!(
+        serde_json::from_slice::<Value>(&clean.stdout).unwrap(),
+        json!({"result":{"<stdin>":{"diagnostics":[]}}})
     );
 }
 

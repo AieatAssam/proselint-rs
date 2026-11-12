@@ -31580,6 +31580,38 @@
       }
     },
     {
+      "id": "cliches_write_good_no_config_default_dispatch",
+      "capability_id": "rule.cliches.misc.write_good",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/cliches/misc.py registers the write-good cliché list and the bundled default config enables cliches. Exact no-config output was observed from the pinned executable.",
+      "input_mode": "stdin",
+      "stdin_base64": "QSBDTEVBTiBTTEFURQ==",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8", "PYTHONDONTWRITEBYTECODE": "1"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "cliches_write_good_no_config_clean_control",
+      "capability_id": "rule.cliches.misc.write_good",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; the phrase `like the plague` is an upstream exception and exact no-config clean output was observed from the pinned executable.",
+      "input_mode": "stdin",
+      "stdin_base64": "bGlrZSB0aGUgcGxhZ3Vl",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8", "PYTHONDONTWRITEBYTECODE": "1"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
       "id": "cli_dump_config_default",
       "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; command_line.py dump-config --default serializes config.DEFAULT with sorted keys and four-space indentation. Query of the pinned executable produced exact stdout; no config file is present in the isolated workspace.",
       "files": [],

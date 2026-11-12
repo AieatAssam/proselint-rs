@@ -16413,6 +16413,58 @@
       "config_scenario": "explicit_selected_rule"
     },
     {
+      "id": "spelling_ance_ence_no_config_resistence_default",
+      "capability_id": "spelling.ance_ence",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/spelling/ance_ence.py maps resistence to resistance, and tests/examples.py uses “The resistence was futile.” This no-config case verifies default dispatch through the real CLI.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlIHJlc2lzdGVuY2Ugd2FzIGZ1dGlsZS4=",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "spelling_ance_ence_no_config_resistance_control",
+      "capability_id": "spelling.ance_ence",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/spelling/ance_ence.py maps resistence to resistance, and tests/examples.py uses “The resistence was futile.” This no-config case verifies default dispatch through the real CLI.",
+      "input_mode": "stdin",
+      "stdin_base64": "VGhlIHJlc2lzdGFuY2Ugd2FzIGZ1dGlsZS4=",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
       "id": "composition_all_simple_forms",
       "capability_id": "rule.misc.composition",
       "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/composition.py registers PreferredFormsSimple then PreferredForms at misc.composition, both Fast case-insensitive, WORDS_IN_TEXT padding, allow_quotes=false, offset (0, 0), message \"Try '{}' instead of '{}'.\" Expected behavior confirmed by the pinned executable.",

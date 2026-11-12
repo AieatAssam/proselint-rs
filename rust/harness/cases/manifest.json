@@ -18634,6 +18634,58 @@
       ]
     },
     {
+      "id": "spelling_ely_ly_no_config_completly_default",
+      "capability_id": "rule.spelling.ely_ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/spelling/ely_ly.py maps completly to completely, and tests/examples.py uses “She was completly unprepared.” This no-config case verifies default dispatch through the real CLI.",
+      "input_mode": "stdin",
+      "stdin_base64": "U2hlIHdhcyBjb21wbGV0bHkgdW5wcmVwYXJlZC4=",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "spelling_ely_ly_no_config_completely_control",
+      "capability_id": "rule.spelling.ely_ly",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/spelling/ely_ly.py maps completly to completely, and tests/examples.py uses “She was completly unprepared.” This no-config case verifies default dispatch through the real CLI.",
+      "input_mode": "stdin",
+      "stdin_base64": "U2hlIHdhcyBjb21wbGV0ZWx5IHVucHJlcGFyZWQu",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
       "id": "spelling_ve_of_all_mappings",
       "capability_id": "rule.spelling.ve_of",
       "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; proselint/checks/spelling/ve_of.py registers default-enabled PreferredFormsSimple with Fast case-insensitive matching, WORDS_IN_TEXT padding, zero offset, allow_quotes=false, PPM 0, and message \"-ve vs. -of. '{}' is the preferred spelling.\" Mappings: could of → could've, should of → should've, would of → would've. Exercises every mapping and exact message, replacement and positions.",

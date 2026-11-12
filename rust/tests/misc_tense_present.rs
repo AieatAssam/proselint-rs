@@ -194,3 +194,45 @@ fn max_errors_truncates_after_the_earliest_match_order() {
     // both raw hits before the earlier-in-text hit for the next pattern.
     assert_result(input, 2, expected_matches(input, &["would of", "would of"]));
 }
+
+fn run_default(input: &str) -> Output {
+    let workspace = Workspace::new(1000);
+    std::fs::remove_file(workspace.path().join("selected config.json"))
+        .expect("remove selected config to exercise built-in defaults");
+    let mut child = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
+        .current_dir(workspace.path())
+        .args(["check", "--output-format", "json"])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .expect("start native CLI");
+    child
+        .stdin
+        .take()
+        .expect("piped stdin")
+        .write_all(input.as_bytes())
+        .expect("write stdin");
+    child.wait_with_output().expect("wait for CLI")
+}
+
+#[test]
+fn default_config_dispatches_misc_tense_present() {
+    let positive = "It happened on accident.";
+    let output = run_default(positive);
+    assert_eq!(output.status.code(), Some(1));
+    assert!(output.stderr.is_empty());
+    let actual: Value = serde_json::from_slice(&output.stdout).expect("valid JSON output");
+    assert_eq!(
+        actual,
+        json!({"result":{"<stdin>":{"diagnostics":[
+            json!({"check_path":"misc.tense_present","message":"'on accident'.","pos":[1,13],"replacements":null,"span":[13,24]})
+        ]}}})
+    );
+
+    let output = run_default("It happened by accident.");
+    assert_eq!(output.status.code(), Some(0));
+    assert!(output.stderr.is_empty());
+    let actual: Value = serde_json::from_slice(&output.stdout).expect("valid JSON output");
+    assert_eq!(actual, json!({"result":{"<stdin>":{"diagnostics":[]}}}));
+}

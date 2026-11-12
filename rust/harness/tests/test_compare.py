@@ -785,7 +785,7 @@ class ComparatorTests(unittest.TestCase):
     def test_manifest_bytecode_settings_load_and_preserve_explicit_value(self) -> None:
         cases = compare.load_manifest()["cases"]
         explicit = [case for case in cases if "PYTHONDONTWRITEBYTECODE" in case["environment"]]
-        self.assertEqual(len(explicit), 97)
+        self.assertEqual(len(explicit), 99)
         self.assertTrue(all(case["environment"]["PYTHONDONTWRITEBYTECODE"] == "1" for case in explicit))
         with tempfile.TemporaryDirectory() as directory:
             env = compare.fresh_env(Path(directory), explicit[0]["environment"])
@@ -1937,7 +1937,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1524)
+        self.assertEqual(len(case_ids), 1526)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -1946,7 +1946,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "eaf0d66c8c81a4c7ad563bbf195de7536ce16cbd5499c89824ad44d1c1c47ebc",
+            "5bfae36e5b48891583cb4a89d193933009381c2b8bab7f0c5620e2e7faa2ae88",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),
@@ -3069,6 +3069,29 @@ class ComparatorTests(unittest.TestCase):
             self.assertNotIn("config", case["argv"])
         self.assertEqual(cases["illogic_no_config_default_positive"]["expected_oracle_outcome"], "findings")
         self.assertEqual(cases["illogic_no_config_clean_control"]["expected_oracle_outcome"], "clean")
+
+    def test_tense_present_no_config_default_dispatch_contract(self) -> None:
+        expected = {
+            "tense_present_no_config_default_dispatch": ("It happened on accident.", "findings"),
+            "tense_present_no_config_clean_control": ("It happened by accident.", "clean"),
+        }
+        cases = {
+            case["id"]: case for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "rule.misc.tense_present"
+            and case.get("config_scenario") == "no_config_default"
+        }
+        self.assertEqual(set(cases), set(expected))
+        for case_id, (text, outcome) in expected.items():
+            with self.subTest(case=case_id):
+                case = cases[case_id]
+                self.assertEqual(base64.b64decode(case["stdin_base64"]).decode(), text)
+                self.assertEqual(case["input_mode"], "stdin")
+                self.assertEqual(case["files"], [])
+                self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+                self.assertEqual(case["config_scenario"], "no_config_default")
+                self.assertEqual(case["expected_oracle_outcome"], outcome)
+                self.assertEqual(case["timeout_seconds"], 10)
+                self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
 
     @staticmethod
     def _valid_report() -> dict[str, object]:

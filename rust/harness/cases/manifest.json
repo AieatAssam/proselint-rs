@@ -28598,6 +28598,38 @@
       }
     },
     {
+      "id": "tense_present_no_config_default_dispatch",
+      "capability_id": "rule.misc.tense_present",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; default config enables misc and checks/misc/tense_present.py includes the literal `on accident` pattern. The pinned repository is BSD-3-Clause.",
+      "input_mode": "stdin",
+      "stdin_base64": "SXQgaGFwcGVuZWQgb24gYWNjaWRlbnQu",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8", "PYTHONDONTWRITEBYTECODE": "1"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "tense_present_no_config_clean_control",
+      "capability_id": "rule.misc.tense_present",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; default config enables misc and checks/misc/tense_present.py includes the literal `on accident` pattern. The pinned repository is BSD-3-Clause.",
+      "input_mode": "stdin",
+      "stdin_base64": "SXQgaGFwcGVuZWQgYnkgYWNjaWRlbnQu",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8", "PYTHONDONTWRITEBYTECODE": "1"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
       "id": "lexical_illusions_single_repeat",
       "capability_id": "rule.lexical_illusions",
       "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI oracle; source module proselint/checks/lexical_illusions.py (source tree SHA256 73d46eb1a461a379eac0e3c3418e1f941b120a19e13d5ae0f4413ea2cee3b831); upstream BSD-3-Clause. Positive single-word repeat.",

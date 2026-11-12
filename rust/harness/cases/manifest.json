@@ -24468,6 +24468,58 @@
       }
     },
     {
+      "id": "spelling_athletes_no_config_dwayne_wade_default",
+      "capability_id": "spelling.athletes",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/spelling/athletes.py maps 'dwayne wade' to 'Dwyane Wade', and tests/examples.py includes Cal Ripkin. This no-config case verifies default dispatch through the real CLI.",
+      "input_mode": "stdin",
+      "stdin_base64": "T25lIG9mIHRoZSBncmVhdHM6IGR3YXluZSB3YWRlLg==",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "spelling_athletes_no_config_dwyane_wade_control",
+      "capability_id": "spelling.athletes",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/spelling/athletes.py maps 'dwayne wade' to 'Dwyane Wade', and tests/examples.py includes Cal Ripkin. This no-config case verifies default dispatch through the real CLI.",
+      "input_mode": "stdin",
+      "stdin_base64": "T25lIG9mIHRoZSBncmVhdHM6IER3eWFuZSBXYWRlLg==",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
       "id": "archaism_all_47_active_forms",
       "capability_id": "rule.archaism",
       "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live output from the immutable Python oracle. Active literal list from checks/archaism.py (BSD-3-Clause; source attributes Garner’s Modern American Usage).",

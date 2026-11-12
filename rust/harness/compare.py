@@ -12,12 +12,14 @@ import json
 import math
 import os
 import platform
+import re
 import shutil
 import subprocess
 import sys
 import tempfile
 import time
 import uuid
+from urllib.parse import unquote, urlparse
 from pathlib import Path, PurePosixPath, PureWindowsPath
 from typing import Any, Sequence
 
@@ -25,11 +27,93 @@ from setup_oracle import ROOT, RUST_ROOT, oracle_integrity, read_lock
 
 
 MANIFEST = RUST_ROOT / "harness" / "cases" / "manifest.json"
-REPORT_SCHEMA_VERSION = 1
+REPORT_SCHEMA_VERSION = 2
 RUNTIME_MARKDOWN_INPUTS = {"data/demo.md"}
 EXCLUDED_TREE_PARTS = {".cache", "artifacts", "target", ".git", "__pycache__", "docs", "inventory.json", "status.json", "status-history.jsonl"}
 VALID_COMPARISON = {"stdout": {"bytes", "json"}, "stderr": {"bytes"}, "exit_status": {"exact"}}
 VALID_JSON_SCHEMAS = {"proselint", "version"}
+FUNCTIONALITY_PARITY_CASES = {
+    "cli_version_flag_plain_text": {
+        "policy": "cli.product_version_flag",
+        "argv": ["--version"],
+        "output_format": "full",
+        "config_scenario": "no_config",
+        "input_mode": "stdin",
+        "expected_oracle_outcome": "clean",
+        "allowed_fields": ["stdout.product_version"],
+    },
+    "cli_version_json_metadata_subcommand": {
+        "policy": "cli.version.json_metadata",
+        "argv": ["version", "--output-format", "json"],
+        "output_format": "json",
+        "config_scenario": "no_config",
+        "input_mode": "stdin",
+        "expected_oracle_outcome": "clean",
+        "allowed_fields": ["stdout.python_runtime_metadata"],
+        "candidate_version": "upstream",
+    },
+    "cli_version_json_metadata_short_attached": {
+        "policy": "cli.version.json_metadata",
+        "argv": ["version", "-ojson"],
+        "output_format": "json",
+        "config_scenario": "no_config",
+        "input_mode": "stdin",
+        "expected_oracle_outcome": "clean",
+        "allowed_fields": ["stdout.python_runtime_metadata"],
+        "candidate_version": "upstream",
+    },
+    "cli_version_json_metadata_flag_before_format": {
+        "policy": "cli.version.json_metadata",
+        "argv": ["--version", "--output-format", "json"],
+        "output_format": "json",
+        "config_scenario": "no_config",
+        "input_mode": "stdin",
+        "expected_oracle_outcome": "clean",
+        "allowed_fields": ["stdout.python_runtime_metadata", "stdout.version_product_display"],
+        "candidate_version": "product",
+    },
+    "cli_version_json_metadata_format_before_flag": {
+        "policy": "cli.version.json_metadata",
+        "argv": ["--output-format", "json", "--version"],
+        "output_format": "json",
+        "config_scenario": "no_config",
+        "input_mode": "stdin",
+        "expected_oracle_outcome": "clean",
+        "allowed_fields": ["stdout.python_runtime_metadata", "stdout.version_product_display"],
+        "candidate_version": "product",
+    },
+    "cli_version_subcommand_verbose_debug_text": {
+        "policy": "cli.version.verbose_runtime",
+        "argv": ["version", "--verbose"],
+        "output_format": "full",
+        "config_scenario": "no_config",
+        "input_mode": "stdin",
+        "expected_oracle_outcome": "clean",
+        "allowed_fields": ["stderr.timestamp", "stderr.python_runtime_metadata"],
+    },
+    "cli_demo_json_selected_rule": {
+        "policy": "cli.demo.json",
+        "argv": ["check", "--demo", "--config", "{file:selected config.json}", "--output-format", "json"],
+        "output_format": "json",
+        "config_scenario": "demo_selected_dates_times_am_pm_lowercase_periods",
+        "input_mode": "stdin",
+        "expected_oracle_outcome": "findings",
+        "allowed_fields": ["stdout.result_source_key"],
+    },
+    "cli_config_no_passwd_home_absent": {
+        "policy": "cli.config.no_passwd_home",
+        "capability_id": "cli.config.no_passwd_home",
+        "argv": ["check", "--output-format", "json", "{file:input.txt}"],
+        "output_format": "json",
+        "config_scenario": "isolated_default",
+        "input_mode": "files",
+        "expected_oracle_outcome": "findings",
+        "stdout": "bytes",
+        "environment": {"HOME": None, "XDG_CONFIG_HOME": None},
+        "preconditions": ["Run under Linux unshare --user --map-user=424242 --map-group=424242 where UID 424242 has no passwd entry."],
+        "allowed_fields": ["stderr.python_traceback"],
+    },
+}
 # Each worker runs the Python oracle and Rust candidate sequentially.
 CASE_WORKERS = 8
 
@@ -149,6 +233,7 @@ def validate_case(case: Any) -> None:
     for key, allowed in VALID_COMPARISON.items():
         if not isinstance(case["comparison"].get(key), str) or case["comparison"][key] not in allowed:
             raise ValueError(f"{case['id']}: comparison.{key} must be one of {sorted(allowed)}")
+    validate_functionality_parity_case(case)
     json_schema = case["comparison"].get("json_schema", "proselint")
     if not isinstance(json_schema, str) or json_schema not in VALID_JSON_SCHEMAS:
         raise ValueError(f"{case['id']}: comparison.json_schema must be one of {sorted(VALID_JSON_SCHEMAS)}")
@@ -428,6 +513,205 @@ def normalize_source_keys(value: dict[str, Any], workspace_uri: str) -> dict[str
     return copied
 
 
+def rust_display_product_version() -> str:
+    package = re.search(r"(?ms)^\[package\]\s*(.*?)(?=^\[|\Z)", (RUST_ROOT / "Cargo.toml").read_text(encoding="utf-8"))
+    version = re.search(r'(?m)^version\s*=\s*"([^\"]+)"\s*$', package.group(1)) if package else None
+    if version is None:
+        raise ValueError("Cargo.toml package version is missing")
+    build_script = (RUST_ROOT / "build.rs").read_text(encoding="utf-8")
+    if 'Ok(format!("{year:04}.{month:02}.{day:02}.{counter}"))' not in build_script:
+        raise ValueError("build.rs product version formatter changed")
+    match = re.fullmatch(r"([0-9]{4})\.([0-9]{1,2})\.([0-9]{1,2})\+([1-9][0-9]*)", version.group(1))
+    if match is None:
+        raise ValueError("Cargo package version must encode YYYY.M.D+N")
+    year, month, day, counter = map(int, match.groups())
+    try:
+        dt.date(year, month, day)
+    except ValueError as exc:
+        raise ValueError("Cargo package date version is invalid") from exc
+    return f"{year:04}.{month:02}.{day:02}.{counter}"
+
+
+def validate_functionality_parity_case(case: dict[str, Any]) -> None:
+    policy = case.get("functionality_parity")
+    if policy is None:
+        return
+    spec = FUNCTIONALITY_PARITY_CASES.get(case["id"])
+    if (
+        spec is None
+        or policy != spec["policy"]
+        or case.get("capability_id") != spec.get("capability_id", spec["policy"])
+        or case.get("argv") != spec["argv"]
+        or case.get("output_format") != spec["output_format"]
+        or case.get("config_scenario", "isolated_default") != spec["config_scenario"]
+        or case.get("input_mode") != spec["input_mode"]
+        or case.get("expected_oracle_outcome") != spec["expected_oracle_outcome"]
+        or case.get("environment") != spec.get("environment", case.get("environment"))
+        or case.get("preconditions", []) != spec.get("preconditions", [])
+        or case.get("comparison", {}).get("stdout") != spec.get("stdout", "json" if spec["output_format"] == "json" else "bytes")
+        or case.get("comparison", {}).get("stderr") != "bytes"
+        or case.get("comparison", {}).get("exit_status") != "exact"
+        or case.get("comparison", {}).get("normalize_workspace_uri", False)
+    ):
+        raise ValueError(f"{case['id']}: invalid or out-of-scope functionality_parity policy")
+
+
+def materialized_policy_argv(argv: list[str]) -> list[str]:
+    return [re.sub(r"\{file:([^}]+)\}", r"\1", arg) for arg in argv]
+
+
+def namespace_prefix() -> list[str] | None:
+    if sys.platform != "linux":
+        return None
+    unshare = shutil.which("unshare")
+    return [unshare, "--user", "--map-user=424242", "--map-group=424242", "--"] if unshare else None
+
+
+def case_command(case: dict[str, Any], argv: list[str]) -> list[str]:
+    if case["id"] != "cli_config_no_passwd_home_absent":
+        return argv
+    prefix = namespace_prefix()
+    if prefix is None:
+        raise RuntimeError("cli_config_no_passwd_home_absent requires Linux user namespaces and unshare")
+    return prefix + argv
+
+
+def unwrap_case_command(case_id: str, argv: list[str]) -> list[str]:
+    if case_id == "cli_config_no_passwd_home_absent":
+        prefix = namespace_prefix()
+        if prefix is None or argv[:len(prefix)] != prefix:
+            raise ValueError("no-passwd case execution is missing its Linux user-namespace precondition")
+        return argv[len(prefix):]
+    return argv
+
+
+def no_passwd_home_precondition(reference: dict[str, Any], candidate: dict[str, Any]) -> bool:
+    try:
+        return all(Path(unwrap_case_command("cli_config_no_passwd_home_absent", execution["argv"])[0]).is_absolute()
+                   for execution in (reference, candidate))
+    except (ValueError, IndexError):
+        return False
+
+
+def evaluate_functionality_parity(
+    case: dict[str, Any],
+    reference: dict[str, Any],
+    candidate: dict[str, Any],
+    strict_diffs: list[dict[str, Any]],
+) -> list[str] | None:
+    """Return the specific accepted representation fields, or None on any functional gap."""
+    validate_functionality_parity_case(case)
+    policy = case.get("functionality_parity")
+    if policy is None or not strict_diffs:
+        return None
+    spec = FUNCTIONALITY_PARITY_CASES[case["id"]]
+    if reference["status"] != "OK" or candidate["status"] != "OK" or reference["exit_code"] != candidate["exit_code"]:
+        return None
+    if reference["stderr"] != candidate["stderr"] and policy not in {"cli.version.verbose_runtime", "cli.config.no_passwd_home"}:
+        return None
+
+    baseline = read_lock()
+    if policy == "cli.product_version_flag":
+        expected = f"Proselint {baseline['package_version']}\n".encode("utf-8")
+        product = f"proselint-rs {rust_display_product_version()} (tracks Proselint {baseline['package_version']})\n".encode("utf-8")
+        if (
+            strict_diffs == [{"field": "stdout", "kind": "stdout_bytes_mismatch", "expected_sha256": sha256_bytes(reference["stdout"]), "actual_sha256": sha256_bytes(candidate["stdout"])}]
+            and reference["stdout"] == expected
+            and candidate["stdout"] == product
+            and reference["stderr"] == candidate["stderr"] == b""
+            and reference["exit_code"] == 0
+        ):
+            return spec["allowed_fields"]
+        return None
+
+    if policy == "cli.version.json_metadata":
+        if strict_diffs != [{"field": "candidate.stdout", "kind": "JSON_SCHEMA", "detail": "version JSON must contain exactly version and python"}]:
+            return None
+        upstream, upstream_error = decode_json_output(reference["stdout"])
+        rust, rust_error = decode_json_output(candidate["stdout"])
+        if upstream_error or rust_error or validate_output_schema(upstream, "version"):
+            return None
+        if not isinstance(rust, dict) or set(rust) != {"version"} or not isinstance(rust["version"], str):
+            return None
+        upstream_python = [int(part) for part in baseline["python_version"].split(".")]
+        if upstream != {"version": baseline["package_version"], "python": upstream_python}:
+            return None
+        expected_version = baseline["package_version"] if spec["candidate_version"] == "upstream" else f"proselint-rs {rust_display_product_version()} (tracks Proselint {baseline['package_version']})"
+        if rust["version"] != expected_version or reference["exit_code"] != 0 or reference["stderr"] != candidate["stderr"]:
+            return None
+        return spec["allowed_fields"]
+
+    if policy == "cli.version.verbose_runtime":
+        expected_stdout = f"Proselint {baseline['package_version']}\n".encode("utf-8")
+        version = re.escape(baseline["python_version"].encode("ascii"))
+        debug_line = re.compile(
+            rb"\A\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]\[proselint::log\]\[DEBUG\] Python "
+            + version
+            + rb"(?: \([^\r\n]*\))?[^\r\n]*\n?\Z"
+        )
+        if (
+            strict_diffs == [{"field": "stderr", "kind": "stderr_mismatch", "expected_sha256": sha256_bytes(reference["stderr"]), "actual_sha256": sha256_bytes(candidate["stderr"])}]
+            and reference["stdout"] == candidate["stdout"] == expected_stdout
+            and reference["stderr"] != b""
+            and debug_line.fullmatch(reference["stderr"])
+            and candidate["stderr"] == b""
+            and reference["exit_code"] == 0
+        ):
+            return spec["allowed_fields"]
+        return None
+
+    if policy == "cli.demo.json":
+        if reference["stderr"] != candidate["stderr"] or reference["exit_code"] != 1:
+            return None
+        upstream, upstream_error = decode_json_output(reference["stdout"])
+        rust, rust_error = decode_json_output(candidate["stdout"])
+        if upstream_error or rust_error or validate_output_schema(upstream) or validate_output_schema(rust):
+            return None
+        upstream_result = upstream.get("result")
+        rust_result = rust.get("result")
+        if not isinstance(upstream_result, dict) or len(upstream_result) != 1 or not isinstance(rust_result, dict) or set(rust_result) != {"demo.md"}:
+            return None
+        source_uri = next(iter(upstream_result))
+        parsed = urlparse(source_uri)
+        if parsed.scheme != "file" or parsed.netloc or not unquote(parsed.path).endswith("/proselint/demo.md"):
+            return None
+        if strict_diffs != [
+            {"field": f"$.result.{source_uri}", "kind": "missing_field", "expected": upstream_result[source_uri], "actual": "<absent>"},
+            {"field": "$.result.demo.md", "kind": "additional_field", "expected": "<absent>", "actual": rust_result["demo.md"]},
+        ]:
+            return None
+        if set(upstream) != {"result"} or set(rust) != {"result"}:
+            return None
+        if upstream_result[source_uri] != rust_result["demo.md"]:
+            return None
+        return spec["allowed_fields"]
+
+    if policy == "cli.config.no_passwd_home":
+        if not no_passwd_home_precondition(reference, candidate):
+            return None
+        launcher = re.escape(unwrap_case_command("cli_config_no_passwd_home_absent", reference["argv"])[0].encode("utf-8"))
+        frame = rb'  File "[^"\n]+", line \d+, in [^\n]+\n(?:    [^\n]*\n)+'
+        traceback = re.compile(
+            rb"\ATraceback \(most recent call last\):\n  File \"" + launcher
+            + rb'", line \d+, in <module>\n(?:    [^\n]*\n)+'
+            + rb"(?:" + frame + rb")*"
+            + rb'  File "[^"\n]*[\\/]pathlib\.py", line \d+, in (?:home|expanduser)\n(?:    [^\n]*\n)+'
+            + rb"RuntimeError: Could not determine home directory\.\n\Z"
+        )
+        if (
+            strict_diffs == [{"field": "stderr", "kind": "stderr_mismatch", "expected_sha256": sha256_bytes(reference["stderr"]), "actual_sha256": sha256_bytes(candidate["stderr"])}]
+            and reference["exit_code"] == 1
+            and reference["stdout"] == candidate["stdout"] == b""
+            and b"/proselint/config/paths.py\"" in reference["stderr"]
+            and traceback.fullmatch(reference["stderr"])
+            and candidate["stderr"] == b"Could not determine home directory\n"
+        ):
+            return spec["allowed_fields"]
+        return None
+
+    return None
+
+
 def run_command(argv: Sequence[str], *, cwd: Path, env: dict[str, str], stdin: bytes, timeout: float, role: str) -> dict[str, Any]:
     started = time.monotonic()
     result: dict[str, Any] = {"argv": list(argv), "cwd": str(cwd), "role": role, "status": "OK"}
@@ -541,6 +825,7 @@ def run_case(
     run_dir: Path,
     attestation_path: Path | None,
 ) -> dict[str, Any]:
+    validate_functionality_parity_case(case)
     if not reference_argv or not candidate_argv:
         raise ValueError("executable argv arrays cannot be empty")
     if not Path(reference_argv[0]).is_absolute() or not Path(candidate_argv[0]).is_absolute():
@@ -575,7 +860,7 @@ def run_case(
             for subdir in ("xdg", "cache", "tmp"):
                 (home / subdir).mkdir(parents=True, exist_ok=True)
             materialize_home_files(case, home)
-            argv = executable + args
+            argv = case_command(case, executable + args)
             env = fresh_env(home, case["environment"])
             if role == "reference":
                 with tempfile.TemporaryDirectory(prefix="proselint-reference-pycache-") as reference_cache:
@@ -600,6 +885,12 @@ def run_case(
     left, right = executions
     status = "PASS"
     diffs: list[dict[str, Any]] = []
+    strict_diffs: list[dict[str, Any]] = []
+    comparison_ran = False
+    policy_id = case.get("functionality_parity")
+    comparison_mode = "functionality_parity" if policy_id is not None else "exact"
+    policy_status = "not_applied"
+    allowed_fields: list[str] = []
     if left["status"] != "OK":
         status = "ORACLE_ERROR" if left["status"] != "TIMEOUT" else "TIMEOUT"
     elif outcome(left["exit_code"]) != case["expected_oracle_outcome"]:
@@ -609,15 +900,28 @@ def run_case(
         status = right["status"]
     else:
         normalization = workspace_uris if case["comparison"].get("normalize_workspace_uri", False) else None
-        diffs = compare_outputs(
+        comparison_ran = True
+        strict_diffs = compare_outputs(
             left,
             right,
             case["comparison"]["stdout"],
             normalization,
             case["comparison"].get("json_schema", "proselint"),
         )
-        if diffs:
-            status = "MISMATCH"
+        diffs = strict_diffs
+        if strict_diffs:
+            if policy_id is not None:
+                allowed = evaluate_functionality_parity(case, left, right, strict_diffs)
+                if allowed is not None:
+                    allowed_fields = allowed
+                    policy_status = "accepted"
+                    diffs = []
+                else:
+                    policy_status = "rejected"
+            if diffs:
+                status = "MISMATCH"
+        elif policy_id is not None:
+            policy_status = "not_applied"
     for role, execution in zip(("reference", "candidate"), executions, strict=True):
         stem = case_dir / role
         (stem.with_suffix(".stdout.bin")).write_bytes(execution["stdout"])
@@ -659,6 +963,16 @@ def run_case(
         },
         "executions": executions,
         "diffs": diffs,
+        "comparison_audit": {
+            "mode": comparison_mode,
+            "strict_status": "NOT_RUN" if not comparison_ran else ("MISMATCH" if strict_diffs else "PASS"),
+            "strict_diffs": strict_diffs,
+            "policy_id": policy_id,
+            "policy_status": policy_status,
+            "allowed_representation_fields": allowed_fields,
+            "argv": list(case["argv"]),
+            "output_format": case["output_format"],
+        },
         "replay": {
             "command": replay_command,
             "saved_case_manifest": str(replay_manifest),
@@ -713,7 +1027,7 @@ def validate_report(report: dict[str, Any]) -> None:
         "case_ids", "counts", "cases", "raw_artifacts_dir", "self_test", "errors", "run_level_blocker",
     }
     if not isinstance(report, dict) or type(report.get("schema_version")) is not int or report.get("schema_version") != REPORT_SCHEMA_VERSION or required - report.keys():
-        raise ValueError("report does not satisfy schema version 1")
+        raise ValueError(f"report does not satisfy schema version {REPORT_SCHEMA_VERSION}")
     case_statuses = {"PASS", "MISMATCH", "NOT_IMPLEMENTED", "ORACLE_ERROR", "CANDIDATE_ERROR", "TIMEOUT", "BLOCKED"}
     report_statuses = {"PASS", "MISMATCH", "BLOCKED"}
     if not isinstance(report["status"], str) or report["status"] not in report_statuses:
@@ -749,6 +1063,9 @@ def validate_report(report: dict[str, Any]) -> None:
     observed = {status: 0 for status in case_statuses}
     for case in report["cases"]:
         _validate_report_case(case, case_statuses)
+        candidate_command = report["candidate"]["argv"] + materialized_policy_argv(case["comparison_audit"]["argv"]) if isinstance(report["candidate"], dict) else []
+        if unwrap_case_command(case["case_id"], case["commands"][1]) != candidate_command:
+            raise ValueError("candidate command differs from its attested argv and case arguments")
         ids.append(case["case_id"])
         observed[case["status"]] += 1
     if len(ids) != len(set(ids)) or ids != report["case_ids"]:
@@ -917,6 +1234,87 @@ def _validate_report_case(case: Any, allowed_statuses: set[str]) -> None:
             raise ValueError("each case diff must contain string field and kind")
         if "detail" in diff and not isinstance(diff["detail"], str):
             raise ValueError("case diff detail must be a string")
+    audit = case.get("comparison_audit")
+    audit_keys = {
+        "mode", "strict_status", "strict_diffs", "policy_id", "policy_status",
+        "allowed_representation_fields", "argv", "output_format",
+    }
+    if not isinstance(audit, dict) or set(audit) != audit_keys:
+        raise ValueError("case comparison_audit schema is invalid")
+    if audit["mode"] not in {"exact", "functionality_parity"}:
+        raise ValueError("case comparison_audit mode is invalid")
+    if audit["strict_status"] not in {"PASS", "MISMATCH", "NOT_RUN"}:
+        raise ValueError("case comparison_audit strict_status is invalid")
+    if not isinstance(audit["strict_diffs"], list):
+        raise ValueError("case comparison_audit strict_diffs must be an array")
+    for diff in audit["strict_diffs"]:
+        if not isinstance(diff, dict) or not isinstance(diff.get("field"), str) or not isinstance(diff.get("kind"), str):
+            raise ValueError("case strict diff must contain string field and kind")
+    if (audit["strict_status"] == "PASS") != (not audit["strict_diffs"]) and audit["strict_status"] != "NOT_RUN":
+        raise ValueError("case comparison_audit strict_status disagrees with strict_diffs")
+    if audit["strict_status"] == "NOT_RUN" and audit["strict_diffs"]:
+        raise ValueError("unrun strict comparison cannot contain strict_diffs")
+    if not isinstance(audit["allowed_representation_fields"], list) or not all(isinstance(field, str) and field for field in audit["allowed_representation_fields"]):
+        raise ValueError("case comparison_audit allowed_representation_fields must be non-empty strings")
+    if not isinstance(audit["argv"], list) or not all(isinstance(arg, str) for arg in audit["argv"]):
+        raise ValueError("case comparison_audit argv must be a string array")
+    if not isinstance(audit["output_format"], str) or audit["output_format"] not in {"json", "full", "compact"}:
+        raise ValueError("case comparison_audit output_format is invalid")
+    if audit["policy_id"] is None:
+        if audit["mode"] != "exact" or audit["policy_status"] != "not_applied" or audit["allowed_representation_fields"]:
+            raise ValueError("exact comparison cannot claim a functionality policy")
+        if status == "PASS" and (audit["strict_status"] != "PASS" or case["diffs"]):
+            raise ValueError("PASS case must satisfy its exact comparison audit")
+        if status == "MISMATCH" and (audit["strict_status"] != "MISMATCH" or case["diffs"] != audit["strict_diffs"]):
+            raise ValueError("exact MISMATCH must preserve strict diffs")
+    else:
+        spec = FUNCTIONALITY_PARITY_CASES.get(case["case_id"])
+        if (
+            audit["mode"] != "functionality_parity"
+            or spec is None
+            or audit["policy_id"] != spec["policy"]
+            or case["capability_id"] != spec.get("capability_id", spec["policy"])
+            or audit["argv"] != spec["argv"]
+            or audit["output_format"] != spec["output_format"]
+            or audit["policy_status"] not in {"accepted", "rejected", "not_applied"}
+        ):
+            raise ValueError("case comparison_audit uses an unapproved functionality_parity policy")
+        for command in commands:
+            expected_argv = materialized_policy_argv(spec["argv"])
+            if len(command) <= len(expected_argv) or command[-len(expected_argv):] != expected_argv:
+                raise ValueError("functionality policy command argv differs from its allowlist")
+        if audit["policy_status"] == "accepted":
+            if (status != "PASS" or audit["strict_status"] != "MISMATCH" or not audit["strict_diffs"]
+                    or case["diffs"] or audit["allowed_representation_fields"] != spec["allowed_fields"]):
+                raise ValueError("functionality-parity PASS must preserve strict diffs and exact allowed fields")
+            raw = []
+            for execution in executions:
+                stdout = Path(execution["stdout_path"]).read_bytes()
+                stderr = Path(execution["stderr_path"]).read_bytes()
+                if sha256_bytes(stdout) != execution["stdout_sha256"] or sha256_bytes(stderr) != execution["stderr_sha256"]:
+                    raise ValueError("functionality-parity raw output hashes do not match the report")
+                raw.append({**execution, "stdout": stdout, "stderr": stderr})
+            comparison = {"stdout": spec.get("stdout", "json" if spec["output_format"] == "json" else "bytes"), "stderr": "bytes", "exit_status": "exact"}
+            if audit["policy_id"] == "cli.version.json_metadata":
+                comparison["json_schema"] = "version"
+            strict_diffs = compare_outputs(raw[0], raw[1], comparison["stdout"], json_schema=comparison.get("json_schema", "proselint"))
+            if strict_diffs != audit["strict_diffs"]:
+                raise ValueError("functionality-parity strict diffs do not match saved raw outputs")
+            case_spec = {
+                "id": case["case_id"], "capability_id": spec.get("capability_id", spec["policy"]), "argv": spec["argv"],
+                "output_format": spec["output_format"], "config_scenario": spec["config_scenario"],
+                "input_mode": spec["input_mode"], "expected_oracle_outcome": spec["expected_oracle_outcome"],
+                "environment": spec.get("environment", {}), "preconditions": spec.get("preconditions", []),
+                "comparison": comparison, "functionality_parity": spec["policy"],
+            }
+            if evaluate_functionality_parity(case_spec, raw[0], raw[1], strict_diffs) != spec["allowed_fields"]:
+                raise ValueError("functionality-parity acceptance does not match saved raw outputs")
+        elif audit["policy_status"] == "rejected":
+            if (status != "MISMATCH" or audit["strict_status"] != "MISMATCH" or case["diffs"] != audit["strict_diffs"]
+                    or audit["allowed_representation_fields"]):
+                raise ValueError("rejected functionality policy must retain strict mismatch diffs")
+        elif audit["allowed_representation_fields"] or audit["strict_status"] == "MISMATCH":
+            raise ValueError("unapplied functionality policy cannot conceal a strict mismatch")
     replay = case["replay"]
     if not isinstance(replay, dict) or not isinstance(replay.get("command"), list) or not replay["command"] or not all(isinstance(arg, str) for arg in replay["command"]):
         raise ValueError("case replay must contain a string argv array")

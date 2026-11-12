@@ -1349,21 +1349,27 @@ fn help_argument_lines(mut arguments: Vec<&clap::Arg>, help: &mut String) {
     }
 }
 
-fn user_config_path() -> Option<PathBuf> {
-    std::env::var_os("XDG_CONFIG_HOME")
-        .filter(|path| !path.is_empty())
-        .map(|path| PathBuf::from(path).join("proselint/config.json"))
+fn home_directory() -> Option<PathBuf> {
+    std::env::var_os("HOME")
+        .filter(|home| !home.is_empty())
+        .map(PathBuf::from)
         .or_else(|| {
-            std::env::var_os("HOME")
-                .filter(|home| !home.is_empty())
-                .map(PathBuf::from)
-                .or_else(|| {
-                    #[allow(deprecated)]
-                    std::env::home_dir()
-                })
-                .map(|home| home.join(".config/proselint/config.json"))
+            #[allow(deprecated)]
+            std::env::home_dir()
         })
-        .filter(|candidate| candidate.is_file())
+}
+
+fn user_config_path() -> Result<Option<PathBuf>, String> {
+    let candidate = if let Some(config_home) =
+        std::env::var_os("XDG_CONFIG_HOME").filter(|path| !path.is_empty())
+    {
+        PathBuf::from(config_home).join("proselint/config.json")
+    } else {
+        let home =
+            home_directory().ok_or_else(|| "Could not determine home directory".to_owned())?;
+        home.join(".config/proselint/config.json")
+    };
+    Ok(candidate.is_file().then_some(candidate))
 }
 
 fn config_directory_error(path: &std::path::Path) -> Option<String> {
@@ -1393,7 +1399,7 @@ fn dump_config(
             if project.is_some() {
                 project
             } else {
-                user_config_path()
+                user_config_path()?
             }
         }
     };
@@ -2043,6 +2049,14 @@ fn unrecognized_cli_arguments(args: &[std::ffi::OsString]) -> Option<ExitCode> {
 
 fn run() -> Result<ExitCode, String> {
     let mut args = std::env::args_os().collect::<Vec<_>>();
+    let has_explicit_config = args.iter().any(|argument| {
+        argument == "--config" || argument.to_string_lossy().starts_with("--config=")
+    });
+    if home_directory().is_none() && !has_explicit_config {
+        eprintln!("Could not determine home directory");
+        return Ok(ExitCode::from(1));
+    }
+
     let standalone_version_flag = args.len() == 2 && args[1] == "--version";
     if standalone_version_flag {
         args[1] = "version".into();
@@ -2099,7 +2113,7 @@ fn run() -> Result<ExitCode, String> {
                 .find(|candidate| candidate.is_file());
             match project_config {
                 Some(config) => (config, false, false),
-                None => match user_config_path() {
+                None => match user_config_path()? {
                     Some(config) => (config, false, true),
                     None => (PathBuf::from("proselint.json"), true, false),
                 },

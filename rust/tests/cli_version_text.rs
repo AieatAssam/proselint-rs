@@ -39,10 +39,11 @@ fn version_subcommand_json_reports_upstream_version_without_python_metadata() {
 
 #[test]
 fn root_product_version_flag_json_preserves_product_version() {
-    assert_json_version_output(
-        &["--version", "--output-format", "json"],
-        "proselint-rs 2026.11.08.1 (tracks Proselint 0.16.0)",
+    let expected_version = format!(
+        "proselint-rs {} (tracks Proselint 0.16.0)",
+        env!("PROSELINT_RS_RELEASE_VERSION")
     );
+    assert_json_version_output(&["--version", "--output-format", "json"], &expected_version);
 }
 
 fn assert_json_version_output(arguments: &[&str], expected_version: &str) {
@@ -67,10 +68,11 @@ fn assert_json_version_output(arguments: &[&str], expected_version: &str) {
 
 #[test]
 fn standalone_version_flag_reports_product_and_upstream_versions() {
-    assert_version_output(
-        "--version",
-        b"proselint-rs 2026.11.08.1 (tracks Proselint 0.16.0)\n",
+    let expected = format!(
+        "proselint-rs {} (tracks Proselint 0.16.0)\n",
+        env!("PROSELINT_RS_RELEASE_VERSION")
     );
+    assert_version_output("--version", expected.as_bytes());
 }
 
 fn assert_version_output(argument: &str, expected: &[u8]) {

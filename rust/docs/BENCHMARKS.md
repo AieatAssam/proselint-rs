@@ -1,5 +1,19 @@
 # Python and Rust benchmark
 
+## Current verified release candidate (2026-11-12 UTC)
+
+The release-profile cumulative gate passed **1,508/1,508 accepted cases across 158 capabilities**, from a 1,510-case manifest with two excluded oracle-smoke cases. There were no mismatches, timeouts, or oracle/candidate errors. The pinned baseline is Proselint 0.16.0 at revision `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`. Candidate source fingerprint: `4e0157d2b820f6aa65d91bc30299a0a21180840c788d7c99ae9a2916fadbae9f`; release binary SHA-256: `19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb`; Cargo.lock SHA-256: `f8e4ad390ee6793c9e7e90d70c91ec8a6da39eb00cc87fe464dba1c91e1068fd`. The gate passed **923 Rust tests across 145 targets**, and the complete harness suite passed **169/169**.
+
+After the gate, the bounded combined selected-rule CLI benchmark passed its exact live parity preflight **3/3**. The run lasted **34.172s** under its 600-second overall deadline: setup/build 2.820s, preflight 6.191s, and timed samples 22.399s. It used 25 paired fresh-process samples after three warmups per workload. Only `misc.suddenly` and `psychology.p_equals_zero` were enabled.
+
+| Workload | Input | Python median | Rust median | Python / Rust | Python IQR | Rust IQR |
+|---|---:|---:|---:|---:|---:|---:|
+| Small authored positive example | 82 B | 185.078 ms | 4.206 ms | 43.8× | 184.221–189.529 ms | 4.082–5.024 ms |
+| Ordinary generated prose | 9,280 B | 197.637 ms | 6.585 ms | 30.0× | 195.386–204.278 ms | 6.398–9.722 ms |
+| Dense generated trigger stream | 6,400 B | 236.029 ms | 13.496 ms | 17.0× | 228.474–244.461 ms | 13.041–16.468 ms |
+
+The host was Linux x86_64 with four reported CPUs; the oracle used Python 3.12.3 and the candidate used Rust 1.99.1. RSS was unavailable because no per-process sampler is configured. The gate report is [`../artifacts/current-version-full-gate-20261112.json`](../artifacts/current-version-full-gate-20261112.json), SHA-256 `c7714d65d16b111df797017650c9eb2b67f50333395ad07482d3d6d7b2a5efda`; the benchmark report is [`../artifacts/benchmark-current-version-20261112.json`](../artifacts/benchmark-current-version-20261112.json), SHA-256 `1660ef30101753020a0f92c80645208e6cb063be7c47434c0cf66259d9370049`. These measurements cover selected rules and three workloads on one host; they are not default-config or universal performance claims.
+
 ## Latest verified candidate (2026-11-11 UTC)
 
 The release-profile live gate passed **1,464/1,464 accepted cases across 153 capabilities**, with 11 explicit exclusions from the 1,475-case manifest and zero timeouts or mismatches. The reference is the immutable Proselint 0.16.0 baseline at revision `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`. Candidate source fingerprint: `8fc5bb76d0770f62dd3800ec07f1699d3f0f86eb8ca7a7d58056534e0d457c69`; release binary SHA-256: `2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24`; Cargo.lock SHA-256: `71e0eaa2629ee98f770a155cd73dad9a6dd31947cc9ea9e5312b533fd70a6a03`. The current lock resolves `ar_archive_writer` 0.5.5. The gate passed **923 Rust tests across 145 targets**, and the full harness suite passed **147/147** with the current attestation.

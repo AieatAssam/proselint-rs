@@ -22,6 +22,68 @@ import setup_oracle
 
 
 class ComparatorTests(unittest.TestCase):
+    def _run_functionality_case(
+        self, case_id: str, policy: str,
+        reference: tuple[bytes, bytes, int], candidate: tuple[bytes, bytes, int],
+    ) -> dict[str, object]:
+        case = json.loads(json.dumps(next(
+            item for item in compare.load_manifest()["cases"] if item["id"] == case_id
+        )))
+        case["functionality_parity"] = policy
+
+        def executable(output: tuple[bytes, bytes, int]) -> list[str]:
+            stdout, stderr, exit_code = output
+            code = (
+                "import sys;sys.stdout.buffer.write(bytes.fromhex(sys.argv[1]));"
+                "sys.stderr.buffer.write(bytes.fromhex(sys.argv[2]));raise SystemExit(int(sys.argv[3]))"
+            )
+            return [sys.executable, "-c", code, stdout.hex(), stderr.hex(), str(exit_code)]
+
+        directory = tempfile.TemporaryDirectory(prefix="functionality policy ")
+        self.addCleanup(directory.cleanup)
+        return compare.run_case(
+            case, executable(reference), executable(candidate), Path(directory.name) / "case", None,
+        )
+
+    def test_no_passwd_home_precondition_wraps_only_its_live_case(self) -> None:
+        case = json.loads(json.dumps(next(
+            item for item in compare.load_manifest()["cases"]
+            if item["id"] == "cli_config_no_passwd_home_absent"
+        )))
+        diagnostic = {
+            "check_path": "misc.apologizing",
+            "message": "apologizing",
+            "span": [0, 1],
+            "pos": [1, 1],
+            "replacements": None,
+        }
+        stdout = json.dumps({"result": {"input.txt": {"diagnostics": [diagnostic]}}}).encode()
+        observed = []
+
+        def run(argv, *, cwd, env, stdin, timeout, role):
+            observed.append((role, argv))
+            return {
+                "argv": list(argv), "cwd": str(cwd), "role": role, "status": "OK",
+                "duration_seconds": 0.0, "exit_code": 1, "stdout": stdout, "stderr": b"",
+            }
+
+        with tempfile.TemporaryDirectory(prefix="precondition namespace ") as temp, \
+                patch.object(compare.shutil, "which", return_value="/usr/bin/unshare"), \
+                patch.object(compare, "run_command", side_effect=run):
+            report = compare.run_case(
+                case, ["/oracle/proselint"], ["/rust/proselint-rs"], Path(temp) / "run", None,
+            )
+
+        prefix = ["/usr/bin/unshare", "--user", "--map-user=424242", "--map-group=424242", "--"]
+        self.assertEqual([role for role, _ in observed], ["reference", "candidate"])
+        self.assertTrue(all(argv[:len(prefix)] == prefix for _, argv in observed), observed)
+        self.assertEqual(report["status"], "PASS", report)
+        empty_home_case = next(
+            item for item in compare.load_manifest()["cases"]
+            if item["id"] == "cli_config_empty_home_fallback"
+        )
+        self.assertEqual(compare.case_command(empty_home_case, ["/oracle/proselint"]), ["/oracle/proselint"])
+
     def test_bureaucratese_no_config_default_contract(self) -> None:
         expected = {
             "bureaucratese_no_config_default_dispatch": ("We meet with your approval.", "findings"),
@@ -2191,7 +2253,10 @@ class ComparatorTests(unittest.TestCase):
                 compare.validate_case(case)
 
     def test_mondegreens_cases_select_only_registered_check(self) -> None:
-        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "rule.mondegreens"]
+        cases = [
+            case for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "rule.mondegreens" and case.get("config_scenario") != "no_config_default"
+        ]
         self.assertEqual({case["id"] for case in cases}, {
             "mondegreens_all_mappings", "mondegreens_mixed_case_and_repetition",
             "mondegreens_correct_target_forms_clean", "mondegreens_embedded_only_clean",
@@ -2563,6 +2628,184 @@ class ComparatorTests(unittest.TestCase):
         equal = {"exit_code": 0, "stdout": b'{ "python" : [3,12,3], "version" : "0.16.0" }', "stderr": b""}
         self.assertEqual([], compare.compare_outputs(expected, equal, "json", json_schema="version"))
 
+    def test_functionality_parity_policy_accepts_only_declared_representation_differences(self) -> None:
+        manifest_cases = {case["id"]: case for case in compare.load_manifest()["cases"]}
+
+        def executable(stdout: bytes, stderr: bytes = b"", exit_code: int = 0) -> list[str]:
+            code = (
+                "import sys;sys.stdout.buffer.write(bytes.fromhex(sys.argv[1]));"
+                "sys.stderr.buffer.write(bytes.fromhex(sys.argv[2]));raise SystemExit(int(sys.argv[3]))"
+            )
+            return [sys.executable, "-c", code, stdout.hex(), stderr.hex(), str(exit_code)]
+
+        def run(case_id: str, policy: str, reference: tuple[bytes, bytes, int], candidate: tuple[bytes, bytes, int]) -> dict[str, object]:
+            case = json.loads(json.dumps(manifest_cases[case_id]))
+            case["functionality_parity"] = policy
+            compare.validate_case(case)
+            directory = tempfile.TemporaryDirectory(prefix="functionality parity-é ")
+            self.addCleanup(directory.cleanup)
+            return compare.run_case(
+                case,
+                executable(*reference),
+                executable(*candidate),
+                Path(directory.name) / "case",
+                None,
+            )
+
+        product_display = f"proselint-rs {compare.rust_display_product_version()} (tracks Proselint {compare.read_lock()['package_version']})\n".encode()
+
+        product = run(
+            "cli_version_flag_plain_text", "cli.product_version_flag",
+            (b"Proselint 0.16.0\n", b"", 0),
+            (product_display, b"", 0),
+        )
+        self.assertEqual(product["status"], "PASS")
+        self.assertEqual(product["diffs"], [])
+        self.assertEqual(product["comparison_audit"]["mode"], "functionality_parity")
+        self.assertEqual(product["comparison_audit"]["strict_diffs"][0]["field"], "stdout")
+        self.assertEqual(product["comparison_audit"]["allowed_representation_fields"], ["stdout.product_version"])
+
+        version = run(
+            "cli_version_json_metadata_subcommand", "cli.version.json_metadata",
+            (b'{"python":[3,12,3],"version":"0.16.0"}', b"", 0),
+            (b'{"version":"0.16.0"}', b"", 0),
+        )
+        self.assertEqual(version["status"], "PASS")
+        self.assertEqual(version["comparison_audit"]["allowed_representation_fields"], ["stdout.python_runtime_metadata"])
+
+        product_json = run(
+            "cli_version_json_metadata_flag_before_format", "cli.version.json_metadata",
+            (b'{"python":[3,12,3],"version":"0.16.0"}', b"", 0),
+            (json.dumps({"version": product_display.decode().rstrip("\n")}).encode(), b"", 0),
+        )
+        self.assertEqual(product_json["status"], "PASS")
+        self.assertEqual(
+            product_json["comparison_audit"]["allowed_representation_fields"],
+            ["stdout.python_runtime_metadata", "stdout.version_product_display"],
+        )
+
+        verbose = run(
+            "cli_version_subcommand_verbose_debug_text", "cli.version.verbose_runtime",
+            (b"Proselint 0.16.0\n", b"[2026-11-11 12:34:56][proselint::log][DEBUG] Python 3.12.3 (main, build info)\n", 0),
+            (b"Proselint 0.16.0\n", b"", 0),
+        )
+        self.assertEqual(verbose["status"], "PASS")
+        self.assertEqual(
+            verbose["comparison_audit"]["allowed_representation_fields"],
+            ["stderr.timestamp", "stderr.python_runtime_metadata"],
+        )
+
+        demo_reference = json.dumps({"result": {"file:///opt/python/site-packages/proselint/demo.md": {"diagnostics": [{"check_path": "dates_times.am_pm.lowercase_periods", "message": "exact", "pos": [1, 2], "span": [3, 4], "replacements": None}]}}}).encode()
+        demo_candidate = json.dumps({"result": {"demo.md": {"diagnostics": [{"check_path": "dates_times.am_pm.lowercase_periods", "message": "exact", "pos": [1, 2], "span": [3, 4], "replacements": None}]}}}).encode()
+        demo = run("cli_demo_json_selected_rule", "cli.demo.json", (demo_reference, b"", 1), (demo_candidate, b"", 1))
+        self.assertEqual(demo["status"], "PASS")
+        self.assertEqual(demo["comparison_audit"]["allowed_representation_fields"], ["stdout.result_source_key"])
+        compare._validate_report_case(demo, {"PASS", "MISMATCH", "NOT_IMPLEMENTED", "ORACLE_ERROR", "CANDIDATE_ERROR", "TIMEOUT", "BLOCKED"})
+
+        invalid_candidates = (
+            ("cli_version_flag_plain_text", "cli.product_version_flag", (b"Proselint 0.16.0\n", b"", 0), (product_display[:-1] + b" extra\n", b"", 0)),
+            ("cli_version_flag_plain_text", "cli.product_version_flag", (b"Proselint 0.16.0\n", b"", 0), (product_display, b"unexpected\n", 0)),
+            ("cli_version_flag_plain_text", "cli.product_version_flag", (b"Proselint 0.16.0\n", b"", 0), (product_display, b"", 1)),
+            ("cli_version_json_metadata_subcommand", "cli.version.json_metadata", (b'{"python":[3,12,3],"version":"0.16.0"}', b"", 0), (b'{"version":"0.99.0"}', b"", 0)),
+            ("cli_version_json_metadata_subcommand", "cli.version.json_metadata", (b'{"python":[3,12,3],"version":"0.16.0"}', b"", 0), (b'{"version":"0.16.0","extra":true}', b"", 0)),
+            ("cli_version_json_metadata_subcommand", "cli.version.json_metadata", (b'{"python":[3,12,3],"version":"0.16.0"}', b"", 0), (b'{invalid', b"", 0)),
+            ("cli_version_json_metadata_flag_before_format", "cli.version.json_metadata", (b'{"python":[3,12,3],"version":"0.16.0"}', b"", 0), (b'{"version":"wrong product"}', b"", 0)),
+            ("cli_version_subcommand_verbose_debug_text", "cli.version.verbose_runtime", (b"Proselint 0.16.0\n", b"[2026-11-11 12:34:56][proselint::log][DEBUG] Python 3.12.3 (main, build info)\n", 0), (b"changed\n", b"", 0)),
+            ("cli_version_subcommand_verbose_debug_text", "cli.version.verbose_runtime", (b"Proselint 0.16.0\n", b"[2026-11-11 12:34:56][proselint::log][DEBUG] Python 3.12.3 (main, build info)\n", 0), (b"Proselint 0.16.0\n", b"candidate stderr\n", 0)),
+            ("cli_version_subcommand_verbose_debug_text", "cli.version.verbose_runtime", (b"Proselint 0.16.0\n", b"[2026-11-11 12:34:56][proselint::log][DEBUG] Python 3.12.3 (main, build info)\nextra\n", 0), (b"Proselint 0.16.0\n", b"", 0)),
+            ("cli_demo_json_selected_rule", "cli.demo.json", (demo_reference, b"", 1), (json.dumps({"result": {"demo.md": {"diagnostics": [{"check_path": "dates_times.am_pm.lowercase_periods", "message": "changed", "pos": [1, 2], "span": [3, 4], "replacements": None}]}}}).encode(), b"", 1)),
+            ("cli_demo_json_selected_rule", "cli.demo.json", (demo_reference, b"", 1), (json.dumps({"result": {"demo.md": {"diagnostics": [{"check_path": "dates_times.am_pm.lowercase_periods", "message": "exact", "pos": [1, 2], "span": [3, 4], "replacements": None}]}, "other.md": {"diagnostics": []}}}).encode(), b"", 1)),
+            ("cli_demo_json_selected_rule", "cli.demo.json", (json.dumps({"result": {"file:///tmp/not-the-installed-demo.md": {"diagnostics": [{"check_path": "dates_times.am_pm.lowercase_periods", "message": "exact", "pos": [1, 2], "span": [3, 4], "replacements": None}]}}}).encode(), b"", 1), (demo_candidate, b"", 1)),
+        )
+        for case_id, policy, reference, candidate in invalid_candidates:
+            with self.subTest(case=case_id, candidate=candidate):
+                result = run(case_id, policy, reference, candidate)
+                self.assertEqual(result["status"], "MISMATCH", result)
+                self.assertEqual(result["comparison_audit"]["mode"], "functionality_parity")
+                self.assertEqual(result["comparison_audit"]["policy_status"], "rejected")
+                self.assertEqual(result["comparison_audit"]["allowed_representation_fields"], [])
+
+        compare._validate_report_case(product, {"PASS", "MISMATCH", "NOT_IMPLEMENTED", "ORACLE_ERROR", "CANDIDATE_ERROR", "TIMEOUT", "BLOCKED"})
+        for mutation in ("drop_strict_diff", "replace_with_exit_code_diff", "broaden_allowed_field", "change_case_policy", "change_argv", "change_format"):
+            forged = json.loads(json.dumps(product))
+            if mutation == "drop_strict_diff":
+                forged["comparison_audit"]["strict_diffs"] = []
+            elif mutation == "replace_with_exit_code_diff":
+                forged["comparison_audit"]["strict_diffs"] = [{"field": "exit_code", "kind": "exit_code_mismatch", "expected": 0, "actual": 1}]
+            elif mutation == "broaden_allowed_field":
+                forged["comparison_audit"]["allowed_representation_fields"] = ["stdout"]
+            elif mutation == "change_case_policy":
+                forged["comparison_audit"]["policy_id"] = "cli.demo.json"
+            elif mutation == "change_argv":
+                forged["comparison_audit"]["argv"] = ["--help"]
+            else:
+                forged["comparison_audit"]["output_format"] = "json"
+            with self.subTest(forged=mutation), self.assertRaises(ValueError):
+                compare._validate_report_case(forged, {"PASS", "MISMATCH", "NOT_IMPLEMENTED", "ORACLE_ERROR", "CANDIDATE_ERROR", "TIMEOUT", "BLOCKED"})
+
+    def test_functionality_parity_policy_cannot_be_applied_to_unlisted_case(self) -> None:
+        case = json.loads(json.dumps(compare.load_manifest()["cases"][0]))
+        case["functionality_parity"] = "cli.product_version_flag"
+        with self.assertRaisesRegex(ValueError, "functionality_parity"):
+            compare.validate_case(case)
+
+    def test_functionality_parity_policy_requires_allowlisted_case_capability_argv_and_format(self) -> None:
+        original = next(case for case in compare.load_manifest()["cases"] if case["id"] == "cli_version_flag_plain_text")
+        case = json.loads(json.dumps(original))
+        case["functionality_parity"] = "cli.product_version_flag"
+        compare.validate_case(case)
+        for mutation in ("capability", "argv", "format", "policy"):
+            invalid = json.loads(json.dumps(case))
+            if mutation == "capability":
+                invalid["capability_id"] = "cli.version.json_metadata"
+            elif mutation == "argv":
+                invalid["argv"] = ["--help"]
+            elif mutation == "format":
+                invalid["output_format"] = "json"
+            else:
+                invalid["functionality_parity"] = "cli.demo.json"
+            with self.subTest(mutation=mutation), self.assertRaisesRegex(ValueError, "functionality_parity"):
+                compare.validate_case(invalid)
+
+    def test_missing_home_functionality_policy_only_accepts_python_traceback_representation(self) -> None:
+        launcher = sys.executable
+        missing_home_traceback = (
+            f'Traceback (most recent call last):\n  File "{launcher}", line 4, in <module>\n'
+            '    from proselint.command_line import main\n'
+            '  File "/tmp/site-packages/proselint/config/paths.py", line 12, in <module>\n'
+            '    home_path = Path.home()\n'
+            '  File "/usr/lib/python3.12/pathlib.py", line 1408, in expanduser\n'
+            '    raise RuntimeError("Could not determine home directory.")\n'
+            'RuntimeError: Could not determine home directory.\n'
+        ).encode()
+        case_id = "cli_config_no_passwd_home_absent"
+        with patch.object(compare, "no_passwd_home_precondition", return_value=True, create=True):
+            accepted = self._run_functionality_case(
+                case_id, "cli.config.no_passwd_home",
+                (b"", missing_home_traceback, 1),
+                (b"", b"Could not determine home directory\n", 1),
+            )
+            compare._validate_report_case(accepted, {"PASS", "MISMATCH", "NOT_IMPLEMENTED", "ORACLE_ERROR", "CANDIDATE_ERROR", "TIMEOUT", "BLOCKED"})
+        self.assertEqual(accepted["status"], "PASS", accepted)
+        self.assertEqual(accepted["comparison_audit"]["strict_status"], "MISMATCH")
+        self.assertEqual(accepted["comparison_audit"]["allowed_representation_fields"], ["stderr.python_traceback"])
+
+        with patch.object(compare, "no_passwd_home_precondition", return_value=False):
+            outside_precondition = self._run_functionality_case(
+                case_id, "cli.config.no_passwd_home",
+                (b"", missing_home_traceback, 1),
+                (b"", b"Could not determine home directory\n", 1),
+            )
+        self.assertEqual(outside_precondition["status"], "MISMATCH", outside_precondition)
+
+        with patch.object(compare, "no_passwd_home_precondition", return_value=True, create=True):
+            extra_error = self._run_functionality_case(
+                case_id, "cli.config.no_passwd_home",
+                (b"", missing_home_traceback + b"unrelated\n", 1),
+                (b"", b"Could not determine home directory\n", 1),
+            )
+        self.assertEqual(extra_error["status"], "MISMATCH", extra_error)
+
     def test_process_statuses_distinguish_lint_errors_from_crashes(self) -> None:
         with tempfile.TemporaryDirectory(prefix="process space-é ") as directory:
             cwd = Path(directory)
@@ -2719,6 +2962,11 @@ class ComparatorTests(unittest.TestCase):
                 "candidate": {"config_scenario": "isolated_default"},
             },
             "executions": executions, "diffs": [],
+            "comparison_audit": {
+                "mode": "exact", "strict_status": "PASS", "strict_diffs": [],
+                "policy_id": None, "policy_status": "not_applied",
+                "allowed_representation_fields": [], "argv": [], "output_format": "json",
+            },
             "replay": {
                 "command": ["python3", "rust/harness/compare.py"],
                 "saved_case_manifest": "replay-manifest.json", "saved_stdin": "stdin.bin",
@@ -2727,7 +2975,7 @@ class ComparatorTests(unittest.TestCase):
             },
         }
         return {
-            "schema_version": 1, "run_id": "run-one", "started_at_utc": "2026-01-01T00:00:00+00:00",
+            "schema_version": compare.REPORT_SCHEMA_VERSION, "run_id": "run-one", "started_at_utc": "2026-01-01T00:00:00+00:00",
             "finished_at_utc": "2026-01-01T00:00:01+00:00", "status": "PASS", "scope": "compatibility_gate",
             "run_level_blocker": False, "source_fingerprint": digest,
             "baseline": {

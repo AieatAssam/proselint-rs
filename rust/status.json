@@ -1110,9 +1110,9 @@
         "finding": "Manifest preconditions are documentary; focused run must explicitly use unshare."
       }
     },
-    "current_manifest_cases": 1518,
-    "current_manifest_id_capability_digest": "a2ce3bfff110c6843a07e52f9970065a52ae7fb098af7bd981021830fad9e513",
-    "accepted_case_count_before_release_gate": 1516,
+    "current_manifest_cases": 1520,
+    "current_manifest_id_capability_digest": "f27dcd01601e3ee71ce8567b6c1a6b3d929174953ebb550b1a6d6e396fa49367",
+    "accepted_case_count_before_release_gate": 1518,
     "latest_full_unit_suite": {
       "status": "PASS",
       "tests_passed": 135,
@@ -1135,7 +1135,7 @@
       "source_fingerprint": "cb5262bf3e58c7207879a9c8de08dfdbb40d20cd7eaf1022e75ed1054a0093e2",
       "attestation": "rust/artifacts/20261111T035653523505Z-build.attestation.json"
     },
-    "current_manifest_digest": "2bec2cb2192e385d63d607503572006a705e3d6f2f9a0d107eedb6d9a2b92013",
+    "current_manifest_digest": "13562b0717ea8c2aa3e131dcc3a9e96aa8992a0575caee671b8b844e70d11561",
     "latest_release_candidate_suite": {
       "status": "PASS",
       "tests_passed": 135,
@@ -1188,10 +1188,10 @@
       "candidate_attestation": "rust/artifacts/20261112T001330334660Z-build.attestation.json",
       "namespace_case": "cli_config_no_passwd_home_absent is executed through unshare per case"
     },
-    "latest_full_unit_suite_currentness": "Historical PASS 169/169 at the 1510-case manifest; current manifest has eight further accepted cases and three new contract tests. Rerun full harness suite at the next cumulative checkpoint.",
+    "latest_full_unit_suite_currentness": "Historical PASS 169/169 at the 1510-case manifest; current manifest has ten further accepted cases and four new contract tests. Rerun full harness suite at the next cumulative checkpoint.",
     "current_manifest_digest_algorithm": "SHA-256 of rust/harness/cases/manifest.json raw bytes"
   },
-  "active_ownership": "No worker owns source files; dash-and-from default-dispatch extension is independently verified at fingerprint 81e1d212e2df7c356cdbdff61b0b6cd2f426cd32b925cbed78ac776308eff6cf. Continue with another separately assigned default-dispatch case gap.",
+  "active_ownership": "No worker owns source files; misc.illogic default-dispatch extension independently verified at fingerprint ee5db41947d2424a0d0c28b3b12bcaf9eb59936fc9c193206b5c7251b29278e7. Select the final focused extension before the next scheduled cumulative gate.",
   "unresolved": [
     "Other CLI/config behavior remains unverified, including passwd-home config-present behavior, HOME-absent/no-passwd-entry behavior outside cli_config_no_passwd_home_absent, other subcommands, HOME-unset platform variation, directory candidates, and traversal/decoding edges.",
     "Configuration compatibility outside accepted cases remains unverified: differently escaped surrogate-key equality, other invalid consumed setting types, and recursion shapes/depths beyond the recorded cases.",
@@ -8942,7 +8942,9 @@
         "illogic_quote_suppression",
         "illogic_unicode_coordinates",
         "illogic_interleaved_pattern_group_limit_two",
-        "illogic_parent_and_children_duplicate_path_coexistence"
+        "illogic_parent_and_children_duplicate_path_coexistence",
+        "illogic_no_config_default_positive",
+        "illogic_no_config_clean_control"
       ],
       "registered_entries_exercised": 1,
       "upstream_source": "proselint/checks/misc/illogic.py; Garner attribution retained; source snapshot BSD-3-Clause",
@@ -9035,7 +9037,72 @@
         "oracle_integrity": "verified",
         "comparator_self_tests": 23
       },
-      "source_sha256": "390de33149f44c6379cdd9557a5f28e54e1071c8c26213b592852bd88df63143"
+      "source_sha256": "390de33149f44c6379cdd9557a5f28e54e1071c8c26213b592852bd88df63143",
+      "latest_default_dispatch_extension": {
+        "status": "independently_verified",
+        "case_ids": [
+          "illogic_no_config_default_positive",
+          "illogic_no_config_clean_control"
+        ],
+        "case_count": 8,
+        "red": {
+          "status": "EXPECTED_MISSING_CASES",
+          "command": "python3 -m unittest rust/harness/tests/test_compare.py -k illogic_default_dispatch_cases_use_implicit_configuration",
+          "exit_code": 1,
+          "duration_seconds": 0.767,
+          "test_body_seconds": 0.258,
+          "failure": "Both new no-config IDs were absent",
+          "report": "rust/artifacts/illogic-default-dispatch-red-20261112/contract-red.log",
+          "report_sha256": "eff63184c70014b1e1eb0e346511b0ecaabc0ce924bd0bde7f3529cc4b6ead7c"
+        },
+        "oracle_case_probes": {
+          "report": "rust/artifacts/illogic-default-dispatch-red-20261112/oracle-probes/probe-results.json",
+          "report_sha256": "c22603489d420a5c9bbfdd6d15b955f3460436670157d2d238449e0fc2aace1b",
+          "positive": "one misc.illogic finding at span [11,18], exit 1",
+          "clean_control": "empty diagnostics, exit 0"
+        },
+        "green": {
+          "status": "PASS",
+          "test_count": "1/1",
+          "test_body_seconds": 0.273,
+          "wall_seconds": 0.615
+        },
+        "owner_live": {
+          "status": "PASS",
+          "passed": 8,
+          "total": 8,
+          "duration_seconds": 8.632,
+          "report": "rust/artifacts/illogic-default-dispatch-red-20261112/owner-live.json",
+          "report_sha256": "ccc45c11d8779c24ce577972d18df3a4d5818439ce448aade4f0097080a88f77",
+          "run_id": "20261112T033051382081Z-83eeab1a"
+        },
+        "independent_live": {
+          "status": "PASS",
+          "passed": 8,
+          "total": 8,
+          "duration_seconds": 8.822,
+          "report": "rust/artifacts/independent-illogic-default-20261112/live-comparison.json",
+          "report_sha256": "034b2aa72af577cd9a297ef4699079c3e6762185e97ff262ec8dd2b258ddf3be",
+          "run_id": "20261112T033418046672Z-e2af48d2"
+        },
+        "focused_rust_tests": {
+          "owner": "5/5 PASS in 54.058s cold compile",
+          "independent": "5/5 PASS in 60.321s cold compile"
+        },
+        "comparator_self_tests": {
+          "owner": "29/29 PASS in 0.406s",
+          "independent": "29/29 PASS in 0.581s"
+        },
+        "candidate_attestation": "rust/artifacts/20261112T032928209527Z-build.attestation.json",
+        "candidate_attestation_sha256": "a80a2661e621f74eb16fe33621ba85f94343b08b34e56b0cb0d1712b8759431d",
+        "source_fingerprint": "ee5db41947d2424a0d0c28b3b12bcaf9eb59936fc9c193206b5c7251b29278e7",
+        "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
+        "cargo_lock_sha256": "f8e4ad390ee6793c9e7e90d70c91ec8a6da39eb00cc87fe464dba1c91e1068fd",
+        "oracle_integrity": "verified before and after by owner and independent; same pinned snapshot/executable",
+        "cumulative_gate": "STALE_BY_10_ACCEPTED_CASES; next checkpoint after one more verified default-dispatch extension",
+        "runtime_model_metadata": "unavailable"
+      },
+      "acceptance": "Selected-config behavior and no-config default-dispatch cases independently verified; current cumulative gate predates this extension."
     },
     {
       "id": "rule.misc.tense_present",
@@ -13482,7 +13549,7 @@
     "scope_matches_current_accepted_scope": false,
     "current_tree_fingerprint_matches_gate": false,
     "compatibility_claim": "Partial only; two oracle smoke cases remain excluded, and CLI representation/version divergences remain explicit.",
-    "staleness_note": "Current manifest adds eight independently verified default-dispatch cases across three paths; gate covers 1508 cases at the prior fingerprint."
+    "staleness_note": "Current manifest adds ten independently verified default-dispatch cases across four paths; gate covers 1508 cases at the prior fingerprint."
   },
   "rust_dependencies": {
     "status": "latest_for_pinned_toolchain",
@@ -13546,7 +13613,7 @@
       "result": "0 packages to update; Cargo.lock unchanged"
     }
   },
-  "next_capability_handoff": "Current strict gate is stale by eight accepted cases after three independently verified default-dispatch extensions. Continue focused cycles and run the next full release-profile gate plus full harness suite after two more extensions unless shared CLI/config behavior changes.",
+  "next_capability_handoff": "Current gate is stale by ten accepted cases after four independently verified default-dispatch extensions. One more extension reaches the five-capability checkpoint; then run full release-profile gate and full harness suite.",
   "live_review_findings": {
     "reviewer": "Astra, low effort",
     "evidence": "rust/artifacts/astra-live-review-followup-20261106.jsonl",
@@ -13727,7 +13794,7 @@
     "rss": "unavailable",
     "performance_scope": "fresh_process_cli_combined_selected_rules_only",
     "matches_current_source_fingerprint": false,
-    "source_scope_note": "The benchmark used the unchanged release binary before eight no-config cases and three harness contract tests were added; its behavioral fingerprint is not the current harness fingerprint."
+    "source_scope_note": "The benchmark used the unchanged release binary before ten no-config cases and four contract tests were added; its behavioral fingerprint is not the current harness fingerprint."
   },
   "agent_model_verification": {
     "initial_default_verifier_selection": {
@@ -14182,26 +14249,26 @@
     "scope_matches_current_accepted_scope": false,
     "current_tree_fingerprint_matches_gate": false,
     "compatibility_claim": "Partial only; two oracle smoke cases remain excluded, and CLI representation/version divergences remain explicit.",
-    "staleness_note": "Current manifest adds eight independently verified default-dispatch cases across three paths; gate covers 1508 cases at the prior fingerprint."
+    "staleness_note": "Current manifest adds ten independently verified default-dispatch cases across four paths; gate covers 1508 cases at the prior fingerprint."
   },
   "current_candidate_release_readiness": {
     "status": "STALE_AFTER_FOCUSED_CASE_ADDITION",
     "compatibility": "Partial; version and CLI representation policies remain explicit; two oracle-smoke cases remain excluded.",
-    "source_fingerprint": "81e1d212e2df7c356cdbdff61b0b6cd2f426cd32b925cbed78ac776308eff6cf",
+    "source_fingerprint": "ee5db41947d2424a0d0c28b3b12bcaf9eb59936fc9c193206b5c7251b29278e7",
     "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
-    "candidate_attestation": "rust/artifacts/20261112T031357629812Z-build.attestation.json",
-    "candidate_attestation_sha256": "75a5b30cefddac54510d13e9347bcfabdfdd0e864084a2cff9b10c710470c177",
+    "candidate_attestation": "rust/artifacts/20261112T032928209527Z-build.attestation.json",
+    "candidate_attestation_sha256": "a80a2661e621f74eb16fe33621ba85f94343b08b34e56b0cb0d1712b8759431d",
     "accepted_capabilities": 158,
-    "selected_case_count": 1516,
-    "manifest_case_count": 1518,
+    "selected_case_count": 1518,
+    "manifest_case_count": 1520,
     "excluded_case_count": 2,
     "release_gate_report": "rust/artifacts/current-version-full-gate-20261112.json",
     "release_gate_report_sha256": "c7714d65d16b111df797017650c9eb2b67f50333395ad07482d3d6d7b2a5efda",
     "release_gate_run_id": "20261112T020651913594Z-12bce607",
     "full_rust_tests": "923/923 across 145 targets at prior fingerprint",
-    "full_harness_tests": "169/169 at prior manifest; three contract tests added since",
+    "full_harness_tests": "169/169 at prior manifest; four contract tests added since",
     "benchmark": "PASS after 3/3 live preflight; same candidate binary, older behavioral fingerprint",
-    "cumulative_gate_currentness": "STALE_BY_8_CASES; schedule after two more verified default-dispatch extensions"
+    "cumulative_gate_currentness": "STALE_BY_10_CASES; schedule after one more verified default-dispatch extension"
   },
   "latest_harness_storage_optimization": {
     "change": "reference Python bytecode writes disabled by default; each case retains a unique temporary cache prefix; explicit case settings are preserved",
@@ -14832,6 +14899,20 @@
           "dash_and_from_no_config_default_dispatch",
           "dash_and_from_no_config_clean_control"
         ]
+      },
+      "rule.misc.illogic": {
+        "status": "PASS",
+        "passed": 8,
+        "total": 8,
+        "report": "rust/artifacts/independent-illogic-default-20261112/live-comparison.json",
+        "report_sha256": "034b2aa72af577cd9a297ef4699079c3e6762185e97ff262ec8dd2b258ddf3be",
+        "source_fingerprint": "ee5db41947d2424a0d0c28b3b12bcaf9eb59936fc9c193206b5c7251b29278e7",
+        "candidate_attestation": "rust/artifacts/20261112T032928209527Z-build.attestation.json",
+        "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
+        "cases": [
+          "illogic_no_config_default_positive",
+          "illogic_no_config_clean_control"
+        ]
       }
     },
     "accepted_case_count": 1468,
@@ -14852,42 +14933,42 @@
     "last_gate_report": "rust/artifacts/default-dispatch-checkpoint-20261111.json",
     "last_gate_report_sha256": "80aa68daefa6e5e5c4003acf14b897c6d96404ac4990f11201dc07d57e42f070",
     "direct_positive_default_enabled_paths": 49,
-    "positive_default_dispatch_paths": "62/93",
-    "latest_direct_default_dispatch_acceptance": "rule.dates_times.dates.dash_and_from"
+    "positive_default_dispatch_paths": "63/93",
+    "latest_direct_default_dispatch_acceptance": "rule.misc.illogic"
   },
   "latest_focused_default_dispatch_acceptance": {
     "status": "PASS",
-    "capability_id": "rule.dates_times.dates.dash_and_from",
+    "capability_id": "rule.misc.illogic",
     "case_ids": [
-      "dash_and_from_no_config_default_dispatch",
-      "dash_and_from_no_config_clean_control"
+      "illogic_no_config_default_positive",
+      "illogic_no_config_clean_control"
     ],
-    "cases_passed": 15,
-    "total_cases": 15,
+    "cases_passed": 8,
+    "total_cases": 8,
     "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-    "source_fingerprint": "81e1d212e2df7c356cdbdff61b0b6cd2f426cd32b925cbed78ac776308eff6cf",
-    "candidate_attestation": "rust/artifacts/20261112T031357629812Z-build.attestation.json",
-    "candidate_attestation_sha256": "75a5b30cefddac54510d13e9347bcfabdfdd0e864084a2cff9b10c710470c177",
+    "source_fingerprint": "ee5db41947d2424a0d0c28b3b12bcaf9eb59936fc9c193206b5c7251b29278e7",
+    "candidate_attestation": "rust/artifacts/20261112T032928209527Z-build.attestation.json",
+    "candidate_attestation_sha256": "a80a2661e621f74eb16fe33621ba85f94343b08b34e56b0cb0d1712b8759431d",
     "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
-    "owner_report": "rust/artifacts/dash-and-from-default-owner-live-20261112.json",
-    "owner_report_sha256": "a4af6a03d53aee5f3f3a3e6125cc4fb0e355705a6ef8ae3014c75d5f12e7e9db",
-    "owner_duration_seconds": 11.956,
-    "independent_report": "rust/artifacts/independent-dash-and-from-20261112/live-comparison.json",
-    "independent_report_sha256": "d2868df25c995af8f0f4187e9e268d6f6acd8023c32ac67a583a4c61b5ee6415",
-    "independent_summary": "rust/artifacts/independent-dash-and-from-20261112/verification-summary.json",
-    "independent_summary_sha256": "e485628618fd3cffa50da33893acdc4a6f789f553cdc4786d0b9ddd4888ee993",
-    "independent_duration_seconds": 14.78,
-    "focused_rust_test": "PASS independent, dash_and_from, 0.781s",
+    "owner_report": "rust/artifacts/illogic-default-dispatch-red-20261112/owner-live.json",
+    "owner_report_sha256": "ccc45c11d8779c24ce577972d18df3a4d5818439ce448aade4f0097080a88f77",
+    "owner_duration_seconds": 8.632,
+    "independent_report": "rust/artifacts/independent-illogic-default-20261112/live-comparison.json",
+    "independent_report_sha256": "034b2aa72af577cd9a297ef4699079c3e6762185e97ff262ec8dd2b258ddf3be",
+    "independent_summary": "rust/artifacts/independent-illogic-default-20261112/verification-summary.json",
+    "independent_summary_sha256": "4f40388aa0a22c6649ff11eacae971be3d9d1555d93eb49a96060d31ba679775",
+    "independent_duration_seconds": 8.822,
+    "focused_rust_tests": "5/5 owner and independent",
     "focused_harness_test": "1/1 PASS after missing-ID RED",
     "comparator_self_tests": "29/29 owner and independent",
     "oracle_integrity": "verified before/after",
     "accepted_scope_after_extension": {
       "capabilities": 158,
-      "cases": 1516,
-      "manifest_cases": 1518,
+      "cases": 1518,
+      "manifest_cases": 1520,
       "excluded_cases": 2
     },
-    "cumulative_gate": "STALE_BY_8_ACCEPTED_CASES; scheduled after two more verified default-dispatch extensions",
+    "cumulative_gate": "STALE_BY_10_ACCEPTED_CASES; scheduled after one more verified default-dispatch extension",
     "requested_model": "gpt-6-luna / low",
     "runtime_model_metadata": "unavailable"
   },
@@ -15122,7 +15203,7 @@
       "performance_scope": "fresh_process_cli_combined_selected_rules_only",
       "rss": "unavailable"
     },
-    "currentness": "Historical cumulative gate PASS 1508/1508. Current accepted scope is 1516/1518; stale by eight cases across three independently verified default-dispatch extensions."
+    "currentness": "Historical cumulative gate PASS 1508/1508. Current accepted scope is 1518/1520; stale by ten cases across four independently verified default-dispatch extensions."
   },
   "latest_default_dispatch_batch": {
     "status": "PASS",
@@ -15315,7 +15396,7 @@
     ],
     "claim_limit": "Selected rules and three workloads on one Linux x86_64 host; not whole-program or universal performance."
   },
-  "next_task": "Continue no-config default-dispatch case cycles; the cumulative gate and full harness suite are scheduled after two more independently verified extensions unless shared runtime behavior changes.",
+  "next_task": "Select and independently verify one more default-dispatch extension, then run the scheduled full release-profile cumulative gate and full harness suite against the exact 1522-case manifest.",
   "latest_default_dispatch_extension": {
     "status": "independently_verified",
     "scope": "Added two direct no-config default-dispatch cases to already implemented default-enabled rule.mondegreens; no production Rust code changed.",
@@ -16424,9 +16505,9 @@
   "current_source_attestation": {
     "status": "PASS",
     "validation_scope": "focused_candidate_build",
-    "source_fingerprint": "81e1d212e2df7c356cdbdff61b0b6cd2f426cd32b925cbed78ac776308eff6cf",
-    "attestation": "rust/artifacts/20261112T031357629812Z-build.attestation.json",
-    "attestation_sha256": "75a5b30cefddac54510d13e9347bcfabdfdd0e864084a2cff9b10c710470c177",
+    "source_fingerprint": "ee5db41947d2424a0d0c28b3b12bcaf9eb59936fc9c193206b5c7251b29278e7",
+    "attestation": "rust/artifacts/20261112T032928209527Z-build.attestation.json",
+    "attestation_sha256": "a80a2661e621f74eb16fe33621ba85f94343b08b34e56b0cb0d1712b8759431d",
     "binary_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb"
   },
   "latest_no_passwd_home_blocker_review": {
@@ -17459,6 +17540,42 @@
       "excluded_cases": 2
     },
     "cumulative_gate": "STALE_BY_8_ACCEPTED_CASES; scheduled after two more verified default-dispatch extensions",
+    "requested_model": "gpt-6-luna / low",
+    "runtime_model_metadata": "unavailable"
+  },
+  "latest_illogic_default_dispatch_acceptance": {
+    "status": "PASS",
+    "capability_id": "rule.misc.illogic",
+    "case_ids": [
+      "illogic_no_config_default_positive",
+      "illogic_no_config_clean_control"
+    ],
+    "cases_passed": 8,
+    "total_cases": 8,
+    "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+    "source_fingerprint": "ee5db41947d2424a0d0c28b3b12bcaf9eb59936fc9c193206b5c7251b29278e7",
+    "candidate_attestation": "rust/artifacts/20261112T032928209527Z-build.attestation.json",
+    "candidate_attestation_sha256": "a80a2661e621f74eb16fe33621ba85f94343b08b34e56b0cb0d1712b8759431d",
+    "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
+    "owner_report": "rust/artifacts/illogic-default-dispatch-red-20261112/owner-live.json",
+    "owner_report_sha256": "ccc45c11d8779c24ce577972d18df3a4d5818439ce448aade4f0097080a88f77",
+    "owner_duration_seconds": 8.632,
+    "independent_report": "rust/artifacts/independent-illogic-default-20261112/live-comparison.json",
+    "independent_report_sha256": "034b2aa72af577cd9a297ef4699079c3e6762185e97ff262ec8dd2b258ddf3be",
+    "independent_summary": "rust/artifacts/independent-illogic-default-20261112/verification-summary.json",
+    "independent_summary_sha256": "4f40388aa0a22c6649ff11eacae971be3d9d1555d93eb49a96060d31ba679775",
+    "independent_duration_seconds": 8.822,
+    "focused_rust_tests": "5/5 owner and independent",
+    "focused_harness_test": "1/1 PASS after missing-ID RED",
+    "comparator_self_tests": "29/29 owner and independent",
+    "oracle_integrity": "verified before/after",
+    "accepted_scope_after_extension": {
+      "capabilities": 158,
+      "cases": 1518,
+      "manifest_cases": 1520,
+      "excluded_cases": 2
+    },
+    "cumulative_gate": "STALE_BY_10_ACCEPTED_CASES; scheduled after one more verified default-dispatch extension",
     "requested_model": "gpt-6-luna / low",
     "runtime_model_metadata": "unavailable"
   }

@@ -48320,6 +48320,38 @@
       "config_scenario": "no_config_default",
       "workspace_mutates": false,
       "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "illogic_no_config_default_positive",
+      "capability_id": "rule.misc.illogic",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/illogic.py includes the case-insensitive `preplan` pattern and config/default.json enables misc. This implicit-default CLI case's exact output was observed from the pinned executable.",
+      "input_mode": "stdin",
+      "stdin_base64": "V2Ugc2hvdWxkIHByZXBsYW4gdGhlIGxhdW5jaC4=",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
+    },
+    {
+      "id": "illogic_no_config_clean_control",
+      "capability_id": "rule.misc.illogic",
+      "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/misc/illogic.py includes the case-insensitive `preplan` pattern and config/default.json enables misc. This implicit-default CLI case's clean output was observed from the pinned executable.",
+      "input_mode": "stdin",
+      "stdin_base64": "V2Ugc2hvdWxkIHBsYW4gdGhlIGxhdW5jaC4=",
+      "files": [],
+      "argv": ["check", "--output-format", "json"],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {"locale": "C.UTF-8"},
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {"stdout": "json", "stderr": "bytes", "exit_status": "exact"}
     }
   ]
 }

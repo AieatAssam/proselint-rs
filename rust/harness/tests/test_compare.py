@@ -3012,6 +3012,23 @@ class ComparatorTests(unittest.TestCase):
         self.assertIn("—", tense_inputs)
         self.assertIn("–", tense_inputs)
 
+    def test_illogic_default_dispatch_cases_use_implicit_configuration(self) -> None:
+        cases = {
+            case["id"]: case for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "rule.misc.illogic"
+            and case.get("config_scenario") == "no_config_default"
+        }
+        self.assertEqual(set(cases), {
+            "illogic_no_config_default_positive",
+            "illogic_no_config_clean_control",
+        })
+        for case in cases.values():
+            self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+            self.assertEqual(case["input_mode"], "stdin")
+            self.assertNotIn("config", case["argv"])
+        self.assertEqual(cases["illogic_no_config_default_positive"]["expected_oracle_outcome"], "findings")
+        self.assertEqual(cases["illogic_no_config_clean_control"]["expected_oracle_outcome"], "clean")
+
     @staticmethod
     def _valid_report() -> dict[str, object]:
         statuses = {"PASS", "MISMATCH", "NOT_IMPLEMENTED", "ORACLE_ERROR", "CANDIDATE_ERROR", "TIMEOUT", "BLOCKED"}

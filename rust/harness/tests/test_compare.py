@@ -2006,7 +2006,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1542)
+        self.assertEqual(len(case_ids), 1544)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -2015,7 +2015,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "6475de1f8ebd8def28de1990041f2f31e985e089b8dd06032b3eb649ea8612b4",
+            "eebf69eaf54da82eb11cc4c9249845bfa91da04dc437e30fc194dbeab90d85ff",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),
@@ -2599,7 +2599,7 @@ class ComparatorTests(unittest.TestCase):
                          [1000, 1000, 1000, 1000, 1000, 1000, 1, 2])
 
     def test_em_im_en_in_cases_select_only_registered_check(self) -> None:
-        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "spelling.em_im_en_in"]
+        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "spelling.em_im_en_in" and case.get("config_scenario") == "explicit_selected_rule"]
         self.assertEqual({case["id"] for case in cases}, {
             "spelling_em_im_en_in_all_mappings", "spelling_em_im_en_in_preferred_and_negative_controls",
             "spelling_em_im_en_in_mixed_case_repetition", "spelling_em_im_en_in_ascii_boundaries_and_embedded",
@@ -2612,6 +2612,32 @@ class ComparatorTests(unittest.TestCase):
             self.assertEqual(config["checks"], {"spelling": {"em_im_en_in": True}})
         self.assertEqual([json.loads(base64.b64decode(case["files"][0]["content_base64"]))["max_errors"] for case in cases],
                          [1000, 1000, 1000, 1000, 1000, 1000, 1, 2])
+
+    def test_em_im_en_in_default_dispatch_cases_use_isolated_no_config_contract(self) -> None:
+        expected = {
+            "spelling_em_im_en_in_no_config_imbark_default": (b"We shall imbark on a voyage.", "findings"),
+            "spelling_em_im_en_in_no_config_embark_control": (b"We shall embark on a voyage.", "clean"),
+        }
+        cases = {
+            case["id"]: case for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "spelling.em_im_en_in"
+            and case.get("config_scenario") == "no_config_default"
+        }
+        self.assertEqual(set(cases), set(expected))
+        for case_id, (text, outcome) in expected.items():
+            with self.subTest(case=case_id):
+                case = cases[case_id]
+                self.assertEqual(case["input_mode"], "stdin")
+                self.assertEqual(base64.b64decode(case["stdin_base64"]), text)
+                self.assertEqual(case["files"], [])
+                self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+                self.assertNotIn("--config", case["argv"])
+                self.assertEqual(case["config_scenario"], "no_config_default")
+                self.assertEqual(case["expected_oracle_outcome"], outcome)
+                self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
+                self.assertEqual(case["environment"], {"locale": "C.UTF-8"})
+                self.assertEqual(case["timeout_seconds"], 10)
+                compare.validate_case(case)
 
     def test_ally_ly_cases_select_only_registered_check(self) -> None:
         cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "rule.spelling.ally_ly"]

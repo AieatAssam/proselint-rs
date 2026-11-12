@@ -23459,6 +23459,58 @@
       "config_scenario": "explicit_selected_rule"
     },
     {
+      "id": "spelling_em_im_en_in_no_config_imbark_default",
+      "capability_id": "spelling.em_im_en_in",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/spelling/em_im_en_in.py maps imbark to embark, and tests/examples.py names “We shall imbark on a voyage.” This no-config case confirms default dispatch through the real CLI.",
+      "input_mode": "stdin",
+      "stdin_base64": "V2Ugc2hhbGwgaW1iYXJrIG9uIGEgdm95YWdlLg==",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
+      "id": "spelling_em_im_en_in_no_config_embark_control",
+      "capability_id": "spelling.em_im_en_in",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/spelling/em_im_en_in.py maps imbark to embark, and tests/examples.py names “We shall imbark on a voyage.” This no-config case confirms default dispatch through the real CLI.",
+      "input_mode": "stdin",
+      "stdin_base64": "V2Ugc2hhbGwgZW1iYXJrIG9uIGEgdm95YWdlLg==",
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ],
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      }
+    },
+    {
       "id": "spelling_athletes_form_01",
       "capability_id": "spelling.athletes",
       "provenance": "Pinned Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; live CLI oracle. Source item 'dwayne wade'; replacement 'Dwyane Wade' when defined.",

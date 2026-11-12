@@ -498,6 +498,32 @@ fn no_config_found_enables_spelling_consistency() {
 }
 
 #[test]
+fn no_config_found_enables_spelling_em_im_en_in() {
+    let positive = Workspace::new().run(b"imbark");
+    assert_eq!(
+        positive.status.code(),
+        Some(1),
+        "stderr: {:?}",
+        positive.stderr
+    );
+    assert_eq!(
+        positive.stdout,
+        b"<stdin>:1:1: spelling.em_im_en_in: em-, im-, en-, and in-. 'embark' is the preferred spelling.\n"
+    );
+    assert!(positive.stderr.is_empty(), "stderr: {:?}", positive.stderr);
+
+    let control = Workspace::new().run(b"embark");
+    assert_eq!(
+        control.status.code(),
+        Some(0),
+        "stderr: {:?}",
+        control.stderr
+    );
+    assert!(control.stdout.is_empty(), "stdout: {:?}", control.stdout);
+    assert!(control.stderr.is_empty(), "stderr: {:?}", control.stderr);
+}
+
+#[test]
 fn no_config_found_enables_illogic_collusion_and_ignores_near_matches() {
     let positive = Workspace::new().run(b"They acted without your collusion.");
     assert_eq!(

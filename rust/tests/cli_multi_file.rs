@@ -169,3 +169,34 @@ fn full_output_uses_resolved_path_for_missing_file_and_continues() {
         .as_bytes()
     );
 }
+
+#[cfg(unix)]
+#[test]
+fn json_continues_after_a_permission_denied_file() {
+    use std::os::unix::fs::PermissionsExt;
+
+    let workspace = Workspace::new();
+    let denied = workspace.path().join("denied.txt");
+    std::fs::write(&denied, two_findings()).expect("write denied source");
+    std::fs::set_permissions(&denied, std::fs::Permissions::from_mode(0o000))
+        .expect("make source unreadable");
+
+    let output = run(&workspace, "json", &["denied.txt", "a.txt"]);
+    assert_eq!(output.status.code(), Some(1), "stderr: {:?}", output.stderr);
+    assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
+    let actual: Value = serde_json::from_slice(&output.stdout).expect("valid JSON output");
+    assert_eq!(
+        actual,
+        json!({
+            "result": {
+                workspace.uri("denied.txt"): {
+                    "error": {
+                        "code": -31998,
+                        "message": format!("[Errno 13] Permission denied: '{}'", denied.display()),
+                    }
+                },
+                workspace.uri("a.txt"): {"diagnostics": [diagnostic()]},
+            }
+        })
+    );
+}

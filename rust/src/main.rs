@@ -2374,8 +2374,10 @@ fn run() -> Result<ExitCode, String> {
             ));
         }
         let mut per_file_override = None;
+        let matching_path =
+            path.map(|path| resolved_path(path).unwrap_or_else(|_| path.to_path_buf()));
         if !demo
-            && let Some(path) = path
+            && let Some(path) = matching_path.as_ref()
             && let Some(per_file_checks) = config_value
                 .get("per_file_checks")
                 .and_then(Value::as_object)
@@ -2757,6 +2759,23 @@ fn run() -> Result<ExitCode, String> {
                 Ok(content) => normalize_file_newlines(&content),
                 Err(error) if error.kind() == io::ErrorKind::NotFound => {
                     let message = format!("[Errno 2] No such file or directory: '{}'", full);
+                    if matches!(output_format, OutputFormat::Json) || max_errors_is_invalid {
+                        file_results.insert(
+                            source.clone(),
+                            serde_json::json!({"error":{"code":-31998,"message":message}}),
+                        );
+                    } else {
+                        let label = match output_format {
+                            OutputFormat::Full => &full,
+                            OutputFormat::Compact => &compact,
+                            OutputFormat::Json => unreachable!(),
+                        };
+                        eprintln!("Error encountered while linting {label}: {message}");
+                    }
+                    continue;
+                }
+                Err(error) if error.kind() == io::ErrorKind::PermissionDenied => {
+                    let message = format!("[Errno 13] Permission denied: '{}'", full);
                     if matches!(output_format, OutputFormat::Json) || max_errors_is_invalid {
                         file_results.insert(
                             source.clone(),
@@ -3399,13 +3418,19 @@ fn default_supported_checks(checks: &Value) -> Vec<SelectedCheck> {
 fn path_matches_pattern(path: &std::path::Path, pattern: &str) -> bool {
     let path_text = path.to_string_lossy();
     if pattern.contains('/') {
-        let path_text = path_text.trim_start_matches('/');
-        wildcard_match(path_text, pattern)
-            || path_text
-                .split('/')
-                .collect::<Vec<_>>()
-                .windows(pattern.split('/').count())
-                .any(|parts| wildcard_match(&parts.join("/"), pattern))
+        if pattern.starts_with('/') {
+            return wildcard_match(&path_text, pattern);
+        }
+        let path_parts = path_text
+            .trim_start_matches('/')
+            .split('/')
+            .collect::<Vec<_>>();
+        let pattern_parts = pattern.split('/').count();
+        path_parts.len() >= pattern_parts
+            && wildcard_match(
+                &path_parts[path_parts.len() - pattern_parts..].join("/"),
+                pattern,
+            )
     } else {
         path.file_name()
             .and_then(|name| name.to_str())
@@ -3432,7 +3457,7 @@ fn wildcard_match(text: &str, pattern: &str) -> bool {
                     return false;
                 }
                 let mut class = &pattern[1..end];
-                let negated = class.first().is_some_and(|ch| *ch == '!' || *ch == '^');
+                let negated = class.first().is_some_and(|ch| *ch == '!');
                 if negated {
                     class = &class[1..];
                 }
@@ -3470,13 +3495,15 @@ fn expand_input_paths(paths: &[PathBuf]) -> Vec<PathBuf> {
         let Ok(entries) = fs::read_dir(path) else {
             return;
         };
+        let mut directories = Vec::new();
+        let mut files = Vec::new();
         for entry in entries.flatten() {
             let child = entry.path();
             let Ok(file_type) = entry.file_type() else {
                 continue;
             };
             if file_type.is_dir() {
-                visit(&child, output);
+                directories.push(child);
             } else if file_type.is_symlink()
                 && fs::metadata(&child).is_ok_and(|metadata| metadata.is_dir())
             {
@@ -3486,8 +3513,12 @@ fn expand_input_paths(paths: &[PathBuf]) -> Vec<PathBuf> {
                 .and_then(|extension| extension.to_str())
                 .is_some_and(|extension| EXTENSIONS.contains(&extension))
             {
-                output.push(child);
+                files.push(child);
             }
+        }
+        output.extend(files);
+        for directory in directories {
+            visit(&directory, output);
         }
     }
 

@@ -12,7 +12,7 @@ Build the Rust CLI from the crate manifest:
 cargo build --release --manifest-path rust/Cargo.toml
 ```
 
-The binary is named `proselint`. The current CLI requires an explicit JSON configuration. For example, save this as `proselint.json` to enable the implemented `misc.suddenly` rule:
+The binary is named `proselint`. Without a configuration file, the CLI uses its bundled defaults. To override them, save a JSON configuration such as this as `proselint.json` to enable the `misc.suddenly` rule:
 
 ```json
 {

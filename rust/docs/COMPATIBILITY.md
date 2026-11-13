@@ -2,7 +2,9 @@
 
 `proselint-rs` tracks Python Proselint 0.16.0. It supports the Rust CLI and many of the same lint checks, but it is not a drop-in replacement in every environment or command.
 
-The current live comparison covers **1,464 accepted cases** across the CLI and lint rules. All accepted cases pass. **11 additional cases are excluded** because their behavior differs from or depends on the Python runtime. Full compatibility is not established.
+The current accepted scope is **1,560 of 1,562 cases** across the CLI and lint rules; two oracle-smoke cases are excluded. The latest full cumulative gate passed 1,550 cases, before the most recent accepted additions and CLI fixes, so a full gate is still due. Full compatibility is not established.
+
+Focused comparisons against the pinned Python CLI verify that directory scans report root-level files before descending into child directories, and that a permission-denied file is reported while scanning continues. Per-file check patterns match Python `Path.match`: absolute patterns work with relative CLI paths, slash-containing patterns match trailing path components, and `!` (not `^`) negates a character class.
 
 ## Known differences
 
@@ -10,5 +12,6 @@ The current live comparison covers **1,464 accepted cases** across the CLI and l
 - Version JSON and verbose output do not invent Python runtime details.
 - Demo JSON identifies the Rust program's bundled demo source rather than Python's installed source file.
 - Configuration discovery can differ when `HOME` is unset and the operating system has no passwd home entry.
+- SIGINT and SIGTERM handling has not been verified against Python Proselint.
 
 These differences affect specific CLI and environment cases; they do not mean that the lint rules are disabled. See the release notes for the version and compatibility scope of a particular build.

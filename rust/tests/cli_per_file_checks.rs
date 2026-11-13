@@ -61,6 +61,92 @@ fn matching_per_file_glob_disables_globally_enabled_annotation() {
     assert_eq!(source["diagnostics"], serde_json::json!([]));
 }
 
+#[test]
+fn absolute_per_file_glob_matches_a_relative_cli_path() {
+    let workspace = Workspace::new();
+    let pattern = workspace.0.join("*.txt");
+    fs::write(
+        workspace.0.join("selected config.json"),
+        format!(
+            r#"{{"max_errors":1000,"checks":{{"annotations":{{"misc":true}}}},"per_file_checks":{{"{}":{{"annotations":{{"misc":false}}}}}}}}"#,
+            pattern.display()
+        ),
+    )
+    .unwrap();
+    let output = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
+        .current_dir(&workspace.0)
+        .args([
+            "check",
+            "--config",
+            "selected config.json",
+            "--output-format",
+            "json",
+            "draft.txt",
+        ])
+        .stdin(Stdio::null())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .output()
+        .expect("run native CLI on absolute per-file glob");
+    assert_eq!(output.status.code(), Some(0), "stderr: {:?}", output.stderr);
+    assert!(output.stderr.is_empty());
+}
+
+#[test]
+fn caret_is_literal_in_per_file_glob_character_class() {
+    let output = run_with_config(
+        r#"{"max_errors":1000,"checks":{"annotations":{"misc":true}},"per_file_checks":{"[^a]*.txt":{"annotations":{"misc":false}}}}"#,
+        "beta.txt",
+        "TODO",
+    );
+    assert_eq!(output.status.code(), Some(1), "stderr: {:?}", output.stderr);
+    let value: Value = serde_json::from_slice(&output.stdout).unwrap();
+    let source = value["result"]
+        .as_object()
+        .unwrap()
+        .values()
+        .next()
+        .unwrap();
+    assert_eq!(source["diagnostics"].as_array().unwrap().len(), 1);
+}
+
+#[test]
+fn slash_glob_does_not_match_an_ancestor_path_window() {
+    let workspace = Workspace::new();
+    let nested = workspace.0.join("parent/notes/file.txt");
+    fs::create_dir_all(&nested).unwrap();
+    fs::write(nested.join("child.txt"), "TODO").unwrap();
+    fs::write(
+        workspace.0.join("selected config.json"),
+        br#"{"max_errors":1000,"checks":{"annotations":{"misc":true}},"per_file_checks":{"parent/notes/*.txt":{"annotations":{"misc":false}}}}"#,
+    )
+    .unwrap();
+    let output = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
+        .current_dir(&workspace.0)
+        .args([
+            "check",
+            "--config",
+            "selected config.json",
+            "--output-format",
+            "json",
+            "parent/notes/file.txt/child.txt",
+        ])
+        .stdin(Stdio::null())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .output()
+        .expect("run native CLI on nested path");
+    assert_eq!(output.status.code(), Some(1), "stderr: {:?}", output.stderr);
+    let value: Value = serde_json::from_slice(&output.stdout).unwrap();
+    let source = value["result"]
+        .as_object()
+        .unwrap()
+        .values()
+        .next()
+        .unwrap();
+    assert_eq!(source["diagnostics"].as_array().unwrap().len(), 1);
+}
+
 fn run_with_config(config: &str, source_name: &str, source_text: &str) -> std::process::Output {
     run_with_config_format(config, source_name, source_text, Some("json"))
 }

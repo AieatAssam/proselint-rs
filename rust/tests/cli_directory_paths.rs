@@ -85,3 +85,36 @@ fn directory_recursively_lints_accepted_extensions_with_per_file_limits() {
         }})
     );
 }
+
+#[test]
+fn full_directory_output_lists_root_files_before_descendants() {
+    let workspace = Workspace::new();
+    std::fs::write(workspace.0.join("z-root.txt"), two_findings()).unwrap();
+    let output = Command::new(env!("CARGO_BIN_EXE_proselint-rs"))
+        .current_dir(&workspace.0)
+        .args([
+            "check",
+            "--config",
+            "config.json",
+            "--output-format",
+            "full",
+            ".",
+        ])
+        .stdin(Stdio::null())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .output()
+        .expect("run native CLI");
+    assert_eq!(output.status.code(), Some(1), "stderr: {:?}", output.stderr);
+    assert!(output.stderr.is_empty(), "stderr: {:?}", output.stderr);
+    assert_eq!(
+        output.stdout,
+        format!(
+            "{}:1:20: misc.apologizing: Excessive apologizing.\n{}:1:20: misc.apologizing: Excessive apologizing.\n{}:1:20: misc.apologizing: Excessive apologizing.\n",
+            workspace.0.join("z-root.txt").display(),
+            workspace.0.join("nested/first.txt").display(),
+            workspace.0.join("nested/deeper/second.md").display(),
+        )
+        .as_bytes()
+    );
+}

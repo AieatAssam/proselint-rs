@@ -436,12 +436,20 @@ pub(crate) const QUOTES: [char; 6] = ['"', '\'', '“', '”', '‘', '’'];
 pub(crate) const SEPARATORS: &str = " ,.!?:;-\r\n";
 
 /// Format an absolute local path as a `file:` URI, escaping bytes as Python's
-/// `Path.as_uri()` does for the ASCII paths supported by the CLI.
+/// `Path.as_uri()` does.
 pub fn file_uri(path: &Path) -> Result<String, std::io::Error> {
     let absolute = path.canonicalize()?;
-    let bytes = absolute.to_string_lossy();
+    #[cfg(unix)]
+    let bytes = {
+        use std::os::unix::ffi::OsStrExt;
+        absolute.as_os_str().as_bytes()
+    };
+    #[cfg(not(unix))]
+    let lossy = absolute.to_string_lossy();
+    #[cfg(not(unix))]
+    let bytes = lossy.as_bytes();
     let mut uri = String::from("file://");
-    for byte in bytes.as_bytes() {
+    for byte in bytes {
         if byte.is_ascii_alphanumeric() || b"/-._~".contains(byte) {
             uri.push(char::from(*byte));
         } else {

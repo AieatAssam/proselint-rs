@@ -111,6 +111,46 @@ fn caret_is_literal_in_per_file_glob_character_class() {
 }
 
 #[test]
+fn per_file_globs_follow_python_path_match_normalization() {
+    for (pattern, source) in [
+        ("./*.txt", "draft.txt"),
+        ("./a/*.txt", "a/draft.txt"),
+        ("a//*.txt", "a/draft.txt"),
+        ("a/*.txt/", "a/draft.txt"),
+        ("[]a]*.txt", "]draft.txt"),
+        ("[!]]*.txt", "adraft.txt"),
+        ("[-a].txt", "a.txt"),
+    ] {
+        let config = serde_json::json!({
+            "max_errors": 1000,
+            "checks": {"annotations": {"misc": true}},
+            "per_file_checks": {pattern: {"annotations": {"misc": false}}}
+        })
+        .to_string();
+        let output = run_with_config(&config, source, "TODO");
+        assert_eq!(
+            output.status.code(),
+            Some(0),
+            "pattern {pattern:?}, source {source:?}, stderr: {:?}",
+            output.stderr
+        );
+    }
+}
+
+#[cfg(windows)]
+#[test]
+fn windows_per_file_glob_accepts_backslash_separators() {
+    let config = serde_json::json!({
+        "max_errors": 1000,
+        "checks": {"annotations": {"misc": true}},
+        "per_file_checks": {r"sub\*.txt": {"annotations": {"misc": false}}}
+    })
+    .to_string();
+    let output = run_with_config(&config, "sub/draft.txt", "TODO");
+    assert_eq!(output.status.code(), Some(0), "stderr: {:?}", output.stderr);
+}
+
+#[test]
 fn slash_glob_does_not_match_an_ancestor_path_window() {
     let workspace = Workspace::new();
     let nested = workspace.0.join("parent/notes/file.txt");
@@ -159,7 +199,9 @@ fn run_with_config_format(
 ) -> std::process::Output {
     let workspace = Workspace::new();
     fs::write(workspace.0.join("selected config.json"), config).unwrap();
-    fs::write(workspace.0.join(source_name), source_text).unwrap();
+    let source_path = workspace.0.join(source_name);
+    fs::create_dir_all(source_path.parent().unwrap()).unwrap();
+    fs::write(source_path, source_text).unwrap();
     let mut command = Command::new(env!("CARGO_BIN_EXE_proselint-rs"));
     command
         .current_dir(&workspace.0)

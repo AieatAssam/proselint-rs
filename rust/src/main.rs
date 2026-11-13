@@ -48,9 +48,9 @@ use proselint_rs::{
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::{HashSet, VecDeque};
-use std::ffi::OsString;
+use std::ffi::{OsStr, OsString};
 use std::fs;
-use std::io::{self, Read};
+use std::io::{self, Read, Write};
 use std::path::PathBuf;
 use std::process::ExitCode;
 use std::sync::OnceLock;
@@ -2656,25 +2656,27 @@ fn run() -> Result<ExitCode, String> {
             OutputFormat::Json => Some(json_result(source, diagnostics)["result"][source].clone()),
             OutputFormat::Full => {
                 for diagnostic in diagnostics {
-                    println!(
-                        "{full_source}:{}:{}: {}: {}",
+                    let suffix = format!(
+                        ":{}:{}: {}: {}\n",
                         diagnostic["pos"][0].as_u64().unwrap_or_default(),
                         diagnostic["pos"][1].as_u64().unwrap_or_default(),
                         diagnostic["check_path"].as_str().unwrap_or_default(),
                         diagnostic["message"].as_str().unwrap_or_default(),
                     );
+                    write_lint_line(path, full_source, false, &suffix)?;
                 }
                 None
             }
             OutputFormat::Compact => {
                 for diagnostic in diagnostics {
-                    println!(
-                        "{compact_source}:{}:{}: {}: {}",
+                    let suffix = format!(
+                        ":{}:{}: {}: {}\n",
                         diagnostic["pos"][0].as_u64().unwrap_or_default(),
                         diagnostic["pos"][1].as_u64().unwrap_or_default(),
                         diagnostic["check_path"].as_str().unwrap_or_default(),
                         diagnostic["message"].as_str().unwrap_or_default()
                     );
+                    write_lint_line(path, compact_source, true, &suffix)?;
                 }
                 None
             }
@@ -2723,15 +2725,9 @@ fn run() -> Result<ExitCode, String> {
             let source = match file_uri_or_missing(path) {
                 Ok(source) => source,
                 Err(error) if error.to_string() == "symbolic link loop while resolving path" => {
-                    let absolute = if path.is_absolute() {
-                        path.to_path_buf()
-                    } else {
-                        std::env::current_dir()
-                            .map_err(|error| {
-                                format!("Could not resolve '{}': {error}", path.display())
-                            })?
-                            .join(path)
-                    };
+                    let absolute = lexical_absolute_path(path).map_err(|error| {
+                        format!("Could not resolve '{}': {error}", path.display())
+                    })?;
                     let message = format!("Symlink loop from '{}'", absolute.display());
                     if matches!(output_format, OutputFormat::Json) {
                         println!(
@@ -3254,6 +3250,7 @@ fn supported_checks(checks: &Value) -> Option<Vec<SelectedCheck>> {
 }
 
 fn main() -> ExitCode {
+    install_signal_handlers();
     match run() {
         Ok(code) => code,
         Err(message) => {
@@ -3261,6 +3258,71 @@ fn main() -> ExitCode {
             ExitCode::from(4)
         }
     }
+}
+
+fn write_lint_line(
+    path: Option<&PathBuf>,
+    fallback_label: &str,
+    compact: bool,
+    suffix: &str,
+) -> Result<(), String> {
+    #[cfg(unix)]
+    if let Some(path) = path {
+        use std::os::unix::ffi::OsStrExt;
+
+        let path = resolved_path(path).unwrap_or_else(|_| path.to_path_buf());
+        let label = if compact {
+            path.file_name().unwrap_or(OsStr::new("<stdin>"))
+        } else {
+            path.as_os_str()
+        };
+        let mut stdout = io::stdout().lock();
+        stdout
+            .write_all(label.as_bytes())
+            .and_then(|()| stdout.write_all(suffix.as_bytes()))
+            .map_err(|error| format!("Could not write lint output: {error}"))?;
+    } else {
+        print!("{fallback_label}{suffix}");
+    }
+    #[cfg(not(unix))]
+    print!("{fallback_label}{suffix}");
+    Ok(())
+}
+
+#[cfg(unix)]
+fn install_signal_handlers() {
+    unsafe {
+        let handler = interrupt_handler as *const () as libc::sighandler_t;
+        libc::signal(libc::SIGTERM, handler);
+        libc::signal(libc::SIGINT, handler);
+    }
+}
+
+#[cfg(not(unix))]
+fn install_signal_handlers() {}
+
+#[cfg(unix)]
+extern "C" fn interrupt_handler(signal: libc::c_int) {
+    let message: &[u8] = match signal {
+        libc::SIGTERM => b"\nExiting (received SIGTERM 15).\n",
+        libc::SIGINT => b"\nExiting (received SIGINT 2).\n",
+        _ => return,
+    };
+    let mut remaining = message;
+    while !remaining.is_empty() {
+        let written = unsafe {
+            libc::write(
+                libc::STDERR_FILENO,
+                remaining.as_ptr().cast(),
+                remaining.len(),
+            )
+        };
+        if written <= 0 {
+            break;
+        }
+        remaining = &remaining[written as usize..];
+    }
+    unsafe { libc::_exit(3) }
 }
 
 fn flatten_checks(
@@ -3416,25 +3478,40 @@ fn default_supported_checks(checks: &Value) -> Vec<SelectedCheck> {
 }
 
 fn path_matches_pattern(path: &std::path::Path, pattern: &str) -> bool {
+    #[cfg(windows)]
+    let path_text = path.to_string_lossy().replace('\\', "/");
+    #[cfg(not(windows))]
     let path_text = path.to_string_lossy();
-    if pattern.contains('/') {
-        if pattern.starts_with('/') {
-            return wildcard_match(&path_text, pattern);
-        }
-        let path_parts = path_text
-            .trim_start_matches('/')
-            .split('/')
-            .collect::<Vec<_>>();
-        let pattern_parts = pattern.split('/').count();
-        path_parts.len() >= pattern_parts
-            && wildcard_match(
-                &path_parts[path_parts.len() - pattern_parts..].join("/"),
-                pattern,
-            )
-    } else {
+    #[cfg(windows)]
+    let pattern_text = pattern.replace('\\', "/");
+    #[cfg(not(windows))]
+    let pattern_text = pattern.to_owned();
+
+    let absolute = std::path::Path::new(pattern).is_absolute();
+    let pattern_parts = pattern_text
+        .split('/')
+        .filter(|part| !part.is_empty() && *part != ".")
+        .collect::<Vec<_>>();
+    if pattern_parts.is_empty() {
+        return false;
+    }
+    let path_parts = path_text
+        .trim_start_matches('/')
+        .split('/')
+        .collect::<Vec<_>>();
+    if absolute {
+        path_parts.len() == pattern_parts.len()
+            && wildcard_match(&path_parts.join("/"), &pattern_parts.join("/"))
+    } else if pattern_parts.len() == 1 {
         path.file_name()
             .and_then(|name| name.to_str())
-            .is_some_and(|name| wildcard_match(name, pattern))
+            .is_some_and(|name| wildcard_match(name, pattern_parts[0]))
+    } else {
+        path_parts.len() >= pattern_parts.len()
+            && wildcard_match(
+                &path_parts[path_parts.len() - pattern_parts.len()..].join("/"),
+                &pattern_parts.join("/"),
+            )
     }
 }
 
@@ -3448,12 +3525,23 @@ fn wildcard_match(text: &str, pattern: &str) -> bool {
             }),
             Some('?') => !text.is_empty() && text[0] != '/' && matches(&text[1..], &pattern[1..]),
             Some('[') => {
-                let Some(end) = pattern.iter().position(|ch| *ch == ']') else {
+                let mut end_start = 1;
+                if pattern.get(end_start) == Some(&'!') {
+                    end_start += 1;
+                }
+                if pattern.get(end_start) == Some(&']') {
+                    end_start += 1;
+                }
+                let Some(end) = pattern[end_start..]
+                    .iter()
+                    .position(|ch| *ch == ']')
+                    .map(|offset| end_start + offset)
+                else {
                     return !text.is_empty()
                         && text[0] == '['
                         && matches(&text[1..], &pattern[1..]);
                 };
-                if text.is_empty() || text[0] == '/' || end == 1 {
+                if text.is_empty() || text[0] == '/' {
                     return false;
                 }
                 let mut class = &pattern[1..end];
@@ -3461,15 +3549,17 @@ fn wildcard_match(text: &str, pattern: &str) -> bool {
                 if negated {
                     class = &class[1..];
                 }
-                let contains = class.iter().enumerate().any(|(index, ch)| {
+                let mut contains = false;
+                let mut index = 0;
+                while index < class.len() {
                     if index + 2 < class.len() && class[index + 1] == '-' {
-                        *ch <= text[0] && text[0] <= class[index + 2]
-                    } else if index > 0 && class[index - 1] == '-' {
-                        false
+                        contains |= class[index] <= text[0] && text[0] <= class[index + 2];
+                        index += 3;
                     } else {
-                        *ch == text[0]
+                        contains |= class[index] == text[0];
+                        index += 1;
                     }
-                });
+                }
                 (contains != negated) && matches(&text[1..], &pattern[end + 1..])
             }
             Some(ch) => !text.is_empty() && text[0] == *ch && matches(&text[1..], &pattern[1..]),
@@ -3623,4 +3713,23 @@ fn resolved_path(path: &std::path::Path) -> Result<PathBuf, io::Error> {
     }
 
     Ok(resolved)
+}
+
+fn lexical_absolute_path(path: &std::path::Path) -> Result<PathBuf, io::Error> {
+    let absolute = if path.is_absolute() {
+        path.to_path_buf()
+    } else {
+        std::env::current_dir()?.join(path)
+    };
+    let mut normalized = PathBuf::new();
+    for component in absolute.components() {
+        match component {
+            std::path::Component::CurDir => {}
+            std::path::Component::ParentDir => {
+                normalized.pop();
+            }
+            _ => normalized.push(component.as_os_str()),
+        }
+    }
+    Ok(normalized)
 }

@@ -1,10 +1,8 @@
 # Compatibility
 
-`proselint-rs` tracks Python Proselint 0.16.0. It supports the Rust CLI and many of the same lint checks, but it is not a drop-in replacement in every environment or command.
+`proselint-rs` tracks Python Proselint 0.16.0. The functional CLI conversion is complete for the verified Unix scope: all 106 unique registered rule paths are implemented, and the current release gate passes **1,560/1,560 accepted cases across 158 capabilities**. The manifest contains 1,562 cases; two oracle-smoke cases are excluded. This does not claim byte-for-byte parity for Python runtime identity or unverified platforms.
 
-The current accepted scope is **1,560 of 1,562 cases** across the CLI and lint rules; two oracle-smoke cases are excluded. The latest full cumulative gate passed 1,550 cases, before the most recent accepted additions and CLI fixes, so a full gate is still due. Full compatibility is not established.
-
-Focused comparisons against the pinned Python CLI verify that directory scans report root-level files before descending into child directories, and that a permission-denied file is reported while scanning continues. On Unix, SIGINT and SIGTERM print Python-compatible warnings and exit with status 3. Per-file check patterns normalize dot/repeated/trailing separators, match slash-containing patterns against trailing path components, and follow Python character-class rules (`!` negates; `^` is literal; a leading `]` can be included in a class). Absolute patterns also match normalized paths. Unix non-UTF-8 filenames retain their bytes in JSON file URIs and Full/Compact output labels.
+The gate and full Python harness suite pass on the current source fingerprint. Focused comparisons also verify directory traversal order, continuation after unreadable files, Unix SIGINT/SIGTERM behavior, pathlib-style per-file glob matching, symlink-loop paths, and Unix non-UTF-8 filenames in JSON, Full, and Compact output.
 
 ## Known differences
 
@@ -12,7 +10,7 @@ Focused comparisons against the pinned Python CLI verify that directory scans re
 - Version JSON and verbose output do not invent Python runtime details.
 - Demo JSON identifies the Rust program's bundled demo source rather than Python's installed source file.
 - Configuration discovery can differ when `HOME` is unset and the operating system has no passwd home entry.
-- Windows per-file glob separator behavior has a regression test but was not run against a Windows Python/Rust environment.
+- Windows signal handling is not implemented; Windows per-file glob separator behavior has a regression test but was not run against a Windows Python/Rust environment.
 - Per-file error messages for filenames containing non-UTF-8 bytes remain unverified; JSON URIs and Full/Compact finding labels are covered on Unix.
 
 These differences affect specific CLI and environment cases; they do not mean that the lint rules are disabled. See the release notes for the version and compatibility scope of a particular build.

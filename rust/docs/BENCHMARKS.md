@@ -1,24 +1,22 @@
 # Python and Rust benchmark
 
-## Current verified candidate (2026-11-12 UTC)
+## Current verified candidate (2026-11-14 UTC)
 
-The full release-profile cumulative gate passed **1,550/1,550 accepted cases across 158 capabilities** with zero mismatches, candidate/oracle errors, timeouts, or blocked cases. The manifest contains 1,552 cases, including two explicit oracle-smoke exclusions. The gate passed **941 Rust tests across 146 test-result groups** and all **29 comparator self-tests**. The full harness suite passed **189/189** in **91.172s**, including runtime-independence. The pinned baseline is Proselint 0.16.0 at revision `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`. Candidate release binary SHA-256: `19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb`; source fingerprint: `ab4439de79976ce941a6868acdf06ef6d2acaa49e6315e7128680f372aa73d18`.
+The full release-profile gate passed **1,560/1,560 accepted cases across 158 capabilities**, with zero mismatches, timeouts, candidate/oracle errors, or blockers. The manifest contains 1,562 cases; two oracle-smoke cases are excluded. The gate passed **959 Rust tests across 150 test-result groups** and **29 comparator self-tests**. The full Python harness suite passed **194/194**, including runtime-independence. The baseline is pinned Proselint 0.16.0 at revision `dbed789caae662d06c7c8a5a13dd31f1acd36f5c`. Candidate release binary SHA-256: `7a2f3de6cc2ac90b1f6846434123ae7a32749d5b568874acb9a616b7ce1eb07e`; source fingerprint: `bf312b100e8142fc2a6888e2c8d909b4a0ef141f960ca87464737df7ef60d585`.
 
-A bounded combined selected-rule benchmark followed the parity gate. Its live preflight passed **3/3**; it ran 25 paired fresh-process samples per workload after three warmups, with a 600-second overall deadline. It covers only `misc.suddenly` and `psychology.p_equals_zero`, not bundled defaults or the full program.
+The combined selected-rule benchmark passed its exact live preflight **3/3** and collected 25 paired fresh-process samples per workload after three warmups. It measures only `misc.suddenly` and `psychology.p_equals_zero`, not bundled defaults or the full program.
 
-| Workload | Input | Python median | Rust median | Paired median ratio |
+| Workload | Input | Python median | Rust median | Median speedup |
 | --- | ---: | ---: | ---: | ---: |
-| Small authored positive | 82 B | 188.440 ms | 4.339 ms | 43.27× |
-| Ordinary generated | 9,280 B | 201.022 ms | 6.779 ms | 29.79× |
-| Dense generated | 6,400 B | 232.637 ms | 14.114 ms | 16.76× |
+| Small authored positive | 82 B | 199.746 ms | 4.750 ms | 42.05× |
+| Ordinary generated prose | 9,280 B | 211.798 ms | 7.451 ms | 28.43× |
+| Dense generated triggers | 6,400 B | 262.532 ms | 15.356 ms | 17.10× |
 
-Gate stages took 2.405s for oracle integrity, 0.149s for comparator self-tests, 327.979s for Rust checks/tests/build, and 1,045.384s for live comparison. Benchmark stages took 3.317s for setup/build, 10.068s for exact parity preflight, and 22.669s for measurements. The baseline executable uses Python 3.12.3; the host was Linux x86_64 with four reported CPUs; Rust toolchain was 1.99.1. Per-process RSS was unavailable. `cargo update --dry-run` reported zero compatible dependency updates and left the lockfile unchanged.
+Gate stages took 1.653s for oracle integrity, 0.122s for comparator self-tests, 69.708s for Rust checks/tests/build, and 1,051.102s for live comparison. Benchmark stages took 3.061s for setup/build, 6.996s for exact parity preflight, and 24.494s for measurements. The host was Linux x86_64 with four reported CPUs; Rust toolchain was 1.99.1. Per-process RSS was unavailable.
 
-Gate report: [`five-default-dispatch-extension-gate-20261112-final.json`](../artifacts/five-default-dispatch-extension-gate-20261112-final.json), SHA-256 `bd11b987d0ae9df2e50c516eb47aedc36c1b1da39b511ceff1706a2588ed8c06`. Benchmark report: [`five-default-dispatch-combined-benchmark-20261112.json`](../artifacts/five-default-dispatch-combined-benchmark-20261112.json), SHA-256 `3bb270e4721f4178e1b0d1cdd365e2c9ac9444165506d70ae84f50a1a03cdfd3`.
+Gate report: [`closeout-gate-final-20261114.json`](../artifacts/closeout-gate-final-20261114.json), SHA-256 `f2a606aecacac1cb953093253f6b8a9ec9561d085a16d6635abdd3384c9c3fe0`. Benchmark report: [`closeout-benchmark-final-20261114.json`](../artifacts/closeout-benchmark-final-20261114.json), SHA-256 `04349a3dae40ebd2d916ff27ed49753377870cdef47182edfce6a877a4e99d26`. Harness log: [`full-harness-suite-closeout-20261114.log`](../artifacts/full-harness-suite-closeout-20261114.log), SHA-256 `68fc0bf7c754341e33cb2e8b948d668ec64bed8e3b56278fc81f70249bf3ba30`.
 
-These are per-workload selected-rule observations. They do not establish a whole-program or universal speed improvement. Compatibility remains partial: preserve the version-flag divergence, remaining CLI gaps, and two exclusions.
-
-After that gate and benchmark, the `spelling.ally_ly`, `spelling.ve_of`, `redundancy.misc.wallace`, and `malapropisms` default-dispatch test extensions added eight accepted cases without changing production Rust behavior or the release binary. Owner and independent live comparisons passed 12/12, 13/13, 12/12, and 12/12 respectively; current accepted scope is 1,558/1,560. The gate and benchmark above retain their exact 1,550-case scope and source fingerprint. The next cumulative gate is due after one additional independently verified extension, or sooner after shared behavior changes.
+These are selected-workload observations. They do not establish a whole-program speed improvement. Functional CLI conversion is complete for the accepted Unix scope; intentional Python runtime-identity differences, two oracle-smoke exclusions, and unverified Windows behavior remain documented.
 
 ## Previous verified candidate benchmark (2026-11-12 before five-extension checkpoint)
 

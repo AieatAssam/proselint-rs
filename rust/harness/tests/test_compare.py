@@ -22,6 +22,36 @@ import setup_oracle
 
 
 class ComparatorTests(unittest.TestCase):
+    def test_skunked_terms_no_config_default_dispatch_contract(self) -> None:
+        expected = {
+            "skunked_terms_no_config_impassionate_default": (
+                "I gave an impassionate defence of the situation.", "findings"
+            ),
+            "skunked_terms_no_config_impassioned_control": (
+                "I gave an impassioned defence of the situation.", "clean"
+            ),
+        }
+        cases = {
+            case["id"]: case for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "rule.skunked_terms"
+            and case.get("config_scenario") == "no_config_default"
+        }
+        self.assertEqual(set(cases), set(expected))
+        for case_id, (text, outcome) in expected.items():
+            with self.subTest(case=case_id):
+                case = cases[case_id]
+                self.assertEqual(case["input_mode"], "stdin")
+                self.assertEqual(base64.b64decode(case["stdin_base64"]).decode(), text)
+                self.assertEqual(case["files"], [])
+                self.assertEqual(case["argv"], ["check", "--output-format", "json"])
+                self.assertNotIn("--config", case["argv"])
+                self.assertEqual(case["config_scenario"], "no_config_default")
+                self.assertEqual(case["expected_oracle_outcome"], outcome)
+                self.assertEqual(case["timeout_seconds"], 10)
+                self.assertEqual(case["environment"], {"locale": "C.UTF-8"})
+                self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
+                compare.validate_case(case)
+
     def test_wallace_no_config_default_dispatch_contract(self) -> None:
         expected = {
             "wallace_no_config_rectangular_in_shape_default": (
@@ -2088,7 +2118,7 @@ class ComparatorTests(unittest.TestCase):
         manifest = compare.load_manifest()
         self.assertEqual(manifest["schema_version"], 1)
         case_ids = [case["id"] for case in manifest["cases"]]
-        self.assertEqual(len(case_ids), 1560)
+        self.assertEqual(len(case_ids), 1562)
         self.assertEqual(len(set(case_ids)), len(case_ids))
         self.assertEqual(
             hashlib.sha256("".join(
@@ -2097,7 +2127,7 @@ class ComparatorTests(unittest.TestCase):
                     (case["id"], case["capability_id"]) for case in manifest["cases"]
                 )
             ).encode()).hexdigest(),
-            "ae1b51f11262273fe837c14585fdd8325710f01c3432c5bbe33d2dc6249ef8ec",
+            "c558b8489c1b153f625679731086f29e831b858d69f639384560519b3034a386",
         )
         self.assertEqual(
             sum(case["capability_id"] == "cli.config.no_config_default" for case in manifest["cases"]),
@@ -2532,7 +2562,11 @@ class ComparatorTests(unittest.TestCase):
                 self.assertEqual(case["comparison"], {"stdout": "json", "stderr": "bytes", "exit_status": "exact"})
 
     def test_skunked_terms_cases_select_only_registered_check(self) -> None:
-        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "rule.skunked_terms"]
+        cases = [
+            case for case in compare.load_manifest()["cases"]
+            if case["capability_id"] == "rule.skunked_terms"
+            and case.get("config_scenario") != "no_config_default"
+        ]
         self.assertEqual({case["id"] for case in cases}, {
             "skunked_terms_all_standard", "skunked_terms_thankfully_word_boundary",
             "skunked_terms_thankfully_end_clean", "skunked_terms_thankfully_space_clean",
@@ -2774,7 +2808,7 @@ class ComparatorTests(unittest.TestCase):
                 compare.validate_case(case)
 
     def test_ally_ly_cases_select_only_registered_check(self) -> None:
-        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "rule.spelling.ally_ly"]
+        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "rule.spelling.ally_ly" and case["files"]]
         self.assertEqual({case["id"] for case in cases}, {
             "spelling_ally_ly_all_mappings",
             "spelling_ally_ly_case_and_repetition",
@@ -2867,7 +2901,7 @@ class ComparatorTests(unittest.TestCase):
                 compare.validate_case(case)
 
     def test_ve_of_cases_select_only_registered_check(self) -> None:
-        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "rule.spelling.ve_of"]
+        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "rule.spelling.ve_of" and case["files"]]
         self.assertEqual({case["id"] for case in cases}, {
             "spelling_ve_of_all_mappings", "spelling_ve_of_case_and_repetition",
             "spelling_ve_of_clean_and_word_boundaries", "spelling_ve_of_raw_occurrences_after_activation",
@@ -2886,7 +2920,7 @@ class ComparatorTests(unittest.TestCase):
         )
 
     def test_malapropisms_cases_select_only_registered_check(self) -> None:
-        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "rule.malapropisms"]
+        cases = [case for case in compare.load_manifest()["cases"] if case["capability_id"] == "rule.malapropisms" and case["files"]]
         self.assertEqual({case["id"] for case in cases}, {
             "malapropisms_all_phrases", "malapropisms_mixed_case_repetition",
             "malapropisms_clean_and_boundaries", "malapropisms_raw_after_activation",

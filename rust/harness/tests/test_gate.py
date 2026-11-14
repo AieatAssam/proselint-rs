@@ -94,7 +94,7 @@ class GateTests(unittest.TestCase):
         records = [{"command": command, "exit_code": 0} for command in [
             [str(cargo), "fmt", "--manifest-path", str(manifest), "--check"],
             [str(cargo), "clippy", "--manifest-path", str(manifest), "--all-targets", "--", "-D", "warnings"],
-            [str(cargo), "test", "--locked", "--manifest-path", str(manifest)],
+            [str(cargo), "test", "--release", "--locked", "--manifest-path", str(manifest)],
             expected_build,
         ]]
         self.assertEqual(gate.missing_gate_attestation_checks({"build_commands": records}, cargo, manifest, profile="release"), [])

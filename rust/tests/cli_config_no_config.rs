@@ -768,3 +768,29 @@ fn no_config_found_enables_malapropisms() {
     assert!(control.stdout.is_empty(), "stdout: {:?}", control.stdout);
     assert!(control.stderr.is_empty(), "stderr: {:?}", control.stderr);
 }
+
+#[test]
+fn no_config_found_enables_skunked_terms() {
+    let positive = Workspace::new().run(b"I gave an impassionate defence of the situation.");
+    assert_eq!(
+        positive.status.code(),
+        Some(1),
+        "stderr: {:?}",
+        positive.stderr
+    );
+    assert_eq!(
+        positive.stdout,
+        b"<stdin>:1:11: skunked_terms: 'impassionate' is a a skunked term - impossible to use without issue. Find some other way to say it.\n"
+    );
+    assert!(positive.stderr.is_empty(), "stderr: {:?}", positive.stderr);
+
+    let control = Workspace::new().run(b"I gave an impassioned defence of the situation.");
+    assert_eq!(
+        control.status.code(),
+        Some(0),
+        "stderr: {:?}",
+        control.stderr
+    );
+    assert!(control.stdout.is_empty(), "stdout: {:?}", control.stdout);
+    assert!(control.stderr.is_empty(), "stderr: {:?}", control.stderr);
+}

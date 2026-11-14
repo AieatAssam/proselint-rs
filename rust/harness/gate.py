@@ -126,7 +126,7 @@ def build_commands(cargo: Path, manifest: Path, *, focused_candidate_build: bool
     return [
         [str(cargo), "fmt", "--manifest-path", str(manifest), "--check"],
         [str(cargo), "clippy", "--manifest-path", str(manifest), "--all-targets", "--", "-D", "warnings"],
-        [str(cargo), "test", "--locked", "--manifest-path", str(manifest)],
+        [str(cargo), "test", *( ["--release"] if profile == "release" else []), "--locked", "--manifest-path", str(manifest)],
         build,
     ]
 
@@ -226,7 +226,7 @@ def build_and_attest(candidate_json: str | None, *, focused_candidate_build: boo
         "cargo_version": version,
         "rustc_version": rustc,
         "toolchain": channel,
-        "cargo_test_opt_level": env["CARGO_PROFILE_TEST_OPT_LEVEL"],
+        "cargo_test_opt_level": "3 (release profile)" if profile == "release" else env["CARGO_PROFILE_TEST_OPT_LEVEL"],
         "build_commands": build_runs,
         "build_exit_code": 0,
     }
@@ -273,7 +273,7 @@ def missing_gate_attestation_checks(attestation: dict[str, Any], cargo: Path, ma
     requirements = {
         "fmt --check": lambda command: command == [cargo_path, "fmt", "--manifest-path", manifest_path, "--check"] or command == [cargo_path, "--locked", "fmt", "--manifest-path", manifest_path, "--check"],
         "clippy -D warnings": lambda command: command == [cargo_path, "clippy", "--manifest-path", manifest_path, "--all-targets", "--", "-D", "warnings"] or command == [cargo_path, "--locked", "clippy", "--manifest-path", manifest_path, "--all-targets", "--", "-D", "warnings"],
-        "cargo test --locked": lambda command: command[0] == cargo_path and command[1:] == ["test", "--locked", "--manifest-path", manifest_path],
+        "cargo test --locked": lambda command: command[0] == cargo_path and command[1:] == ["test", *( ["--release"] if profile == "release" else []), "--locked", "--manifest-path", manifest_path],
         "cargo build --locked": lambda command: command == [cargo_path, "build", "--locked", *( ["--release"] if profile == "release" else []), "--manifest-path", manifest_path] or command == [cargo_path, "--locked", "build", *( ["--release"] if profile == "release" else []), "--manifest-path", manifest_path],
     }
     commands = [item["command"] for item in records]

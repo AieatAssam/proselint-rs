@@ -14041,19 +14041,19 @@
   ],
   "last_strict_gate": {
     "status": "PASS",
-    "run_id": "20261112T113316588062Z-08e105da",
-    "report": "rust/artifacts/five-default-dispatch-extension-gate-20261112-final.json",
-    "report_sha256": "bd11b987d0ae9df2e50c516eb47aedc36c1b1da39b511ceff1706a2588ed8c06",
-    "source_fingerprint": "ab4439de79976ce941a6868acdf06ef6d2acaa49e6315e7128680f372aa73d18",
-    "candidate_attestation": "rust/artifacts/20261112T112748707864Z-build.attestation.json",
-    "build_attestation": "rust/artifacts/20261112T112748707864Z-build.attestation.json",
-    "candidate_attestation_sha256": "1aa6766bb83467a2ec792a711c56bbf08eaf7a68047274c6ca621f925cff4ff1",
-    "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
-    "cargo_lock_sha256": "f8e4ad390ee6793c9e7e90d70c91ec8a6da39eb00cc87fe464dba1c91e1068fd",
+    "run_id": "20261114T000140811630Z-9bbed1a8",
+    "report": "rust/artifacts/closeout-gate-final-20261114.json",
+    "report_sha256": "f2a606aecacac1cb953093253f6b8a9ec9561d085a16d6635abdd3384c9c3fe0",
+    "source_fingerprint": "bf312b100e8142fc2a6888e2c8d909b4a0ef141f960ca87464737df7ef60d585",
+    "candidate_attestation": "rust/artifacts/20261114T000031177940Z-build.attestation.json",
+    "build_attestation": "rust/artifacts/20261114T000031177940Z-build.attestation.json",
+    "candidate_attestation_sha256": "647d5aedc0c420473f90c4898d3692647e4edb10ab2c07fca85971da77df733e",
+    "candidate_sha256": "7a2f3de6cc2ac90b1f6846434123ae7a32749d5b568874acb9a616b7ce1eb07e",
+    "cargo_lock_sha256": "38a045d9384a794eba2d2c67520cdfd0fa029e2eaa2e4945f9ffba7cf9e91b9f",
     "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
     "accepted_capability_count": 158,
-    "accepted_case_count": 1550,
-    "manifest_case_count": 1552,
+    "accepted_case_count": 1560,
+    "manifest_case_count": 1562,
     "excluded_case_count": 2,
     "counts": {
       "BLOCKED": 0,
@@ -14061,37 +14061,36 @@
       "MISMATCH": 0,
       "NOT_IMPLEMENTED": 0,
       "ORACLE_ERROR": 0,
-      "PASS": 1550,
+      "PASS": 1560,
       "TIMEOUT": 0
     },
     "comparator_self_tests": "29/29 PASS",
-    "rust_tests": "941/941 across 146 test-result groups; 0 failed",
+    "rust_tests": "959/959 across 150 test-result groups; 0 failed",
     "oracle_integrity": "PASS; pinned Proselint 0.16.0 source and executable hashes verified",
     "stage_durations_seconds": {
       "comparator_self_tests": {
         "check_count": 29,
-        "duration_seconds": 0.148677
+        "duration_seconds": 0.121632
       },
       "cumulative_live_comparison": {
         "capability_count": 158,
-        "case_count": 1550,
-        "duration_seconds": 1045.38392
+        "case_count": 1560,
+        "duration_seconds": 1051.102011
       },
       "oracle_integrity": {
-        "duration_seconds": 2.405604
+        "duration_seconds": 1.652271
       },
       "rust_checks_and_build": {
-        "duration_seconds": 327.97866
+        "duration_seconds": 69.707594
       }
     },
-    "duration_seconds": 1376.525079,
-    "scope_matches_current_accepted_scope": false,
-    "current_tree_fingerprint_matches_gate": false,
-    "compatibility_claim": "Partial only; version-flag divergence, remaining CLI gaps, and two excluded oracle-smoke cases remain explicit.",
-    "cargo_test_opt_level": "2",
-    "python_harness_tests": "189/189 passed in 91.172s; runtime-independence included",
-    "cargo_dependency_dry_run": "PASS; 0 compatible Rust dependency updates; lockfile unchanged",
-    "post_gate_tree_delta": "Four independently verified coverage-only extensions (ally_ly, ve_of, Wallace, malapropisms) added eight manifest cases and four CLI tests; production Rust behavior and release binary are unchanged."
+    "duration_seconds": 1123.076808,
+    "scope_matches_current_accepted_scope": true,
+    "current_tree_fingerprint_matches_gate": true,
+    "compatibility_claim": "Functional CLI conversion complete for the verified Unix accepted scope; two oracle-smoke cases are excluded and platform/runtime identity differences remain documented.",
+    "cargo_test_profile": "release",
+    "python_harness_tests": "194/194 passed; runtime-independence included",
+    "supersedes_blocked_attempt": "rust/artifacts/skunked-five-extension-gate-20261112.json"
   },
   "rust_dependencies": {
     "status": "latest_for_pinned_toolchain",
@@ -14267,19 +14266,45 @@
   },
   "latest_benchmark": {
     "status": "PASS",
-    "report": "rust/artifacts/five-default-dispatch-combined-benchmark-20261112.json",
-    "report_sha256": "3bb270e4721f4178e1b0d1cdd365e2c9ac9444165506d70ae84f50a1a03cdfd3",
-    "run_id": "20261112T120247724889Z-benchmark-02ebe48c",
+    "report": "rust/artifacts/closeout-benchmark-final-20261114.json",
+    "report_sha256": "04349a3dae40ebd2d916ff27ed49753377870cdef47182edfce6a877a4e99d26",
+    "run_id": "20261114T002110985886Z-benchmark-f6c77a3c",
     "profile": "combined_suddenly_p_equals_zero",
     "parity_preflight": "3/3 PASS",
     "workloads": 3,
     "paired_samples_per_workload": 25,
     "warmup_pairs": 3,
     "overall_deadline_seconds": 600,
-    "duration_seconds": 38.752,
+    "duration_seconds": 34.550617771,
     "scope": "selected rules only: misc.suddenly + psychology.p_equals_zero",
-    "source_fingerprint": "ab4439de79976ce941a6868acdf06ef6d2acaa49e6315e7128680f372aa73d18",
-    "rss": "unavailable"
+    "source_fingerprint": "bf312b100e8142fc2a6888e2c8d909b4a0ef141f960ca87464737df7ef60d585",
+    "rss": "unavailable",
+    "results": [
+      {
+        "workload": "combined_small",
+        "input_bytes": 82,
+        "python_median_ms": 199.746,
+        "rust_median_ms": 4.75,
+        "median_speedup": 42.05,
+        "sample_pairs": 25
+      },
+      {
+        "workload": "combined_ordinary_generated",
+        "input_bytes": 9280,
+        "python_median_ms": 211.798,
+        "rust_median_ms": 7.451,
+        "median_speedup": 28.43,
+        "sample_pairs": 25
+      },
+      {
+        "workload": "combined_dense_generated",
+        "input_bytes": 6400,
+        "python_median_ms": 262.532,
+        "rust_median_ms": 15.356,
+        "median_speedup": 17.1,
+        "sample_pairs": 25
+      }
+    ]
   },
   "agent_model_verification": {
     "initial_default_verifier_selection": {
@@ -14673,34 +14698,34 @@
   "latest_full_harness_suite": {
     "status": "PASS",
     "command": "PROSELINT_RS_ATTESTATION=<current release attestation> python3 -m unittest discover -s rust/harness/tests -p 'test_*.py'",
-    "test_count": 184,
-    "passed": 184,
+    "test_count": 194,
+    "passed": 194,
     "failed": 0,
-    "duration_seconds": 83.628,
-    "log": "rust/artifacts/full-harness-suite-optimized-gate-20261112.log",
-    "log_sha256": "3b5f79f0f1a4171082c2dcaac6e97687299f752689452ac060e6cd9d5a06d896",
-    "candidate_attestation": "rust/artifacts/20261112T091257283181Z-build.attestation.json",
-    "candidate_attestation_sha256": "35d48d4570ed3f39844d385c9024c850976a66d43b37de1e3598697ffb53174e",
-    "source_fingerprint": "f6cb0e28272bda3edf7b413628e25cfb2494957e3559ebbb41d56bd3c8c67e28",
+    "duration_seconds": 91.948,
+    "log": "rust/artifacts/full-harness-suite-closeout-20261114.log",
+    "log_sha256": "68fc0bf7c754341e33cb2e8b948d668ec64bed8e3b56278fc81f70249bf3ba30",
+    "candidate_attestation": "rust/artifacts/20261114T000031177940Z-build.attestation.json",
+    "candidate_attestation_sha256": "647d5aedc0c420473f90c4898d3692647e4edb10ab2c07fca85971da77df733e",
+    "source_fingerprint": "bf312b100e8142fc2a6888e2c8d909b4a0ef141f960ca87464737df7ef60d585",
     "runtime_independence": "PASS",
-    "runtime_independence_evidence": "rust/artifacts/runtime-independence-20261112T091434Z-143970.json",
-    "runtime_independence_evidence_sha256": "58184ae0ec5edbeb119c28daa396c2b91ace23ad3c6cb91035fdc45a17634f8f"
+    "runtime_independence_evidence": "rust/artifacts/runtime-independence-20261114T002457Z-363674.json",
+    "runtime_independence_evidence_sha256": "ed5ba0a7491d12eb026f2d8ec3f3d075e04ec68e40e97d1c939d62b6579b3b8b"
   },
   "latest_release_gate_attempt": {
     "status": "PASS",
-    "run_id": "20261112T084539908702Z-ff469821",
-    "report": "rust/artifacts/optimized-test-profile-cumulative-gate-20261112.json",
-    "report_sha256": "a938e0f8fce4786e2aeff55294df7c4944e697907032fd4f8677fa73129ace60",
-    "source_fingerprint": "659b54b6f7562d189cdf8ac8bb36b5f76320bf76ffe1757f1e191c518f8f6de2",
-    "candidate_attestation": "rust/artifacts/20261112T083050457311Z-build.attestation.json",
-    "build_attestation": "rust/artifacts/20261112T083050457311Z-build.attestation.json",
-    "candidate_attestation_sha256": "fecbff5ccd1253f085565dbaf4e1c58dc87e9fe135610c3839b49ec1f1144c59",
-    "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
-    "cargo_lock_sha256": "f8e4ad390ee6793c9e7e90d70c91ec8a6da39eb00cc87fe464dba1c91e1068fd",
+    "run_id": "20261114T000140811630Z-9bbed1a8",
+    "report": "rust/artifacts/closeout-gate-final-20261114.json",
+    "report_sha256": "f2a606aecacac1cb953093253f6b8a9ec9561d085a16d6635abdd3384c9c3fe0",
+    "source_fingerprint": "bf312b100e8142fc2a6888e2c8d909b4a0ef141f960ca87464737df7ef60d585",
+    "candidate_attestation": "rust/artifacts/20261114T000031177940Z-build.attestation.json",
+    "build_attestation": "rust/artifacts/20261114T000031177940Z-build.attestation.json",
+    "candidate_attestation_sha256": "647d5aedc0c420473f90c4898d3692647e4edb10ab2c07fca85971da77df733e",
+    "candidate_sha256": "7a2f3de6cc2ac90b1f6846434123ae7a32749d5b568874acb9a616b7ce1eb07e",
+    "cargo_lock_sha256": "38a045d9384a794eba2d2c67520cdfd0fa029e2eaa2e4945f9ffba7cf9e91b9f",
     "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
     "accepted_capability_count": 158,
-    "accepted_case_count": 1540,
-    "manifest_case_count": 1542,
+    "accepted_case_count": 1560,
+    "manifest_case_count": 1562,
     "excluded_case_count": 2,
     "counts": {
       "BLOCKED": 0,
@@ -14708,63 +14733,111 @@
       "MISMATCH": 0,
       "NOT_IMPLEMENTED": 0,
       "ORACLE_ERROR": 0,
-      "PASS": 1540,
+      "PASS": 1560,
       "TIMEOUT": 0
     },
     "comparator_self_tests": "29/29 PASS",
-    "rust_tests": "936/936 across 146 targets",
+    "rust_tests": "959/959 across 150 test-result groups; 0 failed",
     "oracle_integrity": "PASS; pinned Proselint 0.16.0 source and executable hashes verified",
     "stage_durations_seconds": {
       "comparator_self_tests": {
         "check_count": 29,
-        "duration_seconds": 0.142905
+        "duration_seconds": 0.121632
       },
       "cumulative_live_comparison": {
         "capability_count": 158,
-        "case_count": 1540,
-        "duration_seconds": 1060.157553
+        "case_count": 1560,
+        "duration_seconds": 1051.102011
       },
       "oracle_integrity": {
-        "duration_seconds": 2.477577
+        "duration_seconds": 1.652271
       },
       "rust_checks_and_build": {
-        "duration_seconds": 889.670987
+        "duration_seconds": 69.707594
       }
     },
-    "duration_seconds": 1953.047612,
+    "duration_seconds": 1123.076808,
     "scope_matches_current_accepted_scope": true,
-    "current_tree_fingerprint_matches_gate": false,
-    "post_gate_tree_delta": "Harness contract test assertions only; manifest, live comparator, Rust production source and release binary unchanged. Current-tree build attestation is recorded separately.",
-    "compatibility_claim": "Partial only; version-flag divergence, remaining CLI gaps, and two excluded oracle-smoke cases remain explicit.",
-    "cargo_test_opt_level": "2"
+    "current_tree_fingerprint_matches_gate": true,
+    "compatibility_claim": "Functional CLI conversion complete for the verified Unix accepted scope; two oracle-smoke cases are excluded and platform/runtime identity differences remain documented.",
+    "cargo_test_profile": "release",
+    "python_harness_tests": "194/194 passed; runtime-independence included",
+    "supersedes_blocked_attempt": "rust/artifacts/skunked-five-extension-gate-20261112.json",
+    "previous_blocked_attempt": {
+      "status": "BLOCKED",
+      "run_id": "20261112T180020094732Z-blocked",
+      "report": "rust/artifacts/skunked-five-extension-gate-20261112.json",
+      "report_sha256": "eff7f6c455fffdef3dc33fafbe56e4a8e79b9ee6b28d1370dd81d75ef9130bd5",
+      "source_fingerprint": "9f84fcb0cc84f77553244dee6c99c373a692812c65b46ea4b91b652ef297c770",
+      "accepted_cases_expected": 1560,
+      "capabilities_expected": 158,
+      "failure": "Pinned Rust 1.99.1 cargo test --locked --manifest-path rust/Cargo.toml exceeded the gate 900-second command timeout before test execution; cumulative live comparison did not start.",
+      "resolution_in_progress": "For --profile release, run the same complete Rust test suite as cargo test --release to use optimized release artifacts and avoid a separate slow debug-profile link. Gate command test updated; 9/9 focused test_gate unit tests passed.",
+      "no_expectations_changed": true
+    }
   },
   "current_candidate_release_readiness": {
     "status": "PASS_PARTIAL_COMPATIBILITY",
-    "source_fingerprint": "a34e1938e16d48d3def41074783c194b7669cc5f0141005bc942a4c88b663e3e",
-    "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
-    "candidate_attestation": "rust/artifacts/20261112T075400688846Z-build.attestation.json",
-    "candidate_attestation_sha256": "a416e586d8c76834f62ce17c8ff15b246c08e062a3f88265162c45d1695f4dc6",
+    "source_fingerprint": "bf312b100e8142fc2a6888e2c8d909b4a0ef141f960ca87464737df7ef60d585",
+    "candidate_sha256": "7a2f3de6cc2ac90b1f6846434123ae7a32749d5b568874acb9a616b7ce1eb07e",
+    "candidate_attestation": "rust/artifacts/20261114T000031177940Z-build.attestation.json",
+    "candidate_attestation_sha256": "647d5aedc0c420473f90c4898d3692647e4edb10ab2c07fca85971da77df733e",
     "accepted_capabilities": 158,
-    "selected_case_count": 1540,
-    "manifest_case_count": 1542,
+    "selected_case_count": 1560,
+    "manifest_case_count": 1562,
     "excluded_case_count": 2,
-    "release_gate_report": "rust/artifacts/five-default-dispatch-extension-gate-20261112-final.json",
-    "release_gate_report_sha256": "6304910dae7d74599f04453506b2f4c5227303bdc64660f799316dd75c644b32",
-    "release_gate_run_id": "20261112T061147498821Z-1e163014",
-    "release_gate_source_fingerprint": "be4508c32c77c7bfb077c4f535d083a4e276d0785a1ee19e6d1dce66fd05d9f8",
-    "current_tree_fingerprint_matches_gate": false,
+    "release_gate_report": "rust/artifacts/closeout-gate-final-20261114.json",
+    "release_gate_report_sha256": "f2a606aecacac1cb953093253f6b8a9ec9561d085a16d6635abdd3384c9c3fe0",
+    "release_gate_run_id": "20261114T000140811630Z-9bbed1a8",
+    "release_gate_source_fingerprint": "bf312b100e8142fc2a6888e2c8d909b4a0ef141f960ca87464737df7ef60d585",
+    "current_tree_fingerprint_matches_gate": true,
     "post_gate_source_delta": "Ten no-config manifest cases, five isolated-HOME Rust integration tests, and manifest identity bookkeeping; no production Rust source, comparator, normalizer, or oracle output changed.",
-    "full_rust_tests": "931/931 at prior checkpoint; full suite due in current cumulative gate",
-    "full_harness_tests": "179/179 at prior checkpoint; full suite due now",
+    "full_rust_tests": "959/959 across 150 test-result groups",
+    "full_harness_tests": "194/194, runtime-independence included",
     "benchmark": {
       "status": "PASS",
-      "report": "rust/artifacts/benchmark-five-default-dispatch-extension-20261112.json",
-      "report_sha256": "3c60a0d6cae7684db321486ad1994b8a2f53d79bbd5f471f2979222fa1f8962a",
-      "preflight": "3/3 PASS",
-      "elapsed_seconds": 35.054712,
-      "deadline_seconds": 600
+      "report": "rust/artifacts/closeout-benchmark-final-20261114.json",
+      "report_sha256": "04349a3dae40ebd2d916ff27ed49753377870cdef47182edfce6a877a4e99d26",
+      "run_id": "20261114T002110985886Z-benchmark-f6c77a3c",
+      "profile": "combined_suddenly_p_equals_zero",
+      "parity_preflight": "3/3 PASS",
+      "workloads": 3,
+      "paired_samples_per_workload": 25,
+      "warmup_pairs": 3,
+      "overall_deadline_seconds": 600,
+      "duration_seconds": 34.550617771,
+      "scope": "selected rules only: misc.suddenly + psychology.p_equals_zero",
+      "source_fingerprint": "bf312b100e8142fc2a6888e2c8d909b4a0ef141f960ca87464737df7ef60d585",
+      "rss": "unavailable",
+      "results": [
+        {
+          "workload": "combined_small",
+          "input_bytes": 82,
+          "python_median_ms": 199.746,
+          "rust_median_ms": 4.75,
+          "median_speedup": 42.05,
+          "sample_pairs": 25
+        },
+        {
+          "workload": "combined_ordinary_generated",
+          "input_bytes": 9280,
+          "python_median_ms": 211.798,
+          "rust_median_ms": 7.451,
+          "median_speedup": 28.43,
+          "sample_pairs": 25
+        },
+        {
+          "workload": "combined_dense_generated",
+          "input_bytes": 6400,
+          "python_median_ms": 262.532,
+          "rust_median_ms": 15.356,
+          "median_speedup": 17.1,
+          "sample_pairs": 25
+        }
+      ]
     },
-    "compatibility": "Partial; version flag divergence and remaining CLI gaps remain explicit; two oracle-smoke cases excluded."
+    "compatibility": "Functional CLI conversion complete for verified Unix scope; Windows signal handling and some path-error/platform cases remain unverified; two oracle-smoke cases excluded.",
+    "functional_cli_conversion": "complete_for_verified_unix_scope"
   },
   "latest_harness_storage_optimization": {
     "change": "reference Python bytecode writes disabled by default; each case retains a unique temporary cache prefix; explicit case settings are preserved",
@@ -15623,106 +15696,104 @@
   },
   "latest_focused_default_dispatch_acceptance": {
     "status": "PASS",
-    "capability_id": "rule.malapropisms",
+    "capability_id": "rule.skunked_terms",
     "case_ids": [
-      "malapropisms_no_config_infinitesimal_universe_default",
-      "malapropisms_no_config_clean_universe_control"
+      "skunked_terms_no_config_impassionate_default",
+      "skunked_terms_no_config_impassioned_control"
     ],
-    "cases_passed": 12,
-    "total_cases": 12,
+    "cases_passed": 13,
+    "total_cases": 13,
     "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
-    "source_fingerprint": "33fa5d85a3ca5bee88a263fa0a74a65f374d318c868d9adb0206f36c853f6e32",
-    "candidate_attestation": "rust/artifacts/20261112T131124309212Z-build.attestation.json",
-    "candidate_attestation_sha256": "b97925a17c30d9521bd24d4c4a831a4eadd91857eb587e76e0a684de90b80461",
+    "source_fingerprint": "9f84fcb0cc84f77553244dee6c99c373a692812c65b46ea4b91b652ef297c770",
+    "candidate_attestation": "rust/artifacts/20261112T171503944769Z-build.attestation.json",
+    "candidate_attestation_sha256": "c61f428bc633b8ce505a3be501f77575f2c92d8cb14c4936f6650d881add1c77",
     "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
-    "owner_report": "rust/artifacts/luna-malapropisms-default-20261112/focused-live-comparison.json",
-    "owner_report_sha256": "33c9cefa2869372b0492d132f3f2b6df215a3ce931df2d649ae4a5b8314cc43e",
-    "independent_report": "rust/artifacts/independent-malapropisms-default-20261112/focused-live-comparison.json",
-    "independent_report_sha256": "2227be6efa9459afbe2ed64e6321c6b18df84e5e8d7250f91414bd2493d63abf",
+    "owner_report": "rust/artifacts/luna-skunked-default-20261112/focused-live-comparison-retry.json",
+    "owner_report_sha256": "b28e7b757072ed047e0a8b2e5f853dd53447e7ea5883ce881bd664198b21fc59",
+    "independent_report": "rust/artifacts/luna-skunked-independent-20261112/skunked-independent-live-13-final.json",
+    "independent_report_sha256": "71e9ee6c0fedf856d24a6d727c36c1770967c5314506b320720eae92d6d2a0b9",
     "focused_rust_test": "1/1 PASS",
-    "focused_harness_tests": "2/2 PASS; 29/29 self-tests",
+    "focused_harness_tests": "3/3 PASS; 29/29 comparator self-tests",
     "oracle_integrity": "verified before/after",
     "accepted_scope_after_extension": {
       "capabilities": 158,
-      "cases": 1558,
-      "manifest_cases": 1560,
+      "cases": 1560,
+      "manifest_cases": 1562,
       "excluded_cases": 2
     },
-    "cumulative_gate": "Prior gate passes 1,550 cases; four extensions since; next gate after one more or shared behavior change."
+    "cumulative_gate": "Due now after fifth extension; run full gate.",
+    "independent_evidence": "rust/artifacts/luna-skunked-independent-20261112/verification.md",
+    "independent_evidence_sha256": "10a0481e67974c6c904d18c42f5d5711db155a0a8bade2f7858b3bfc84927246"
   },
   "latest_final_release_candidate": {
     "status": "PASS_PARTIAL_COMPATIBILITY",
-    "date_utc": "2026-11-11",
-    "gate_report": "rust/artifacts/release-candidate-gate-20261111-default-dispatch.json",
-    "gate_report_sha256": "3b4a456cfed18bc78b33d2c43ffa9640fa996d92240b6dcebacdf73a53679568",
-    "gate_run_id": "20261111T120825363195Z-5977368f",
-    "source_fingerprint": "bc01cacf2b2725dd92e6e9bb38347e9a50370abff94ecb7c94596c7ec0ce7a2a",
-    "candidate_attestation": "rust/artifacts/20261111T115449157874Z-build.attestation.json",
-    "attestation_sha256": "fffcef63d4a6872e4d37938e0ee5915c0cdd80ee0bf9c34bc4c1ff3daf942ec5",
-    "candidate_sha256": "2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24",
-    "accepted_cases": 1458,
-    "manifest_cases": 1469,
-    "excluded_cases": 11,
-    "capabilities": 153,
-    "independent_rule_acceptances": {
-      "rule.uncomparables": {
-        "status": "PASS",
-        "passed": 11,
-        "total": 11,
-        "summary": "rust/artifacts/independent-uncomparables-current-gate-summary-20261111.json",
-        "summary_sha256": "53336bd39c02de8825239b788ef15db14d8cb98567bf9d8ec0855d79419f7e31"
-      },
-      "rule.restricted.elementary": {
-        "status": "PASS",
-        "passed": 3,
-        "total": 3,
-        "summary": "rust/artifacts/independent-restricted-elementary-current-gate-summary.json",
-        "summary_sha256": "db0c8489552c5f631c80b362088f8144100bac85f5ae6ea0093d1e0a96266940"
-      },
-      "rule.restricted.top1000": {
-        "status": "PASS",
-        "passed": 3,
-        "total": 3,
-        "summary": "rust/artifacts/independent-top1000-current-gate-20261111/verification-summary.json",
-        "summary_sha256": "5229a33ea3b14c4f44d1a181c3c26f141dc2a9a5b2cee05933216a0a05dd2b95"
-      }
-    },
-    "independent_verification_summary": "rust/artifacts/independent-final-three-current-20261111/verification-summary.json",
-    "independent_verification_summary_sha256": "c3a3bfb993775e7bdc3c6dd4097a0589dce50d2dbe17c408f2c0f0756307c100",
-    "harness_suite": {
-      "passed": 146,
-      "failed": 0,
-      "total": 146,
-      "duration_seconds": 76.152,
-      "log": "rust/artifacts/full-harness-suite-20261111-default-dispatch.log",
-      "sha256": "f675567f2d50fa6205d1c9f07e0c0065aee49cddbf697ae5cbc8c8a69c86c651"
-    },
+    "functional_cli_conversion": "COMPLETE for the verified Unix scope against pinned Proselint 0.16.0",
+    "date_utc": "2026-11-14",
+    "gate_report": "rust/artifacts/closeout-gate-final-20261114.json",
+    "gate_report_sha256": "f2a606aecacac1cb953093253f6b8a9ec9561d085a16d6635abdd3384c9c3fe0",
+    "gate_run_id": "20261114T000140811630Z-9bbed1a8",
+    "source_fingerprint": "bf312b100e8142fc2a6888e2c8d909b4a0ef141f960ca87464737df7ef60d585",
+    "candidate_attestation": "rust/artifacts/20261114T000031177940Z-build.attestation.json",
+    "attestation_sha256": "647d5aedc0c420473f90c4898d3692647e4edb10ab2c07fca85971da77df733e",
+    "candidate_sha256": "7a2f3de6cc2ac90b1f6846434123ae7a32749d5b568874acb9a616b7ce1eb07e",
+    "accepted_cases": 1560,
+    "manifest_cases": 1562,
+    "excluded_cases": 2,
+    "capabilities": 158,
     "rust_suite": {
-      "passed": 920,
+      "passed": 959,
       "failed": 0,
-      "targets": 145,
-      "evidence": "rust/artifacts/20261111T115449157874Z-build-2.stdout.bin",
-      "sha256": "3f1cb48be14d691b16a578e6bda20c4122980b93e5895d6491e51f3b411e7143"
+      "targets": 150
+    },
+    "harness_suite": {
+      "passed": 194,
+      "failed": 0,
+      "runtime_independence": "PASS",
+      "log": "rust/artifacts/full-harness-suite-closeout-20261114.log",
+      "sha256": "68fc0bf7c754341e33cb2e8b948d668ec64bed8e3b56278fc81f70249bf3ba30"
     },
     "benchmark": {
       "status": "PASS",
-      "report": "rust/artifacts/release-candidate-benchmark-20261111-default-dispatch.json",
-      "sha256": "2552440cd1bcee687d5a515765944e00da4391d635aca10e51fed99b8a5251c5",
-      "duration_seconds": 33.159,
-      "preflight": "3/3"
+      "report": "rust/artifacts/closeout-benchmark-final-20261114.json",
+      "sha256": "04349a3dae40ebd2d916ff27ed49753377870cdef47182edfce6a877a4e99d26",
+      "parity_preflight": "3/3 PASS",
+      "paired_samples_per_workload": 25,
+      "workloads": [
+        {
+          "workload": "combined_small",
+          "input_bytes": 82,
+          "python_median_ms": 199.746,
+          "rust_median_ms": 4.75,
+          "median_speedup": 42.05,
+          "sample_pairs": 25
+        },
+        {
+          "workload": "combined_ordinary_generated",
+          "input_bytes": 9280,
+          "python_median_ms": 211.798,
+          "rust_median_ms": 7.451,
+          "median_speedup": 28.43,
+          "sample_pairs": 25
+        },
+        {
+          "workload": "combined_dense_generated",
+          "input_bytes": 6400,
+          "python_median_ms": 262.532,
+          "rust_median_ms": 15.356,
+          "median_speedup": 17.1,
+          "sample_pairs": 25
+        }
+      ]
     },
-    "remaining_cli_gaps": [
-      "cli.config.no_passwd_home",
-      "cli.demo.json",
-      "cli.version.json_metadata",
-      "cli.version.verbose_runtime",
-      "harness.oracle_smoke"
-    ],
-    "version_flag_divergence": "accepted intentional divergence; exact output difference remains explicit and is not a release blocker",
-    "model_metadata": "gpt-6-luna / low configured; runtime identity unavailable",
-    "commit_push": "verified 1,458-case release candidate pushed to origin/main as fd60f13",
     "accepted_intentional_divergences": [
-      "cli.product_version_flag"
+      "Python runtime/version metadata is not fabricated by the Rust CLI.",
+      "Demo JSON identifies the bundled Rust demo source.",
+      "The Rust product version differs from Python Proselint."
+    ],
+    "unverified_or_excluded": [
+      "Two oracle-smoke cases are excluded from the cumulative gate.",
+      "Windows signal handling is not implemented; Windows glob behavior was not live-verified.",
+      "Non-UTF-8 per-file error-message formatting remains unverified."
     ]
   },
   "latest_collusion_default_dispatch_acceptance": {
@@ -16022,89 +16093,68 @@
   ],
   "latest_release_benchmark": {
     "status": "PASS",
-    "report": "rust/artifacts/benchmark-combined-profile-gate-20261112.json",
-    "report_sha256": "9c3e114789d207d1bf6acfab61c25f45d29f6fdc1f8609d139608ca1a3d2fe48",
-    "run_id": "20261112T092537032335Z-benchmark-a95233f1",
-    "source_fingerprint": "f6cb0e28272bda3edf7b413628e25cfb2494957e3559ebbb41d56bd3c8c67e28",
-    "capability_id": "cli.combined_checks",
-    "profile_id": "combined_suddenly_p_equals_zero",
-    "parity_preflight": {
-      "BLOCKED": 0,
-      "CANDIDATE_ERROR": 0,
-      "MISMATCH": 0,
-      "NOT_IMPLEMENTED": 0,
-      "ORACLE_ERROR": 0,
-      "PASS": 3,
-      "TIMEOUT": 0
-    },
-    "sample_pairs": 25,
+    "report": "rust/artifacts/closeout-benchmark-final-20261114.json",
+    "report_sha256": "04349a3dae40ebd2d916ff27ed49753377870cdef47182edfce6a877a4e99d26",
+    "run_id": "20261114T002110985886Z-benchmark-f6c77a3c",
+    "profile": "combined_suddenly_p_equals_zero",
+    "parity_preflight": "3/3 PASS",
+    "workloads": 3,
+    "paired_samples_per_workload": 25,
     "warmup_pairs": 3,
-    "overall_timeout_seconds": 600,
-    "measurement_scope": "fresh_process_cli_combined_selected_rules_only",
-    "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
-    "release_attestation": "rust/artifacts/20261112T091257283181Z-build.attestation.json",
-    "release_attestation_sha256": "35d48d4570ed3f39844d385c9024c850976a66d43b37de1e3598697ffb53174e",
+    "overall_deadline_seconds": 600,
+    "duration_seconds": 34.550617771,
+    "scope": "selected rules only: misc.suddenly + psychology.p_equals_zero",
+    "source_fingerprint": "bf312b100e8142fc2a6888e2c8d909b4a0ef141f960ca87464737df7ef60d585",
     "rss": "unavailable",
-    "stage_durations_seconds": {
-      "setup_and_build": 2.815607172,
-      "parity_preflight": 6.275632273,
-      "fresh_process_benchmark": 22.484931841
-    },
-    "workloads": [
+    "results": [
       {
-        "id": "combined_small",
+        "workload": "combined_small",
         "input_bytes": 82,
-        "python_median_ms": 191.021436,
-        "rust_median_ms": 4.158268,
-        "median_ratio": 45.93774042461909,
-        "python_iqr_ms": 10.152655,
-        "rust_iqr_ms": 0.490361,
+        "python_median_ms": 199.746,
+        "rust_median_ms": 4.75,
+        "median_speedup": 42.05,
         "sample_pairs": 25
       },
       {
-        "id": "combined_ordinary_generated",
+        "workload": "combined_ordinary_generated",
         "input_bytes": 9280,
-        "python_median_ms": 203.532006,
-        "rust_median_ms": 6.862312,
-        "median_ratio": 29.659392636184425,
-        "python_iqr_ms": 16.850138,
-        "rust_iqr_ms": 1.094846,
+        "python_median_ms": 211.798,
+        "rust_median_ms": 7.451,
+        "median_speedup": 28.43,
         "sample_pairs": 25
       },
       {
-        "id": "combined_dense_generated",
+        "workload": "combined_dense_generated",
         "input_bytes": 6400,
-        "python_median_ms": 230.704254,
-        "rust_median_ms": 14.362512,
-        "median_ratio": 16.062945952630013,
-        "python_iqr_ms": 10.571197,
-        "rust_iqr_ms": 5.574018,
+        "python_median_ms": 262.532,
+        "rust_median_ms": 15.356,
+        "median_speedup": 17.1,
         "sample_pairs": 25
       }
     ]
   },
-  "next_task": "Complete one more independently verified default-dispatch extension before the next cumulative checkpoint; run the full release-profile gate sooner after shared behavior changes. Preserve expectations and comparisons.",
+  "next_task": "Functional Unix CLI conversion is complete for the pinned Proselint 0.16.0 accepted scope. Follow-up only for Windows signal support/live glob verification and non-UTF-8 per-file error formatting.",
   "latest_default_dispatch_extension": {
-    "capability": "rule.malapropisms",
+    "capability": "rule.skunked_terms",
     "case_count": 2,
-    "capability_total_case_count": 12,
-    "accepted_case_count": 1558,
-    "manifest_case_count": 1560,
+    "capability_total_case_count": 13,
+    "accepted_case_count": 1560,
+    "manifest_case_count": 1562,
     "excluded_cases": 2,
-    "default_dispatch_positive_paths": "83/93",
-    "owner_report": "rust/artifacts/luna-malapropisms-default-20261112/focused-live-comparison.json",
-    "owner_report_sha256": "33c9cefa2869372b0492d132f3f2b6df215a3ce931df2d649ae4a5b8314cc43e",
-    "owner_evidence": "rust/artifacts/luna-malapropisms-default-20261112/evidence.md",
-    "owner_evidence_sha256": "b4e4c22007b14d54635c3465a97aa8f1a3c07e6a6182e1dca991edfc54ee0956",
-    "independent_report": "rust/artifacts/independent-malapropisms-default-20261112/focused-live-comparison.json",
-    "independent_report_sha256": "2227be6efa9459afbe2ed64e6321c6b18df84e5e8d7250f91414bd2493d63abf",
-    "independent_evidence": "rust/artifacts/independent-malapropisms-default-20261112/verification.md",
-    "independent_evidence_sha256": "79ed9ef5917fdf479829ef4b6eb04e1aff6682603c69d6a74908cf28bb931244",
-    "source_fingerprint": "33fa5d85a3ca5bee88a263fa0a74a65f374d318c868d9adb0206f36c853f6e32",
-    "candidate_attestation": "rust/artifacts/20261112T131124309212Z-build.attestation.json",
-    "candidate_attestation_sha256": "b97925a17c30d9521bd24d4c4a831a4eadd91857eb587e76e0a684de90b80461",
+    "default_dispatch_positive_paths": "84/93",
+    "owner_report": "rust/artifacts/luna-skunked-default-20261112/focused-live-comparison-retry.json",
+    "owner_report_sha256": "b28e7b757072ed047e0a8b2e5f853dd53447e7ea5883ce881bd664198b21fc59",
+    "owner_evidence": "rust/artifacts/luna-skunked-default-20261112/evidence.md",
+    "owner_evidence_sha256": "c24c9dad2218d613d7c3347b4560959675b4434f8e053d1f8bc7c646158f12ab",
+    "independent_report": "rust/artifacts/luna-skunked-independent-20261112/skunked-independent-live-13-final.json",
+    "independent_report_sha256": "71e9ee6c0fedf856d24a6d727c36c1770967c5314506b320720eae92d6d2a0b9",
+    "independent_evidence": "rust/artifacts/luna-skunked-independent-20261112/verification.md",
+    "independent_evidence_sha256": "10a0481e67974c6c904d18c42f5d5711db155a0a8bade2f7858b3bfc84927246",
+    "source_fingerprint": "9f84fcb0cc84f77553244dee6c99c373a692812c65b46ea4b91b652ef297c770",
+    "candidate_attestation": "rust/artifacts/20261112T171503944769Z-build.attestation.json",
+    "candidate_attestation_sha256": "c61f428bc633b8ce505a3be501f77575f2c92d8cb14c4936f6650d881add1c77",
     "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
-    "cumulative_gate": "Prior gate passed 1,550 cases before four subsequent coverage extensions; current scope 1,558. Run next full gate after one more independently verified extension, or sooner after shared behavior changes."
+    "cumulative_gate": "Due now after this fifth coverage extension; full gate run required before continuing."
   },
   "latest_demo_json_blocker_review": {
     "capability_id": "cli.demo.json",
@@ -17988,6 +18038,73 @@
       "expectations_or_comparison_changed": false,
       "requested_model": "gpt-6-luna / low",
       "runtime_model_metadata": "unavailable"
+    },
+    {
+      "status": "independently_verified",
+      "scope": "Added a no-config default-positive and clean control to the already-recorded checker; no production Rust behavior changed.",
+      "case_ids": [
+        "skunked_terms_no_config_impassionate_default",
+        "skunked_terms_no_config_impassioned_control"
+      ],
+      "baseline_revision": "dbed789caae662d06c7c8a5a13dd31f1acd36f5c",
+      "red": {
+        "status": "FAIL_AS_EXPECTED",
+        "failure": "Required new case IDs were absent before fixture/manifest extension."
+      },
+      "green": {
+        "status": "PASS",
+        "focused_harness_tests": "3/3",
+        "comparator_self_tests": "29/29"
+      },
+      "owner_live": {
+        "status": "PASS",
+        "passed_cases": 13,
+        "timeouts": 0,
+        "duration_seconds": 103.468,
+        "report": "rust/artifacts/luna-skunked-default-20261112/focused-live-comparison-retry.json",
+        "report_sha256": "b28e7b757072ed047e0a8b2e5f853dd53447e7ea5883ce881bd664198b21fc59"
+      },
+      "owner_superseded_attempt": {
+        "status": "2 pinned-reference TIMEOUT, 11 PASS",
+        "cases": [
+          "skunked_terms_mixed_case_repetition",
+          "skunked_terms_clean_boundaries"
+        ],
+        "note": "Both timed out at the unchanged 10-second limit. The exact same scope passed on retry; no expectations, deadlines or comparison rules changed. Original report preserved."
+      },
+      "focused_rust_test": {
+        "status": "PASS",
+        "passed": "1/1",
+        "command": "cargo test --release --locked --manifest-path rust/Cargo.toml --test cli_config_no_config no_config_found_enables_skunked_terms",
+        "duration_seconds": 90.38
+      },
+      "candidate_attestation": "rust/artifacts/20261112T171503944769Z-build.attestation.json",
+      "candidate_attestation_sha256": "c61f428bc633b8ce505a3be501f77575f2c92d8cb14c4936f6650d881add1c77",
+      "source_fingerprint": "9f84fcb0cc84f77553244dee6c99c373a692812c65b46ea4b91b652ef297c770",
+      "candidate_sha256": "19801fa7d84255c4b6b110fb772e308fe4ab426aa7bfb71dc955353fc7683bdb",
+      "owner_evidence": "rust/artifacts/luna-skunked-default-20261112/evidence.md",
+      "owner_evidence_sha256": "c24c9dad2218d613d7c3347b4560959675b4434f8e053d1f8bc7c646158f12ab",
+      "independent_verification": {
+        "status": "PASS",
+        "passed_cases": 13,
+        "timeouts": 0,
+        "live_seconds": 67.590456,
+        "report": "rust/artifacts/luna-skunked-independent-20261112/skunked-independent-live-13-final.json",
+        "report_sha256": "71e9ee6c0fedf856d24a6d727c36c1770967c5314506b320720eae92d6d2a0b9",
+        "evidence": "rust/artifacts/luna-skunked-independent-20261112/verification.md",
+        "evidence_sha256": "10a0481e67974c6c904d18c42f5d5711db155a0a8bade2f7858b3bfc84927246",
+        "oracle_integrity": "verified before and after",
+        "comparator_self_tests": "29/29 PASS"
+      },
+      "oracle_integrity": "verified before and after owner and independent runs",
+      "runtime_model_metadata": "unavailable; named Luna roles were selected but actual model routing could not be independently audited",
+      "accepted_scope_after_extension": {
+        "capabilities": 158,
+        "cases": 1560,
+        "manifest_cases": 1562,
+        "excluded_cases": 2
+      },
+      "cumulative_gate": "DUE: fifth coverage extension since the 1,550-case checkpoint; run now."
     }
   ],
   "latest_full_harness_suite_failed_attempt": {
@@ -18010,7 +18127,8 @@
       "Runtime-independence read the old missing attestation from last_strict_gate; it was rerun against the current-source attestation."
     ],
     "repair_scope": "Harness test contracts and current attestation status pointer only; no manifest, oracle output, comparator, normalizer, Rust production source or release binary changes.",
-    "superseded_by": "rust/artifacts/full-harness-suite-optimized-gate-20261112.log"
+    "superseded_by": "rust/artifacts/full-harness-suite-closeout-20261114.log",
+    "superseded_by_status": "194/194 PASS"
   },
   "current_source_attestation": {
     "status": "PASS",
@@ -19554,5 +19672,97 @@
       "spelling.er_or"
     ],
     "benchmark": "rust/artifacts/five-default-dispatch-combined-benchmark-20261112.json"
+  },
+  "previous_final_release_candidate_20261111": {
+    "status": "PASS_PARTIAL_COMPATIBILITY",
+    "date_utc": "2026-11-11",
+    "gate_report": "rust/artifacts/release-candidate-gate-20261111-default-dispatch.json",
+    "gate_report_sha256": "3b4a456cfed18bc78b33d2c43ffa9640fa996d92240b6dcebacdf73a53679568",
+    "gate_run_id": "20261111T120825363195Z-5977368f",
+    "source_fingerprint": "bc01cacf2b2725dd92e6e9bb38347e9a50370abff94ecb7c94596c7ec0ce7a2a",
+    "candidate_attestation": "rust/artifacts/20261111T115449157874Z-build.attestation.json",
+    "attestation_sha256": "fffcef63d4a6872e4d37938e0ee5915c0cdd80ee0bf9c34bc4c1ff3daf942ec5",
+    "candidate_sha256": "2619f521682d662ebc0af3e23eac74207d148906d73e854b99e3d521bd961a24",
+    "accepted_cases": 1458,
+    "manifest_cases": 1469,
+    "excluded_cases": 11,
+    "capabilities": 153,
+    "independent_rule_acceptances": {
+      "rule.uncomparables": {
+        "status": "PASS",
+        "passed": 11,
+        "total": 11,
+        "summary": "rust/artifacts/independent-uncomparables-current-gate-summary-20261111.json",
+        "summary_sha256": "53336bd39c02de8825239b788ef15db14d8cb98567bf9d8ec0855d79419f7e31"
+      },
+      "rule.restricted.elementary": {
+        "status": "PASS",
+        "passed": 3,
+        "total": 3,
+        "summary": "rust/artifacts/independent-restricted-elementary-current-gate-summary.json",
+        "summary_sha256": "db0c8489552c5f631c80b362088f8144100bac85f5ae6ea0093d1e0a96266940"
+      },
+      "rule.restricted.top1000": {
+        "status": "PASS",
+        "passed": 3,
+        "total": 3,
+        "summary": "rust/artifacts/independent-top1000-current-gate-20261111/verification-summary.json",
+        "summary_sha256": "5229a33ea3b14c4f44d1a181c3c26f141dc2a9a5b2cee05933216a0a05dd2b95"
+      }
+    },
+    "independent_verification_summary": "rust/artifacts/independent-final-three-current-20261111/verification-summary.json",
+    "independent_verification_summary_sha256": "c3a3bfb993775e7bdc3c6dd4097a0589dce50d2dbe17c408f2c0f0756307c100",
+    "harness_suite": {
+      "passed": 146,
+      "failed": 0,
+      "total": 146,
+      "duration_seconds": 76.152,
+      "log": "rust/artifacts/full-harness-suite-20261111-default-dispatch.log",
+      "sha256": "f675567f2d50fa6205d1c9f07e0c0065aee49cddbf697ae5cbc8c8a69c86c651"
+    },
+    "rust_suite": {
+      "passed": 920,
+      "failed": 0,
+      "targets": 145,
+      "evidence": "rust/artifacts/20261111T115449157874Z-build-2.stdout.bin",
+      "sha256": "3f1cb48be14d691b16a578e6bda20c4122980b93e5895d6491e51f3b411e7143"
+    },
+    "benchmark": {
+      "status": "PASS",
+      "report": "rust/artifacts/release-candidate-benchmark-20261111-default-dispatch.json",
+      "sha256": "2552440cd1bcee687d5a515765944e00da4391d635aca10e51fed99b8a5251c5",
+      "duration_seconds": 33.159,
+      "preflight": "3/3"
+    },
+    "remaining_cli_gaps": [
+      "cli.config.no_passwd_home",
+      "cli.demo.json",
+      "cli.version.json_metadata",
+      "cli.version.verbose_runtime",
+      "harness.oracle_smoke"
+    ],
+    "version_flag_divergence": "accepted intentional divergence; exact output difference remains explicit and is not a release blocker",
+    "model_metadata": "gpt-6-luna / low configured; runtime identity unavailable",
+    "commit_push": "verified 1,458-case release candidate pushed to origin/main as fd60f13",
+    "accepted_intentional_divergences": [
+      "cli.product_version_flag"
+    ]
+  },
+  "functional_cli_conversion": {
+    "status": "COMPLETE_FOR_VERIFIED_UNIX_SCOPE",
+    "baseline": "Proselint 0.16.0",
+    "registered_unique_rule_paths": 106,
+    "unimplemented_unique_rule_paths": 0,
+    "gate": "rust/artifacts/closeout-gate-final-20261114.json",
+    "accepted_cases": 1560,
+    "manifest_cases": 1562,
+    "excluded_cases": 2,
+    "capabilities": 158,
+    "source_fingerprint": "bf312b100e8142fc2a6888e2c8d909b4a0ef141f960ca87464737df7ef60d585",
+    "known_limits": [
+      "Two oracle-smoke cases are excluded from the cumulative gate.",
+      "Windows signal handling is not implemented; Windows glob behavior was not live-verified.",
+      "Non-UTF-8 per-file error-message formatting remains unverified."
+    ]
   }
 }

@@ -20662,6 +20662,58 @@
       ]
     },
     {
+      "id": "skunked_terms_no_config_impassionate_default",
+      "capability_id": "rule.skunked_terms",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/skunked_terms.py registers impassionate and default.json enables skunked_terms. The upstream example sentence is dispatched with no config through the live pinned CLI.",
+      "input_mode": "stdin",
+      "stdin_base64": "SSBnYXZlIGFuIGltcGFzc2lvbmF0ZSBkZWZlbmNlIG9mIHRoZSBzaXR1YXRpb24u",
+      "output_format": "json",
+      "expected_oracle_outcome": "findings",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
+      "id": "skunked_terms_no_config_impassioned_control",
+      "capability_id": "rule.skunked_terms",
+      "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; impassioned is the positive-word control for the registered impassionate term, tested through default dispatch with no config using the live pinned CLI.",
+      "input_mode": "stdin",
+      "stdin_base64": "SSBnYXZlIGFuIGltcGFzc2lvbmVkIGRlZmVuY2Ugb2YgdGhlIHNpdHVhdGlvbi4=",
+      "output_format": "json",
+      "expected_oracle_outcome": "clean",
+      "timeout_seconds": 10,
+      "environment": {
+        "locale": "C.UTF-8"
+      },
+      "config_scenario": "no_config_default",
+      "workspace_mutates": false,
+      "comparison": {
+        "stdout": "json",
+        "stderr": "bytes",
+        "exit_status": "exact"
+      },
+      "files": [],
+      "argv": [
+        "check",
+        "--output-format",
+        "json"
+      ]
+    },
+    {
       "id": "oxymorons_all_registered_phrases",
       "capability_id": "rule.oxymorons",
       "provenance": "Pinned Python Proselint 0.16.0 at dbed789caae662d06c7c8a5a13dd31f1acd36f5c; checks/oxymorons.py registers 17 Fast case-insensitive Existence regex strings with WORDS_IN_TEXT, no exceptions, allow_quotes=false, offset zero, exact message \"'{}' is an oxymoron.\", and null replacements. Cases are derived from live pinned CLI outcomes.",

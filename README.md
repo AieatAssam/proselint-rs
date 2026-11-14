@@ -2,7 +2,7 @@
 
 A native Rust implementation of [Proselint](https://github.com/amperser/proselint), the English prose linter. This repository contains the Rust crate and CLI; the original project and its Python package remain at [amperser/proselint](https://github.com/amperser/proselint).
 
-The Rust implementation currently covers a selected subset of Proselint's rules and command-line behavior. It is not yet a drop-in replacement for the full Python project. See the [compatibility status](rust/docs/COMPATIBILITY.md) for verified coverage and known gaps.
+The functional Rust CLI conversion is complete for the verified Unix scope against pinned Proselint 0.16.0: all 106 unique registered rule paths are implemented, and the release gate passes **1,560/1,560 accepted cases across 158 capabilities**. Two oracle-smoke cases are excluded, and documented Python runtime-identity and platform differences remain. See the [compatibility status](rust/docs/COMPATIBILITY.md) for scope and limits.
 
 ## Build and run
 
